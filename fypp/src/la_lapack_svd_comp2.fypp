@@ -13,22 +13,37 @@ module la_lapack_svd_comp2
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lartgs
      public :: la_${ri}$las2
      public :: la_${ri}$lasv2
      public :: la_${ri}$lags2
      public :: la_${ri}$labrd
      public :: la_${ri}$lapll
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$labrd
      public :: la_${ri}$lags2
      public :: la_${ri}$lapll
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARTGS: generates a plane rotation designed to introduce a bulge in
      !> Golub-Reinsch-style implicit QR iteration for the bidiagonal SVD
      !> problem. X and Y are the top-row entries, and SIGMA is the shift.
@@ -85,9 +100,15 @@ module la_lapack_svd_comp2
            return
            ! end la_${ri}$lartgs
      end subroutine la_${ri}$lartgs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAS2:  computes the singular values of the 2-by-2 matrix
      !> [  F   G  ]
      !> [  0   H  ].
@@ -150,9 +171,15 @@ module la_lapack_svd_comp2
            end if
            return
      end subroutine la_${ri}$las2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASV2: computes the singular value decomposition of a 2-by-2
      !> triangular matrix
      !> [  F   G  ]
@@ -294,9 +321,15 @@ module la_lapack_svd_comp2
            ssmin = sign(ssmin,tsign*sign(one,f)*sign(one,h))
            return
      end subroutine la_${ri}$lasv2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAGS2: computes 2-by-2 orthogonal matrices U, V and Q, such
      !> that if ( UPPER ) then
      !> U**T *A*Q = U**T *( A1 A2 )*Q = ( x  0  )
@@ -463,9 +496,15 @@ module la_lapack_svd_comp2
            end if
            return
      end subroutine la_${ri}$lags2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LABRD: reduces the first NB rows and columns of a real general
      !> m by n matrix A to upper or lower bidiagonal form by an orthogonal
      !> transformation Q**T * A * P, and returns the matrices X and Y which
@@ -596,9 +635,15 @@ module la_lapack_svd_comp2
            end if
            return
      end subroutine la_${ri}$labrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Given two column vectors X and Y, let
      !> A = ( X Y ).
      !> The subroutine first computes the QR factorization of A = Q*R,
@@ -639,9 +684,15 @@ module la_lapack_svd_comp2
            call la_${ri}$las2(a11,a12,a22,ssmin,ssmax)
            return
      end subroutine la_${ri}$lapll
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LABRD: reduces the first NB rows and columns of a complex general
      !> m by n matrix A to upper or lower real bidiagonal form by a unitary
      !> transformation Q**H * A * P, and returns the matrices X and Y which
@@ -792,9 +843,15 @@ module la_lapack_svd_comp2
            end if
            return
      end subroutine la_${ri}$labrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAGS2: computes 2-by-2 unitary matrices U, V and Q, such
      !> that if ( UPPER ) then
      !> U**H *A*Q = U**H *( A1 A2 )*Q = ( x  0  )
@@ -990,9 +1047,15 @@ module la_lapack_svd_comp2
            end if
            return
      end subroutine la_${ri}$lags2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Given two column vectors X and Y, let
      !> A = ( X Y ).
      !> The subroutine first computes the QR factorization of A = Q*R,
@@ -1036,6 +1099,9 @@ module la_lapack_svd_comp2
            call la_${ci}$las2(abs(a11),abs(a12),abs(a22),ssmin,ssmax)
            return
      end subroutine la_${ri}$lapll
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_svd_comp2

@@ -23,13 +23,22 @@ module test_linalg_least_squares
         allocate(tests(0))
         
         #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("least_squares_${ri}$",test_lstsq_one_${ri}$))
         call add_test(tests,new_unittest("least_squares_randm_${ri}$",test_lstsq_random_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
 
     end subroutine test_least_squares
     
     #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     !> Simple polynomial fit
     subroutine test_lstsq_one_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
@@ -95,6 +104,9 @@ module test_linalg_least_squares
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_${ri}$    
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 

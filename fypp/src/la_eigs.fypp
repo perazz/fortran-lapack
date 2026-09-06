@@ -69,10 +69,22 @@ module la_eig
      interface eig        
         #:for ep,ei in EIG_PROBLEM_LIST
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_eig_${ep}$_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_real_eig_${ep}$_${ri}$        
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface eig
@@ -124,10 +136,16 @@ module la_eig
      !! - The generalized eigenvalue problem requires matrix `B` to be provided and may modify it in-place.
      interface eigvals
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         #:for ep,ei in EIG_PROBLEM_LIST
         module procedure la_eigvals_${ep}$_${ri}$
         module procedure la_eigvals_noerr_${ep}$_${ri}$
         #:endfor
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface eigvals
      
@@ -184,7 +202,13 @@ module la_eig
      !! - The matrix \f$ A \f$ can be overwritten in-place to improve performance but its original data will be lost.
      interface eigh
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_eigh_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor        
      end interface eigh
 
@@ -230,15 +254,27 @@ module la_eig
      !! - This routine is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.
      interface eigvalsh
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_eigvalsh_${ri}$
         module procedure la_eigvalsh_noerr_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor                
      end interface eigvalsh
 
      !> Utility function: Scale generalized eigenvalue
      interface scale_general_eig
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure scale_general_eig_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface scale_general_eig   
 
@@ -360,6 +396,9 @@ module la_eig
      end subroutine heev_info
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      #:for ep,ei in EIG_PROBLEM_LIST
 
      function la_eigvals_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,err) result(lambda)
@@ -836,10 +875,16 @@ module la_eig
          call err0%handle(err)
 
      end subroutine la_eigh_${ri}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
      
      #:endfor
      
      #:for rk,rt,ri in REAL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> GEEV for real matrices returns complex eigenvalues in real arrays. 
      !> Convert them to complex here, following the GEEV logic.
      pure subroutine assign_real_eigenvectors_${rk}$(n,lambda,lmat,out_mat)
@@ -926,9 +971,15 @@ module la_eig
      end subroutine la_real_eig_${ep}$_${ri}$    
      
      #:endfor         
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
      #:endfor
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Utility function: Scale generalized eigenvalue
      elemental complex(${rk}$) function scale_general_eig_${ri}$(alpha,beta) result(lambda)
          !! A generalized eigenvalue for a pair of matrices (A,B) is a scalar lambda or a ratio
@@ -953,6 +1004,9 @@ module la_eig
          end if
          
      end function scale_general_eig_${ri}$  
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
      
      #:endfor   
 

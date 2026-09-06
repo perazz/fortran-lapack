@@ -22,19 +22,34 @@ module test_linalg_pseudoinverse
         allocate(tests(0))
 
         #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("${ri}$_eye_pseudoinverse",test_${ri}$_eye_pseudoinverse))       
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("${ri}$_square_pseudoinverse",test_${ri}$_square_pseudoinverse))
         call add_test(tests,new_unittest("${ri}$_tall_pseudoinverse",test_${ri}$_tall_pseudoinverse))
         call add_test(tests,new_unittest("${ri}$_wide_pseudoinverse",test_${ri}$_wide_pseudoinverse))
         call add_test(tests,new_unittest("${ri}$_singular_pseudoinverse",test_${ri}$_singular_pseudoinverse))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
 
     end subroutine test_pseudoinverse_matrix
 
     !> Invert identity matrix
     #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_${ri}$_eye_pseudoinverse(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -73,11 +88,17 @@ module test_linalg_pseudoinverse
         if (allocated(error)) return                  
 
     end subroutine test_${ri}$_eye_pseudoinverse
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 
     #:for rk,rt,ri in RC_KINDS_TYPES
 
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     !> Test edge case: square matrix
     subroutine test_${ri}$_square_pseudoinverse(error)
         type(error_type), allocatable, intent(out) :: error
@@ -216,6 +237,9 @@ module test_linalg_pseudoinverse
         if (allocated(error)) return  
 
     end subroutine test_${ri}$_singular_pseudoinverse
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 

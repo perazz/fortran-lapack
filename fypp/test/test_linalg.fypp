@@ -4,14 +4,20 @@
 
 module test_linalg
     use testdrive, only : new_unittest, unittest_type, error_type, check
-    use la_constants, only: sp, dp, qp, ilp, lk
+    use la_constants, only: sp, dp, xdp, qp, ilp, lk
     use linear_algebra, only: diag, eye
 
     implicit none
 
-    real(sp), parameter :: sptol = 1000 * epsilon(1._sp)
-    real(dp), parameter :: dptol = 1000 * epsilon(1._dp)
-    real(qp), parameter :: qptol = 1000 * epsilon(1._qp)
+#:for rk,rt,ri in REAL_KINDS_TYPES
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
+    real(${rk}$), parameter :: ${rk}$tol = 1000 * epsilon(1._${rk}$)
+#:if LA_GUARD[rk]
+#endif
+#:endif
+#:endfor
 
 contains
 
@@ -22,10 +28,16 @@ contains
         type(unittest_type), allocatable, intent(out) :: testsuite(:)
 
         testsuite = [ &
-            new_unittest("eye", test_eye), &
-            new_unittest("diag_rsp", test_diag_rsp), &
-            new_unittest("diag_rdp", test_diag_rdp), &
-            new_unittest("diag_rqp", test_diag_rqp) &
+#:for rk,rt,ri in REAL_KINDS_TYPES
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
+            new_unittest("diag_${rt[0]}$${rk}$", test_diag_${rt[0]}$${rk}$), &
+#:if LA_GUARD[rk]
+#endif
+#:endif
+#:endfor
+            new_unittest("eye", test_eye) &
             ]
 
     end subroutine collect_linalg
@@ -65,6 +77,9 @@ contains
 
 
 #:for rk,rt,ri in REAL_KINDS_TYPES
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
     subroutine test_diag_${rt[0]}$${rk}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -80,6 +95,9 @@ contains
             "all(a == b) failed.")
 
     end subroutine test_diag_${rt[0]}$${rk}$
+#:if LA_GUARD[rk]
+#endif
+#:endif
 
 #:endfor
 end module test_linalg

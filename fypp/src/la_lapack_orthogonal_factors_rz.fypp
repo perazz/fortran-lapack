@@ -16,6 +16,9 @@ module la_lapack_orthogonal_factors_rz
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$larz
      public :: la_${ri}$larzb
      public :: la_${ri}$larzt
@@ -23,8 +26,14 @@ module la_lapack_orthogonal_factors_rz
      public :: la_${ri}$ormrz
      public :: la_${ri}$latrz
      public :: la_${ri}$tzrzf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$larz
      public :: la_${ri}$larzb
      public :: la_${ri}$larzt
@@ -32,11 +41,17 @@ module la_lapack_orthogonal_factors_rz
      public :: la_${ri}$tzrzf
      public :: la_${ri}$unmr3
      public :: la_${ri}$unmrz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARZ: applies a real elementary reflector H to a real M-by-N
      !> matrix C, from either the left or the right. H is represented in the
      !> form
@@ -92,9 +107,15 @@ module la_lapack_orthogonal_factors_rz
            end if
            return
      end subroutine la_${ri}$larz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARZB: applies a real block reflector H or its transpose H**T to
      !> a real distributed M-by-N  C from the left or the right.
      !> Currently, only STOREV = 'R' and DIRECT = 'B' are supported.
@@ -184,9 +205,15 @@ module la_lapack_orthogonal_factors_rz
            end if
            return
      end subroutine la_${ri}$larzb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARZT: forms the triangular factor T of a real block reflector
      !> H of order > n, which is defined as a product of k elementary
      !> reflectors.
@@ -249,9 +276,15 @@ module la_lapack_orthogonal_factors_rz
            end do
            return
      end subroutine la_${ri}$larzt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORMR3: overwrites the general real m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
      !> Q**T* C  if SIDE = 'L' and TRANS = 'C', or
@@ -350,9 +383,15 @@ module la_lapack_orthogonal_factors_rz
            end do
            return
      end subroutine la_${ri}$ormr3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORMRZ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -507,9 +546,15 @@ module la_lapack_orthogonal_factors_rz
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ormrz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATRZ: factors the M-by-(M+L) real upper trapezoidal matrix
      !> [ A1 A2 ] = [ A(1:M,1:M) A(1:M,N-L+1:N) ] as ( R  0 ) * Z, by means
      !> of orthogonal transformations.  Z is an (M+L)-by-(M+L) orthogonal
@@ -550,9 +595,15 @@ module la_lapack_orthogonal_factors_rz
            end do
            return
      end subroutine la_${ri}$latrz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TZRZF: reduces the M-by-N ( M<=N ) real upper trapezoidal matrix A
      !> to upper triangular form by means of orthogonal transformations.
      !> The upper trapezoidal matrix A is factored as
@@ -669,9 +720,15 @@ module la_lapack_orthogonal_factors_rz
            work(1) = lwkopt
            return
      end subroutine la_${ri}$tzrzf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARZ: applies a complex elementary reflector H to a complex
      !> M-by-N matrix C, from either the left or the right. H is represented
      !> in the form
@@ -731,9 +788,15 @@ module la_lapack_orthogonal_factors_rz
            end if
            return
      end subroutine la_${ri}$larz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARZB: applies a complex block reflector H or its transpose H**H
      !> to a complex distributed M-by-N  C from the left or the right.
      !> Currently, only STOREV = 'R' and DIRECT = 'B' are supported.
@@ -836,9 +899,15 @@ module la_lapack_orthogonal_factors_rz
            end if
            return
      end subroutine la_${ri}$larzb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARZT: forms the triangular factor T of a complex block reflector
      !> H of order > n, which is defined as a product of k elementary
      !> reflectors.
@@ -903,9 +972,15 @@ module la_lapack_orthogonal_factors_rz
            end do
            return
      end subroutine la_${ri}$larzt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATRZ: factors the M-by-(M+L) complex upper trapezoidal matrix
      !> [ A1 A2 ] = [ A(1:M,1:M) A(1:M,N-L+1:N) ] as ( R  0 ) * Z by means
      !> of unitary transformations, where  Z is an (M+L)-by-(M+L) unitary
@@ -952,9 +1027,15 @@ module la_lapack_orthogonal_factors_rz
            end do
            return
      end subroutine la_${ri}$latrz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TZRZF: reduces the M-by-N ( M<=N ) complex upper trapezoidal matrix A
      !> to upper triangular form by means of unitary transformations.
      !> The upper trapezoidal matrix A is factored as
@@ -1071,9 +1152,15 @@ module la_lapack_orthogonal_factors_rz
            work(1) = lwkopt
            return
      end subroutine la_${ri}$tzrzf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNMR3: overwrites the general complex m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
      !> Q**H* C  if SIDE = 'L' and TRANS = 'C', or
@@ -1178,9 +1265,15 @@ module la_lapack_orthogonal_factors_rz
            end do
            return
      end subroutine la_${ri}$unmr3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNMRZ: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -1343,6 +1436,9 @@ module la_lapack_orthogonal_factors_rz
            work(1) = lwkopt
            return
      end subroutine la_${ri}$unmrz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_orthogonal_factors_rz

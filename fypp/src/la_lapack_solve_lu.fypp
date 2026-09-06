@@ -14,6 +14,9 @@ module la_lapack_solve_lu
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gtsv
      public :: la_${ri}$gbsv
      public :: la_${ri}$gbsvx
@@ -23,8 +26,14 @@ module la_lapack_solve_lu
 #:endif
      public :: la_${ri}$gesv
      public :: la_${ri}$gesvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gtsv
      public :: la_${ri}$gbsv
      public :: la_${ri}$gbsvx
@@ -34,11 +43,17 @@ module la_lapack_solve_lu
 #:endif
      public :: la_${ri}$gesv
      public :: la_${ri}$gesvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTSV:  solves the equation
      !> A*X = B,
      !> where A is an n by n tridiagonal matrix, by Gaussian elimination with
@@ -218,9 +233,15 @@ module la_lapack_solve_lu
            end if
            return
      end subroutine la_${ri}$gtsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBSV: computes the solution to a real system of linear equations
      !> A * X = B, where A is a band matrix of order N with KL subdiagonals
      !> and KU superdiagonals, and X and B are N-by-NRHS matrices.
@@ -272,9 +293,15 @@ module la_lapack_solve_lu
            end if
            return
      end subroutine la_${ri}$gbsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBSVX: uses the LU factorization to compute the solution to a real
      !> system of linear equations A * X = B, A**T * X = B, or A**H * X = B,
      !> where A is a band matrix of order N with KL subdiagonals and KU
@@ -503,9 +530,15 @@ module la_lapack_solve_lu
            work(1) = rpvgrw
            return
      end subroutine la_${ri}$gbsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTSVX: uses the LU factorization to compute the solution to a real
      !> system of linear equations A * X = B or A**T * X = B,
      !> where A is a tridiagonal matrix of order N and X and B are N-by-NRHS
@@ -595,9 +628,15 @@ module la_lapack_solve_lu
            if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$gtsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> ${ri.upper()}$${ril.upper()}$GESV: computes the solution to a real system of linear equations
      !> A * X = B,
@@ -777,9 +816,15 @@ module la_lapack_solve_lu
            return
      end subroutine la_${ri}$${ril}$gesv
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESV: computes the solution to a real system of linear equations
      !> A * X = B,
      !> where A is an N-by-N matrix and X and B are N-by-NRHS matrices.
@@ -827,9 +872,15 @@ module la_lapack_solve_lu
            end if
            return
      end subroutine la_${ri}$gesv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESVX: uses the LU factorization to compute the solution to a real
      !> system of linear equations
      !> A * X = B,
@@ -1039,9 +1090,15 @@ module la_lapack_solve_lu
 #:endif
            return
      end subroutine la_${ri}$gesvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTSV:  solves the equation
      !> A*X = B,
      !> where A is an N-by-N tridiagonal matrix, by Gaussian elimination with
@@ -1138,9 +1195,15 @@ module la_lapack_solve_lu
            end do
            return
      end subroutine la_${ri}$gtsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBSV: computes the solution to a complex system of linear equations
      !> A * X = B, where A is a band matrix of order N with KL subdiagonals
      !> and KU superdiagonals, and X and B are N-by-NRHS matrices.
@@ -1192,9 +1255,15 @@ module la_lapack_solve_lu
            end if
            return
      end subroutine la_${ri}$gbsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBSVX: uses the LU factorization to compute the solution to a complex
      !> system of linear equations A * X = B, A**T * X = B, or A**H * X = B,
      !> where A is a band matrix of order N with KL subdiagonals and KU
@@ -1422,9 +1491,15 @@ module la_lapack_solve_lu
            rwork(1) = rpvgrw
            return
      end subroutine la_${ri}$gbsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTSVX: uses the LU factorization to compute the solution to a complex
      !> system of linear equations A * X = B, A**T * X = B, or A**H * X = B,
      !> where A is a tridiagonal matrix of order N and X and B are N-by-NRHS
@@ -1513,9 +1588,15 @@ module la_lapack_solve_lu
            if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$gtsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> ${ri.upper()}$${ril.upper()}$GESV: computes the solution to a complex system of linear equations
      !> A * X = B,
@@ -1701,9 +1782,15 @@ module la_lapack_solve_lu
            return
      end subroutine la_${ri}$${ril}$gesv
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESV: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N matrix and X and B are N-by-NRHS matrices.
@@ -1751,9 +1838,15 @@ module la_lapack_solve_lu
            end if
            return
      end subroutine la_${ri}$gesv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESVX: uses the LU factorization to compute the solution to a complex
      !> system of linear equations
      !> A * X = B,
@@ -1959,6 +2052,9 @@ module la_lapack_solve_lu
            rwork(1) = rpvgrw
            return
      end subroutine la_${ri}$gesvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_lu

@@ -15,12 +15,21 @@ module la_lapack_others_sm
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$la_gerpvgrw
      public :: la_${ri}$la_syamv
      public :: la_${ri}$la_syrcond
      public :: la_${ri}$la_syrpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$la_gerpvgrw
      public :: la_${ri}$la_syamv
      public :: la_${ri}$la_gbrcond_c
@@ -29,11 +38,17 @@ module la_lapack_others_sm
      public :: la_${ri}$la_porcond_c
      public :: la_${ri}$la_syrcond_c
      public :: la_${ri}$la_syrpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GERPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -77,9 +92,15 @@ module la_lapack_others_sm
            end do
            la_${ri}$la_gerpvgrw = rpvgrw
      end function la_${ri}$la_gerpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_SYAMV:  performs the matrix-vector operation
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
      !> where alpha and beta are scalars, x and y are vectors and A is an
@@ -269,9 +290,15 @@ module la_lapack_others_sm
            end if
            return
      end subroutine la_${ri}$la_syamv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_SYRCOND: estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
      !> CMODE =  1    op2(C) = C
@@ -443,9 +470,15 @@ module la_lapack_others_sm
 #:endif
            return
      end function la_${ri}$la_syrcond
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_SYRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -642,9 +675,15 @@ module la_lapack_others_sm
            end if
            la_${ri}$la_syrpvgrw = rpvgrw
      end function la_${ri}$la_syrpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GERPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -693,9 +732,15 @@ module la_lapack_others_sm
            end do
            la_${ri}$la_gerpvgrw = rpvgrw
      end function la_${ri}$la_gerpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_SYAMV:  performs the matrix-vector operation
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
      !> where alpha and beta are scalars, x and y are vectors and A is an
@@ -891,9 +936,15 @@ module la_lapack_others_sm
            end if
            return
      end subroutine la_${ri}$la_syamv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GBRCOND_C: Computes the infinity norm condition number of
 #:if rk == "sp"
      !> op(A) * inv(diag(C)) where C is a REAL vector.
@@ -1046,9 +1097,15 @@ module la_lapack_others_sm
            if (ainvnm /= zero) la_${ri}$la_gbrcond_c = one/ainvnm
            return
      end function la_${ri}$la_gbrcond_c
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GERCOND_C: computes the infinity norm condition number of
 #:if rk == "sp"
      !> op(A) * inv(diag(C)) where C is a REAL vector.
@@ -1194,9 +1251,15 @@ module la_lapack_others_sm
            if (ainvnm /= zero) la_${ri}$la_gercond_c = one/ainvnm
            return
      end function la_${ri}$la_gercond_c
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_HERCOND_C: computes the infinity norm condition number of
 #:if rk == "sp"
      !> op(A) * inv(diag(C)) where C is a REAL vector.
@@ -1356,9 +1419,15 @@ module la_lapack_others_sm
            if (ainvnm /= zero) la_${ri}$la_hercond_c = one/ainvnm
            return
      end function la_${ri}$la_hercond_c
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_PORCOND_C: Computes the infinity norm condition number of
 #:if rk == "sp"
      !> op(A) * inv(diag(C)) where C is a REAL vector
@@ -1513,9 +1582,15 @@ module la_lapack_others_sm
            if (ainvnm /= zero) la_${ri}$la_porcond_c = one/ainvnm
            return
      end function la_${ri}$la_porcond_c
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_SYRCOND_C: Computes the infinity norm condition number of
 #:if rk == "sp"
      !> op(A) * inv(diag(C)) where C is a REAL vector.
@@ -1676,9 +1751,15 @@ module la_lapack_others_sm
            if (ainvnm /= zero) la_${ri}$la_syrcond_c = one/ainvnm
            return
      end function la_${ri}$la_syrcond_c
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_SYRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -1880,6 +1961,9 @@ module la_lapack_others_sm
            end if
            la_${ri}$la_syrpvgrw = rpvgrw
      end function la_${ri}$la_syrpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_others_sm

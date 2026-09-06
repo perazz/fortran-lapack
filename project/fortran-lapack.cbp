@@ -41,6 +41,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-cpp" />
+			<Add option="-DLA_WITH_QP" />
 		</Compiler>
 		<ExtraCommands>
 			<Add before="`scripts/preprocess.sh`" />
@@ -48,55 +49,55 @@
 		<Unit filename="../src/la_blas.F90">
 			<Option weight="8" />
 		</Unit>
-		<Unit filename="../src/la_blas_aux.f90">
+		<Unit filename="../src/la_blas_aux.F90">
 			<Option weight="1" />
 		</Unit>
-		<Unit filename="../src/la_blas_level1.f90">
+		<Unit filename="../src/la_blas_level1.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_level2_ban.f90">
+		<Unit filename="../src/la_blas_level2_ban.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_level2_gen.f90">
+		<Unit filename="../src/la_blas_level2_gen.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_level2_pac.f90">
+		<Unit filename="../src/la_blas_level2_pac.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_level2_sym.f90">
+		<Unit filename="../src/la_blas_level2_sym.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_level2_tri.f90">
+		<Unit filename="../src/la_blas_level2_tri.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_level3_gen.f90">
+		<Unit filename="../src/la_blas_level3_gen.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_level3_sym.f90">
+		<Unit filename="../src/la_blas_level3_sym.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_blas_level3_tri.f90">
+		<Unit filename="../src/la_blas_level3_tri.F90">
 			<Option weight="2" />
 		</Unit>
-		<Unit filename="../src/la_cholesky.f90">
+		<Unit filename="../src/la_cholesky.F90">
 			<Option weight="28" />
 		</Unit>
-		<Unit filename="../src/la_constants.f90">
+		<Unit filename="../src/la_constants.F90">
 			<Option weight="0" />
 		</Unit>
-		<Unit filename="../src/la_constants_kinds.f90">
+		<Unit filename="../src/la_constants_kinds.F90">
 			<Option weight="1" />
 		</Unit>
-		<Unit filename="../src/la_determinant.f90">
+		<Unit filename="../src/la_determinant.F90">
 			<Option weight="28" />
 		</Unit>
-		<Unit filename="../src/la_eigs.f90">
+		<Unit filename="../src/la_eigs.F90">
 			<Option weight="28" />
 		</Unit>
-		<Unit filename="../src/la_eye.f90">
+		<Unit filename="../src/la_eye.F90">
 			<Option weight="28" />
 		</Unit>
-		<Unit filename="../src/la_inverse.f90">
+		<Unit filename="../src/la_inverse.F90">
 			<Option weight="28" />
 		</Unit>
 		<Unit filename="../src/la_lapack.F90">
@@ -105,169 +106,169 @@
 		<Unit filename="../src/la_lapack_aux.F90">
 			<Option weight="10" />
 		</Unit>
-		<Unit filename="../src/la_lapack_auxiliary.f90">
+		<Unit filename="../src/la_lapack_auxiliary.F90">
 			<Option weight="10" />
 		</Unit>
-		<Unit filename="../src/la_lapack_blas_like_base.f90">
+		<Unit filename="../src/la_lapack_blas_like_base.F90">
 			<Option weight="11" />
 		</Unit>
-		<Unit filename="../src/la_lapack_blas_like_l1.f90">
+		<Unit filename="../src/la_lapack_blas_like_l1.F90">
 			<Option weight="11" />
 		</Unit>
-		<Unit filename="../src/la_lapack_blas_like_l2.f90">
+		<Unit filename="../src/la_lapack_blas_like_l2.F90">
 			<Option weight="12" />
 		</Unit>
-		<Unit filename="../src/la_lapack_blas_like_l3.f90">
+		<Unit filename="../src/la_lapack_blas_like_l3.F90">
 			<Option weight="11" />
 		</Unit>
-		<Unit filename="../src/la_lapack_blas_like_mnorm.f90">
+		<Unit filename="../src/la_lapack_blas_like_mnorm.F90">
 			<Option weight="12" />
 		</Unit>
-		<Unit filename="../src/la_lapack_blas_like_scalar.f90">
+		<Unit filename="../src/la_lapack_blas_like_scalar.F90">
 			<Option weight="11" />
 		</Unit>
-		<Unit filename="../src/la_lapack_cosine_sine.f90">
+		<Unit filename="../src/la_lapack_cosine_sine.F90">
 			<Option weight="15" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_comp.f90">
+		<Unit filename="../src/la_lapack_eigv_comp.F90">
 			<Option weight="16" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_comp2.f90">
+		<Unit filename="../src/la_lapack_eigv_comp2.F90">
 			<Option weight="16" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_gen.f90">
+		<Unit filename="../src/la_lapack_eigv_gen.F90">
 			<Option weight="19" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_gen2.f90">
+		<Unit filename="../src/la_lapack_eigv_gen2.F90">
 			<Option weight="18" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_gen3.f90">
+		<Unit filename="../src/la_lapack_eigv_gen3.F90">
 			<Option weight="17" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_gen_aux.f90">
+		<Unit filename="../src/la_lapack_eigv_gen_aux.F90">
 			<Option weight="13" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_gen_hess.f90">
+		<Unit filename="../src/la_lapack_eigv_gen_hess.F90">
 			<Option weight="14" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_svd_bidiag_dc.f90">
+		<Unit filename="../src/la_lapack_eigv_svd_bidiag_dc.F90">
 			<Option weight="17" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_svd_drivers.f90">
+		<Unit filename="../src/la_lapack_eigv_svd_drivers.F90">
 			<Option weight="16" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_svd_drivers2.f90">
+		<Unit filename="../src/la_lapack_eigv_svd_drivers2.F90">
 			<Option weight="18" />
 		</Unit>
 		<Unit filename="../src/la_lapack_eigv_sym.F90">
 			<Option weight="18" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_sym_comp.f90">
+		<Unit filename="../src/la_lapack_eigv_sym_comp.F90">
 			<Option weight="15" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_tridiag.f90">
+		<Unit filename="../src/la_lapack_eigv_tridiag.F90">
 			<Option weight="16" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_tridiag2.f90">
+		<Unit filename="../src/la_lapack_eigv_tridiag2.F90">
 			<Option weight="15" />
 		</Unit>
-		<Unit filename="../src/la_lapack_eigv_tridiag3.f90">
+		<Unit filename="../src/la_lapack_eigv_tridiag3.F90">
 			<Option weight="17" />
 		</Unit>
-		<Unit filename="../src/la_lapack_givens_jacobi_rot.f90">
+		<Unit filename="../src/la_lapack_givens_jacobi_rot.F90">
 			<Option weight="12" />
 		</Unit>
-		<Unit filename="../src/la_lapack_householder_reflectors.f90">
+		<Unit filename="../src/la_lapack_householder_reflectors.F90">
 			<Option weight="12" />
 		</Unit>
-		<Unit filename="../src/la_lapack_lsq.f90">
+		<Unit filename="../src/la_lapack_lsq.F90">
 			<Option weight="19" />
 		</Unit>
-		<Unit filename="../src/la_lapack_lsq_aux.f90">
+		<Unit filename="../src/la_lapack_lsq_aux.F90">
 			<Option weight="18" />
 		</Unit>
-		<Unit filename="../src/la_lapack_lsq_constrained.f90">
+		<Unit filename="../src/la_lapack_lsq_constrained.F90">
 			<Option weight="14" />
 		</Unit>
-		<Unit filename="../src/la_lapack_orthogonal_factors_ql.f90">
+		<Unit filename="../src/la_lapack_orthogonal_factors_ql.F90">
 			<Option weight="14" />
 		</Unit>
-		<Unit filename="../src/la_lapack_orthogonal_factors_qr.f90">
+		<Unit filename="../src/la_lapack_orthogonal_factors_qr.F90">
 			<Option weight="13" />
 		</Unit>
-		<Unit filename="../src/la_lapack_orthogonal_factors_rz.f90">
+		<Unit filename="../src/la_lapack_orthogonal_factors_rz.F90">
 			<Option weight="13" />
 		</Unit>
-		<Unit filename="../src/la_lapack_others_sm.f90">
+		<Unit filename="../src/la_lapack_others_sm.F90">
 			<Option weight="19" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_aux.f90">
+		<Unit filename="../src/la_lapack_solve_aux.F90">
 			<Option weight="11" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_chol.f90">
+		<Unit filename="../src/la_lapack_solve_chol.F90">
 			<Option weight="20" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_chol_comp.f90">
+		<Unit filename="../src/la_lapack_solve_chol_comp.F90">
 			<Option weight="14" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_ldl.f90">
+		<Unit filename="../src/la_lapack_solve_ldl.F90">
 			<Option weight="20" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_ldl_comp.f90">
+		<Unit filename="../src/la_lapack_solve_ldl_comp.F90">
 			<Option weight="17" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_ldl_comp2.f90">
+		<Unit filename="../src/la_lapack_solve_ldl_comp2.F90">
 			<Option weight="16" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_ldl_comp3.f90">
+		<Unit filename="../src/la_lapack_solve_ldl_comp3.F90">
 			<Option weight="18" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_ldl_comp4.f90">
+		<Unit filename="../src/la_lapack_solve_ldl_comp4.F90">
 			<Option weight="19" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_lu.f90">
+		<Unit filename="../src/la_lapack_solve_lu.F90">
 			<Option weight="15" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_lu_comp.f90">
+		<Unit filename="../src/la_lapack_solve_lu_comp.F90">
 			<Option weight="14" />
 		</Unit>
-		<Unit filename="../src/la_lapack_solve_tri_comp.f90">
+		<Unit filename="../src/la_lapack_solve_tri_comp.F90">
 			<Option weight="13" />
 		</Unit>
-		<Unit filename="../src/la_lapack_svd_bidiag_qr.f90">
+		<Unit filename="../src/la_lapack_svd_bidiag_qr.F90">
 			<Option weight="14" />
 		</Unit>
-		<Unit filename="../src/la_lapack_svd_comp.f90">
+		<Unit filename="../src/la_lapack_svd_comp.F90">
 			<Option weight="15" />
 		</Unit>
-		<Unit filename="../src/la_lapack_svd_comp2.f90">
+		<Unit filename="../src/la_lapack_svd_comp2.F90">
 			<Option weight="13" />
 		</Unit>
-		<Unit filename="../src/la_least_squares.f90">
+		<Unit filename="../src/la_least_squares.F90">
 			<Option weight="28" />
 		</Unit>
-		<Unit filename="../src/la_norms.f90">
+		<Unit filename="../src/la_norms.F90">
 			<Option weight="28" />
 		</Unit>
 		<Unit filename="../src/la_pca.f90">
 			<Option weight="0" />
 		</Unit>
-		<Unit filename="../src/la_pinv.f90">
+		<Unit filename="../src/la_pinv.F90">
 			<Option weight="29" />
 		</Unit>
-		<Unit filename="../src/la_qr.f90">
+		<Unit filename="../src/la_qr.F90">
 			<Option weight="28" />
 		</Unit>
-		<Unit filename="../src/la_schur.f90">
+		<Unit filename="../src/la_schur.F90">
 			<Option weight="28" />
 		</Unit>
-		<Unit filename="../src/la_solve.f90">
+		<Unit filename="../src/la_solve.F90">
 			<Option weight="28" />
 		</Unit>
 		<Unit filename="../src/la_state.f90">
 			<Option weight="1" />
 		</Unit>
-		<Unit filename="../src/la_svd.f90">
+		<Unit filename="../src/la_svd.F90">
 			<Option weight="28" />
 		</Unit>
 		<Unit filename="../src/linear_algebra.f90">

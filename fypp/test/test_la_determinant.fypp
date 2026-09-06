@@ -16,16 +16,28 @@ module test_la_determinant
         call cpu_time(t0)
 
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call test_${ri}$_eye_determinant(error)
         if (error) return
 
         call test_${ri}$_eye_multiple(error)
         if (error) return
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #: endfor
 
         #:for ck,ct,ci in CMPL_KINDS_TYPES
+        #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+        #:endif
         call test_${ci}$_complex_determinant(error)
         if (error) return
+        #:if LA_GUARD[ck]
+#endif
+        #:endif
         #: endfor
 
         call cpu_time(t1)
@@ -38,6 +50,9 @@ module test_la_determinant
 
     !> Determinant of identity matrix
     #:for rk,rt,ri in ALL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_${ri}$_eye_determinant(error)
         logical, intent(out) :: error
 
@@ -80,11 +95,17 @@ module test_la_determinant
         if (error) return
 
     end subroutine test_${ri}$_eye_multiple
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 
     !> Determinant of complex identity matrix
     #:for ck,ct,ci in CMPL_KINDS_TYPES
+    #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+    #:endif
     subroutine test_${ci}$_complex_determinant(error)
         logical, intent(out) :: error
 
@@ -119,6 +140,9 @@ module test_la_determinant
         error = state%error() .or. any(.not.abs(res-deta)<=tiny(0.0_${ck}$))
 
     end subroutine test_${ci}$_complex_determinant
+    #:if LA_GUARD[ck]
+#endif
+    #:endif
 
     #:endfor
 

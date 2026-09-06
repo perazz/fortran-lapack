@@ -18,14 +18,26 @@ module test_la_qr
         if (error) return
         call test_qr_random_d(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_qr_random_x(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_qr_random_q(error)
         if (error) return
+#endif
         call test_qr_random_c(error)
         if (error) return
         call test_qr_random_z(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_qr_random_y(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_qr_random_w(error)
         if (error) return
+#endif
 
         call cpu_time(t1)
 
@@ -166,6 +178,74 @@ module test_la_qr
         
     end subroutine test_qr_random_d
 
+#ifdef LA_WITH_XDP
+    subroutine test_qr_random_x(error)
+        logical,intent(out) :: error
+
+        integer(ilp),parameter :: m = 15_ilp
+        integer(ilp),parameter :: n = 4_ilp
+        integer(ilp),parameter :: k = min(m,n)
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
+        real(xdp) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        real(xdp),allocatable :: work(:)
+        type(la_state) :: err
+        
+        call random_number(rea)
+        a = rea
+        
+        ! 1) QR factorization with full matrices
+        call qr(a,q,r,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(q,r)) < tol)
+        if (error) return
+        
+        ! 2) QR factorization with reduced matrices
+        call qr(a,qred,rred,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 4) External storage option
+        a = rea
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=err)
+    
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+    end subroutine test_qr_random_x
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_qr_random_q(error)
         logical,intent(out) :: error
 
@@ -230,6 +310,7 @@ module test_la_qr
         if (error) return
         
     end subroutine test_qr_random_q
+#endif
 
     subroutine test_qr_random_c(error)
         logical,intent(out) :: error
@@ -363,6 +444,75 @@ module test_la_qr
         
     end subroutine test_qr_random_z
 
+#ifdef LA_WITH_XDP
+    subroutine test_qr_random_y(error)
+        logical,intent(out) :: error
+
+        integer(ilp),parameter :: m = 15_ilp
+        integer(ilp),parameter :: n = 4_ilp
+        integer(ilp),parameter :: k = min(m,n)
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n)
+        real(xdp) :: rea(m,n),ima(m,n)
+        integer(ilp) :: lwork
+        complex(xdp),allocatable :: work(:)
+        type(la_state) :: err
+        
+        call random_number(rea)
+        call random_number(ima)
+        a = cmplx(rea,ima,kind=xdp)
+        
+        ! 1) QR factorization with full matrices
+        call qr(a,q,r,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(q,r)) < tol)
+        if (error) return
+        
+        ! 2) QR factorization with reduced matrices
+        call qr(a,qred,rred,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=err)
+        
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+        ! 4) External storage option
+        a = cmplx(rea,ima,kind=xdp)
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=err)
+    
+        ! Check return code
+        error = err%error()
+        if (error) return
+        
+        ! Check solution
+        error = .not. all(abs(a - matmul(qred,rred)) < tol)
+        if (error) return
+        
+    end subroutine test_qr_random_y
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_qr_random_w(error)
         logical,intent(out) :: error
 
@@ -428,6 +578,7 @@ module test_la_qr
         if (error) return
         
     end subroutine test_qr_random_w
+#endif
 
 end module test_la_qr
 

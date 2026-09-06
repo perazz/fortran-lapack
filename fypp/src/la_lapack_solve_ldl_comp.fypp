@@ -21,6 +21,9 @@ module la_lapack_solve_ldl_comp
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lasyf
      public :: la_${ri}$sptrf
      public :: la_${ri}$syconv
@@ -35,8 +38,14 @@ module la_lapack_solve_ldl_comp
      public :: la_${ri}$syrfs
      public :: la_${ri}$sytf2
      public :: la_${ri}$sytrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lasyf
      public :: la_${ri}$sptrf
      public :: la_${ri}$syconv
@@ -52,11 +61,17 @@ module la_lapack_solve_ldl_comp
      public :: la_${ri}$spcon
      public :: la_${ri}$sycon
      public :: la_${ri}$syrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASYF: computes a partial factorization of a real symmetric matrix A
      !> using the Bunch-Kaufman diagonal pivoting method. The partial
      !> factorization has the form:
@@ -493,9 +508,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$lasyf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPTRF: computes the factorization of a real symmetric matrix A stored
      !> in packed format using the Bunch-Kaufman diagonal pivoting method:
      !> A = U*D*U**T  or  A = L*D*L**T
@@ -818,9 +839,15 @@ module la_lapack_solve_ldl_comp
            110 continue
            return
      end subroutine la_${ri}$sptrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYCONV: convert A given by TRF into L and D and vice-versa.
      !> Get Non-diag elements of D (returned in workspace) and
      !> apply or reverse permutation done in TRF.
@@ -1026,9 +1053,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$syconv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYEQUB: computes row and column scalings intended to equilibrate a
      !> symmetric matrix A (with respect to the Euclidean norm) and reduce
      !> its condition number. The scale factors S are computed by the BIN
@@ -1204,9 +1237,15 @@ module la_lapack_solve_ldl_comp
            end do
            scond = max(smin,smlnum)/min(smax,bignum)
      end subroutine la_${ri}$syequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSWAPR: applies an elementary permutation on the rows and the columns of
      !> a symmetric matrix.
 
@@ -1274,9 +1313,15 @@ module la_lapack_solve_ldl_comp
                end do
            end if
      end subroutine la_${ri}$syswapr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRI: computes the inverse of a real symmetric indefinite matrix
      !> A using the factorization A = U*D*U**T or A = L*D*L**T computed by
      !> ${ri.upper()}$SYTRF.
@@ -1465,9 +1510,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$sytri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRS: solves a system of linear equations A*X = B with a real
      !> symmetric matrix A using the factorization A = U*D*U**T or
      !> A = L*D*L**T computed by ${ri.upper()}$SYTRF.
@@ -1678,9 +1729,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$sytrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRS2: solves a system of linear equations A*X = B with a real
      !> symmetric matrix A using the factorization A = U*D*U**T or
      !> A = L*D*L**T computed by ${ri.upper()}$SYTRF and converted by ${ri.upper()}$SYCONV.
@@ -1859,9 +1916,15 @@ module la_lapack_solve_ldl_comp
            call la_${ri}$syconv(uplo,'R',n,a,lda,ipiv,work,iinfo)
            return
      end subroutine la_${ri}$sytrs2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRS_3: solves a system of linear equations A * X = B with a real
      !> symmetric matrix A using the factorization computed
 #:if rk == "sp"
@@ -2035,9 +2098,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$sytrs_3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric packed matrix A using the factorization
      !> A = U*D*U**T or A = L*D*L**T computed by ${ri.upper()}$SPTRF.
@@ -2120,9 +2189,15 @@ module la_lapack_solve_ldl_comp
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$spcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric matrix A using the factorization
      !> A = U*D*U**T or A = L*D*L**T computed by ${ri.upper()}$SYTRF.
@@ -2206,9 +2281,15 @@ module la_lapack_solve_ldl_comp
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$sycon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric indefinite, and
      !> provides error bounds and backward error estimates for the solution.
@@ -2394,9 +2475,15 @@ module la_lapack_solve_ldl_comp
            end do loop_140
            return
      end subroutine la_${ri}$syrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTF2: computes the factorization of a real symmetric matrix A using
      !> the Bunch-Kaufman diagonal pivoting method:
      !> A = U*D*U**T  or  A = L*D*L**T
@@ -2681,9 +2768,15 @@ module la_lapack_solve_ldl_comp
            70 continue
            return
      end subroutine la_${ri}$sytf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRF: computes the factorization of a real symmetric matrix A using
      !> the Bunch-Kaufman diagonal pivoting method.  The form of the
      !> factorization is
@@ -2809,9 +2902,15 @@ module la_lapack_solve_ldl_comp
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sytrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASYF: computes a partial factorization of a complex symmetric matrix
      !> A using the Bunch-Kaufman diagonal pivoting method. The partial
      !> factorization has the form:
@@ -3267,9 +3366,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$lasyf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPTRF: computes the factorization of a complex symmetric matrix A
      !> stored in packed format using the Bunch-Kaufman diagonal pivoting
      !> method:
@@ -3601,9 +3706,15 @@ module la_lapack_solve_ldl_comp
            110 continue
            return
      end subroutine la_${ri}$sptrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$SYCONV: convert A given by TRF into L and D and vice-versa.
      !> Get Non-diag elements of D (returned in workspace) and
@@ -3819,9 +3930,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$syconv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYEQUB: computes row and column scalings intended to equilibrate a
      !> symmetric matrix A (with respect to the Euclidean norm) and reduce
      !> its condition number. The scale factors S are computed by the BIN
@@ -4015,9 +4132,15 @@ module la_lapack_solve_ldl_comp
            end do
            scond = max(smin,smlnum)/min(smax,bignum)
      end subroutine la_${ri}$syequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSWAPR: applies an elementary permutation on the rows and the columns of
      !> a symmetric matrix.
 
@@ -4085,9 +4208,15 @@ module la_lapack_solve_ldl_comp
                end do
            end if
      end subroutine la_${ri}$syswapr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTF2: computes the factorization of a complex symmetric matrix A
      !> using the Bunch-Kaufman diagonal pivoting method:
      !> A = U*D*U**T  or  A = L*D*L**T
@@ -4381,9 +4510,15 @@ module la_lapack_solve_ldl_comp
            70 continue
            return
      end subroutine la_${ri}$sytf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRF: computes the factorization of a complex symmetric matrix A
      !> using the Bunch-Kaufman diagonal pivoting method.  The form of the
      !> factorization is
@@ -4509,9 +4644,15 @@ module la_lapack_solve_ldl_comp
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sytrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRI: computes the inverse of a complex symmetric indefinite matrix
      !> A using the factorization A = U*D*U**T or A = L*D*L**T computed by
      !> ${ri.upper()}$SYTRF.
@@ -4700,9 +4841,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$sytri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRS: solves a system of linear equations A*X = B with a complex
      !> symmetric matrix A using the factorization A = U*D*U**T or
      !> A = L*D*L**T computed by ${ri.upper()}$SYTRF.
@@ -4913,9 +5060,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$sytrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRS2: solves a system of linear equations A*X = B with a complex
      !> symmetric matrix A using the factorization A = U*D*U**T or
      !> A = L*D*L**T computed by ${ri.upper()}$SYTRF and converted by ${ri.upper()}$SYCONV.
@@ -5094,9 +5247,15 @@ module la_lapack_solve_ldl_comp
            call la_${ri}$syconv(uplo,'R',n,a,lda,ipiv,work,iinfo)
            return
      end subroutine la_${ri}$sytrs2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRS_3: solves a system of linear equations A * X = B with a complex
      !> symmetric matrix A using the factorization computed
 #:if rk == "sp"
@@ -5262,9 +5421,15 @@ module la_lapack_solve_ldl_comp
            end if
            return
      end subroutine la_${ri}$sytrs_3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_HERPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -5466,9 +5631,15 @@ module la_lapack_solve_ldl_comp
            end if
            la_${ri}$la_herpvgrw = rpvgrw
      end function la_${ri}$la_herpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex symmetric packed matrix A using the
      !> factorization A = U*D*U**T or A = L*D*L**T computed by ${ri.upper()}$SPTRF.
@@ -5550,9 +5721,15 @@ module la_lapack_solve_ldl_comp
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$spcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex symmetric matrix A using the factorization
      !> A = U*D*U**T or A = L*D*L**T computed by ${ri.upper()}$SYTRF.
@@ -5634,9 +5811,15 @@ module la_lapack_solve_ldl_comp
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$sycon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric indefinite, and
      !> provides error bounds and backward error estimates for the solution.
@@ -5830,6 +6013,9 @@ module la_lapack_solve_ldl_comp
            end do loop_140
            return
      end subroutine la_${ri}$syrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_ldl_comp

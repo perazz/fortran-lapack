@@ -21,9 +21,18 @@ module la_lapack_solve_ldl_comp4
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laqsy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$hetf2_rk
      public :: la_${ri}$hetf2_rook
      public :: la_${ri}$hetri_rook
@@ -38,11 +47,17 @@ module la_lapack_solve_ldl_comp4
      public :: la_${ri}$hprfs
      public :: la_${ri}$hetrf_aa
      public :: la_${ri}$lahef_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQSY: equilibrates a symmetric matrix A using the scaling factors
      !> in the vector S.
 
@@ -101,9 +116,15 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$laqsy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETF2_RK: computes the factorization of a complex Hermitian matrix A
      !> using the bounded Bunch-Kaufman (rook) diagonal pivoting method:
      !> A = P*U*D*(U**H)*(P**T) or A = P*L*D*(L**H)*(P**T),
@@ -637,9 +658,15 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$hetf2_rk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETF2_ROOK: computes the factorization of a complex Hermitian matrix A
      !> using the bounded Bunch-Kaufman ("rook") diagonal pivoting method:
      !> A = U*D*U**H  or  A = L*D*L**H
@@ -1132,9 +1159,15 @@ module la_lapack_solve_ldl_comp4
            70 continue
            return
      end subroutine la_${ri}$hetf2_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRI_ROOK: computes the inverse of a complex Hermitian indefinite matrix
      !> A using the factorization A = U*D*U**H or A = L*D*L**H computed by
      !> ${ri.upper()}$HETRF_ROOK.
@@ -1402,9 +1435,15 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$hetri_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAHEF_RK: computes a partial factorization of a complex Hermitian
      !> matrix A using the bounded Bunch-Kaufman (rook) diagonal
      !> pivoting method. The partial factorization has the form:
@@ -2046,9 +2085,15 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$lahef_rk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAHEF_ROOK: computes a partial factorization of a complex Hermitian
      !> matrix A using the bounded Bunch-Kaufman ("rook") diagonal pivoting
      !> method. The partial factorization has the form:
@@ -2723,9 +2768,15 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$lahef_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQSY: equilibrates a symmetric matrix A using the scaling factors
      !> in the vector S.
 
@@ -2784,9 +2835,15 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$laqsy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRF_RK: computes the factorization of a complex Hermitian matrix A
      !> using the bounded Bunch-Kaufman (rook) diagonal pivoting method:
      !> A = P*U*D*(U**H)*(P**T) or A = P*L*D*(L**H)*(P**T),
@@ -2952,9 +3009,15 @@ module la_lapack_solve_ldl_comp4
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hetrf_rk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRF_ROOK: computes the factorization of a complex Hermitian matrix A
      !> using the bounded Bunch-Kaufman ("rook") diagonal pivoting method.
      !> The form of the factorization is
@@ -3082,9 +3145,15 @@ module la_lapack_solve_ldl_comp4
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hetrf_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRS_AA: solves a system of linear equations A*X = B with a complex
      !> hermitian matrix A using the factorization A = U**H*T*U or
      !> A = L*T*L**H computed by ${ri.upper()}$HETRF_AA.
@@ -3244,9 +3313,15 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$hetrs_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRS_ROOK: solves a system of linear equations A*X = B with a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
      !> A = L*D*L**H computed by ${ri.upper()}$HETRF_ROOK.
@@ -3486,9 +3561,15 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$hetrs_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HECON_ROOK: estimates the reciprocal of the condition number of a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
 #:if rk == "sp"
@@ -3574,9 +3655,15 @@ module la_lapack_solve_ldl_comp4
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$hecon_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian indefinite
      !> and packed, and provides error bounds and backward error estimates
@@ -3774,9 +3861,15 @@ module la_lapack_solve_ldl_comp4
            end do loop_140
            return
      end subroutine la_${ri}$hprfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRF_AA: computes the factorization of a complex hermitian matrix A
      !> using the Aasen's algorithm.  The form of the factorization is
      !> A = U**H*T*U  or  A = L*T*L**H
@@ -4010,9 +4103,15 @@ module la_lapack_solve_ldl_comp4
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hetrf_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$LAHEF_AA: factorizes a panel of a complex hermitian matrix A using
 #:else
@@ -4261,6 +4360,9 @@ module la_lapack_solve_ldl_comp4
            end if
            return
      end subroutine la_${ri}$lahef_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_ldl_comp4

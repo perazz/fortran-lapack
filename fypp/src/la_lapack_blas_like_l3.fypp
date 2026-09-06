@@ -11,21 +11,36 @@ module la_lapack_blas_like_l3
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lagtm
      public :: la_${ri}$sfrk
      public :: la_${ri}$tfsm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$hfrk
      public :: la_${ri}$lacrm
      public :: la_${ri}$lagtm
      public :: la_${ri}$larcm
      public :: la_${ri}$tfsm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAGTM: performs a matrix-vector product of the form
      !> B := alpha * A * X + beta * B
      !> where A is a tridiagonal matrix of order N, B and X are N by NRHS
@@ -128,9 +143,15 @@ module la_lapack_blas_like_l3
            end if
            return
      end subroutine la_${ri}$lagtm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Level 3 BLAS like routine for C in RFP Format.
      !> ${ri.upper()}$SFRK: performs one of the symmetric rank--k operations
      !> C := alpha*A*A**T + beta*C,
@@ -387,9 +408,15 @@ module la_lapack_blas_like_l3
            end if
            return
      end subroutine la_${ri}$sfrk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Level 3 BLAS like routine for A in RFP Format.
      !> ${ri.upper()}$TFSM:  solves the matrix equation
      !> op( A )*X = alpha*B  or  X*op( A ) = alpha*B
@@ -892,9 +919,15 @@ module la_lapack_blas_like_l3
            end if
            return
      end subroutine la_${ri}$tfsm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Level 3 BLAS like routine for C in RFP Format.
      !> ${ri.upper()}$HFRK: performs one of the Hermitian rank--k operations
      !> C := alpha*A*A**H + beta*C,
@@ -1154,9 +1187,15 @@ module la_lapack_blas_like_l3
            end if
            return
      end subroutine la_${ri}$hfrk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACRM: performs a very simple matrix-matrix multiplication:
      !> C := A * B,
      !> where A is M by N and complex; B is N by N and real;
@@ -1215,9 +1254,15 @@ module la_lapack_blas_like_l3
            end do
            return
      end subroutine la_${ri}$lacrm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAGTM: performs a matrix-vector product of the form
      !> B := alpha * A * X + beta * B
      !> where A is a tridiagonal matrix of order N, B and X are N by NRHS
@@ -1362,9 +1407,15 @@ module la_lapack_blas_like_l3
            end if
            return
      end subroutine la_${ri}$lagtm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARCM: performs a very simple matrix-matrix multiplication:
      !> C := A * B,
      !> where A is M by M and real; B is M by N and complex;
@@ -1423,9 +1474,15 @@ module la_lapack_blas_like_l3
            end do
            return
      end subroutine la_${ri}$larcm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Level 3 BLAS like routine for A in RFP Format.
      !> ${ri.upper()}$TFSM:  solves the matrix equation
      !> op( A )*X = alpha*B  or  X*op( A ) = alpha*B
@@ -1928,6 +1985,9 @@ module la_lapack_blas_like_l3
            end if
            return
      end subroutine la_${ri}$tfsm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_blas_like_l3

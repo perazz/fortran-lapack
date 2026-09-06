@@ -9,6 +9,9 @@ module la_lapack_blas_like_base
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lacpy
 #:if rkl is not None
      public :: la_${ri}$lag2${ril}$
@@ -24,15 +27,33 @@ module la_lapack_blas_like_base
      public :: la_${ri}$tpttr
      public :: la_${ri}$trttf
      public :: la_${ri}$trttp
-#:if rku is not None
-     public :: la_${ri}$lag2${riu}$
+#:for upk, upri, upci in LA_UPS[rk]
+#:if LA_GUARD[upk]
+#ifdef ${LA_GUARD[upk]}$
 #:endif
+     public :: la_${ri}$lag2${upri}$
+#:if LA_GUARD[upk]
+#endif
+#:endif
+#:endfor
      public :: la_${ri}$larnv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
-#:if rku is not None
-     public :: la_${ri}$lag2${riu}$
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
 #:endif
+#:for upk, upri, upci in LA_UPS[rk]
+#:if LA_GUARD[upk]
+#ifdef ${LA_GUARD[upk]}$
+#:endif
+     public :: la_${ri}$lag2${upci}$
+#:if LA_GUARD[upk]
+#endif
+#:endif
+#:endfor
      public :: la_${ri}$lacp2
      public :: la_${ri}$lacpy
 #:if rkl is not None
@@ -49,11 +70,17 @@ module la_lapack_blas_like_base
      public :: la_${ri}$tpttr
      public :: la_${ri}$trttf
      public :: la_${ri}$trttp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACPY: copies all or part of a two-dimensional matrix A to another
      !> matrix B.
 
@@ -94,9 +121,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$lacpy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> ${ri.upper()}$LAG2${ril.upper()}$: converts a ${LA_PRECISION[rk].upper()}$ PRECISION matrix, SA, to a SINGLE
      !> PRECISION matrix, A.
@@ -135,9 +168,15 @@ module la_lapack_blas_like_base
            return
      end subroutine la_${ri}$lag2${ril}$
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARUV: returns a vector of n random real numbers from a uniform (0,1)
      !> distribution (n <= 128).
      !> This is an auxiliary routine called by ${ri.upper()}$LARNV and ${ci.upper()}$LARNV.
@@ -347,9 +386,15 @@ module la_lapack_blas_like_base
            iseed(4) = it4
            return
      end subroutine la_${ri}$laruv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASET: initializes an m-by-n matrix A to BETA on the diagonal and
      !> ALPHA on the offdiagonals.
 
@@ -399,9 +444,15 @@ module la_lapack_blas_like_base
            end do
            return
      end subroutine la_${ri}$laset
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> ${ri.upper()}$LAT2${ril.upper()}$: converts a ${LA_PRECISION[rk].upper()}$ PRECISION triangular matrix, SA, to a SINGLE
      !> PRECISION triangular matrix, A.
@@ -454,9 +505,15 @@ module la_lapack_blas_like_base
            return
      end subroutine la_${ri}$lat2${ril}$
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TFTTP: copies a triangular matrix A from rectangular full packed
      !> format (TF) to standard packed format (TP).
 
@@ -712,9 +769,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$tfttp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TFTTR: copies a triangular matrix A from rectangular full packed
      !> format (TF) to standard full format (TR).
 
@@ -943,9 +1006,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$tfttr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPTTF: copies a triangular matrix A from standard packed format (TP)
      !> to rectangular full packed format (TF).
 
@@ -1187,9 +1256,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$tpttf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPTTR: copies a triangular matrix A from standard packed format (TP)
      !> to standard full format (TR).
 
@@ -1243,9 +1318,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$tpttr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTTF: copies a triangular matrix A from standard full format (TR)
      !> to rectangular full packed format (TF) .
 
@@ -1473,9 +1554,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$trttf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTTP: copies a triangular matrix A from full format (TR) to standard
      !> packed format (TP).
 
@@ -1529,14 +1616,23 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$trttp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
-#:if rku is not None
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
+#:for upk, upri, upci in LA_UPS[rk]
+#:if LA_GUARD[upk]
+#ifdef ${LA_GUARD[upk]}$
+#:endif
 #:if rk == "sp"
-     !> ${ri.upper()}$LAG2${riu.upper()}$: converts a ${LA_PRECISION[rk].upper()}$ PRECISION matrix, SA, to a DOUBLE
+     !> ${ri.upper()}$LAG2${upri.upper()}$: converts a ${LA_PRECISION[rk].upper()}$ PRECISION matrix, SA, to a DOUBLE
 #:else
-     !> ${ri.upper()}$LAG2${riu.upper()}$: converts a SINGLE PRECISION matrix, SA, to a DOUBLE
+     !> ${ri.upper()}$LAG2${upri.upper()}$: converts a SINGLE PRECISION matrix, SA, to a DOUBLE
 #:endif
      !> PRECISION matrix, A.
      !> Note that while it is possible to overflow while converting
@@ -1544,7 +1640,7 @@ module la_lapack_blas_like_base
      !> converting from single to double.
      !> This is an auxiliary routine so there is no argument checking.
 
-     pure subroutine la_${ri}$lag2${riu}$(m,n,sa,ldsa,a,lda,info)
+     pure subroutine la_${ri}$lag2${upri}$(m,n,sa,ldsa,a,lda,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1553,7 +1649,7 @@ module la_lapack_blas_like_base
            integer(ilp),intent(in) :: lda,ldsa,m,n
            ! Array Arguments
            real(${rk}$),intent(in) :: sa(ldsa,*)
-           real(${rku}$),intent(out) :: a(lda,*)
+           real(${upk}$),intent(out) :: a(lda,*)
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -1565,11 +1661,20 @@ module la_lapack_blas_like_base
               end do
            end do
            return
-     end subroutine la_${ri}$lag2${riu}$
+     end subroutine la_${ri}$lag2${upri}$
+#:if LA_GUARD[upk]
+#endif
+#:endif
+#:endfor
+#:if LA_GUARD[rk]
+#endif
 #:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARNV: returns a vector of n random real numbers from a uniform or
      !> normal distribution.
 
@@ -1624,17 +1729,26 @@ module la_lapack_blas_like_base
               40 continue
            return
      end subroutine la_${ri}$larnv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
-#:if rku is not None
-     !> ${ri.upper()}$LAG2${riu.upper()}$: converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A.
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
+#:for upk, upri, upci in LA_UPS[rk]
+#:if LA_GUARD[upk]
+#ifdef ${LA_GUARD[upk]}$
+#:endif
+     !> ${ri.upper()}$LAG2${upci.upper()}$: converts a COMPLEX matrix, SA, to a COMPLEX*16 matrix, A.
      !> Note that while it is possible to overflow while converting
      !> from double to single, it is not possible to overflow when
      !> converting from single to double.
      !> This is an auxiliary routine so there is no argument checking.
 
-     pure subroutine la_${ri}$lag2${riu}$(m,n,sa,ldsa,a,lda,info)
+     pure subroutine la_${ri}$lag2${upci}$(m,n,sa,ldsa,a,lda,info)
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -1643,7 +1757,7 @@ module la_lapack_blas_like_base
            integer(ilp),intent(in) :: lda,ldsa,m,n
            ! Array Arguments
            complex(${rk}$),intent(in) :: sa(ldsa,*)
-           complex(${rku}$),intent(out) :: a(lda,*)
+           complex(${upk}$),intent(out) :: a(lda,*)
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -1655,11 +1769,20 @@ module la_lapack_blas_like_base
               end do
            end do
            return
-     end subroutine la_${ri}$lag2${riu}$
+     end subroutine la_${ri}$lag2${upci}$
+#:if LA_GUARD[upk]
+#endif
+#:endif
+#:endfor
+#:if LA_GUARD[rk]
+#endif
 #:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACP2: copies all or part of a real two-dimensional matrix A to a
      !> complex matrix B.
 
@@ -1700,9 +1823,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$lacp2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACPY: copies all or part of a two-dimensional matrix A to another
      !> matrix B.
 
@@ -1743,9 +1872,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$lacpy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> ${ri.upper()}$LAG2${ril.upper()}$: converts a COMPLEX*16 matrix, SA, to a COMPLEX matrix, A.
      !> RMAX is the overflow for the SINGLE PRECISION arithmetic
@@ -1786,9 +1921,15 @@ module la_lapack_blas_like_base
            return
      end subroutine la_${ri}$lag2${ril}$
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARNV: returns a vector of n random complex numbers from a uniform or
      !> normal distribution.
 
@@ -1852,9 +1993,15 @@ module la_lapack_blas_like_base
               60 continue
            return
      end subroutine la_${ri}$larnv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASET: initializes a 2-D array A to BETA on the diagonal and
      !> ALPHA on the offdiagonals.
 
@@ -1910,9 +2057,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$laset
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> ${ri.upper()}$LAT2${ril.upper()}$: converts a COMPLEX*16 triangular matrix, SA, to a COMPLEX
      !> triangular matrix, A.
@@ -1971,9 +2124,15 @@ module la_lapack_blas_like_base
            return
      end subroutine la_${ri}$lat2${ril}$
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TFTTP: copies a triangular matrix A from rectangular full packed
      !> format (TF) to standard packed format (TP).
 
@@ -2232,9 +2391,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$tfttp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TFTTR: copies a triangular matrix A from rectangular full packed
      !> format (TF) to standard full format (TR).
 
@@ -2484,9 +2649,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$tfttr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPTTF: copies a triangular matrix A from standard packed format (TP)
      !> to rectangular full packed format (TF).
 
@@ -2744,9 +2915,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$tpttf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPTTR: copies a triangular matrix A from standard packed format (TP)
      !> to standard full format (TR).
 
@@ -2800,9 +2977,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$tpttr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTTF: copies a triangular matrix A from standard full format (TR)
      !> to rectangular full packed format (TF) .
 
@@ -3051,9 +3234,15 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$trttf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRTTP: copies a triangular matrix A from full format (TR) to standard
      !> packed format (TP).
 
@@ -3107,6 +3296,9 @@ module la_lapack_blas_like_base
            end if
            return
      end subroutine la_${ri}$trttp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_blas_like_base

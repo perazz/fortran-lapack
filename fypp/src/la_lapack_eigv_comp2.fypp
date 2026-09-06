@@ -23,6 +23,9 @@ module la_lapack_eigv_comp2
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$tgsy2
      public :: la_${ri}$tgsyl
      public :: la_${ri}$lagv2
@@ -31,8 +34,14 @@ module la_lapack_eigv_comp2
      public :: la_${ri}$tgexc
      public :: la_${ri}$tgsen
      public :: la_${ri}$tgsna
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$tgevc
      public :: la_${ri}$tgex2
      public :: la_${ri}$tgexc
@@ -40,11 +49,17 @@ module la_lapack_eigv_comp2
      public :: la_${ri}$tgsyl
      public :: la_${ri}$tgsen
      public :: la_${ri}$tgsna
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSY2: solves the generalized Sylvester equation:
      !> A * R - L * B = scale * C                (1)
      !> D * R - L * E = scale * F,
@@ -684,9 +699,15 @@ module la_lapack_eigv_comp2
            end if
            return
      end subroutine la_${ri}$tgsy2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSYL: solves the generalized Sylvester equation:
      !> A * R - L * B = scale * C                 (1)
      !> D * R - L * E = scale * F
@@ -1024,9 +1045,15 @@ module la_lapack_eigv_comp2
            work(1) = lwmin
            return
      end subroutine la_${ri}$tgsyl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAGV2: computes the Generalized Schur factorization of a real 2-by-2
      !> matrix pencil (A,B) where B is upper triangular. This routine
      !> computes orthogonal (rotation) matrices given by CSL, SNL and CSR,
@@ -1191,9 +1218,15 @@ module la_lapack_eigv_comp2
            end if
            return
      end subroutine la_${ri}$lagv2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGEVC: computes some or all of the right and/or left eigenvectors of
      !> a pair of real matrices (S,P), where S is a quasi-triangular matrix
      !> and P is upper triangular.  Matrix pairs of this type are produced by
@@ -1924,9 +1957,15 @@ module la_lapack_eigv_comp2
            end if
            return
      end subroutine la_${ri}$tgevc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGEX2: swaps adjacent diagonal blocks (A11, B11) and (A22, B22)
      !> of size 1-by-1 or 2-by-2 in an upper (quasi) triangular matrix pair
      !> (A, B) by an orthogonal equivalence transformation.
@@ -2297,9 +2336,15 @@ module la_lapack_eigv_comp2
            info = 1
            return
      end subroutine la_${ri}$tgex2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGEXC: reorders the generalized real Schur decomposition of a real
      !> matrix pair (A,B) using an orthogonal equivalence transformation
      !> (A, B) = Q * (A, B) * Z**T,
@@ -2549,9 +2594,15 @@ module la_lapack_eigv_comp2
            work(1) = lwmin
            return
      end subroutine la_${ri}$tgexc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSEN: reorders the generalized real Schur decomposition of a real
      !> matrix pair (A, B) (in terms of an orthonormal equivalence trans-
      !> formation Q**T * (A, B) * Z), so that a selected cluster of eigenvalues
@@ -2885,9 +2936,15 @@ module la_lapack_eigv_comp2
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$tgsen
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSNA: estimates reciprocal condition numbers for specified
      !> eigenvalues and/or eigenvectors of a matrix pair (A, B) in
      !> generalized real Schur canonical form (or of any matrix pair
@@ -3135,9 +3192,15 @@ module la_lapack_eigv_comp2
            work(1) = lwmin
            return
      end subroutine la_${ri}$tgsna
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGEVC: computes some or all of the right and/or left eigenvectors of
      !> a pair of complex matrices (S,P), where S and P are upper triangular.
      !> Matrix pairs of this type are produced by the generalized Schur
@@ -3554,9 +3617,15 @@ module la_lapack_eigv_comp2
            end if
            return
      end subroutine la_${ri}$tgevc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGEX2: swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22)
      !> in an upper triangular matrix pair (A, B) by an unitary equivalence
      !> transformation.
@@ -3704,9 +3773,15 @@ module la_lapack_eigv_comp2
            info = 1
            return
      end subroutine la_${ri}$tgex2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGEXC: reorders the generalized Schur decomposition of a complex
      !> matrix pair (A,B), using an unitary equivalence transformation
      !> (A, B) := Q * (A, B) * Z**H, so that the diagonal block of (A, B) with
@@ -3790,9 +3865,15 @@ module la_lapack_eigv_comp2
            ilst = here
            return
      end subroutine la_${ri}$tgexc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSY2: solves the generalized Sylvester equation
 #:if rk == "sp"
      !> A * R - L * B = scale *  C               (1)
@@ -3990,9 +4071,15 @@ module la_lapack_eigv_comp2
            end if
            return
      end subroutine la_${ri}$tgsy2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSYL: solves the generalized Sylvester equation:
      !> A * R - L * B = scale * C            (1)
      !> D * R - L * E = scale * F
@@ -4350,9 +4437,15 @@ module la_lapack_eigv_comp2
            work(1) = lwmin
            return
      end subroutine la_${ri}$tgsyl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSEN: reorders the generalized Schur decomposition of a complex
      !> matrix pair (A, B) (in terms of an unitary equivalence trans-
      !> formation Q**H * (A, B) * Z), so that a selected cluster of eigenvalues
@@ -4631,9 +4724,15 @@ module la_lapack_eigv_comp2
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$tgsen
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSNA: estimates reciprocal condition numbers for specified
      !> eigenvalues and/or eigenvectors of a matrix pair (A, B).
      !> (A, B) must be in generalized Schur canonical form, that is, A and
@@ -4790,6 +4889,9 @@ module la_lapack_eigv_comp2
            work(1) = lwmin
            return
      end subroutine la_${ri}$tgsna
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_comp2

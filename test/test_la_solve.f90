@@ -17,10 +17,18 @@ module test_la_solve
         if (error) return
         call test_dsolve_multiple(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_xsolve(error)
+        if (error) return
+        call test_xsolve_multiple(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_qsolve(error)
         if (error) return
         call test_qsolve_multiple(error)
         if (error) return
+#endif
         call test_csolve(error)
         if (error) return
         call test_2x2_csolve(error)
@@ -29,10 +37,18 @@ module test_la_solve
         if (error) return
         call test_2x2_zsolve(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_ysolve(error)
+        if (error) return
+        call test_2x2_ysolve(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_wsolve(error)
         if (error) return
         call test_2x2_wsolve(error)
         if (error) return
+#endif
     end subroutine test_solve
 
     !> Simple linear system
@@ -80,6 +96,31 @@ module test_la_solve
         print *, 'state = ',state%print()
 
     end subroutine test_dsolve
+#ifdef LA_WITH_XDP
+    subroutine test_xsolve(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        real(xdp) :: A(3,3) = transpose(reshape([real(xdp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        real(xdp) :: b(3) = [real(xdp) :: 1,4,-1]
+        real(xdp) :: res(3) = [real(xdp) :: -2,-2,3]
+        real(xdp) :: x(3)
+
+        x = solve(a,b,err=state)
+        error = state%error() .or. .not. all(abs(x - res) < abs(res*epsilon(0.0_xdp)))
+
+        print *, 'res = ',res
+        print *, 'x   = ',x
+        print *, 'err = ',abs(x - res)
+        print *, 'tst = ',res*epsilon(0.0_xdp)
+        print *, 'state = ',state%print()
+
+    end subroutine test_xsolve
+#endif
+#ifdef LA_WITH_QP
     subroutine test_qsolve(error)
         logical,intent(out) :: error
 
@@ -102,6 +143,7 @@ module test_la_solve
         print *, 'state = ',state%print()
 
     end subroutine test_qsolve
+#endif
 
     !> Simple linear system with multiple right hand sides
     subroutine test_ssolve_multiple(error)
@@ -156,6 +198,35 @@ module test_la_solve
         print *, 'state = ',state%print()
 
     end subroutine test_dsolve_multiple
+#ifdef LA_WITH_XDP
+    subroutine test_xsolve_multiple(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        real(xdp) :: A(3,3) = transpose(reshape([real(xdp) :: 1,-1,2, &
+                                                            0,1,1, &
+                                                            1,-1,3], [3,3]))
+        real(xdp) :: b(3,3) = transpose(reshape([real(xdp) :: 0,1,2, &
+                                                            1,-2,-1, &
+                                                            2,3,-1], [3,3]))
+        real(xdp) :: res(3,3) = transpose(reshape([real(xdp) :: -5,-7,10, &
+                                                           -1,-4,2, &
+                                                            2,2,-3], [3,3]))
+        real(xdp) :: x(3,3)
+
+        x = solve(a,b,err=state)
+        error = state%error() .or. .not. all(abs(x - res) < abs(res*epsilon(0.0_xdp)))
+
+        print *, 'res = ',res
+        print *, 'x   = ',x
+        print *, 'err = ',abs(x - res)
+        print *, 'tst = ',res*epsilon(0.0_xdp)
+        print *, 'state = ',state%print()
+
+    end subroutine test_xsolve_multiple
+#endif
+#ifdef LA_WITH_QP
     subroutine test_qsolve_multiple(error)
         logical,intent(out) :: error
 
@@ -182,6 +253,7 @@ module test_la_solve
         print *, 'state = ',state%print()
 
     end subroutine test_qsolve_multiple
+#endif
 
     !> Complex linear system
     !> Militaru, Popa, "On the numerical solving of complex linear systems",
@@ -250,6 +322,41 @@ module test_la_solve
         print *, 'state = ',state%print()
 
     end subroutine test_zsolve
+#ifdef LA_WITH_XDP
+    subroutine test_ysolve(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        complex(xdp) :: A(5,5),b(5),res(5),x(5)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A = (0.0_xdp,0.0_xdp)
+
+        A(1:2,1) = [(19.73_xdp,0.0_xdp), (0.0_xdp,-0.51_xdp)]
+        A(1:3,2) = [(12.11_xdp,-1.0_xdp), (32.3_xdp,7.0_xdp), (0.0_xdp,-0.51_xdp)]
+        A(1:4,3) = [(0.0_xdp,5.0_xdp), (23.07_xdp,0.0_xdp), (70.0_xdp,7.3_xdp), (1.0_xdp,1.1_xdp)]
+        A(2:5,4) = [(0.0_xdp,1.0_xdp), (3.95_xdp,0.0_xdp), (50.17_xdp,0.0_xdp), (0.0_xdp,-9.351_xdp)]
+        A(3:5,5) = [(19.0_xdp,31.83_xdp), (45.51_xdp,0.0_xdp), (55.0_xdp,0.0_xdp)]
+
+       b = [(77.38_xdp,8.82_xdp), (157.48_xdp,19.8_xdp), (1175.62_xdp,20.69_xdp), (912.12_xdp,-801.75_xdp), (550.0_xdp,-1060.4_xdp)]
+
+        ! Exact result
+        res = [(3.3_xdp,-1.0_xdp), (1.0_xdp,0.17_xdp), (5.5_xdp,0.0_xdp), (9.0_xdp,0.0_xdp), (10.0_xdp,-17.75_xdp)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not. all(abs(x - res) < abs(res)*1.0e-3_xdp)
+
+        do i = 1,5
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_ysolve
+#endif
+#ifdef LA_WITH_QP
     subroutine test_wsolve(error)
         logical,intent(out) :: error
 
@@ -282,6 +389,7 @@ module test_la_solve
         print *, 'state = ',state%print()
 
     end subroutine test_wsolve
+#endif
 
     !> 2x2 Complex linear system
     !> https://math.stackexchange.com/questions/1996540/solving-linear-equation-systems-with-complex-coefficients-and-variables
@@ -339,6 +447,36 @@ module test_la_solve
         print *, 'state = ',state%print()
 
     end subroutine test_2x2_zsolve
+#ifdef LA_WITH_XDP
+    subroutine test_2x2_ysolve(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        complex(xdp) :: A(2,2),b(2),res(2),x(2)
+        integer(ilp) :: i
+
+        ! Fill in linear system
+        A(1,:) = [(+1.0_xdp,+1.0_xdp), (-1.0_xdp,0.0_xdp)]
+        A(2,:) = [(+1.0_xdp,-1.0_xdp), (+1.0_xdp,1.0_xdp)]
+
+        b = [(0.0_xdp,1.0_xdp), (1.0_xdp,0.0_xdp)]
+
+        ! Exact result
+        res = [(0.5_xdp,0.5_xdp), (0.0_xdp,0.0_xdp)]
+
+        x = solve(a,b,err=state)
+
+        error = state%error() .or. .not. all(abs(x - res) < max(tiny(0.0_xdp),abs(res)*epsilon(0.0_xdp)))
+
+        do i = 1,2
+           print *, 'res = ',res(i),' x  =',x(i),' b =',b(i)
+        end do
+        print *, 'state = ',state%print()
+
+    end subroutine test_2x2_ysolve
+#endif
+#ifdef LA_WITH_QP
     subroutine test_2x2_wsolve(error)
         logical,intent(out) :: error
 
@@ -366,6 +504,7 @@ module test_la_solve
         print *, 'state = ',state%print()
 
     end subroutine test_2x2_wsolve
+#endif
 
 end module test_la_solve
 

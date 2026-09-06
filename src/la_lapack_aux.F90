@@ -17,11 +17,20 @@ module la_lapack_aux
      public :: la_select_d
      public :: la_iladlc
      public :: la_iladlr
+#ifdef LA_WITH_XDP
+     public :: la_xroundup_lwork
+     public :: la_selctg_x
+     public :: la_select_x
+     public :: la_ilaxlc
+     public :: la_ilaxlr
+#endif
+#ifdef LA_WITH_QP
      public :: la_qroundup_lwork
      public :: la_selctg_q
      public :: la_select_q
      public :: la_ilaqlc
      public :: la_ilaqlr
+#endif
      public :: la_selctg_c
      public :: la_select_c
      public :: la_ilaclc
@@ -32,11 +41,20 @@ module la_lapack_aux
      public :: la_ilazlc
      public :: la_ilazlr
      public :: la_izmax1
+#ifdef LA_WITH_XDP
+     public :: la_selctg_y
+     public :: la_select_y
+     public :: la_ilaylc
+     public :: la_ilaylr
+     public :: la_iymax1
+#endif
+#ifdef LA_WITH_QP
      public :: la_selctg_w
      public :: la_select_w
      public :: la_ilawlc
      public :: la_ilawlr
      public :: la_iwmax1
+#endif
      public :: la_chla_transtype
      public :: la_ieeeck
      public :: la_iladiag
@@ -54,65 +72,101 @@ module la_lapack_aux
      ! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e.,
      abstract interface
         pure logical(lk) function la_selctg_s(alphar,alphai,beta)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             real(sp),intent(in) :: alphar,alphai,beta
         end function la_selctg_s
         pure logical(lk) function la_selctg_d(alphar,alphai,beta)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             real(dp),intent(in) :: alphar,alphai,beta
         end function la_selctg_d
+#ifdef LA_WITH_XDP
+        pure logical(lk) function la_selctg_x(alphar,alphai,beta)
+            import sp,dp,xdp,qp,lk
+            implicit none
+            real(xdp),intent(in) :: alphar,alphai,beta
+        end function la_selctg_x
+#endif
+#ifdef LA_WITH_QP
         pure logical(lk) function la_selctg_q(alphar,alphai,beta)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             real(qp),intent(in) :: alphar,alphai,beta
         end function la_selctg_q
+#endif
         pure logical(lk) function la_select_s(alphar,alphai)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             real(sp),intent(in) :: alphar,alphai
         end function la_select_s
         pure logical(lk) function la_select_d(alphar,alphai)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             real(dp),intent(in) :: alphar,alphai
         end function la_select_d
+#ifdef LA_WITH_XDP
+        pure logical(lk) function la_select_x(alphar,alphai)
+            import sp,dp,xdp,qp,lk
+            implicit none
+            real(xdp),intent(in) :: alphar,alphai
+        end function la_select_x
+#endif
+#ifdef LA_WITH_QP
         pure logical(lk) function la_select_q(alphar,alphai)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             real(qp),intent(in) :: alphar,alphai
         end function la_select_q
+#endif
         pure logical(lk) function la_selctg_c(alpha,beta)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             complex(sp),intent(in) :: alpha,beta
         end function la_selctg_c
         pure logical(lk) function la_selctg_z(alpha,beta)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             complex(dp),intent(in) :: alpha,beta
         end function la_selctg_z
+#ifdef LA_WITH_XDP
+        pure logical(lk) function la_selctg_y(alpha,beta)
+            import sp,dp,xdp,qp,lk
+            implicit none
+            complex(xdp),intent(in) :: alpha,beta
+        end function la_selctg_y
+#endif
+#ifdef LA_WITH_QP
         pure logical(lk) function la_selctg_w(alpha,beta)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             complex(qp),intent(in) :: alpha,beta
         end function la_selctg_w
+#endif
         pure logical(lk) function la_select_c(alpha)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             complex(sp),intent(in) :: alpha
         end function la_select_c
         pure logical(lk) function la_select_z(alpha)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             complex(dp),intent(in) :: alpha
         end function la_select_z
+#ifdef LA_WITH_XDP
+        pure logical(lk) function la_select_y(alpha)
+            import sp,dp,xdp,qp,lk
+            implicit none
+            complex(xdp),intent(in) :: alpha
+        end function la_select_y
+#endif
+#ifdef LA_WITH_QP
         pure logical(lk) function la_select_w(alpha)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             complex(qp),intent(in) :: alpha
         end function la_select_w
+#endif
      end interface
 
      contains
@@ -175,6 +229,38 @@ module la_lapack_aux
            end if
            return
      end function la_droundup_lwork
+#ifdef LA_WITH_XDP
+     !> XROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
+     !> This routine guarantees it is rounded up instead of down by
+     !> multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
+     !> E.g.,
+     !> float( 9007199254740993            ) == 9007199254740992
+     !> float( 9007199254740993 ) * (1.+eps) == 9007199254740994
+     !> \return XROUNDUP_LWORK
+     !>
+     !> XROUNDUP_LWORK >= LWORK.
+     !> XROUNDUP_LWORK is guaranteed to have zero decimal part.
+
+     pure real(xdp) function la_xroundup_lwork(lwork)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: lwork
+       ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: epsilon,real,int
+           ! Executable Statements
+           la_xroundup_lwork = real(lwork,KIND=xdp)
+           if (int(la_xroundup_lwork,KIND=ilp) < lwork) then
+               ! force round up of lwork
+               la_xroundup_lwork = la_xroundup_lwork*(1.0e+0_xdp + epsilon(0.0e+0_xdp))
+                         
+           end if
+           return
+     end function la_xroundup_lwork
+#endif
+#ifdef LA_WITH_QP
      !> QROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
      !> This routine guarantees it is rounded up instead of down by
      !> multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
@@ -204,6 +290,7 @@ module la_lapack_aux
            end if
            return
      end function la_qroundup_lwork
+#endif
 
      !> ILASLC: scans A for its last non-zero column.
 
@@ -269,6 +356,41 @@ module la_lapack_aux
            end if
            return
      end function la_iladlc
+#ifdef LA_WITH_XDP
+     !> ILAXLC: scans A for its last non-zero column.
+
+     pure integer(ilp) function la_ilaxlc(m,n,a,lda)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: m,n,lda
+           ! Array Arguments
+           real(xdp),intent(in) :: a(lda,*)
+        ! =====================================================================
+           ! Parameters
+           real(xdp),parameter :: zero = 0.0d+0
+           
+           ! Local Scalars
+           integer(ilp) :: i
+           ! Executable Statements
+           ! quick test for the common case where one corner is non-zero.
+           if (n == 0) then
+              la_ilaxlc = n
+           else if (a(1,n) /= zero .or. a(m,n) /= zero) then
+              la_ilaxlc = n
+           else
+           ! now scan each column from the end, returning with the first non-zero.
+              do la_ilaxlc = n,1,-1
+                 do i = 1,m
+                    if (a(i,la_ilaxlc) /= zero) return
+                 end do
+              end do
+           end if
+           return
+     end function la_ilaxlc
+#endif
+#ifdef LA_WITH_QP
      !> ILAQLC: scans A for its last non-zero column.
 
      pure integer(ilp) function la_ilaqlc(m,n,a,lda)
@@ -301,6 +423,7 @@ module la_lapack_aux
            end if
            return
      end function la_ilaqlc
+#endif
 
      !> ILASLR: scans A for its last non-zero row.
 
@@ -372,6 +495,44 @@ module la_lapack_aux
            end if
            return
      end function la_iladlr
+#ifdef LA_WITH_XDP
+     !> ILAXLR: scans A for its last non-zero row.
+
+     pure integer(ilp) function la_ilaxlr(m,n,a,lda)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: m,n,lda
+           ! Array Arguments
+           real(xdp),intent(in) :: a(lda,*)
+        ! =====================================================================
+           ! Parameters
+           real(xdp),parameter :: zero = 0.0d+0
+           
+           ! Local Scalars
+           integer(ilp) :: i,j
+           ! Executable Statements
+           ! quick test for the common case where one corner is non-zero.
+           if (m == 0) then
+              la_ilaxlr = m
+           else if (a(m,1) /= zero .or. a(m,n) /= zero) then
+              la_ilaxlr = m
+           else
+           ! scan up each column tracking the last zero row seen.
+              la_ilaxlr = 0
+              do j = 1,n
+                 i = m
+                 do while ((a(max(i,1),j) == zero) .and. (i >= 1))
+                    i = i - 1
+                 end do
+                 la_ilaxlr = max(la_ilaxlr,i)
+              end do
+           end if
+           return
+     end function la_ilaxlr
+#endif
+#ifdef LA_WITH_QP
      !> ILAQLR: scans A for its last non-zero row.
 
      pure integer(ilp) function la_ilaqlr(m,n,a,lda)
@@ -407,6 +568,7 @@ module la_lapack_aux
            end if
            return
      end function la_ilaqlr
+#endif
 
      !> ILACLC: scans A for its last non-zero column.
 
@@ -472,6 +634,41 @@ module la_lapack_aux
            end if
            return
      end function la_ilazlc
+#ifdef LA_WITH_XDP
+     !> ILAYLC: scans A for its last non-zero column.
+
+     pure integer(ilp) function la_ilaylc(m,n,a,lda)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: m,n,lda
+           ! Array Arguments
+           complex(xdp),intent(in) :: a(lda,*)
+        ! =====================================================================
+           ! Parameters
+           complex(xdp),parameter :: zero = (0.0d+0,0.0d+0)
+           
+           ! Local Scalars
+           integer(ilp) :: i
+           ! Executable Statements
+           ! quick test for the common case where one corner is non-zero.
+           if (n == 0) then
+              la_ilaylc = n
+           else if (a(1,n) /= zero .or. a(m,n) /= zero) then
+              la_ilaylc = n
+           else
+           ! now scan each column from the end, returning with the first non-zero.
+              do la_ilaylc = n,1,-1
+                 do i = 1,m
+                    if (a(i,la_ilaylc) /= zero) return
+                 end do
+              end do
+           end if
+           return
+     end function la_ilaylc
+#endif
+#ifdef LA_WITH_QP
      !> ILAWLC: scans A for its last non-zero column.
 
      pure integer(ilp) function la_ilawlc(m,n,a,lda)
@@ -504,6 +701,7 @@ module la_lapack_aux
            end if
            return
      end function la_ilawlc
+#endif
 
      !> ILACLR: scans A for its last non-zero row.
 
@@ -575,6 +773,44 @@ module la_lapack_aux
            end if
            return
      end function la_ilazlr
+#ifdef LA_WITH_XDP
+     !> ILAYLR: scans A for its last non-zero row.
+
+     pure integer(ilp) function la_ilaylr(m,n,a,lda)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: m,n,lda
+           ! Array Arguments
+           complex(xdp),intent(in) :: a(lda,*)
+        ! =====================================================================
+           ! Parameters
+           complex(xdp),parameter :: zero = (0.0d+0,0.0d+0)
+           
+           ! Local Scalars
+           integer(ilp) :: i,j
+           ! Executable Statements
+           ! quick test for the common case where one corner is non-zero.
+           if (m == 0) then
+              la_ilaylr = m
+           else if (a(m,1) /= zero .or. a(m,n) /= zero) then
+              la_ilaylr = m
+           else
+           ! scan up each column tracking the last zero row seen.
+              la_ilaylr = 0
+              do j = 1,n
+                 i = m
+                 do while ((a(max(i,1),j) == zero) .and. (i >= 1))
+                    i = i - 1
+                 end do
+                 la_ilaylr = max(la_ilaylr,i)
+              end do
+           end if
+           return
+     end function la_ilaylr
+#endif
+#ifdef LA_WITH_QP
      !> ILAWLR: scans A for its last non-zero row.
 
      pure integer(ilp) function la_ilawlr(m,n,a,lda)
@@ -610,6 +846,7 @@ module la_lapack_aux
            end if
            return
      end function la_ilawlr
+#endif
 
      !> ICMAX1: finds the index of the first vector element of maximum absolute value.
      !> Based on ICAMAX from Level 1 BLAS.
@@ -705,6 +942,56 @@ module la_lapack_aux
            end if
            return
      end function la_izmax1
+#ifdef LA_WITH_XDP
+     !> IYMAX1: finds the index of the first vector element of maximum absolute value.
+     !> Based on IYAMAX from Level 1 BLAS.
+     !> The change is to use the 'genuine' absolute value.
+
+     pure integer(ilp) function la_iymax1(n,yx,incx)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: incx,n
+           ! Array Arguments
+           complex(xdp),intent(in) :: yx(*)
+        ! =====================================================================
+           ! Local Scalars
+           real(xdp) :: xmax
+           integer(ilp) :: i,ix
+           ! Intrinsic Functions
+           intrinsic :: abs
+           ! Executable Statements
+           la_iymax1 = 0
+           if (n < 1 .or. incx <= 0) return
+           la_iymax1 = 1
+           if (n == 1) return
+           if (incx == 1) then
+              ! code for increment equal to 1
+              xmax = abs(yx(1))
+              do i = 2,n
+                 if (abs(yx(i)) > xmax) then
+                    la_iymax1 = i
+                    xmax = abs(yx(i))
+                 end if
+              end do
+           else
+              ! code for increment not equal to 1
+              ix = 1
+              xmax = abs(yx(1))
+              ix = ix + incx
+              do i = 2,n
+                 if (abs(yx(ix)) > xmax) then
+                    la_iymax1 = i
+                    xmax = abs(yx(ix))
+                 end if
+                 ix = ix + incx
+              end do
+           end if
+           return
+     end function la_iymax1
+#endif
+#ifdef LA_WITH_QP
      !> IWMAX1: finds the index of the first vector element of maximum absolute value.
      !> Based on IWAMAX from Level 1 BLAS.
      !> The change is to use the 'genuine' absolute value.
@@ -752,6 +1039,7 @@ module la_lapack_aux
            end if
            return
      end function la_iwmax1
+#endif
 
      !> This subroutine translates from a BLAST-specified integer constant to
      !> the character string specifying a transposition operation.

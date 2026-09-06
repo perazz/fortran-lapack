@@ -72,11 +72,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Linear-algebra test suite ported from the Fortran standard library
   (test-drive dev-dependency).
+- The optional precisions are fpm features. `quad` carries the 128-bit kinds
+  `qp`/`w` and is part of the `default` profile, so a plain `fpm build` and
+  every consumer that asks for nothing keep the kinds they had. `--profile lean`
+  drops them, and with them a third of the library's source lines. `xdp` carries
+  the 80-bit extended
+  kinds `xdp`/`x`/`y`; it is never a default, because 80-bit reals exist on x86
+  and x86_64 only. `--profile allkinds` turns both on. See the new
+  "Precision kinds and fpm features" section of the README.
+- `external-blas` and `external-lapack` are features too, and `--profile
+  external` replaces the `--flag "-DLA_EXTERNAL_..."` pair the continuous
+  integration used to spell out.
+- 80-bit extended-precision instances of every BLAS and LAPACK routine and of
+  the whole high-level API, initials `x` for real and `y` for complex, behind
+  `LA_WITH_XDP`. `xdp` sits above `dp` as a branch of its own, so `qp` keeps
+  `dp` below it and `la_qdgesv`, `la_qlag2d`, `la_dlag2q`, `la_wzgesv`,
+  `la_zlag2w` and `la_wlag2z` keep their names and their meaning.
+- `la_xddot`, the extended-precision accumulation dot product, is public from
+  `la_blas_level1` but is not part of the `sdot` generic: its dummy arguments
+  are `real(dp)`, exactly those of `la_qddot`, so a generic interface could not
+  tell the two apart.
+- `la_constants` exports `xdp` alongside `sp`, `dp` and `qp`, and the logical
+  parameters `la_with_qp` and `la_with_xdp`. An optional kind that a build left
+  out is `-1`, so code that imports the kind number still compiles.
+- `scripts/guard_kinds.py` writes the cpp fences into the templates and has a
+  `--check` mode the `generated-sources` job runs.
 
 ### Changed
 
 - The `fypp` templates of the high-level modules regenerate their committed
   sources byte for byte again.
+- Every generated source under `src/` is renamed from `.f90` to `.F90`: they
+  all carry cpp directives now, so they follow the extension rule the tree
+  already used for `la_blas.F90` and `la_lapack.F90`. Build files that list the
+  sources by name need the new spelling; fpm consumers list nothing.
+- `real(qp)` and `complex(qp)` code compiles only when `LA_WITH_QP` is defined,
+  which the `quad` feature does. A build that defines neither macro carries
+  `sp` and `dp` alone.
 
 ### Fixed
 

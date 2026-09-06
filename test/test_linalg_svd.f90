@@ -19,11 +19,21 @@ module test_linalg_svd
 
         call add_test(tests,new_unittest("test_svd_s",test_svd_s))
         call add_test(tests,new_unittest("test_svd_d",test_svd_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("test_svd_x",test_svd_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("test_svd_q",test_svd_q))
+#endif
 
         call add_test(tests,new_unittest("test_complex_svd_c",test_complex_svd_c))
         call add_test(tests,new_unittest("test_complex_svd_z",test_complex_svd_z))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("test_complex_svd_y",test_complex_svd_y))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("test_complex_svd_w",test_complex_svd_w))
+#endif
 
     end subroutine test_svd
 
@@ -296,6 +306,143 @@ module test_linalg_svd
 
     end subroutine test_svd_d
 
+#ifdef LA_WITH_XDP
+    subroutine test_svd_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        !> Reference solution
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        real(xdp),parameter :: third = 1.0_xdp/3.0_xdp
+        real(xdp),parameter :: twothd = 2*third
+        real(xdp),parameter :: rsqrt2 = 1.0_xdp/sqrt(2.0_xdp)
+        real(xdp),parameter :: rsqrt18 = 1.0_xdp/sqrt(18.0_xdp)
+
+        real(xdp),parameter :: A_mat(2,3) = reshape([real(xdp) :: 3,2,2,3,2,-2], [2,3])
+        real(xdp),parameter :: s_sol(2) = [real(xdp) :: 5,3]
+        real(xdp),parameter :: u_sol(2,2) = reshape(rsqrt2*[1,1,1,-1], [2,2])
+        real(xdp),parameter :: vt_sol(3,3) = reshape([rsqrt2,rsqrt18,twothd, &
+                                                      rsqrt2,-rsqrt18,-twothd, &
+                                                      0.0_xdp,4*rsqrt18,-third], [3,3])
+
+        !> Local variables
+        character(:),allocatable :: test
+        type(la_state) :: state
+        real(xdp) :: A(2,3),s(2),u(2,2),vt(3,3)
+
+        !> Initialize matrix
+        A = A_mat
+
+        !> Simple subroutine version
+        call svd(A,s,err=state)
+        
+        test = 'subroutine version'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        
+        !> Function interface
+        s = svdvals(A,err=state)
+        
+        test = 'function interface'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+
+        !> [S, U]. Singular vectors could be all flipped
+        call svd(A,s,u,err=state)
+        
+        test = 'subroutine with singular vectors'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        call check(error,all(abs(abs(u) - abs(u_sol)) <= tol),test//': U')
+        if (allocated(error)) return
+
+        !> [S, U]. Overwrite A matrix
+        call svd(A,s,u,overwrite_a=.true.,err=state)
+        
+        test = 'subroutine, overwrite_a'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        call check(error,all(abs(abs(u) - abs(u_sol)) <= tol),test//': U')
+        if (allocated(error)) return
+
+        !> [S, U, V^T]
+        A = A_mat
+        call svd(A,s,u,vt,overwrite_a=.true.,err=state)
+        
+        test = '[S, U, V^T]'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        call check(error,all(abs(abs(u) - abs(u_sol)) <= tol),test//': U')
+        if (allocated(error)) return
+        call check(error,all(abs(abs(vt) - abs(vt_sol)) <= tol),test//': V^T')
+        if (allocated(error)) return
+        
+        !> [S, V^T]. Do not overwrite A matrix
+        A = A_mat
+        call svd(A,s,vt=vt,err=state)
+
+        test = '[S, V^T], overwrite_a=.false.'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        call check(error,all(abs(abs(vt) - abs(vt_sol)) <= tol),test//': V^T')
+        if (allocated(error)) return
+
+        !> [S, V^T]. Overwrite A matrix
+        call svd(A,s,vt=vt,overwrite_a=.true.,err=state)
+        
+        test = '[S, V^T], overwrite_a=.true.'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        call check(error,all(abs(abs(vt) - abs(vt_sol)) <= tol),test//': V^T')
+        if (allocated(error)) return
+        
+        !> [U, S, V^T].
+        A = A_mat
+        call svd(A,s,u,vt,err=state)
+        
+        test = '[U, S, V^T]'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(abs(u) - abs(u_sol)) <= tol),test//': U')
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        call check(error,all(abs(abs(vt) - abs(vt_sol)) <= tol),test//': V^T')
+        if (allocated(error)) return
+
+        !> [U, S, V^T]. Partial storage -> compare until k=2 columns of U rows of V^T
+        A = A_mat
+        u = 0
+        vt = 0
+        call svd(A,s,u,vt,full_matrices=.false.,err=state)
+        
+        test = '[U, S, V^T], partial storage'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(abs(u(:,:2)) - abs(u_sol(:,:2))) <= tol),test//': U(:,:2)')
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        call check(error,all(abs(abs(vt(:2,:)) - abs(vt_sol(:2,:))) <= tol),test//': V^T(:2,:)')
+        if (allocated(error)) return
+
+    end subroutine test_svd_x
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_svd_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -429,6 +576,7 @@ module test_linalg_svd
         if (allocated(error)) return
 
     end subroutine test_svd_q
+#endif
 
     !> Test complex svd
     subroutine test_complex_svd_c(error)
@@ -553,6 +701,70 @@ module test_linalg_svd
 
     end subroutine test_complex_svd_z
 
+#ifdef LA_WITH_XDP
+    subroutine test_complex_svd_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        !> Reference solution
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        real(xdp),parameter :: one = 1.0_xdp
+        real(xdp),parameter :: zero = 0.0_xdp
+        real(xdp),parameter :: sqrt2 = sqrt(2.0_xdp)
+        real(xdp),parameter :: rsqrt2 = one/sqrt2
+        complex(xdp),parameter :: csqrt2 = (rsqrt2,zero)
+        complex(xdp),parameter :: isqrt2 = (zero,rsqrt2)
+        complex(xdp),parameter :: cone = (1.0_xdp,0.0_xdp)
+        complex(xdp),parameter :: cimg = (0.0_xdp,1.0_xdp)
+        complex(xdp),parameter :: czero = (0.0_xdp,0.0_xdp)
+
+        real(xdp),parameter :: s_sol(2) = [sqrt2,sqrt2]
+        complex(xdp),parameter :: A_mat(2,2) = reshape([cone,cimg,cimg,cone], [2,2])
+        complex(xdp),parameter :: u_sol(2,2) = reshape([csqrt2,isqrt2,isqrt2,csqrt2], [2,2])
+        complex(xdp),parameter :: vt_sol(2,2) = reshape([cone,czero,czero,cone], [2,2])
+
+        !> Local variables
+        character(:),allocatable :: test
+        type(la_state) :: state
+        complex(xdp) :: A(2,2),u(2,2),vt(2,2)
+        real(xdp) :: s(2)
+
+        !> Initialize matrix
+        A = A_mat
+
+        !> Simple subroutine version
+        call svd(A,s,err=state)
+        
+        test = '[S], complex subroutine'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        
+        !> Function interface
+        s = svdvals(A,err=state)
+
+        test = 'svdvals, complex function'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+
+        !> [S, U, V^T]
+        A = A_mat
+        call svd(A,s,u,vt,overwrite_a=.true.,err=state)
+        
+        test = '[S, U, V^T], complex'
+        call check(error,state%ok(),test//': '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(s - s_sol) <= tol),test//': S')
+        if (allocated(error)) return
+        call check(error,all(abs(matmul(u,matmul(diag(s),vt)) - A_mat) <= tol),test//': U*S*V^T')
+        if (allocated(error)) return
+
+    end subroutine test_complex_svd_y
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_complex_svd_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -613,6 +825,7 @@ module test_linalg_svd
         if (allocated(error)) return
 
     end subroutine test_complex_svd_w
+#endif
 
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

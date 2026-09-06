@@ -8,16 +8,31 @@ module la_blas_level2_ban
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gbmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gbmv
      public :: la_${ri}$hbmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
      !> where alpha and beta are scalars, x and y are vectors and A is an
@@ -173,9 +188,15 @@ module la_blas_level2_ban
            end if
            return
      end subroutine la_${ri}$gbmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
      !> y := alpha*A**H*x + beta*y,
@@ -347,9 +368,15 @@ module la_blas_level2_ban
            end if
            return
      end subroutine la_${ri}$gbmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
@@ -516,6 +543,9 @@ module la_blas_level2_ban
            end if
            return
      end subroutine la_${ri}$hbmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_blas_level2_ban

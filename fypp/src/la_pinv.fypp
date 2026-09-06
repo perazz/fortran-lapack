@@ -101,7 +101,13 @@ module la_pseudoinverse
      !!
      interface pinv
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_pseudoinverse_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface pinv
 
@@ -128,7 +134,13 @@ module la_pseudoinverse
      !!
      interface pseudoinvert
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_pseudoinvert_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface pseudoinvert
 
@@ -152,7 +164,13 @@ module la_pseudoinverse
      !!
      interface operator(.pinv.)
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_pinv_${ri}$_operator
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface operator(.pinv.)
      
@@ -162,6 +180,9 @@ module la_pseudoinverse
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      ! Compute the in-place pseudo-inverse of matrix a
      subroutine la_pseudoinvert_${ri}$(a,pinva,rtol,err)
          !> Input matrix a[m,n]
@@ -264,6 +285,9 @@ module la_pseudoinverse
          call la_pseudoinvert_${ri}$(ap,pinva)
 
      end function la_pinv_${ri}$_operator
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 

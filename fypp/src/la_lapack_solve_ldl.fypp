@@ -17,6 +17,9 @@ module la_lapack_solve_ldl
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$spsv
      public :: la_${ri}$spsvx
      public :: la_${ri}$sysv_rk
@@ -24,8 +27,14 @@ module la_lapack_solve_ldl
      public :: la_${ri}$sysv
      public :: la_${ri}$sysvx
      public :: la_${ri}$sysv_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$spsv
      public :: la_${ri}$spsvx
      public :: la_${ri}$sysv
@@ -40,11 +49,17 @@ module la_lapack_solve_ldl
      public :: la_${ri}$hpsvx
      public :: la_${ri}$hesv_aa
      public :: la_${ri}$sysv_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPSV: computes the solution to a real system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric matrix stored in packed format and X
@@ -95,9 +110,15 @@ module la_lapack_solve_ldl
            end if
            return
      end subroutine la_${ri}$spsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPSVX: uses the diagonal pivoting factorization A = U*D*U**T or
      !> A = L*D*L**T to compute the solution to a real system of linear
      !> equations A * X = B, where A is an N-by-N symmetric matrix stored
@@ -176,9 +197,15 @@ module la_lapack_solve_ldl
            if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$spsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSV_RK: computes the solution to a real system of linear
      !> equations A * X = B, where A is an N-by-N symmetric matrix
      !> and X and B are N-by-NRHS matrices.
@@ -255,9 +282,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysv_rk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSV_ROOK: computes the solution to a real system of linear
      !> equations
      !> A * X = B,
@@ -336,9 +369,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysv_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSV: computes the solution to a real system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
@@ -416,9 +455,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSVX: uses the diagonal pivoting factorization to compute the
      !> solution to a real system of linear equations A * X = B,
      !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
@@ -516,9 +561,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSV computes the solution to a real system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
@@ -594,9 +645,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysv_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPSV: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric matrix stored in packed format and X
@@ -647,9 +704,15 @@ module la_lapack_solve_ldl
            end if
            return
      end subroutine la_${ri}$spsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPSVX: uses the diagonal pivoting factorization A = U*D*U**T or
      !> A = L*D*L**T to compute the solution to a complex system of linear
      !> equations A * X = B, where A is an N-by-N symmetric matrix stored
@@ -728,9 +791,15 @@ module la_lapack_solve_ldl
            if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$spsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSV: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
@@ -808,9 +877,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSV_RK: computes the solution to a complex system of linear
      !> equations A * X = B, where A is an N-by-N symmetric matrix
      !> and X and B are N-by-NRHS matrices.
@@ -891,9 +966,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysv_rk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSV_ROOK: computes the solution to a complex system of linear
      !> equations
      !> A * X = B,
@@ -972,9 +1053,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysv_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSVX: uses the diagonal pivoting factorization to compute the
      !> solution to a complex system of linear equations A * X = B,
      !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
@@ -1072,9 +1159,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HESV: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N Hermitian matrix and X and B are N-by-NRHS
@@ -1152,9 +1245,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hesv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HESV_RK: computes the solution to a complex system of linear
      !> equations A * X = B, where A is an N-by-N Hermitian matrix
      !> and X and B are N-by-NRHS matrices.
@@ -1235,9 +1334,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hesv_rk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HESV_ROOK: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N Hermitian matrix and X and B are N-by-NRHS
@@ -1316,9 +1421,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hesv_rook
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HESVX: uses the diagonal pivoting factorization to compute the
      !> solution to a complex system of linear equations A * X = B,
      !> where A is an N-by-N Hermitian matrix and X and B are N-by-NRHS
@@ -1416,9 +1527,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hesvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPSV: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N Hermitian matrix stored in packed format and X
@@ -1469,9 +1586,15 @@ module la_lapack_solve_ldl
            end if
            return
      end subroutine la_${ri}$hpsv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPSVX: uses the diagonal pivoting factorization A = U*D*U**H or
      !> A = L*D*L**H to compute the solution to a complex system of linear
      !> equations A * X = B, where A is an N-by-N Hermitian matrix stored
@@ -1550,9 +1673,15 @@ module la_lapack_solve_ldl
            if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
            return
      end subroutine la_${ri}$hpsvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HESV_AA: computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N Hermitian matrix and X and B are N-by-NRHS
@@ -1624,9 +1753,15 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hesv_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYSV computes the solution to a complex system of linear equations
      !> A * X = B,
      !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
@@ -1698,6 +1833,9 @@ module la_lapack_solve_ldl
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sysv_aa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_ldl

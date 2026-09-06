@@ -40,7 +40,13 @@ module la_least_squares
      interface lstsq
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$lstsq${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface lstsq
@@ -49,6 +55,9 @@ module la_least_squares
      contains
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Workspace needed by ${rt}$ gesv
      subroutine ${ri}$gesv_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp), intent(in) :: m,n,nrhs
@@ -84,12 +93,18 @@ module la_least_squares
          liwork = ceiling(1.25*liwork,kind=ilp)
 
      end subroutine ${ri}$gesv_space
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 
      #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Compute the least-squares solution to a ${rt}$ system of linear equations Ax = B
      function la_${ri}$lstsq${ndsuf}$(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
@@ -231,6 +246,9 @@ module la_least_squares
          if (present(rank)) rank = arank
 
      end function la_${ri}$lstsq${ndsuf}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
      #:endfor

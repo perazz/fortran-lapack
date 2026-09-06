@@ -20,6 +20,9 @@ module la_lapack_solve_lu_comp
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gbtf2
      public :: la_${ri}$gbtrs
      public :: la_${ri}$gttrf
@@ -50,8 +53,14 @@ module la_lapack_solve_lu_comp
      public :: la_${ri}$getrf
      public :: la_${ri}$gtcon
      public :: la_${ri}$gtrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gbequ
      public :: la_${ri}$gbequb
      public :: la_${ri}$gbtf2
@@ -80,11 +89,17 @@ module la_lapack_solve_lu_comp
      public :: la_${ri}$getrf
      public :: la_${ri}$gtcon
      public :: la_${ri}$gtrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBTF2: computes an LU factorization of a real m-by-n band matrix A
      !> using partial pivoting with row interchanges.
      !> This is the unblocked version of the algorithm, calling Level 2 BLAS.
@@ -171,9 +186,15 @@ module la_lapack_solve_lu_comp
            end do loop_40
            return
      end subroutine la_${ri}$gbtf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBTRS: solves a system of linear equations
      !> A * X = B  or  A**T * X = B
      !> with a general band matrix A using the LU factorization computed
@@ -268,9 +289,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$gbtrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTTRF: computes an LU factorization of a real tridiagonal matrix A
      !> using elimination with partial pivoting and row interchanges.
      !> The factorization has the form
@@ -363,9 +390,15 @@ module la_lapack_solve_lu_comp
            50 continue
            return
      end subroutine la_${ri}$gttrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTTS2: solves one of the systems of equations
      !> A*X = B  or  A**T*X = B,
      !> with a tridiagonal matrix A using the LU factorization computed
@@ -478,9 +511,15 @@ module la_lapack_solve_lu_comp
               end if
            end if
      end subroutine la_${ri}$gtts2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GBRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -525,9 +564,15 @@ module la_lapack_solve_lu_comp
            end do
            la_${ri}$la_gbrpvgrw = rpvgrw
      end function la_${ri}$la_gbrpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQGB: equilibrates a general M by N band matrix A with KL
      !> subdiagonals and KU superdiagonals using the row and scaling factors
      !> in the vectors R and C.
@@ -598,9 +643,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$laqgb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQGE: equilibrates a general M by N matrix A using the row and
      !> column scaling factors in the vectors R and C.
 
@@ -667,9 +718,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$laqge
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASWP: performs a series of row interchanges on the matrix A.
      !> One row interchange is initiated for each of rows K1 through K2 of A.
 
@@ -736,9 +793,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$laswp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBCON: estimates the reciprocal of the condition number of a real
      !> general band matrix A, in either the 1-norm or the infinity-norm,
      !> using the LU factorization computed by ${ri.upper()}$GBTRF.
@@ -868,9 +931,15 @@ module la_lapack_solve_lu_comp
            40 continue
            return
      end subroutine la_${ri}$gbcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBEQU: computes row and column scalings intended to equilibrate an
      !> M-by-N band matrix A and reduce its condition number.  R returns the
      !> row scale factors and C the column scale factors, chosen to try to
@@ -1001,9 +1070,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$gbequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBEQUB: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
      !> scale factors and C the column scale factors, chosen to try to make
@@ -1149,9 +1224,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$gbequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is banded, and provides
      !> error bounds and backward error estimates for the solution.
@@ -1349,9 +1430,15 @@ module la_lapack_solve_lu_comp
            end do loop_140
            return
      end subroutine la_${ri}$gbrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBTRF: computes an LU factorization of a real m-by-n band matrix A
      !> using partial pivoting with row interchanges.
      !> This is the blocked version of the algorithm, calling Level 3 BLAS.
@@ -1601,9 +1688,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$gbtrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GECON: estimates the reciprocal of the condition number of a general
      !> real matrix A, in either the 1-norm or the infinity-norm, using
      !> the LU factorization computed by ${ri.upper()}$GETRF.
@@ -1705,9 +1798,15 @@ module la_lapack_solve_lu_comp
            20 continue
            return
      end subroutine la_${ri}$gecon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEEQU: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
      !> scale factors and C the column scale factors, chosen to try to make
@@ -1831,9 +1930,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$geequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEEQUB: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
      !> scale factors and C the column scale factors, chosen to try to make
@@ -1973,9 +2078,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$geequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESC2: solves a system of linear equations
      !> A * X = scale* RHS
      !> with a general N-by-N matrix A using the LU factorization with
@@ -2034,9 +2145,15 @@ module la_lapack_solve_lu_comp
            call la_${ri}$laswp(1,rhs,lda,1,n - 1,jpiv,-1)
            return
      end subroutine la_${ri}$gesc2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETC2: computes an LU factorization with complete pivoting of the
      !> n-by-n matrix A. The factorization has the form A = P * L * U * Q,
      !> where P and Q are permutation matrices, L is lower triangular with
@@ -2121,9 +2238,15 @@ module la_lapack_solve_lu_comp
            jpiv(n) = n
            return
      end subroutine la_${ri}$getc2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETF2: computes an LU factorization of a general m-by-n matrix A
      !> using partial pivoting with row interchanges.
      !> The factorization has the form
@@ -2197,9 +2320,15 @@ module la_lapack_solve_lu_comp
            end do
            return
      end subroutine la_${ri}$getf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETRF2: computes an LU factorization of a general M-by-N matrix A
      !> using partial pivoting with row interchanges.
      !> The factorization has the form
@@ -2315,9 +2444,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$getrf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETRI: computes the inverse of a matrix using the LU factorization
      !> computed by ${ri.upper()}$GETRF.
      !> This method inverts U and then computes inv(A) by solving the system
@@ -2420,9 +2555,15 @@ module la_lapack_solve_lu_comp
            work(1) = iws
            return
      end subroutine la_${ri}$getri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETRS: solves a system of linear equations
      !> A * X = B  or  A**T * X = B
      !> with a general N-by-N matrix A using the LU factorization computed
@@ -2492,9 +2633,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$getrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTTRS: solves one of the systems of equations
      !> A*X = B  or  A**T*X = B,
      !> with a tridiagonal matrix A using the LU factorization computed
@@ -2558,9 +2705,15 @@ module la_lapack_solve_lu_comp
               end do
            end if
      end subroutine la_${ri}$gttrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GBRCOND: Estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
      !> CMODE =  1    op2(C) = C
@@ -2723,9 +2876,15 @@ module la_lapack_solve_lu_comp
 #:endif
            return
      end function la_${ri}$la_gbrcond
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GERCOND: estimates the Skeel condition number of op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
      !> CMODE =  1    op2(C) = C
@@ -2880,9 +3039,15 @@ module la_lapack_solve_lu_comp
 #:endif
            return
      end function la_${ri}$la_gercond
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATDF: uses the LU factorization of the n-by-n matrix Z computed by
      !> ${ri.upper()}$GETC2 and computes a contribution to the reciprocal Dif-estimate
      !> by solving Z * x = b for x, and choosing the r.h.s. b such that
@@ -2992,9 +3157,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$latdf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GERFS: improves the computed solution to a system of linear
      !> equations and provides error bounds and backward error estimates for
      !> the solution.
@@ -3184,9 +3355,15 @@ module la_lapack_solve_lu_comp
            end do loop_140
            return
      end subroutine la_${ri}$gerfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETRF: computes an LU factorization of a general M-by-N matrix A
      !> using partial pivoting with row interchanges.
      !> The factorization has the form
@@ -3265,9 +3442,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$getrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTCON: estimates the reciprocal of the condition number of a real
      !> tridiagonal matrix A using the LU factorization as computed by
      !> ${ri.upper()}$GTTRF.
@@ -3351,9 +3534,15 @@ module la_lapack_solve_lu_comp
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$gtcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is tridiagonal, and provides
      !> error bounds and backward error estimates for the solution.
@@ -3553,9 +3742,15 @@ module la_lapack_solve_lu_comp
            end do loop_110
            return
      end subroutine la_${ri}$gtrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBEQU: computes row and column scalings intended to equilibrate an
      !> M-by-N band matrix A and reduce its condition number.  R returns the
      !> row scale factors and C the column scale factors, chosen to try to
@@ -3695,9 +3890,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$gbequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBEQUB: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
      !> scale factors and C the column scale factors, chosen to try to make
@@ -3848,9 +4049,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$gbequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBTF2: computes an LU factorization of a complex m-by-n band matrix
      !> A using partial pivoting with row interchanges.
      !> This is the unblocked version of the algorithm, calling Level 2 BLAS.
@@ -3937,9 +4144,15 @@ module la_lapack_solve_lu_comp
            end do loop_40
            return
      end subroutine la_${ri}$gbtf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEEQU: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
      !> scale factors and C the column scale factors, chosen to try to make
@@ -4072,9 +4285,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$geequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEEQUB: computes row and column scalings intended to equilibrate an
      !> M-by-N matrix A and reduce its condition number.  R returns the row
      !> scale factors and C the column scale factors, chosen to try to make
@@ -4219,9 +4438,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$geequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETC2: computes an LU factorization, using complete pivoting, of the
      !> n-by-n matrix A. The factorization has the form A = P * L * U * Q,
      !> where P and Q are permutation matrices, L is lower triangular with
@@ -4306,9 +4531,15 @@ module la_lapack_solve_lu_comp
            jpiv(n) = n
            return
      end subroutine la_${ri}$getc2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETF2: computes an LU factorization of a general m-by-n matrix A
      !> using partial pivoting with row interchanges.
      !> The factorization has the form
@@ -4382,9 +4613,15 @@ module la_lapack_solve_lu_comp
            end do
            return
      end subroutine la_${ri}$getf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTTRF: computes an LU factorization of a complex tridiagonal matrix A
      !> using elimination with partial pivoting and row interchanges.
      !> The factorization has the form
@@ -4485,9 +4722,15 @@ module la_lapack_solve_lu_comp
            50 continue
            return
      end subroutine la_${ri}$gttrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTTS2: solves one of the systems of equations
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
      !> with a tridiagonal matrix A using the LU factorization computed
@@ -4658,9 +4901,15 @@ module la_lapack_solve_lu_comp
               end if
            end if
      end subroutine la_${ri}$gtts2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GBRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -4710,9 +4959,15 @@ module la_lapack_solve_lu_comp
            end do
            la_${ri}$la_gbrpvgrw = rpvgrw
      end function la_${ri}$la_gbrpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQGB: equilibrates a general M by N band matrix A with KL
      !> subdiagonals and KU superdiagonals using the row and scaling factors
      !> in the vectors R and C.
@@ -4783,9 +5038,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$laqgb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQGE: equilibrates a general M by N matrix A using the row and
      !> column scaling factors in the vectors R and C.
 
@@ -4852,9 +5113,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$laqge
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASWP: performs a series of row interchanges on the matrix A.
      !> One row interchange is initiated for each of rows K1 through K2 of A.
 
@@ -4921,9 +5188,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$laswp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBCON: estimates the reciprocal of the condition number of a complex
      !> general band matrix A, in either the 1-norm or the infinity-norm,
      !> using the LU factorization computed by ${ri.upper()}$GBTRF.
@@ -5062,9 +5335,15 @@ module la_lapack_solve_lu_comp
            40 continue
            return
      end subroutine la_${ri}$gbcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBTRF: computes an LU factorization of a complex m-by-n band matrix A
      !> using partial pivoting with row interchanges.
      !> This is the blocked version of the algorithm, calling Level 3 BLAS.
@@ -5314,9 +5593,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$gbtrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBTRS: solves a system of linear equations
      !> A * X = B,  A**T * X = B,  or  A**H * X = B
      !> with a general band matrix A using the LU factorization computed
@@ -5430,9 +5715,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$gbtrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GECON: estimates the reciprocal of the condition number of a general
      !> complex matrix A, in either the 1-norm or the infinity-norm, using
      !> the LU factorization computed by ${ri.upper()}$GETRF.
@@ -5543,9 +5834,15 @@ module la_lapack_solve_lu_comp
            20 continue
            return
      end subroutine la_${ri}$gecon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESC2: solves a system of linear equations
      !> A * X = scale* RHS
      !> with a general N-by-N matrix A using the LU factorization with
@@ -5609,9 +5906,15 @@ module la_lapack_solve_lu_comp
            call la_${ri}$laswp(1,rhs,lda,1,n - 1,jpiv,-1)
            return
      end subroutine la_${ri}$gesc2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETRF2: computes an LU factorization of a general M-by-N matrix A
      !> using partial pivoting with row interchanges.
      !> The factorization has the form
@@ -5728,9 +6031,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$getrf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETRI: computes the inverse of a matrix using the LU factorization
      !> computed by ${ri.upper()}$GETRF.
      !> This method inverts U and then computes inv(A) by solving the system
@@ -5833,9 +6142,15 @@ module la_lapack_solve_lu_comp
            work(1) = iws
            return
      end subroutine la_${ri}$getri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETRS: solves a system of linear equations
      !> A * X = B,  A**T * X = B,  or  A**H * X = B
      !> with a general N-by-N matrix A using the LU factorization computed
@@ -5905,9 +6220,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$getrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTTRS: solves one of the systems of equations
      !> A * X = B,  A**T * X = B,  or  A**H * X = B,
      !> with a tridiagonal matrix A using the LU factorization computed
@@ -5973,9 +6294,15 @@ module la_lapack_solve_lu_comp
               end do
            end if
      end subroutine la_${ri}$gttrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATDF: computes the contribution to the reciprocal Dif-estimate
      !> by solving for x in Z * x = b, where b is chosen such that the norm
      !> of x is as large as possible. It is assumed that LU decomposition
@@ -6088,9 +6415,15 @@ module la_lapack_solve_lu_comp
            call la_${ri}$lassq(n,rhs,1,rdscal,rdsum)
            return
      end subroutine la_${ri}$latdf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is banded, and provides
      !> error bounds and backward error estimates for the solution.
@@ -6297,9 +6630,15 @@ module la_lapack_solve_lu_comp
            end do loop_140
            return
      end subroutine la_${ri}$gbrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GERFS: improves the computed solution to a system of linear
      !> equations and provides error bounds and backward error estimates for
      !> the solution.
@@ -6497,9 +6836,15 @@ module la_lapack_solve_lu_comp
            end do loop_140
            return
      end subroutine la_${ri}$gerfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETRF: computes an LU factorization of a general M-by-N matrix A
      !> using partial pivoting with row interchanges.
      !> The factorization has the form
@@ -6578,9 +6923,15 @@ module la_lapack_solve_lu_comp
            end if
            return
      end subroutine la_${ri}$getrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTCON: estimates the reciprocal of the condition number of a complex
      !> tridiagonal matrix A using the LU factorization as computed by
      !> ${ri.upper()}$GTTRF.
@@ -6665,9 +7016,15 @@ module la_lapack_solve_lu_comp
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$gtcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GTRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is tridiagonal, and provides
      !> error bounds and backward error estimates for the solution.
@@ -6876,6 +7233,9 @@ module la_lapack_solve_lu_comp
            end do loop_110
            return
      end subroutine la_${ri}$gtrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_lu_comp

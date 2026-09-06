@@ -1,14 +1,19 @@
 
 module test_linalg
     use testdrive,only:new_unittest,unittest_type,error_type,check
-    use la_constants,only:sp,dp,qp,ilp,lk
+    use la_constants,only:sp,dp,xdp,qp,ilp,lk
     use linear_algebra,only:diag,eye
 
     implicit none
 
     real(sp),parameter :: sptol = 1000*epsilon(1._sp)
     real(dp),parameter :: dptol = 1000*epsilon(1._dp)
+#ifdef LA_WITH_XDP
+    real(xdp),parameter :: xdptol = 1000*epsilon(1._xdp)
+#endif
+#ifdef LA_WITH_QP
     real(qp),parameter :: qptol = 1000*epsilon(1._qp)
+#endif
 
 contains
 
@@ -18,10 +23,15 @@ contains
         type(unittest_type),allocatable,intent(out) :: testsuite(:)
 
         testsuite = [ &
-            new_unittest("eye",test_eye), &
             new_unittest("diag_rsp",test_diag_rsp), &
             new_unittest("diag_rdp",test_diag_rdp), &
-            new_unittest("diag_rqp",test_diag_rqp) &
+#ifdef LA_WITH_XDP
+            new_unittest("diag_rxdp",test_diag_rxdp), &
+#endif
+#ifdef LA_WITH_QP
+            new_unittest("diag_rqp",test_diag_rqp), &
+#endif
+            new_unittest("eye",test_eye) &
             ]
 
     end subroutine collect_linalg
@@ -90,6 +100,25 @@ contains
 
     end subroutine test_diag_rdp
 
+#ifdef LA_WITH_XDP
+    subroutine test_diag_rxdp(error)
+        !> Error handling
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(xdp) :: v(n),a(n,n),b(n,n)
+        integer :: i,j
+
+        v = [(i,i=1,n)]
+        a = diag(v)
+        b = reshape([((merge(i,0,i == j),i=1,n),j=1,n)], [n,n])
+        call check(error,all(a == b), &
+            "all(a == b) failed.")
+
+    end subroutine test_diag_rxdp
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_diag_rqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -105,6 +134,7 @@ contains
             "all(a == b) failed.")
 
     end subroutine test_diag_rqp
+#endif
 
 end module test_linalg
 

@@ -50,8 +50,14 @@ module la_schur
     !!
     interface schur
       #:for rk,rt,ri in ALL_KINDS_TYPES
+      #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+      #:endif
       module procedure la_${ri}$_schur
       module procedure la_real_eig_${ri}$_schur
+      #:if LA_GUARD[rk]
+#endif
+      #:endif
       #:endfor
     end interface schur
 
@@ -69,7 +75,13 @@ module la_schur
     !!
     interface schur_space
       #:for rk,rt,ri in ALL_KINDS_TYPES
+      #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+      #:endif
       module procedure get_schur_${ri}$_workspace
+      #:if LA_GUARD[rk]
+#endif
+      #:endif
       #:endfor
     end interface schur_space    
         
@@ -134,6 +146,9 @@ module la_schur
     
     
     #:for rk,rt,ri in ALL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine get_schur_${ri}$_workspace(a,lwork,err)
         !> Input matrix a[m,m]
         ${rt}$, intent(in), target :: a(:,:)
@@ -403,6 +418,9 @@ module la_schur
         call err0%handle(err)        
         
     end subroutine la_real_eig_${ri}$_schur
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 

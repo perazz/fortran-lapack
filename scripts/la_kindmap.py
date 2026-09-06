@@ -4,9 +4,9 @@
 A BLAS/LAPACK routine body is written for one precision.  `normalize` rewrites it into a
 kind-neutral form by replacing every token that encodes a precision with a role placeholder:
 
-    @RI@  own initial (s/d/q for a real routine, c/z/w for a complex one)
+    @RI@  own initial (s/d/x/q for a real routine, c/z/y/w for a complex one)
     @CI@  companion initial, the other type class at the same precision
-    @RK@  own kind (sp/dp/qp)
+    @RK@  own kind (sp/dp/xdp/qp)
     @RLI@ @RLK@ @CLI@   the same three, one precision down
     @RUI@ @RUK@ @CUI@   the same three, one precision up
     @PREC@ @PRECU@      the word a doc comment uses for the own precision, lower and upper case
@@ -21,12 +21,24 @@ import collections
 import os
 import re
 
-RI = ["s", "d", "q"]
-CI = ["c", "z", "w"]
-KND = ["sp", "dp", "qp"]
+RI = ["s", "d", "x", "q"]
+CI = ["c", "z", "y", "w"]
+KND = ["sp", "dp", "xdp", "qp"]
 LETTERS = RI + CI
+CLASS = "[%s]" % "".join(LETTERS)
+REAL_CLASS = "[%s]" % "".join(RI)
+CMPL_CLASS = "[%s]" % "".join(CI)
 INDEX = {k: i for i, k in enumerate(RI)}
 INDEX.update({k: i for i, k in enumerate(CI)})
+KIND_OF = {letter: KND[INDEX[letter]] for letter in LETTERS}
+
+# The precision below each kind, and the precisions above it.  xdp is a side branch: it sits
+# above dp and has nothing above it, so qp keeps dp below it and the mixed-precision routines of
+# qp keep the names they have, while dp has two kinds above it.
+DOWN = {"sp": None, "dp": "sp", "xdp": "dp", "qp": "dp"}
+UP = {"sp": ["dp"], "dp": ["xdp", "qp"], "xdp": [], "qp": []}
+# The xdp spelling of a qp routine, letter by letter.
+MIRROR = {"q": "x", "w": "y"}
 
 PLACEHOLDERS = {
     "@RI@": "ri", "@CI@": "ci", "@RK@": "rk",
@@ -39,7 +51,7 @@ PLACEHOLDERS = {
 KINDFREE = set("""lsame lsamen xerbla xerbla_array ilaenv ilaenv2stage ilatrans ilauplo
 ilaprec ieeeck iparmq iparam2stage chla_transtype iladiag""".split())
 
-PRECISION = {"sp": "single", "dp": "double", "qp": "quad"}
+PRECISION = {"sp": "single", "dp": "double", "xdp": "extended", "qp": "quad"}
 
 TWO_RC = ("asum", "nrm2", "sum1")      # scasum, dznrm2, ...:  real result over complex data
 TWO_CR = ("rot", "scal", "rscl")       # csrot, zdscal, ...:   complex data, real scalar
@@ -50,23 +62,24 @@ def roles(letter):
     """Placeholder map for a body whose own kind letter is `letter`.
 
     @R..I@ always stands for the initial of the routine's own type class and @C..I@ for the
-    companion class, so a complex body maps c/z/w onto @R..I@ exactly as a real body maps s/d/q.
+    companion class, so a complex body maps c/z/y/w onto @R..I@ exactly as a real body maps
+    s/d/x/q.  Only the kind itself and its two neighbours have a role; a precision further away
+    keeps its own letter.
     """
     i = INDEX[letter]
     own, other = (CI, RI) if letter in CI else (RI, CI)
-    label = {0: "", -1: "L", 1: "U", -2: "2L", 2: "2U"}
     out = {}
-    for j in range(3):
-        d = j - i
-        if d not in label:
-            continue
-        out[own[j]] = "@R%sI@" % label[d]
-        out[other[j]] = "@C%sI@" % label[d]
-        out[KND[j]] = "@R%sK@" % label[d]
+    below = [DOWN[KND[i]]] if DOWN[KND[i]] else []
+    for label, kinds in (("", [KND[i]]), ("L", below), ("U", UP[KND[i]])):
+        for kind in kinds:
+            j = KND.index(kind)
+            out[own[j]] = "@R%sI@" % label
+            out[other[j]] = "@C%sI@" % label
+            out[kind] = "@R%sK@" % label
     return out
 
 
-MODULE_NAME = re.compile(r"(lapack|blas)_[sdqczw]")
+MODULE_NAME = re.compile(r"(lapack|blas)_%s" % CLASS)
 
 
 def map_name(stem, rl, known=None):
@@ -82,21 +95,21 @@ def map_name(stem, rl, known=None):
         return stem
     sub = lambda ch: rl.get(ch, ch)
     for pattern, build in (
-        (r"(lapack|blas)_([sdqczw])", lambda m: m.group(1) + "_" + sub(m.group(2))),
-        (r"(selctg|select)_([sdqczw])", lambda m: m.group(1) + "_" + sub(m.group(2))),
-        (r"i([sdqczw])(amax|max1)", lambda m: "i" + sub(m.group(1)) + m.group(2)),
-        (r"ila([sdqczw])(lc|lr|iag)", lambda m: "ila" + sub(m.group(1)) + m.group(2)),
-        (r"([sdq])([czw])(%s)" % "|".join(TWO_RC),
+        (r"(lapack|blas)_(%s)" % CLASS, lambda m: m.group(1) + "_" + sub(m.group(2))),
+        (r"(selctg|select)_(%s)" % CLASS, lambda m: m.group(1) + "_" + sub(m.group(2))),
+        (r"i(%s)(amax|max1)" % CLASS, lambda m: "i" + sub(m.group(1)) + m.group(2)),
+        (r"ila(%s)(lc|lr|iag)" % CLASS, lambda m: "ila" + sub(m.group(1)) + m.group(2)),
+        (r"(%s)(%s)(%s)" % (REAL_CLASS, CMPL_CLASS, "|".join(TWO_RC)),
          lambda m: sub(m.group(1)) + sub(m.group(2)) + m.group(3)),
-        (r"([czw])([sdq])(%s)" % "|".join(TWO_CR),
+        (r"(%s)(%s)(%s)" % (CMPL_CLASS, REAL_CLASS, "|".join(TWO_CR)),
          lambda m: sub(m.group(1)) + sub(m.group(2)) + m.group(3)),
-        (r"([sdqczw])(lag2|lat2)([sdqczw])",
+        (r"(%s)(lag2|lat2)(%s)" % (CLASS, CLASS),
          lambda m: sub(m.group(1)) + m.group(2) + sub(m.group(3))),
-        (r"([sdq])([sdq])(%s)" % "|".join(MIXED),
+        (r"(%s)(%s)(%s)" % (REAL_CLASS, REAL_CLASS, "|".join(MIXED)),
          lambda m: sub(m.group(1)) + sub(m.group(2)) + m.group(3)),
-        (r"([czw])([czw])(%s)" % "|".join(MIXED),
+        (r"(%s)(%s)(%s)" % (CMPL_CLASS, CMPL_CLASS, "|".join(MIXED)),
          lambda m: sub(m.group(1)) + sub(m.group(2)) + m.group(3)),
-        (r"([sdqczw])(.*)", lambda m: sub(m.group(1)) + m.group(2)),
+        (r"(%s)(.*)" % CLASS, lambda m: sub(m.group(1)) + m.group(2)),
     ):
         m = re.fullmatch(pattern, low)
         if m:
@@ -159,10 +172,15 @@ def lower_precision_word(text, letter):
     Only the lower-case spaced form is templated: that is the one the per-kind copies rewrote,
     while the hyphenated form and the upper-case doc block keep the reference spelling.
     """
-    i = INDEX[letter]
-    if i == 0:
+    below = DOWN[KND[INDEX[letter]]]
+    if below is None:
         return text
-    return re.sub(r"\b%s(?= precision\b)" % PRECISION[KND[i - 1]], "@PRECL@", text)
+    return re.sub(r"\b%s(?= precision\b)" % PRECISION[below], "@PRECL@", text)
+
+
+def mirror_name(stem):
+    """The xdp spelling of a qp routine stem: q becomes x and w becomes y, kind letters only."""
+    return map_name(stem, MIRROR)
 
 
 def strip_comment(line):

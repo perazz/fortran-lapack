@@ -21,6 +21,9 @@ module la_lapack_eigv_tridiag
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laed5
      public :: la_${ri}$laed6
      public :: la_${ri}$steqr
@@ -32,17 +35,29 @@ module la_lapack_eigv_tridiag
      public :: la_${ri}$laed2
      public :: la_${ri}$laed1
      public :: la_${ri}$laed0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laed8
      public :: la_${ri}$steqr
      public :: la_${ri}$laed7
      public :: la_${ri}$laed0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> This subroutine computes the I-th eigenvalue of a symmetric rank-one
      !> modification of a 2-by-2 diagonal matrix
      !> diag( D )  +  RHO * Z * transpose(Z) .
@@ -114,9 +129,15 @@ module la_lapack_eigv_tridiag
            end if
            return
      end subroutine la_${ri}$laed5
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED6: computes the positive or negative root (closest to the origin)
      !> of
      !> z(1)        z(2)        z(3)
@@ -342,9 +363,15 @@ module la_lapack_eigv_tridiag
            if (scale) tau = tau*sclinv
            return
      end subroutine la_${ri}$laed6
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEQR: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric tridiagonal matrix using the implicit QL or QR method.
      !> The eigenvectors of a full or band symmetric matrix can also be found
@@ -669,9 +696,15 @@ module la_lapack_eigv_tridiag
            190 continue
            return
      end subroutine la_${ri}$steqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> This subroutine computes the I-th updated eigenvalue of a symmetric
      !> rank-one modification to a diagonal matrix whose elements are
      !> given in the array d, and that
@@ -1276,9 +1309,15 @@ module la_lapack_eigv_tridiag
            250 continue
            return
      end subroutine la_${ri}$laed4
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED8: merges the two sets of eigenvalues together into a single
      !> sorted set.  Then it tries to deflate the size of the problem.
      !> There are two ways in which deflation can occur:  when two or more
@@ -1502,9 +1541,15 @@ module la_lapack_eigv_tridiag
            end if
            return
      end subroutine la_${ri}$laed8
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED9: finds the roots of the secular equation, as defined by the
      !> values in D, Z, and RHO, between KSTART and KSTOP.  It makes the
      !> appropriate calls to ${ri.upper()}$LAED4 and then stores the new matrix of
@@ -1610,9 +1655,15 @@ module la_lapack_eigv_tridiag
            120 continue
            return
      end subroutine la_${ri}$laed9
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED3: finds the roots of the secular equation, as defined by the
      !> values in D, W, and RHO, between 1 and K.  It makes the
      !> appropriate calls to ${ri.upper()}$LAED4 and then updates the eigenvectors by
@@ -1748,9 +1799,15 @@ module la_lapack_eigv_tridiag
            120 continue
            return
      end subroutine la_${ri}$laed3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED7: computes the updated eigensystem of a diagonal
      !> matrix after modification by a rank-one symmetric matrix. This
      !> routine is used only for the eigenproblem which requires all
@@ -1885,9 +1942,15 @@ module la_lapack_eigv_tridiag
            30 continue
            return
      end subroutine la_${ri}$laed7
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED2: merges the two sets of eigenvalues together into a single
      !> sorted set.  Then it tries to deflate the size of the problem.
      !> There are two ways in which deflation can occur:  when two or more
@@ -2145,9 +2208,15 @@ module la_lapack_eigv_tridiag
            190 continue
            return
      end subroutine la_${ri}$laed2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED1: computes the updated eigensystem of a diagonal
      !> matrix after modification by a rank-one symmetric matrix.  This
      !> routine is used only for the eigenproblem which requires all
@@ -2255,9 +2324,15 @@ module la_lapack_eigv_tridiag
            20 continue
            return
      end subroutine la_${ri}$laed1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED0: computes all eigenvalues and corresponding eigenvectors of a
      !> symmetric tridiagonal matrix using the divide and conquer method.
 
@@ -2466,9 +2541,15 @@ module la_lapack_eigv_tridiag
            140 continue
            return
      end subroutine la_${ri}$laed0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$LAED8: merges the two sets of eigenvalues together into a single
 #:else
@@ -2676,9 +2757,15 @@ module la_lapack_eigv_tridiag
            end if
            return
      end subroutine la_${ri}$laed8
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEQR: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric tridiagonal matrix using the implicit QL or QR method.
      !> The eigenvectors of a full or band complex Hermitian matrix can also
@@ -3005,9 +3092,15 @@ module la_lapack_eigv_tridiag
            end if
            return
      end subroutine la_${ri}$steqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAED7: computes the updated eigensystem of a diagonal
      !> matrix after modification by a rank-one symmetric matrix. This
      !> routine is used only for the eigenproblem which requires all
@@ -3142,9 +3235,15 @@ module la_lapack_eigv_tridiag
            end if
            return
      end subroutine la_${ri}$laed7
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Using the divide and conquer method, ${ri.upper()}$LAED0: computes all eigenvalues
      !> of a symmetric tridiagonal matrix which is one diagonal block of
      !> those from reducing a dense or band Hermitian matrix and
@@ -3327,6 +3426,9 @@ module la_lapack_eigv_tridiag
            call la_${ci}$copy(n,rwork,1,d,1)
            return
      end subroutine la_${ri}$laed0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_tridiag

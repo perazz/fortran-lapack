@@ -21,10 +21,18 @@ module test_la_eye
         call test_d_diag_scalar(error)
         call test_d_diag_array(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_x_eye_allocation(error)
+        call test_x_diag_scalar(error)
+        call test_x_diag_array(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_q_eye_allocation(error)
         call test_q_diag_scalar(error)
         call test_q_diag_array(error)
         if (error) return
+#endif
         call test_c_eye_allocation(error)
         call test_c_diag_scalar(error)
         call test_c_diag_array(error)
@@ -33,10 +41,18 @@ module test_la_eye
         call test_z_diag_scalar(error)
         call test_z_diag_array(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_y_eye_allocation(error)
+        call test_y_diag_scalar(error)
+        call test_y_diag_array(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_w_eye_allocation(error)
         call test_w_diag_scalar(error)
         call test_w_diag_array(error)
         if (error) return
+#endif
 
         call cpu_time(t1)
 
@@ -240,6 +256,106 @@ module test_la_eye
 
     end subroutine test_d_diag_array
 
+#ifdef LA_WITH_XDP
+    !> Identity matrix: test allocation
+    subroutine test_x_eye_allocation(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i
+
+        real(xdp),allocatable :: a(:,:)
+        real(xdp) :: dummy
+
+        !> Should be error
+        a = eye(-1,mold=dummy,err=state)
+        error = .not. state%error()
+        if (error) return
+
+        !> Should be error
+        a = eye(5,-1,mold=dummy,err=state)
+        error = .not. state%error()
+        if (error) return
+
+        !> Should be ok
+        a = eye(0,5,mold=dummy,err=state)
+        error = state%error() .or. any(shape(a) /= [0,5])
+        if (error) return
+
+        !> Test identity values
+        a = eye(5,10,mold=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=xdp),kind=ilp) /= 5
+        if (error) return
+
+        a = eye(10,5,mold=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=xdp),kind=ilp) /= 5
+        if (error) return
+
+    end subroutine test_x_eye_allocation
+
+    !> Diagonal matrix from scalar
+    subroutine test_x_diag_scalar(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i
+
+        real(xdp),allocatable :: a(:,:)
+        real(xdp) :: dummy
+
+        dummy = 2.0_xdp
+
+        !> Should be error
+        a = diag(-1,source=dummy,err=state)
+        error = .not. state%error()
+        if (error) return
+
+        !> Should be ok
+        a = diag(0,source=dummy,err=state)
+        error = state%error() .or. any(shape(a) /= 0)
+        if (error) return
+
+        !> Test identity values
+        a = diag(5,source=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=xdp),kind=ilp) /= 10
+
+        a = diag(12,source=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=xdp),kind=ilp) /= 24
+        if (error) return
+
+    end subroutine test_x_diag_scalar
+
+    !> Diagonal matrix from array
+    subroutine test_x_diag_array(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i
+
+        integer(ilp),parameter :: array_sizes(*) = [1,2,5,10,20,50,100]
+        real(xdp),allocatable :: a(:,:),darr(:)
+
+        do i = 1,size(array_sizes)
+
+            allocate (darr(array_sizes(i)))
+            darr = 2.0_xdp
+
+            !> Test with several sizes
+            a = diag(source=darr,err=state)
+            error = state%error() .or. any(shape(a) /= size(darr)) .or. sum(a) /= sum(darr)
+            if (error) return
+
+            deallocate (darr)
+
+        end do
+
+    end subroutine test_x_diag_array
+#endif
+
+#ifdef LA_WITH_QP
     !> Identity matrix: test allocation
     subroutine test_q_eye_allocation(error)
         logical,intent(out) :: error
@@ -336,6 +452,7 @@ module test_la_eye
         end do
 
     end subroutine test_q_diag_array
+#endif
 
     !> Identity matrix: test allocation
     subroutine test_c_eye_allocation(error)
@@ -531,6 +648,106 @@ module test_la_eye
 
     end subroutine test_z_diag_array
 
+#ifdef LA_WITH_XDP
+    !> Identity matrix: test allocation
+    subroutine test_y_eye_allocation(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i
+
+        complex(xdp),allocatable :: a(:,:)
+        complex(xdp) :: dummy
+
+        !> Should be error
+        a = eye(-1,mold=dummy,err=state)
+        error = .not. state%error()
+        if (error) return
+
+        !> Should be error
+        a = eye(5,-1,mold=dummy,err=state)
+        error = .not. state%error()
+        if (error) return
+
+        !> Should be ok
+        a = eye(0,5,mold=dummy,err=state)
+        error = state%error() .or. any(shape(a) /= [0,5])
+        if (error) return
+
+        !> Test identity values
+        a = eye(5,10,mold=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=xdp),kind=ilp) /= 5
+        if (error) return
+
+        a = eye(10,5,mold=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=xdp),kind=ilp) /= 5
+        if (error) return
+
+    end subroutine test_y_eye_allocation
+
+    !> Diagonal matrix from scalar
+    subroutine test_y_diag_scalar(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i
+
+        complex(xdp),allocatable :: a(:,:)
+        complex(xdp) :: dummy
+
+        dummy = 2.0_xdp
+
+        !> Should be error
+        a = diag(-1,source=dummy,err=state)
+        error = .not. state%error()
+        if (error) return
+
+        !> Should be ok
+        a = diag(0,source=dummy,err=state)
+        error = state%error() .or. any(shape(a) /= 0)
+        if (error) return
+
+        !> Test identity values
+        a = diag(5,source=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=xdp),kind=ilp) /= 10
+
+        a = diag(12,source=dummy,err=state)
+        error = state%error() .or. nint(real(sum(a),kind=xdp),kind=ilp) /= 24
+        if (error) return
+
+    end subroutine test_y_diag_scalar
+
+    !> Diagonal matrix from array
+    subroutine test_y_diag_array(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i
+
+        integer(ilp),parameter :: array_sizes(*) = [1,2,5,10,20,50,100]
+        complex(xdp),allocatable :: a(:,:),darr(:)
+
+        do i = 1,size(array_sizes)
+
+            allocate (darr(array_sizes(i)))
+            darr = 2.0_xdp
+
+            !> Test with several sizes
+            a = diag(source=darr,err=state)
+            error = state%error() .or. any(shape(a) /= size(darr)) .or. sum(a) /= sum(darr)
+            if (error) return
+
+            deallocate (darr)
+
+        end do
+
+    end subroutine test_y_diag_array
+#endif
+
+#ifdef LA_WITH_QP
     !> Identity matrix: test allocation
     subroutine test_w_eye_allocation(error)
         logical,intent(out) :: error
@@ -627,6 +844,7 @@ module test_la_eye
         end do
 
     end subroutine test_w_diag_array
+#endif
 
 end module test_la_eye
 

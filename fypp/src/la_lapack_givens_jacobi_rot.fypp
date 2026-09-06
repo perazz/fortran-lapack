@@ -10,25 +10,40 @@ module la_lapack_givens_jacobi_rot
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lar2v
      public :: la_${ri}$largv
      public :: la_${ri}$lartg
      public :: la_${ri}$lartgp
      public :: la_${ri}$lartv
      public :: la_${ri}$lasr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lacrt
      public :: la_${ri}$lar2v
      public :: la_${ri}$lartg
      public :: la_${ri}$lartv
      public :: la_${ri}$lasr
      public :: la_${ri}$largv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAR2V: applies a vector of real plane rotations from both sides to
      !> a sequence of 2-by-2 real symmetric matrices, defined by the elements
      !> of the vectors x, y and z. For i = 1,2,...,n
@@ -71,9 +86,15 @@ module la_lapack_givens_jacobi_rot
            end do
            return
      end subroutine la_${ri}$lar2v
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARGV: generates a vector of real plane rotations, determined by
      !> elements of the real vectors x and y. For i = 1,2,...,n
      !> (  c(i)  s(i) ) ( x(i) ) = ( a(i) )
@@ -128,9 +149,15 @@ module la_lapack_givens_jacobi_rot
            end do loop_10
            return
      end subroutine la_${ri}$largv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> !
      !>
      !> ${ri.upper()}$LARTG: generates a plane rotation so that
@@ -204,9 +231,15 @@ module la_lapack_givens_jacobi_rot
         end if
         return
      end subroutine la_${ri}$lartg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARTGP: generates a plane rotation so that
      !> [  CS  SN  ]  .  [ F ]  =  [ R ]   where CS**2 + SN**2 = 1.
      !> [ -SN  CS  ]     [ G ]     [ 0 ]
@@ -299,9 +332,15 @@ module la_lapack_givens_jacobi_rot
            end if
            return
      end subroutine la_${ri}$lartgp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARTV: applies a vector of real plane rotations to elements of the
      !> real vectors x and y. For i = 1,2,...,n
      !> ( x(i) ) := (  c(i)  s(i) ) ( x(i) )
@@ -335,9 +374,15 @@ module la_lapack_givens_jacobi_rot
            end do
            return
      end subroutine la_${ri}$lartv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASR: applies a sequence of plane rotations to a real matrix A,
      !> from either the left or the right.
      !> When SIDE = 'L', the transformation takes the form
@@ -597,9 +642,15 @@ module la_lapack_givens_jacobi_rot
            end if
            return
      end subroutine la_${ri}$lasr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACRT: performs the operation
      !> (  c  s )( x )  ==> ( x )
      !> ( -s  c )( y )      ( y )
@@ -643,9 +694,15 @@ module la_lapack_givens_jacobi_rot
            end do
            return
      end subroutine la_${ri}$lacrt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAR2V: applies a vector of complex plane rotations with real cosines
      !> from both sides to a sequence of 2-by-2 complex Hermitian matrices,
      !> defined by the elements of the vectors x, y and z. For i = 1,2,...,n
@@ -703,9 +760,15 @@ module la_lapack_givens_jacobi_rot
            end do
            return
      end subroutine la_${ri}$lar2v
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> !
      !>
      !> ${ri.upper()}$LARTG: generates a plane rotation so that
@@ -830,9 +893,15 @@ module la_lapack_givens_jacobi_rot
         end if
         return
      end subroutine la_${ri}$lartg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARTV: applies a vector of complex plane rotations with real cosines
      !> to elements of the complex vectors x and y. For i = 1,2,...,n
      !> ( x(i) ) := (        c(i)   s(i) ) ( x(i) )
@@ -869,9 +938,15 @@ module la_lapack_givens_jacobi_rot
            end do
            return
      end subroutine la_${ri}$lartv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASR: applies a sequence of real plane rotations to a complex matrix
      !> A, from either the left or the right.
      !> When SIDE = 'L', the transformation takes the form
@@ -1132,9 +1207,15 @@ module la_lapack_givens_jacobi_rot
            end if
            return
      end subroutine la_${ri}$lasr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LARGV: generates a vector of complex plane rotations with real
      !> cosines, determined by elements of the complex vectors x and y.
      !> For i = 1,2,...,n
@@ -1292,6 +1373,9 @@ module la_lapack_givens_jacobi_rot
            end do loop_60
            return
      end subroutine la_${ri}$largv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_givens_jacobi_rot
