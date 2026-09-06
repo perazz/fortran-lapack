@@ -20,7 +20,7 @@ module la_constants
      !> Internal logical kind
      integer,parameter :: lk = kind(.true.)
      
-     !> 32-bit integer size type 
+     !> 32-bit integer size type
      integer,parameter :: ilp = int32
      
      private :: int32,int64
