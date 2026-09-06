@@ -39,6 +39,22 @@ module la_lapack
      use la_lapack_orthogonal_factors_rz
      use la_lapack_svd_bidiag_qr
      use la_lapack_svd_comp2
+     use la_lapack_eigv_comp
+     use la_lapack_eigv_comp2
+     use la_lapack_eigv_gen
+     use la_lapack_eigv_gen2
+     use la_lapack_eigv_gen3
+     use la_lapack_eigv_svd_bidiag_dc
+     use la_lapack_eigv_svd_drivers
+     use la_lapack_eigv_svd_drivers2
+     use la_lapack_eigv_sym
+     use la_lapack_eigv_sym_comp
+     use la_lapack_eigv_tridiag
+     use la_lapack_eigv_tridiag2
+     use la_lapack_eigv_tridiag3
+     use la_lapack_lsq
+     use la_lapack_lsq_aux
+     use la_lapack_svd_comp
      implicit none(type,external)
      public
 

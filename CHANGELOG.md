@@ -47,6 +47,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `la_lapack_lsq_constrained`, `la_lapack_svd_comp2`,
   `la_lapack_svd_bidiag_qr`, `la_lapack_eigv_gen_aux` and
   `la_lapack_eigv_gen_hess`. The `la_lapack` generic interfaces are unchanged.
+- The LAPACK eigenvalue, singular-value and least-squares drivers are
+  generated from kind-templated fypp topic modules instead of the six per-kind
+  monoliths: `la_lapack_eigv_sym{,_comp}`, `la_lapack_eigv_tridiag{,2,3}`,
+  `la_lapack_eigv_comp{,2}`, `la_lapack_eigv_gen{,2,3}`,
+  `la_lapack_eigv_svd_{drivers,drivers2,bidiag_dc}`, `la_lapack_svd_comp`,
+  `la_lapack_lsq` and `la_lapack_lsq_aux`. The `la_lapack` generic interfaces
+  are unchanged.
 - The `generated-sources` continuous-integration job runs
   `scripts/fypp_deploy.py --check` and fails on any drift between a template
   and its committed output.

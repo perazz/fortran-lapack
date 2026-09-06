@@ -132,13 +132,43 @@ MODULE_DOC = {
                                   " tests",
     "la_lapack_cosine_sine": "Cosine-sine decomposition: bidiagonal block form, simultaneous"
                              " bidiagonalization, row and column permutations",
+    "la_lapack_eigv_comp": "Generalized nonsymmetric eigenproblem components: balancing,"
+                             " Hessenberg-triangular reduction, QZ iteration",
+    "la_lapack_eigv_comp2": "Generalized nonsymmetric eigenproblem components:"
+                              " eigenvectors, block swaps, deflating subspaces, Sylvester"
+                              " solves",
+    "la_lapack_eigv_gen": "Nonsymmetric eigenvalue, Schur and generalized Schur drivers",
+    "la_lapack_eigv_gen2": "Nonsymmetric eigenproblem components: Schur factorization,"
+                              " eigenvectors, reordering and condition numbers",
+    "la_lapack_eigv_gen3": "Nonsymmetric eigenproblem kernels: multishift QR and QZ"
+                              " sweeps with aggressive early deflation",
     "la_lapack_eigv_gen_aux": "Nonsymmetric eigenproblem helpers: 2-by-2 standardization,"
                               " Sylvester solves, diagonal block swaps",
     "la_lapack_eigv_gen_hess": "Hessenberg reduction: balancing, back-transformation, orthogonal"
                                " factor generation",
+    "la_lapack_eigv_svd_bidiag_dc": "Bidiagonal singular values by divide and conquer,"
+                                      " with its secular-equation and merge kernels",
+    "la_lapack_eigv_svd_drivers": "SVD drivers: QR iteration and the rank-revealing"
+                                    " preconditioned variant",
+    "la_lapack_eigv_svd_drivers2": "SVD drivers: divide and conquer, Jacobi and"
+                                     " preconditioned Jacobi",
+    "la_lapack_eigv_sym": "Symmetric and Hermitian eigenvalue drivers: dense, packed,"
+                             " banded and generalized problems",
+    "la_lapack_eigv_sym_comp": "Symmetric eigenproblem components: tridiagonal and band"
+                                  " reductions, generalized to standard form",
+    "la_lapack_eigv_tridiag": "Symmetric tridiagonal eigenvalues: divide and conquer,"
+                                 " rank-one updates, implicit QL and QR",
+    "la_lapack_eigv_tridiag2": "Symmetric tridiagonal eigenvalues: MRRR representation"
+                                  " tree, bisection, eigenvector generation",
+    "la_lapack_eigv_tridiag3": "Symmetric tridiagonal eigenvalue drivers: divide and"
+                                  " conquer, MRRR, bisection and inverse iteration",
     "la_lapack_givens_jacobi_rot": "Givens and Jacobi plane rotations",
     "la_lapack_householder_reflectors": "Householder reflectors: generation, blocking,"
                                         " application",
+    "la_lapack_lsq": "Least-squares drivers: QR, complete orthogonal, SVD and"
+                        " divide-and-conquer solutions",
+    "la_lapack_lsq_aux": "Least-squares helpers: incremental condition estimation and"
+                            " divide-and-conquer back-substitution",
     "la_lapack_lsq_constrained": "Constrained least squares: equality constraints and the"
                                  " general Gauss-Markov model",
     "la_lapack_orthogonal_factors_ql": "LQ and QL factorizations: blocked, short-wide and"
@@ -169,6 +199,8 @@ MODULE_DOC = {
                                 " refinement",
     "la_lapack_svd_bidiag_qr": "Bidiagonal singular values: implicit QR sweep and the dqds"
                                " algorithm",
+    "la_lapack_svd_comp": "SVD components: bidiagonal reduction and its orthogonal"
+                             " factors, Jacobi sweeps, generalized SVD",
     "la_lapack_svd_comp2": "SVD components: bidiagonal reduction, 2-by-2 singular values, Jacobi"
                            " generators",
     "la_lapack_others_sm": "Extra-precise refinement helpers: condition numbers and pivot growth",

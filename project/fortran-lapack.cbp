@@ -135,17 +135,62 @@
 		<Unit filename="../src/la_lapack_d.f90">
 			<Option weight="23" />
 		</Unit>
+		<Unit filename="../src/la_lapack_eigv_comp.f90">
+			<Option weight="16" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_comp2.f90">
+			<Option weight="16" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_gen.f90">
+			<Option weight="19" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_gen2.f90">
+			<Option weight="18" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_gen3.f90">
+			<Option weight="17" />
+		</Unit>
 		<Unit filename="../src/la_lapack_eigv_gen_aux.f90">
 			<Option weight="13" />
 		</Unit>
 		<Unit filename="../src/la_lapack_eigv_gen_hess.f90">
 			<Option weight="14" />
 		</Unit>
+		<Unit filename="../src/la_lapack_eigv_svd_bidiag_dc.f90">
+			<Option weight="17" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_svd_drivers.f90">
+			<Option weight="16" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_svd_drivers2.f90">
+			<Option weight="18" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_sym.F90">
+			<Option weight="18" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_sym_comp.f90">
+			<Option weight="15" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_tridiag.f90">
+			<Option weight="16" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_tridiag2.f90">
+			<Option weight="15" />
+		</Unit>
+		<Unit filename="../src/la_lapack_eigv_tridiag3.f90">
+			<Option weight="17" />
+		</Unit>
 		<Unit filename="../src/la_lapack_givens_jacobi_rot.f90">
 			<Option weight="12" />
 		</Unit>
 		<Unit filename="../src/la_lapack_householder_reflectors.f90">
 			<Option weight="12" />
+		</Unit>
+		<Unit filename="../src/la_lapack_lsq.f90">
+			<Option weight="19" />
+		</Unit>
+		<Unit filename="../src/la_lapack_lsq_aux.f90">
+			<Option weight="18" />
 		</Unit>
 		<Unit filename="../src/la_lapack_lsq_constrained.f90">
 			<Option weight="14" />
@@ -203,6 +248,9 @@
 		</Unit>
 		<Unit filename="../src/la_lapack_svd_bidiag_qr.f90">
 			<Option weight="14" />
+		</Unit>
+		<Unit filename="../src/la_lapack_svd_comp.f90">
+			<Option weight="15" />
 		</Unit>
 		<Unit filename="../src/la_lapack_svd_comp2.f90">
 			<Option weight="13" />
