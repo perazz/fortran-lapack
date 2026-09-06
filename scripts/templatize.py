@@ -7,6 +7,7 @@
     python3 scripts/templatize.py --library lapack --extract --module ...# drop the converted
                                                                          # routines from the
                                                                          # per-kind sources
+    python3 scripts/templatize.py --library lapack --uses                # imports left behind
     python3 scripts/templatize.py --rename                               # renamed call sites
     python3 scripts/templatize.py --blas-interfaces                      # umbrella data table
 
@@ -88,6 +89,7 @@ LIBRARIES = {
         "sources": _sources("la_blas"),
         "donor": {"real": ("d", "src/la_blas_d.f90"), "complex": ("z", "src/la_blas_z.f90")},
         "probe": {"real": ("s", "src/la_blas_s.f90"), "complex": ("c", "src/la_blas_c.f90")},
+        "umbrella": "src/la_blas.F90",
         "aux_module": "la_blas_aux",
         "aux_donor": {("iamax", "real"): "idamax", ("iamax", "complex"): "izamax",
                       ("cabs1", "real"): "dcabs1"},
@@ -97,6 +99,7 @@ LIBRARIES = {
         "sources": _sources("la_lapack"),
         "donor": {"real": ("d", "src/la_lapack_d.f90"), "complex": ("z", "src/la_lapack_z.f90")},
         "probe": {"real": ("s", "src/la_lapack_s.f90"), "complex": ("c", "src/la_lapack_c.f90")},
+        "umbrella": "src/la_lapack.f90",
         "aux_module": "la_lapack_aux",
         "aux_donor": {("ilalc", "real"): "iladlc", ("ilalc", "complex"): "ilazlc",
                       ("ilalr", "real"): "iladlr", ("ilalr", "complex"): "ilazlr",
@@ -138,7 +141,7 @@ MODULE_DOC = {
 CONSTANTS = ("negone zero half one two three four eight ten czero chalf cone cnegone "
              "maxexp minexp rradix ulp eps safmin safmax smlnum bignum rtmin rtmax "
              "tsml tbig ssml sbig").split()
-SIGNATURE = re.compile(r"^(\s*)\S.*\b(?:subroutine|function)\s+la_")
+SIGNATURE = re.compile(r"^([ \t]*)(?!!)(?!end\b)[^!\n]*\b(?:subroutine|function)\s+la_")
 DECLARATION = re.compile(r"^\s*(?:real|complex|integer|logical|character)\s*(?:\([^)]*\))?"
                          r"\s*(?:,[^:]*)?::\s*(.*)$")
 WORD = re.compile(r"[a-z_][a-z0-9_]*")
@@ -156,6 +159,38 @@ def _logical_lines(text):
     return out
 
 
+def declared_entities(entity_list):
+    """The names an entity-declaration list declares.
+
+    Only the entity names count: an array spec, a character length and above all a `parameter`
+    initializer (`real(sp),parameter :: r = one/ipw2`) mention names the declaration reads rather
+    than declares, and reading one of them is exactly what makes the import necessary.
+    """
+    items, depth, quote, item = [], 0, "", []
+    for ch in entity_list:
+        if quote:
+            if ch == quote:
+                quote = ""
+        elif ch in "'\"":
+            quote = ch
+        elif ch in "([":
+            depth += 1
+        elif ch in ")]":
+            depth -= 1
+        elif ch == "," and depth == 0:
+            items.append("".join(item))
+            item = []
+            continue
+        item.append(ch)
+    items.append("".join(item))
+    names = set()
+    for item in items:
+        m = WORD.match(item.strip())
+        if m:
+            names.add(m.group(0))
+    return names
+
+
 def constants_used(text):
     """The constants of la_constants_<kind> a body reads, and the ones it declares itself."""
     lines = _logical_lines(text)
@@ -163,7 +198,7 @@ def constants_used(text):
     for line in lines:
         m = DECLARATION.match(line)
         if m:
-            declared |= set(WORD.findall(m.group(1)))
+            declared |= declared_entities(m.group(1))
     referenced = set(WORD.findall("\n".join(lines)))
     return ({c for c in CONSTANTS if c in referenced and c not in declared},
             {c for c in CONSTANTS if c in declared})
@@ -190,13 +225,16 @@ def needs_constants(record):
 
 
 def insert_use(text, kind, names):
-    """Put `use la_constants_<kind>` right after the signature line."""
+    """Put `use la_constants_<kind>` right after the signature, continuation lines included."""
     lines = text.split("\n")
     for i, line in enumerate(lines):
         m = SIGNATURE.match(line)
         if not m:
             continue
-        lines.insert(i + 1, m.group(1) + "   use la_constants_" + kind + names)
+        last = i
+        while last + 1 < len(lines) and K.strip_comment(lines[last]).rstrip().endswith("&"):
+            last += 1
+        lines.insert(last + 1, m.group(1) + "   use la_constants_" + kind + names)
         return "\n".join(lines)
     raise SystemExit("templatize: no signature line in\n" + text[:200])
 
@@ -663,6 +701,51 @@ def _drop_public(text, name):
                   % re.escape(name), "", text)
 
 
+def library_of(module):
+    for cfg in LIBRARIES.values():
+        if module.startswith(cfg["prefix"]):
+            return cfg
+    return None
+
+
+IMPLICIT = re.compile(r"(?m)^([ \t]*)implicit none\(type,external\)[ \t]*$")
+
+
+def add_uses(args):
+    """Give the per-kind sources and the umbrella a `use` of every topic module they now call."""
+    cfg = LIBRARIES[args.library]
+    rows = read_modules(args.modules)
+    converted = {m for _, _, m, _ in rows
+                 if os.path.exists(os.path.join(ROOT, "fypp", "src", m + ".fypp"))}
+    name_to_module = {}
+    for stem, cls, module, _ in rows:
+        if module in converted and module.startswith(cfg["prefix"]):
+            for name in emitted_names(library_of(module), stem, cls, module):
+                name_to_module[name] = module
+    for rel in cfg["sources"] + [cfg["umbrella"]]:
+        stem = os.path.splitext(os.path.basename(rel))[0]
+        if stem in converted:
+            continue
+        for path in (os.path.join(args.tree, rel),
+                     os.path.join(args.tree, "fypp", re.sub(r"\.[fF]90$", ".fypp", rel))):
+            if not os.path.exists(path):
+                continue
+            with open(path) as fid:
+                text = fid.read()
+            code = "\n".join(K.strip_comment(line) for line in text.split("\n"))
+            owners = {name_to_module[ref] for ref in CALL_RE.findall(code)
+                      if ref in name_to_module}
+            missing = sorted(m for m in owners
+                             if not re.search(r"(?m)^[ \t]*use %s[ \t]*$" % m, text))
+            if not missing:
+                continue
+            block = "".join("     use %s\n" % m for m in missing)
+            text = IMPLICIT.sub(lambda m: block + m.group(0), text, count=1)
+            with open(path, "w") as fid:
+                fid.write(text)
+            print("%s uses %s" % (os.path.relpath(path, args.tree), ",".join(missing)))
+
+
 def rename(args):
     """Apply scripts/la_renames.tsv to the sources that still spell the old specific names."""
     renames = read_renames(os.path.join(ROOT, "scripts", "la_renames.tsv"))
@@ -689,13 +772,18 @@ IMPORT_MASK = "                    import @IMPORTS@"
 
 
 def read_renames(path):
-    """`old_name -> new_name` for the specific names the templates spell differently."""
+    """`old_name -> new_name` for the specific names the templates spell differently.
+
+    The allow-list also carries gate verdicts in the `new_name` column (`REMOVED`, and the
+    body-difference verdicts `REFORMATTED` and `DOCTEXT`); only rows naming a real procedure
+    are renames.
+    """
     out = {}
     if not os.path.exists(path):
         return out
     with open(path) as fid:
         for row in csv.DictReader(fid, delimiter="\t"):
-            if row["new_name"] != "REMOVED":
+            if row["new_name"].startswith("la_"):
                 out[row["old_name"]] = row["new_name"]
     return out
 
@@ -822,6 +910,8 @@ def main():
                         help="regenerate include/la_blas_interfaces.fypp")
     parser.add_argument("--rename", action="store_true",
                         help="apply scripts/la_renames.tsv to the call sites left behind")
+    parser.add_argument("--uses", action="store_true",
+                        help="add the topic-module imports the per-kind sources now need")
     args = parser.parse_args()
     if args.blas_interfaces:
         return blas_interfaces(args)
@@ -833,6 +923,8 @@ def main():
         return extract(args)
     if args.rename:
         return rename(args)
+    if args.uses:
+        return add_uses(args)
     return build(args)
 
 

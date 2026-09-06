@@ -65,10 +65,19 @@ def roles(letter):
     return out
 
 
-def map_name(stem, rl):
-    """Normalize a routine stem, i.e. the text after the `la_` prefix. Case is preserved."""
+MODULE_NAME = re.compile(r"(lapack|blas)_[sdqczw]")
+
+
+def map_name(stem, rl, known=None):
+    r"""Normalize a routine stem, i.e. the text after the `la_` prefix. Case is preserved.
+
+    `known` is the set of routine names of the tree.  Without it every `la_` token is treated as
+    a routine, which turns the module name in `\see la_constants.f90` into a `c` routine.
+    """
     low = stem.lower()
     if low in KINDFREE:
+        return stem
+    if known and low not in known and not MODULE_NAME.fullmatch(low):
         return stem
     sub = lambda ch: rl.get(ch, ch)
     for pattern, build in (
@@ -117,13 +126,14 @@ def normalize(text, letter, upper_bases=frozenset()):
     if kept:
         text = IMPORT.sub("@IMPORT@", text)
     rl = roles(letter)
-    text = re.sub(r"\bla_([A-Za-z0-9_]+)", lambda m: "la_" + map_name(m.group(1), rl), text)
+    text = re.sub(r"\bla_([A-Za-z0-9_]+)",
+                  lambda m: "la_" + map_name(m.group(1), rl, upper_bases), text)
 
     def upper(m):
         s = m.group(0)
         if s.lower() not in upper_bases:
             return s
-        return map_name(s.lower(), rl).upper()
+        return map_name(s.lower(), rl, upper_bases).upper()
 
     text = re.sub(r"\b[A-Z][A-Z0-9_]{2,}\b", upper, text)
     for kind in KND:
@@ -173,12 +183,17 @@ def tokens(text):
     return TOKEN.findall(text)
 
 
+IDENTIFIER = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+
 def letter_renames(donor_text, probe_text, pairs):
-    """Identifiers that differ between two normalized bodies only by a leading kind letter.
+    """Identifiers that differ between two normalized bodies in one kind letter only.
 
     `pairs` maps (donor letter, probe letter) to the placeholder that stands for the pair, e.g.
-    {("d", "s"): "@RI@", ("z", "c"): "@CI@"} for a real routine templated from the d body.
-    Returns {donor identifier: placeholder + remainder}.
+    {("d", "s"): "@RI@", ("z", "c"): "@CI@"} for a real routine templated from the d body.  The
+    letter is usually the first, as in `dnrm2` against `snrm2`, but the generator that wrote the
+    q and w copies also rewrote it inside a local name, leaving `symb_wero` for `symb_zero`.
+    Returns {donor identifier: placeholder in place of that letter}.
     """
     import difflib
     a, b = tokens(donor_text), tokens(probe_text)
@@ -188,11 +203,14 @@ def letter_renames(donor_text, probe_text, pairs):
         if tag != "replace" or (i2 - i1) != (j2 - j1):
             continue
         for x, y in zip(a[i1:i2], b[j1:j2]):
-            if x == y or len(x) < 2 or len(y) < 2 or x[1:] != y[1:]:
+            if x == y or len(x) < 2 or len(x) != len(y) or not IDENTIFIER.fullmatch(x):
                 continue
-            ph = pairs.get((x[0], y[0]))
+            at = [k for k in range(len(x)) if x[k] != y[k]]
+            if len(at) != 1:
+                continue
+            ph = pairs.get((x[at[0]], y[at[0]]))
             if ph is not None:
-                out[x] = ph + x[1:]
+                out[x] = x[:at[0]] + ph + x[at[0] + 1:]
     return out
 
 
@@ -263,7 +281,9 @@ def to_fypp(text):
         return "".join(parts) + tail
 
     def _upper_context(m):
-        before = m.string[max(0, m.start() - 1):m.start()]
-        return before.isupper()
+        """A mark with no tail continues the identifier before it, if there is one."""
+        head = re.search(r"[A-Za-z0-9_]+$", m.string[:m.start()])
+        word = head.group(0) if head else ""
+        return any(c.isupper() for c in word) and not any(c.islower() for c in word)
 
     return run.sub(repl, text)
