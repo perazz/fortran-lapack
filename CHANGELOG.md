@@ -31,6 +31,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `la_wdrscl`, `la_wlag2c` and `la_wlat2c` become `la_qlag2d`, `la_qlat2d`,
   `la_qwsum1`, `la_wqrscl`, `la_wlag2z` and `la_wlat2z`. None of them is
   reachable through a generic interface.
+- The LAPACK solve family is generated from kind-templated fypp topic modules
+  instead of the six per-kind monoliths: `la_lapack_solve_tri_comp`,
+  `la_lapack_solve_{chol,lu}_comp`, `la_lapack_solve_lu`,
+  `la_lapack_solve_ldl_comp{,2,3,4}`, `la_lapack_solve_{chol,ldl}` and
+  `la_lapack_others_sm`. The `la_lapack` generic interfaces are unchanged.
+- Four mixed-precision LAPACK drivers whose name kept the kind letter of the
+  precision they were copied from are corrected: `la_qsgesv`, `la_qsposv`,
+  `la_wcgesv` and `la_wcposv` become `la_qdgesv`, `la_qdposv`, `la_wzgesv` and
+  `la_wzposv`. None of them is reachable through a generic interface.
 - The `generated-sources` continuous-integration job runs
   `scripts/fypp_deploy.py --check` and fails on any drift between a template
   and its committed output.

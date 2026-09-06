@@ -19,6 +19,17 @@ module la_lapack
      use la_lapack_givens_jacobi_rot
      use la_lapack_householder_reflectors
      use la_lapack_solve_aux
+     use la_lapack_others_sm
+     use la_lapack_solve_chol
+     use la_lapack_solve_chol_comp
+     use la_lapack_solve_ldl
+     use la_lapack_solve_ldl_comp
+     use la_lapack_solve_ldl_comp2
+     use la_lapack_solve_ldl_comp3
+     use la_lapack_solve_ldl_comp4
+     use la_lapack_solve_lu
+     use la_lapack_solve_lu_comp
+     use la_lapack_solve_tri_comp
      implicit none(type,external)
      public
 

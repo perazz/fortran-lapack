@@ -1,0 +1,1703 @@
+#:include "common.fypp"
+!> Symmetric and Hermitian indefinite drivers
+module la_lapack_solve_ldl
+     use la_constants
+     use la_blas_aux
+     use la_blas_level1
+     use la_lapack_aux
+     use la_lapack_auxiliary
+     use la_lapack_blas_like_base
+     use la_lapack_blas_like_mnorm
+     use la_lapack_solve_ldl_comp
+     use la_lapack_solve_ldl_comp2
+     use la_lapack_solve_ldl_comp3
+     use la_lapack_solve_ldl_comp4
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$spsv
+     public :: la_${ri}$spsvx
+     public :: la_${ri}$sysv_rk
+     public :: la_${ri}$sysv_rook
+     public :: la_${ri}$sysv
+     public :: la_${ri}$sysvx
+     public :: la_${ri}$sysv_aa
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$spsv
+     public :: la_${ri}$spsvx
+     public :: la_${ri}$sysv
+     public :: la_${ri}$sysv_rk
+     public :: la_${ri}$sysv_rook
+     public :: la_${ri}$sysvx
+     public :: la_${ri}$hesv
+     public :: la_${ri}$hesv_rk
+     public :: la_${ri}$hesv_rook
+     public :: la_${ri}$hesvx
+     public :: la_${ri}$hpsv
+     public :: la_${ri}$hpsvx
+     public :: la_${ri}$hesv_aa
+     public :: la_${ri}$sysv_aa
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SPSV: computes the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric matrix stored in packed format and X
+     !> and B are N-by-NRHS matrices.
+     !> The diagonal pivoting method is used to factor A as
+     !> A = U * D * U**T,  if UPLO = 'U', or
+     !> A = L * D * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, D is symmetric and block diagonal with 1-by-1
+     !> and 2-by-2 diagonal blocks.  The factored form of A is then used to
+     !> solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$spsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           real(${rk}$),intent(inout) :: ap(*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (ldb < max(1,n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SPSV ',-info)
+              return
+           end if
+           ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+           call la_${ri}$sptrf(uplo,n,ap,ipiv,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$sptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$spsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SPSVX: uses the diagonal pivoting factorization A = U*D*U**T or
+     !> A = L*D*L**T to compute the solution to a real system of linear
+     !> equations A * X = B, where A is an N-by-N symmetric matrix stored
+     !> in packed format and X and B are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$spsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+               berr,work,iwork,info)
+        use la_constants_${rk}$
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(inout) :: ipiv(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(${rk}$),intent(inout) :: afp(*)
+           real(${rk}$),intent(in) :: ap(*),b(ldb,*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: nofact
+           real(${rk}$) :: anorm
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           nofact = la_lsame(fact,'N')
+           if (.not. nofact .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (ldb < max(1,n)) then
+              info = -9
+           else if (ldx < max(1,n)) then
+              info = -11
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SPSVX',-info)
+              return
+           end if
+           if (nofact) then
+              ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+              call la_${ri}$copy(n*(n + 1)/2,ap,1,afp,1)
+              call la_${ri}$sptrf(uplo,n,afp,ipiv,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lansp('I',uplo,n,ap,work)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$spcon(uplo,n,afp,ipiv,anorm,rcond,work,iwork,info)
+           ! compute the solution vectors x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$sptrs(uplo,n,nrhs,afp,ipiv,x,ldx,info)
+           ! use iterative refinement to improve the computed solutions and
+           ! compute error bounds and backward error estimates for them.
+           call la_${ri}$sprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
+                     iwork,info)
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$spsvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SYSV_RK: computes the solution to a real system of linear
+     !> equations A * X = B, where A is an N-by-N symmetric matrix
+     !> and X and B are N-by-NRHS matrices.
+     !> The bounded Bunch-Kaufman (rook) diagonal pivoting method is used
+     !> to factor A as
+     !> A = P*U*D*(U**T)*(P**T),  if UPLO = 'U', or
+     !> A = P*L*D*(L**T)*(P**T),  if UPLO = 'L',
+     !> where U (or L) is unit upper (or lower) triangular matrix,
+     !> U**T (or L**T) is the transpose of U (or L), P is a permutation
+     !> matrix, P**T is the transpose of P, and D is symmetric and block
+     !> diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+     !> ${ri.upper()}$SYTRF_RK is called to compute the factorization of a real
+     !> symmetric matrix.  The factored form of A is then used to solve
+     !> the system of equations A * X = B by calling BLAS3 routine ${ri.upper()}$SYTRS_3.
+
+     pure subroutine la_${ri}$sysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: e(*),work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -9
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -11
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 call la_${ri}$sytrf_rk(uplo,n,a,lda,e,ipiv,work,-1,info)
+                 lwkopt = work(1)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSV_RK ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = p*u*d*(u**t)*(p**t) or
+           ! a = p*u*d*(u**t)*(p**t).
+           call la_${ri}$sytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b with blas3 solver, overwriting b with x.
+              call la_${ri}$sytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysv_rk
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SYSV_ROOK: computes the solution to a real system of linear
+     !> equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> The diagonal pivoting method is used to factor A as
+     !> A = U * D * U**T,  if UPLO = 'U', or
+     !> A = L * D * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and D is symmetric and block diagonal with
+     !> 1-by-1 and 2-by-2 diagonal blocks.
+     !> ${ri.upper()}$SYTRF_ROOK is called to compute the factorization of a real
+     !> symmetric matrix A using the bounded Bunch-Kaufman ("rook") diagonal
+     !> pivoting method.
+     !> The factored form of A is then used to solve the system
+     !> of equations A * X = B by calling ${ri.upper()}$SYTRS_ROOK.
+
+     pure subroutine la_${ri}$sysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 call la_${ri}$sytrf_rook(uplo,n,a,lda,ipiv,work,-1,info)
+                 lwkopt = work(1)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSV_ROOK ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+           call la_${ri}$sytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              ! solve with trs_rook ( use level 2 blas)
+              call la_${ri}$sytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysv_rook
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SYSV: computes the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> The diagonal pivoting method is used to factor A as
+     !> A = U * D * U**T,  if UPLO = 'U', or
+     !> A = L * D * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and D is symmetric and block diagonal with
+     !> 1-by-1 and 2-by-2 diagonal blocks.  The factored form of A is then
+     !> used to solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$sysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 call la_${ri}$sytrf(uplo,n,a,lda,ipiv,work,-1,info)
+                 lwkopt = work(1)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+           call la_${ri}$sytrf(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              if (lwork < n) then
+              ! solve with trs ( use level blas 2)
+                 call la_${ri}$sytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+              else
+              ! solve with trs2 ( use level blas 3)
+                 call la_${ri}$sytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SYSVX: uses the diagonal pivoting factorization to compute the
+     !> solution to a real system of linear equations A * X = B,
+     !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$sysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+               ferr,berr,work,lwork,iwork,info)
+        use la_constants_${rk}$
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,lwork,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(inout) :: ipiv(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(${rk}$),intent(in) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(inout) :: af(ldaf,*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,nofact
+           integer(ilp) :: lwkopt,nb
+           real(${rk}$) :: anorm
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           nofact = la_lsame(fact,'N')
+           lquery = (lwork == -1)
+           if (.not. nofact .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldaf < max(1,n)) then
+              info = -8
+           else if (ldb < max(1,n)) then
+              info = -11
+           else if (ldx < max(1,n)) then
+              info = -13
+           else if (lwork < max(1,3*n) .and. .not. lquery) then
+              info = -18
+           end if
+           if (info == 0) then
+              lwkopt = max(1,3*n)
+              if (nofact) then
+                 nb = la_ilaenv(1,'${ri.upper()}$SYTRF',uplo,n,-1,-1,-1)
+                 lwkopt = max(lwkopt,n*nb)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           if (nofact) then
+              ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+              call la_${ri}$lacpy(uplo,n,n,a,lda,af,ldaf)
+              call la_${ri}$sytrf(uplo,n,af,ldaf,ipiv,work,lwork,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lansy('I',uplo,n,a,lda,work)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$sycon(uplo,n,af,ldaf,ipiv,anorm,rcond,work,iwork,info)
+           ! compute the solution vectors x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$sytrs(uplo,n,nrhs,af,ldaf,ipiv,x,ldx,info)
+           ! use iterative refinement to improve the computed solutions and
+           ! compute error bounds and backward error estimates for them.
+           call la_${ri}$syrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr,berr, &
+                     work,iwork,info)
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ri}$lamch('EPSILON')) info = n + 1
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$SYSV computes the solution to a real system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> Aasen's algorithm is used to factor A as
+     !> A = U**T * T * U,  if UPLO = 'U', or
+     !> A = L * T * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and T is symmetric tridiagonal. The factored
+     !> form of A is then used to solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$sysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           real(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt,lwkopt_sytrf,lwkopt_sytrs
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < max(2*n,3*n - 2) .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              call la_${ri}$sytrf_aa(uplo,n,a,lda,ipiv,work,-1,info)
+              lwkopt_sytrf = int(work(1),KIND=ilp)
+              call la_${ri}$sytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,-1,info)
+              lwkopt_sytrs = int(work(1),KIND=ilp)
+              lwkopt = max(lwkopt_sytrf,lwkopt_sytrs)
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+#:if rk == "sp"
+              call la_xerbla('${ri.upper()}$SYSV_AA',-info)
+#:else
+              call la_xerbla('${ri.upper()}$SYSV_AA ',-info)
+#:endif
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u**t*t*u or a = l*t*l**t.
+           call la_${ri}$sytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$sytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysv_aa
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SPSV: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric matrix stored in packed format and X
+     !> and B are N-by-NRHS matrices.
+     !> The diagonal pivoting method is used to factor A as
+     !> A = U * D * U**T,  if UPLO = 'U', or
+     !> A = L * D * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, D is symmetric and block diagonal with 1-by-1
+     !> and 2-by-2 diagonal blocks.  The factored form of A is then used to
+     !> solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$spsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: ap(*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (ldb < max(1,n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SPSV ',-info)
+              return
+           end if
+           ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+           call la_${ri}$sptrf(uplo,n,ap,ipiv,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$sptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$spsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SPSVX: uses the diagonal pivoting factorization A = U*D*U**T or
+     !> A = L*D*L**T to compute the solution to a complex system of linear
+     !> equations A * X = B, where A is an N-by-N symmetric matrix stored
+     !> in packed format and X and B are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$spsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+               berr,work,rwork,info)
+        use la_constants_${rk}$
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(${rk}$),intent(inout) :: afp(*)
+           complex(${rk}$),intent(in) :: ap(*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: nofact
+           real(${rk}$) :: anorm
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           nofact = la_lsame(fact,'N')
+           if (.not. nofact .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (ldb < max(1,n)) then
+              info = -9
+           else if (ldx < max(1,n)) then
+              info = -11
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SPSVX',-info)
+              return
+           end if
+           if (nofact) then
+              ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+              call la_${ri}$copy(n*(n + 1)/2,ap,1,afp,1)
+              call la_${ri}$sptrf(uplo,n,afp,ipiv,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lansp('I',uplo,n,ap,rwork)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$spcon(uplo,n,afp,ipiv,anorm,rcond,work,info)
+           ! compute the solution vectors x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$sptrs(uplo,n,nrhs,afp,ipiv,x,ldx,info)
+           ! use iterative refinement to improve the computed solutions and
+           ! compute error bounds and backward error estimates for them.
+           call la_${ri}$sprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
+                     rwork,info)
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$spsvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SYSV: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> The diagonal pivoting method is used to factor A as
+     !> A = U * D * U**T,  if UPLO = 'U', or
+     !> A = L * D * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and D is symmetric and block diagonal with
+     !> 1-by-1 and 2-by-2 diagonal blocks.  The factored form of A is then
+     !> used to solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$sysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 call la_${ri}$sytrf(uplo,n,a,lda,ipiv,work,-1,info)
+                 lwkopt = real(work(1),KIND=${rk}$)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+           call la_${ri}$sytrf(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              if (lwork < n) then
+              ! solve with trs ( use level blas 2)
+                 call la_${ri}$sytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+              else
+              ! solve with trs2 ( use level blas 3)
+                 call la_${ri}$sytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SYSV_RK: computes the solution to a complex system of linear
+     !> equations A * X = B, where A is an N-by-N symmetric matrix
+     !> and X and B are N-by-NRHS matrices.
+     !> The bounded Bunch-Kaufman (rook) diagonal pivoting method is used
+     !> to factor A as
+     !> A = P*U*D*(U**T)*(P**T),  if UPLO = 'U', or
+     !> A = P*L*D*(L**T)*(P**T),  if UPLO = 'L',
+     !> where U (or L) is unit upper (or lower) triangular matrix,
+     !> U**T (or L**T) is the transpose of U (or L), P is a permutation
+     !> matrix, P**T is the transpose of P, and D is symmetric and block
+     !> diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+     !> ${ri.upper()}$SYTRF_RK is called to compute the factorization of a complex
+     !> symmetric matrix.  The factored form of A is then used to solve
+     !> the system of equations A * X = B by calling BLAS3 routine ${ri.upper()}$SYTRS_3.
+
+     pure subroutine la_${ri}$sysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: e(*),work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -9
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -11
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 call la_${ri}$sytrf_rk(uplo,n,a,lda,e,ipiv,work,-1,info)
+                 lwkopt = real(work(1),KIND=${rk}$)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSV_RK ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+#:if rk == "sp"
+           ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+#:else
+           ! compute the factorization a = p*u*d*(u**t)*(p**t) or
+           ! a = p*u*d*(u**t)*(p**t).
+#:endif
+           call la_${ri}$sytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b with blas3 solver, overwriting b with x.
+              call la_${ri}$sytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysv_rk
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SYSV_ROOK: computes the solution to a complex system of linear
+     !> equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> The diagonal pivoting method is used to factor A as
+     !> A = U * D * U**T,  if UPLO = 'U', or
+     !> A = L * D * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and D is symmetric and block diagonal with
+     !> 1-by-1 and 2-by-2 diagonal blocks.
+     !> ${ri.upper()}$SYTRF_ROOK is called to compute the factorization of a complex
+     !> symmetric matrix A using the bounded Bunch-Kaufman ("rook") diagonal
+     !> pivoting method.
+     !> The factored form of A is then used to solve the system
+     !> of equations A * X = B by calling ${ri.upper()}$SYTRS_ROOK.
+
+     pure subroutine la_${ri}$sysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 call la_${ri}$sytrf_rook(uplo,n,a,lda,ipiv,work,-1,info)
+                 lwkopt = real(work(1),KIND=${rk}$)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSV_ROOK ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+           call la_${ri}$sytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              ! solve with trs_rook ( use level 2 blas)
+              call la_${ri}$sytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysv_rook
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SYSVX: uses the diagonal pivoting factorization to compute the
+     !> solution to a complex system of linear equations A * X = B,
+     !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$sysvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+               ferr,berr,work,lwork,rwork,info)
+        use la_constants_${rk}$
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,lwork,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(${rk}$),intent(in) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(inout) :: af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,nofact
+           integer(ilp) :: lwkopt,nb
+           real(${rk}$) :: anorm
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           nofact = la_lsame(fact,'N')
+           lquery = (lwork == -1)
+           if (.not. nofact .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldaf < max(1,n)) then
+              info = -8
+           else if (ldb < max(1,n)) then
+              info = -11
+           else if (ldx < max(1,n)) then
+              info = -13
+           else if (lwork < max(1,2*n) .and. .not. lquery) then
+              info = -18
+           end if
+           if (info == 0) then
+              lwkopt = max(1,2*n)
+              if (nofact) then
+                 nb = la_ilaenv(1,'${ri.upper()}$SYTRF',uplo,n,-1,-1,-1)
+                 lwkopt = max(lwkopt,n*nb)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           if (nofact) then
+              ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+              call la_${ri}$lacpy(uplo,n,n,a,lda,af,ldaf)
+              call la_${ri}$sytrf(uplo,n,af,ldaf,ipiv,work,lwork,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lansy('I',uplo,n,a,lda,rwork)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$sycon(uplo,n,af,ldaf,ipiv,anorm,rcond,work,info)
+           ! compute the solution vectors x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$sytrs(uplo,n,nrhs,af,ldaf,ipiv,x,ldx,info)
+           ! use iterative refinement to improve the computed solutions and
+           ! compute error bounds and backward error estimates for them.
+           call la_${ri}$syrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr,berr, &
+                     work,rwork,info)
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$HESV: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> The diagonal pivoting method is used to factor A as
+     !> A = U * D * U**H,  if UPLO = 'U', or
+     !> A = L * D * L**H,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and D is Hermitian and block diagonal with
+     !> 1-by-1 and 2-by-2 diagonal blocks.  The factored form of A is then
+     !> used to solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$hesv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 nb = la_ilaenv(1,'${ri.upper()}$HETRF',uplo,n,-1,-1,-1)
+                 lwkopt = n*nb
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$HESV ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u*d*u**h or a = l*d*l**h.
+           call la_${ri}$hetrf(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              if (lwork < n) then
+              ! solve with trs ( use level blas 2)
+                 call la_${ri}$hetrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+              else
+              ! solve with trs2 ( use level blas 3)
+                 call la_${ri}$hetrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
+              end if
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$hesv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$HESV_RK: computes the solution to a complex system of linear
+     !> equations A * X = B, where A is an N-by-N Hermitian matrix
+     !> and X and B are N-by-NRHS matrices.
+     !> The bounded Bunch-Kaufman (rook) diagonal pivoting method is used
+     !> to factor A as
+     !> A = P*U*D*(U**H)*(P**T),  if UPLO = 'U', or
+     !> A = P*L*D*(L**H)*(P**T),  if UPLO = 'L',
+     !> where U (or L) is unit upper (or lower) triangular matrix,
+     !> U**H (or L**H) is the conjugate of U (or L), P is a permutation
+     !> matrix, P**T is the transpose of P, and D is Hermitian and block
+     !> diagonal with 1-by-1 and 2-by-2 diagonal blocks.
+     !> ${ri.upper()}$HETRF_RK is called to compute the factorization of a complex
+     !> Hermitian matrix.  The factored form of A is then used to solve
+     !> the system of equations A * X = B by calling BLAS3 routine ${ri.upper()}$HETRS_3.
+
+     pure subroutine la_${ri}$hesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: e(*),work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -9
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -11
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 call la_${ri}$hetrf_rk(uplo,n,a,lda,e,ipiv,work,-1,info)
+                 lwkopt = real(work(1),KIND=${rk}$)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$HESV_RK ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+#:if rk == "sp"
+           ! compute the factorization a = u*d*u**t or a = l*d*l**t.
+#:else
+           ! compute the factorization a = p*u*d*(u**h)*(p**t) or
+           ! a = p*u*d*(u**h)*(p**t).
+#:endif
+           call la_${ri}$hetrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b with blas3 solver, overwriting b with x.
+              call la_${ri}$hetrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$hesv_rk
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$HESV_ROOK: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> The bounded Bunch-Kaufman ("rook") diagonal pivoting method is used
+     !> to factor A as
+     !> A = U * D * U**T,  if UPLO = 'U', or
+     !> A = L * D * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and D is Hermitian and block diagonal with
+     !> 1-by-1 and 2-by-2 diagonal blocks.
+     !> ${ri.upper()}$HETRF_ROOK is called to compute the factorization of a complex
+     !> Hermition matrix A using the bounded Bunch-Kaufman ("rook") diagonal
+     !> pivoting method.
+     !> The factored form of A is then used to solve the system
+     !> of equations A * X = B by calling ${ri.upper()}$HETRS_ROOK (uses BLAS 2).
+
+     pure subroutine la_${ri}$hesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt,nb
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < 1 .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              if (n == 0) then
+                 lwkopt = 1
+              else
+                 nb = la_ilaenv(1,'${ri.upper()}$HETRF_ROOK',uplo,n,-1,-1,-1)
+                 lwkopt = n*nb
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$HESV_ROOK ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u*d*u**h or a = l*d*l**h.
+           call la_${ri}$hetrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              ! solve with trs ( use level blas 2)
+              call la_${ri}$hetrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$hesv_rook
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$HESVX: uses the diagonal pivoting factorization to compute the
+     !> solution to a complex system of linear equations A * X = B,
+     !> where A is an N-by-N Hermitian matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$hesvx(fact,uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,rcond, &
+               ferr,berr,work,lwork,rwork,info)
+        use la_constants_${rk}$
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldaf,ldb,ldx,lwork,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(${rk}$),intent(in) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(inout) :: af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery,nofact
+           integer(ilp) :: lwkopt,nb
+           real(${rk}$) :: anorm
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           nofact = la_lsame(fact,'N')
+           lquery = (lwork == -1)
+           if (.not. nofact .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (lda < max(1,n)) then
+              info = -6
+           else if (ldaf < max(1,n)) then
+              info = -8
+           else if (ldb < max(1,n)) then
+              info = -11
+           else if (ldx < max(1,n)) then
+              info = -13
+           else if (lwork < max(1,2*n) .and. .not. lquery) then
+              info = -18
+           end if
+           if (info == 0) then
+              lwkopt = max(1,2*n)
+              if (nofact) then
+                 nb = la_ilaenv(1,'${ri.upper()}$HETRF',uplo,n,-1,-1,-1)
+                 lwkopt = max(lwkopt,n*nb)
+              end if
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$HESVX',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           if (nofact) then
+              ! compute the factorization a = u*d*u**h or a = l*d*l**h.
+              call la_${ri}$lacpy(uplo,n,n,a,lda,af,ldaf)
+              call la_${ri}$hetrf(uplo,n,af,ldaf,ipiv,work,lwork,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lanhe('I',uplo,n,a,lda,rwork)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$hecon(uplo,n,af,ldaf,ipiv,anorm,rcond,work,info)
+           ! compute the solution vectors x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$hetrs(uplo,n,nrhs,af,ldaf,ipiv,x,ldx,info)
+           ! use iterative refinement to improve the computed solutions and
+           ! compute error bounds and backward error estimates for them.
+           call la_${ri}$herfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr,berr, &
+                     work,rwork,info)
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$hesvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$HPSV: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian matrix stored in packed format and X
+     !> and B are N-by-NRHS matrices.
+     !> The diagonal pivoting method is used to factor A as
+     !> A = U * D * U**H,  if UPLO = 'U', or
+     !> A = L * D * L**H,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, D is Hermitian and block diagonal with 1-by-1
+     !> and 2-by-2 diagonal blocks.  The factored form of A is then used to
+     !> solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$hpsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: ap(*),b(ldb,*)
+        ! =====================================================================
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (ldb < max(1,n)) then
+              info = -7
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$HPSV ',-info)
+              return
+           end if
+           ! compute the factorization a = u*d*u**h or a = l*d*l**h.
+           call la_${ri}$hptrf(uplo,n,ap,ipiv,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$hptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
+           end if
+           return
+     end subroutine la_${ri}$hpsv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$HPSVX: uses the diagonal pivoting factorization A = U*D*U**H or
+     !> A = L*D*L**H to compute the solution to a complex system of linear
+     !> equations A * X = B, where A is an N-by-N Hermitian matrix stored
+     !> in packed format and X and B are N-by-NRHS matrices.
+     !> Error bounds on the solution and a condition estimate are also
+     !> provided.
+
+     subroutine la_${ri}$hpsvx(fact,uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,rcond,ferr, &
+               berr,work,rwork,info)
+        use la_constants_${rk}$
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: fact,uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: ldb,ldx,n,nrhs
+           real(${rk}$),intent(out) :: rcond
+           ! Array Arguments
+           integer(ilp),intent(inout) :: ipiv(*)
+           real(${rk}$),intent(out) :: berr(*),ferr(*),rwork(*)
+           complex(${rk}$),intent(inout) :: afp(*)
+           complex(${rk}$),intent(in) :: ap(*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*),x(ldx,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: nofact
+           real(${rk}$) :: anorm
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           nofact = la_lsame(fact,'N')
+           if (.not. nofact .and. .not. la_lsame(fact,'F')) then
+              info = -1
+           else if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) &
+                     then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (nrhs < 0) then
+              info = -4
+           else if (ldb < max(1,n)) then
+              info = -9
+           else if (ldx < max(1,n)) then
+              info = -11
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$HPSVX',-info)
+              return
+           end if
+           if (nofact) then
+              ! compute the factorization a = u*d*u**h or a = l*d*l**h.
+              call la_${ri}$copy(n*(n + 1)/2,ap,1,afp,1)
+              call la_${ri}$hptrf(uplo,n,afp,ipiv,info)
+              ! return if info is non-zero.
+              if (info > 0) then
+                 rcond = zero
+                 return
+              end if
+           end if
+           ! compute the norm of the matrix a.
+           anorm = la_${ri}$lanhp('I',uplo,n,ap,rwork)
+           ! compute the reciprocal of the condition number of a.
+           call la_${ri}$hpcon(uplo,n,afp,ipiv,anorm,rcond,work,info)
+           ! compute the solution vectors x.
+           call la_${ri}$lacpy('FULL',n,nrhs,b,ldb,x,ldx)
+           call la_${ri}$hptrs(uplo,n,nrhs,afp,ipiv,x,ldx,info)
+           ! use iterative refinement to improve the computed solutions and
+           ! compute error bounds and backward error estimates for them.
+           call la_${ri}$hprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr,work, &
+                     rwork,info)
+           ! set info = n+1 if the matrix is singular to working precision.
+           if (rcond < la_${ci}$lamch('EPSILON')) info = n + 1
+           return
+     end subroutine la_${ri}$hpsvx
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$HESV_AA: computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N Hermitian matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> Aasen's algorithm is used to factor A as
+     !> A = U**H * T * U,  if UPLO = 'U', or
+     !> A = L * T * L**H,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and T is Hermitian and tridiagonal. The factored form
+     !> of A is then used to solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$hesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt,lwkopt_hetrf,lwkopt_hetrs
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < max(2*n,3*n - 2) .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              call la_${ri}$hetrf_aa(uplo,n,a,lda,ipiv,work,-1,info)
+              lwkopt_hetrf = int(work(1),KIND=ilp)
+              call la_${ri}$hetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,-1,info)
+              lwkopt_hetrs = int(work(1),KIND=ilp)
+              lwkopt = max(lwkopt_hetrf,lwkopt_hetrs)
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$HESV_AA ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u**h*t*u or a = l*t*l**h.
+           call la_${ri}$hetrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$hetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$hesv_aa
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$SYSV computes the solution to a complex system of linear equations
+     !> A * X = B,
+     !> where A is an N-by-N symmetric matrix and X and B are N-by-NRHS
+     !> matrices.
+     !> Aasen's algorithm is used to factor A as
+     !> A = U**T * T * U,  if UPLO = 'U', or
+     !> A = L * T * L**T,  if UPLO = 'L',
+     !> where U (or L) is a product of permutation and unit upper (lower)
+     !> triangular matrices, and T is symmetric tridiagonal. The factored
+     !> form of A is then used to solve the system of equations A * X = B.
+
+     pure subroutine la_${ri}$sysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+        ! -- lapack driver routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(out) :: info
+           integer(ilp),intent(in) :: lda,ldb,lwork,n,nrhs
+           ! Array Arguments
+           integer(ilp),intent(out) :: ipiv(*)
+           complex(${rk}$),intent(inout) :: a(lda,*),b(ldb,*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: lwkopt,lwkopt_sytrf,lwkopt_sytrs
+           ! Intrinsic Functions
+           intrinsic :: max
+           ! Executable Statements
+           ! test the input parameters.
+           info = 0
+           lquery = (lwork == -1)
+           if (.not. la_lsame(uplo,'U') .and. .not. la_lsame(uplo,'L')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (nrhs < 0) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (ldb < max(1,n)) then
+              info = -8
+           else if (lwork < max(2*n,3*n - 2) .and. .not. lquery) then
+              info = -10
+           end if
+           if (info == 0) then
+              call la_${ri}$sytrf_aa(uplo,n,a,lda,ipiv,work,-1,info)
+              lwkopt_sytrf = int(work(1),KIND=ilp)
+              call la_${ri}$sytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,-1,info)
+              lwkopt_sytrs = int(work(1),KIND=ilp)
+              lwkopt = max(lwkopt_sytrf,lwkopt_sytrs)
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$SYSV_AA ',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! compute the factorization a = u**t*t*u or a = l*t*l**t.
+           call la_${ri}$sytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
+           if (info == 0) then
+              ! solve the system a*x = b, overwriting b with x.
+              call la_${ri}$sytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
+
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$sysv_aa
+#:endfor
+
+end module la_lapack_solve_ldl
