@@ -9,8 +9,7 @@ module test_la_cholesky
     contains
 
     !> Cholesky factorization tests
-    subroutine test_cholesky_factorization(tests)
-        !> Collection of tests
+    subroutine test_cholesky_factorization(error)
         logical,intent(out) :: error
 
         real :: t0,t1
