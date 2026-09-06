@@ -130,9 +130,23 @@ MODULE_DOC = {
     "la_lapack_blas_like_mnorm": "BLAS-like matrix norms",
     "la_lapack_blas_like_scalar": "BLAS-like scalar: complex division, Pythagorean sums, NaN"
                                   " tests",
+    "la_lapack_cosine_sine": "Cosine-sine decomposition: bidiagonal block form, simultaneous"
+                             " bidiagonalization, row and column permutations",
+    "la_lapack_eigv_gen_aux": "Nonsymmetric eigenproblem helpers: 2-by-2 standardization,"
+                              " Sylvester solves, diagonal block swaps",
+    "la_lapack_eigv_gen_hess": "Hessenberg reduction: balancing, back-transformation, orthogonal"
+                               " factor generation",
     "la_lapack_givens_jacobi_rot": "Givens and Jacobi plane rotations",
     "la_lapack_householder_reflectors": "Householder reflectors: generation, blocking,"
                                         " application",
+    "la_lapack_lsq_constrained": "Constrained least squares: equality constraints and the"
+                                 " general Gauss-Markov model",
+    "la_lapack_orthogonal_factors_ql": "LQ and QL factorizations: blocked, short-wide and"
+                                       " triangular-pentagonal variants",
+    "la_lapack_orthogonal_factors_qr": "QR and RQ factorizations: blocked, tall-skinny, pivoted"
+                                       " and triangular-pentagonal variants",
+    "la_lapack_orthogonal_factors_rz": "RZ factorization: trapezoidal reduction and its"
+                                       " reflectors",
     "la_lapack_solve_aux": "Linear solve helpers: condition estimation, componentwise backward"
                            " error",
     "la_lapack_solve_chol": "Cholesky drivers: positive definite, packed, banded and tridiagonal"
@@ -153,6 +167,10 @@ MODULE_DOC = {
                                " equilibration",
     "la_lapack_solve_tri_comp": "Triangular systems: solve, inverse, condition estimation,"
                                 " refinement",
+    "la_lapack_svd_bidiag_qr": "Bidiagonal singular values: implicit QR sweep and the dqds"
+                               " algorithm",
+    "la_lapack_svd_comp2": "SVD components: bidiagonal reduction, 2-by-2 singular values, Jacobi"
+                           " generators",
     "la_lapack_others_sm": "Extra-precise refinement helpers: condition numbers and pivot growth",
 }
 

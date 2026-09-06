@@ -1,0 +1,1551 @@
+#:include "common.fypp"
+!> Hessenberg reduction: balancing, back-transformation, orthogonal factor generation
+module la_lapack_eigv_gen_hess
+     use la_constants
+     use la_blas_aux
+     use la_blas_level1
+     use la_blas_level2_gen
+     use la_blas_level2_tri
+     use la_blas_level3_gen
+     use la_blas_level3_tri
+     use la_lapack_aux
+     use la_lapack_auxiliary
+     use la_lapack_blas_like_base
+     use la_lapack_blas_like_l1
+     use la_lapack_blas_like_scalar
+     use la_lapack_householder_reflectors
+     use la_lapack_orthogonal_factors_qr
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$gebak
+     public :: la_${ri}$orghr
+     public :: la_${ri}$ormhr
+     public :: la_${ri}$gebal
+     public :: la_${ri}$gehd2
+     public :: la_${ri}$lahr2
+     public :: la_${ri}$gehrd
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$gebak
+     public :: la_${ri}$gebal
+     public :: la_${ri}$gehd2
+     public :: la_${ri}$lahr2
+     public :: la_${ri}$unghr
+     public :: la_${ri}$unmhr
+     public :: la_${ri}$gehrd
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GEBAK: forms the right or left eigenvectors of a real general matrix
+     !> by backward transformation on the computed eigenvectors of the
+     !> balanced matrix output by ${ri.upper()}$GEBAL.
+
+     pure subroutine la_${ri}$gebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: job,side
+           integer(ilp),intent(in) :: ihi,ilo,ldv,m,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+#:if rk != "sp"
+           real(${rk}$),intent(in) :: scale(*)
+#:endif
+           real(${rk}$),intent(inout) :: v(ldv,*)
+#:if rk == "sp"
+           real(${rk}$),intent(in) :: scale(*)
+#:endif
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: leftv,rightv
+           integer(ilp) :: i,ii,k
+           real(${rk}$) :: s
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! decode and test the input parameters
+           rightv = la_lsame(side,'R')
+           leftv = la_lsame(side,'L')
+           info = 0
+           if (.not. la_lsame(job,'N') .and. .not. la_lsame(job,'P') &
+                     .and. .not. la_lsame(job,'S') .and. .not. la_lsame(job,'B')) then
+              info = -1
+           else if (.not. rightv .and. .not. leftv) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ilo < 1 .or. ilo > max(1,n)) then
+              info = -4
+           else if (ihi < min(ilo,n) .or. ihi > n) then
+              info = -5
+           else if (m < 0) then
+              info = -7
+           else if (ldv < max(1,n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GEBAK',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (m == 0) return
+           if (la_lsame(job,'N')) return
+           if (ilo == ihi) go to 30
+           ! backward balance
+           if (la_lsame(job,'S') .or. la_lsame(job,'B')) then
+              if (rightv) then
+                 do i = ilo,ihi
+                    s = scale(i)
+                    call la_${ri}$scal(m,s,v(i,1),ldv)
+                 end do
+              end if
+              if (leftv) then
+                 do i = ilo,ihi
+                    s = one/scale(i)
+                    call la_${ri}$scal(m,s,v(i,1),ldv)
+                 end do
+              end if
+           end if
+           ! backward permutation
+           ! for  i = ilo-1 step -1 until 1,
+                    ! ihi+1 step 1 until n do --
+                    30 continue
+           if (la_lsame(job,'P') .or. la_lsame(job,'B')) then
+              if (rightv) then
+                 loop_40: do ii = 1,n
+                    i = ii
+                    if (i >= ilo .and. i <= ihi) cycle loop_40
+                    if (i < ilo) i = ilo - ii
+                    k = scale(i)
+                    if (k == i) cycle loop_40
+                    call la_${ri}$swap(m,v(i,1),ldv,v(k,1),ldv)
+                 end do loop_40
+              end if
+              if (leftv) then
+                 loop_50: do ii = 1,n
+                    i = ii
+                    if (i >= ilo .and. i <= ihi) cycle loop_50
+                    if (i < ilo) i = ilo - ii
+                    k = scale(i)
+                    if (k == i) cycle loop_50
+                    call la_${ri}$swap(m,v(i,1),ldv,v(k,1),ldv)
+                 end do loop_50
+              end if
+           end if
+           return
+     end subroutine la_${ri}$gebak
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$ORGHR: generates a real orthogonal matrix Q which is defined as the
+     !> product of IHI-ILO elementary reflectors of order N, as returned by
+     !> ${ri.upper()}$GEHRD:
+     !> Q = H(ilo) H(ilo+1) . . . H(ihi-1).
+
+     pure subroutine la_${ri}$orghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*)
+           real(${rk}$),intent(in) :: tau(*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: i,iinfo,j,lwkopt,nb,nh
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           nh = ihi - ilo
+           lquery = (lwork == -1)
+           if (n < 0) then
+              info = -1
+           else if (ilo < 1 .or. ilo > max(1,n)) then
+              info = -2
+           else if (ihi < min(ilo,n) .or. ihi > n) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (lwork < max(1,nh) .and. .not. lquery) then
+              info = -8
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'${ri.upper()}$ORGQR',' ',nh,nh,nh,-1)
+              lwkopt = max(1,nh)*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$ORGHR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           ! shift the vectors which define the elementary reflectors one
+           ! column to the right, and set the first ilo and the last n-ihi
+           ! rows and columns to those of the unit matrix
+           do j = ihi,ilo + 1,-1
+              do i = 1,j - 1
+                 a(i,j) = zero
+              end do
+              do i = j + 1,ihi
+                 a(i,j) = a(i,j - 1)
+              end do
+              do i = ihi + 1,n
+                 a(i,j) = zero
+              end do
+           end do
+           do j = 1,ilo
+              do i = 1,n
+                 a(i,j) = zero
+              end do
+              a(j,j) = one
+           end do
+           do j = ihi + 1,n
+              do i = 1,n
+                 a(i,j) = zero
+              end do
+              a(j,j) = one
+           end do
+           if (nh > 0) then
+              ! generate q(ilo+1:ihi,ilo+1:ihi)
+              call la_${ri}$orgqr(nh,nh,nh,a(ilo + 1,ilo + 1),lda,tau(ilo),work,lwork, &
+                        iinfo)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$orghr
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$ORMHR: overwrites the general real M-by-N matrix C with
+     !> SIDE = 'L'     SIDE = 'R'
+     !> TRANS = 'N':      Q * C          C * Q
+     !> TRANS = 'T':      Q**T * C       C * Q**T
+     !> where Q is a real orthogonal matrix of order nq, with nq = m if
+     !> SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of
+     !> IHI-ILO elementary reflectors, as returned by ${ri.upper()}$GEHRD:
+     !> Q = H(ilo) H(ilo+1) . . . H(ihi-1).
+
+     pure subroutine la_${ri}$ormhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work,lwork, &
+               info)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side,trans
+           integer(ilp),intent(in) :: ihi,ilo,lda,ldc,lwork,m,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*),c(ldc,*)
+           real(${rk}$),intent(in) :: tau(*)
+           real(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: left,lquery
+           integer(ilp) :: i1,i2,iinfo,lwkopt,mi,nb,nh,ni,nq,nw
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           nh = ihi - ilo
+           left = la_lsame(side,'L')
+           lquery = (lwork == -1)
+           ! nq is the order of q and nw is the minimum dimension of work
+           if (left) then
+              nq = m
+              nw = max(1,n)
+           else
+              nq = n
+              nw = max(1,m)
+           end if
+           if (.not. left .and. .not. la_lsame(side,'R')) then
+              info = -1
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'T')) &
+                     then
+              info = -2
+           else if (m < 0) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ilo < 1 .or. ilo > max(1,nq)) then
+              info = -5
+           else if (ihi < min(ilo,nq) .or. ihi > nq) then
+              info = -6
+           else if (lda < max(1,nq)) then
+              info = -8
+           else if (ldc < max(1,m)) then
+              info = -11
+           else if (lwork < nw .and. .not. lquery) then
+              info = -13
+           end if
+           if (info == 0) then
+              if (left) then
+                 nb = la_ilaenv(1,'${ri.upper()}$ORMQR',side//trans,nh,n,nh,-1)
+              else
+                 nb = la_ilaenv(1,'${ri.upper()}$ORMQR',side//trans,m,nh,nh,-1)
+              end if
+              lwkopt = nw*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$ORMHR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0 .or. nh == 0) then
+              work(1) = 1
+              return
+           end if
+           if (left) then
+              mi = nh
+              ni = n
+              i1 = ilo + 1
+              i2 = 1
+           else
+              mi = m
+              ni = nh
+              i1 = 1
+              i2 = ilo + 1
+           end if
+           call la_${ri}$ormqr(side,trans,mi,ni,nh,a(ilo + 1,ilo),lda,tau(ilo),c(i1, &
+                     i2),ldc,work,lwork,iinfo)
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$ormhr
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GEBAL: balances a general real matrix A.  This involves, first,
+     !> permuting A by a similarity transformation to isolate eigenvalues
+     !> in the first 1 to ILO-1 and last IHI+1 to N elements on the
+     !> diagonal; and second, applying a diagonal similarity transformation
+     !> to rows and columns ILO to IHI to make the rows and columns as
+     !> close in norm as possible.  Both steps are optional.
+     !> Balancing may reduce the 1-norm of the matrix, and improve the
+     !> accuracy of the computed eigenvalues and/or eigenvectors.
+
+     pure subroutine la_${ri}$gebal(job,n,a,lda,ilo,ihi,scale,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: job
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*)
+           real(${rk}$),intent(out) :: scale(*)
+        ! =====================================================================
+           ! Parameters
+           real(${rk}$),parameter :: sclfac = 2.0e+0_${rk}$
+           real(${rk}$),parameter :: factor = 0.95e+0_${rk}$
+
+           ! Local Scalars
+           logical(lk) :: noconv
+           integer(ilp) :: i,ica,iexc,ira,j,k,l,m
+           real(${rk}$) :: c,ca,f,g,r,ra,s,sfmax1,sfmax2,sfmin1,sfmin2
+           ! Intrinsic Functions
+           intrinsic :: abs,max,min
+           ! test the input parameters
+           info = 0
+           if (.not. la_lsame(job,'N') .and. .not. la_lsame(job,'P') &
+                     .and. .not. la_lsame(job,'S') .and. .not. la_lsame(job,'B')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GEBAL',-info)
+              return
+           end if
+           k = 1
+           l = n
+           if (n == 0) go to 210
+           if (la_lsame(job,'N')) then
+              do i = 1,n
+                 scale(i) = one
+              end do
+              go to 210
+           end if
+           if (la_lsame(job,'S')) go to 120
+           ! permutation to isolate eigenvalues if possible
+           go to 50
+           ! row and column exchange.
+           20 continue
+           scale(m) = j
+           if (j == m) go to 30
+           call la_${ri}$swap(l,a(1,j),1,a(1,m),1)
+           call la_${ri}$swap(n - k + 1,a(j,k),lda,a(m,k),lda)
+           30 continue
+           go to(40,80) iexc
+           ! search for rows isolating an eigenvalue and push them down.
+           40 continue
+           if (l == 1) go to 210
+           l = l - 1
+           50 continue
+           loop_70: do j = l,1,-1
+              loop_60: do i = 1,l
+                 if (i == j) cycle loop_60
+                 if (a(j,i) /= zero) cycle loop_70
+              end do loop_60
+              m = l
+              iexc = 1
+              go to 20
+           end do loop_70
+           go to 90
+           ! search for columns isolating an eigenvalue and push them left.
+           80 continue
+           k = k + 1
+           90 continue
+           loop_110: do j = k,l
+              loop_100: do i = k,l
+                 if (i == j) cycle loop_100
+                 if (a(i,j) /= zero) cycle loop_110
+              end do loop_100
+              m = k
+              iexc = 2
+              go to 20
+           end do loop_110
+           120 continue
+           do i = k,l
+              scale(i) = one
+           end do
+           if (la_lsame(job,'P')) go to 210
+           ! balance the submatrix in rows k to l.
+           ! iterative loop for norm reduction
+           sfmin1 = la_${ri}$lamch('S')/la_${ri}$lamch('P')
+           sfmax1 = one/sfmin1
+           sfmin2 = sfmin1*sclfac
+           sfmax2 = one/sfmin2
+           140 continue
+           noconv = .false.
+           loop_200: do i = k,l
+              c = la_${ri}$nrm2(l - k + 1,a(k,i),1)
+              r = la_${ri}$nrm2(l - k + 1,a(i,k),lda)
+              ica = la_i${ri}$amax(l,a(1,i),1)
+              ca = abs(a(ica,i))
+              ira = la_i${ri}$amax(n - k + 1,a(i,k),lda)
+              ra = abs(a(i,ira + k - 1))
+              ! guard against zero c or r due to underflow.
+              if (c == zero .or. r == zero) cycle loop_200
+              g = r/sclfac
+              f = one
+              s = c + r
+              160 continue
+              if (c >= g .or. max(f,c,ca) >= sfmax2 .or. min(r,g,ra) <= sfmin2) go to 170
+#:if rk != "sp"
+                 if (la_${ri}$isnan(c + f + ca + r + g + ra)) then
+                 ! exit if nan to avoid infinite loop
+                 info = -3
+                 call la_xerbla('${ri.upper()}$GEBAL',-info)
+                 return
+              end if
+#:endif
+              f = f*sclfac
+              c = c*sclfac
+              ca = ca*sclfac
+              r = r/sclfac
+              g = g/sclfac
+              ra = ra/sclfac
+              go to 160
+              170 continue
+              g = c/sclfac
+              180 continue
+              if (g < r .or. max(r,ra) >= sfmax2 .or. min(f,c,g,ca) <= sfmin2) go to 190
+#:if rk == "sp"
+                 if (la_${ri}$isnan(c + f + ca + r + g + ra)) then
+                 ! exit if nan to avoid infinite loop
+                 info = -3
+                 call la_xerbla('${ri.upper()}$GEBAL',-info)
+                 return
+              end if
+#:endif
+              f = f/sclfac
+              c = c/sclfac
+              g = g/sclfac
+              ca = ca/sclfac
+              r = r*sclfac
+              ra = ra*sclfac
+              go to 180
+              ! now balance.
+              190 continue
+              if ((c + r) >= factor*s) cycle loop_200
+              if (f < one .and. scale(i) < one) then
+                 if (f*scale(i) <= sfmin1) cycle loop_200
+              end if
+              if (f > one .and. scale(i) > one) then
+                 if (scale(i) >= sfmax1/f) cycle loop_200
+              end if
+              g = one/f
+              scale(i) = scale(i)*f
+              noconv = .true.
+              call la_${ri}$scal(n - k + 1,g,a(i,k),lda)
+              call la_${ri}$scal(l,f,a(1,i),1)
+           end do loop_200
+           if (noconv) go to 140
+           210 continue
+           ilo = k
+           ihi = l
+           return
+     end subroutine la_${ri}$gebal
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GEHD2: reduces a real general matrix A to upper Hessenberg form H by
+     !> an orthogonal similarity transformation:  Q**T * A * Q = H .
+
+     pure subroutine la_${ri}$gehd2(n,ilo,ihi,a,lda,tau,work,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: ihi,ilo,lda,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*)
+           real(${rk}$),intent(out) :: tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: i
+           real(${rk}$) :: aii
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           if (n < 0) then
+              info = -1
+           else if (ilo < 1 .or. ilo > max(1,n)) then
+              info = -2
+           else if (ihi < min(ilo,n) .or. ihi > n) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GEHD2',-info)
+              return
+           end if
+           do i = ilo,ihi - 1
+              ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
+              call la_${ri}$larfg(ihi - i,a(i + 1,i),a(min(i + 2,n),i),1,tau(i))
+              aii = a(i + 1,i)
+              a(i + 1,i) = one
+              ! apply h(i) to a(1:ihi,i+1:ihi) from the right
+              call la_${ri}$larf('RIGHT',ihi,ihi - i,a(i + 1,i),1,tau(i),a(1,i + 1),lda, &
+                        work)
+              ! apply h(i) to a(i+1:ihi,i+1:n) from the left
+              call la_${ri}$larf('LEFT',ihi - i,n - i,a(i + 1,i),1,tau(i),a(i + 1,i + 1),lda, &
+                        work)
+              a(i + 1,i) = aii
+           end do
+           return
+     end subroutine la_${ri}$gehd2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LAHR2: reduces the first NB columns of A real general n-BY-(n-k+1)
+     !> matrix A so that elements below the k-th subdiagonal are zero. The
+     !> reduction is performed by an orthogonal similarity transformation
+     !> Q**T * A * Q. The routine returns the matrices V and T which determine
+     !> Q as a block reflector I - V*T*V**T, and also the matrix Y = A * V * T.
+     !> This is an auxiliary routine called by ${ri.upper()}$GEHRD.
+
+     pure subroutine la_${ri}$lahr2(n,k,nb,a,lda,tau,t,ldt,y,ldy)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: k,lda,ldt,ldy,n,nb
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*)
+           real(${rk}$),intent(out) :: t(ldt,nb),tau(nb),y(ldy,nb)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: i
+           real(${rk}$) :: ei
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! quick return if possible
+           if (n <= 1) return
+           loop_10: do i = 1,nb
+              if (i > 1) then
+                 ! update a(k+1:n,i)
+                 ! update i-th column of a - y * v**t
+                 call la_${ri}$gemv('NO TRANSPOSE',n - k,i - 1,-one,y(k + 1,1),ldy,a(k + i - 1,1), &
+                           lda,one,a(k + 1,i),1)
+                 ! apply i - v * t**t * v**t to this column (call it b) from the
+                 ! left, using the last column of t as workspace
+                 ! let  v = ( v1 )   and   b = ( b1 )   (first i-1 rows)
+                          ! ( v2 )             ( b2 )
+                 ! where v1 is unit lower triangular
+                 ! w := v1**t * b1
+                 call la_${ri}$copy(i - 1,a(k + 1,i),1,t(1,nb),1)
+                 call la_${ri}$trmv('LOWER','TRANSPOSE','UNIT',i - 1,a(k + 1,1),lda,t(1,nb), &
+                            1)
+                 ! w := w + v2**t * b2
+                 call la_${ri}$gemv('TRANSPOSE',n - k - i + 1,i - 1,one,a(k + i,1),lda,a(k + i,i), &
+                           1,one,t(1,nb),1)
+                 ! w := t**t * w
+                 call la_${ri}$trmv('UPPER','TRANSPOSE','NON-UNIT',i - 1,t,ldt,t(1,nb),1)
+
+                 ! b2 := b2 - v2*w
+                 call la_${ri}$gemv('NO TRANSPOSE',n - k - i + 1,i - 1,-one,a(k + i,1),lda,t(1,nb) &
+                           ,1,one,a(k + i,i),1)
+                 ! b1 := b1 - v1*w
+                 call la_${ri}$trmv('LOWER','NO TRANSPOSE','UNIT',i - 1,a(k + 1,1),lda,t(1, &
+                           nb),1)
+                 call la_${ri}$axpy(i - 1,-one,t(1,nb),1,a(k + 1,i),1)
+                 a(k + i - 1,i - 1) = ei
+              end if
+              ! generate the elementary reflector h(i) to annihilate
+              ! a(k+i+1:n,i)
+              call la_${ri}$larfg(n - k - i + 1,a(k + i,i),a(min(k + i + 1,n),i),1,tau(i))
+
+              ei = a(k + i,i)
+              a(k + i,i) = one
+              ! compute  y(k+1:n,i)
+              call la_${ri}$gemv('NO TRANSPOSE',n - k,n - k - i + 1,one,a(k + 1,i + 1),lda,a(k + i,i), &
+                         1,zero,y(k + 1,i),1)
+              call la_${ri}$gemv('TRANSPOSE',n - k - i + 1,i - 1,one,a(k + i,1),lda,a(k + i,i),1, &
+                        zero,t(1,i),1)
+              call la_${ri}$gemv('NO TRANSPOSE',n - k,i - 1,-one,y(k + 1,1),ldy,t(1,i),1, &
+                        one,y(k + 1,i),1)
+              call la_${ri}$scal(n - k,tau(i),y(k + 1,i),1)
+              ! compute t(1:i,i)
+              call la_${ri}$scal(i - 1,-tau(i),t(1,i),1)
+              call la_${ri}$trmv('UPPER','NO TRANSPOSE','NON-UNIT',i - 1,t,ldt,t(1,i),1)
+
+              t(i,i) = tau(i)
+           end do loop_10
+           a(k + nb,nb) = ei
+           ! compute y(1:k,1:nb)
+           call la_${ri}$lacpy('ALL',k,nb,a(1,2),lda,y,ldy)
+           call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',k,nb,one,a(k + 1,1), &
+                     lda,y,ldy)
+           if (n > k + nb) call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',k,nb,n - k - nb,one,a(1, &
+                     2 + nb),lda,a(k + 1 + nb,1),lda,one,y,ldy)
+           call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','NON-UNIT',k,nb,one,t,ldt,y, &
+                     ldy)
+           return
+     end subroutine la_${ri}$lahr2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$GEHRD: reduces a real general matrix A to upper Hessenberg form H by
+     !> an orthogonal similarity transformation:  Q**T * A * Q = H .
+
+     pure subroutine la_${ri}$gehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(${rk}$),intent(inout) :: a(lda,*)
+           real(${rk}$),intent(out) :: tau(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           integer(ilp),parameter :: nbmax = 64
+           integer(ilp),parameter :: ldt = nbmax + 1
+           integer(ilp),parameter :: tsize = ldt*nbmax
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: i,ib,iinfo,iwt,j,ldwork,lwkopt,nb,nbmin,nh,nx
+           real(${rk}$) :: ei
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           lquery = (lwork == -1)
+           if (n < 0) then
+              info = -1
+           else if (ilo < 1 .or. ilo > max(1,n)) then
+              info = -2
+           else if (ihi < min(ilo,n) .or. ihi > n) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (lwork < max(1,n) .and. .not. lquery) then
+              info = -8
+           end if
+           if (info == 0) then
+              ! compute the workspace requirements
+              nb = min(nbmax,la_ilaenv(1,'${ri.upper()}$GEHRD',' ',n,ilo,ihi,-1))
+              lwkopt = n*nb + tsize
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GEHRD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! set elements 1:ilo-1 and ihi:n-1 of tau to zero
+           do i = 1,ilo - 1
+              tau(i) = zero
+           end do
+           do i = max(1,ihi),n - 1
+              tau(i) = zero
+           end do
+           ! quick return if possible
+           nh = ihi - ilo + 1
+           if (nh <= 1) then
+              work(1) = 1
+              return
+           end if
+           ! determine the block size
+           nb = min(nbmax,la_ilaenv(1,'${ri.upper()}$GEHRD',' ',n,ilo,ihi,-1))
+           nbmin = 2
+           if (nb > 1 .and. nb < nh) then
+              ! determine when to cross over from blocked to unblocked code
+              ! (last block is always handled by unblocked code)
+              nx = max(nb,la_ilaenv(3,'${ri.upper()}$GEHRD',' ',n,ilo,ihi,-1))
+              if (nx < nh) then
+                 ! determine if workspace is large enough for blocked code
+                 if (lwork < n*nb + tsize) then
+                    ! not enough workspace to use optimal nb:  determine the
+                    ! minimum value of nb, and reduce nb or force use of
+                    ! unblocked code
+                    nbmin = max(2,la_ilaenv(2,'${ri.upper()}$GEHRD',' ',n,ilo,ihi,-1))
+                    if (lwork >= (n*nbmin + tsize)) then
+                       nb = (lwork - tsize)/n
+                    else
+                       nb = 1
+                    end if
+                 end if
+              end if
+           end if
+           ldwork = n
+           if (nb < nbmin .or. nb >= nh) then
+              ! use unblocked code below
+              i = ilo
+           else
+              ! use blocked code
+              iwt = 1 + n*nb
+              do i = ilo,ihi - 1 - nx,nb
+                 ib = min(nb,ihi - i)
+                 ! reduce columns i:i+ib-1 to hessenberg form, returning the
+                 ! matrices v and t of the block reflector h = i - v*t*v**t
+                 ! which performs the reduction, and also the matrix y = a*v*t
+                 call la_${ri}$lahr2(ihi,i,ib,a(1,i),lda,tau(i),work(iwt),ldt,work, &
+                           ldwork)
+                 ! apply the block reflector h to a(1:ihi,i+ib:ihi) from the
+                 ! right, computing  a := a - y * v**t. v(i+ib,ib-1) must be set
+                 ! to 1
+                 ei = a(i + ib,i + ib - 1)
+                 a(i + ib,i + ib - 1) = one
+                 call la_${ri}$gemm('NO TRANSPOSE','TRANSPOSE',ihi,ihi - i - ib + 1,ib,-one,work, &
+                           ldwork,a(i + ib,i),lda,one,a(1,i + ib),lda)
+                 a(i + ib,i + ib - 1) = ei
+                 ! apply the block reflector h to a(1:i,i+1:i+ib-1) from the
+                 ! right
+                 call la_${ri}$trmm('RIGHT','LOWER','TRANSPOSE','UNIT',i,ib - 1,one,a(i + 1,i) &
+                           ,lda,work,ldwork)
+                 do j = 0,ib - 2
+                    call la_${ri}$axpy(i,-one,work(ldwork*j + 1),1,a(1,i + j + 1),1)
+                 end do
+                 ! apply the block reflector h to a(i+1:ihi,i+ib:n) from the
+                 ! left
+                 call la_${ri}$larfb('LEFT','TRANSPOSE','FORWARD','COLUMNWISE',ihi - i,n - i - ib + 1, &
+                           ib,a(i + 1,i),lda,work(iwt),ldt,a(i + 1,i + ib),lda,work,ldwork)
+              end do
+           end if
+           ! use unblocked code to reduce the rest of the matrix
+           call la_${ri}$gehd2(n,i,ihi,a,lda,tau,work,iinfo)
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$gehrd
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GEBAK: forms the right or left eigenvectors of a complex general
+     !> matrix by backward transformation on the computed eigenvectors of the
+     !> balanced matrix output by ${ri.upper()}$GEBAL.
+
+     pure subroutine la_${ri}$gebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: job,side
+           integer(ilp),intent(in) :: ihi,ilo,ldv,m,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           real(${rk}$),intent(in) :: scale(*)
+           complex(${rk}$),intent(inout) :: v(ldv,*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: leftv,rightv
+           integer(ilp) :: i,ii,k
+           real(${rk}$) :: s
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! decode and test the input parameters
+           rightv = la_lsame(side,'R')
+           leftv = la_lsame(side,'L')
+           info = 0
+           if (.not. la_lsame(job,'N') .and. .not. la_lsame(job,'P') &
+                     .and. .not. la_lsame(job,'S') .and. .not. la_lsame(job,'B')) then
+              info = -1
+           else if (.not. rightv .and. .not. leftv) then
+              info = -2
+           else if (n < 0) then
+              info = -3
+           else if (ilo < 1 .or. ilo > max(1,n)) then
+              info = -4
+           else if (ihi < min(ilo,n) .or. ihi > n) then
+              info = -5
+           else if (m < 0) then
+              info = -7
+           else if (ldv < max(1,n)) then
+              info = -9
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GEBAK',-info)
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) return
+           if (m == 0) return
+           if (la_lsame(job,'N')) return
+           if (ilo == ihi) go to 30
+           ! backward balance
+           if (la_lsame(job,'S') .or. la_lsame(job,'B')) then
+              if (rightv) then
+                 do i = ilo,ihi
+                    s = scale(i)
+                    call la_${ri}$${ci}$scal(m,s,v(i,1),ldv)
+                 end do
+              end if
+              if (leftv) then
+                 do i = ilo,ihi
+                    s = one/scale(i)
+                    call la_${ri}$${ci}$scal(m,s,v(i,1),ldv)
+                 end do
+              end if
+           end if
+           ! backward permutation
+           ! for  i = ilo-1 step -1 until 1,
+                    ! ihi+1 step 1 until n do --
+                    30 continue
+           if (la_lsame(job,'P') .or. la_lsame(job,'B')) then
+              if (rightv) then
+                 loop_40: do ii = 1,n
+                    i = ii
+                    if (i >= ilo .and. i <= ihi) cycle loop_40
+                    if (i < ilo) i = ilo - ii
+                    k = scale(i)
+                    if (k == i) cycle loop_40
+                    call la_${ri}$swap(m,v(i,1),ldv,v(k,1),ldv)
+                 end do loop_40
+              end if
+              if (leftv) then
+                 loop_50: do ii = 1,n
+                    i = ii
+                    if (i >= ilo .and. i <= ihi) cycle loop_50
+                    if (i < ilo) i = ilo - ii
+                    k = scale(i)
+                    if (k == i) cycle loop_50
+                    call la_${ri}$swap(m,v(i,1),ldv,v(k,1),ldv)
+                 end do loop_50
+              end if
+           end if
+           return
+     end subroutine la_${ri}$gebak
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GEBAL: balances a general complex matrix A.  This involves, first,
+     !> permuting A by a similarity transformation to isolate eigenvalues
+     !> in the first 1 to ILO-1 and last IHI+1 to N elements on the
+     !> diagonal; and second, applying a diagonal similarity transformation
+     !> to rows and columns ILO to IHI to make the rows and columns as
+     !> close in norm as possible.  Both steps are optional.
+     !> Balancing may reduce the 1-norm of the matrix, and improve the
+     !> accuracy of the computed eigenvalues and/or eigenvectors.
+
+     pure subroutine la_${ri}$gebal(job,n,a,lda,ilo,ihi,scale,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: job
+           integer(ilp),intent(out) :: ihi,ilo,info
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: scale(*)
+           complex(${rk}$),intent(inout) :: a(lda,*)
+        ! =====================================================================
+           ! Parameters
+           real(${rk}$),parameter :: sclfac = 2.0e+0_${rk}$
+           real(${rk}$),parameter :: factor = 0.95e+0_${rk}$
+
+           ! Local Scalars
+           logical(lk) :: noconv
+           integer(ilp) :: i,ica,iexc,ira,j,k,l,m
+           real(${rk}$) :: c,ca,f,g,r,ra,s,sfmax1,sfmax2,sfmin1,sfmin2
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: abs,aimag,max,min,real
+#:else
+           intrinsic :: abs,real,aimag,max,min
+#:endif
+           ! test the input parameters
+           info = 0
+           if (.not. la_lsame(job,'N') .and. .not. la_lsame(job,'P') &
+                     .and. .not. la_lsame(job,'S') .and. .not. la_lsame(job,'B')) then
+              info = -1
+           else if (n < 0) then
+              info = -2
+           else if (lda < max(1,n)) then
+              info = -4
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GEBAL',-info)
+              return
+           end if
+           k = 1
+           l = n
+           if (n == 0) go to 210
+           if (la_lsame(job,'N')) then
+              do i = 1,n
+                 scale(i) = one
+              end do
+              go to 210
+           end if
+           if (la_lsame(job,'S')) go to 120
+           ! permutation to isolate eigenvalues if possible
+           go to 50
+           ! row and column exchange.
+           20 continue
+           scale(m) = j
+           if (j == m) go to 30
+           call la_${ri}$swap(l,a(1,j),1,a(1,m),1)
+           call la_${ri}$swap(n - k + 1,a(j,k),lda,a(m,k),lda)
+           30 continue
+           go to(40,80) iexc
+           ! search for rows isolating an eigenvalue and push them down.
+           40 continue
+           if (l == 1) go to 210
+           l = l - 1
+           50 continue
+           loop_70: do j = l,1,-1
+              loop_60: do i = 1,l
+                 if (i == j) cycle loop_60
+                 if (real(a(j,i),KIND=${rk}$) /= zero .or. aimag(a(j,i)) /= zero) cycle &
+                           loop_70
+              end do loop_60
+              m = l
+              iexc = 1
+              go to 20
+           end do loop_70
+           go to 90
+           ! search for columns isolating an eigenvalue and push them left.
+           80 continue
+           k = k + 1
+           90 continue
+           loop_110: do j = k,l
+              loop_100: do i = k,l
+                 if (i == j) cycle loop_100
+                 if (real(a(i,j),KIND=${rk}$) /= zero .or. aimag(a(i,j)) /= zero) cycle &
+                           loop_110
+              end do loop_100
+              m = k
+              iexc = 2
+              go to 20
+           end do loop_110
+           120 continue
+           do i = k,l
+              scale(i) = one
+           end do
+           if (la_lsame(job,'P')) go to 210
+           ! balance the submatrix in rows k to l.
+           ! iterative loop for norm reduction
+           sfmin1 = la_${ci}$lamch('S')/la_${ci}$lamch('P')
+           sfmax1 = one/sfmin1
+           sfmin2 = sfmin1*sclfac
+           sfmax2 = one/sfmin2
+           140 continue
+           noconv = .false.
+           loop_200: do i = k,l
+              c = la_${ci}$${ri}$nrm2(l - k + 1,a(k,i),1)
+              r = la_${ci}$${ri}$nrm2(l - k + 1,a(i,k),lda)
+              ica = la_i${ri}$amax(l,a(1,i),1)
+              ca = abs(a(ica,i))
+              ira = la_i${ri}$amax(n - k + 1,a(i,k),lda)
+              ra = abs(a(i,ira + k - 1))
+              ! guard against zero c or r due to underflow.
+              if (c == zero .or. r == zero) cycle loop_200
+              g = r/sclfac
+              f = one
+              s = c + r
+              160 continue
+              if (c >= g .or. max(f,c,ca) >= sfmax2 .or. min(r,g,ra) <= sfmin2) go to 170
+                 if (la_${ci}$isnan(c + f + ca + r + g + ra)) then
+                 ! exit if nan to avoid infinite loop
+                 info = -3
+                 call la_xerbla('${ri.upper()}$GEBAL',-info)
+                 return
+              end if
+              f = f*sclfac
+              c = c*sclfac
+              ca = ca*sclfac
+              r = r/sclfac
+              g = g/sclfac
+              ra = ra/sclfac
+              go to 160
+              170 continue
+              g = c/sclfac
+              180 continue
+              if (g < r .or. max(r,ra) >= sfmax2 .or. min(f,c,g,ca) <= sfmin2) go to 190
+              f = f/sclfac
+              c = c/sclfac
+              g = g/sclfac
+              ca = ca/sclfac
+              r = r*sclfac
+              ra = ra*sclfac
+              go to 180
+              ! now balance.
+              190 continue
+              if ((c + r) >= factor*s) cycle loop_200
+              if (f < one .and. scale(i) < one) then
+                 if (f*scale(i) <= sfmin1) cycle loop_200
+              end if
+              if (f > one .and. scale(i) > one) then
+                 if (scale(i) >= sfmax1/f) cycle loop_200
+              end if
+              g = one/f
+              scale(i) = scale(i)*f
+              noconv = .true.
+              call la_${ri}$${ci}$scal(n - k + 1,g,a(i,k),lda)
+              call la_${ri}$${ci}$scal(l,f,a(1,i),1)
+           end do loop_200
+           if (noconv) go to 140
+           210 continue
+           ilo = k
+           ihi = l
+           return
+     end subroutine la_${ri}$gebal
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GEHD2: reduces a complex general matrix A to upper Hessenberg form H
+     !> by a unitary similarity transformation:  Q**H * A * Q = H .
+
+     pure subroutine la_${ri}$gehd2(n,ilo,ihi,a,lda,tau,work,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: ihi,ilo,lda,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: a(lda,*)
+           complex(${rk}$),intent(out) :: tau(*),work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: i
+           complex(${rk}$) :: alpha
+           ! Intrinsic Functions
+           intrinsic :: conjg,max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           if (n < 0) then
+              info = -1
+           else if (ilo < 1 .or. ilo > max(1,n)) then
+              info = -2
+           else if (ihi < min(ilo,n) .or. ihi > n) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GEHD2',-info)
+              return
+           end if
+           do i = ilo,ihi - 1
+              ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
+              alpha = a(i + 1,i)
+              call la_${ri}$larfg(ihi - i,alpha,a(min(i + 2,n),i),1,tau(i))
+              a(i + 1,i) = cone
+              ! apply h(i) to a(1:ihi,i+1:ihi) from the right
+              call la_${ri}$larf('RIGHT',ihi,ihi - i,a(i + 1,i),1,tau(i),a(1,i + 1),lda, &
+                        work)
+              ! apply h(i)**h to a(i+1:ihi,i+1:n) from the left
+              call la_${ri}$larf('LEFT',ihi - i,n - i,a(i + 1,i),1,conjg(tau(i)),a(i + 1,i + &
+                        1),lda,work)
+              a(i + 1,i) = alpha
+           end do
+           return
+     end subroutine la_${ri}$gehd2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$LAHR2: reduces the first NB columns of A complex general n-BY-(n-k+1)
+     !> matrix A so that elements below the k-th subdiagonal are zero. The
+     !> reduction is performed by an unitary similarity transformation
+     !> Q**H * A * Q. The routine returns the matrices V and T which determine
+#:if rk == "sp"
+     !> Q as a block reflector I - V*T*v**H, and also the matrix Y = A * V * T.
+#:else
+     !> Q as a block reflector I - V*T*V**H, and also the matrix Y = A * V * T.
+#:endif
+     !> This is an auxiliary routine called by ${ri.upper()}$GEHRD.
+
+     pure subroutine la_${ri}$lahr2(n,k,nb,a,lda,tau,t,ldt,y,ldy)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: k,lda,ldt,ldy,n,nb
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: a(lda,*)
+           complex(${rk}$),intent(out) :: t(ldt,nb),tau(nb),y(ldy,nb)
+        ! =====================================================================
+
+           ! Local Scalars
+           integer(ilp) :: i
+           complex(${rk}$) :: ei
+           ! Intrinsic Functions
+           intrinsic :: min
+           ! Executable Statements
+           ! quick return if possible
+           if (n <= 1) return
+           loop_10: do i = 1,nb
+              if (i > 1) then
+                 ! update a(k+1:n,i)
+                 ! update i-th column of a - y * v**h
+                 call la_${ri}$lacgv(i - 1,a(k + i - 1,1),lda)
+                 call la_${ri}$gemv('NO TRANSPOSE',n - k,i - 1,-cone,y(k + 1,1),ldy,a(k + i - 1,1), &
+                           lda,cone,a(k + 1,i),1)
+                 call la_${ri}$lacgv(i - 1,a(k + i - 1,1),lda)
+                 ! apply i - v * t**h * v**h to this column (call it b) from the
+                 ! left, using the last column of t as workspace
+                 ! let  v = ( v1 )   and   b = ( b1 )   (first i-1 rows)
+                          ! ( v2 )             ( b2 )
+                 ! where v1 is unit lower triangular
+                 ! w := v1**h * b1
+                 call la_${ri}$copy(i - 1,a(k + 1,i),1,t(1,nb),1)
+                 call la_${ri}$trmv('LOWER','CONJUGATE TRANSPOSE','UNIT',i - 1,a(k + 1,1),lda, &
+                           t(1,nb),1)
+                 ! w := w + v2**h * b2
+                 call la_${ri}$gemv('CONJUGATE TRANSPOSE',n - k - i + 1,i - 1,cone,a(k + i,1),lda,a( &
+                           k + i,i),1,cone,t(1,nb),1)
+                 ! w := t**h * w
+                 call la_${ri}$trmv('UPPER','CONJUGATE TRANSPOSE','NON-UNIT',i - 1,t,ldt,t(1, &
+                           nb),1)
+                 ! b2 := b2 - v2*w
+                 call la_${ri}$gemv('NO TRANSPOSE',n - k - i + 1,i - 1,-cone,a(k + i,1),lda,t(1,nb &
+                           ),1,cone,a(k + i,i),1)
+                 ! b1 := b1 - v1*w
+                 call la_${ri}$trmv('LOWER','NO TRANSPOSE','UNIT',i - 1,a(k + 1,1),lda,t(1, &
+                           nb),1)
+                 call la_${ri}$axpy(i - 1,-cone,t(1,nb),1,a(k + 1,i),1)
+                 a(k + i - 1,i - 1) = ei
+              end if
+              ! generate the elementary reflector h(i) to annihilate
+              ! a(k+i+1:n,i)
+              call la_${ri}$larfg(n - k - i + 1,a(k + i,i),a(min(k + i + 1,n),i),1,tau(i))
+
+              ei = a(k + i,i)
+              a(k + i,i) = cone
+              ! compute  y(k+1:n,i)
+              call la_${ri}$gemv('NO TRANSPOSE',n - k,n - k - i + 1,cone,a(k + 1,i + 1),lda,a(k + i,i) &
+                        ,1,czero,y(k + 1,i),1)
+              call la_${ri}$gemv('CONJUGATE TRANSPOSE',n - k - i + 1,i - 1,cone,a(k + i,1),lda,a(k + &
+                        i,i),1,czero,t(1,i),1)
+              call la_${ri}$gemv('NO TRANSPOSE',n - k,i - 1,-cone,y(k + 1,1),ldy,t(1,i),1, &
+                        cone,y(k + 1,i),1)
+              call la_${ri}$scal(n - k,tau(i),y(k + 1,i),1)
+              ! compute t(1:i,i)
+              call la_${ri}$scal(i - 1,-tau(i),t(1,i),1)
+              call la_${ri}$trmv('UPPER','NO TRANSPOSE','NON-UNIT',i - 1,t,ldt,t(1,i),1)
+
+              t(i,i) = tau(i)
+           end do loop_10
+           a(k + nb,nb) = ei
+           ! compute y(1:k,1:nb)
+           call la_${ri}$lacpy('ALL',k,nb,a(1,2),lda,y,ldy)
+           call la_${ri}$trmm('RIGHT','LOWER','NO TRANSPOSE','UNIT',k,nb,cone,a(k + 1,1), &
+                     lda,y,ldy)
+           if (n > k + nb) call la_${ri}$gemm('NO TRANSPOSE','NO TRANSPOSE',k,nb,n - k - nb,cone,a(1, &
+                      2 + nb),lda,a(k + 1 + nb,1),lda,cone,y,ldy)
+           call la_${ri}$trmm('RIGHT','UPPER','NO TRANSPOSE','NON-UNIT',k,nb,cone,t,ldt,y, &
+                     ldy)
+           return
+     end subroutine la_${ri}$lahr2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$UNGHR: generates a complex unitary matrix Q which is defined as the
+     !> product of IHI-ILO elementary reflectors of order N, as returned by
+     !> ${ri.upper()}$GEHRD:
+     !> Q = H(ilo) H(ilo+1) . . . H(ihi-1).
+
+     pure subroutine la_${ri}$unghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: a(lda,*)
+           complex(${rk}$),intent(in) :: tau(*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: i,iinfo,j,lwkopt,nb,nh
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           nh = ihi - ilo
+           lquery = (lwork == -1)
+           if (n < 0) then
+              info = -1
+           else if (ilo < 1 .or. ilo > max(1,n)) then
+              info = -2
+           else if (ihi < min(ilo,n) .or. ihi > n) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (lwork < max(1,nh) .and. .not. lquery) then
+              info = -8
+           end if
+           if (info == 0) then
+              nb = la_ilaenv(1,'${ri.upper()}$UNGQR',' ',nh,nh,nh,-1)
+              lwkopt = max(1,nh)*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$UNGHR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (n == 0) then
+              work(1) = 1
+              return
+           end if
+           ! shift the vectors which define the elementary reflectors cone
+           ! column to the right, and set the first ilo and the last n-ihi
+           ! rows and columns to those of the unit matrix
+           do j = ihi,ilo + 1,-1
+              do i = 1,j - 1
+                 a(i,j) = czero
+              end do
+              do i = j + 1,ihi
+                 a(i,j) = a(i,j - 1)
+              end do
+              do i = ihi + 1,n
+                 a(i,j) = czero
+              end do
+           end do
+           do j = 1,ilo
+              do i = 1,n
+                 a(i,j) = czero
+              end do
+              a(j,j) = cone
+           end do
+           do j = ihi + 1,n
+              do i = 1,n
+                 a(i,j) = czero
+              end do
+              a(j,j) = cone
+           end do
+           if (nh > 0) then
+              ! generate q(ilo+1:ihi,ilo+1:ihi)
+              call la_${ri}$ungqr(nh,nh,nh,a(ilo + 1,ilo + 1),lda,tau(ilo),work,lwork, &
+                        iinfo)
+           end if
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$unghr
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$UNMHR: overwrites the general complex M-by-N matrix C with
+     !> SIDE = 'L'     SIDE = 'R'
+     !> TRANS = 'N':      Q * C          C * Q
+     !> TRANS = 'C':      Q**H * C       C * Q**H
+     !> where Q is a complex unitary matrix of order nq, with nq = m if
+     !> SIDE = 'L' and nq = n if SIDE = 'R'. Q is defined as the product of
+     !> IHI-ILO elementary reflectors, as returned by ${ri.upper()}$GEHRD:
+     !> Q = H(ilo) H(ilo+1) . . . H(ihi-1).
+
+     pure subroutine la_${ri}$unmhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work,lwork, &
+               info)
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: side,trans
+           integer(ilp),intent(in) :: ihi,ilo,lda,ldc,lwork,m,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: a(lda,*),c(ldc,*)
+           complex(${rk}$),intent(in) :: tau(*)
+           complex(${rk}$),intent(out) :: work(*)
+        ! =====================================================================
+           ! Local Scalars
+           logical(lk) :: left,lquery
+           integer(ilp) :: i1,i2,iinfo,lwkopt,mi,nb,nh,ni,nq,nw
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input arguments
+           info = 0
+           nh = ihi - ilo
+           left = la_lsame(side,'L')
+           lquery = (lwork == -1)
+           ! nq is the order of q and nw is the minimum dimension of work
+           if (left) then
+              nq = m
+              nw = max(1,n)
+           else
+              nq = n
+              nw = max(1,m)
+           end if
+           if (.not. left .and. .not. la_lsame(side,'R')) then
+              info = -1
+           else if (.not. la_lsame(trans,'N') .and. .not. la_lsame(trans,'C')) &
+                     then
+              info = -2
+           else if (m < 0) then
+              info = -3
+           else if (n < 0) then
+              info = -4
+           else if (ilo < 1 .or. ilo > max(1,nq)) then
+              info = -5
+           else if (ihi < min(ilo,nq) .or. ihi > nq) then
+              info = -6
+           else if (lda < max(1,nq)) then
+              info = -8
+           else if (ldc < max(1,m)) then
+              info = -11
+           else if (lwork < nw .and. .not. lquery) then
+              info = -13
+           end if
+           if (info == 0) then
+              if (left) then
+                 nb = la_ilaenv(1,'${ri.upper()}$UNMQR',side//trans,nh,n,nh,-1)
+              else
+                 nb = la_ilaenv(1,'${ri.upper()}$UNMQR',side//trans,m,nh,nh,-1)
+              end if
+              lwkopt = nw*nb
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$UNMHR',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! quick return if possible
+           if (m == 0 .or. n == 0 .or. nh == 0) then
+              work(1) = 1
+              return
+           end if
+           if (left) then
+              mi = nh
+              ni = n
+              i1 = ilo + 1
+              i2 = 1
+           else
+              mi = m
+              ni = nh
+              i1 = 1
+              i2 = ilo + 1
+           end if
+           call la_${ri}$unmqr(side,trans,mi,ni,nh,a(ilo + 1,ilo),lda,tau(ilo),c(i1, &
+                     i2),ldc,work,lwork,iinfo)
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$unmhr
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     !> ${ri.upper()}$GEHRD: reduces a complex general matrix A to upper Hessenberg form H by
+     !> an unitary similarity transformation:  Q**H * A * Q = H .
+
+     pure subroutine la_${ri}$gehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
+        use la_constants_${rk}$
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           integer(ilp),intent(in) :: ihi,ilo,lda,lwork,n
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(${rk}$),intent(inout) :: a(lda,*)
+           complex(${rk}$),intent(out) :: tau(*),work(*)
+        ! =====================================================================
+           ! Parameters
+           integer(ilp),parameter :: nbmax = 64
+           integer(ilp),parameter :: ldt = nbmax + 1
+           integer(ilp),parameter :: tsize = ldt*nbmax
+
+           ! Local Scalars
+           logical(lk) :: lquery
+           integer(ilp) :: i,ib,iinfo,iwt,j,ldwork,lwkopt,nb,nbmin,nh,nx
+           complex(${rk}$) :: ei
+           ! Intrinsic Functions
+           intrinsic :: max,min
+           ! Executable Statements
+           ! test the input parameters
+           info = 0
+           lquery = (lwork == -1)
+           if (n < 0) then
+              info = -1
+           else if (ilo < 1 .or. ilo > max(1,n)) then
+              info = -2
+           else if (ihi < min(ilo,n) .or. ihi > n) then
+              info = -3
+           else if (lda < max(1,n)) then
+              info = -5
+           else if (lwork < max(1,n) .and. .not. lquery) then
+              info = -8
+           end if
+           if (info == 0) then
+              ! compute the workspace requirements
+              nb = min(nbmax,la_ilaenv(1,'${ri.upper()}$GEHRD',' ',n,ilo,ihi,-1))
+              lwkopt = n*nb + tsize
+              work(1) = lwkopt
+           end if
+           if (info /= 0) then
+              call la_xerbla('${ri.upper()}$GEHRD',-info)
+              return
+           else if (lquery) then
+              return
+           end if
+           ! set elements 1:ilo-1 and ihi:n-1 of tau to czero
+           do i = 1,ilo - 1
+              tau(i) = czero
+           end do
+           do i = max(1,ihi),n - 1
+              tau(i) = czero
+           end do
+           ! quick return if possible
+           nh = ihi - ilo + 1
+           if (nh <= 1) then
+              work(1) = 1
+              return
+           end if
+           ! determine the block size
+           nb = min(nbmax,la_ilaenv(1,'${ri.upper()}$GEHRD',' ',n,ilo,ihi,-1))
+           nbmin = 2
+           if (nb > 1 .and. nb < nh) then
+              ! determine when to cross over from blocked to unblocked code
+              ! (last block is always handled by unblocked code)
+              nx = max(nb,la_ilaenv(3,'${ri.upper()}$GEHRD',' ',n,ilo,ihi,-1))
+              if (nx < nh) then
+                 ! determine if workspace is large enough for blocked code
+                 if (lwork < n*nb + tsize) then
+                    ! not enough workspace to use optimal nb:  determine the
+                    ! minimum value of nb, and reduce nb or force use of
+                    ! unblocked code
+                    nbmin = max(2,la_ilaenv(2,'${ri.upper()}$GEHRD',' ',n,ilo,ihi,-1))
+                    if (lwork >= (n*nbmin + tsize)) then
+                       nb = (lwork - tsize)/n
+                    else
+                       nb = 1
+                    end if
+                 end if
+              end if
+           end if
+           ldwork = n
+           if (nb < nbmin .or. nb >= nh) then
+              ! use unblocked code below
+              i = ilo
+           else
+              ! use blocked code
+              iwt = 1 + n*nb
+              do i = ilo,ihi - 1 - nx,nb
+                 ib = min(nb,ihi - i)
+                 ! reduce columns i:i+ib-1 to hessenberg form, returning the
+                 ! matrices v and t of the block reflector h = i - v*t*v**h
+                 ! which performs the reduction, and also the matrix y = a*v*t
+                 call la_${ri}$lahr2(ihi,i,ib,a(1,i),lda,tau(i),work(iwt),ldt,work, &
+                           ldwork)
+                 ! apply the block reflector h to a(1:ihi,i+ib:ihi) from the
+                 ! right, computing  a := a - y * v**h. v(i+ib,ib-1) must be set
+                 ! to 1
+                 ei = a(i + ib,i + ib - 1)
+                 a(i + ib,i + ib - 1) = cone
+                 call la_${ri}$gemm('NO TRANSPOSE','CONJUGATE TRANSPOSE',ihi,ihi - i - ib + 1,ib,- &
+                           cone,work,ldwork,a(i + ib,i),lda,cone,a(1,i + ib),lda)
+                 a(i + ib,i + ib - 1) = ei
+                 ! apply the block reflector h to a(1:i,i+1:i+ib-1) from the
+                 ! right
+                 call la_${ri}$trmm('RIGHT','LOWER','CONJUGATE TRANSPOSE','UNIT',i,ib - 1,cone, &
+                           a(i + 1,i),lda,work,ldwork)
+                 do j = 0,ib - 2
+                    call la_${ri}$axpy(i,-cone,work(ldwork*j + 1),1,a(1,i + j + 1),1)
+                 end do
+                 ! apply the block reflector h to a(i+1:ihi,i+ib:n) from the
+                 ! left
+                 call la_${ri}$larfb('LEFT','CONJUGATE TRANSPOSE','FORWARD','COLUMNWISE',ihi - i, &
+                 n - i - ib + 1,ib,a(i + 1,i),lda,work(iwt),ldt,a(i + 1,i + ib),lda,work, &
+                           ldwork)
+              end do
+           end if
+           ! use unblocked code to reduce the rest of the matrix
+           call la_${ri}$gehd2(n,i,ihi,a,lda,tau,work,iinfo)
+           work(1) = lwkopt
+           return
+     end subroutine la_${ri}$gehrd
+#:endfor
+
+end module la_lapack_eigv_gen_hess
