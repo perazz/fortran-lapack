@@ -1,7 +1,5 @@
 var NAVTREEINDEX20 =
 {
-"interfacela__lapack_1_1laqsy.html#aee322a9949ec1b00a1d42d63da3d26f9":[8,0,6,221,7],
-"interfacela__lapack_1_1laqsy.html#aefe3d9c1faa3f1bb80fd30aa9357f45c":[7,0,20,221,1],
 "interfacela__lapack_1_1laqsy.html#aefe3d9c1faa3f1bb80fd30aa9357f45c":[8,0,6,221,1],
 "interfacela__lapack_1_1laqtr.html":[7,0,20,222],
 "interfacela__lapack_1_1laqtr.html":[8,0,6,222],
@@ -249,5 +247,7 @@ var NAVTREEINDEX20 =
 "interfacela__lapack_1_1larft.html#a4823d35bd2303318199b82617e2fbebd":[8,0,6,234,8],
 "interfacela__lapack_1_1larft.html#a49d8212895e55b70a6d576fe6212e186":[7,0,20,234,9],
 "interfacela__lapack_1_1larft.html#a49d8212895e55b70a6d576fe6212e186":[8,0,6,234,9],
-"interfacela__lapack_1_1larft.html#a690f93e1238d4869c352ff48260eabdc":[7,0,20,234,7]
+"interfacela__lapack_1_1larft.html#a690f93e1238d4869c352ff48260eabdc":[7,0,20,234,7],
+"interfacela__lapack_1_1larft.html#a690f93e1238d4869c352ff48260eabdc":[8,0,6,234,7],
+"interfacela__lapack_1_1larft.html#a92c5313c52fbead35d2ed8a39cba33a3":[7,0,20,234,5]
 };

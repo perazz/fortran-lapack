@@ -1,7 +1,5 @@
 var NAVTREEINDEX57 =
 {
-"namespacela__lapack__z.html#aebff84d4da3f1bcb5a505720d2595322":[7,0,27,41],
-"namespacela__lapack__z.html#aec52919217cc893ca83e3fe4cbdddfc7":[7,0,27,314],
 "namespacela__lapack__z.html#aecdc26cb662e9162a87584535a93eb25":[7,0,27,205],
 "namespacela__lapack__z.html#aed5c68ee47c04dd02851cf722f5ece94":[7,0,27,216],
 "namespacela__lapack__z.html#af1195f91f51b02145ddc72c76bc763b2":[7,0,27,6],
