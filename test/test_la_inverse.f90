@@ -1,5 +1,5 @@
 ! Test inverse matrix
-module test_linalg_inverse
+module test_la_inverse
     use linear_algebra
 
     implicit none(type,external)
@@ -277,5 +277,5 @@ module test_linalg_inverse
 
     end subroutine test_w_eye_inverse
 
-end module test_linalg_inverse
+end module test_la_inverse
 

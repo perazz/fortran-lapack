@@ -1,6 +1,6 @@
 
 ! Test matrix norms
-module test_linalg_norms
+module test_la_norms
     use linear_algebra
 
     implicit none(type,external)
@@ -2982,5 +2982,5 @@ module test_linalg_norms
         
     end subroutine test_norm_dimmed_w_6d
     
-end module test_linalg_norms
+end module test_la_norms
 

@@ -1,4 +1,4 @@
-module test_linalg_least_squares
+module test_la_least_squares
     use linear_algebra
     implicit none(type,external)
 
@@ -96,5 +96,5 @@ module test_linalg_least_squares
 
     end subroutine test_qlstsq_one
 
-end module test_linalg_least_squares
+end module test_la_least_squares
 

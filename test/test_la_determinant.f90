@@ -1,5 +1,5 @@
 ! Test matrix determinant
-module test_linalg_determinant
+module test_la_determinant
     use linear_algebra
 
     implicit none(type,external)
@@ -425,5 +425,5 @@ module test_linalg_determinant
 
     end subroutine test_w_complex_determinant
 
-end module test_linalg_determinant
+end module test_la_determinant
 

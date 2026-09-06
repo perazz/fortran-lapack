@@ -1,5 +1,5 @@
 ! Test Cholesky factorization
-module test_linalg_cholesky
+module test_la_cholesky
     use linear_algebra
     implicit none(type,external)
     private
@@ -303,4 +303,4 @@ module test_linalg_cholesky
         
     end subroutine test_cholesky_w
 
-end module test_linalg_cholesky
+end module test_la_cholesky
