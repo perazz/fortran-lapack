@@ -27,28 +27,11 @@ FPRETTIFY_FLAGS = [
     "--c-relations", "--enable-replacements", "--enable-decl", "--whitespace-comma", "0",
 ]
 
-# Templates that the pipeline does not own yet.
-NOT_YET_TEMPLATED = {}
-
-# Templates whose committed output was edited by hand afterwards: regenerating them would revert
-# those edits, so they need a reconciliation change of their own before they rejoin the pipeline.
-SOURCE_DIVERGED = {
-    "la_constants": "template imports a module (la_kinds) that does not exist in the tree",
-    "la_cholesky": "src/ carries later hand edits (doxygen math, use-statement spacing)",
-    "la_determinant": "src/ carries later hand edits",
-    "la_eigs": "src/ carries later hand edits",
-    "la_eye": "src/ omits the la_eye_s specific the template emits",
-    "la_inverse": "src/ carries later hand edits",
-    "la_norms": "src/ carries later hand edits",
-    "la_pinv": "src/ carries later hand edits",
-    "la_schur": "src/ has one interface schur block, the template emits two",
-    "la_svd": "src/ carries later hand edits",
-}
-
-EXCLUDED = dict(NOT_YET_TEMPLATED, **SOURCE_DIVERGED)
+# Templates the pipeline does not regenerate, mapped to the reason; --only bypasses the list.
+EXCLUDED = {}
 
 # Committed names that do not follow the extension rule below.
-NAME_OVERRIDE = {}
+NAME_OVERRIDE = {"la_constants": "la_constants.f90"}
 
 CPP_DIRECTIVE = re.compile(r"^#\s*(if|ifdef|ifndef|elif|else|endif|define|undef)\b", re.M)
 LABELLED_CONTINUE = re.compile(r"^\s*(\d+)\s+(continue)\s*$")

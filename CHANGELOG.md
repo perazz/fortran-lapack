@@ -77,6 +77,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The `fypp` templates of the high-level modules regenerate their committed
   sources byte for byte again.
+- `scripts/fypp_deploy.py` deploys every template under `fypp/src` and
+  `fypp/test`. The exclusion list that held the ten high-level modules back is
+  gone, so `--check` now covers the whole generated tree.
 
 ### Fixed
 
