@@ -317,7 +317,7 @@ Solve linear systems - one (`b(:)`) or many (`b(:,:)`) - writing the result into
 
 ### Arguments
 
-- `a`: A `real` or `complex` coefficient matrix of size \( [n,n] \). If `overwrite_a=.true.`, it is destroyed by the call.
+- `a`: A `real` or `complex` coefficient matrix of size \f$ [n,n] \f$. If `overwrite_a=.true.`, it is destroyed by the call.
 - `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
 - `x`: An array of the same shape and kind as `b`. On output it holds the solution.
 - `pivot` (optional): An `integer(ilp)` array of size `n` that receives the diagonal pivot indices of the LU factorization.
@@ -343,14 +343,14 @@ Solve linear systems - one (`b(:)`) or many (`b(:,:)`) - writing the result into
 
 ### Description
 
-Factorize a `real` symmetric or `complex` Hermitian positive definite matrix and solve \( A x = b \) in one call, for one (`b(:)`) or many (`b(:,:)`) right-hand sides. Only the triangle `lower` selects is read. The result is written into the caller's array `x`. The routine is `pure`.
+Factorize a `real` symmetric or `complex` Hermitian positive definite matrix and solve \f$ A x = b \f$ in one call, for one (`b(:)`) or many (`b(:,:)`) right-hand sides. Only the triangle `lower` selects is read. The result is written into the caller's array `x`. The routine is `pure`.
 
 ### Arguments
 
-- `a`: A `real` symmetric or `complex` Hermitian positive definite matrix of size \( [n,n] \). If `overwrite_a=.true.`, it is overwritten with its Cholesky factor.
+- `a`: A `real` symmetric or `complex` Hermitian positive definite matrix of size \f$ [n,n] \f$. If `overwrite_a=.true.`, it is overwritten with its Cholesky factor.
 - `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
 - `x`: An array of the same shape and kind as `b`. On output it holds the solution.
-- `lower` (optional, default = `.true.`): If `.true.`, the lower triangle of `a` is read and the factorization is \( A = L L^H \); otherwise the upper triangle is read and the factorization is \( A = U^H U \).
+- `lower` (optional, default = `.true.`): If `.true.`, the lower triangle of `a` is read and the factorization is \f$ A = L L^H \f$; otherwise the upper triangle is read and the factorization is \f$ A = U^H U \f$.
 - `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
 
@@ -375,11 +375,11 @@ Factorize a `real` symmetric or `complex` Hermitian positive definite matrix and
 
 ### Description
 
-Solve \( A x = b \) for one or many right-hand sides from a Cholesky factor computed earlier, without factorizing again. Each call costs two triangular solves. Both routines are `pure`.
+Solve \f$ A x = b \f$ for one or many right-hand sides from a Cholesky factor computed earlier, without factorizing again. Each call costs two triangular solves. Both routines are `pure`.
 
 ### Arguments
 
-- `l` / `u`: The lower or upper Cholesky factor of size \( [n,n] \), as returned by [cholesky](@ref la_cholesky::cholesky) with `lower=.true.` or `lower=.false.`.
+- `l` / `u`: The lower or upper Cholesky factor of size \f$ [n,n] \f$, as returned by [cholesky](@ref la_cholesky::cholesky) with `lower=.true.` or `lower=.false.`.
 - `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as the factor, containing the right-hand-side vector(s).
 - `x`: An array of the same shape and kind as `b`. On output it holds the solution.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
