@@ -47,9 +47,8 @@ module la_constants
      integer,parameter :: ilp = int32
      
 #ifdef LA_WITH_XDP
-     integer,parameter :: xdp_is_a_kind_of_its_own = &
+     integer,parameter,private :: xdp_is_a_kind_of_its_own = &
         1/merge(1,0,selected_real_kind(18) /= selected_real_kind(33)) ! LA_WITH_XDP needs a target with 80-bit reals
-     private :: xdp_is_a_kind_of_its_own
 #endif
      private :: int32,int64
 
