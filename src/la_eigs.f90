@@ -163,7 +163,7 @@ module la_eig
      !! the eigenvectors corresponding to those eigenvalues. The routine is designed to handle both real and complex matrices.
      !!
      !!### Description
-     !! Given a real symmetric or complex Hermitian matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$ 
+     !! Given a real symmetric or complex Hermitian matrix \f$ A \f$, this routine computes its eigenvalues \f$ \lambda \f$
      !! and, optionally, the right or left eigenvectors:
      !!
      !! \f[
@@ -205,7 +205,7 @@ module la_eig
      !! - If the matrix is Hermitian, the result will be complex eigenvectors even if the input matrix is real.
      !! - This method is based on LAPACK's [SYEVD](@ref la_lapack::syevd) for real symmetric matrices and
      !!       [HEEVD](@ref la_lapack::heevd) for complex Hermitian matrices.
-     !! - The matrix \f$ A \f$ can be overwritten in-place to improve performance but its original data will be lost.     
+     !! - The matrix \f$ A \f$ can be overwritten in-place to improve performance but its original data will be lost.
      interface eigh
         module procedure la_eigh_s
         module procedure la_eigh_d
@@ -214,13 +214,12 @@ module la_eig
         module procedure la_eigh_z
         module procedure la_eigh_w
      end interface eigh
-     
 
      !> Eigenvalues of a real symmetric or complex Hermitian matrix.
      !!
      !!### Summary
      !! Compute the eigenvalues of a real symmetric or complex Hermitian matrix \f$ A \f$.
-     !! The function returns the eigenvalues in an array. 
+     !! The function returns the eigenvalues in an array.
      !! The user can specify whether to use the upper or lower half of the matrix for computation.
      !!
      !!### Description
@@ -255,7 +254,7 @@ module la_eig
      !!
      !!### Notes
      !! - The computed eigenvalues are returned as real values for real matrices, and complex values for complex matrices.
-     !! - This routine is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.     
+     !! - This routine is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.
      interface eigvalsh
         module procedure la_eigvalsh_s
         module procedure la_eigvalsh_noerr_s

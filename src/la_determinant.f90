@@ -20,10 +20,10 @@ module la_determinant
      !! @param[in,out] A The input square matrix of size \f$ [m, n] \f$. If `overwrite_a` is true,
      !!                  the contents of A may be modified during computation.
      !! @param[in] overwrite_a (Optional) If `.true.`, A may be overwritten and destroyed. Default is `.false.`.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, 
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
      !!
-     !! @return The determinant of the matrix \f$ A \f$. The result is a `real` scalar value of the same 
+     !! @return The determinant of the matrix \f$ A \f$. The result is a `real` scalar value of the same
      !!         kind as the input matrix.
      !!
      !! @note This function relies on a matrix factorization approach (e.g., LU decomposition) to compute

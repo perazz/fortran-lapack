@@ -26,7 +26,6 @@ module la_inverse
      !!
      public :: inv
 
-
      !> @brief Compute the inverse of a square matrix in-place.
      !!
      !! This subroutine computes the inverse of a real or complex square matrix \f$ A \f$ in-place.
@@ -41,7 +40,6 @@ module la_inverse
      !!          the computation will fail.
      !!
      public :: invert
-
 
      !> @brief Compute the inverse of a square matrix using the `.inv.` operator.
      !!

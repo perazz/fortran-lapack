@@ -12,7 +12,7 @@ module la_cholesky
      
      character(*),parameter :: this = 'cholesky'     
      
-     !> @brief Computes the Cholesky factorization \( A = L \cdot L^T \), or \( A = U^T \cdot U \). 
+     !> @brief Computes the Cholesky factorization \f$ A = L \cdot L^T \f$, or \f$ A = U^T \cdot U \f$. 
      !!
      !! ### Summary 
      !! Pure subroutine interface for computing the Cholesky triangular factors. 
@@ -29,8 +29,8 @@ module la_cholesky
      !! 
      !! @note The solution is based on LAPACK's [POTRF](@ref la_lapack::potrf) methods.
      !!
-     !! @param[in,out] a The input matrix of size \( [m, n] \). Overwritten with the Cholesky factor.
-     !! @param[out] c (Optional) The output matrix of size \( [n, n] \), containing the Cholesky factor.
+     !! @param[in,out] a The input matrix of size \f$ [m, n] \f$. Overwritten with the Cholesky factor.
+     !! @param[out] c (Optional) The output matrix of size \f$ [n, n] \f$, containing the Cholesky factor.
      !! @param[in] lower (Optional) Logical flag indicating whether the lower or upper triangular factor is required.
      !!                  Default: lower triangular factor.
      !! @param[in] other_zeroed (Optional) Logical flag indicating whether the unused half of the matrix should be zeroed.
@@ -44,7 +44,7 @@ module la_cholesky
         #:endfor
      end interface cholesky     
         
-     !> @brief Computes the Cholesky factorization \( A = L \cdot L^T \), or \( A = U^T \cdot U \). 
+     !> @brief Computes the Cholesky factorization \f$ A = L \cdot L^T \f$, or \f$ A = U^T \cdot U \f$. 
      !!
      !! ### Summary 
      !! Pure function interface for computing the Cholesky triangular factors. 
@@ -59,14 +59,14 @@ module la_cholesky
      !! and the `other_zeroed` optional `logical` flag determines whether the unused
      !! part of the triangular matrix should be zeroed.
      !! 
-     !! @note The solution is based on LAPACK's `*POTRF` methods.
+     !! @note The solution is based on LAPACK's [POTRF](@ref la_lapack::potrf) methods.
      !!
-     !! @param[in] a The input matrix of size \( [n, n] \).
+     !! @param[in] a The input matrix of size \f$ [n, n] \f$.
      !! @param[in] lower (Optional) Logical flag indicating whether the lower or upper triangular factor is required.
      !!                  Default: lower triangular factor.
      !! @param[in] other_zeroed (Optional) Logical flag indicating whether the unused half of the matrix should be zeroed.
      !!                         Default: true.
-     !! @return c The output matrix of size \( [n, n] \), containing the Cholesky factor.
+     !! @return c The output matrix of size \f$ [n, n] \f$, containing the Cholesky factor.
      !!
      interface chol
         #:for rk,rt,ri in ALL_KINDS_TYPES

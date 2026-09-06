@@ -11,7 +11,7 @@ module la_eig
      use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_positive_inf, ieee_quiet_nan
      implicit none(type,external)
      private
-     
+
      public :: eig     
      public :: eigvals     
      public :: eigh     
@@ -148,6 +148,9 @@ module la_eig
      !!
      !! where \f$ v \f$ represents an eigenvector corresponding to eigenvalue \f$ \lambda \f$. The eigenvalues are always
      !! returned as real numbers, and the eigenvectors, if requested, are orthonormal.
+     !!
+     !! This function uses the LAPACK routines designed for symmetric or Hermitian matrices, ensuring numerical stability
+     !! and performance.
      !!
      !! By default, the routine uses the lower half of the matrix for the computation. However, the upper half can
      !! optionally be used by setting the `upper_a` argument.
