@@ -40,8 +40,7 @@ module test_linalg_least_squares
         real(sp),parameter :: y(*) = real([0.3,1.1,1.5,2.0,3.2,6.6,8.6],sp)
         real(sp),parameter :: ab(*) = real([0.20925829,0.12013861],sp)
 
-        real(sp) :: M(size(x),2)
-        real(sp),allocatable :: p(:)
+        real(sp) :: M(size(x),2),p(2)
 
         ! Coefficient matrix for polynomial y = a + b*x**2
         M(:,1) = x**0
@@ -53,7 +52,7 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        call check(error,all(abs(p(:2) - ab) < 1.0e-4_sp),'data converged')
+        call check(error,all(abs(p - ab) < 1.0e-4_sp),'data converged')
         if (allocated(error)) return
         
         call check(error,rank == 2,'matrix rank == 2')
@@ -86,11 +85,11 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        ! Check size: the solution occupies the leading m entries of an rhs-sized result
-        call check(error,size(x) >= m)
+        ! Check size
+        call check(error,size(x) == m)
         if (allocated(error)) return
         
-        call check(error,all(abs(x(:m) - xsol) < 1.0e-4_sp),'data converged')
+        call check(error,all(abs(x - xsol) < 1.0e-4_sp),'data converged')
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_s
@@ -107,8 +106,7 @@ module test_linalg_least_squares
         real(dp),parameter :: y(*) = real([0.3,1.1,1.5,2.0,3.2,6.6,8.6],dp)
         real(dp),parameter :: ab(*) = real([0.20925829,0.12013861],dp)
 
-        real(dp) :: M(size(x),2)
-        real(dp),allocatable :: p(:)
+        real(dp) :: M(size(x),2),p(2)
 
         ! Coefficient matrix for polynomial y = a + b*x**2
         M(:,1) = x**0
@@ -120,7 +118,7 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        call check(error,all(abs(p(:2) - ab) < 1.0e-4_dp),'data converged')
+        call check(error,all(abs(p - ab) < 1.0e-4_dp),'data converged')
         if (allocated(error)) return
         
         call check(error,rank == 2,'matrix rank == 2')
@@ -153,11 +151,11 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        ! Check size: the solution occupies the leading m entries of an rhs-sized result
-        call check(error,size(x) >= m)
+        ! Check size
+        call check(error,size(x) == m)
         if (allocated(error)) return
         
-        call check(error,all(abs(x(:m) - xsol) < 1.0e-4_dp),'data converged')
+        call check(error,all(abs(x - xsol) < 1.0e-4_dp),'data converged')
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_d
@@ -174,8 +172,7 @@ module test_linalg_least_squares
         real(qp),parameter :: y(*) = real([0.3,1.1,1.5,2.0,3.2,6.6,8.6],qp)
         real(qp),parameter :: ab(*) = real([0.20925829,0.12013861],qp)
 
-        real(qp) :: M(size(x),2)
-        real(qp),allocatable :: p(:)
+        real(qp) :: M(size(x),2),p(2)
 
         ! Coefficient matrix for polynomial y = a + b*x**2
         M(:,1) = x**0
@@ -187,7 +184,7 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        call check(error,all(abs(p(:2) - ab) < 1.0e-4_qp),'data converged')
+        call check(error,all(abs(p - ab) < 1.0e-4_qp),'data converged')
         if (allocated(error)) return
         
         call check(error,rank == 2,'matrix rank == 2')
@@ -220,11 +217,11 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        ! Check size: the solution occupies the leading m entries of an rhs-sized result
-        call check(error,size(x) >= m)
+        ! Check size
+        call check(error,size(x) == m)
         if (allocated(error)) return
         
-        call check(error,all(abs(x(:m) - xsol) < 1.0e-4_qp),'data converged')
+        call check(error,all(abs(x - xsol) < 1.0e-4_qp),'data converged')
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_q
