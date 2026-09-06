@@ -1,0 +1,242 @@
+#:include "common.fypp"
+!> BLAS-like scalar: complex division, Pythagorean sums, NaN tests
+module la_lapack_blas_like_scalar
+     use la_constants
+     use la_lapack_auxiliary
+     implicit none(type,external)
+     private
+
+     public :: sp,dp,qp,lk,ilp
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     public :: la_${ri}$laisnan
+     public :: la_${ri}$lapy3
+     public :: la_${ri}$isnan
+     public :: la_${ri}$lapy2
+     public :: la_${ri}$ladiv
+#:endfor
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+     public :: la_${ri}$ladiv
+#:endfor
+
+     contains
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> This routine is not for general use.  It exists solely to avoid
+     !> over-optimization in ${ri.upper()}$ISNAN.
+     !> ${ri.upper()}$LAISNAN: checks for NaNs by comparing its two arguments for
+     !> inequality.  NaN is the only floating-point value where NaN != NaN
+     !> returns .TRUE.  To check for NaNs, pass the same variable as both
+     !> arguments.
+     !> A compiler must assume that the two arguments are
+     !> not the same variable, and the test will not be optimized away.
+     !> Interprocedural or whole-program optimization may delete this
+     !> test.  The ISNAN functions will be replaced by the correct
+     !> Fortran 03 intrinsic once the intrinsic is widely available.
+
+     pure logical(lk) function la_${ri}$laisnan(${ri}$in1,${ri}$in2)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: ${ri}$in1,${ri}$in2
+        ! =====================================================================
+        ! Executable Statements
+           la_${ri}$laisnan = (${ri}$in1 /= ${ri}$in2)
+           return
+     end function la_${ri}$laisnan
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LAPY3: returns sqrt(x**2+y**2+z**2), taking care not to cause
+     !> unnecessary overflow and unnecessary underflow.
+
+     pure real(${rk}$) function la_${ri}$lapy3(x,y,z)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: x,y,z
+        ! =====================================================================
+
+           ! Local Scalars
+           real(${rk}$) :: w,xabs,yabs,zabs,hugeval
+           ! Intrinsic Functions
+           intrinsic :: abs,max,sqrt
+           ! Executable Statements
+           hugeval = la_${ri}$lamch('OVERFLOW')
+           xabs = abs(x)
+           yabs = abs(y)
+           zabs = abs(z)
+           w = max(xabs,yabs,zabs)
+           if (w == zero .or. w > hugeval) then
+           ! w can be zero for max(0,nan,0)
+           ! adding all three entries together will make sure
+           ! nan will not disappear.
+              la_${ri}$lapy3 = xabs + yabs + zabs
+           else
+              la_${ri}$lapy3 = w*sqrt((xabs/w)**2 + (yabs/w)**2 + (zabs/w)**2)
+           end if
+           return
+     end function la_${ri}$lapy3
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$ISNAN: returns .TRUE. if its argument is NaN, and .FALSE.
+     !> otherwise.  To be replaced by the Fortran 2003 intrinsic in the
+     !> future.
+
+     pure logical(lk) function la_${ri}$isnan(${ri}$in)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: ${ri}$in
+        ! =====================================================================
+        ! Executable Statements
+           la_${ri}$isnan = la_${ri}$laisnan(${ri}$in,${ri}$in)
+           return
+     end function la_${ri}$isnan
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary
+     !> overflow and unnecessary underflow.
+
+     pure real(${rk}$) function la_${ri}$lapy2(x,y)
+        use la_constants_${rk}$
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: x,y
+        ! =====================================================================
+
+           ! Local Scalars
+           real(${rk}$) :: w,xabs,yabs,z,hugeval
+           logical(lk) :: x_is_nan,y_is_nan
+           ! Intrinsic Functions
+           intrinsic :: abs,max,min,sqrt
+           ! Executable Statements
+           x_is_nan = la_${ri}$isnan(x)
+           y_is_nan = la_${ri}$isnan(y)
+           if (x_is_nan) la_${ri}$lapy2 = x
+           if (y_is_nan) la_${ri}$lapy2 = y
+           hugeval = la_${ri}$lamch('OVERFLOW')
+           if (.not. (x_is_nan .or. y_is_nan)) then
+              xabs = abs(x)
+              yabs = abs(y)
+              w = max(xabs,yabs)
+              z = min(xabs,yabs)
+              if (z == zero .or. w > hugeval) then
+                 la_${ri}$lapy2 = w
+              else
+                 la_${ri}$lapy2 = w*sqrt(one + (z/w)**2)
+              end if
+           end if
+           return
+     end function la_${ri}$lapy2
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+     !> ${ri.upper()}$LADIV: performs complex division in  real arithmetic
+     !> a + i*b
+     !> p + i*q = ---------
+     !> c + i*d
+     !> The algorithm is due to Michael Baudin and Robert L. Smith
+     !> and can be found in the paper
+     !> "A Robust Complex Division in Scilab"
+
+     pure subroutine la_${ri}$ladiv(a,b,c,d,p,q)
+        use la_constants_${rk}$,only:half,one,two
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           real(${rk}$),intent(in) :: a,b,c,d
+           real(${rk}$),intent(out) :: p,q
+        ! =====================================================================
+           ! Parameters
+           real(${rk}$),parameter :: bs = 2.0_${rk}$
+
+           ! Local Scalars
+           real(${rk}$) :: aa,bb,cc,dd,ab,cd,s,ov,un,be,eps
+           ! Intrinsic Functions
+           intrinsic :: abs,max
+           ! Executable Statements
+           aa = a
+           bb = b
+           cc = c
+           dd = d
+           ab = max(abs(a),abs(b))
+           cd = max(abs(c),abs(d))
+           s = one
+           ov = la_${ri}$lamch('OVERFLOW THRESHOLD')
+           un = la_${ri}$lamch('SAFE MINIMUM')
+           eps = la_${ri}$lamch('EPSILON')
+           be = bs/(eps*eps)
+           if (ab >= half*ov) then
+              aa = half*aa
+              bb = half*bb
+              s = two*s
+           end if
+           if (cd >= half*ov) then
+              cc = half*cc
+              dd = half*dd
+              s = half*s
+           end if
+           if (ab <= un*bs/eps) then
+              aa = aa*be
+              bb = bb*be
+              s = s/be
+           end if
+           if (cd <= un*bs/eps) then
+              cc = cc*be
+              dd = dd*be
+              s = s*be
+           end if
+           if (abs(d) <= abs(c)) then
+              call la_${ri}$ladiv1(aa,bb,cc,dd,p,q)
+           else
+              call la_${ri}$ladiv1(bb,aa,dd,cc,p,q)
+              q = -q
+           end if
+           p = p*s
+           q = q*s
+           return
+     end subroutine la_${ri}$ladiv
+#:endfor
+
+#:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if rk == "sp"
+     !> ${ri.upper()}$LADIV: := X / Y, where X and Y are complex.  The computation of X / Y
+#:else
+     !> ${ri.upper()}$LADIV = X / Y, where X and Y are complex.  The computation of X / Y
+#:endif
+     !> will not overflow on an intermediary step unless the results
+     !> overflows.
+
+     pure complex(${rk}$) function la_${ri}$ladiv(x,y)
+        ! -- lapack auxiliary routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           complex(${rk}$),intent(in) :: x,y
+        ! =====================================================================
+           ! Local Scalars
+           real(${rk}$) :: zi,zr
+           ! Intrinsic Functions
+#:if rk == "sp"
+           intrinsic :: aimag,cmplx,real
+#:else
+           intrinsic :: real,cmplx,aimag
+#:endif
+           ! Executable Statements
+           call la_${ci}$ladiv(real(x,KIND=${rk}$),aimag(x),real(y,KIND=${rk}$),aimag(y),zr,zi)
+
+           la_${ri}$ladiv = cmplx(zr,zi,KIND=${rk}$)
+           return
+     end function la_${ri}$ladiv
+#:endfor
+
+end module la_lapack_blas_like_scalar

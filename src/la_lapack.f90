@@ -9,6 +9,16 @@ module la_lapack
      use la_lapack_c
      use la_lapack_z
      use la_lapack_w
+     use la_lapack_auxiliary
+     use la_lapack_blas_like_base
+     use la_lapack_blas_like_l1
+     use la_lapack_blas_like_l2
+     use la_lapack_blas_like_l3
+     use la_lapack_blas_like_mnorm
+     use la_lapack_blas_like_scalar
+     use la_lapack_givens_jacobi_rot
+     use la_lapack_householder_reflectors
+     use la_lapack_solve_aux
      implicit none(type,external)
      public
 

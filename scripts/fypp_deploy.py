@@ -37,7 +37,6 @@ NOT_YET_TEMPLATED = {
     "la_lapack_z": "per-kind LAPACK monolith, not templated yet",
     "la_lapack_w": "per-kind LAPACK monolith, not templated yet",
     "la_lapack": "LAPACK umbrella, templated together with the monoliths",
-    "la_lapack_aux": "LAPACK kind-free helpers, templated together with the monoliths",
 }
 
 # Templates whose committed output was edited by hand afterwards: regenerating them would revert
@@ -57,8 +56,9 @@ SOURCE_DIVERGED = {
 
 EXCLUDED = dict(NOT_YET_TEMPLATED, **SOURCE_DIVERGED)
 
-# Committed name that does not follow the extension rule below.
-NAME_OVERRIDE = {"la_lapack": "la_lapack.f90"}
+# Committed names that do not follow the extension rule below: both carry cpp directives yet are
+# committed as .f90, and consumers' build files list them under that name.
+NAME_OVERRIDE = {"la_lapack": "la_lapack.f90", "la_lapack_aux": "la_lapack_aux.f90"}
 
 CPP_DIRECTIVE = re.compile(r"^#\s*(if|ifdef|ifndef|elif|else|endif|define|undef)\b", re.M)
 LABELLED_CONTINUE = re.compile(r"^\s*(\d+)\s+(continue)\s*$")
@@ -91,6 +91,16 @@ def realign_labelled_continue(path):
             fid.write("\n".join(lines) + "\n")
 
 
+def _case_clash(dest_rel):
+    """The committed path that differs from `dest_rel` in case only, on any filesystem."""
+    folder = os.path.join(ROOT, os.path.dirname(dest_rel))
+    want = os.path.basename(dest_rel)
+    for name in os.listdir(folder):
+        if name != want and name.lower() == want.lower():
+            return os.path.join(os.path.dirname(dest_rel), name)
+    return None
+
+
 def generate(source, dest_dir, defines):
     """Run fypp + fprettify for one template; return (relative destination path, error)."""
     stem = os.path.splitext(os.path.basename(source))[0]
@@ -101,6 +111,9 @@ def generate(source, dest_dir, defines):
         dest_rel = os.path.join("test", os.path.splitext(rel)[0] + ".f90")
     else:
         dest_rel = os.path.join("src", output_name(stem, text))
+        clash = _case_clash(dest_rel)
+        if clash:
+            return dest_rel, ("committed as %s; add the name to NAME_OVERRIDE" % clash)
     dest = os.path.join(dest_dir, dest_rel)
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     cmd = ["fypp", "-I", os.path.join(ROOT, "include")]
