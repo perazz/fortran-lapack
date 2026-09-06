@@ -5787,7 +5787,7 @@ module la_lapack_eigv_tridiag2
 
      pure subroutine la_slarrf(n,d,l,ld,clstrt,clend,w,wgap,werr,spdiam,clgapl, &
                clgapr,pivmin,sigma,dplus,lplus,work,info)
-        use la_constants_sp,only:one,two,four
+        use la_constants_sp,only:one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

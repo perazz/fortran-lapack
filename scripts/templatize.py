@@ -280,18 +280,20 @@ def needs_constants(record):
     A LAPACK body routinely declares a local `safmin` or `eps` while reading `one` and `czero`
     from the module-level block, and a local declaration of a use-associated name is an error, so
     the import has to name what it brings in whenever the body shadows any of the constants.
+
+    The two precisions of a divergent routine may read different constants, so each gets the list
+    it really reads: naming a constant the body never uses is an unused-parameter warning, and
+    the hunk minimizer guards the two import lines exactly as it guards any other difference.
     """
     wanted, shadowed = constants_used(record["text"])
-    if record.get("sp_text"):
-        other_wanted, other_shadowed = constants_used(record["sp_text"])
-        wanted |= other_wanted
-        shadowed |= other_shadowed
-    clash = wanted & shadowed
+    sp_wanted, sp_shadowed = ((wanted, shadowed) if not record.get("sp_text")
+                              else constants_used(record["sp_text"]))
+    clash = (wanted | sp_wanted) & (shadowed | sp_shadowed)
     if clash:
         raise SystemExit("templatize: %s declares %s in one precision and reads it from "
                          "la_constants in the other" % (record["donor"], sorted(clash)))
-    names = [c for c in CONSTANTS if c in wanted]
-    return names, bool(shadowed)
+    order = lambda names: [c for c in CONSTANTS if c in names]
+    return order(wanted), order(sp_wanted), bool(shadowed or sp_shadowed)
 
 
 def insert_use(text, kind, names):
@@ -517,13 +519,13 @@ def _with_guard(record):
         record["guard"] = "rku is not None"
     if record["guard"] == "rkl is not None":
         record["text"] = K.lower_precision_word(record["text"], _own_letter(record["donor"]))
-    names, shadowed = needs_constants(record)
+    names, sp_names, shadowed = needs_constants(record)
+    kind = "${rk}$" if record["class"] != "kindfree" else KIND_OF[_own_letter(record["donor"])]
+    only = lambda wanted: ",only:" + ",".join(wanted) if shadowed else ""
     if names:
-        kind = "${rk}$" if record["class"] != "kindfree" else KIND_OF[_own_letter(record["donor"])]
-        only = ",only:" + ",".join(names) if shadowed else ""
-        record["text"] = insert_use(record["text"], kind, only)
-        if record.get("sp_text"):
-            record["sp_text"] = insert_use(record["sp_text"], kind, only)
+        record["text"] = insert_use(record["text"], kind, only(names))
+    if sp_names and record.get("sp_text"):
+        record["sp_text"] = insert_use(record["sp_text"], kind, only(sp_names))
     return record
 
 
