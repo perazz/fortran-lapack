@@ -1,5 +1,5 @@
 <map id="la_blas::swap::zswap" name="la_blas::swap::zswap">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,164,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__z.html#a6c8a977cbff3450d74dd5d8b33306f82" title="ZSWAP: interchanges two vectors." alt="" coords="212,5,363,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,15,198,15,198,21,164,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,164,38"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="212,5,347,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,23,198,23,198,28,164,28"/>
 </map>

@@ -1,7 +1,7 @@
 <map id="la_blas::rotmg::drotmg" name="la_blas::rotmg::drotmg">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,176,56"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__d.html#a2cc1b6484d478b20561064728d57916f" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="224,5,381,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,30,210,26,211,32,177,36"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__q.html#a02d98e4f5c8ef9c11bec0fa89aff9307" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="224,55,381,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,50,211,54,210,60,176,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,45,176,70"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a348290a6a9c5af8259802510b08c462b" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="224,5,359,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,42,210,36,211,41,171,47"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ada3caf0cf0bdacb947cdece4534b0c11" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="224,69,359,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,67,211,74,210,79,170,73"/>
 </map>

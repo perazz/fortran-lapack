@@ -1,10 +1,10 @@
 <map id="la_blas::syrk::csyrk" name="la_blas::syrk::csyrk">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,55,152,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__c.html#a9b299c5bcfccda78cfab703117043e74" title="CSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="200,55,344,80"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level3__sym.html#a1c5d3780e1a8689320df13b1507be3bf" title="CSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="200,47,351,87"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,65,186,65,186,70,152,70"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="392,29,559,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,56,378,51,379,57,344,61"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="392,79,559,104"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="344,73,379,77,378,83,344,78"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="442,31,435,21,439,11,452,5,475,3,504,6,515,16,511,20,501,11,475,8,454,10,442,15,440,20,446,28"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="399,29,565,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="351,55,385,51,385,57,351,61"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="399,79,565,104"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="351,73,385,77,385,83,351,79"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="448,31,441,21,445,11,459,5,482,3,511,6,522,15,519,20,508,11,482,8,460,10,449,15,446,20,452,28"/>
 </map>

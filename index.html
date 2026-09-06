@@ -1039,9 +1039,15 @@ Extension to external BLAS/LAPACK libraries</h1>
 <div class="line"><span class="preprocessor">#endif</span></div>
 <div class="line"><span class="preprocessor"></span><span class="keyword">end interface</span></div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md181"></a>
+Regenerating sources</h1>
+<p>The Fortran under <code>src/</code> and <code>test/</code> is generated from the kind-templated <a href="https://fypp.readthedocs.io">fypp</a> sources under <code>fypp/src/</code> and <code>fypp/test/</code>, with the shared kind algebra in <code>include/</code>. The generated files are committed, so building or installing the package never needs fypp. After editing a template, regenerate with</p>
+<div class="fragment"><div class="line">python3 scripts/fypp_deploy.py           # rewrite src/ and test/ from the templates</div>
+<div class="line">python3 scripts/fypp_deploy.py --check   # verify the committed tree matches the templates</div>
+</div><!-- fragment --><p><code>--check</code> is what continuous integration runs; it prints the templates it does not own yet and the reason for each. Two further scripts support the ongoing move of the BLAS and LAPACK sources into kind-templated topic modules: <code>scripts/templatize.py</code> converts per-kind Fortran into one template per topic, driven by <code>scripts/la_modules.tsv</code>, and <code>scripts/check_generated.py</code> compares the regenerated tree against a git reference routine by routine.</p>
+<h1><a class="anchor" id="autotoc_md182"></a>
 Licensing</h1>
 <p>LAPACK is a freely-available software package. It is available from <a href="https://www.netlib.org/lapack/">netlib</a> via anonymous ftp and the World Wide Web. Thus, it can be included in commercial software packages (and has been). Credit for the library should be given to the <a href="https://www.netlib.org/lapack/contributor-list.html">LAPACK authors</a>. The license used for the software is the <a href="https://www.netlib.org/lapack/LICENSE.txt">modified BSD license</a>. According to the original license, we changed the name of the routines and commented the changes made to the original.</p>
-<h1><a class="anchor" id="autotoc_md182"></a>
+<h1><a class="anchor" id="autotoc_md183"></a>
 Acknowledgments</h1>
 <p>Part of this work was supported by the <a href="https://www.sovereigntechfund.de">Sovereign Tech Fund</a>. </p>
 </div></div><!-- PageDoc -->

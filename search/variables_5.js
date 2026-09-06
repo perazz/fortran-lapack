@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['sp_0',['sp',['../namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d',1,'la_constants']]],
-  ['state_1',['state',['../structla__state__type_1_1la__state.html#ae7c6855673216f4df109183ed9fa70d2',1,'la_state_type::la_state']]]
+  ['half_0',['half',['../namespacela__constants__sp.html#a893211991e990b9bc0bf01ac68909f5a',1,'la_constants_sp::half'],['../namespacela__constants__dp.html#aa4bc43ddb7e56fb022af8598ccebf8ef',1,'la_constants_dp::half'],['../namespacela__constants__qp.html#af006e2f9eeb6cebc06252bbda37b8e2f',1,'la_constants_qp::half']]]
 ];

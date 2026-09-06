@@ -1,9 +1,9 @@
 <map id="la_blas::nrm2::dnrm2" name="la_blas::nrm2::dnrm2">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,67,165,92"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__d.html#a0ae0a7d27f4e3879410d1713d6310163" title="!" alt="" coords="213,29,365,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,64,206,55,207,60,156,69"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__q.html#aed6ba1525aeb03621bfa6298b543059d" title="!" alt="" coords="213,103,365,128"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="158,89,204,98,203,103,157,95"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="256,31,249,21,253,11,266,5,289,3,318,6,329,16,325,20,315,11,289,8,268,10,256,15,254,20,260,28"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="256,104,249,94,253,84,266,78,289,76,318,80,329,89,325,93,315,85,289,81,268,83,256,88,254,94,260,101"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,81,165,106"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a85be6de988bf594f26206471abfc614b" title="!" alt="" coords="213,29,348,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,78,199,65,201,70,143,83"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a2a4ce41f30aaa0b17d67096e8445e24b" title="!" alt="" coords="213,117,348,157"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="143,103,201,117,199,122,142,109"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="244,30,242,20,248,11,261,5,281,3,304,6,316,13,313,17,302,11,281,8,262,10,251,15,247,21,249,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="244,118,242,108,248,99,261,93,281,91,304,94,316,101,313,105,302,99,281,96,262,98,251,103,247,109,249,116"/>
 </map>

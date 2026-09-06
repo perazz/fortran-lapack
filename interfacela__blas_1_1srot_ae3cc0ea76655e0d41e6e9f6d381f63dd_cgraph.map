@@ -1,5 +1,5 @@
 <map id="la_blas::srot::csrot" name="la_blas::srot::csrot">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,147,31"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__c.html#a87a8a044cf88a98a6017323a2ffdedb0" title="CSROT: applies a plane rotation, where the cos and sin (c and s) are real and the vectors cx and cy a..." alt="" coords="195,5,336,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,15,181,15,181,21,147,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,147,38"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a2214cbe2a435e91e85fb5bc7f59ae1c0" title="CSROT: applies a plane rotation, where the cos and sin (c and s) are real and the vectors cx and cy a..." alt="" coords="195,5,329,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,23,181,23,181,28,147,28"/>
 </map>

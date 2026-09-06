@@ -78,8 +78,10 @@ var searchData=
   ['matrix_5fnorm_5fint_5fs_75',['matrix_norm_int_s',['../interfacela__norms_1_1mnorm.html#a3d287c57d7811c87a5f471fd458d3ea3',1,'la_norms::mnorm']]],
   ['matrix_5fnorm_5fint_5fw_76',['matrix_norm_int_w',['../interfacela__norms_1_1mnorm.html#a998a3dbfaf227f59bf61e333a130a3c5',1,'la_norms::mnorm']]],
   ['matrix_5fnorm_5fint_5fz_77',['matrix_norm_int_z',['../interfacela__norms_1_1mnorm.html#a67567d74e6665a649b4eb763cbb0acb4',1,'la_norms::mnorm']]],
-  ['message_78',['message',['../structla__state__type_1_1la__state.html#a770dea48c5f4a6feca32e7b35fb7d73f',1,'la_state_type::la_state']]],
-  ['mnorm_79',['mnorm',['../interfacela__norms_1_1mnorm.html',1,'la_norms']]],
-  ['moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_80',['@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.',['../index.html#autotoc_md115',1,'']]],
-  ['moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_20function_81',['@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).',['../index.html#autotoc_md108',1,'']]]
+  ['maxexp_78',['maxexp',['../namespacela__constants__sp.html#a86722c29edced7e69a2ddaaf20e2352c',1,'la_constants_sp::maxexp'],['../namespacela__constants__dp.html#ab116116d2b8075cc7ed6f0f1d38929f4',1,'la_constants_dp::maxexp'],['../namespacela__constants__qp.html#a46ae5d64fc5e2e0b4771d18bbfe9955d',1,'la_constants_qp::maxexp']]],
+  ['message_79',['message',['../structla__state__type_1_1la__state.html#a770dea48c5f4a6feca32e7b35fb7d73f',1,'la_state_type::la_state']]],
+  ['minexp_80',['minexp',['../namespacela__constants__sp.html#a21774f26c4b670a375326eda21e52562',1,'la_constants_sp::minexp'],['../namespacela__constants__dp.html#a8382ea45a0386d0e98eb3c680af4f086',1,'la_constants_dp::minexp'],['../namespacela__constants__qp.html#a8782e6a7fef11ddf2ada15582650f0e2',1,'la_constants_qp::minexp']]],
+  ['mnorm_81',['mnorm',['../interfacela__norms_1_1mnorm.html',1,'la_norms']]],
+  ['moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_82',['@ref la_pseudoinverse::operator(.pinv.) &quot;operator(.pinv.)&quot; - Compute the Moore-Penrose pseudo-inverse of a matrix.',['../index.html#autotoc_md115',1,'']]],
+  ['moore_20penrose_20pseudo_20inverse_20of_20a_20matrix_20function_83',['@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).',['../index.html#autotoc_md108',1,'']]]
 ];

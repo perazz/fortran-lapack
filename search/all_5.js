@@ -12,5 +12,6 @@ var searchData=
   ['for_20qr_20operations_9',['@ref la_qr::qr_space &quot;qr_space&quot; - Workspace size for QR operations.',['../index.html#autotoc_md157',1,'']]],
   ['for_20schur_20decomposition_10',['@ref la_schur::schur_space &quot;schur_space&quot; - Workspace size for Schur decomposition.',['../index.html#autotoc_md171',1,'']]],
   ['fortran_20lapack_11',['fortran-lapack',['../index.html',1,'']]],
-  ['function_12',['function',['../index.html#autotoc_md29',1,'@ref la_cholesky::chol &quot;chol&quot; - Cholesky factorization of a matrix (function).'],['../index.html#autotoc_md108',1,'@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).'],['../index.html#autotoc_md129',1,'@ref la_svd::svdvals &quot;svdvals&quot; - Singular Values Computation (function).']]]
+  ['four_12',['four',['../namespacela__constants__sp.html#aceb6f6b27f15acd8413432c56637d190',1,'la_constants_sp::four'],['../namespacela__constants__dp.html#ae60b49cfcd5e09c11c636edcb360f670',1,'la_constants_dp::four'],['../namespacela__constants__qp.html#ae5cc076015d8266338a38a12df8c3607',1,'la_constants_qp::four']]],
+  ['function_13',['function',['../index.html#autotoc_md29',1,'@ref la_cholesky::chol &quot;chol&quot; - Cholesky factorization of a matrix (function).'],['../index.html#autotoc_md108',1,'@ref la_pseudoinverse::pinv &quot;pinv&quot; - Moore-Penrose pseudo-inverse of a matrix (function).'],['../index.html#autotoc_md129',1,'@ref la_svd::svdvals &quot;svdvals&quot; - Singular Values Computation (function).']]]
 ];
