@@ -50,16 +50,8 @@ module la_schur
     !!
     interface schur
       #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure la_${ri}$_schur
-        module procedure la_real_eig_${ri}$_schur
-      #:endfor
-    end interface schur
-
-
-    interface schur
-      #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure la_${ri}$_schur
-        module procedure la_real_eig_${ri}$_schur
+      module procedure la_${ri}$_schur
+      module procedure la_real_eig_${ri}$_schur
       #:endfor
     end interface schur
 
@@ -76,12 +68,11 @@ module la_schur
     !!       of the same size, minimizing dynamic memory allocation overhead.
     !!
     interface schur_space
-
-    interface schur_space
-     #:for rk,rt,ri in ALL_KINDS_TYPES
-        module procedure get_schur_${ri}$_workspace
-     #:endfor
-    end interface schur_space
+      #:for rk,rt,ri in ALL_KINDS_TYPES
+      module procedure get_schur_${ri}$_workspace
+      #:endfor
+    end interface schur_space    
+        
 
     contains
 

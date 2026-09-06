@@ -10,7 +10,7 @@ module la_schur
 
     character(*),parameter :: this = 'schur'
     
-    !> List of internal GEES tasks:
+    ! List of internal GEES tasks:
     
     !> No task request
     character,parameter :: GEES_NOT = 'N'
@@ -81,7 +81,7 @@ module la_schur
       module procedure get_schur_c_workspace
       module procedure get_schur_z_workspace
       module procedure get_schur_w_workspace
-    end interface schur_space    
+    end interface schur_space
         
     contains
 
@@ -352,7 +352,7 @@ module la_schur
     end subroutine la_s_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    module subroutine la_real_eig_s_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    subroutine la_real_eig_s_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -604,7 +604,7 @@ module la_schur
     end subroutine la_d_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    module subroutine la_real_eig_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    subroutine la_real_eig_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -856,7 +856,7 @@ module la_schur
     end subroutine la_q_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    module subroutine la_real_eig_q_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    subroutine la_real_eig_q_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1106,7 +1106,7 @@ module la_schur
     end subroutine la_c_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    module subroutine la_real_eig_c_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    subroutine la_real_eig_c_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1606,7 +1606,7 @@ module la_schur
     end subroutine la_w_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    module subroutine la_real_eig_w_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    subroutine la_real_eig_w_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
