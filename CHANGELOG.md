@@ -18,3 +18,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   and itself.
 - The external BLAS interfaces for `snrm2` and `dnrm2` declared no result
   type, so any build with `LA_EXTERNAL_BLAS` failed to compile.
+- The test suite seeds its random-number generator, so its results are
+  reproducible from one run to the next.

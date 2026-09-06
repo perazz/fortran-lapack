@@ -13,7 +13,15 @@ program la_tests
     use test_linalg_pseudoinverse
     implicit none(type, external)
 
+    integer :: i,seed_size
+    integer, allocatable :: seed(:)
     logical :: error
+
+    !> Fixed seed: the suite must draw the same random matrices on every run
+    call random_seed(size=seed_size)
+    allocate (seed(seed_size))
+    seed = [(1000 + 7*i,i=1,seed_size)]
+    call random_seed(put=seed)
 
     call test_formats(error)
     if (error) error stop 'test_formats'
