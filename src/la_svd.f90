@@ -11,12 +11,12 @@ module la_svd
      !> @brief Compute the Singular Value Decomposition (SVD) of a matrix.
      !!
      !! This subroutine computes the Singular Value Decomposition (SVD) of a matrix \f$ A \f$:
-     !! 
+     !!
      !! \f$ A = U \cdot S \cdot V^T \f$
      !!
-     !! where \f$ A \f$ is a matrix of size \f$ [m,n] \f$, \f$ U \f$ is an orthogonal matrix of size \f$ [m,m] \f$, \f$ S \f$ is a diagonal matrix containing the singular values, and \f$ V^T \f$ is an orthogonal matrix of size \f$ [n,n] \f$. 
+     !! where \f$ A \f$ is a matrix of size \f$ [m,n] \f$, \f$ U \f$ is an orthogonal matrix of size \f$ [m,m] \f$, \f$ S \f$ is a diagonal matrix containing the singular values, and \f$ V^T \f$ is an orthogonal matrix of size \f$ [n,n] \f$.
      !! The subroutine computes the singular values and optionally the matrices \f$ U \f$ and \f$ V^T \f$.
-     !! 
+     !!
      !! @param[in,out] a The input matrix \f$ A \f$ of size \f$ [m,n] \f$. If `overwrite_a` is true, the contents of `a` may be modified during computation.
      !! @param[out] s The array of singular values of size \f$ k = min(m,n) \f$.
      !! @param[out] u (Optional) The left singular vectors of matrix \f$ A \f$, with shape \f$ [m,m] \f$ for the full problem or \f$ [m,k] \f$ for the reduced problem.
@@ -31,7 +31,6 @@ module la_svd
      !!
      public :: svd
      
-     
      !> @brief Compute the singular values of a matrix.
      !!
      !! This function returns the singular values of the input matrix \f$ A \f$.
@@ -42,9 +41,8 @@ module la_svd
      !! @return The singular values of matrix \f$ A \f$ are returned in the `real` array \f$ s \f$, with the same kind as the input matrix.
      !!
      !! @note This function returns only the singular values and does not compute the full SVD.
-     !!     
+     !!
      public :: svdvals
-
 
      interface svd
         module procedure la_svd_s

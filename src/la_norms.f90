@@ -1,11 +1,9 @@
-
 !> Matrix and Vector norms
 module la_norms
      use la_constants
      use la_blas,only:nrm2
      use la_lapack,only:lange
      use la_state_type
-     use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
      
@@ -22,9 +20,9 @@ module la_norms
      integer(ilp),parameter :: NORM_MINUSINF = -huge(0_ilp)
      
      ! List of *LANGE norm flags
-     character,parameter :: LANGE_NORM_MAT = 'M' !> maxval(sum(abs(a))), over whole matrix: unused
-     character,parameter :: LANGE_NORM_ONE = '1' !> maxval(sum(abs(a),1)), over columns
-     character,parameter :: LANGE_NORM_INF = 'I' !> maxval(sum(abs(a),2)), over rows
+     character,parameter :: LANGE_NORM_MAT = 'M' !> maxval(sum(abs(a)))   over whole matrix: unused
+     character,parameter :: LANGE_NORM_ONE = '1' !> maxval(sum(abs(a),1)) over columns
+     character,parameter :: LANGE_NORM_INF = 'I' !> maxval(sum(abs(a),2)) over rows
      character,parameter :: LANGE_NORM_TWO = 'E' !> "Euclidean" or "Frobenius"
      
      !> @brief Compute the norm of a vector or matrix using LAPACK-based routines.
@@ -56,7 +54,6 @@ module la_norms
      !! @warning If invalid input values (such as negative norms) are provided, the behavior is undefined.
      !!
      interface norm
-        !> Scalar norms: real(sp)
         module procedure la_norm_1D_order_char_s
         module procedure la_norm_1D_order_err_char_s
         module procedure la_norm_2D_order_char_s
@@ -71,7 +68,6 @@ module la_norms
         module procedure la_norm_6D_order_err_char_s
         module procedure la_norm_7D_order_char_s
         module procedure la_norm_7D_order_err_char_s
-        !> Array norms: real(sp)
         module procedure la_norm_2D_to_1D_char_s
         module procedure la_norm_2D_to_1D_err_char_s
         module procedure la_norm_3D_to_2D_char_s
@@ -84,7 +80,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_s
         module procedure la_norm_7D_to_6D_char_s
         module procedure la_norm_7D_to_6D_err_char_s
-        !> Scalar norms: real(sp)
         module procedure la_norm_1D_order_int_s
         module procedure la_norm_1D_order_err_int_s
         module procedure la_norm_2D_order_int_s
@@ -99,7 +94,6 @@ module la_norms
         module procedure la_norm_6D_order_err_int_s
         module procedure la_norm_7D_order_int_s
         module procedure la_norm_7D_order_err_int_s
-        !> Array norms: real(sp)
         module procedure la_norm_2D_to_1D_int_s
         module procedure la_norm_2D_to_1D_err_int_s
         module procedure la_norm_3D_to_2D_int_s
@@ -112,7 +106,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_int_s
         module procedure la_norm_7D_to_6D_int_s
         module procedure la_norm_7D_to_6D_err_int_s
-        !> Scalar norms: real(dp)
         module procedure la_norm_1D_order_char_d
         module procedure la_norm_1D_order_err_char_d
         module procedure la_norm_2D_order_char_d
@@ -127,7 +120,6 @@ module la_norms
         module procedure la_norm_6D_order_err_char_d
         module procedure la_norm_7D_order_char_d
         module procedure la_norm_7D_order_err_char_d
-        !> Array norms: real(dp)
         module procedure la_norm_2D_to_1D_char_d
         module procedure la_norm_2D_to_1D_err_char_d
         module procedure la_norm_3D_to_2D_char_d
@@ -140,7 +132,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_d
         module procedure la_norm_7D_to_6D_char_d
         module procedure la_norm_7D_to_6D_err_char_d
-        !> Scalar norms: real(dp)
         module procedure la_norm_1D_order_int_d
         module procedure la_norm_1D_order_err_int_d
         module procedure la_norm_2D_order_int_d
@@ -155,7 +146,6 @@ module la_norms
         module procedure la_norm_6D_order_err_int_d
         module procedure la_norm_7D_order_int_d
         module procedure la_norm_7D_order_err_int_d
-        !> Array norms: real(dp)
         module procedure la_norm_2D_to_1D_int_d
         module procedure la_norm_2D_to_1D_err_int_d
         module procedure la_norm_3D_to_2D_int_d
@@ -168,7 +158,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_int_d
         module procedure la_norm_7D_to_6D_int_d
         module procedure la_norm_7D_to_6D_err_int_d
-        !> Scalar norms: real(qp)
         module procedure la_norm_1D_order_char_q
         module procedure la_norm_1D_order_err_char_q
         module procedure la_norm_2D_order_char_q
@@ -183,7 +172,6 @@ module la_norms
         module procedure la_norm_6D_order_err_char_q
         module procedure la_norm_7D_order_char_q
         module procedure la_norm_7D_order_err_char_q
-        !> Array norms: real(qp)
         module procedure la_norm_2D_to_1D_char_q
         module procedure la_norm_2D_to_1D_err_char_q
         module procedure la_norm_3D_to_2D_char_q
@@ -196,7 +184,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_q
         module procedure la_norm_7D_to_6D_char_q
         module procedure la_norm_7D_to_6D_err_char_q
-        !> Scalar norms: real(qp)
         module procedure la_norm_1D_order_int_q
         module procedure la_norm_1D_order_err_int_q
         module procedure la_norm_2D_order_int_q
@@ -211,7 +198,6 @@ module la_norms
         module procedure la_norm_6D_order_err_int_q
         module procedure la_norm_7D_order_int_q
         module procedure la_norm_7D_order_err_int_q
-        !> Array norms: real(qp)
         module procedure la_norm_2D_to_1D_int_q
         module procedure la_norm_2D_to_1D_err_int_q
         module procedure la_norm_3D_to_2D_int_q
@@ -224,7 +210,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_int_q
         module procedure la_norm_7D_to_6D_int_q
         module procedure la_norm_7D_to_6D_err_int_q
-        !> Scalar norms: complex(sp)
         module procedure la_norm_1D_order_char_c
         module procedure la_norm_1D_order_err_char_c
         module procedure la_norm_2D_order_char_c
@@ -239,7 +224,6 @@ module la_norms
         module procedure la_norm_6D_order_err_char_c
         module procedure la_norm_7D_order_char_c
         module procedure la_norm_7D_order_err_char_c
-        !> Array norms: complex(sp)
         module procedure la_norm_2D_to_1D_char_c
         module procedure la_norm_2D_to_1D_err_char_c
         module procedure la_norm_3D_to_2D_char_c
@@ -252,7 +236,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_c
         module procedure la_norm_7D_to_6D_char_c
         module procedure la_norm_7D_to_6D_err_char_c
-        !> Scalar norms: complex(sp)
         module procedure la_norm_1D_order_int_c
         module procedure la_norm_1D_order_err_int_c
         module procedure la_norm_2D_order_int_c
@@ -267,7 +250,6 @@ module la_norms
         module procedure la_norm_6D_order_err_int_c
         module procedure la_norm_7D_order_int_c
         module procedure la_norm_7D_order_err_int_c
-        !> Array norms: complex(sp)
         module procedure la_norm_2D_to_1D_int_c
         module procedure la_norm_2D_to_1D_err_int_c
         module procedure la_norm_3D_to_2D_int_c
@@ -280,7 +262,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_int_c
         module procedure la_norm_7D_to_6D_int_c
         module procedure la_norm_7D_to_6D_err_int_c
-        !> Scalar norms: complex(dp)
         module procedure la_norm_1D_order_char_z
         module procedure la_norm_1D_order_err_char_z
         module procedure la_norm_2D_order_char_z
@@ -295,7 +276,6 @@ module la_norms
         module procedure la_norm_6D_order_err_char_z
         module procedure la_norm_7D_order_char_z
         module procedure la_norm_7D_order_err_char_z
-        !> Array norms: complex(dp)
         module procedure la_norm_2D_to_1D_char_z
         module procedure la_norm_2D_to_1D_err_char_z
         module procedure la_norm_3D_to_2D_char_z
@@ -308,7 +288,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_z
         module procedure la_norm_7D_to_6D_char_z
         module procedure la_norm_7D_to_6D_err_char_z
-        !> Scalar norms: complex(dp)
         module procedure la_norm_1D_order_int_z
         module procedure la_norm_1D_order_err_int_z
         module procedure la_norm_2D_order_int_z
@@ -323,7 +302,6 @@ module la_norms
         module procedure la_norm_6D_order_err_int_z
         module procedure la_norm_7D_order_int_z
         module procedure la_norm_7D_order_err_int_z
-        !> Array norms: complex(dp)
         module procedure la_norm_2D_to_1D_int_z
         module procedure la_norm_2D_to_1D_err_int_z
         module procedure la_norm_3D_to_2D_int_z
@@ -336,7 +314,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_int_z
         module procedure la_norm_7D_to_6D_int_z
         module procedure la_norm_7D_to_6D_err_int_z
-        !> Scalar norms: complex(qp)
         module procedure la_norm_1D_order_char_w
         module procedure la_norm_1D_order_err_char_w
         module procedure la_norm_2D_order_char_w
@@ -351,7 +328,6 @@ module la_norms
         module procedure la_norm_6D_order_err_char_w
         module procedure la_norm_7D_order_char_w
         module procedure la_norm_7D_order_err_char_w
-        !> Array norms: complex(qp)
         module procedure la_norm_2D_to_1D_char_w
         module procedure la_norm_2D_to_1D_err_char_w
         module procedure la_norm_3D_to_2D_char_w
@@ -364,7 +340,6 @@ module la_norms
         module procedure la_norm_6D_to_5D_err_char_w
         module procedure la_norm_7D_to_6D_char_w
         module procedure la_norm_7D_to_6D_err_char_w
-        !> Scalar norms: complex(qp)
         module procedure la_norm_1D_order_int_w
         module procedure la_norm_1D_order_err_int_w
         module procedure la_norm_2D_order_int_w
@@ -379,7 +354,6 @@ module la_norms
         module procedure la_norm_6D_order_err_int_w
         module procedure la_norm_7D_order_int_w
         module procedure la_norm_7D_order_err_int_w
-        !> Array norms: complex(qp)
         module procedure la_norm_2D_to_1D_int_w
         module procedure la_norm_2D_to_1D_err_int_w
         module procedure la_norm_3D_to_2D_int_w

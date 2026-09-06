@@ -1,5 +1,5 @@
 #:include "common.fypp"
-!> Compute matrix inverse
+!> Inverse of a square matrix
 module la_inverse
      use la_constants
      use la_blas
