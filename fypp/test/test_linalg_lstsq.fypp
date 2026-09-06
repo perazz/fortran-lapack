@@ -42,8 +42,7 @@ module test_linalg_least_squares
         ${rt}$, parameter :: y(*)  = real([0.3, 1.1, 1.5, 2.0, 3.2, 6.6, 8.6], ${rk}$)
         ${rt}$, parameter :: ab(*) = real([0.20925829,  0.12013861], ${rk}$)
 
-        ${rt}$ :: M(size(x),2)
-        ${rt}$, allocatable :: p(:)
+        ${rt}$ :: M(size(x),2),p(2)
 
         ! Coefficient matrix for polynomial y = a + b*x**2
         M(:,1) = x**0
@@ -55,7 +54,7 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        call check(error, all(abs(p(:2)-ab)<1.0e-4_${rk}$), 'data converged')
+        call check(error, all(abs(p-ab)<1.0e-4_${rk}$), 'data converged')
         if (allocated(error)) return
         
         call check(error, rank==2, 'matrix rank == 2')
@@ -88,11 +87,11 @@ module test_linalg_least_squares
         call check(error,state%ok(),state%print())
         if (allocated(error)) return
         
-        ! Check size: the solution occupies the leading m entries of an rhs-sized result
-        call check(error,size(x)>=m)
+        ! Check size
+        call check(error,size(x)==m)
         if (allocated(error)) return
         
-        call check(error, all(abs(x(:m)-xsol)<1.0e-4_${rk}$), 'data converged')
+        call check(error, all(abs(x-xsol)<1.0e-4_${rk}$), 'data converged')
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_${ri}$    

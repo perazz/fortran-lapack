@@ -256,7 +256,7 @@ module la_norms
               norm_type = NORM_INF
            case ('-inf','-Inf','-INF')
               norm_type = NORM_MINUSINF
-           case ('Euclidean','euclidean','EUCLIDEAN')
+           case ('Euclidean','euclidean','EUCLIDEAN','Frobenius','frobenius','FROBENIUS','fro','Fro','FRO')
               norm_type = NORM_TWO
            case default
             
@@ -571,8 +571,8 @@ module la_norms
         type(la_state), intent(out), optional :: err  
         
         type(la_state) :: err0
-        integer(ilp) :: j,m,n,lda,dims(2),norm_request
-        integer(ilp), dimension(${rank}$) :: s,spack,perm
+        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp), dimension(${rank}$) :: s,spack,perm,iperm
         integer(ilp), dimension(${rank}$), parameter :: dim_range = [(m,m=1_ilp,${rank}$_ilp)]
         integer(ilp) :: ${loop_variables('j',rank-2,2)}$
         logical :: contiguous_data
@@ -609,7 +609,7 @@ module la_norms
         s = shape(a,kind=ilp)
         
         ! Check if input column data is contiguous
-        contiguous_data = dims(1)==1
+        contiguous_data = all(dims==[1,2])
         
         ! Matrix norm size
         m = s(dims(1))
@@ -618,19 +618,16 @@ module la_norms
         ! Get packed data with norm dimensions as 1:2
         if (contiguous_data) then 
             
-            ! Collapse everything before the 1st dimension as apack's dim #1
-            ! Set size==1 for all unused trailing dimensions            
-            spack  = [product(s(:dims(2)-1)),s(dims(2):),(1_ilp,j=1,dims(2)-2)]
-            
-            ! Reshape without moving data
-            apack${shape_from_array_data('spack',rank)}$ => a
+            ! The norm dimensions already lead: use the input data as-is
+            apack => a
             
         else
             
             ! Dimension permutations to map dims(1),dims(2) => 1:2
             perm  = [dims,pack(dim_range, dim_range/=dims(1) .and. dim_range/=dims(2))]            
+            iperm(perm) = dim_range
             spack = s(perm)            
-            apack = reshape(a, shape=spack, order=perm)            
+            allocate(apack,source=reshape(a, shape=spack, order=iperm))
             
         endif
             

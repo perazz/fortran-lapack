@@ -264,9 +264,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(sp) :: acond,rcond
          real(sp),allocatable :: singular(:),rwork(:)
          real(sp),pointer :: xmat(:,:),amat(:,:)
@@ -304,9 +304,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -326,7 +336,7 @@ module la_least_squares
          allocate (rwork(lrwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,rwork,lrwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,rwork,lrwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -343,7 +353,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n) = xmat(1:n,1)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -370,9 +386,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(dp) :: acond,rcond
          real(dp),allocatable :: singular(:),rwork(:)
          real(dp),pointer :: xmat(:,:),amat(:,:)
@@ -410,9 +426,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -432,7 +458,7 @@ module la_least_squares
          allocate (rwork(lrwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,rwork,lrwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,rwork,lrwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -449,7 +475,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n) = xmat(1:n,1)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -476,9 +508,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(qp) :: acond,rcond
          real(qp),allocatable :: singular(:),rwork(:)
          real(qp),pointer :: xmat(:,:),amat(:,:)
@@ -516,9 +548,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -538,7 +580,7 @@ module la_least_squares
          allocate (rwork(lrwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,rwork,lrwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,rwork,lrwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -555,7 +597,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n) = xmat(1:n,1)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -582,9 +630,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(sp) :: acond,rcond
          real(sp),allocatable :: singular(:),rwork(:)
          complex(sp),pointer :: xmat(:,:),amat(:,:)
@@ -622,9 +670,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -644,7 +702,7 @@ module la_least_squares
          allocate (rwork(lrwork),cwork(lcwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -661,7 +719,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n) = xmat(1:n,1)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -688,9 +752,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(dp) :: acond,rcond
          real(dp),allocatable :: singular(:),rwork(:)
          complex(dp),pointer :: xmat(:,:),amat(:,:)
@@ -728,9 +792,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -750,7 +824,7 @@ module la_least_squares
          allocate (rwork(lrwork),cwork(lcwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -767,7 +841,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n) = xmat(1:n,1)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -794,9 +874,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(qp) :: acond,rcond
          real(qp),allocatable :: singular(:),rwork(:)
          complex(qp),pointer :: xmat(:,:),amat(:,:)
@@ -834,9 +914,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -856,7 +946,7 @@ module la_least_squares
          allocate (rwork(lrwork),cwork(lcwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -873,7 +963,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n) = xmat(1:n,1)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -900,9 +996,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(sp) :: acond,rcond
          real(sp),allocatable :: singular(:),rwork(:)
          real(sp),pointer :: xmat(:,:),amat(:,:)
@@ -940,9 +1036,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1:nrhs) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -962,7 +1068,7 @@ module la_least_squares
          allocate (rwork(lrwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,rwork,lrwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,rwork,lrwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -979,7 +1085,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n,1:nrhs) = xmat(1:n,1:nrhs)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -1006,9 +1118,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(dp) :: acond,rcond
          real(dp),allocatable :: singular(:),rwork(:)
          real(dp),pointer :: xmat(:,:),amat(:,:)
@@ -1046,9 +1158,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1:nrhs) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -1068,7 +1190,7 @@ module la_least_squares
          allocate (rwork(lrwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,rwork,lrwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,rwork,lrwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -1085,7 +1207,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n,1:nrhs) = xmat(1:n,1:nrhs)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -1112,9 +1240,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(qp) :: acond,rcond
          real(qp),allocatable :: singular(:),rwork(:)
          real(qp),pointer :: xmat(:,:),amat(:,:)
@@ -1152,9 +1280,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1:nrhs) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -1174,7 +1312,7 @@ module la_least_squares
          allocate (rwork(lrwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,rwork,lrwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,rwork,lrwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -1191,7 +1329,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n,1:nrhs) = xmat(1:n,1:nrhs)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -1218,9 +1362,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(sp) :: acond,rcond
          real(sp),allocatable :: singular(:),rwork(:)
          complex(sp),pointer :: xmat(:,:),amat(:,:)
@@ -1258,9 +1402,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1:nrhs) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -1280,7 +1434,7 @@ module la_least_squares
          allocate (rwork(lrwork),cwork(lcwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -1297,7 +1451,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n,1:nrhs) = xmat(1:n,1:nrhs)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -1324,9 +1484,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(dp) :: acond,rcond
          real(dp),allocatable :: singular(:),rwork(:)
          complex(dp),pointer :: xmat(:,:),amat(:,:)
@@ -1364,9 +1524,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1:nrhs) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -1386,7 +1556,7 @@ module la_least_squares
          allocate (rwork(lrwork),cwork(lcwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -1403,7 +1573,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n,1:nrhs) = xmat(1:n,1:nrhs)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)
@@ -1430,9 +1606,9 @@ module la_least_squares
 
          !> Local variables
          type(la_state) :: err0
-         integer(ilp) :: m,n,lda,ldb,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
+         integer(ilp) :: m,n,lda,ldb,ldx,nrhs,info,mnmin,mnmax,arank,lrwork,liwork,lcwork
          integer(ilp),allocatable :: iwork(:)
-         logical(lk) :: copy_a
+         logical(lk) :: copy_a,large_enough_x
          real(qp) :: acond,rcond
          real(qp),allocatable :: singular(:),rwork(:)
          complex(qp),pointer :: xmat(:,:),amat(:,:)
@@ -1470,9 +1646,19 @@ module la_least_squares
             amat => a
          end if
 
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! *GELSD stores the rhs, and returns the solution, in an array with max(m,n) rows:
+         ! x can host it whenever n>=m, otherwise a temporary is needed
+         large_enough_x = n >= m
+         if (large_enough_x) then
+            xmat(1:n,1:nrhs) => x
+         else
+            allocate (xmat(m,nrhs))
+         end if
+         ldx = size(xmat,1,kind=ilp)
+         xmat(1:m,1:nrhs) = b
 
          ! Singular values array (in decreasing order)
          allocate (singular(mnmin))
@@ -1492,7 +1678,7 @@ module la_least_squares
          allocate (rwork(lrwork),cwork(lcwork),iwork(liwork))
 
          ! Solve system using singular value decomposition
-         call gelsd(m,n,nrhs,amat,lda,xmat,ldb,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
+         call gelsd(m,n,nrhs,amat,lda,xmat,ldx,singular,rcond,arank,cwork,lrwork,rwork,iwork,info)
 
          ! The condition number of A in the 2-norm = S(1)/S(min(m,n)).
          acond = singular(1)/singular(mnmin)
@@ -1509,7 +1695,13 @@ module la_least_squares
                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-         if (.not. copy_a) deallocate (amat)
+         ! Retrieve the solution from the temporary storage
+         if (.not. large_enough_x) then
+            x(1:n,1:nrhs) = xmat(1:n,1:nrhs)
+            deallocate (xmat)
+         end if
+
+         if (copy_a) deallocate (amat)
 
          ! Process output and return
 1        call err0%handle(err)

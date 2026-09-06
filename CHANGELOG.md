@@ -39,3 +39,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   type, so any build with `LA_EXTERNAL_BLAS` failed to compile.
 - The test suite seeds its random-number generator, so its results are
   reproducible from one run to the next.
+- `qr` now writes the whole orthogonal factor: `?orgqr`/`?ungqr` is asked for
+  `size(q,2)` columns instead of `size(a,2)`, so columns `n+1:m` of a full `Q` are
+  no longer left undefined. `qr_space` sizes its query for the same column count.
+- `mnorm(a, order, dim)` handles any pair of dimensions of a rank-3 or higher
+  array. The permuted copy is allocated before it is written and is built with the
+  inverse permutation, so `dim(1)/=1` no longer writes through a null pointer and
+  `dim=[1,k]` with `k>2` no longer collapses the wrong axes.
+- **Behaviour change:** `lstsq` returns a solution of size `size(a,2)`, as its
+  interface documents, instead of one the size of the right-hand side. The values
+  are unchanged; code that read the leading `size(a,2)` entries keeps working, code
+  that sized a receiving array from `b` has to be updated.
+- `lstsq` frees its internal copy of the coefficient matrix, and no longer
+  deallocates the caller's matrix when `overwrite_a` is set.
+- `la_eye_s` is part of the `eye` generic interface, so `eye(m, mold=0.0_sp)`
+  resolves.
+- `mnorm` accepts `fro` as a spelling of the Frobenius (Euclidean) order.
+- `test_la_cholesky` compiles, and `la_tests` runs it.

@@ -46,9 +46,8 @@ module test_linalg_qr
         a = rea
         aorig = a
         
-        ! 1) QR factorization with full matrices. R is NaN-filled on input to check it is
-        !    fully written; only the leading min(m,n) columns of a full Q are computed here
-        q = 0.0_sp
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_sp,ieee_quiet_nan)
         r = ieee_value(0.0_sp,ieee_quiet_nan)
         call qr(a,q,r,err=state)
         
@@ -121,9 +120,8 @@ module test_linalg_qr
         a = rea
         aorig = a
         
-        ! 1) QR factorization with full matrices. R is NaN-filled on input to check it is
-        !    fully written; only the leading min(m,n) columns of a full Q are computed here
-        q = 0.0_dp
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_dp,ieee_quiet_nan)
         r = ieee_value(0.0_dp,ieee_quiet_nan)
         call qr(a,q,r,err=state)
         
@@ -196,9 +194,8 @@ module test_linalg_qr
         a = rea
         aorig = a
         
-        ! 1) QR factorization with full matrices. R is NaN-filled on input to check it is
-        !    fully written; only the leading min(m,n) columns of a full Q are computed here
-        q = 0.0_qp
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_qp,ieee_quiet_nan)
         r = ieee_value(0.0_qp,ieee_quiet_nan)
         call qr(a,q,r,err=state)
         
@@ -273,9 +270,8 @@ module test_linalg_qr
         a = cmplx(rea,ima,kind=sp)
         aorig = a
         
-        ! 1) QR factorization with full matrices. R is NaN-filled on input to check it is
-        !    fully written; only the leading min(m,n) columns of a full Q are computed here
-        q = 0.0_sp
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_sp,ieee_quiet_nan)
         r = ieee_value(0.0_sp,ieee_quiet_nan)
         call qr(a,q,r,err=state)
         
@@ -350,9 +346,8 @@ module test_linalg_qr
         a = cmplx(rea,ima,kind=dp)
         aorig = a
         
-        ! 1) QR factorization with full matrices. R is NaN-filled on input to check it is
-        !    fully written; only the leading min(m,n) columns of a full Q are computed here
-        q = 0.0_dp
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_dp,ieee_quiet_nan)
         r = ieee_value(0.0_dp,ieee_quiet_nan)
         call qr(a,q,r,err=state)
         
@@ -427,9 +422,8 @@ module test_linalg_qr
         a = cmplx(rea,ima,kind=qp)
         aorig = a
         
-        ! 1) QR factorization with full matrices. R is NaN-filled on input to check it is
-        !    fully written; only the leading min(m,n) columns of a full Q are computed here
-        q = 0.0_qp
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_qp,ieee_quiet_nan)
         r = ieee_value(0.0_qp,ieee_quiet_nan)
         call qr(a,q,r,err=state)
         

@@ -11,6 +11,7 @@ program la_tests
     use test_la_norms
     use test_la_schur
     use test_la_pinv
+    use test_la_cholesky
     implicit none(type, external)
 
     integer :: i,seed_size
@@ -55,6 +56,9 @@ program la_tests
 
     call test_pseudoinverse_matrix(error)
     if (error) error stop 'test_pseudoinverse'
+
+    call test_cholesky_factorization(error)
+    if (error) error stop 'test_cholesky'
     
     !> All tests passed
     stop 0

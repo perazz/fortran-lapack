@@ -85,7 +85,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(3)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 3
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -111,8 +111,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -158,7 +156,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(4)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 4
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -184,8 +182,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -231,7 +227,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(5)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 5
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -257,8 +253,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -304,7 +298,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(6)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 6
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -330,8 +324,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -410,7 +402,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(3)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 3
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -436,8 +428,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -483,7 +473,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(4)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 4
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -509,8 +499,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -556,7 +544,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(5)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 5
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -582,8 +570,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -629,7 +615,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(6)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 6
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -655,8 +641,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -735,7 +719,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(3)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 3
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -761,8 +745,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -808,7 +790,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(4)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 4
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -834,8 +816,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -881,7 +861,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(5)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 5
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -907,8 +887,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -954,7 +932,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(6)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 6
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -980,8 +958,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1060,7 +1036,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(3)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 3
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1086,8 +1062,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1133,7 +1107,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(4)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 4
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1159,8 +1133,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1206,7 +1178,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(5)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 5
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1232,8 +1204,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1279,7 +1249,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(6)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 6
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1305,8 +1275,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1385,7 +1353,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(3)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 3
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1411,8 +1379,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1458,7 +1424,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(4)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 4
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1484,8 +1450,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1531,7 +1495,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(5)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 5
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1557,8 +1521,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1604,7 +1566,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(6)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 6
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1630,8 +1592,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1710,7 +1670,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(3)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 3
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1736,8 +1696,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1783,7 +1741,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(4)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 4
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1809,8 +1767,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1856,7 +1812,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(5)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 5
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1882,8 +1838,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]
@@ -1929,7 +1883,7 @@ module test_linalg_mnorm
         type(error_type),allocatable,intent(out) :: error
 
         integer(ilp) :: i,j,k,l,dim1,dim2,dim(2),dim_sizes(2),ptr(6)
-        character(3),parameter :: orders(*) = ['1  ','2  ','inf']
+        character(3),parameter :: orders(*) = ['1  ','2  ','fro','inf']
         integer(ilp),parameter :: ndim = 6
         integer(ilp),parameter :: n = 2_ilp**ndim
         integer(ilp),parameter :: dims(*) = [(dim1,dim1=1,ndim)]
@@ -1955,8 +1909,6 @@ module test_linalg_mnorm
                 do dim2 = 1,ndim
                     
                     if (dim1 == dim2) cycle
-                    ! collapsing any dimension pair but the leading two is unsupported
-                    if (dim1 /= 1 .or. dim2 /= 2) cycle
                                     
                     dim = [dim1,dim2]
                     dim_sizes = [size(b,dim1,kind=ilp),size(b,dim2,kind=ilp)]

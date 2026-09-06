@@ -17,7 +17,7 @@ module la_eye
     !! @param[in] m The number of rows of the identity matrix.
     !! @param[in] n (Optional) The number of columns of the identity matrix. If omitted, the matrix is square (\f$m \times m\f$).
     !! @param[in] mold (Optional) Data type to define the return type. Defaults to `real(real64)`.
-    !! 
+    !!
     !! @return The identity matrix with size \f$m \times n\f$.
     !!
     !! @note If the `mold` parameter is omitted, the default type is `real(real64)`. If specified, the return type
@@ -45,7 +45,9 @@ module la_eye
     !!
     public :: diag
 
+     ! Identity matrix interface
      interface eye
+        module procedure la_eye_s
         module procedure la_eye_d
         module procedure la_eye_q
         module procedure la_eye_c
