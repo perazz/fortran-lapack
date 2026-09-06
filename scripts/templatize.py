@@ -135,6 +135,25 @@ MODULE_DOC = {
                                         " application",
     "la_lapack_solve_aux": "Linear solve helpers: condition estimation, componentwise backward"
                            " error",
+    "la_lapack_solve_chol": "Cholesky drivers: positive definite, packed, banded and tridiagonal"
+                            " systems",
+    "la_lapack_solve_chol_comp": "Cholesky components: factorization, solve, inverse, condition,"
+                                 " equilibration",
+    "la_lapack_solve_ldl": "Symmetric and Hermitian indefinite drivers",
+    "la_lapack_solve_ldl_comp": "Symmetric indefinite components: Bunch-Kaufman factorization,"
+                                " solve, inverse",
+    "la_lapack_solve_ldl_comp2": "Symmetric indefinite components: rook, Aasen and rank-k"
+                                 " variants",
+    "la_lapack_solve_ldl_comp3": "Hermitian indefinite components: Bunch-Kaufman factorization,"
+                                 " solve, inverse",
+    "la_lapack_solve_ldl_comp4": "Hermitian indefinite components: rook, Aasen and rank-k"
+                                 " variants",
+    "la_lapack_solve_lu": "LU drivers: general, banded and tridiagonal systems",
+    "la_lapack_solve_lu_comp": "LU components: factorization, solve, inverse, condition,"
+                               " equilibration",
+    "la_lapack_solve_tri_comp": "Triangular systems: solve, inverse, condition estimation,"
+                                " refinement",
+    "la_lapack_others_sm": "Extra-precise refinement helpers: condition numbers and pivot growth",
 }
 
 
@@ -404,14 +423,44 @@ def templatize_routine(lib, stem, cls, module):
     return _with_guard(record)
 
 
+def region_marks(body):
+    """The role marks of the body, split by the instances that emit them.
+
+    A divergent routine is emitted with `#:if rk == "sp"` around the lines that differ, so a
+    role that survives only in the other branch is never asked for at sp.  The first element is
+    what the sp instance emits, the second what the dp and qp instances emit.
+    """
+    at_sp, at_rest, branch = set(), set(), None
+    for line in body.split("\n"):
+        text = line.strip()
+        if text.startswith('#:if rk == "sp"'):
+            branch = "sp"
+        elif text.startswith('#:if rk != "sp"'):
+            branch = "rest"
+        elif text == "#:else":
+            branch = "rest" if branch == "sp" else "sp"
+        elif text == "#:endif":
+            branch = None
+        else:
+            marks = set(re.findall(r"@[A-Z0-9]+@", line))
+            if branch != "rest":
+                at_sp |= marks
+            if branch != "sp":
+                at_rest |= marks
+    return at_sp, at_rest
+
+
 def _with_guard(record):
-    marks = set(re.findall(r"@[A-Z0-9]+@", record["text"]))
+    body = record["text"]
     if record.get("sp_text"):
-        marks |= set(re.findall(r"@[A-Z0-9]+@", record["sp_text"]))
-    if marks & set(DOWN_MARKS):
+        body = minimize(record["sp_text"], record["text"])[0]
+    at_sp, at_rest = region_marks(body)
+    if at_sp & set(DOWN_MARKS):
         record["guard"] = "rkl is not None"
-    elif marks & set(UP_MARKS):
+    elif at_rest & set(UP_MARKS):
         record["guard"] = "rku is not None"
+    if record["guard"] == "rkl is not None":
+        record["text"] = K.lower_precision_word(record["text"], _own_letter(record["donor"]))
     names, shadowed = needs_constants(record)
     if names:
         kind = "${rk}$" if record["class"] != "kindfree" else KIND_OF[_own_letter(record["donor"])]
