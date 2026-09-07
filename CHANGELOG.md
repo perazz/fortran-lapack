@@ -85,6 +85,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   already there for all six kinds: `geqp3`, `ggev3`, `gges3`, `gghd3`, `geevx`,
   `geesx` and `gesvx`. As for every other generic, the quadruple-precision
   procedures stay outside the `LA_EXTERNAL_LAPACK` selection.
+- `solve_chol(a, b, x [, lower] [, overwrite_a] [, err])` factorizes a symmetric
+  or Hermitian positive definite matrix and solves in one call, and
+  `solve_lower_chol(l, b, x [, err])` / `solve_upper_chol(u, b, x [, err])` solve
+  from a Cholesky factor computed earlier. All three are `pure` and take one or
+  many right-hand sides.
 - `scripts/templatize.py --add-lapack-generic <name>...` builds the interface
   table entry of a generic from the declarations of its specifics and inserts it
   in alphabetical order, so `include/la_lapack_interfaces.fypp` never needs to be

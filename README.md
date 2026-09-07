@@ -317,7 +317,7 @@ Solve linear systems - one (`b(:)`) or many (`b(:,:)`) - writing the result into
 
 ### Arguments
 
-- `a`: A `real` or `complex` coefficient matrix of size \( [n,n] \). If `overwrite_a=.true.`, it is destroyed by the call.
+- `a`: A `real` or `complex` coefficient matrix of size \f$ [n,n] \f$. If `overwrite_a=.true.`, it is destroyed by the call.
 - `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
 - `x`: An array of the same shape and kind as `b`. On output it holds the solution.
 - `pivot` (optional): An `integer(ilp)` array of size `n` that receives the diagonal pivot indices of the LU factorization.
@@ -334,6 +334,65 @@ Solve linear systems - one (`b(:)`) or many (`b(:,:)`) - writing the result into
 
 - This subroutine is based on LAPACK's LU decomposition solvers [GESV](@ref la_lapack::gesv).
 - [solve](@ref la_solve::solve) is the function form; it allocates and returns the solution instead of writing into `x`.
+
+## [solve_chol](@ref la_solve::solve_chol) - Solve a Hermitian positive definite system.
+
+### Syntax
+
+`call solve_chol(a, b, x [, lower] [, overwrite_a] [, err])`
+
+### Description
+
+Factorize a `real` symmetric or `complex` Hermitian positive definite matrix and solve \f$ A x = b \f$ in one call, for one (`b(:)`) or many (`b(:,:)`) right-hand sides. Only the triangle `lower` selects is read. The result is written into the caller's array `x`. The routine is `pure`.
+
+### Arguments
+
+- `a`: A `real` symmetric or `complex` Hermitian positive definite matrix of size \f$ [n,n] \f$. If `overwrite_a=.true.`, it is overwritten with its Cholesky factor.
+- `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
+- `x`: An array of the same shape and kind as `b`. On output it holds the solution.
+- `lower` (optional, default = `.true.`): If `.true.`, the lower triangle of `a` is read and the factorization is \f$ A = L L^H \f$; otherwise the upper triangle is read and the factorization is \f$ A = U^H U \f$.
+- `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
+
+### Errors
+
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `a` is not positive definite.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a`, `b` or `x` have invalid/incompatible sizes.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- This subroutine is based on LAPACK's [POSV](@ref la_lapack::posv) drivers.
+- To reuse a factorization across several right-hand sides, call [cholesky](@ref la_cholesky::cholesky) once and then [solve_lower_chol](@ref la_solve::solve_lower_chol) or [solve_upper_chol](@ref la_solve::solve_upper_chol).
+
+## [solve_lower_chol](@ref la_solve::solve_lower_chol), [solve_upper_chol](@ref la_solve::solve_upper_chol) - Solve from a Cholesky factor.
+
+### Syntax
+
+`call solve_lower_chol(l, b, x [, err])`
+
+`call solve_upper_chol(u, b, x [, err])`
+
+### Description
+
+Solve \f$ A x = b \f$ for one or many right-hand sides from a Cholesky factor computed earlier, without factorizing again. Each call costs two triangular solves. Both routines are `pure`.
+
+### Arguments
+
+- `l` / `u`: The lower or upper Cholesky factor of size \f$ [n,n] \f$, as returned by [cholesky](@ref la_cholesky::cholesky) with `lower=.true.` or `lower=.false.`.
+- `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as the factor, containing the right-hand-side vector(s).
+- `x`: An array of the same shape and kind as `b`. On output it holds the solution.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the factor, `b` or `x` have invalid/incompatible sizes.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- Both routines are based on LAPACK's [POTRS](@ref la_lapack::potrs) routines.
+- The factor is taken as given: a matrix that is not a Cholesky factor produces a wrong answer, not an error.
 
 ## [lstsq](@ref la_least_squares::lstsq) - Compute a least squares solution to a system of linear equations.
 

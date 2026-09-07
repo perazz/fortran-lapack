@@ -63,6 +63,80 @@ module la_solve
      !!
      public :: solve_lu
 
+     !> @brief Solve a Hermitian positive definite system A * X = B.
+     !!
+     !! ### Summary
+     !! Subroutine interface for factorizing and solving a Cholesky system in one call.
+     !!
+     !! ### Description
+     !!
+     !! This interface computes the Cholesky factorization of the `real` symmetric or `complex`
+     !! Hermitian positive definite matrix A and solves
+     !!
+     !! \f$ A \cdot X = B \f$
+     !!
+     !! for one (`b(:)`) or many (`b(:,:)`) right-hand sides, writing the result into the caller's
+     !! array `x`. Only the triangle `lower` selects is read.
+     !!
+     !! @note The solution is based on LAPACK's [POSV](@ref la_lapack::posv) drivers.
+     !!
+     !! @param[in,out] a The input matrix of size `n x n`. If `overwrite_a` is true, it is
+     !!                  overwritten with its Cholesky factor.
+     !! @param[in] b The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
+     !! @param[in,out] x The solution vector (size `n`) or matrix (size `n x nrhs`), overwritten on return.
+     !! @param[in] lower (Optional) If true, the lower triangle of A is used. Default is true.
+     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the subroutine will stop execution.
+     !!
+     !! @warning If `overwrite_a` is enabled, the original contents of A may be lost.
+     !!
+     public :: solve_chol
+
+     !> @brief Solve A * X = B from a pre-computed lower Cholesky factor.
+     !!
+     !! ### Summary
+     !! Subroutine interface for solving with the lower triangular factor of \f$ A = L \cdot L^H \f$.
+     !!
+     !! ### Description
+     !!
+     !! This interface solves \f$ A \cdot X = B \f$ for one or many right-hand sides, given the
+     !! lower Cholesky factor of A as returned by [cholesky](@ref la_cholesky::cholesky) with
+     !! `lower=.true.`. The factor is not recomputed, so a repeated solve of the same system costs
+     !! two triangular solves.
+     !!
+     !! @note The solution is based on LAPACK's [POTRS](@ref la_lapack::potrs) routines.
+     !!
+     !! @param[in] l The lower Cholesky factor of size `n x n`.
+     !! @param[in] b The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
+     !! @param[in,out] x The solution vector (size `n`) or matrix (size `n x nrhs`), overwritten on return.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the subroutine will stop execution.
+     !!
+     public :: solve_lower_chol
+
+     !> @brief Solve A * X = B from a pre-computed upper Cholesky factor.
+     !!
+     !! ### Summary
+     !! Subroutine interface for solving with the upper triangular factor of \f$ A = U^H \cdot U \f$.
+     !!
+     !! ### Description
+     !!
+     !! This interface solves \f$ A \cdot X = B \f$ for one or many right-hand sides, given the
+     !! upper Cholesky factor of A as returned by [cholesky](@ref la_cholesky::cholesky) with
+     !! `lower=.false.`. The factor is not recomputed, so a repeated solve of the same system costs
+     !! two triangular solves.
+     !!
+     !! @note The solution is based on LAPACK's [POTRS](@ref la_lapack::potrs) routines.
+     !!
+     !! @param[in] u The upper Cholesky factor of size `n x n`.
+     !! @param[in] b The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
+     !! @param[in,out] x The solution vector (size `n`) or matrix (size `n x nrhs`), overwritten on return.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the subroutine will stop execution.
+     !!
+     public :: solve_upper_chol
+
      interface solve
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
@@ -78,6 +152,30 @@ module la_solve
         #:endfor
         #:endfor
      end interface solve_lu
+
+     interface solve_chol
+        #:for nd,ndsuf,nde in ALL_RANKS
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_${ri}$solve_chol${ndsuf}$
+        #:endfor
+        #:endfor
+     end interface solve_chol
+
+     interface solve_lower_chol
+        #:for nd,ndsuf,nde in ALL_RANKS
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_${ri}$solve_lower_chol${ndsuf}$
+        #:endfor
+        #:endfor
+     end interface solve_lower_chol
+
+     interface solve_upper_chol
+        #:for nd,ndsuf,nde in ALL_RANKS
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_${ri}$solve_upper_chol${ndsuf}$
+        #:endfor
+        #:endfor
+     end interface solve_upper_chol
      
      
      character(*), parameter :: this = 'solve'
@@ -108,6 +206,35 @@ module la_solve
          end select
 
      end subroutine handle_gesv_info
+
+     elemental subroutine handle_chol_info(info,triangle,n,nrhs,lda,ldb,err)
+         integer(ilp), intent(in) :: info,n,nrhs,lda,ldb
+         character, intent(in) :: triangle
+         type(la_state), intent(out) :: err
+
+         ! Process output
+         select case (info)
+            case (0)
+                ! Success
+            case (-1)
+                err = la_state(this,LINALG_INTERNAL_ERROR,'invalid triangle selection: ', &
+                                    triangle,'. should be U/L')
+            case (-2)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
+            case (-3)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid rhs size nrhs=',nrhs)
+            case (-5)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid lda=',lda,': should be >=',n)
+            case (-7)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid ldb=',ldb,': should be >=',n)
+            case (1:)
+                err = la_state(this,LINALG_ERROR,'matrix is not positive definite: ', &
+                                    'leading minor of order',info,'is not positive definite')
+            case default
+                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+         end select
+
+     end subroutine handle_chol_info
 
      #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
@@ -258,6 +385,162 @@ module la_solve
          call err0%handle(err)
 
      end subroutine la_${ri}$solve_lu${ndsuf}$
+
+     !> Cholesky factorize and solve in one call, ${ndsuf}$, ${rt}$
+     pure subroutine la_${ri}$solve_chol${ndsuf}$(a,b,x,lower,overwrite_a,err)
+         !> Input Hermitian positive definite matrix a[n,n]
+         ${rt}$,                     intent(inout), target :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         ${rt}$,                     intent(in)    :: b(${nd}$)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         ${rt}$, intent(inout), contiguous, target :: x(${nd}$)
+         !> [optional] Use the lower triangular factorization? Default: .true.
+         logical(lk), optional, intent(in) :: lower
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state), optional, intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: lda,n,ldb,ldx,nrhs,nrhsx,info
+         logical(lk) :: lower_,copy_a
+         character :: uplo
+         ${rt}$, pointer :: xmat(:,:),amat(:,:)
+
+         !> Problem sizes
+         lda   = size(a,1,kind=ilp)
+         n     = size(a,2,kind=ilp)
+         ldb   = size(b,1,kind=ilp)
+         nrhs  = size(b  ,kind=ilp)/max(1_ilp,ldb)
+         ldx   = size(x,1,kind=ilp)
+         nrhsx = size(x  ,kind=ilp)/max(1_ilp,ldx)
+
+         ! Default: use the lower triangle
+         if (present(lower)) then
+            lower_ = lower
+         else
+            lower_ = .true._lk
+         endif
+         uplo = merge('L','U',lower_)
+
+         ! Can A be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not.overwrite_a
+         else
+            copy_a = .true._lk
+         endif
+
+         if (any([lda,n,ldb]<1) .or. any([lda,ldb,ldx]/=n) .or. nrhsx/=nrhs) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
+                                                                       'b=[',ldb,',',nrhs,'],',&
+                                                                       'x=[',ldx,',',nrhsx,']')
+            call err0%handle(err)
+            return
+         end if
+
+         ! Initialize a matrix temporary
+         if (copy_a) then
+            allocate(amat(lda,n),source=a)
+         else
+            amat => a
+         endif
+
+         ! Initialize solution with the rhs: posv overwrites it with the solution
+         x = b
+         xmat(1:n,1:nrhs) => x
+
+         ! Factorize and solve
+         call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
+
+         ! Process output
+         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+
+         if (copy_a) deallocate(amat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_${ri}$solve_chol${ndsuf}$
+
+     !> Solve from a pre-computed Cholesky factor, ${ndsuf}$, ${rt}$
+     pure subroutine la_${ri}$chol_solve${ndsuf}$(a,b,x,uplo,err)
+         !> Cholesky factor a[n,n], lower or upper as uplo selects
+         ${rt}$,                     intent(in)    :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         ${rt}$,                     intent(in)    :: b(${nd}$)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         ${rt}$, intent(inout), contiguous, target :: x(${nd}$)
+         !> Triangle selector: 'L' for lower, 'U' for upper
+         character, intent(in) :: uplo
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state), optional, intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: lda,n,ldb,ldx,nrhs,nrhsx,info
+         ${rt}$, pointer :: xmat(:,:)
+
+         !> Problem sizes
+         lda   = size(a,1,kind=ilp)
+         n     = size(a,2,kind=ilp)
+         ldb   = size(b,1,kind=ilp)
+         nrhs  = size(b  ,kind=ilp)/max(1_ilp,ldb)
+         ldx   = size(x,1,kind=ilp)
+         nrhsx = size(x  ,kind=ilp)/max(1_ilp,ldx)
+
+         if (any([lda,n,ldb]<1) .or. any([lda,ldb,ldx]/=n) .or. nrhsx/=nrhs) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],',&
+                                                                       'b=[',ldb,',',nrhs,'],',&
+                                                                       'x=[',ldx,',',nrhsx,']')
+            call err0%handle(err)
+            return
+         end if
+
+         ! Initialize solution with the rhs: potrs overwrites it with the solution
+         x = b
+         xmat(1:n,1:nrhs) => x
+
+         ! Solve with the triangular factors
+         call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
+
+         ! Process output
+         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_${ri}$chol_solve${ndsuf}$
+
+     !> Solve from a pre-computed lower Cholesky factor, ${ndsuf}$, ${rt}$
+     pure subroutine la_${ri}$solve_lower_chol${ndsuf}$(l,b,x,err)
+         !> Lower Cholesky factor l[n,n] from cholesky(...,lower=.true.)
+         ${rt}$,                     intent(in)    :: l(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         ${rt}$,                     intent(in)    :: b(${nd}$)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         ${rt}$, intent(inout), contiguous, target :: x(${nd}$)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state), optional, intent(out) :: err
+
+         call la_${ri}$chol_solve${ndsuf}$(l,b,x,'L',err)
+
+     end subroutine la_${ri}$solve_lower_chol${ndsuf}$
+
+     !> Solve from a pre-computed upper Cholesky factor, ${ndsuf}$, ${rt}$
+     pure subroutine la_${ri}$solve_upper_chol${ndsuf}$(u,b,x,err)
+         !> Upper Cholesky factor u[n,n] from cholesky(...,lower=.false.)
+         ${rt}$,                     intent(in)    :: u(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         ${rt}$,                     intent(in)    :: b(${nd}$)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         ${rt}$, intent(inout), contiguous, target :: x(${nd}$)
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state), optional, intent(out) :: err
+
+         call la_${ri}$chol_solve${ndsuf}$(u,b,x,'U',err)
+
+     end subroutine la_${ri}$solve_upper_chol${ndsuf}$
 
      #:endfor
      #:endfor
