@@ -430,6 +430,243 @@ Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-han
 - This function relies on LAPACK's least-squares solvers, such as [GELSS](@ref la_lapack::gelss).
 - If `overwrite_a` is enabled, the original contents of `a` and `b` may be lost.
 
+## [lstsq_space](@ref la_least_squares::lstsq_space) - Workspace size for least squares operations.
+
+### Syntax
+
+`call lstsq_space(a, b, lrwork, liwork)` for real data
+`call lstsq_space(a, b, lrwork, liwork, lcwork)` for complex data
+
+### Description
+
+This subroutine returns the sizes of the working arrays that [`solve_lstsq`](@ref la_least_squares::solve_lstsq) needs for a problem of the shape of `a` and `b`, so that a repeated solve of problems of the same size performs no internal allocation.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. Only its shape is read.
+- `b`: A right-hand-side vector of size \f$m\f$ or matrix of size \f$ [m,nrhs] \f$. Only its shape is read.
+- `lrwork`: An `integer` returning the size of the real working array.
+- `liwork`: An `integer` returning the size of the integer working array.
+- `lcwork`: An `integer` returning the size of the complex working array. Complex data only.
+
+### Return value
+
+The three (two, for real data) workspace sizes are returned in the output arguments.
+
+### Errors
+
+- This subroutine is `pure` and cannot fail: it reads the shapes of its inputs and nothing else.
+
+### Notes
+
+- The sizes are those of LAPACK's [GELSD](@ref la_lapack::gelsd), with 25% headroom.
+
+
+## [solve_lstsq](@ref la_least_squares::solve_lstsq) - Least squares solution into a pre-allocated array.
+
+### Syntax
+
+`call solve_lstsq(a, b, x [, real_storage] [, int_storage] [, cmpl_storage] [, cond] [, singvals] [, overwrite_a] [, rank] [, err])`
+
+### Description
+
+This subroutine computes the least-squares solution of \f$ A \cdot x = b \f$ and writes it into the caller's array. Given the optional working arrays, it allocates nothing, so a repeated solve of problems of the same size runs without any memory traffic.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true.
+- `b`: The right-hand-side vector of size \f$m\f$ or matrix of size \f$ [m,nrhs] \f$. It is an `intent(in)` argument.
+- `x`: The solution vector of size \f$ \ge n \f$ or matrix of size \f$ [\ge n,nrhs] \f$. It is an `intent(inout)` contiguous argument.
+- `real_storage` (optional): A real working array of size at least the `lrwork` returned by [`lstsq_space`](@ref la_least_squares::lstsq_space).
+- `int_storage` (optional): An integer working array of size at least `liwork`.
+- `cmpl_storage` (optional): A complex working array of size at least `lcwork`. Complex data only.
+- `cond` (optional): The cutoff for rank evaluation: singular values \f$ s_i \le \text{cond} \cdot \max(s) \f$ are treated as zero.
+- `singvals` (optional): A real array of size at least \f$ \min(m,n) \f$ returning the singular values in decreasing order.
+- `overwrite_a` (optional): If true, `a` may be overwritten and destroyed. Default is false.
+- `rank` (optional): An `integer` returning the rank of `a`.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Return value
+
+The solution is written into `x`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix and right-hand-side sizes are inconsistent, if `x` is too small, or if a working array is too small.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the singular value decomposition did not converge.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- [`lstsq`](@ref la_least_squares::lstsq) is this subroutine with the solution allocated for the caller.
+
+
+## [weighted_lstsq](@ref la_least_squares::weighted_lstsq) - Weighted least squares solution (function).
+
+### Syntax
+
+`x = weighted_lstsq(w, a, b [, cond] [, overwrite_a] [, rank] [, err])`
+
+### Description
+
+This function minimizes \f$ \|D (b - A \cdot x)\| \f$ with \f$ D = \mathrm{diag}(\sqrt{w}) \f$: the \f$i\f$-th equation carries the weight \f$ w_i \f$. Both sides are scaled and the resulting ordinary least-squares problem is solved with [GELSD](@ref la_lapack::gelsd).
+
+### Arguments
+
+- `w`: A `real` vector of size \f$m\f$. The weights are always real and must all be positive.
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true.
+- `b`: The right-hand-side vector of size \f$m\f$. It is an `intent(in)` argument.
+- `cond` (optional): The cutoff for rank evaluation.
+- `overwrite_a` (optional): If true, `a` may be overwritten and destroyed. Default is false.
+- `rank` (optional): An `integer` returning the rank of `a`.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns the solution vector of size \f$n\f$.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix is empty, if `w` or `b` does not have one entry per row of `a`, or if any weight is not positive.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- With uniform weights the result is that of [`lstsq`](@ref la_least_squares::lstsq).
+
+
+## [solve_weighted_lstsq](@ref la_least_squares::solve_weighted_lstsq) - Weighted least squares solution into a pre-allocated array.
+
+### Syntax
+
+`call solve_weighted_lstsq(w, a, b, x [, cond] [, overwrite_a] [, rank] [, err])`
+
+### Description
+
+This subroutine is the subroutine form of [`weighted_lstsq`](@ref la_least_squares::weighted_lstsq): it writes the solution into the caller's array instead of allocating it.
+
+### Arguments
+
+- `w`: A `real` vector of size \f$m\f$ of positive weights.
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true.
+- `b`: The right-hand-side vector of size \f$m\f$. It is an `intent(in)` argument.
+- `x`: The solution vector of size \f$n\f$. It is an `intent(inout)` contiguous argument.
+- `cond` (optional): The cutoff for rank evaluation.
+- `overwrite_a` (optional): If true, `a` may be overwritten and destroyed. Default is false.
+- `rank` (optional): An `integer` returning the rank of `a`.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Return value
+
+The solution is written into `x`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the matrix is empty, if `w` or `b` does not have one entry per row of `a`, or if any weight is not positive.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- The weights are applied to a copy of `a` unless `overwrite_a` is set, so `a` is unchanged by default.
+
+
+## [constrained_lstsq](@ref la_least_squares::constrained_lstsq) - Equality-constrained least squares solution (function).
+
+### Syntax
+
+`x = constrained_lstsq(a, b, c, d [, overwrite_matrices] [, err])`
+
+### Description
+
+This function minimizes \f$ \|b - A \cdot x\| \f$ subject to \f$ C \cdot x = d \f$, with \f$ A \f$ of size \f$ [m,n] \f$ and \f$ C \f$ of size \f$ [p,n] \f$. The problem has a unique solution when \f$ p \le n \le m+p \f$, \f$ \mathrm{rank}(C) = p \f$ and the stacked matrix has rank \f$ n \f$.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, the least-squares cost. It is an `intent(inout)` argument, and is destroyed if `overwrite_matrices` is true.
+- `b`: The least-squares right-hand-side vector of size \f$m\f$. It is an `intent(inout)` argument.
+- `c`: The constraint matrix of size \f$ [p,n] \f$. It is an `intent(inout)` argument.
+- `d`: The constraint right-hand-side vector of size \f$p\f$. It is an `intent(inout)` argument.
+- `overwrite_matrices` (optional): If true, `a`, `b`, `c` and `d` may be overwritten and destroyed. Default is false.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
+
+### Return value
+
+The function returns the solution vector of size \f$n\f$.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if any matrix is empty or if the four shapes are inconsistent.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `c` is rank deficient or if the stacked matrix is.
+- If `err` is not provided, the function will stop execution on errors.
+
+### Notes
+
+- This function uses LAPACK's [GGLSE](@ref la_lapack::gglse) driver.
+
+
+## [solve_constrained_lstsq](@ref la_least_squares::solve_constrained_lstsq) - Equality-constrained least squares solution into a pre-allocated array.
+
+### Syntax
+
+`call solve_constrained_lstsq(a, b, c, d, x [, storage] [, overwrite_matrices] [, err])`
+
+### Description
+
+This subroutine is the subroutine form of [`constrained_lstsq`](@ref la_least_squares::constrained_lstsq): it writes the solution into the caller's array and can reuse a caller-provided workspace.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, the least-squares cost. It is an `intent(inout)` argument.
+- `b`: The least-squares right-hand-side vector of size \f$m\f$. It is an `intent(inout)` argument.
+- `c`: The constraint matrix of size \f$ [p,n] \f$. It is an `intent(inout)` argument.
+- `d`: The constraint right-hand-side vector of size \f$p\f$. It is an `intent(inout)` argument.
+- `x`: The solution vector of size \f$n\f$. It is an `intent(out)` argument.
+- `storage` (optional): A working array of size at least the `lwork` returned by [`constrained_lstsq_space`](@ref la_least_squares::constrained_lstsq_space).
+- `overwrite_matrices` (optional): If true, `a`, `b`, `c` and `d` may be overwritten and destroyed. Default is false.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Return value
+
+The solution is written into `x`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the shapes are inconsistent or if `storage` is too small.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `c` is rank deficient or if the stacked matrix is.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- Without `overwrite_matrices`, all four inputs are copied, so none of them is changed.
+
+
+## [constrained_lstsq_space](@ref la_least_squares::constrained_lstsq_space) - Workspace size for the constrained least squares solver.
+
+### Syntax
+
+`call constrained_lstsq_space(a, c, lwork [, err])`
+
+### Description
+
+This subroutine asks LAPACK for the optimal size of the workspace array that [`solve_constrained_lstsq`](@ref la_least_squares::solve_constrained_lstsq) needs for a problem of the shape of `a` and `c`.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. Only its shape is read.
+- `c`: The constraint matrix of size \f$ [p,n] \f$. Only its shape is read.
+- `lwork`: An `integer` returning the size of the workspace array.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if LAPACK rejects the problem dimensions.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- The size returned is the optimal one, not the minimum one.
+
+
 ## [det](@ref la_determinant::det) - Determinant of a scalar or rectangular matrix.
 
 ### Syntax
