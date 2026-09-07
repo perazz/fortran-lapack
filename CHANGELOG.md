@@ -103,6 +103,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `diag` gains three overloads: `diag(v, k)` places a vector on the `k`-th
   diagonal of a larger matrix, and `diag(a)` / `diag(a, k)` extract a diagonal
   of a matrix as a vector.
+- `lstsq_space(a, b, lrwork, liwork [, lcwork])`, the workspace query of the
+  least-squares solver, which used to be a private routine.
+- `solve_lstsq(a, b, x [, real_storage] [, int_storage] [, cmpl_storage]
+  [, cond] [, singvals] [, overwrite_a] [, rank] [, err])`, the subroutine form
+  of `lstsq`. Given the working arrays it allocates nothing, and it can return
+  the singular values.
+- `weighted_lstsq(w, a, b, ...)` and `solve_weighted_lstsq(w, a, b, x, ...)`,
+  which minimize `||D(b - Ax)||` with `D = diag(sqrt(w))`.
+- `constrained_lstsq(a, b, c, d, ...)` and
+  `solve_constrained_lstsq(a, b, c, d, x, ...)`, which minimize `||b - Ax||`
+  subject to `Cx = d` through LAPACK's `gglse`, with the matching
+  `constrained_lstsq_space(a, c, lwork [, err])` workspace query.
 
 ### Changed
 
