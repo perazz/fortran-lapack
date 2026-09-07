@@ -3,10 +3,11 @@ module linear_algebra
      use la_constants
      use la_cholesky, only: chol, cholesky
      use la_determinant
-     use la_eye, only: eye, diag
+     use la_eye, only: eye, diag, trace, outer_product, cross_product, kronecker_product, hermitian
      use la_inverse
      use la_lapack
      use la_least_squares
+     use la_matrix_property_checks
      use la_solve
      use la_state_type
      use la_svd

@@ -94,6 +94,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   table entry of a generic from the declarations of its specifics and inserts it
   in alphabetical order, so `include/la_lapack_interfaces.fypp` never needs to be
   written by hand.
+- Seven matrix property predicates in the new `la_matrix_property_checks`
+  module: `is_square`, `is_diagonal`, `is_symmetric`, `is_skew_symmetric`,
+  `is_hermitian`, `is_triangular(a, uplo)` and `is_hessenberg(a, uplo)`.
+- `trace(a)`, `outer_product(u, v)`, `cross_product(a, b)`,
+  `kronecker_product(a, b)` and `hermitian(a)`, all `pure`, for every real and
+  complex kind.
+- `diag` gains three overloads: `diag(v, k)` places a vector on the `k`-th
+  diagonal of a larger matrix, and `diag(a)` / `diag(a, k)` extract a diagonal
+  of a matrix as a vector.
 
 ### Changed
 
