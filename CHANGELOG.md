@@ -72,6 +72,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Linear-algebra test suite ported from the Fortran standard library
   (test-drive dev-dependency).
+- `solve_lu(a, b, x [, pivot] [, overwrite_a] [, err])`, a `pure` subroutine form
+  of `solve` that writes into a caller-provided solution array and can reuse a
+  caller-provided pivot array, so a repeated solve of the same size allocates
+  nothing.
+- `operator(.det.)`: `.det. a` is the `pure` determinant of a square matrix, with
+  no `overwrite_a` flag and no error argument.
+- `invert(a, inva [, pivot] [, err])`, which writes the inverse into a second
+  matrix instead of overwriting `a`, and an optional `pivot` argument on both
+  forms of `invert`.
 
 ### Changed
 

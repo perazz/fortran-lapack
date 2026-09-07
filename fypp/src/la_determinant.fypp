@@ -37,6 +37,29 @@ module la_determinant
         #:endfor
      end interface det
 
+     !> @brief Compute the determinant of a square matrix using the `.det.` operator.
+     !!
+     !! This operator computes the determinant of a real or complex square matrix \f$ A \f$
+     !! from its LU factorization, in a `pure` context and without an error flag.
+     !!
+     !! @param[in] A The input square matrix of size \f$ [n, n] \f$.
+     !!
+     !! @return The determinant of the matrix \f$ A \f$, of the same kind as \f$ A \f$.
+     !!
+     !! @note This operator is a shorthand for the `pure` determinant, allowing expressions such as:
+     !!       \f$ d = .det. A \f$
+     !! @warning The matrix \f$ A \f$ is copied internally, so the operator never modifies its argument.
+     !!          Execution stops if the matrix is not square.
+     !!
+     public :: operator(.det.)
+
+     ! Operator interface
+     interface operator(.det.)
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        module procedure la_${ri}$pure_determinant
+        #:endfor
+     end interface operator(.det.)
+
 
      contains
 
@@ -133,6 +156,81 @@ module la_determinant
          call err0%handle(err)
 
      end function la_${ri}$determinant
+
+     ! Compute determinant of a square matrix A, without error control
+     pure function la_${ri}$pure_determinant(a) result(det)
+         !> Input matrix a[m,n]
+         ${rt}$, intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         ${rt}$ :: det
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,info,perm,k
+         integer(ilp), allocatable :: ipiv(:)
+         ${rt}$, allocatable :: amat(:,:)
+
+         !> Matrix determinant size
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m/=n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+            det  = 0.0_${rk}$
+            call err0%handle()
+            return
+         end if
+
+         select case (m)
+            case (0)
+                ! Empty array has determinant 1 because math
+                det = 1.0_${rk}$
+
+            case (1)
+                ! Scalar
+                det = a(1,1)
+
+            case default
+
+                ! Find determinant from LU decomposition
+                allocate(amat(m,n),source=a)
+
+                ! Pivot indices
+                allocate(ipiv(n))
+
+                ! Compute determinant from LU factorization, then calculate the product of
+                ! all diagonal entries of the U factor.
+                call getrf(m,n,amat,m,ipiv,info)
+
+                select case (info)
+                   case (0)
+                       ! Success: compute determinant
+
+                       ! Start with real 1.0
+                       det = 1.0_${rk}$
+                       perm = 0
+                       do k=1,n
+                          if (ipiv(k)/=k) perm = perm+1
+                          det = det*amat(k,k)
+                       end do
+                       if (mod(perm,2)/=0) det = -det
+
+                   case (:-1)
+                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   case (1:)
+                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
+                   case default
+                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                end select
+
+                deallocate(amat)
+
+         end select
+
+         ! Process output and return
+         call err0%handle()
+
+     end function la_${ri}$pure_determinant
 
      #:endfor
 

@@ -2,7 +2,7 @@
 module test_linalg_determinant
     use testdrive,only:error_type,check,new_unittest,unittest_type
     use la_constants
-    use linear_algebra,only:eye,det,la_state
+    use linear_algebra,only:eye,det,operator(.det.),la_state
 
     implicit none(type,external)
     private
@@ -33,6 +33,12 @@ module test_linalg_determinant
         call add_test(tests,new_unittest("$complex_det_csp",test_csp_complex_determinant))
         call add_test(tests,new_unittest("$complex_det_cdp",test_cdp_complex_determinant))
         call add_test(tests,new_unittest("$complex_det_cqp",test_cqp_complex_determinant))
+        call add_test(tests,new_unittest("$det_operator_rsp",test_rsp_det_operator))
+        call add_test(tests,new_unittest("$det_operator_rdp",test_rdp_det_operator))
+        call add_test(tests,new_unittest("$det_operator_rqp",test_rqp_det_operator))
+        call add_test(tests,new_unittest("$det_operator_csp",test_csp_det_operator))
+        call add_test(tests,new_unittest("$det_operator_cdp",test_cdp_det_operator))
+        call add_test(tests,new_unittest("$det_operator_cqp",test_cqp_det_operator))
 
     end subroutine test_matrix_determinant
 
@@ -508,6 +514,204 @@ module test_linalg_determinant
                          'det((1+i)*eye(n))  does not match result')
 
     end subroutine test_cqp_complex_determinant
+
+    !> Pure determinant through the .det. operator
+    subroutine test_rsp_det_operator(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 4_ilp
+        real(sp),parameter :: coef = 0.01_sp
+        integer(ilp) :: i
+        real(sp) :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        a = real(eye(n),sp)
+        do concurrent(i=1:n)
+          a(i,i) = coef
+        end do
+
+        !> The operator returns the value the function returns
+        deta = det(a,overwrite_a=.false.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - deta) < max(tiny(0.0_sp),epsilon(0.0_sp)*coef**n), &
+                         '.det. a matches det(a)')
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - coef**n) < max(tiny(0.0_sp),epsilon(0.0_sp)*coef**n), &
+                         '.det.(0.01*eye(n))==0.01^n')
+        if (allocated(error)) return
+
+    end subroutine test_rsp_det_operator
+
+    !> Pure determinant through the .det. operator
+    subroutine test_rdp_det_operator(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 4_ilp
+        real(dp),parameter :: coef = 0.01_dp
+        integer(ilp) :: i
+        real(dp) :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        a = real(eye(n),dp)
+        do concurrent(i=1:n)
+          a(i,i) = coef
+        end do
+
+        !> The operator returns the value the function returns
+        deta = det(a,overwrite_a=.false.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - deta) < max(tiny(0.0_dp),epsilon(0.0_dp)*coef**n), &
+                         '.det. a matches det(a)')
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - coef**n) < max(tiny(0.0_dp),epsilon(0.0_dp)*coef**n), &
+                         '.det.(0.01*eye(n))==0.01^n')
+        if (allocated(error)) return
+
+    end subroutine test_rdp_det_operator
+
+    !> Pure determinant through the .det. operator
+    subroutine test_rqp_det_operator(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 4_ilp
+        real(qp),parameter :: coef = 0.01_qp
+        integer(ilp) :: i
+        real(qp) :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        a = real(eye(n),qp)
+        do concurrent(i=1:n)
+          a(i,i) = coef
+        end do
+
+        !> The operator returns the value the function returns
+        deta = det(a,overwrite_a=.false.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - deta) < max(tiny(0.0_qp),epsilon(0.0_qp)*coef**n), &
+                         '.det. a matches det(a)')
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - coef**n) < max(tiny(0.0_qp),epsilon(0.0_qp)*coef**n), &
+                         '.det.(0.01*eye(n))==0.01^n')
+        if (allocated(error)) return
+
+    end subroutine test_rqp_det_operator
+
+    !> Pure determinant through the .det. operator
+    subroutine test_csp_det_operator(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 4_ilp
+        real(sp),parameter :: coef = 0.01_sp
+        integer(ilp) :: i
+        complex(sp) :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        a = real(eye(n),sp)
+        do concurrent(i=1:n)
+          a(i,i) = coef
+        end do
+
+        !> The operator returns the value the function returns
+        deta = det(a,overwrite_a=.false.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - deta) < max(tiny(0.0_sp),epsilon(0.0_sp)*coef**n), &
+                         '.det. a matches det(a)')
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - coef**n) < max(tiny(0.0_sp),epsilon(0.0_sp)*coef**n), &
+                         '.det.(0.01*eye(n))==0.01^n')
+        if (allocated(error)) return
+
+    end subroutine test_csp_det_operator
+
+    !> Pure determinant through the .det. operator
+    subroutine test_cdp_det_operator(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 4_ilp
+        real(dp),parameter :: coef = 0.01_dp
+        integer(ilp) :: i
+        complex(dp) :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        a = real(eye(n),dp)
+        do concurrent(i=1:n)
+          a(i,i) = coef
+        end do
+
+        !> The operator returns the value the function returns
+        deta = det(a,overwrite_a=.false.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - deta) < max(tiny(0.0_dp),epsilon(0.0_dp)*coef**n), &
+                         '.det. a matches det(a)')
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - coef**n) < max(tiny(0.0_dp),epsilon(0.0_dp)*coef**n), &
+                         '.det.(0.01*eye(n))==0.01^n')
+        if (allocated(error)) return
+
+    end subroutine test_cdp_det_operator
+
+    !> Pure determinant through the .det. operator
+    subroutine test_cqp_det_operator(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 4_ilp
+        real(qp),parameter :: coef = 0.01_qp
+        integer(ilp) :: i
+        complex(qp) :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        a = real(eye(n),qp)
+        do concurrent(i=1:n)
+          a(i,i) = coef
+        end do
+
+        !> The operator returns the value the function returns
+        deta = det(a,overwrite_a=.false.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - deta) < max(tiny(0.0_qp),epsilon(0.0_qp)*coef**n), &
+                         '.det. a matches det(a)')
+        if (allocated(error)) return
+
+        call check(error,abs(.det.a - coef**n) < max(tiny(0.0_qp),epsilon(0.0_qp)*coef**n), &
+                         '.det.(0.01*eye(n))==0.01^n')
+        if (allocated(error)) return
+
+    end subroutine test_cqp_det_operator
 
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)
