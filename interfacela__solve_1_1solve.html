@@ -196,7 +196,63 @@ Description</h3>
   </table>
   </dd>
 </dl>
-<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A may be lost. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A may be lost.</dd></dl>
+<p>Solve a Hermitian positive definite system A * X = B.</p>
+<h3><a class="anchor" id="autotoc_md29"></a>
+Summary</h3>
+<p>Subroutine interface for factorizing and solving a Cholesky system in one call.</p>
+<h3><a class="anchor" id="autotoc_md30"></a>
+Description</h3>
+<p>This interface computes the Cholesky factorization of the <code>real</code> symmetric or <code>complex</code> Hermitian positive definite matrix A and solves</p>
+<p>\( A \cdot X = B \)</p>
+<p>for one (<code>b(:)</code>) or many (<code>b(:,:)</code>) right-hand sides, writing the result into the caller's array <code>x</code>. Only the triangle <code>lower</code> selects is read.</p>
+<dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's <a class="el" href="interfacela__lapack_1_1posv.html">POSV</a> drivers.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix of size <code>n x n</code>. If <code>overwrite_a</code> is true, it is overwritten with its Cholesky factor. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>The solution vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>), overwritten on return. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">lower</td><td>(Optional) If true, the lower triangle of A is used. Default is true. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, A may be overwritten and destroyed. Default is false. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the subroutine will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A may be lost.</dd></dl>
+<p>Solve A * X = B from a pre-computed lower Cholesky factor.</p>
+<h3><a class="anchor" id="autotoc_md31"></a>
+Summary</h3>
+<p>Subroutine interface for solving with the lower triangular factor of \( A = L \cdot L^H \).</p>
+<h3><a class="anchor" id="autotoc_md32"></a>
+Description</h3>
+<p>This interface solves \( A \cdot X = B \) for one or many right-hand sides, given the lower Cholesky factor of A as returned by <a class="el" href="interfacela__cholesky_1_1cholesky.html">cholesky</a> with <code>lower=.true.</code>. The factor is not recomputed, so a repeated solve of the same system costs two triangular solves.</p>
+<dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's <a class="el" href="interfacela__lapack_1_1potrs.html">POTRS</a> routines.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">l</td><td>The lower Cholesky factor of size <code>n x n</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>The solution vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>), overwritten on return. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the subroutine will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Solve A * X = B from a pre-computed upper Cholesky factor.</p>
+<h3><a class="anchor" id="autotoc_md33"></a>
+Summary</h3>
+<p>Subroutine interface for solving with the upper triangular factor of \( A = U^H \cdot U \).</p>
+<h3><a class="anchor" id="autotoc_md34"></a>
+Description</h3>
+<p>This interface solves \( A \cdot X = B \) for one or many right-hand sides, given the upper Cholesky factor of A as returned by <a class="el" href="interfacela__cholesky_1_1cholesky.html">cholesky</a> with <code>lower=.false.</code>. The factor is not recomputed, so a repeated solve of the same system costs two triangular solves.</p>
+<dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's <a class="el" href="interfacela__lapack_1_1potrs.html">POTRS</a> routines.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">u</td><td>The upper Cholesky factor of size <code>n x n</code>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>The solution vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>), overwritten on return. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the subroutine will stop execution. </td></tr>
+  </table>
+  </dd>
+</dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="ac744b72c0592bfb4447a7a404550e73f" name="ac744b72c0592bfb4447a7a404550e73f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac744b72c0592bfb4447a7a404550e73f">&#9670;&#160;</a></span>la_csolve_multiple()</h2>

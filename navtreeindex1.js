@@ -1,5 +1,17 @@
 var NAVTREEINDEX1 =
 {
+"interfacela__blas_1_1dot.html#ae40d45803d9ee4f348907ff798d39585":[7,0,0,2,0],
+"interfacela__blas_1_1dot.html#ae40d45803d9ee4f348907ff798d39585":[8,0,0,2,0],
+"interfacela__blas_1_1dotc.html":[7,0,0,3],
+"interfacela__blas_1_1dotc.html":[8,0,0,3],
+"interfacela__blas_1_1dotc.html#a1409d317236cd0d3ed1d736fb6a70a05":[7,0,0,3,0],
+"interfacela__blas_1_1dotc.html#a1409d317236cd0d3ed1d736fb6a70a05":[8,0,0,3,0],
+"interfacela__blas_1_1dotc.html#a48d88114594d19167ec40074d279a667":[7,0,0,3,1],
+"interfacela__blas_1_1dotc.html#a48d88114594d19167ec40074d279a667":[8,0,0,3,1],
+"interfacela__blas_1_1dotc.html#a4b056544be4bf819111e799be34d8cf7":[7,0,0,3,2],
+"interfacela__blas_1_1dotc.html#a4b056544be4bf819111e799be34d8cf7":[8,0,0,3,2],
+"interfacela__blas_1_1dotu.html":[7,0,0,4],
+"interfacela__blas_1_1dotu.html":[8,0,0,4],
 "interfacela__blas_1_1dotu.html#aa2fb084154d8c3de6e203e88401dcf81":[7,0,0,4,0],
 "interfacela__blas_1_1dotu.html#aa2fb084154d8c3de6e203e88401dcf81":[8,0,0,4,0],
 "interfacela__blas_1_1dotu.html#aaef2c9191de940c6dbf8055b8c922af0":[7,0,0,4,2],
@@ -237,17 +249,5 @@ var NAVTREEINDEX1 =
 "interfacela__blas_1_1scal.html":[7,0,0,27],
 "interfacela__blas_1_1scal.html":[8,0,0,27],
 "interfacela__blas_1_1scal.html#a17164b26bb5c2cff4922e4997108fb4d":[7,0,0,27,8],
-"interfacela__blas_1_1scal.html#a17164b26bb5c2cff4922e4997108fb4d":[8,0,0,27,8],
-"interfacela__blas_1_1scal.html#a1ec5b7bc9779b9a58801ad9f8a8632e2":[7,0,0,27,5],
-"interfacela__blas_1_1scal.html#a1ec5b7bc9779b9a58801ad9f8a8632e2":[8,0,0,27,5],
-"interfacela__blas_1_1scal.html#a22ead1dc8409c54bbd5c163951ab7d37":[7,0,0,27,1],
-"interfacela__blas_1_1scal.html#a22ead1dc8409c54bbd5c163951ab7d37":[8,0,0,27,1],
-"interfacela__blas_1_1scal.html#a381a9006f9cb9696e3359454e7059bc1":[7,0,0,27,4],
-"interfacela__blas_1_1scal.html#a381a9006f9cb9696e3359454e7059bc1":[8,0,0,27,4],
-"interfacela__blas_1_1scal.html#a45f0048ff2fabaa4915e4b96eab88c24":[7,0,0,27,6],
-"interfacela__blas_1_1scal.html#a45f0048ff2fabaa4915e4b96eab88c24":[8,0,0,27,6],
-"interfacela__blas_1_1scal.html#a567233c3f1a07b76b4471845077f96f2":[7,0,0,27,0],
-"interfacela__blas_1_1scal.html#a567233c3f1a07b76b4471845077f96f2":[8,0,0,27,0],
-"interfacela__blas_1_1scal.html#a639c502ae44e189947179eea0a2a2710":[7,0,0,27,9],
-"interfacela__blas_1_1scal.html#a639c502ae44e189947179eea0a2a2710":[8,0,0,27,9]
+"interfacela__blas_1_1scal.html#a17164b26bb5c2cff4922e4997108fb4d":[8,0,0,27,8]
 };
