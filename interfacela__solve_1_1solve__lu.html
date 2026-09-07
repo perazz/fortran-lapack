@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.13.2"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>fortran-lapack: la_solve::solve Interface Reference</title>
+<title>fortran-lapack: la_solve::solve_lu Interface Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -83,7 +83,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('interfacela__solve_1_1solve.html',''); initResizable(true); });
+$(function(){initNavTree('interfacela__solve_1_1solve__lu.html',''); initResizable(true); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -111,101 +111,59 @@ $(function(){initNavTree('interfacela__solve_1_1solve.html',''); initResizable(t
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="interfacela__solve_1_1solve-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">la_solve::solve Interface Reference</div></div>
+<a href="interfacela__solve_1_1solve__lu-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">la_solve::solve_lu Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
-<p>Solve a system of linear equations A * X = B.  
- <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8a540eb6b3d444f01d046e6c561e6e27" id="r_a8a540eb6b3d444f01d046e6c561e6e27"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a540eb6b3d444f01d046e6c561e6e27">la_ssolve_one</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:a8a540eb6b3d444f01d046e6c561e6e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, real(sp)  <br /></td></tr>
-<tr class="separator:a8a540eb6b3d444f01d046e6c561e6e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a568054147590198e1e924a68291b20a9" id="r_a568054147590198e1e924a68291b20a9"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a568054147590198e1e924a68291b20a9">la_dsolve_one</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:a568054147590198e1e924a68291b20a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, real(dp)  <br /></td></tr>
-<tr class="separator:a568054147590198e1e924a68291b20a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07f57100c231a1d8a04e542f31ff858b" id="r_a07f57100c231a1d8a04e542f31ff858b"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a07f57100c231a1d8a04e542f31ff858b">la_qsolve_one</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:a07f57100c231a1d8a04e542f31ff858b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, real(qp)  <br /></td></tr>
-<tr class="separator:a07f57100c231a1d8a04e542f31ff858b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6627936489a5f3b284e9354afc556d1f" id="r_a6627936489a5f3b284e9354afc556d1f"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6627936489a5f3b284e9354afc556d1f">la_csolve_one</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:a6627936489a5f3b284e9354afc556d1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, complex(sp)  <br /></td></tr>
-<tr class="separator:a6627936489a5f3b284e9354afc556d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9072b0689f6a67deeeec4a90e60bee7" id="r_ab9072b0689f6a67deeeec4a90e60bee7"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9072b0689f6a67deeeec4a90e60bee7">la_zsolve_one</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:ab9072b0689f6a67deeeec4a90e60bee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, complex(dp)  <br /></td></tr>
-<tr class="separator:ab9072b0689f6a67deeeec4a90e60bee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd02bcbaf432ca06e7a12a5a919b29ee" id="r_abd02bcbaf432ca06e7a12a5a919b29ee"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd02bcbaf432ca06e7a12a5a919b29ee">la_wsolve_one</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:abd02bcbaf432ca06e7a12a5a919b29ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _one, complex(qp)  <br /></td></tr>
-<tr class="separator:abd02bcbaf432ca06e7a12a5a919b29ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aedb30264a6d54c10180b4a9ff1c2097d" id="r_aedb30264a6d54c10180b4a9ff1c2097d"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aedb30264a6d54c10180b4a9ff1c2097d">la_ssolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:aedb30264a6d54c10180b4a9ff1c2097d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, real(sp)  <br /></td></tr>
-<tr class="separator:aedb30264a6d54c10180b4a9ff1c2097d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86309a4e8a06c4d44b8ae0e6fa5014c5" id="r_a86309a4e8a06c4d44b8ae0e6fa5014c5"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a86309a4e8a06c4d44b8ae0e6fa5014c5">la_dsolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:a86309a4e8a06c4d44b8ae0e6fa5014c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, real(dp)  <br /></td></tr>
-<tr class="separator:a86309a4e8a06c4d44b8ae0e6fa5014c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a809320cd1ac2aa5ff4a2bc83c4ca69cc" id="r_a809320cd1ac2aa5ff4a2bc83c4ca69cc"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a809320cd1ac2aa5ff4a2bc83c4ca69cc">la_qsolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:a809320cd1ac2aa5ff4a2bc83c4ca69cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, real(qp)  <br /></td></tr>
-<tr class="separator:a809320cd1ac2aa5ff4a2bc83c4ca69cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac744b72c0592bfb4447a7a404550e73f" id="r_ac744b72c0592bfb4447a7a404550e73f"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac744b72c0592bfb4447a7a404550e73f">la_csolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:ac744b72c0592bfb4447a7a404550e73f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, complex(sp)  <br /></td></tr>
-<tr class="separator:ac744b72c0592bfb4447a7a404550e73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a25cde927f6c85ed206512e63626a244c" id="r_a25cde927f6c85ed206512e63626a244c"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a25cde927f6c85ed206512e63626a244c">la_zsolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:a25cde927f6c85ed206512e63626a244c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, complex(dp)  <br /></td></tr>
-<tr class="separator:a25cde927f6c85ed206512e63626a244c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36984a225fd6df86a6d7503706df5d5f" id="r_a36984a225fd6df86a6d7503706df5d5f"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:,:), allocatable, target&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36984a225fd6df86a6d7503706df5d5f">la_wsolve_multiple</a> (a, b, overwrite_a, err)</td></tr>
-<tr class="memdesc:a36984a225fd6df86a6d7503706df5d5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve, _multiple, complex(qp)  <br /></td></tr>
-<tr class="separator:a36984a225fd6df86a6d7503706df5d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a718c8d23f9e8166040d636654e2b5fdd" id="r_a718c8d23f9e8166040d636654e2b5fdd"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a718c8d23f9e8166040d636654e2b5fdd">la_ssolve_lu_one</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:a718c8d23f9e8166040d636654e2b5fdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _one, real(sp)  <br /></td></tr>
+<tr class="separator:a718c8d23f9e8166040d636654e2b5fdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae80d9175fd9b2f19a3e287cba3202680" id="r_ae80d9175fd9b2f19a3e287cba3202680"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae80d9175fd9b2f19a3e287cba3202680">la_dsolve_lu_one</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:ae80d9175fd9b2f19a3e287cba3202680"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _one, real(dp)  <br /></td></tr>
+<tr class="separator:ae80d9175fd9b2f19a3e287cba3202680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a464dd1b5eb9bb539145e83b8321ab1fe" id="r_a464dd1b5eb9bb539145e83b8321ab1fe"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a464dd1b5eb9bb539145e83b8321ab1fe">la_qsolve_lu_one</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:a464dd1b5eb9bb539145e83b8321ab1fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _one, real(qp)  <br /></td></tr>
+<tr class="separator:a464dd1b5eb9bb539145e83b8321ab1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a950a54341d0b3bd8c49d50aaa527c9a8" id="r_a950a54341d0b3bd8c49d50aaa527c9a8"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a950a54341d0b3bd8c49d50aaa527c9a8">la_csolve_lu_one</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:a950a54341d0b3bd8c49d50aaa527c9a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _one, complex(sp)  <br /></td></tr>
+<tr class="separator:a950a54341d0b3bd8c49d50aaa527c9a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64c88093e5cf19862623c0eb56792a2a" id="r_a64c88093e5cf19862623c0eb56792a2a"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a64c88093e5cf19862623c0eb56792a2a">la_zsolve_lu_one</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:a64c88093e5cf19862623c0eb56792a2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _one, complex(dp)  <br /></td></tr>
+<tr class="separator:a64c88093e5cf19862623c0eb56792a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22576bc82d8649ee92de9bd1a54f0b04" id="r_a22576bc82d8649ee92de9bd1a54f0b04"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22576bc82d8649ee92de9bd1a54f0b04">la_wsolve_lu_one</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:a22576bc82d8649ee92de9bd1a54f0b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _one, complex(qp)  <br /></td></tr>
+<tr class="separator:a22576bc82d8649ee92de9bd1a54f0b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd838ea1467639e646d95293ca7149c5" id="r_acd838ea1467639e646d95293ca7149c5"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd838ea1467639e646d95293ca7149c5">la_ssolve_lu_multiple</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:acd838ea1467639e646d95293ca7149c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _multiple, real(sp)  <br /></td></tr>
+<tr class="separator:acd838ea1467639e646d95293ca7149c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51c5a581f8a1f449fb208e50e17ffcd1" id="r_a51c5a581f8a1f449fb208e50e17ffcd1"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a51c5a581f8a1f449fb208e50e17ffcd1">la_dsolve_lu_multiple</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:a51c5a581f8a1f449fb208e50e17ffcd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _multiple, real(dp)  <br /></td></tr>
+<tr class="separator:a51c5a581f8a1f449fb208e50e17ffcd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a079bfe87b2de6acfa012b9a4bc82219f" id="r_a079bfe87b2de6acfa012b9a4bc82219f"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a079bfe87b2de6acfa012b9a4bc82219f">la_qsolve_lu_multiple</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:a079bfe87b2de6acfa012b9a4bc82219f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _multiple, real(qp)  <br /></td></tr>
+<tr class="separator:a079bfe87b2de6acfa012b9a4bc82219f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8ba6e7818bc629dfb693b382b011ce1" id="r_af8ba6e7818bc629dfb693b382b011ce1"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8ba6e7818bc629dfb693b382b011ce1">la_csolve_lu_multiple</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:af8ba6e7818bc629dfb693b382b011ce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _multiple, complex(sp)  <br /></td></tr>
+<tr class="separator:af8ba6e7818bc629dfb693b382b011ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67946f65250460047a5691ca3e892a7e" id="r_a67946f65250460047a5691ca3e892a7e"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a67946f65250460047a5691ca3e892a7e">la_zsolve_lu_multiple</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:a67946f65250460047a5691ca3e892a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _multiple, complex(dp)  <br /></td></tr>
+<tr class="separator:a67946f65250460047a5691ca3e892a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab96b09058a93ff521f0f960e332bceb7" id="r_ab96b09058a93ff521f0f960e332bceb7"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab96b09058a93ff521f0f960e332bceb7">la_wsolve_lu_multiple</a> (a, b, x, pivot, overwrite_a, err)</td></tr>
+<tr class="memdesc:ab96b09058a93ff521f0f960e332bceb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear system solve into a pre-allocated array, _multiple, complex(qp)  <br /></td></tr>
+<tr class="separator:ab96b09058a93ff521f0f960e332bceb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Solve a system of linear equations A * X = B. </p>
-<p>This function computes the solution to a real system of linear equations:</p>
-<p>\( A \cdot X = B \)</p>
-<p>where A is an <code>n x n</code> square matrix, and B is either a vector (<code>n</code>) or a matrix (<code>n x nrhs</code>). The solution X is returned as an allocatable array.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input square matrix of size <code>n x n</code>. If <code>overwrite_a</code> is true, the contents of A may be modified during computation. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">B</td><td>The right-hand side vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, A may be overwritten and destroyed. Default is false. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Solution matrix X of size <code>n</code> (for a single right-hand side) or <code>n x nrhs</code>.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function relies on LAPACK LU decomposition based solvers <code>*GESV</code>.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A may be lost.</dd></dl>
-<p>Solve a system of linear equations A * X = B into a pre-allocated array.</p>
-<h3><a class="anchor" id="autotoc_md27"></a>
-Summary</h3>
-<p>Subroutine interface for solving a linear system through an LU factorization.</p>
-<h3><a class="anchor" id="autotoc_md28"></a>
-Description</h3>
-<p>This interface solves the linear system</p>
-<p>\( A \cdot X = B \)</p>
-<p>writing the result into the caller's array <code>x</code> instead of returning a new one. Storage for the pivot indices may also be provided; when both <code>x</code> and <code>pivot</code> are given and <code>overwrite_a</code> is set, the call performs no internal allocation. One (<code>b(:)</code>) or many (<code>b(:,:)</code>) right-hand sides are solved at once.</p>
-<dl class="section note"><dt>Note</dt><dd>The solution is based on LAPACK's LU decomposition solvers <a class="el" href="interfacela__lapack_1_1gesv.html">GESV</a>.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input square matrix of size <code>n x n</code>. If <code>overwrite_a</code> is true, the contents of A may be modified during computation. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>). </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>The solution vector (size <code>n</code>) or matrix (size <code>n x nrhs</code>), overwritten on return. </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>(Optional) Storage array for the <code>n</code> diagonal pivot indices. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, A may be overwritten and destroyed. Default is false. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the subroutine will stop execution.</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A may be lost. </dd></dl>
-</div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="ac744b72c0592bfb4447a7a404550e73f" name="ac744b72c0592bfb4447a7a404550e73f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac744b72c0592bfb4447a7a404550e73f">&#9670;&#160;</a></span>la_csolve_multiple()</h2>
+<h2 class="groupheader">Member Function/Subroutine Documentation</h2>
+<a id="af8ba6e7818bc629dfb693b382b011ce1" name="af8ba6e7818bc629dfb693b382b011ce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8ba6e7818bc629dfb693b382b011ce1">&#9670;&#160;</a></span>la_csolve_lu_multiple()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable, target la_solve::solve::la_csolve_multiple </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_csolve_lu_multiple </td>
           <td>(</td>
           <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -217,6 +175,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -227,28 +195,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _multiple, complex(sp) </p>
+<p>Linear system solve into a pre-allocated array, _multiple, complex(sp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="a6627936489a5f3b284e9354afc556d1f" name="a6627936489a5f3b284e9354afc556d1f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6627936489a5f3b284e9354afc556d1f">&#9670;&#160;</a></span>la_csolve_one()</h2>
+<a id="a950a54341d0b3bd8c49d50aaa527c9a8" name="a950a54341d0b3bd8c49d50aaa527c9a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a950a54341d0b3bd8c49d50aaa527c9a8">&#9670;&#160;</a></span>la_csolve_lu_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:), allocatable, target la_solve::solve::la_csolve_one </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_csolve_lu_one </td>
           <td>(</td>
           <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -260,6 +229,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -270,28 +249,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _one, complex(sp) </p>
+<p>Linear system solve into a pre-allocated array, _one, complex(sp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="a86309a4e8a06c4d44b8ae0e6fa5014c5" name="a86309a4e8a06c4d44b8ae0e6fa5014c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86309a4e8a06c4d44b8ae0e6fa5014c5">&#9670;&#160;</a></span>la_dsolve_multiple()</h2>
+<a id="a51c5a581f8a1f449fb208e50e17ffcd1" name="a51c5a581f8a1f449fb208e50e17ffcd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51c5a581f8a1f449fb208e50e17ffcd1">&#9670;&#160;</a></span>la_dsolve_lu_multiple()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable, target la_solve::solve::la_dsolve_multiple </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_dsolve_lu_multiple </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -303,6 +283,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -313,28 +303,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _multiple, real(dp) </p>
+<p>Linear system solve into a pre-allocated array, _multiple, real(dp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="a568054147590198e1e924a68291b20a9" name="a568054147590198e1e924a68291b20a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a568054147590198e1e924a68291b20a9">&#9670;&#160;</a></span>la_dsolve_one()</h2>
+<a id="ae80d9175fd9b2f19a3e287cba3202680" name="ae80d9175fd9b2f19a3e287cba3202680"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae80d9175fd9b2f19a3e287cba3202680">&#9670;&#160;</a></span>la_dsolve_lu_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:), allocatable, target la_solve::solve::la_dsolve_one </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_dsolve_lu_one </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -346,6 +337,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -356,28 +357,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _one, real(dp) </p>
+<p>Linear system solve into a pre-allocated array, _one, real(dp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="a809320cd1ac2aa5ff4a2bc83c4ca69cc" name="a809320cd1ac2aa5ff4a2bc83c4ca69cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a809320cd1ac2aa5ff4a2bc83c4ca69cc">&#9670;&#160;</a></span>la_qsolve_multiple()</h2>
+<a id="a079bfe87b2de6acfa012b9a4bc82219f" name="a079bfe87b2de6acfa012b9a4bc82219f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a079bfe87b2de6acfa012b9a4bc82219f">&#9670;&#160;</a></span>la_qsolve_lu_multiple()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:,:), allocatable, target la_solve::solve::la_qsolve_multiple </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_qsolve_lu_multiple </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -389,6 +391,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -399,28 +411,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _multiple, real(qp) </p>
+<p>Linear system solve into a pre-allocated array, _multiple, real(qp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="a07f57100c231a1d8a04e542f31ff858b" name="a07f57100c231a1d8a04e542f31ff858b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07f57100c231a1d8a04e542f31ff858b">&#9670;&#160;</a></span>la_qsolve_one()</h2>
+<a id="a464dd1b5eb9bb539145e83b8321ab1fe" name="a464dd1b5eb9bb539145e83b8321ab1fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a464dd1b5eb9bb539145e83b8321ab1fe">&#9670;&#160;</a></span>la_qsolve_lu_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable, target la_solve::solve::la_qsolve_one </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_qsolve_lu_one </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -432,6 +445,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -442,28 +465,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _one, real(qp) </p>
+<p>Linear system solve into a pre-allocated array, _one, real(qp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="aedb30264a6d54c10180b4a9ff1c2097d" name="aedb30264a6d54c10180b4a9ff1c2097d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aedb30264a6d54c10180b4a9ff1c2097d">&#9670;&#160;</a></span>la_ssolve_multiple()</h2>
+<a id="acd838ea1467639e646d95293ca7149c5" name="acd838ea1467639e646d95293ca7149c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd838ea1467639e646d95293ca7149c5">&#9670;&#160;</a></span>la_ssolve_lu_multiple()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:,:), allocatable, target la_solve::solve::la_ssolve_multiple </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_ssolve_lu_multiple </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -475,6 +499,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -485,28 +519,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _multiple, real(sp) </p>
+<p>Linear system solve into a pre-allocated array, _multiple, real(sp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="a8a540eb6b3d444f01d046e6c561e6e27" name="a8a540eb6b3d444f01d046e6c561e6e27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a540eb6b3d444f01d046e6c561e6e27">&#9670;&#160;</a></span>la_ssolve_one()</h2>
+<a id="a718c8d23f9e8166040d636654e2b5fdd" name="a718c8d23f9e8166040d636654e2b5fdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a718c8d23f9e8166040d636654e2b5fdd">&#9670;&#160;</a></span>la_ssolve_lu_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, dimension(:), allocatable, target la_solve::solve::la_ssolve_one </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_ssolve_lu_one </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -518,6 +553,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -528,28 +573,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _one, real(sp) </p>
+<p>Linear system solve into a pre-allocated array, _one, real(sp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="a36984a225fd6df86a6d7503706df5d5f" name="a36984a225fd6df86a6d7503706df5d5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a36984a225fd6df86a6d7503706df5d5f">&#9670;&#160;</a></span>la_wsolve_multiple()</h2>
+<a id="ab96b09058a93ff521f0f960e332bceb7" name="ab96b09058a93ff521f0f960e332bceb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab96b09058a93ff521f0f960e332bceb7">&#9670;&#160;</a></span>la_wsolve_lu_multiple()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:,:), allocatable, target la_solve::solve::la_wsolve_multiple </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_wsolve_lu_multiple </td>
           <td>(</td>
           <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -561,6 +607,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -571,28 +627,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _multiple, complex(qp) </p>
+<p>Linear system solve into a pre-allocated array, _multiple, complex(qp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="abd02bcbaf432ca06e7a12a5a919b29ee" name="abd02bcbaf432ca06e7a12a5a919b29ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd02bcbaf432ca06e7a12a5a919b29ee">&#9670;&#160;</a></span>la_wsolve_one()</h2>
+<a id="a22576bc82d8649ee92de9bd1a54f0b04" name="a22576bc82d8649ee92de9bd1a54f0b04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22576bc82d8649ee92de9bd1a54f0b04">&#9670;&#160;</a></span>la_wsolve_lu_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, dimension(:), allocatable, target la_solve::solve::la_wsolve_one </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_wsolve_lu_one </td>
           <td>(</td>
           <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -604,6 +661,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -614,28 +681,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _one, complex(qp) </p>
+<p>Linear system solve into a pre-allocated array, _one, complex(qp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="a25cde927f6c85ed206512e63626a244c" name="a25cde927f6c85ed206512e63626a244c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a25cde927f6c85ed206512e63626a244c">&#9670;&#160;</a></span>la_zsolve_multiple()</h2>
+<a id="a67946f65250460047a5691ca3e892a7e" name="a67946f65250460047a5691ca3e892a7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67946f65250460047a5691ca3e892a7e">&#9670;&#160;</a></span>la_zsolve_lu_multiple()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:,:), allocatable, target la_solve::solve::la_zsolve_multiple </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_zsolve_lu_multiple </td>
           <td>(</td>
           <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -647,6 +715,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -657,28 +735,29 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _multiple, complex(dp) </p>
+<p>Linear system solve into a pre-allocated array, _multiple, complex(dp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
-<a id="ab9072b0689f6a67deeeec4a90e60bee7" name="ab9072b0689f6a67deeeec4a90e60bee7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9072b0689f6a67deeeec4a90e60bee7">&#9670;&#160;</a></span>la_zsolve_one()</h2>
+<a id="a64c88093e5cf19862623c0eb56792a2a" name="a64c88093e5cf19862623c0eb56792a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64c88093e5cf19862623c0eb56792a2a">&#9670;&#160;</a></span>la_zsolve_lu_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, dimension(:), allocatable, target la_solve::solve::la_zsolve_one </td>
+          <td class="memname">pure subroutine la_solve::solve_lu::la_zsolve_lu_one </td>
           <td>(</td>
           <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -690,6 +769,16 @@ Description</h3>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>pivot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
         </tr>
         <tr>
@@ -700,17 +789,18 @@ Description</h3>
       </table>
 </div><div class="memdoc">
 
-<p>Linear system solve, _one, complex(dp) </p>
+<p>Linear system solve into a pre-allocated array, _one, complex(dp) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[n,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector or array, b[n] or b[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array/matrix x[n] or x[n,nrhs] </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>[optional] Storage array for the diagonal pivot indices </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Result array/matrix x[n] or x[n,nrhs] </dd></dl>
 
 </div>
 </div>
@@ -722,7 +812,7 @@ Description</h3>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacela__solve.html">la_solve</a></li><li class="navelem"><a class="el" href="interfacela__solve_1_1solve.html">solve</a></li>
+    <li class="navelem"><a class="el" href="namespacela__solve.html">la_solve</a></li><li class="navelem"><a class="el" href="interfacela__solve_1_1solve__lu.html">solve_lu</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.13.2 </li>
   </ul>
 </div>

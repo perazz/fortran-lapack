@@ -56,7 +56,8 @@ var annotated_dup =
       [ "cholesky", "interfacela__cholesky_1_1cholesky.html", "interfacela__cholesky_1_1cholesky" ]
     ] ],
     [ "la_determinant", "namespacela__determinant.html", [
-      [ "det", "interfacela__determinant_1_1det.html", "interfacela__determinant_1_1det" ]
+      [ "det", "interfacela__determinant_1_1det.html", "interfacela__determinant_1_1det" ],
+      [ "operator(.det.)", "interfacela__determinant_1_1operator_07_8det_8_08.html", "interfacela__determinant_1_1operator_07_8det_8_08" ]
     ] ],
     [ "la_eig", "namespacela__eig.html", [
       [ "eig", "interfacela__eig_1_1eig.html", "interfacela__eig_1_1eig" ],
@@ -609,7 +610,8 @@ var annotated_dup =
       [ "schur_space", "interfacela__schur_1_1schur__space.html", "interfacela__schur_1_1schur__space" ]
     ] ],
     [ "la_solve", "namespacela__solve.html", [
-      [ "solve", "interfacela__solve_1_1solve.html", "interfacela__solve_1_1solve" ]
+      [ "solve", "interfacela__solve_1_1solve.html", "interfacela__solve_1_1solve" ],
+      [ "solve_lu", "interfacela__solve_1_1solve__lu.html", "interfacela__solve_1_1solve__lu" ]
     ] ],
     [ "la_state_type", "namespacela__state__type.html", [
       [ "la_state", "structla__state__type_1_1la__state.html", "structla__state__type_1_1la__state" ],

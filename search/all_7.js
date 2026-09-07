@@ -26,7 +26,7 @@ var searchData=
   ['her2k_23',['her2k',['../interfacela__blas_1_1her2k.html',1,'la_blas']]],
   ['herfs_24',['herfs',['../interfacela__lapack_1_1herfs.html',1,'la_lapack']]],
   ['herk_25',['herk',['../interfacela__blas_1_1herk.html',1,'la_blas']]],
-  ['hermitian_20matrix_26',['Hermitian matrix',['../index.html#autotoc_md48',1,'@ref la_eig::eigh &quot;eigh&quot; - Eigendecomposition of a real symmetric or complex Hermitian matrix.'],['../index.html#autotoc_md61',1,'@ref la_eig::eigvalsh &quot;eigvalsh&quot; - Eigenvalues of a real symmetric or complex Hermitian matrix.']]],
+  ['hermitian_20matrix_26',['Hermitian matrix',['../index.html#autotoc_md50',1,'@ref la_eig::eigh &quot;eigh&quot; - Eigendecomposition of a real symmetric or complex Hermitian matrix.'],['../index.html#autotoc_md63',1,'@ref la_eig::eigvalsh &quot;eigvalsh&quot; - Eigenvalues of a real symmetric or complex Hermitian matrix.']]],
   ['hesv_27',['hesv',['../interfacela__lapack_1_1hesv.html',1,'la_lapack']]],
   ['hesv_5faa_28',['hesv_aa',['../interfacela__lapack_1_1hesv__aa.html',1,'la_lapack']]],
   ['hesv_5frk_29',['hesv_rk',['../interfacela__lapack_1_1hesv__rk.html',1,'la_lapack']]],

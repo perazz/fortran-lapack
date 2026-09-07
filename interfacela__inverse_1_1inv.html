@@ -147,16 +147,18 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The inverse matrix \( A^{-1} \) of size \( [n, n] \).</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This function relies on LAPACK's LU decomposition routines (<a class="el" href="interfacela__lapack_1_1getrf.html">GETRF</a> and <a class="el" href="interfacela__lapack_1_1getri.html">GETRI</a>). </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>The matrix \( A \) must be non-singular. If it is singular or nearly singular, the function will fail.</dd></dl>
-<p>Compute the inverse of a square matrix in-place.</p>
-<p>This subroutine computes the inverse of a real or complex square matrix \( A \) in-place. The inverse is computed using an LU decomposition with partial pivoting.</p>
+<p>Compute the inverse of a square matrix.</p>
+<p>This subroutine computes the inverse of a real or complex square matrix \( A \), either in-place or into a second matrix <code>inva</code> of the same shape. The inverse is computed using an LU decomposition with partial pivoting. Storage for the pivot indices may be provided, so that a repeated call performs no internal allocation of the pivot array.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input square matrix of size \( [n, n] \). It is replaced by its inverse \( A^{-1} \). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input square matrix of size \( [n, n] \). In the in-place form it is replaced by its inverse \( A^{-1} \); in the split form it is read only. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">inva</td><td>(Split form only) The inverse matrix \( A^{-1} \), of size \( [n, n] \). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pivot</td><td>(Optional) Storage array for the <code>n</code> diagonal pivot indices. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>This subroutine is useful when memory efficiency is a priority, as it avoids additional allocations. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The in-place form is useful when memory efficiency is a priority, as it avoids additional allocations. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>The matrix \( A \) must be non-singular. If it is singular or nearly singular, the computation will fail.</dd></dl>
 <p>Compute the inverse of a square matrix using the <code>.inv.</code> operator.</p>
 <p>This operator computes the inverse of a real or complex square matrix \( A \) using an LU decomposition with partial pivoting.</p>
