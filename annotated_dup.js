@@ -66,8 +66,13 @@ var annotated_dup =
       [ "eigvalsh", "interfacela__eig_1_1eigvalsh.html", "interfacela__eig_1_1eigvalsh" ]
     ] ],
     [ "la_eye", "namespacela__eye.html", [
+      [ "cross_product", "interfacela__eye_1_1cross__product.html", "interfacela__eye_1_1cross__product" ],
       [ "diag", "interfacela__eye_1_1diag.html", "interfacela__eye_1_1diag" ],
-      [ "eye", "interfacela__eye_1_1eye.html", "interfacela__eye_1_1eye" ]
+      [ "eye", "interfacela__eye_1_1eye.html", "interfacela__eye_1_1eye" ],
+      [ "hermitian", "interfacela__eye_1_1hermitian.html", "interfacela__eye_1_1hermitian" ],
+      [ "kronecker_product", "interfacela__eye_1_1kronecker__product.html", "interfacela__eye_1_1kronecker__product" ],
+      [ "outer_product", "interfacela__eye_1_1outer__product.html", "interfacela__eye_1_1outer__product" ],
+      [ "trace", "interfacela__eye_1_1trace.html", "interfacela__eye_1_1trace" ]
     ] ],
     [ "la_inverse", "namespacela__inverse.html", [
       [ "inv", "interfacela__inverse_1_1inv.html", "interfacela__inverse_1_1inv" ],
@@ -597,6 +602,15 @@ var annotated_dup =
     ] ],
     [ "la_least_squares", "namespacela__least__squares.html", [
       [ "lstsq", "interfacela__least__squares_1_1lstsq.html", "interfacela__least__squares_1_1lstsq" ]
+    ] ],
+    [ "la_matrix_property_checks", "namespacela__matrix__property__checks.html", [
+      [ "is_diagonal", "interfacela__matrix__property__checks_1_1is__diagonal.html", "interfacela__matrix__property__checks_1_1is__diagonal" ],
+      [ "is_hermitian", "interfacela__matrix__property__checks_1_1is__hermitian.html", "interfacela__matrix__property__checks_1_1is__hermitian" ],
+      [ "is_hessenberg", "interfacela__matrix__property__checks_1_1is__hessenberg.html", "interfacela__matrix__property__checks_1_1is__hessenberg" ],
+      [ "is_skew_symmetric", "interfacela__matrix__property__checks_1_1is__skew__symmetric.html", "interfacela__matrix__property__checks_1_1is__skew__symmetric" ],
+      [ "is_square", "interfacela__matrix__property__checks_1_1is__square.html", "interfacela__matrix__property__checks_1_1is__square" ],
+      [ "is_symmetric", "interfacela__matrix__property__checks_1_1is__symmetric.html", "interfacela__matrix__property__checks_1_1is__symmetric" ],
+      [ "is_triangular", "interfacela__matrix__property__checks_1_1is__triangular.html", "interfacela__matrix__property__checks_1_1is__triangular" ]
     ] ],
     [ "la_norms", "namespacela__norms.html", [
       [ "get_norm", "interfacela__norms_1_1get__norm.html", "interfacela__norms_1_1get__norm" ],

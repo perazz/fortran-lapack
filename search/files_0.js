@@ -67,12 +67,13 @@ var searchData=
   ['la_5flapack_5fsvd_5fcomp_2ef90_64',['la_lapack_svd_comp.f90',['../la__lapack__svd__comp_8f90.html',1,'']]],
   ['la_5flapack_5fsvd_5fcomp2_2ef90_65',['la_lapack_svd_comp2.f90',['../la__lapack__svd__comp2_8f90.html',1,'']]],
   ['la_5fleast_5fsquares_2ef90_66',['la_least_squares.f90',['../la__least__squares_8f90.html',1,'']]],
-  ['la_5fnorms_2ef90_67',['la_norms.f90',['../la__norms_8f90.html',1,'']]],
-  ['la_5fpinv_2ef90_68',['la_pinv.f90',['../la__pinv_8f90.html',1,'']]],
-  ['la_5fqr_2ef90_69',['la_qr.f90',['../la__qr_8f90.html',1,'']]],
-  ['la_5fschur_2ef90_70',['la_schur.f90',['../la__schur_8f90.html',1,'']]],
-  ['la_5fsolve_2ef90_71',['la_solve.f90',['../la__solve_8f90.html',1,'']]],
-  ['la_5fstate_2ef90_72',['la_state.f90',['../la__state_8f90.html',1,'']]],
-  ['la_5fsvd_2ef90_73',['la_svd.f90',['../la__svd_8f90.html',1,'']]],
-  ['linear_5falgebra_2ef90_74',['linear_algebra.f90',['../linear__algebra_8f90.html',1,'']]]
+  ['la_5fmatrix_5fproperty_5fchecks_2ef90_67',['la_matrix_property_checks.f90',['../la__matrix__property__checks_8f90.html',1,'']]],
+  ['la_5fnorms_2ef90_68',['la_norms.f90',['../la__norms_8f90.html',1,'']]],
+  ['la_5fpinv_2ef90_69',['la_pinv.f90',['../la__pinv_8f90.html',1,'']]],
+  ['la_5fqr_2ef90_70',['la_qr.f90',['../la__qr_8f90.html',1,'']]],
+  ['la_5fschur_2ef90_71',['la_schur.f90',['../la__schur_8f90.html',1,'']]],
+  ['la_5fsolve_2ef90_72',['la_solve.f90',['../la__solve_8f90.html',1,'']]],
+  ['la_5fstate_2ef90_73',['la_state.f90',['../la__state_8f90.html',1,'']]],
+  ['la_5fsvd_2ef90_74',['la_svd.f90',['../la__svd_8f90.html',1,'']]],
+  ['linear_5falgebra_2ef90_75',['linear_algebra.f90',['../linear__algebra_8f90.html',1,'']]]
 ];

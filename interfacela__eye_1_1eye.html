@@ -172,18 +172,67 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>The identity matrix with size \(m \times n\).</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>If the <code>mold</code> parameter is omitted, the default type is <code>real(real64)</code>. If specified, the return type matches the given type.</dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>Ensure that the matrix dimensions are valid and consistent with the type definition.</dd></dl>
-<p>Return a square diagonal matrix with diagonal values.</p>
-<p>This function generates a square diagonal matrix where the diagonal elements are either equal to the specified scalar value or populated by the input array. The size of the matrix is determined by the input parameter \(n\) or the size of the input array.</p>
+<p>Return a square diagonal matrix with diagonal values, or extract a diagonal.</p>
+<p>This function generates a square diagonal matrix where the diagonal elements are either equal to the specified scalar value or populated by the input array. The size of the matrix is determined by the input parameter \(n\) or the size of the input array. Given a matrix instead, the function extracts one of its diagonals as a vector.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>The size of the square matrix (only used if a scalar is provided for the diagonal). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>If a scalar, this value is used to populate the diagonal of the matrix. If an array, the elements of the array are used for the diagonal. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">source</td><td>If a scalar, this value is used to populate the diagonal of the matrix. If an array, the elements of the array are used for the diagonal. If a matrix, its \(k\)-th diagonal is returned as a vector. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">k</td><td>(Optional) Index of the diagonal: 0 is the main diagonal, \(k&gt;0\) the \(k\)-th superdiagonal, \(k&lt;0\) the \(k\)-th subdiagonal. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) State return flag. If not provided, the function will stop on error. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The diagonal matrix with size \(n \times n\), where the diagonal elements are populated by \(source\).</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>If a scalar value is passed, the diagonal elements of the matrix will all be equal to \(source\). If an array is passed, its length determines the size of the matrix, and the array elements are placed along the diagonal. The <code>err</code> parameter is optional. If not requested, the code will stop on error. Otherwise, it returns the error state of the function. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The diagonal matrix with size \(n \times n\), where the diagonal elements are populated by \(source\), or the requested diagonal of the input matrix.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>If a scalar value is passed, the diagonal elements of the matrix will all be equal to \(source\). If an array is passed, its length determines the size of the matrix, and the array elements are placed along the diagonal. The <code>err</code> parameter is optional. If not requested, the code will stop on error. Otherwise, it returns the error state of the function.</dd></dl>
+<p>Return the trace of a matrix.</p>
+<p>This function sums the elements of the main diagonal of a matrix. The matrix need not be square: for a \(m \times n\) matrix, the first \(\min(m,n)\) diagonal elements are summed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>The input matrix of size \( [m,n] \). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The sum \( \sum_i A_{ii} \), of the same type and kind as <code>A</code>.</dd></dl>
+<p>Return the outer product of two vectors.</p>
+<p>This function computes \( u \otimes v \), the rank-2 array whose \((i,j)\) element is \( u_i v_j \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">u</td><td>The first input vector, of size \(m\). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">v</td><td>The second input vector, of size \(n\). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The \( m \times n \) outer product matrix.</dd></dl>
+<p>Return the cross product of two 3-dimensional vectors.</p>
+<p>This function computes \( a \times b \), the vector orthogonal to both input vectors.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The first input vector, of size 3. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The second input vector, of size 3. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The size-3 cross product vector.</dd></dl>
+<p>Return the Kronecker product of two matrices.</p>
+<p>This function computes \( A \otimes B \): given \( A \) of size \( m_1 \times n_1 \) and \( B \) of size \( m_2 \times n_2 \), the result is the \( (m_1 m_2) \times (n_1 n_2) \) block matrix whose \((i,j)\) block is \( A_{ij} B \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>The first input matrix, of size \( [m_1,n_1] \). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">B</td><td>The second input matrix, of size \( [m_2,n_2] \). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The \( (m_1 m_2) \times (n_1 n_2) \) Kronecker product matrix.</dd></dl>
+<p>Return the Hermitian transpose of a matrix.</p>
+<p>This function returns <code>conjg(transpose(a))</code> for a complex matrix and <code>transpose(a)</code> for a real one.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The input matrix of size \( [m,n] \). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The \( n \times m \) matrix \( a^H \). </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aecf4240d65336b6e9d9cc872bd26324c" name="aecf4240d65336b6e9d9cc872bd26324c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aecf4240d65336b6e9d9cc872bd26324c">&#9670;&#160;</a></span>la_eye_c()</h2>

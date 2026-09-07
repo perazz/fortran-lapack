@@ -67,6 +67,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "la_lapack_svd_comp.f90", "la__lapack__svd__comp_8f90.html", "la__lapack__svd__comp_8f90" ],
     [ "la_lapack_svd_comp2.f90", "la__lapack__svd__comp2_8f90.html", "la__lapack__svd__comp2_8f90" ],
     [ "la_least_squares.f90", "la__least__squares_8f90.html", "la__least__squares_8f90" ],
+    [ "la_matrix_property_checks.f90", "la__matrix__property__checks_8f90.html", "la__matrix__property__checks_8f90" ],
     [ "la_norms.f90", "la__norms_8f90.html", "la__norms_8f90" ],
     [ "la_pinv.f90", "la__pinv_8f90.html", "la__pinv_8f90" ],
     [ "la_qr.f90", "la__qr_8f90.html", "la__qr_8f90" ],

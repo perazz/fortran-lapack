@@ -3193,6 +3193,7 @@ var namespaces_dup =
       [ "la_zlapll", "namespacela__lapack__svd__comp2.html#ae72c0f8de0ba2efefcd6a6f104533bcf", null ]
     ] ],
     [ "la_least_squares", "namespacela__least__squares.html", "namespacela__least__squares" ],
+    [ "la_matrix_property_checks", "namespacela__matrix__property__checks.html", "namespacela__matrix__property__checks" ],
     [ "la_norms", "namespacela__norms.html", "namespacela__norms" ],
     [ "la_pseudoinverse", "namespacela__pseudoinverse.html", "namespacela__pseudoinverse" ],
     [ "la_qr", "namespacela__qr.html", "namespacela__qr" ],
