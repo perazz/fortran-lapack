@@ -929,8 +929,9 @@ def interfaces(args):
                 entries.append([specific, renames.get("la_" + specific, "la_" + specific)[3:],
                                 None])
                 k += 1
-        table.append((generic, doc, entries, stub_templates(lines, generic, entries, macro,
-                                                            upper_bases)))
+        table.append((generic, doc, entries,
+                      stub_templates(lambda specific: _stub_of(lines, generic, specific, macro),
+                                     entries, upper_bases)))
         i = k + 1
 
     name = "LA_%s_INTERFACES" % args.library.upper()
@@ -942,11 +943,8 @@ def interfaces(args):
            "#! and the neighbour fields of LA_BY_INITIAL as substitution fields.  Regenerate with",
            "#! `python3 scripts/templatize.py --%s-interfaces`." % args.library, "",
            "#:set %s = [ &" % name]
-    for generic, doc, entries, stubs in table:
-        out.append("    & (%r, %r, &" % (generic, doc))
-        out.append("    &  %r, &" % ([tuple(e) for e in entries],))
-        out.append("    &  {%s}), &"
-                   % ", ".join("%r: %r" % (c, x) for c, x in sorted(stubs.items())))
+    for entry in table:
+        out += entry_lines(*entry)
     out += ["    & ]", "", "#:endmute", ""]
     path = os.path.join(ROOT, "include", cfg["prefix"] + "_interfaces.fypp")
     with open(path, "w") as fid:
@@ -956,17 +954,25 @@ def interfaces(args):
              sum(1 for _g, _d, e, _s in table for x in e if x[2])))
 
 
+def entry_lines(generic, doc, entries, stubs):
+    """One generic as the three continued lines of the interface table."""
+    return ["    & (%r, %r, &" % (generic, doc),
+            "    &  %r, &" % ([tuple(e) for e in entries],),
+            "    &  {%s}), &" % ", ".join("%r: %r" % (c, x) for c, x in sorted(stubs.items()))]
+
+
 def _class_of(specific):
     return "real" if specific[0] in "sdq" else "complex"
 
 
-def stub_templates(lines, generic, entries, macro, upper_bases):
+def stub_templates(stub_of, entries, upper_bases):
     """The external stubs of one generic, in placeholder form, keyed as the entries name them.
 
-    One template usually serves a whole type class, so the class name is the key.  Where the
-    upstream stubs of a class disagree over more than the kind letter - a declaration list in a
-    different order, an argument spelled from another precision - the odd one keeps its own
-    template under its initial, and its entry points there.
+    `stub_of` returns the interface body of one specific.  One template usually serves a whole
+    type class, so the class name is the key.  Where the upstream stubs of a class disagree over
+    more than the kind letter - a declaration list in a different order, an argument spelled from
+    another precision - the odd one keeps its own template under its initial, and its entry
+    points there.
     """
     stubs = {}
     for cls in ("real", "complex"):
@@ -976,12 +982,12 @@ def stub_templates(lines, generic, entries, macro, upper_bases):
         made = {}
         for entry in mine:
             letter = entry[0][0]
-            norm = K.normalize(_stub_of(lines, generic, entry[0], macro).replace(
+            norm = K.normalize(stub_of(entry[0]).replace(
                 IMPORT_LINE, IMPORT_MASK), letter, upper_bases)
             other = [e for e in mine if e[0][0] != letter]
             if other:
                 pletter = other[0][0][0]
-                pnorm = K.normalize(_stub_of(lines, generic, other[0][0], macro).replace(
+                pnorm = K.normalize(stub_of(other[0][0]).replace(
                     IMPORT_LINE, IMPORT_MASK), pletter, upper_bases)
                 norm = K.apply_renames(norm, K.letter_renames(
                     norm, pnorm, {(letter, pletter): "@RI@",
@@ -1010,6 +1016,181 @@ def _stub_of(lines, generic, specific, macro):
         else:
             i += 1
     raise KeyError(specific)
+
+
+ROUTINE_HEAD = (r"^\s{2,}(?:(?:pure|elemental|recursive)\s+)*"
+                r"(?:(?:real|complex|integer|logical|character)\([a-z]+\)\s+)?"
+                r"(?:subroutine|function)\s+la_%s\s*\(")
+SEPARATOR = re.compile(r"^\s*!\s*={10,}")
+DUMMY_DECL = re.compile(r"^\s*(?:character|integer|real|complex|logical|procedure)\b")
+STUB_INDENT, DECL_INDENT, CONT_INDENT, WRAP_AT = 15, 20, 10, 90
+
+
+def _logical_line(lines, i):
+    """Join the free-form continuation lines from `i`; return the statement and the next index."""
+    parts = [lines[i].rstrip()]
+    while parts[-1].endswith("&"):
+        parts[-1] = parts[-1][:-1]
+        i += 1
+        parts.append(lines[i].strip())
+    text = re.sub(r"[ \t]+", " ", " ".join(part.strip() for part in parts))
+    for pattern, replacement in ((r",\s+", ","), (r"\(\s+", "("), (r"\s+\)", ")")):
+        text = re.sub(pattern, replacement, text)
+    return text, i + 1
+
+
+def _routine_head(text, specific):
+    """(signature, subroutine|function, dummy declarations) of one routine of a topic module."""
+    lines = text.split("\n")
+    head = re.compile(ROUTINE_HEAD % re.escape(specific))
+    start = next((i for i, line in enumerate(lines) if head.match(line)), None)
+    if start is None:
+        raise SystemExit("templatize: la_%s is in no topic module" % specific)
+    signature, i = _logical_line(lines, start)
+    kind = re.search(r"\b(subroutine|function)\s+la_%s\s*\(" % re.escape(specific),
+                     signature).group(1)
+    arguments = re.search(r"\bla_%s\((.*?)\)\s*(?:result\s*\(\s*\w+\s*\))?$"
+                          % re.escape(specific), signature).group(1)
+    dummies = set(arguments.split(","))
+    declarations = collections.OrderedDict()
+    while i < len(lines) and not SEPARATOR.match(lines[i]):
+        stripped = lines[i].strip()
+        if not stripped or stripped[0] in "!#" or stripped.startswith("use "):
+            i += 1
+            continue
+        if not DUMMY_DECL.match(lines[i]):
+            break
+        declaration, i = _logical_line(lines, i)
+        attributes, _, entities = declaration.partition(" :: ")
+        named = _entities(entities)
+        mine = [e for e in named if re.match(r"[a-z_][a-z0-9_]*", e).group(0) in dummies]
+        if not mine:
+            continue
+        if len(mine) != len(named):
+            raise SystemExit("templatize: la_%s declares dummies and locals together in %r"
+                             % (specific, declaration))
+        declarations.setdefault(attributes, []).extend(mine)
+    return start, signature, kind, ["%s :: %s" % (a, ",".join(e)) if e else a
+                                    for a, e in declarations.items()]
+
+
+def _entities(text):
+    """Split an entity list on the commas that are not inside a dimension specification."""
+    out, depth, start = [], 0, 0
+    for i, ch in enumerate(text):
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth -= 1
+        elif ch == "," and depth == 0:
+            out.append(text[start:i])
+            start = i + 1
+    if text[start:]:
+        out.append(text[start:])
+    return out
+
+
+def _wrapped(line, out):
+    """Append `line` to `out`, continued the way the committed external stubs are."""
+    continued = False
+    while len(line) > WRAP_AT:
+        cut = re.search(r"[^A-Za-z0-9._'\"*=<>/][A-Za-z0-9._'\"*=<>/]*$", line[:WRAP_AT])
+        if not cut:
+            break
+        out.append(line[:cut.start() + 1].rstrip() + " &")
+        line = " " * (len(line) - len(line.lstrip(" "))) + line[cut.start() + 1:]
+        continued = True
+    out.append(" " * CONT_INDENT + line if continued else line)
+
+
+def external_stub(text, specific):
+    """The external interface body of one specific, built from its topic-module declarations."""
+    _start, signature, kind, declarations = _routine_head(text, specific)
+    signature = re.sub(r"\bla_%s\b" % re.escape(specific), specific, signature)
+    out = []
+    _wrapped(" " * STUB_INDENT + signature, out)
+    out.append(" " * DECL_INDENT + IMPORT_LINE.strip())
+    out.append(" " * DECL_INDENT + "implicit none(type,external)")
+    for declaration in declarations:
+        _wrapped(" " * DECL_INDENT + declaration, out)
+    out.append(" " * STUB_INDENT + "end %s %s" % (kind, specific))
+    return "\n".join(out)
+
+
+def generic_doc(text, specific, upper_bases):
+    """The doc block above one specific, with the kind letter taken out of every routine name."""
+    lines = text.split("\n")
+    i, _signature, _kind, _declarations = _routine_head(text, specific)
+    while not lines[i - 1].strip():
+        i -= 1
+    doc = []
+    while lines[i - 1].lstrip().startswith("!>"):
+        i -= 1
+        doc.insert(0, lines[i].lstrip()[2:].lstrip())
+    if not doc:
+        raise SystemExit("templatize: la_%s carries no doc block" % specific)
+    kindless = {letter: "" for letter in K.LETTERS}
+    named = [re.sub(r"\b[A-Z][A-Z0-9_]{2,}\b",
+                    lambda m: K.map_name(m.group(0).lower(), kindless, upper_bases).upper(), line)
+             for line in doc]
+    # A section number in the prose was read as a real literal and given a kind suffix by the
+    # per-kind conversion; a kind-agnostic doc carries no kind.
+    return [re.sub(r"(?<=[0-9])_%s\b" % KIND_OF[specific[0]], "", line) for line in named]
+
+
+def add_lapack_generic(args):
+    """Add generics to include/la_lapack_interfaces.fypp, built from the topic sources.
+
+    The specifics are already there, one per kind; what is missing is the umbrella's kind-
+    agnostic interface.  Doc lines come from the `d` specific, the module-procedure list from
+    every kind that has one, and the external stubs from the declarations of the four kinds a
+    reference LAPACK also provides.
+    """
+    cfg = LIBRARIES["lapack"]
+    sources = ref_sources(args.baseline)
+    upper_bases = set()
+    for text in sources.values():
+        upper_bases.update(END_ROUTINE.findall(text))
+    by_module = {os.path.splitext(os.path.basename(rel))[0]: text
+                 for rel, text in sources.items()}
+    owner = {(stem, cls): module for stem, cls, module, _ in read_modules(args.modules)}
+    renames = read_renames(os.path.join(ROOT, "scripts", "la_renames.tsv"))
+
+    path = os.path.join(ROOT, "include", cfg["prefix"] + "_interfaces.fypp")
+    with open(path) as fid:
+        lines = fid.read().split("\n")
+    head = re.compile(r"    & \('(\w+)',")
+    at = {head.match(line).group(1): i for i, line in enumerate(lines) if head.match(line)}
+
+    for generic in args.add_lapack_generic:
+        if generic in at:
+            raise SystemExit("templatize: %s already has a table entry" % generic)
+        entries, raw = [], {}
+        for letter in sorted(K.LETTERS):
+            specific = letter + generic
+            module = owner.get((generic, _class_of(specific)))
+            source = by_module.get(module)
+            if source is None or not re.search(r"(?m)^\s*end (?:subroutine|function) la_%s\s*$"
+                                               % specific, source):
+                raise SystemExit("templatize: la_%s is in no topic module" % specific)
+            external = None if KIND_OF[letter] == "qp" else _class_of(specific)
+            entries.append([specific, renames.get("la_" + specific, "la_" + specific)[3:],
+                            external])
+            if external:
+                raw[specific] = external_stub(source, specific)
+        doc = generic_doc(by_module[owner[(generic, "real")]], "d" + generic, upper_bases)
+        block = entry_lines(generic, doc, entries,
+                            stub_templates(raw.__getitem__, entries, upper_bases))
+        where = min([i for name, i in at.items() if name > generic] or [max(at.values()) + 3])
+        lines[where:where] = block
+        at = {name: (i + len(block) if i >= where else i) for name, i in at.items()}
+        at[generic] = where
+
+    with open(path, "w") as fid:
+        fid.write("\n".join(lines))
+    print("added %d generic(s) to %s: %s"
+          % (len(args.add_lapack_generic), os.path.relpath(path, ROOT),
+             " ".join(args.add_lapack_generic)))
 
 
 def _to_format(text, cls):
@@ -1043,6 +1224,9 @@ def main():
                         help="regenerate include/la_blas_interfaces.fypp")
     parser.add_argument("--lapack-interfaces", action="store_true",
                         help="regenerate include/la_lapack_interfaces.fypp")
+    parser.add_argument("--add-lapack-generic", nargs="+", default=None, metavar="NAME",
+                        help="add these generics to include/la_lapack_interfaces.fypp, built "
+                             "from the specifics the topic sources already hold")
     parser.add_argument("--rename", action="store_true",
                         help="apply scripts/la_renames.tsv to the call sites left behind")
     parser.add_argument("--uses", action="store_true",
@@ -1051,6 +1235,8 @@ def main():
     if args.blas_interfaces or args.lapack_interfaces:
         args.library = "blas" if args.blas_interfaces else "lapack"
         return interfaces(args)
+    if args.add_lapack_generic:
+        return add_lapack_generic(args)
     if args.apply:
         if not args.module:
             raise SystemExit("--apply needs at least one --module")
