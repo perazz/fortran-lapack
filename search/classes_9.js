@@ -177,5 +177,6 @@ var searchData=
   ['launhr_5fcol_5fgetrfnp_174',['launhr_col_getrfnp',['../interfacela__lapack_1_1launhr__col__getrfnp.html',1,'la_lapack']]],
   ['launhr_5fcol_5fgetrfnp2_175',['launhr_col_getrfnp2',['../interfacela__lapack_1_1launhr__col__getrfnp2.html',1,'la_lapack']]],
   ['lauum_176',['lauum',['../interfacela__lapack_1_1lauum.html',1,'la_lapack']]],
-  ['lstsq_177',['lstsq',['../interfacela__least__squares_1_1lstsq.html',1,'la_least_squares']]]
+  ['lstsq_177',['lstsq',['../interfacela__least__squares_1_1lstsq.html',1,'la_least_squares']]],
+  ['lstsq_5fspace_178',['lstsq_space',['../interfacela__least__squares_1_1lstsq__space.html',1,'la_least_squares']]]
 ];

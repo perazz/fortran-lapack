@@ -176,7 +176,108 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Solution matrix <code>x</code> of size <code>n</code> (for a single right-hand side) or <code>n x nrhs</code>.</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This function relies on LAPACK least-squares solvers such as <code>[*GELSS](@ref <a class="el" href="interfacela__lapack_1_1gelss.html" title="GELSS: computes the minimum norm solution to a complex linear least squares problem: Minimize 2-norm(...">la_lapack::gelss</a>)</code>.</dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A and B may be lost. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A and B may be lost.</dd></dl>
+<p>Compute the working space needed by a least squares solution of \( A \cdot x = b \).</p>
+<p>This subroutine returns the sizes of the real, integer and (for complex data) complex working arrays that <a class="el" href="interfacela__least__squares_1_1solve__lstsq.html"><code>solve_lstsq</code></a> needs for the given problem, so that a repeated solve of problems of the same size performs no allocation.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The input matrix of size \( [m,n] \). Only its shape is used. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector ( \(m\)) or matrix ( \(m \times nrhs\)). Only its shape is used. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">lrwork</td><td>The size of the real working array. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">liwork</td><td>The size of the integer working array. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">lcwork</td><td>The size of the complex working array. Present for complex data only.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Compute a least squares solution of \( A \cdot x = b \) into a pre-allocated array.</p>
+<p>This subroutine computes the least-squares solution of a linear matrix problem and writes it into the caller's array, so that neither the solution nor the working space needs to be allocated internally.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix of size \( [m,n] \). If <code>overwrite_a</code> is true, the contents of <code>a</code> may be modified during computation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector ( \(m\)) or matrix ( \(m \times nrhs\)). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>The solution vector ( \(\ge n\)) or matrix ( \(\ge n \times nrhs\)). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">real_storage</td><td>(Optional) Pre-allocated real working space. Its size is checked with <a class="el" href="interfacela__least__squares_1_1lstsq__space.html"><code>lstsq_space</code></a>. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">int_storage</td><td>(Optional) Pre-allocated integer working space. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">cmpl_storage</td><td>(Optional) Pre-allocated complex working space. Complex data only. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>(Optional) A cutoff for rank evaluation: singular values \( s(i) \) such that \( s(i) \leq \text{cond} \cdot \max(s) \) are considered zero. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">singvals</td><td>(Optional) The \( \min(m,n) \) singular values, in decreasing order. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, <code>a</code> may be overwritten and destroyed. Default is false. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>(Optional) The rank of the matrix <code>a</code>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Compute a weighted least squares solution of \( A \cdot x = b \).</p>
+<p>This function minimizes \( \|D (b - A \cdot x)\| \) with \( D = \mathrm{diag}(\sqrt{w}) \), that is, it gives the \(i\)-th equation the weight \( w_i \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">w</td><td>The weight vector of size \(m\). It is always real, and every entry must be positive. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix of size \( [m,n] \). If <code>overwrite_a</code> is true, the contents of <code>a</code> may be modified during computation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector of size \(m\). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>(Optional) A cutoff for rank evaluation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, <code>a</code> may be overwritten and destroyed. Default is false. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>(Optional) The rank of the matrix <code>a</code>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution vector <code>x</code> of size \(n\).</dd></dl>
+<p>Compute a weighted least squares solution into a pre-allocated array.</p>
+<p>This subroutine is the subroutine form of <a class="el" href="interfacela__least__squares_1_1weighted__lstsq.html"><code>weighted_lstsq</code></a>: it writes the solution into the caller's array.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">w</td><td>The weight vector of size \(m\). It is always real, and every entry must be positive. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>The input matrix of size \( [m,n] \). If <code>overwrite_a</code> is true, the contents of <code>a</code> may be modified during computation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>The right-hand side vector of size \(m\). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>The solution vector of size \(n\). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>(Optional) A cutoff for rank evaluation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) If true, <code>a</code> may be overwritten and destroyed. Default is false. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>(Optional) The rank of the matrix <code>a</code>. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Compute the solution of an equality-constrained least squares problem.</p>
+<p>This function minimizes \( \|b - A \cdot x\| \) subject to \( C \cdot x = d \), with \( A \) of size \( [m,n] \) and \( C \) of size \( [p,n] \), \( p \le n \le m+p \).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The least-squares matrix of size \( [m,n] \). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">b</td><td>The least-squares right-hand side vector of size \(m\). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">C</td><td>The constraint matrix of size \( [p,n] \). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">d</td><td>The constraint right-hand side vector of size \(p\). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_matrices</td><td>(Optional) If true, <code>A</code>, <code>b</code>, <code>C</code> and <code>d</code> may be overwritten and destroyed. Default is false. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Solution vector <code>x</code> of size \(n\).</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on LAPACK's <a class="el" href="interfacela__lapack_1_1gglse.html">GGLSE</a> driver.</dd></dl>
+<p>Compute the solution of an equality-constrained least squares problem into a pre-allocated array.</p>
+<p>This subroutine is the subroutine form of <a class="el" href="interfacela__least__squares_1_1constrained__lstsq.html"><code>constrained_lstsq</code></a>: it writes the solution into the caller's array and can reuse a caller-provided workspace.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The least-squares matrix of size \( [m,n] \). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">b</td><td>The least-squares right-hand side vector of size \(m\). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">C</td><td>The constraint matrix of size \( [p,n] \). </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">d</td><td>The constraint right-hand side vector of size \(p\). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">x</td><td>The solution vector of size \(n\). </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">storage</td><td>(Optional) Pre-allocated workspace. Its size is checked with <a class="el" href="interfacela__least__squares_1_1constrained__lstsq__space.html"><code>constrained_lstsq_space</code></a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_matrices</td><td>(Optional) If true, <code>A</code>, <code>b</code>, <code>C</code> and <code>d</code> may be overwritten and destroyed. Default is false. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Compute the working space needed by the equality-constrained least squares solver.</p>
+<p>This subroutine queries LAPACK for the optimal size of the workspace array that <a class="el" href="interfacela__least__squares_1_1solve__constrained__lstsq.html"><code>solve_constrained_lstsq</code></a> needs.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">A</td><td>The least-squares matrix of size \( [m,n] \). Only its shape is used. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">C</td><td>The constraint matrix of size \( [p,n] \). Only its shape is used. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>The size of the workspace array. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution. </td></tr>
+  </table>
+  </dd>
+</dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a9a3bdc9c451634cc0ea3954e67cac6b8" name="a9a3bdc9c451634cc0ea3954e67cac6b8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9a3bdc9c451634cc0ea3954e67cac6b8">&#9670;&#160;</a></span>la_clstsq_multiple()</h2>

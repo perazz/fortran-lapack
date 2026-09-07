@@ -601,7 +601,14 @@ var annotated_dup =
       [ "la_select_z", "interfacela__lapack__aux_1_1la__select__z.html", "interfacela__lapack__aux_1_1la__select__z" ]
     ] ],
     [ "la_least_squares", "namespacela__least__squares.html", [
-      [ "lstsq", "interfacela__least__squares_1_1lstsq.html", "interfacela__least__squares_1_1lstsq" ]
+      [ "constrained_lstsq", "interfacela__least__squares_1_1constrained__lstsq.html", "interfacela__least__squares_1_1constrained__lstsq" ],
+      [ "constrained_lstsq_space", "interfacela__least__squares_1_1constrained__lstsq__space.html", "interfacela__least__squares_1_1constrained__lstsq__space" ],
+      [ "lstsq", "interfacela__least__squares_1_1lstsq.html", "interfacela__least__squares_1_1lstsq" ],
+      [ "lstsq_space", "interfacela__least__squares_1_1lstsq__space.html", "interfacela__least__squares_1_1lstsq__space" ],
+      [ "solve_constrained_lstsq", "interfacela__least__squares_1_1solve__constrained__lstsq.html", "interfacela__least__squares_1_1solve__constrained__lstsq" ],
+      [ "solve_lstsq", "interfacela__least__squares_1_1solve__lstsq.html", "interfacela__least__squares_1_1solve__lstsq" ],
+      [ "solve_weighted_lstsq", "interfacela__least__squares_1_1solve__weighted__lstsq.html", "interfacela__least__squares_1_1solve__weighted__lstsq" ],
+      [ "weighted_lstsq", "interfacela__least__squares_1_1weighted__lstsq.html", "interfacela__least__squares_1_1weighted__lstsq" ]
     ] ],
     [ "la_matrix_property_checks", "namespacela__matrix__property__checks.html", [
       [ "is_diagonal", "interfacela__matrix__property__checks_1_1is__diagonal.html", "interfacela__matrix__property__checks_1_1is__diagonal" ],
