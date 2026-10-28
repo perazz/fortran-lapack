@@ -8,18 +8,33 @@ module la_blas_level3_gen
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gemm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gemm
      public :: la_${ri}$hemm
      public :: la_${ri}$her2k
      public :: la_${ri}$herk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEMM:  performs one of the matrix-matrix operations
      !> C := alpha*op( A )*op( B ) + beta*C,
      !> where  op( X ) is one of
@@ -183,9 +198,15 @@ module la_blas_level3_gen
            end if
            return
      end subroutine la_${ri}$gemm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEMM:  performs one of the matrix-matrix operations
      !> C := alpha*op( A )*op( B ) + beta*C,
      !> where  op( X ) is one of
@@ -434,9 +455,15 @@ module la_blas_level3_gen
            end if
            return
      end subroutine la_${ri}$gemm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEMM:  performs one of the matrix-matrix operations
      !> C := alpha*A*B + beta*C,
      !> or
@@ -590,9 +617,15 @@ module la_blas_level3_gen
            end if
            return
      end subroutine la_${ri}$hemm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HER2K:  performs one of the hermitian rank 2k operations
      !> C := alpha*A*B**H + conjg( alpha )*B*A**H + beta*C,
      !> or
@@ -805,9 +838,15 @@ module la_blas_level3_gen
            end if
            return
      end subroutine la_${ri}$her2k
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HERK:  performs one of the hermitian rank k operations
      !> C := alpha*A*A**H + beta*C,
      !> or
@@ -1008,6 +1047,9 @@ module la_blas_level3_gen
            end if
            return
      end subroutine la_${ri}$herk
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_blas_level3_gen

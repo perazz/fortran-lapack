@@ -1,14 +1,19 @@
 
 module test_linalg
     use testdrive,only:new_unittest,unittest_type,error_type,check
-    use la_constants,only:sp,dp,qp
+    use la_constants,only:sp,dp,xdp,qp
     use linear_algebra,only:diag,eye,trace,outer_product,cross_product,kronecker_product,hermitian
 
     implicit none
 
     real(sp),parameter :: sptol = 1000*epsilon(1._sp)
     real(dp),parameter :: dptol = 1000*epsilon(1._dp)
+#ifdef LA_WITH_XDP
+    real(xdp),parameter :: xdptol = 1000*epsilon(1._xdp)
+#endif
+#ifdef LA_WITH_QP
     real(qp),parameter :: qptol = 1000*epsilon(1._qp)
+#endif
 
 contains
 
@@ -18,43 +23,74 @@ contains
         type(unittest_type),allocatable,intent(out) :: testsuite(:)
 
         testsuite = [ &
-            new_unittest("eye",test_eye), &
             new_unittest("diag_rsp",test_diag_rsp), &
             new_unittest("diag_rsp_k",test_diag_rsp_k), &
             new_unittest("diag_rdp",test_diag_rdp), &
+#ifdef LA_WITH_QP
             new_unittest("diag_rqp",test_diag_rqp), &
+#endif
             new_unittest("diag_csp",test_diag_csp), &
             new_unittest("diag_cdp",test_diag_cdp), &
+#ifdef LA_WITH_QP
             new_unittest("diag_cqp",test_diag_cqp), &
+#endif
             new_unittest("trace_rsp",test_trace_rsp), &
             new_unittest("trace_rsp_nonsquare",test_trace_rsp_nonsquare), &
             new_unittest("trace_rdp",test_trace_rdp), &
             new_unittest("trace_rdp_nonsquare",test_trace_rdp_nonsquare), &
+#ifdef LA_WITH_QP
             new_unittest("trace_rqp",test_trace_rqp), &
+#endif
             new_unittest("trace_csp",test_trace_csp), &
             new_unittest("trace_cdp",test_trace_cdp), &
+#ifdef LA_WITH_QP
             new_unittest("trace_cqp",test_trace_cqp), &
+#endif
             new_unittest("kronecker_product_rsp",test_kronecker_product_rsp), &
             new_unittest("kronecker_product_rdp",test_kronecker_product_rdp), &
+#ifdef LA_WITH_XDP
+            new_unittest("kronecker_product_rxdp",test_kronecker_product_rxdp), &
+#endif
+#ifdef LA_WITH_QP
             new_unittest("kronecker_product_rqp",test_kronecker_product_rqp), &
+#endif
             new_unittest("kronecker_product_csp",test_kronecker_product_csp), &
             new_unittest("kronecker_product_cdp",test_kronecker_product_cdp), &
+#ifdef LA_WITH_XDP
+            new_unittest("kronecker_product_cxdp",test_kronecker_product_cxdp), &
+#endif
+#ifdef LA_WITH_QP
             new_unittest("kronecker_product_cqp",test_kronecker_product_cqp), &
+#endif
             new_unittest("hermitian_csp",test_hermitian_csp), &
             new_unittest("hermitian_cdp",test_hermitian_cdp), &
+#ifdef LA_WITH_XDP
+            new_unittest("hermitian_cxdp",test_hermitian_cxdp), &
+#endif
+#ifdef LA_WITH_QP
             new_unittest("hermitian_cqp",test_hermitian_cqp), &
+#endif
             new_unittest("outer_product_rsp",test_outer_product_rsp), &
             new_unittest("outer_product_rdp",test_outer_product_rdp), &
+#ifdef LA_WITH_QP
             new_unittest("outer_product_rqp",test_outer_product_rqp), &
+#endif
             new_unittest("outer_product_csp",test_outer_product_csp), &
             new_unittest("outer_product_cdp",test_outer_product_cdp), &
+#ifdef LA_WITH_QP
             new_unittest("outer_product_cqp",test_outer_product_cqp), &
+#endif
             new_unittest("cross_product_rsp",test_cross_product_rsp), &
             new_unittest("cross_product_rdp",test_cross_product_rdp), &
+#ifdef LA_WITH_QP
             new_unittest("cross_product_rqp",test_cross_product_rqp), &
+#endif
             new_unittest("cross_product_csp",test_cross_product_csp), &
             new_unittest("cross_product_cdp",test_cross_product_cdp), &
-            new_unittest("cross_product_cqp",test_cross_product_cqp) &
+#ifdef LA_WITH_QP
+            new_unittest("cross_product_cqp",test_cross_product_cqp), &
+#endif
+            new_unittest("eye",test_eye) &
             ]
 
     end subroutine collect_linalg
@@ -163,6 +199,7 @@ contains
             "all(diag(3*a) == 3*v) failed.")
     end subroutine test_diag_rdp
 
+#ifdef LA_WITH_QP
     subroutine test_diag_rqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -181,6 +218,7 @@ contains
         call check(error,all(diag(3*a) == 3*v), &
             "all(diag(3*a) == 3*v) failed.")
     end subroutine test_diag_rqp
+#endif
 
     subroutine test_diag_csp(error)
         !> Error handling
@@ -217,6 +255,7 @@ contains
             "a(3,1) == i_ .and. a(1,3) == i_ failed.")
     end subroutine test_diag_cdp
 
+#ifdef LA_WITH_QP
     subroutine test_diag_cqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -229,6 +268,7 @@ contains
         call check(error,all(diag(a,-1) == i_) .and. all(diag(a,1) == i_), &
             "all(diag(a,-1) == i_) .and. all(diag(a,1) == i_) failed.")
     end subroutine test_diag_cqp
+#endif
 
     subroutine test_trace_rsp(error)
         !> Error handling
@@ -294,6 +334,7 @@ contains
             "abs(trace(a) - ans) < dptol failed.")
     end subroutine test_trace_rdp_nonsquare
 
+#ifdef LA_WITH_QP
     subroutine test_trace_rqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -306,6 +347,7 @@ contains
         call check(error,abs(trace(a) - sum(diag(a))) < qptol, &
             "abs(trace(a) - sum(diag(a))) < qptol failed.")
     end subroutine test_trace_rqp
+#endif
 
     subroutine test_trace_csp(error)
         !> Error handling
@@ -345,6 +387,7 @@ contains
             "abs(trace(a) - ans) < dptol failed.")
     end subroutine test_trace_cdp
 
+#ifdef LA_WITH_QP
     subroutine test_trace_cqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -357,6 +400,7 @@ contains
         call check(error,abs(trace(a)) - 3*5.0_qp < qptol, &
             "abs(trace(a)) - 3*5.0_qp < qptol failed.")
     end subroutine test_trace_cqp
+#endif
 
     subroutine test_kronecker_product_rsp(error)
       !> Error handling
@@ -424,6 +468,42 @@ contains
       ! Expected: C = [1*B, 2*B] = [[1,2,3, 2,4,6], [2,4,6, 4, 8, 12]]
 
     end subroutine test_kronecker_product_rdp
+#ifdef LA_WITH_XDP
+    subroutine test_kronecker_product_rxdp(error)
+      !> Error handling
+      type(error_type),allocatable,intent(out) :: error
+      integer,parameter :: m1 = 1,n1 = 2,m2 = 2,n2 = 3
+      real(xdp),dimension(m1*m2,n1*n2),parameter :: expected &
+           = transpose(reshape([1,2,3,2,4,6,2,4,6,4,8,12], [m2*n2,m1*n1]))
+      real(xdp),parameter :: tol = 1.e-6
+
+      real(xdp) :: A(m1,n1),B(m2,n2)
+      real(xdp) :: C(m1*m2,n1*n2),diff(m1*m2,n1*n2)
+
+      integer :: i,j
+
+      do j = 1,n1
+         do i = 1,m1
+            A(i,j) = i*j ! A = [1, 2]
+         end do
+      end do
+
+      do j = 1,n2
+         do i = 1,m2
+            B(i,j) = i*j ! B = [[1, 2, 3], [2, 4, 6]]
+         end do
+      end do
+
+      C = kronecker_product(A,B)
+
+      diff = C - expected
+
+      call check(error,all(abs(diff) <= abs(tol)),"all(abs(diff) .le. abs(tol)) failed")
+      ! Expected: C = [1*B, 2*B] = [[1,2,3, 2,4,6], [2,4,6, 4, 8, 12]]
+
+    end subroutine test_kronecker_product_rxdp
+#endif
+#ifdef LA_WITH_QP
     subroutine test_kronecker_product_rqp(error)
       !> Error handling
       type(error_type),allocatable,intent(out) :: error
@@ -457,6 +537,7 @@ contains
       ! Expected: C = [1*B, 2*B] = [[1,2,3, 2,4,6], [2,4,6, 4, 8, 12]]
 
     end subroutine test_kronecker_product_rqp
+#endif
     subroutine test_kronecker_product_csp(error)
       !> Error handling
       type(error_type),allocatable,intent(out) :: error
@@ -523,6 +604,42 @@ contains
       ! Expected: C = [1*B, 2*B] = [[1,2,3, 2,4,6], [2,4,6, 4, 8, 12]]
 
     end subroutine test_kronecker_product_cdp
+#ifdef LA_WITH_XDP
+    subroutine test_kronecker_product_cxdp(error)
+      !> Error handling
+      type(error_type),allocatable,intent(out) :: error
+      integer,parameter :: m1 = 1,n1 = 2,m2 = 2,n2 = 3
+      complex(xdp),dimension(m1*m2,n1*n2),parameter :: expected &
+           = transpose(reshape([1,2,3,2,4,6,2,4,6,4,8,12], [m2*n2,m1*n1]))
+      complex(xdp),parameter :: tol = 1.e-6
+
+      complex(xdp) :: A(m1,n1),B(m2,n2)
+      complex(xdp) :: C(m1*m2,n1*n2),diff(m1*m2,n1*n2)
+
+      integer :: i,j
+
+      do j = 1,n1
+         do i = 1,m1
+            A(i,j) = i*j ! A = [1, 2]
+         end do
+      end do
+
+      do j = 1,n2
+         do i = 1,m2
+            B(i,j) = i*j ! B = [[1, 2, 3], [2, 4, 6]]
+         end do
+      end do
+
+      C = kronecker_product(A,B)
+
+      diff = C - expected
+
+      call check(error,all(abs(diff) <= abs(tol)),"all(abs(diff) .le. abs(tol)) failed")
+      ! Expected: C = [1*B, 2*B] = [[1,2,3, 2,4,6], [2,4,6, 4, 8, 12]]
+
+    end subroutine test_kronecker_product_cxdp
+#endif
+#ifdef LA_WITH_QP
     subroutine test_kronecker_product_cqp(error)
       !> Error handling
       type(error_type),allocatable,intent(out) :: error
@@ -556,6 +673,7 @@ contains
       ! Expected: C = [1*B, 2*B] = [[1,2,3, 2,4,6], [2,4,6, 4, 8, 12]]
 
     end subroutine test_kronecker_product_cqp
+#endif
 
     subroutine test_hermitian_csp(error)
       !> Error handling
@@ -601,6 +719,31 @@ contains
       call check(error,all(abs(diff) < abs(tol)),"hermitian: all(abs(diff) < abs(tol)) failed")
 
     end subroutine test_hermitian_cdp
+#ifdef LA_WITH_XDP
+    subroutine test_hermitian_cxdp(error)
+      !> Error handling
+      type(error_type),allocatable,intent(out) :: error
+      integer,parameter :: m = 2,n = 3
+      complex(xdp),dimension(m,n) :: A
+      complex(xdp),dimension(n,m) :: AT,expected,diff
+      real(xdp),parameter :: tol = 1.e-6_xdp
+
+      integer :: i,j
+      
+      do concurrent(i=1:m,j=1:n)
+        A(i,j) = cmplx(i,-j,kind=xdp)
+        expected(j,i) = cmplx(i,+j,kind=xdp)
+      end do
+
+      AT = hermitian(A)
+
+      diff = AT - expected
+
+      call check(error,all(abs(diff) < abs(tol)),"hermitian: all(abs(diff) < abs(tol)) failed")
+
+    end subroutine test_hermitian_cxdp
+#endif
+#ifdef LA_WITH_QP
     subroutine test_hermitian_cqp(error)
       !> Error handling
       type(error_type),allocatable,intent(out) :: error
@@ -623,6 +766,7 @@ contains
       call check(error,all(abs(diff) < abs(tol)),"hermitian: all(abs(diff) < abs(tol)) failed")
 
     end subroutine test_hermitian_cqp
+#endif
 
     subroutine test_outer_product_rsp(error)
         !> Error handling
@@ -654,6 +798,7 @@ contains
             "all(abs(diff) < dptol) failed.")
     end subroutine test_outer_product_rdp
 
+#ifdef LA_WITH_QP
     subroutine test_outer_product_rqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -668,6 +813,7 @@ contains
         call check(error,all(abs(diff) < qptol), &
             "all(abs(diff) < qptol) failed.")
     end subroutine test_outer_product_rqp
+#endif
 
     subroutine test_outer_product_csp(error)
         !> Error handling
@@ -699,6 +845,7 @@ contains
             "all(abs(diff) < dptol) failed.")
     end subroutine test_outer_product_cdp
 
+#ifdef LA_WITH_QP
     subroutine test_outer_product_cqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -713,6 +860,7 @@ contains
         call check(error,all(abs(diff) < qptol), &
             "all(abs(diff) < qptol) failed.")
     end subroutine test_outer_product_cqp
+#endif
 
     subroutine test_cross_product_rsp(error)
         !> Error handling
@@ -742,6 +890,7 @@ contains
              "all(abs(cross_product(u,v)-expected)) < dptol failed.")
     end subroutine test_cross_product_rdp
 
+#ifdef LA_WITH_QP
     subroutine test_cross_product_rqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -755,6 +904,7 @@ contains
         call check(error,all(abs(diff) < qptol), &
              "all(abs(cross_product(u,v)-expected)) < qptol failed.")
     end subroutine test_cross_product_rqp
+#endif
 
     subroutine test_cross_product_csp(error)
         !> Error handling
@@ -784,6 +934,7 @@ contains
              "all(abs(cross_product(u,v)-expected)) < dptol failed.")
     end subroutine test_cross_product_cdp
 
+#ifdef LA_WITH_QP
     subroutine test_cross_product_cqp(error)
         !> Error handling
         type(error_type),allocatable,intent(out) :: error
@@ -797,6 +948,7 @@ contains
         call check(error,all(abs(diff) < qptol), &
              "all(abs(cross_product(u,v)-expected)) < qptol failed.")
     end subroutine test_cross_product_cqp
+#endif
 
 end module
 

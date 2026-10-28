@@ -35,6 +35,17 @@ module test_linalg_solve_chol
         call add_test(tests,new_unittest("solve_lower_chol_multi_rhs_d",test_solve_lower_chol_multi_rhs_d))
         call add_test(tests,new_unittest("solve_chol_indefinite_d",test_solve_chol_indefinite_d))
         call add_test(tests,new_unittest("solve_chol_semidefinite_d",test_solve_chol_semidefinite_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("solve_lower_chol_x",test_solve_lower_chol_x))
+        call add_test(tests,new_unittest("solve_upper_chol_x",test_solve_upper_chol_x))
+        call add_test(tests,new_unittest("solve_chol_x",test_solve_chol_x))
+        call add_test(tests,new_unittest("solve_chol_upper_x",test_solve_chol_upper_x))
+        call add_test(tests,new_unittest("solve_chol_overwrite_x",test_solve_chol_overwrite_x))
+        call add_test(tests,new_unittest("solve_lower_chol_multi_rhs_x",test_solve_lower_chol_multi_rhs_x))
+        call add_test(tests,new_unittest("solve_chol_indefinite_x",test_solve_chol_indefinite_x))
+        call add_test(tests,new_unittest("solve_chol_semidefinite_x",test_solve_chol_semidefinite_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("solve_lower_chol_q",test_solve_lower_chol_q))
         call add_test(tests,new_unittest("solve_upper_chol_q",test_solve_upper_chol_q))
         call add_test(tests,new_unittest("solve_chol_q",test_solve_chol_q))
@@ -43,6 +54,7 @@ module test_linalg_solve_chol
         call add_test(tests,new_unittest("solve_lower_chol_multi_rhs_q",test_solve_lower_chol_multi_rhs_q))
         call add_test(tests,new_unittest("solve_chol_indefinite_q",test_solve_chol_indefinite_q))
         call add_test(tests,new_unittest("solve_chol_semidefinite_q",test_solve_chol_semidefinite_q))
+#endif
         call add_test(tests,new_unittest("solve_lower_chol_c",test_solve_lower_chol_c))
         call add_test(tests,new_unittest("solve_upper_chol_c",test_solve_upper_chol_c))
         call add_test(tests,new_unittest("solve_chol_c",test_solve_chol_c))
@@ -59,6 +71,17 @@ module test_linalg_solve_chol
         call add_test(tests,new_unittest("solve_lower_chol_multi_rhs_z",test_solve_lower_chol_multi_rhs_z))
         call add_test(tests,new_unittest("solve_chol_indefinite_z",test_solve_chol_indefinite_z))
         call add_test(tests,new_unittest("solve_chol_semidefinite_z",test_solve_chol_semidefinite_z))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("solve_lower_chol_y",test_solve_lower_chol_y))
+        call add_test(tests,new_unittest("solve_upper_chol_y",test_solve_upper_chol_y))
+        call add_test(tests,new_unittest("solve_chol_y",test_solve_chol_y))
+        call add_test(tests,new_unittest("solve_chol_upper_y",test_solve_chol_upper_y))
+        call add_test(tests,new_unittest("solve_chol_overwrite_y",test_solve_chol_overwrite_y))
+        call add_test(tests,new_unittest("solve_lower_chol_multi_rhs_y",test_solve_lower_chol_multi_rhs_y))
+        call add_test(tests,new_unittest("solve_chol_indefinite_y",test_solve_chol_indefinite_y))
+        call add_test(tests,new_unittest("solve_chol_semidefinite_y",test_solve_chol_semidefinite_y))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("solve_lower_chol_w",test_solve_lower_chol_w))
         call add_test(tests,new_unittest("solve_upper_chol_w",test_solve_upper_chol_w))
         call add_test(tests,new_unittest("solve_chol_w",test_solve_chol_w))
@@ -67,6 +90,7 @@ module test_linalg_solve_chol
         call add_test(tests,new_unittest("solve_lower_chol_multi_rhs_w",test_solve_lower_chol_multi_rhs_w))
         call add_test(tests,new_unittest("solve_chol_indefinite_w",test_solve_chol_indefinite_w))
         call add_test(tests,new_unittest("solve_chol_semidefinite_w",test_solve_chol_semidefinite_w))
+#endif
 
     end subroutine test_solve_chol_factorization
 
@@ -145,6 +169,46 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_lower_chol_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_lower_chol_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),l(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! Compute Cholesky factorization
+        call cholesky(a,l,lower=.true.,err=state)
+        
+        call check(error,state%ok(),'cholesky factorization failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Solve using lower Cholesky factors
+        call solve_lower_chol(l,b,x,err=state)
+        
+        call check(error,state%ok(),'solve_lower_chol failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_lower_chol: solution mismatch')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_lower_chol_x
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_lower_chol_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -181,6 +245,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_lower_chol_q
+#endif
     
     subroutine test_solve_lower_chol_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -256,6 +321,46 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_lower_chol_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_lower_chol_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),l(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! Compute Cholesky factorization
+        call cholesky(a,l,lower=.true.,err=state)
+        
+        call check(error,state%ok(),'cholesky factorization failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Solve using lower Cholesky factors
+        call solve_lower_chol(l,b,x,err=state)
+        
+        call check(error,state%ok(),'solve_lower_chol failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_lower_chol: solution mismatch')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_lower_chol_y
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_lower_chol_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -292,6 +397,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_lower_chol_w
+#endif
     
     !> Test solve_upper_chol with pre-computed upper Cholesky factors
     subroutine test_solve_upper_chol_s(error)
@@ -368,6 +474,46 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_upper_chol_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_upper_chol_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),u(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! Compute Cholesky factorization (upper triangular: A = U^T * U)
+        call cholesky(a,u,lower=.false.,err=state)
+        
+        call check(error,state%ok(),'cholesky factorization (upper) failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Solve using upper Cholesky factors
+        call solve_upper_chol(u,b,x,err=state)
+        
+        call check(error,state%ok(),'solve_upper_chol failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_upper_chol: solution mismatch')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_upper_chol_x
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_upper_chol_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -404,6 +550,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_upper_chol_q
+#endif
     
     subroutine test_solve_upper_chol_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -479,6 +626,46 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_upper_chol_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_upper_chol_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),u(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! Compute Cholesky factorization (upper triangular: A = U^T * U)
+        call cholesky(a,u,lower=.false.,err=state)
+        
+        call check(error,state%ok(),'cholesky factorization (upper) failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Solve using upper Cholesky factors
+        call solve_upper_chol(u,b,x,err=state)
+        
+        call check(error,state%ok(),'solve_upper_chol failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_upper_chol: solution mismatch')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_upper_chol_y
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_upper_chol_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -515,6 +702,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_upper_chol_w
+#endif
     
     !> Test solve_chol (one-shot) - default preserves A
     subroutine test_solve_chol_s(error)
@@ -589,6 +777,45 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),a_copy(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        a_copy = a
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! One-shot solve with default overwrite_a=.false. (A should be preserved)
+        call solve_chol(a,b,x,lower=.true.,err=state)
+        
+        call check(error,state%ok(),'solve_chol failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_chol: solution mismatch')
+        if (allocated(error)) return
+        
+        ! Check that A is preserved (default behavior)
+        call check(error,all(abs(a - a_copy) < tol),'solve_chol: A should be preserved by default')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_x
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -624,6 +851,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_q
+#endif
     
     subroutine test_solve_chol_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -697,6 +925,45 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),a_copy(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        a_copy = a
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! One-shot solve with default overwrite_a=.false. (A should be preserved)
+        call solve_chol(a,b,x,lower=.true.,err=state)
+        
+        call check(error,state%ok(),'solve_chol failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_chol: solution mismatch')
+        if (allocated(error)) return
+        
+        ! Check that A is preserved (default behavior)
+        call check(error,all(abs(a - a_copy) < tol),'solve_chol: A should be preserved by default')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_y
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -732,6 +999,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_w
+#endif
     
     !> Test solve_chol with upper triangular (lower=.false.)
     subroutine test_solve_chol_upper_s(error)
@@ -806,6 +1074,45 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_upper_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_upper_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),a_copy(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        a_copy = a
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! One-shot solve with upper triangular (A should be preserved by default)
+        call solve_chol(a,b,x,lower=.false.,err=state)
+        
+        call check(error,state%ok(),'solve_chol (upper) failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_chol (upper): solution mismatch')
+        if (allocated(error)) return
+        
+        ! Check that A is preserved (default behavior)
+        call check(error,all(abs(a - a_copy) < tol),'solve_chol (upper): A should be preserved')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_upper_x
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_upper_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -841,6 +1148,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_upper_q
+#endif
     
     subroutine test_solve_chol_upper_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -914,6 +1222,45 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_upper_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_upper_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),a_copy(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        a_copy = a
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! One-shot solve with upper triangular (A should be preserved by default)
+        call solve_chol(a,b,x,lower=.false.,err=state)
+        
+        call check(error,state%ok(),'solve_chol (upper) failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_chol (upper): solution mismatch')
+        if (allocated(error)) return
+        
+        ! Check that A is preserved (default behavior)
+        call check(error,all(abs(a - a_copy) < tol),'solve_chol (upper): A should be preserved')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_upper_y
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_upper_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -949,6 +1296,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_upper_w
+#endif
     
     !> Test solve_chol with overwrite_a=.true.
     subroutine test_solve_chol_overwrite_s(error)
@@ -1023,6 +1371,45 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_overwrite_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_overwrite_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),a_copy(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        a_copy = a
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! One-shot solve with overwrite_a=.true. (A will be destroyed)
+        call solve_chol(a,b,x,lower=.true.,overwrite_a=.true.,err=state)
+        
+        call check(error,state%ok(),'solve_chol overwrite failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_chol overwrite: solution mismatch')
+        if (allocated(error)) return
+        
+        ! Check that A was overwritten (not equal to original)
+        call check(error,any(abs(a - a_copy) > tol),'solve_chol: A should be overwritten with overwrite_a=.true.')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_overwrite_x
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_overwrite_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -1058,6 +1445,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_overwrite_q
+#endif
     
     subroutine test_solve_chol_overwrite_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1131,6 +1519,45 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_overwrite_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_overwrite_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),a_copy(n,n),b(n),x(n),x_expected(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        a_copy = a
+        
+        ! Known solution
+        x_expected = [1,2,3]
+        
+        ! Compute RHS: b = A * x_expected
+        b = matmul(a,x_expected)
+        
+        ! One-shot solve with overwrite_a=.true. (A will be destroyed)
+        call solve_chol(a,b,x,lower=.true.,overwrite_a=.true.,err=state)
+        
+        call check(error,state%ok(),'solve_chol overwrite failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_chol overwrite: solution mismatch')
+        if (allocated(error)) return
+        
+        ! Check that A was overwritten (not equal to original)
+        call check(error,any(abs(a - a_copy) > tol),'solve_chol: A should be overwritten with overwrite_a=.true.')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_overwrite_y
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_overwrite_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -1166,6 +1593,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_overwrite_w
+#endif
     
     !> Test solve_lower_chol with multiple RHS
     subroutine test_solve_lower_chol_multi_rhs_s(error)
@@ -1246,6 +1674,48 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_lower_chol_multi_rhs_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_lower_chol_multi_rhs_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        integer(ilp),parameter :: nrhs = 2_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),l(n,n),b(n,nrhs),x(n,nrhs),x_expected(n,nrhs)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        
+        ! Known solutions (two RHS)
+        x_expected(:,1) = [1,2,3]
+        x_expected(:,2) = [4,5,6]
+        
+        ! Compute RHS: B = A * X_expected
+        b = matmul(a,x_expected)
+        
+        ! Compute Cholesky factorization
+        call cholesky(a,l,lower=.true.,err=state)
+        
+        call check(error,state%ok(),'cholesky factorization failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Solve using lower Cholesky factors
+        call solve_lower_chol(l,b,x,err=state)
+        
+        call check(error,state%ok(),'solve_lower_chol multi-rhs failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_lower_chol multi-rhs: solution mismatch')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_lower_chol_multi_rhs_x
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_lower_chol_multi_rhs_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -1284,6 +1754,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_lower_chol_multi_rhs_q
+#endif
     
     subroutine test_solve_lower_chol_multi_rhs_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1363,6 +1834,48 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_lower_chol_multi_rhs_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_lower_chol_multi_rhs_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        integer(ilp),parameter :: nrhs = 2_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),l(n,n),b(n,nrhs),x(n,nrhs),x_expected(n,nrhs)
+        type(la_state) :: state
+        
+        ! Set symmetric positive definite matrix
+        a(1,:) = [4,2,2]
+        a(2,:) = [2,5,1]
+        a(3,:) = [2,1,6]
+        
+        ! Known solutions (two RHS)
+        x_expected(:,1) = [1,2,3]
+        x_expected(:,2) = [4,5,6]
+        
+        ! Compute RHS: B = A * X_expected
+        b = matmul(a,x_expected)
+        
+        ! Compute Cholesky factorization
+        call cholesky(a,l,lower=.true.,err=state)
+        
+        call check(error,state%ok(),'cholesky factorization failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Solve using lower Cholesky factors
+        call solve_lower_chol(l,b,x,err=state)
+        
+        call check(error,state%ok(),'solve_lower_chol multi-rhs failed: '//state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(x - x_expected) < tol),'solve_lower_chol multi-rhs: solution mismatch')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_lower_chol_multi_rhs_y
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_lower_chol_multi_rhs_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -1401,6 +1914,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_lower_chol_multi_rhs_w
+#endif
     
     !> Test solve_chol with symmetric indefinite matrix (should fail)
     subroutine test_solve_chol_indefinite_s(error)
@@ -1449,6 +1963,32 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_indefinite_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_indefinite_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 2_ilp
+        real(xdp) :: a(n,n),b(n),x(n)
+        type(la_state) :: state
+        
+        ! Set symmetric INDEFINITE matrix (eigenvalues: 3, -1)
+        a(1,:) = [1,2]
+        a(2,:) = [2,1]
+        
+        ! Arbitrary RHS
+        b = [1,1]
+        
+        ! solve_chol should fail for indefinite matrix
+        call solve_chol(a,b,x,lower=.true.,err=state)
+        
+        ! Check that it failed (not positive definite)
+        call check(error,state%error(),'solve_chol should fail for indefinite matrix')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_indefinite_x
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_indefinite_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -1471,6 +2011,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_indefinite_q
+#endif
     
     subroutine test_solve_chol_indefinite_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1518,6 +2059,32 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_indefinite_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_indefinite_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 2_ilp
+        complex(xdp) :: a(n,n),b(n),x(n)
+        type(la_state) :: state
+        
+        ! Set symmetric INDEFINITE matrix (eigenvalues: 3, -1)
+        a(1,:) = [1,2]
+        a(2,:) = [2,1]
+        
+        ! Arbitrary RHS
+        b = [1,1]
+        
+        ! solve_chol should fail for indefinite matrix
+        call solve_chol(a,b,x,lower=.true.,err=state)
+        
+        ! Check that it failed (not positive definite)
+        call check(error,state%error(),'solve_chol should fail for indefinite matrix')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_indefinite_y
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_indefinite_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -1540,6 +2107,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_indefinite_w
+#endif
     
     !> Test solve_chol with symmetric positive semi-definite matrix (should fail)
     subroutine test_solve_chol_semidefinite_s(error)
@@ -1588,6 +2156,32 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_semidefinite_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_semidefinite_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 2_ilp
+        real(xdp) :: a(n,n),b(n),x(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive SEMI-DEFINITE matrix (eigenvalues: 2, 0 - singular)
+        a(1,:) = [1,1]
+        a(2,:) = [1,1]
+        
+        ! Arbitrary RHS
+        b = [1,1]
+        
+        ! solve_chol should fail for semi-definite (singular) matrix
+        call solve_chol(a,b,x,lower=.true.,err=state)
+        
+        ! Check that it failed (not strictly positive definite)
+        call check(error,state%error(),'solve_chol should fail for positive semi-definite matrix')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_semidefinite_x
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_semidefinite_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -1610,6 +2204,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_semidefinite_q
+#endif
     
     subroutine test_solve_chol_semidefinite_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1657,6 +2252,32 @@ module test_linalg_solve_chol
         
     end subroutine test_solve_chol_semidefinite_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_solve_chol_semidefinite_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 2_ilp
+        complex(xdp) :: a(n,n),b(n),x(n)
+        type(la_state) :: state
+        
+        ! Set symmetric positive SEMI-DEFINITE matrix (eigenvalues: 2, 0 - singular)
+        a(1,:) = [1,1]
+        a(2,:) = [1,1]
+        
+        ! Arbitrary RHS
+        b = [1,1]
+        
+        ! solve_chol should fail for semi-definite (singular) matrix
+        call solve_chol(a,b,x,lower=.true.,err=state)
+        
+        ! Check that it failed (not strictly positive definite)
+        call check(error,state%error(),'solve_chol should fail for positive semi-definite matrix')
+        if (allocated(error)) return
+        
+    end subroutine test_solve_chol_semidefinite_y
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_solve_chol_semidefinite_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -1679,6 +2300,7 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_semidefinite_w
+#endif
     
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

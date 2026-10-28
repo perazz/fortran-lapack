@@ -24,6 +24,9 @@ module la_lapack_solve_chol_comp
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laqsp
      public :: la_${ri}$pbequ
      public :: la_${ri}$pbtf2
@@ -58,8 +61,14 @@ module la_lapack_solve_chol_comp
      public :: la_${ri}$ptrfs
      public :: la_${ri}$la_porpvgrw
      public :: la_${ri}$pftrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$la_porpvgrw
      public :: la_${ri}$laqhb
      public :: la_${ri}$laqhe
@@ -96,11 +105,17 @@ module la_lapack_solve_chol_comp
      public :: la_${ri}$pftrf
      public :: la_${ri}$pftri
      public :: la_${ri}$ptrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQSP: equilibrates a symmetric matrix A using the scaling factors
      !> in the vector S.
 
@@ -163,9 +178,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$laqsp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBEQU: computes row and column scalings intended to equilibrate a
      !> symmetric positive definite band matrix A and reduce its condition
      !> number (with respect to the two-norm).  S contains the scale factors,
@@ -253,9 +274,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pbequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBTF2: computes the Cholesky factorization of a real symmetric
      !> positive definite band matrix A.
      !> The factorization has the form
@@ -343,9 +370,15 @@ module la_lapack_solve_chol_comp
            info = j
            return
      end subroutine la_${ri}$pbtf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBTRS: solves a system of linear equations A*X = B with a symmetric
      !> positive definite band matrix A using the Cholesky factorization
      !> A = U**T*U or A = L*L**T computed by ${ri.upper()}$PBTRF.
@@ -413,9 +446,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pbtrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POEQU: computes row and column scalings intended to equilibrate a
      !> symmetric positive definite matrix A and reduce its condition number
      !> (with respect to the two-norm).  S contains the scale factors,
@@ -490,9 +529,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$poequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POEQUB: computes row and column scalings intended to equilibrate a
      !> symmetric positive definite matrix A and reduce its condition number
      !> (with respect to the two-norm).  S contains the scale factors,
@@ -579,9 +624,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$poequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTRS: solves a system of linear equations A*X = B with a symmetric
      !> positive definite matrix A using the Cholesky factorization
      !> A = U**T*U or A = L*L**T computed by ${ri.upper()}$POTRF.
@@ -644,9 +695,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$potrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPEQU: computes row and column scalings intended to equilibrate a
      !> symmetric positive definite matrix A in packed storage and reduce
      !> its condition number (with respect to the two-norm).  S contains the
@@ -740,9 +797,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$ppequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPTRF: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A stored in packed format.
      !> The factorization has the form
@@ -828,9 +891,15 @@ module la_lapack_solve_chol_comp
            40 continue
            return
      end subroutine la_${ri}$pptrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPTRS: solves a system of linear equations A*X = B with a symmetric
      !> positive definite matrix A in packed storage using the Cholesky
      !> factorization A = U**T*U or A = L*L**T computed by ${ri.upper()}$PPTRF.
@@ -892,9 +961,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pptrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTCON: computes the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric positive definite tridiagonal matrix
      !> using the factorization A = L*D*L**T or A = U**T*D*U computed by
@@ -968,9 +1043,15 @@ module la_lapack_solve_chol_comp
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$ptcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTTRF: computes the L*D*L**T factorization of a real symmetric
      !> positive definite tridiagonal matrix A.  The factorization may also
      !> be regarded as having the form A = U**T*D*U.
@@ -1054,9 +1135,15 @@ module la_lapack_solve_chol_comp
            30 continue
            return
      end subroutine la_${ri}$pttrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTTS2: solves a tridiagonal system of the form
      !> A * X = B
      !> using the L*D*L**T factorization of A computed by ${ri.upper()}$PTTRF.  D is a
@@ -1101,9 +1188,15 @@ module la_lapack_solve_chol_comp
            end do
            return
      end subroutine la_${ri}$ptts2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_PORCOND: Estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
      !> CMODE =  1    op2(C) = C
@@ -1267,9 +1360,15 @@ module la_lapack_solve_chol_comp
 #:endif
            return
      end function la_${ri}$la_porcond
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric positive definite band matrix using the
      !> Cholesky factorization A = U**T*U or A = L*L**T computed by ${ri.upper()}$PBTRF.
@@ -1368,9 +1467,15 @@ module la_lapack_solve_chol_comp
            20 continue
            return
      end subroutine la_${ri}$pbcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric positive definite
      !> and banded, and provides error bounds and backward error estimates
@@ -1561,9 +1666,15 @@ module la_lapack_solve_chol_comp
            end do loop_140
            return
      end subroutine la_${ri}$pbrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PFTRS: solves a system of linear equations A*X = B with a symmetric
      !> positive definite matrix A using the Cholesky factorization
      !> A = U**T*U or A = L*L**T computed by ${ri.upper()}$PFTRF.
@@ -1618,9 +1729,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pftrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric positive definite matrix using the
      !> Cholesky factorization A = U**T*U or A = L*L**T computed by ${ri.upper()}$POTRF.
@@ -1716,9 +1833,15 @@ module la_lapack_solve_chol_comp
            20 continue
            return
      end subroutine la_${ri}$pocon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PORFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric positive definite,
      !> and provides error bounds and backward error estimates for the
@@ -1904,9 +2027,15 @@ module la_lapack_solve_chol_comp
            end do loop_140
            return
      end subroutine la_${ri}$porfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTF2: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A.
      !> The factorization has the form
@@ -1994,9 +2123,15 @@ module la_lapack_solve_chol_comp
            40 continue
            return
      end subroutine la_${ri}$potf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTRF2: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A using the recursive algorithm.
      !> The factorization has the form
@@ -2099,9 +2234,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$potrf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTRI: computes the inverse of a real symmetric positive definite
      !> matrix A using the Cholesky factorization A = U**T*U or A = L*L**T
      !> computed by ${ri.upper()}$POTRF.
@@ -2142,9 +2283,15 @@ module la_lapack_solve_chol_comp
            call la_${ri}$lauum(uplo,n,a,lda,info)
            return
      end subroutine la_${ri}$potri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a real symmetric positive definite packed matrix using
      !> the Cholesky factorization A = U**T*U or A = L*L**T computed by
@@ -2239,9 +2386,15 @@ module la_lapack_solve_chol_comp
            20 continue
            return
      end subroutine la_${ri}$ppcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric positive definite
      !> and packed, and provides error bounds and backward error estimates
@@ -2430,9 +2583,15 @@ module la_lapack_solve_chol_comp
            end do loop_140
            return
      end subroutine la_${ri}$pprfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPTRI: computes the inverse of a real symmetric positive definite
      !> matrix A using the Cholesky factorization A = U**T*U or A = L*L**T
      !> computed by ${ri.upper()}$PPTRF.
@@ -2495,9 +2654,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pptri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PSTF2: computes the Cholesky factorization with complete
      !> pivoting of a real symmetric positive semidefinite matrix A.
      !> The factorization has the form
@@ -2677,9 +2842,15 @@ module la_lapack_solve_chol_comp
            170 continue
            return
      end subroutine la_${ri}$pstf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PSTRF: computes the Cholesky factorization with complete
      !> pivoting of a real symmetric positive semidefinite matrix A.
      !> The factorization has the form
@@ -2891,9 +3062,15 @@ module la_lapack_solve_chol_comp
            200 continue
            return
      end subroutine la_${ri}$pstrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTTRS: solves a tridiagonal system of the form
      !> A * X = B
      !> using the L*D*L**T factorization of A computed by ${ri.upper()}$PTTRF.  D is a
@@ -2948,9 +3125,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pttrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBTRF: computes the Cholesky factorization of a real symmetric
      !> positive definite band matrix A.
      !> The factorization has the form
@@ -3149,9 +3332,15 @@ module la_lapack_solve_chol_comp
            150 continue
            return
      end subroutine la_${ri}$pbtrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$PFTRI: computes the inverse of a real (symmetric) positive definite
 #:else
@@ -3314,9 +3503,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pftri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTRF: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A.
      !> The factorization has the form
@@ -3411,9 +3606,15 @@ module la_lapack_solve_chol_comp
            40 continue
            return
      end subroutine la_${ri}$potrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is symmetric positive definite
      !> and tridiagonal, and provides error bounds and backward error
@@ -3582,9 +3783,15 @@ module la_lapack_solve_chol_comp
            end do loop_90
            return
      end subroutine la_${ri}$ptrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_PORPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -3681,9 +3888,15 @@ module la_lapack_solve_chol_comp
            end if
            la_${ri}$la_porpvgrw = rpvgrw
      end function la_${ri}$la_porpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PFTRF: computes the Cholesky factorization of a real symmetric
      !> positive definite matrix A.
      !> The factorization has the form
@@ -3859,9 +4072,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pftrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_PORPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -3963,9 +4182,15 @@ module la_lapack_solve_chol_comp
            end if
            la_${ri}$la_porpvgrw = rpvgrw
      end function la_${ri}$la_porpvgrw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$LAQHB: equilibrates an Hermitian band matrix A using the scaling
      !> factors in the vector S.
@@ -4037,9 +4262,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$laqhb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQHE: equilibrates a Hermitian matrix A using the scaling factors
      !> in the vector S.
 
@@ -4102,9 +4333,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$laqhe
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQHP: equilibrates a Hermitian matrix A using the scaling factors
      !> in the vector S.
 
@@ -4171,9 +4408,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$laqhp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQSP: equilibrates a symmetric matrix A using the scaling factors
      !> in the vector S.
 
@@ -4236,9 +4479,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$laqsp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex Hermitian positive definite band matrix using
      !> the Cholesky factorization A = U**H*U or A = L*L**H computed by
@@ -4347,9 +4596,15 @@ module la_lapack_solve_chol_comp
            20 continue
            return
      end subroutine la_${ri}$pbcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBEQU: computes row and column scalings intended to equilibrate a
      !> Hermitian positive definite band matrix A and reduce its condition
      !> number (with respect to the two-norm).  S contains the scale factors,
@@ -4441,9 +4696,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pbequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBTF2: computes the Cholesky factorization of a complex Hermitian
      !> positive definite band matrix A.
      !> The factorization has the form
@@ -4543,9 +4804,15 @@ module la_lapack_solve_chol_comp
            info = j
            return
      end subroutine la_${ri}$pbtf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBTRS: solves a system of linear equations A*X = B with a Hermitian
      !> positive definite band matrix A using the Cholesky factorization
 #:if rk == "sp"
@@ -4617,9 +4884,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pbtrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex Hermitian positive definite matrix using the
      !> Cholesky factorization A = U**H*U or A = L*L**H computed by ${ri.upper()}$POTRF.
@@ -4724,9 +4997,15 @@ module la_lapack_solve_chol_comp
            20 continue
            return
      end subroutine la_${ri}$pocon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POEQU: computes row and column scalings intended to equilibrate a
      !> Hermitian positive definite matrix A and reduce its condition number
      !> (with respect to the two-norm).  S contains the scale factors,
@@ -4805,9 +5084,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$poequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POEQUB: computes row and column scalings intended to equilibrate a
      !> Hermitian positive definite matrix A and reduce its condition number
      !> (with respect to the two-norm).  S contains the scale factors,
@@ -4898,9 +5183,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$poequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTF2: computes the Cholesky factorization of a complex Hermitian
      !> positive definite matrix A.
      !> The factorization has the form
@@ -5006,9 +5297,15 @@ module la_lapack_solve_chol_comp
            40 continue
            return
      end subroutine la_${ri}$potf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTRF2: computes the Cholesky factorization of a Hermitian
      !> positive definite matrix A using the recursive algorithm.
      !> The factorization has the form
@@ -5113,9 +5410,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$potrf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTRS: solves a system of linear equations A*X = B with a Hermitian
      !> positive definite matrix A using the Cholesky factorization
 #:if rk == "sp"
@@ -5182,9 +5485,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$potrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPCON: estimates the reciprocal of the condition number (in the
      !> 1-norm) of a complex Hermitian positive definite packed matrix using
      !> the Cholesky factorization A = U**H*U or A = L*L**H computed by
@@ -5288,9 +5597,15 @@ module la_lapack_solve_chol_comp
            20 continue
            return
      end subroutine la_${ri}$ppcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPEQU: computes row and column scalings intended to equilibrate a
      !> Hermitian positive definite matrix A in packed storage and reduce
      !> its condition number (with respect to the two-norm).  S contains the
@@ -5388,9 +5703,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$ppequ
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPTRF: computes the Cholesky factorization of a complex Hermitian
      !> positive definite matrix A stored in packed format.
      !> The factorization has the form
@@ -5481,9 +5802,15 @@ module la_lapack_solve_chol_comp
            40 continue
            return
      end subroutine la_${ri}$pptrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPTRS: solves a system of linear equations A*X = B with a Hermitian
      !> positive definite matrix A in packed storage using the Cholesky
 #:if rk == "sp"
@@ -5551,9 +5878,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pptrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PSTF2: computes the Cholesky factorization with complete
      !> pivoting of a complex Hermitian positive semidefinite matrix A.
      !> The factorization has the form
@@ -5755,9 +6088,15 @@ module la_lapack_solve_chol_comp
            200 continue
            return
      end subroutine la_${ri}$pstf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PSTRF: computes the Cholesky factorization with complete
      !> pivoting of a complex Hermitian positive semidefinite matrix A.
      !> The factorization has the form
@@ -5987,9 +6326,15 @@ module la_lapack_solve_chol_comp
            230 continue
            return
      end subroutine la_${ri}$pstrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTCON: computes the reciprocal of the condition number (in the
      !> 1-norm) of a complex Hermitian positive definite tridiagonal matrix
      !> using the factorization A = L*D*L**H or A = U**H*D*U computed by
@@ -6064,9 +6409,15 @@ module la_lapack_solve_chol_comp
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$ptcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTTRF: computes the L*D*L**H factorization of a complex Hermitian
      !> positive definite tridiagonal matrix A.  The factorization may also
      !> be regarded as having the form A = U**H *D*U.
@@ -6202,9 +6553,15 @@ module la_lapack_solve_chol_comp
 #:endif
            return
      end subroutine la_${ri}$pttrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTTS2: solves a tridiagonal system of the form
      !> A * X = B
 #:if rk == "sp"
@@ -6328,9 +6685,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$ptts2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian positive definite
      !> and banded, and provides error bounds and backward error estimates
@@ -6529,9 +6892,15 @@ module la_lapack_solve_chol_comp
            end do loop_140
            return
      end subroutine la_${ri}$pbrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBTRF: computes the Cholesky factorization of a complex Hermitian
      !> positive definite band matrix A.
      !> The factorization has the form
@@ -6730,9 +7099,15 @@ module la_lapack_solve_chol_comp
            150 continue
            return
      end subroutine la_${ri}$pbtrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PFTRS: solves a system of linear equations A*X = B with a Hermitian
      !> positive definite matrix A using the Cholesky factorization
      !> A = U**H*U or A = L*L**H computed by ${ri.upper()}$PFTRF.
@@ -6787,9 +7162,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pftrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PORFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian positive definite,
      !> and provides error bounds and backward error estimates for the
@@ -6983,9 +7364,15 @@ module la_lapack_solve_chol_comp
            end do loop_140
            return
      end subroutine la_${ri}$porfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTRF: computes the Cholesky factorization of a complex Hermitian
      !> positive definite matrix A.
      !> The factorization has the form
@@ -7080,9 +7467,15 @@ module la_lapack_solve_chol_comp
            40 continue
            return
      end subroutine la_${ri}$potrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$POTRI: computes the inverse of a complex Hermitian positive definite
      !> matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
      !> computed by ${ri.upper()}$POTRF.
@@ -7123,9 +7516,15 @@ module la_lapack_solve_chol_comp
            call la_${ri}$lauum(uplo,n,a,lda,info)
            return
      end subroutine la_${ri}$potri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian positive definite
      !> and packed, and provides error bounds and backward error estimates
@@ -7322,9 +7721,15 @@ module la_lapack_solve_chol_comp
            end do loop_140
            return
      end subroutine la_${ri}$pprfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PPTRI: computes the inverse of a complex Hermitian positive definite
      !> matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
      !> computed by ${ri.upper()}$PPTRF.
@@ -7389,9 +7794,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pptri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTTRS: solves a tridiagonal system of the form
      !> A * X = B
 #:if rk == "sp"
@@ -7462,9 +7873,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pttrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PFTRF: computes the Cholesky factorization of a complex Hermitian
      !> positive definite matrix A.
      !> The factorization has the form
@@ -7640,9 +8057,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pftrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PFTRI: computes the inverse of a complex Hermitian positive definite
      !> matrix A using the Cholesky factorization A = U**H*U or A = L*L**H
      !> computed by ${ri.upper()}$PFTRF.
@@ -7801,9 +8224,15 @@ module la_lapack_solve_chol_comp
            end if
            return
      end subroutine la_${ri}$pftri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTRFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian positive definite
      !> and tridiagonal, and provides error bounds and backward error
@@ -8022,6 +8451,9 @@ module la_lapack_solve_chol_comp
            end do loop_100
            return
      end subroutine la_${ri}$ptrfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_chol_comp

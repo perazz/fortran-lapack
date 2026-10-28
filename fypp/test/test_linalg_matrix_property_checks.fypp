@@ -4,27 +4,26 @@
 
 module test_linalg_matrix_property_checks
     use testdrive, only : new_unittest, unittest_type, error_type, check
-    use la_constants, only: sp, dp, qp
+    use la_constants, only: sp, dp, xdp, qp
     use linear_algebra, only: is_square ,is_diagonal, is_symmetric, &
         is_skew_symmetric, is_hermitian, is_triangular, is_hessenberg
 
     implicit none
 
-    real(sp), parameter :: sptol = 1000 * epsilon(1._sp)
-    real(dp), parameter :: dptol = 1000 * epsilon(1._dp)
-    real(qp), parameter :: qptol = 1000 * epsilon(1._qp)
+#:for rk,rt,ri in REAL_KINDS_TYPES
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
+    real(${rk}$), parameter :: ${rk}$tol = 1000 * epsilon(1._${rk}$)
+#:if LA_GUARD[rk]
+#endif
+#:endif
+#:endfor
 
   #! create new list that contains test subroutine suffix (rsp, cdp, int64, etc.)
   #! alongside kind and type
-  #:set RCI_KINDS_TYPES_SUFFIXES = []
-  #:for k1, t1, i1 in RCI_KINDS_TYPES
-    #:if t1[0] == 'i'
-        #:set SUFFIX_START = ''
-    #:else
-        #:set SUFFIX_START = t1[0]
-    #:endif
-    $:RCI_KINDS_TYPES_SUFFIXES.append((k1,t1,SUFFIX_START+k1))
-  #:endfor
+  #:set RCI_KINDS_TYPES_SUFFIXES = [(k1, t1, ('' if t1[0] == 'i' else t1[0]) + k1) &
+                                    & for k1, t1, i1 in RCI_KINDS_TYPES]
 
 
 contains
@@ -39,29 +38,26 @@ contains
       #:set IMPLEMENTED_TESTS = ['is_square','is_diagonal','is_symmetric','is_skew_symmetric', &
                                  'is_hermitian', 'is_triangular', 'is_hessenberg']
 
-      #:set NUM_TESTS = int(len(IMPLEMENTED_TESTS)*len(RCI_KINDS_TYPES_SUFFIXES))
-
-        #! set testsuite dynamically
-        testsuite = [ &
-      #:set TESTS_WRITTEN = 0
+        allocate(testsuite(0))
       #:for cur_test in IMPLEMENTED_TESTS
         #:for k1, t1, s1 in RCI_KINDS_TYPES_SUFFIXES
-          #! note that one has to use set directives to increment variable
-          #:set TESTS_WRITTEN = TESTS_WRITTEN + 1
-          #! last test in list should not have comma
-          #:if TESTS_WRITTEN < NUM_TESTS
-            new_unittest("${cur_test}$_${s1}$", test_${cur_test}$_${s1}$), &
-          #:else
-            new_unittest("${cur_test}$_${s1}$", test_${cur_test}$_${s1}$) &
-          #:endif
+        #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+        #:endif
+        call add_test(testsuite, new_unittest("${cur_test}$_${s1}$", test_${cur_test}$_${s1}$))
+        #:if LA_GUARD[k1]
+#endif
+        #:endif
         #:endfor
       #:endfor
-            ]
     end subroutine collect_linalg_matrix_property_checks
 
 
     !is_square
   #:for k1, t1, s1 in RCI_KINDS_TYPES_SUFFIXES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
     subroutine test_is_square_${s1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -89,11 +85,17 @@ contains
             "(.not. is_square(A_false)) failed.")
         if (allocated(error)) return
     end subroutine test_is_square_${s1}$
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
 
 
     !is_diagonal
   #:for k1, t1, s1 in RCI_KINDS_TYPES_SUFFIXES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
     subroutine test_is_diagonal_${s1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -154,11 +156,17 @@ contains
             "(.not. is_diagonal(A_false_ts)) failed.")
         if (allocated(error)) return
     end subroutine test_is_diagonal_${s1}$
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
 
 
     !is_symmetric
   #:for k1, t1, s1 in RCI_KINDS_TYPES_SUFFIXES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
     subroutine test_is_symmetric_${s1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -194,11 +202,17 @@ contains
             "(.not. is_symmetric(A_false_2)) failed.")
         if (allocated(error)) return
     end subroutine test_is_symmetric_${s1}$
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
 
 
     !is_skew_symmetric
   #:for k1, t1, s1 in RCI_KINDS_TYPES_SUFFIXES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
     subroutine test_is_skew_symmetric_${s1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -241,11 +255,17 @@ contains
             "(.not. is_skew_symmetric(A_false_diag)) failed.")
         if (allocated(error)) return
     end subroutine test_is_skew_symmetric_${s1}$
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
 
 
     !is_hermitian
   #:for k1, t1, s1 in RCI_KINDS_TYPES_SUFFIXES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
     subroutine test_is_hermitian_${s1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -281,11 +301,17 @@ contains
             "(.not. is_hermitian(A_false_2)) failed.")
         if (allocated(error)) return
     end subroutine test_is_hermitian_${s1}$
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
 
 
     !is_triangular
   #:for k1, t1, s1 in RCI_KINDS_TYPES_SUFFIXES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
     subroutine test_is_triangular_${s1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -401,11 +427,17 @@ contains
             "(.not. is_triangular(A_false_ts_l,'l')) failed.")
         if (allocated(error)) return
     end subroutine test_is_triangular_${s1}$
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
 
 
     !is_hessenberg
   #:for k1, t1, s1 in RCI_KINDS_TYPES_SUFFIXES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
     subroutine test_is_hessenberg_${s1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -521,7 +553,31 @@ contains
         call check(error, (.not. is_hessenberg(A_false_ts_l,'l')), &
             "(.not. is_hessenberg(A_false_ts_l,'l')) failed.")
     end subroutine test_is_hessenberg_${s1}$
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
+
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type), allocatable, intent(inout) :: tests(:)    
+        type(unittest_type), intent(in) :: new_test
+        
+        integer :: n
+        type(unittest_type), allocatable :: new_tests(:)
+        
+        if (allocated(tests)) then 
+            n = size(tests)
+        else
+            n = 0
+        end if
+        
+        allocate(new_tests(n+1))
+        if (n>0) new_tests(1:n) = tests(1:n)
+                 new_tests(1+n) = new_test
+        call move_alloc(from=new_tests,to=tests)        
+    
+    end subroutine add_test
 
 end module
 

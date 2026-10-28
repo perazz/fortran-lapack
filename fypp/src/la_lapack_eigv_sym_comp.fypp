@@ -24,6 +24,9 @@ module la_lapack_eigv_sym_comp
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lae2
      public :: la_${ri}$laev2
      public :: la_${ri}$lag2
@@ -41,8 +44,14 @@ module la_lapack_eigv_sym_comp
      public :: la_${ri}$sptrd
      public :: la_${ri}$opgtr
      public :: la_${ri}$opmtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$hpgst
      public :: la_${ri}$laesy
      public :: la_${ri}$laev2
@@ -55,11 +64,17 @@ module la_lapack_eigv_sym_comp
      public :: la_${ri}$upmtr
      public :: la_${ri}$hbgst
      public :: la_${ri}$hbtrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAE2:  computes the eigenvalues of a 2-by-2 symmetric matrix
      !> [  A   B  ]
      !> [  B   C  ].
@@ -121,9 +136,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$lae2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAEV2: computes the eigendecomposition of a 2-by-2 symmetric matrix
      !> [  A   B  ]
      !> [  B   C  ].
@@ -220,9 +241,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$laev2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue
      !> problem  A - w B, with scaling as necessary to avoid over-/underflow.
      !> The scaling factor "s" results in a modified eigenvalue equation
@@ -405,9 +432,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$lag2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      pure subroutine la_${ri}$orm22(side,trans,m,n,n1,n2,q,ldq,c,ldc,work,lwork,info)
         use la_constants_${rk}$
 
@@ -589,9 +622,15 @@ module la_lapack_eigv_sym_comp
            work(1) = real(lwkopt,KIND=${rk}$)
            return
      end subroutine la_${ri}$orm22
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBSTF: computes a split Cholesky factorization of a real
      !> symmetric positive definite band matrix A.
      !> This routine is designed to be used in conjunction with ${ri.upper()}$SBGST.
@@ -710,9 +749,15 @@ module la_lapack_eigv_sym_comp
            info = j
            return
      end subroutine la_${ri}$pbstf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SBGST: reduces a real symmetric-definite banded generalized
      !> eigenproblem  A*x = lambda*B*x  to standard form  C*y = lambda*y,
      !> such that C has the same bandwidth as A.
@@ -1626,9 +1671,15 @@ module la_lapack_eigv_sym_comp
            end if
            go to 490
      end subroutine la_${ri}$sbgst
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SBTRD: reduces a real symmetric band matrix A to symmetric
      !> tridiagonal form T by an orthogonal similarity transformation:
      !> Q**T * A * Q = T.
@@ -1960,9 +2011,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$sbtrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPGST: reduces a real symmetric-definite generalized eigenproblem
      !> to standard form, using packed storage.
      !> If ITYPE = 1, the problem is A*x = lambda*B*x,
@@ -2085,9 +2142,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$spgst
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYGS2: reduces a real symmetric-definite generalized eigenproblem
      !> to standard form.
      !> If ITYPE = 1, the problem is A*x = lambda*B*x,
@@ -2211,9 +2274,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$sygs2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYGST: reduces a real symmetric-definite generalized eigenproblem
      !> to standard form.
      !> If ITYPE = 1, the problem is A*x = lambda*B*x,
@@ -2353,9 +2422,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$sygst
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$DISNA: computes the reciprocal condition numbers for the eigenvectors
      !> of a real symmetric or complex Hermitian matrix or for the left or
      !> right singular vectors of a general m-by-n matrix. The reciprocal
@@ -2461,9 +2536,15 @@ module la_lapack_eigv_sym_comp
            end do
            return
      end subroutine la_${ri}$disna
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAGTF: factorizes the matrix (T - lambda*I), where T is an n by n
      !> tridiagonal matrix and lambda is a scalar, as
      !> T - lambda*I = PLU,
@@ -2555,9 +2636,15 @@ module la_lapack_eigv_sym_comp
            if ((abs(a(n)) <= scale1*tl) .and. (in(n) == 0)) in(n) = n
            return
      end subroutine la_${ri}$lagtf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAGTS: may be used to solve one of the systems of equations
      !> (T - lambda*I)*x = y   or   (T - lambda*I)**T*x = y,
      !> where T is an n by n tridiagonal matrix, for x, following the
@@ -2755,9 +2842,15 @@ module la_lapack_eigv_sym_comp
               end do
            end if
      end subroutine la_${ri}$lagts
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATRD: reduces NB rows and columns of a real symmetric matrix A to
      !> symmetric tridiagonal form by an orthogonal similarity
      !> transformation Q**T * A * Q, and returns the matrices V and W which are
@@ -2860,9 +2953,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$latrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPTRD: reduces a real symmetric matrix A stored in packed form to
      !> symmetric tridiagonal form T by an orthogonal similarity
      !> transformation: Q**T * A * Q = T.
@@ -2960,9 +3059,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$sptrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$OPGTR: generates a real orthogonal matrix Q which is defined as the
      !> product of n-1 elementary reflectors H(i) of order n, as returned by
      !> ${ri.upper()}$SPTRD using packed storage:
@@ -3050,9 +3155,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$opgtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$OPMTR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -3200,9 +3311,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$opmtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPGST: reduces a complex Hermitian-definite generalized
      !> eigenproblem to standard form, using packed storage.
      !> If ITYPE = 1, the problem is A*x = lambda*B*x,
@@ -3331,9 +3448,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$hpgst
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAESY: computes the eigendecomposition of a 2-by-2 symmetric matrix
      !> ( ( A, B );( B, C ) )
      !> provided the norm of the matrix of eigenvectors is larger than
@@ -3420,9 +3543,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$laesy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAEV2: computes the eigendecomposition of a 2-by-2 Hermitian matrix
      !> [  A         B  ]
      !> [  CONJG(B)  C  ].
@@ -3463,9 +3592,15 @@ module la_lapack_eigv_sym_comp
            sn1 = w*t
            return
      end subroutine la_${ri}$laev2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LATRD: reduces NB rows and columns of a complex Hermitian matrix A to
      !> Hermitian tridiagonal form by a unitary similarity
      !> transformation Q**H * A * Q, and returns the matrices V and W which are
@@ -3586,9 +3721,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$latrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PBSTF: computes a split Cholesky factorization of a complex
      !> Hermitian positive definite band matrix A.
      !> This routine is designed to be used in conjunction with ${ri.upper()}$HBGST.
@@ -3727,9 +3868,15 @@ module la_lapack_eigv_sym_comp
            info = j
            return
      end subroutine la_${ri}$pbstf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEGS2: reduces a complex Hermitian-definite generalized
      !> eigenproblem to standard form.
      !> If ITYPE = 1, the problem is A*x = lambda*B*x,
@@ -3866,9 +4013,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$hegs2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEGST: reduces a complex Hermitian-definite generalized
      !> eigenproblem to standard form.
      !> If ITYPE = 1, the problem is A*x = lambda*B*x,
@@ -4007,9 +4160,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$hegst
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPTRD: reduces a complex Hermitian matrix A stored in packed form to
      !> real symmetric tridiagonal form T by a unitary similarity
      !> transformation: Q**H * A * Q = T.
@@ -4114,9 +4273,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$hptrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UPGTR: generates a complex unitary matrix Q which is defined as the
      !> product of n-1 elementary reflectors H(i) of order n, as returned by
      !> ${ri.upper()}$HPTRD using packed storage:
@@ -4204,9 +4369,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$upgtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UPMTR: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -4364,9 +4535,15 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$upmtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBGST: reduces a complex Hermitian-definite banded generalized
      !> eigenproblem  A*x = lambda*B*x  to standard form  C*y = lambda*y,
      !> such that C has the same bandwidth as A.
@@ -5302,9 +5479,15 @@ module la_lapack_eigv_sym_comp
            end if
            go to 490
      end subroutine la_${ri}$hbgst
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBTRD: reduces a complex Hermitian band matrix A to real symmetric
      !> tridiagonal form T by a unitary similarity transformation:
      !> Q**H * A * Q = T.
@@ -5672,6 +5855,9 @@ module la_lapack_eigv_sym_comp
            end if
            return
      end subroutine la_${ri}$hbtrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_sym_comp

@@ -23,15 +23,24 @@ module test_linalg_schur
         allocate(tests(0))
         
         #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("schur_api_${ri}$",test_schur_api_${ri}$))
         call add_test(tests,new_unittest("schur_random_${ri}$",test_schur_random_${ri}$))
         call add_test(tests,new_unittest("schur_symmetric_${ri}$",test_schur_symmetric_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
 
     end subroutine test_schur_decomposition
 
     !> schur decomposition of a random matrix
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_schur_api_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -205,6 +214,9 @@ module test_linalg_schur
         end function schur_error        
 
     end subroutine test_schur_symmetric_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 

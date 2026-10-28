@@ -15,10 +15,16 @@ module test_la_eye
         call cpu_time(t0)
 
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call test_${ri}$_eye_allocation(error)
         call test_${ri}$_diag_scalar(error)
         call test_${ri}$_diag_array(error)
         if (error) return
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #: endfor
 
         call cpu_time(t1)
@@ -30,6 +36,9 @@ module test_la_eye
     end subroutine test_eye
 
     #:for rk,rt,ri in ALL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     !> Identity matrix: test allocation
     subroutine test_${ri}$_eye_allocation(error)
         logical, intent(out) :: error
@@ -126,6 +135,9 @@ module test_la_eye
         end do
 
     end subroutine test_${ri}$_diag_array
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 

@@ -163,6 +163,9 @@ module la_norms
      !!  
      interface norm
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         #:for it,ii in INPUT_OPTIONS
         #:for rank in RANKS        
         module procedure la_norm_${rank}$D_order_${ii}$_${ri}$         
@@ -173,12 +176,18 @@ module la_norms
         module procedure la_norm_${rank}$D_to_${rank-1}$D_err_${ii}$_${ri}$
         #:endfor
         #:endfor        
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface norm
      
      !> Vector norm: subroutine interface
      interface get_norm
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         #:for it,ii in INPUT_OPTIONS
             !> Scalar norms: ${rt}$
             #:for rank in RANKS                    
@@ -189,18 +198,27 @@ module la_norms
             module procedure norm_${rank}$D_to_${rank-1}$D_${ii}$_${ri}$
             #:endfor
         #:endfor
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface get_norm
      
      !> Matrix norm: function interface
      interface mnorm
          #:for rk,rt,ri in ALL_KINDS_TYPES
+         #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+         #:endif
          #:for it,ii in INPUT_OPTIONS        
          module procedure matrix_norm_${ii}$_${ri}$
          #:for rank in range(3, MAXRANK + 1)
          module procedure matrix_norm_${rank}$D_to_${rank-2}$D_${ii}$_${ri}$
          #:endfor            
          #:endfor
+         #:if LA_GUARD[rk]
+#endif
+         #:endif
          #:endfor            
      end interface mnorm
      
@@ -294,6 +312,9 @@ module la_norms
      end subroutine lange_task_request
                
     #:for rk,rt,ri in ALL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     #:for it,ii in INPUT_OPTIONS
 
     !==============================================
@@ -655,6 +676,9 @@ ${loop_variables_end(rank-2)}$
     #:endfor
     
     #:endfor
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     #:endfor
 
 end module la_norms

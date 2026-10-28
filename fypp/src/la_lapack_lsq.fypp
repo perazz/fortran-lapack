@@ -25,23 +25,38 @@ module la_lapack_lsq
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gels
      public :: la_${ri}$gelsy
      public :: la_${ri}$getsls
      public :: la_${ri}$gelsd
      public :: la_${ri}$gelss
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gels
      public :: la_${ri}$gelsd
      public :: la_${ri}$gelss
      public :: la_${ri}$gelsy
      public :: la_${ri}$getsls
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELS: solves overdetermined or underdetermined real linear systems
      !> involving an M-by-N matrix A, or its transpose, using a QR or LQ
      !> factorization of A.  It is assumed that A has full rank.
@@ -263,9 +278,15 @@ module la_lapack_lsq
            work(1) = real(wsize,KIND=${rk}$)
            return
      end subroutine la_${ri}$gels
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELSY: computes the minimum-norm solution to a real linear least
      !> squares problem:
      !> minimize || A * X - B ||
@@ -498,9 +519,15 @@ module la_lapack_lsq
            work(1) = lwkopt
            return
      end subroutine la_${ri}$gelsy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETSLS: solves overdetermined or underdetermined real linear systems
      !> involving an M-by-N matrix A, using a tall skinny QR or short wide LQ
      !> factorization of A.  It is assumed that A has full rank.
@@ -737,9 +764,15 @@ module la_lapack_lsq
            work(1) = real(tszo + lwo,KIND=${rk}$)
            return
      end subroutine la_${ri}$getsls
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELSD: computes the minimum-norm solution to a real linear least
      !> squares problem:
      !> minimize 2-norm(| b - A*x |)
@@ -1134,9 +1167,15 @@ module la_lapack_lsq
            iwork(1) = liwork
            return
      end subroutine la_${ri}$gelsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELSS: computes the minimum norm solution to a real linear least
      !> squares problem:
      !> Minimize 2-norm(| b - A*x |).
@@ -1589,9 +1628,15 @@ module la_lapack_lsq
            work(1) = maxwrk
            return
      end subroutine la_${ri}$gelss
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELS: solves overdetermined or underdetermined complex linear systems
      !> involving an M-by-N matrix A, or its conjugate-transpose, using a QR
      !> or LQ factorization of A.  It is assumed that A has full rank.
@@ -1813,9 +1858,15 @@ module la_lapack_lsq
            work(1) = real(wsize,KIND=${rk}$)
            return
      end subroutine la_${ri}$gels
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELSD: computes the minimum-norm solution to a real linear least
      !> squares problem:
      !> minimize 2-norm(| b - A*x |)
@@ -2153,9 +2204,15 @@ module la_lapack_lsq
            rwork(1) = lrwork
            return
      end subroutine la_${ri}$gelsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELSS: computes the minimum norm solution to a complex linear
      !> least squares problem:
      !> Minimize 2-norm(| b - A*x |).
@@ -2613,9 +2670,15 @@ module la_lapack_lsq
            work(1) = maxwrk
            return
      end subroutine la_${ri}$gelss
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELSY: computes the minimum-norm solution to a complex linear least
      !> squares problem:
      !> minimize || A * X - B ||
@@ -2843,9 +2906,15 @@ module la_lapack_lsq
            work(1) = cmplx(lwkopt,KIND=${rk}$)
            return
      end subroutine la_${ri}$gelsy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GETSLS: solves overdetermined or underdetermined complex linear systems
      !> involving an M-by-N matrix A, using a tall skinny QR or short wide LQ
      !> factorization of A.  It is assumed that A has full rank.
@@ -3082,6 +3151,9 @@ module la_lapack_lsq
            work(1) = real(tszo + lwo,KIND=${rk}$)
            return
      end subroutine la_${ri}$getsls
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_lsq

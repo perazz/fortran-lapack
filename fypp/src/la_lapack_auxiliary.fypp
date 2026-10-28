@@ -8,6 +8,9 @@ module la_lapack_auxiliary
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$labad
      public :: la_${ri}$ladiv2
      public :: la_${ri}$lamch
@@ -15,15 +18,27 @@ module la_lapack_auxiliary
      public :: la_${ri}$laqsb
      public :: la_${ri}$${ci}$sum1
      public :: la_${ri}$ladiv1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laqsb
      public :: la_${ri}$rot
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LABAD: takes as input the values computed by ${ri.upper()}$LAMCH for underflow and
      !> overflow, and returns the square root of each of these values if the
      !> log of LARGE is sufficiently large.  This subroutine is intended to
@@ -55,9 +70,15 @@ module la_lapack_auxiliary
            end if
            return
      end subroutine la_${ri}$labad
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      pure real(${rk}$) function la_${ri}$ladiv2(a,b,c,d,r,t)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
@@ -82,9 +103,15 @@ module la_lapack_auxiliary
            end if
            return
      end function la_${ri}$ladiv2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAMCH: determines ${LA_PRECISION[rk]}$ precision machine parameters.
 
      pure real(${rk}$) function la_${ri}$lamch(cmach)
@@ -141,9 +168,15 @@ module la_lapack_auxiliary
            la_${ri}$lamch = rmach
            return
      end function la_${ri}$lamch
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      pure real(${rk}$) function la_${ri}$lamc3(a,b)
         ! -- lapack auxiliary routine --
            ! univ. of tennessee, univ. of california berkeley and nag ltd..
@@ -154,9 +187,15 @@ module la_lapack_auxiliary
            la_${ri}$lamc3 = a + b
            return
      end function la_${ri}$lamc3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQSB: equilibrates a symmetric band matrix A using the scaling
      !> factors in the vector S.
 
@@ -217,9 +256,15 @@ module la_lapack_auxiliary
            end if
            return
      end subroutine la_${ri}$laqsb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$${ci.upper()}$SUM1: takes the sum of the absolute values of a complex
      !> vector and returns a ${LA_PRECISION[rk]}$ precision result.
      !> Based on ${ri.upper()}$${ci.upper()}$ASUM from the Level 1 BLAS.
@@ -262,9 +307,15 @@ module la_lapack_auxiliary
            la_${ri}$${ci}$sum1 = stemp
            return
      end function la_${ri}$${ci}$sum1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      pure subroutine la_${ri}$ladiv1(a,b,c,d,p,q)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
@@ -286,9 +337,15 @@ module la_lapack_auxiliary
            q = la_${ri}$ladiv2(b,a,c,d,r,t)
            return
      end subroutine la_${ri}$ladiv1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQSB: equilibrates a symmetric band matrix A using the scaling
      !> factors in the vector S.
 
@@ -349,9 +406,15 @@ module la_lapack_auxiliary
            end if
            return
      end subroutine la_${ri}$laqsb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ROT:   applies a plane rotation, where the cos (C) is real and the
      !> sin (S) is complex, and the vectors CX and CY are complex.
 
@@ -396,6 +459,9 @@ module la_lapack_auxiliary
            end do
            return
      end subroutine la_${ri}$rot
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_auxiliary

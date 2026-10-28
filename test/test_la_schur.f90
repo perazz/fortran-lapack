@@ -20,15 +20,28 @@ module test_la_schur
         call test_schur_api_d(error)
         if (error) return
         call test_schur_d(error)
+#ifdef LA_WITH_XDP
+        call test_schur_api_x(error)
+        if (error) return
+        call test_schur_x(error)
+#endif
+#ifdef LA_WITH_QP
         call test_schur_api_q(error)
         if (error) return
         call test_schur_q(error)
+#endif
         call test_schur_api_c(error)
         if (error) return
         call test_schur_api_z(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_schur_api_y(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_schur_api_w(error)
         if (error) return
+#endif
 
         call cpu_time(t1)
 
@@ -153,6 +166,67 @@ module test_la_schur
                 
     end subroutine test_schur_d
     
+#ifdef LA_WITH_XDP
+    subroutine test_schur_api_x(error)
+        logical,intent(out) :: error
+
+        integer(ilp),parameter :: n = 15_ilp
+        integer(ilp) :: lwork
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: eigs(n)
+        real(xdp),dimension(n,n) :: a,t,z
+        real(xdp),allocatable :: storage(:)
+        type(la_state) :: err
+        
+        call random_number(a)
+        
+        ! Test simple API
+        call schur(a,t,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+        ! Test output transformation matrix
+        call schur(a,t,z,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+
+        ! Test output eigenvalues
+        call schur(a,t,eigvals=eigs,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigvals=eigs,storage=storage,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+    end subroutine test_schur_api_x
+    
+    subroutine test_schur_x(error)
+        logical,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: rtol = 1.0e-4_xdp
+        real(xdp),parameter :: eps = sqrt(epsilon(0.0_xdp))
+        real(xdp),dimension(n,n) :: a,t,z
+        type(la_state) :: err
+
+        call random_number(a)
+
+        ! Run schur
+        call schur(a,t,z,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+        error = .not. (all(abs(a - matmul(matmul(z,t),transpose(z))) <= max(rtol*abs(z),eps)))
+        if (error) print *, 'invalid matmul real(xdp)'
+        if (error) print *, a - matmul(matmul(z,t),transpose(z))
+                
+    end subroutine test_schur_x
+    
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_schur_api_q(error)
         logical,intent(out) :: error
 
@@ -209,6 +283,8 @@ module test_la_schur
         if (error) print *, a - matmul(matmul(z,t),transpose(z))
                 
     end subroutine test_schur_q
+    
+#endif
     
     subroutine test_schur_api_c(error)
         logical,intent(out) :: error
@@ -288,6 +364,49 @@ module test_la_schur
         
     end subroutine test_schur_api_z
     
+#ifdef LA_WITH_XDP
+    subroutine test_schur_api_y(error)
+        logical,intent(out) :: error
+
+        integer(ilp),parameter :: n = 15_ilp
+        integer(ilp) :: lwork
+        real(xdp),parameter :: tol = 10*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: eigs(n)
+        complex(xdp),dimension(n,n) :: a,t,z
+        complex(xdp),allocatable :: storage(:)
+        real(xdp) :: rea(n,n),ima(n,n)
+        type(la_state) :: err
+        
+        call random_number(rea)
+        call random_number(ima)
+        a = cmplx(rea,ima,kind=xdp)
+        
+        ! Test simple API
+        call schur(a,t,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+        ! Test output transformation matrix
+        call schur(a,t,z,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+
+        ! Test output eigenvalues
+        call schur(a,t,eigvals=eigs,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+        ! Test storage query
+        call schur_space(a,lwork,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+        ! Test with user-defined storage
+        allocate (storage(lwork))
+        call schur(a,t,eigvals=eigs,storage=storage,err=err)
+        error = err%error(); if (error) print err%print(); if (error) return
+        
+    end subroutine test_schur_api_y
+    
+#endif
+    
+#ifdef LA_WITH_QP
     subroutine test_schur_api_w(error)
         logical,intent(out) :: error
 
@@ -326,6 +445,8 @@ module test_la_schur
         error = err%error(); if (error) print err%print(); if (error) return
         
     end subroutine test_schur_api_w
+    
+#endif
     
 end module test_la_schur
 

@@ -18,22 +18,40 @@ module test_la_eigs
         if (error) return
         call test_eig_real_d(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_eig_real_x(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_eig_real_q(error)
         if (error) return
+#endif
         
         call test_eigh_real_s(error)
         if (error) return
         call test_eigh_real_d(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_eigh_real_x(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_eigh_real_q(error)
         if (error) return
+#endif
                 
         call test_eig_complex_c(error)
         if (error) return
         call test_eig_complex_z(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_eig_complex_y(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_eig_complex_w(error)
         if (error) return
+#endif
 
         call cpu_time(t1)
 
@@ -214,6 +232,94 @@ module test_la_eigs
         
     end subroutine test_eigh_real_d
 
+#ifdef LA_WITH_XDP
+    subroutine test_eig_real_x(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(xdp),parameter :: zero = 0.0_xdp
+        real(xdp),parameter :: two = 2.0_xdp
+        real(xdp),parameter :: sqrt2o2 = sqrt(two)*0.5_xdp
+        real(xdp),parameter :: tol = sqrt(epsilon(zero))
+
+        !> Local variables
+        type(la_state) :: state
+        real(xdp) :: A(3,3),B(2,2)
+        complex(xdp) :: lambda(3),Bvec(2,2),Bres(2,2)
+
+        !> Matrix with real eigenvalues
+        A = reshape([1,0,0, &
+                     0,2,0, &
+                     0,0,3], [3,3])
+        
+        call eig(A,lambda,err=state)
+        error = state%error() .or. &
+                .not. all(aimag(lambda) == zero .and. real(lambda,kind=xdp) == [1,2,3])
+        if (error) return
+        
+        !> Matrix with complex eigenvalues
+        B = transpose(reshape([1,-1, &
+                               1,1], [2,2]))
+                               
+        !> Expected right eigenvectors
+        Bres(1,1:2) = sqrt2o2
+        Bres(2,1) = cmplx(zero,-sqrt2o2,kind=xdp)
+        Bres(2,2) = cmplx(zero,+sqrt2o2,kind=xdp)
+        
+        call eig(B,lambda,right=Bvec,err=state)
+        error = state%error() .or. any(abs(Bres - Bvec) > tol)
+        
+        print *, bvec(1,:)
+        print *, bvec(2,:)
+        print *, bres
+        
+        if (error) return
+        
+    end subroutine test_eig_real_x
+
+    ! Symmetric matrix eigenvalues
+    subroutine test_eigh_real_x(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(xdp),parameter :: zero = 0.0_xdp
+        real(xdp),parameter :: tol = sqrt(epsilon(zero))
+        real(xdp),parameter :: A(4,4) = reshape([6,3,1,5, &
+                                               3,0,5,1, &
+                                               1,5,6,2, &
+                                               5,1,2,2], [4,4])
+        
+        !> Local variables
+        real(xdp) :: Amat(4,4),lambda(4),vect(4,4),Av(4,4),lv(4,4)
+        type(la_state) :: state
+        
+        Amat = A
+        
+        call eigh(Amat,lambda,vect,err=state)
+        
+        Av = matmul(A,vect)
+        lv = matmul(vect,diag(lambda))
+        
+        error = state%error() .or. .not. all(abs(Av - lv) < tol*abs(Av))
+        if (error) return
+        
+        !> Test functional versions
+        lambda = eigvalsh(Amat)
+   
+        lambda = eigvalsh(Amat,err=state)
+        error = state%error()
+        if (error) return
+        
+        !> Test functional versions
+        Amat = A
+        lambda = eigvalsh(Amat,upper_a=.false.,err=state)
+        error = state%error()
+        if (error) return
+        
+    end subroutine test_eigh_real_x
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_eig_real_q(error)
         logical,intent(out) :: error
 
@@ -298,6 +404,7 @@ module test_la_eigs
         if (error) return
         
     end subroutine test_eigh_real_q
+#endif
 
     !> Simple complex matrix eigenvalues
     subroutine test_eig_complex_c(error)
@@ -374,6 +481,46 @@ module test_la_eigs
         
     end subroutine test_eig_complex_z
 
+#ifdef LA_WITH_XDP
+    subroutine test_eig_complex_y(error)
+        logical,intent(out) :: error
+
+        !> Reference solution
+        real(xdp),parameter :: zero = 0.0_xdp
+        real(xdp),parameter :: two = 2.0_xdp
+        real(xdp),parameter :: sqrt2o2 = sqrt(two)*0.5_xdp
+        real(xdp),parameter :: tol = sqrt(epsilon(zero))
+        complex(xdp),parameter :: cone = (1.0_xdp,0.0_xdp)
+        complex(xdp),parameter :: cimg = (0.0_xdp,1.0_xdp)
+        complex(xdp),parameter :: czero = (0.0_xdp,0.0_xdp)
+
+        !> Local vaciables
+        type(la_state) :: state
+        complex(xdp) :: A(2,2),lambda(2),Avec(2,2),Ares(2,2),lres(2)
+
+        !> Matcix with real eigenvalues
+        A = transpose(reshape([cone,cimg, &
+                               -cimg,cone], [2,2]))
+                
+        call eig(A,lambda,right=Avec,err=state)
+        
+        !> Expected eigenvalues and eigenvectors
+        lres(1) = two
+        lres(2) = zero
+        
+        !> Eigenvectors may vary: do not use for error
+        Ares(1,1) = cmplx(zero,sqrt2o2,kind=xdp)
+        Ares(1,2) = cmplx(sqrt2o2,zero,kind=xdp)
+        Ares(2,1) = cmplx(sqrt2o2,zero,kind=xdp)
+        Ares(2,2) = cmplx(zero,sqrt2o2,kind=xdp)
+        
+        error = state%error() .or. any(abs(lambda - lres) > tol)
+        if (error) return
+        
+    end subroutine test_eig_complex_y
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_eig_complex_w(error)
         logical,intent(out) :: error
 
@@ -410,6 +557,7 @@ module test_la_eigs
         if (error) return
         
     end subroutine test_eig_complex_w
+#endif
 
 end module test_la_eigs
 

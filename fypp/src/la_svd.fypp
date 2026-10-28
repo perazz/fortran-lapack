@@ -49,13 +49,25 @@ module la_svd
 
      interface svd
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_svd_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface svd
 
      interface svdvals
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_svdvals_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface svdvals
 
@@ -110,6 +122,9 @@ module la_svd
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Singular values of matrix A
      function la_svdvals_${ri}$(a,err) result(s)
          !> Input matrix A[m,n]
@@ -304,6 +319,9 @@ module la_svd
          call err0%handle(err)
 
      end subroutine la_svd_${ri}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
      #:endfor
 
 end module la_svd

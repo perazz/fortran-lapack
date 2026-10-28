@@ -8,6 +8,9 @@ module la_blas_level1
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$asum
      public :: la_${ri}$axpy
      public :: la_${ri}$copy
@@ -24,8 +27,14 @@ module la_blas_level1
      public :: la_${ri}$swap
      public :: la_${ri}$${ci}$asum
      public :: la_${ri}$${ci}$nrm2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$axpy
      public :: la_${ri}$copy
      public :: la_${ri}$dotc
@@ -35,12 +44,18 @@ module la_blas_level1
      public :: la_${ri}$rotg
      public :: la_${ri}$scal
      public :: la_${ri}$swap
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
      public :: la_sdsdot
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ASUM: takes the sum of the absolute values.
 #:if rk == "sp"
      !> uses unrolled loops for increment equal to one.
@@ -92,9 +107,15 @@ module la_blas_level1
            la_${ri}$asum = ${ri}$temp
            return
      end function la_${ri}$asum
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$AXPY: constant times a vector plus a vector.
      !> uses unrolled loops for increments equal to one.
 
@@ -147,9 +168,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$axpy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$COPY: copies a vector, x, to a vector, y.
      !> uses unrolled loops for increments equal to 1.
 
@@ -203,9 +230,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$copy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$DOT: forms the dot product of two vectors.
      !> uses unrolled loops for increments equal to one.
 
@@ -266,9 +299,15 @@ module la_blas_level1
            la_${ri}$dot = ${ri}$temp
            return
      end function la_${ri}$dot
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> !
      !>
      !> ${ri.upper()}$NRM2: returns the euclidean norm of a vector via the function
@@ -363,9 +402,15 @@ module la_blas_level1
         la_${ri}$nrm2 = scl*sqrt(sumsq)
         return
      end function la_${ri}$nrm2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> applies a plane rotation.
 #:else
@@ -410,9 +455,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$rot
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> !
      !>
      !> The computation uses the formulas
@@ -476,9 +527,15 @@ module la_blas_level1
         end if
         return
      end subroutine la_${ri}$rotg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX
 #:if rk == "sp"
      !> (SX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF SX ARE IN
@@ -600,9 +657,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$rotm
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS
 #:if rk == "sp"
      !> THE SECOND COMPONENT OF THE 2-VECTOR  (SQRT(SD1)*SX1,SQRT(SD2)    SY2)**T.
@@ -798,9 +861,15 @@ module la_blas_level1
            ${ri}$param(1) = ${ri}$flag
            return
      end subroutine la_${ri}$rotmg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SCAL: scales a vector by a constant.
      !> uses unrolled loops for increment equal to 1.
 
@@ -846,9 +915,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$scal
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rkl is not None
      !> Compute the inner product of two vectors with extended
      !> precision accumulation and result.
@@ -898,9 +973,15 @@ module la_blas_level1
            return
      end function la_${ri}$${ril}$dot
 #:endif
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SWAP: interchanges two vectors.
      !> uses unrolled loops for increments equal to 1.
 
@@ -960,9 +1041,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$swap
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$${ci.upper()}$ASUM: takes the sum of the (|Re(.)| + |Im(.)|)'s of a complex vector and
      !> returns a ${LA_PRECISION[rk]}$ precision result.
 
@@ -1009,9 +1096,15 @@ module la_blas_level1
            la_${ri}$${ci}$asum = stemp
            return
      end function la_${ri}$${ci}$asum
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> !
      !>
      !> ${ri.upper()}$${ci.upper()}$NRM2: returns the euclidean norm of a vector via the function
@@ -1111,9 +1204,15 @@ module la_blas_level1
         la_${ri}$${ci}$nrm2 = scl*sqrt(sumsq)
         return
      end function la_${ri}$${ci}$nrm2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$AXPY: constant times a vector plus a vector.
 
      pure subroutine la_${ri}$axpy(n,${ri}$a,${ri}$x,incx,${ri}$y,incy)
@@ -1155,9 +1254,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$axpy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$COPY: copies a vector x to a vector y.
 #:else
@@ -1197,9 +1302,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$copy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$DOTC: forms the dot product of two complex vectors
      !> ${ri.upper()}$DOTC = X^H * Y
 
@@ -1241,9 +1352,15 @@ module la_blas_level1
            la_${ri}$dotc = ${ri}$temp
            return
      end function la_${ri}$dotc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$DOTU: forms the dot product of two complex vectors
      !> ${ri.upper()}$DOTU = X^T * Y
 
@@ -1283,9 +1400,15 @@ module la_blas_level1
            la_${ri}$dotu = ${ri}$temp
            return
      end function la_${ri}$dotu
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$${ci.upper()}$ROT: applies a plane rotation, where the cos and sin (c and s) are real
      !> and the vectors ${ri}$x and ${ri}$y are complex.
@@ -1334,9 +1457,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$${ci}$rot
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$${ci.upper()}$SCAL: scales a complex vector by a real constant.
 #:else
@@ -1384,9 +1513,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$${ci}$scal
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> !
      !>
      !> The computation uses the formulas
@@ -1504,9 +1639,15 @@ module la_blas_level1
         a = r
         return
      end subroutine la_${ri}$rotg
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SCAL: scales a vector by a constant.
 
      pure subroutine la_${ri}$scal(n,${ri}$a,${ri}$x,incx)
@@ -1536,9 +1677,15 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$scal
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SWAP: interchanges two vectors.
 
      pure subroutine la_${ri}$swap(n,${ri}$x,incx,${ri}$y,incy)
@@ -1578,6 +1725,9 @@ module la_blas_level1
            end if
            return
      end subroutine la_${ri}$swap
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      !> Compute the inner product of two vectors with extended

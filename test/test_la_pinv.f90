@@ -18,8 +18,14 @@ module test_la_pinv
         if (error) return
         call test_d_eye_pseudoinverse(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_x_eye_pseudoinverse(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_q_eye_pseudoinverse(error)
         if (error) return
+#endif
         call test_s_square_pseudoinverse(error)
         if (error) return
         call test_s_tall_pseudoinverse(error)
@@ -38,6 +44,18 @@ module test_la_pinv
         call test_d_singular_pseudoinverse(error)
         if (error) return
                 
+#ifdef LA_WITH_XDP
+        call test_x_square_pseudoinverse(error)
+        if (error) return
+        call test_x_tall_pseudoinverse(error)
+        if (error) return
+        call test_x_wide_pseudoinverse(error)
+        if (error) return
+        call test_x_singular_pseudoinverse(error)
+        if (error) return
+#endif
+                
+#ifdef LA_WITH_QP
         call test_q_square_pseudoinverse(error)
         if (error) return
         call test_q_tall_pseudoinverse(error)
@@ -46,6 +64,7 @@ module test_la_pinv
         if (error) return
         call test_q_singular_pseudoinverse(error)
         if (error) return
+#endif
                 
         call test_c_square_pseudoinverse(error)
         if (error) return
@@ -65,6 +84,18 @@ module test_la_pinv
         call test_z_singular_pseudoinverse(error)
         if (error) return
                 
+#ifdef LA_WITH_XDP
+        call test_y_square_pseudoinverse(error)
+        if (error) return
+        call test_y_tall_pseudoinverse(error)
+        if (error) return
+        call test_y_wide_pseudoinverse(error)
+        if (error) return
+        call test_y_singular_pseudoinverse(error)
+        if (error) return
+#endif
+                
+#ifdef LA_WITH_QP
         call test_w_square_pseudoinverse(error)
         if (error) return
         call test_w_tall_pseudoinverse(error)
@@ -73,6 +104,7 @@ module test_la_pinv
         if (error) return
         call test_w_singular_pseudoinverse(error)
         if (error) return
+#endif
                 
         call cpu_time(t1)
 
@@ -143,6 +175,39 @@ module test_la_pinv
 
     end subroutine test_d_eye_pseudoinverse
 
+#ifdef LA_WITH_XDP
+    subroutine test_x_eye_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i,j
+        integer(ilp),parameter :: n = 15_ilp
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+
+        real(xdp) :: a(n,n),inva(n,n)
+
+        do concurrent(i=1:n,j=1:n)
+          a(i,j) = merge(1.0_xdp,0.0_xdp,i == j)
+        end do
+
+        !> Invert function
+        inva = pinv(a,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tol)
+        if (error) return
+
+        !> Inverse subroutine
+        call pseudoinvert(a,inva,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tol)
+        
+        !> Operator
+        inva = .pinv.a
+        error = .not. all(abs(a - inva) < tol)
+
+    end subroutine test_x_eye_pseudoinverse
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_q_eye_pseudoinverse(error)
         logical,intent(out) :: error
 
@@ -172,6 +237,7 @@ module test_la_pinv
         error = .not. all(abs(a - inva) < tol)
 
     end subroutine test_q_eye_pseudoinverse
+#endif
 
     !> Test edge case: square matrix
     subroutine test_s_square_pseudoinverse(error)
@@ -369,6 +435,107 @@ module test_la_pinv
         
     end subroutine test_d_singular_pseudoinverse
 
+#ifdef LA_WITH_XDP
+    !> Test edge case: square matrix
+    subroutine test_x_square_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: n = 10
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),inva(n,n)
+        
+        call random_number(a)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+
+    end subroutine test_x_square_pseudoinverse
+
+    !> Test edge case: tall matrix
+    subroutine test_x_tall_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 20,n = 10
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(m,n),inva(n,m)
+        
+        call random_number(a)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+
+    end subroutine test_x_tall_pseudoinverse
+
+    !> Test edge case: wide matrix
+    subroutine test_x_wide_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 10,n = 20
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(m,n),inva(n,m)
+        
+        call random_number(a)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+
+    end subroutine test_x_wide_pseudoinverse
+
+    !> Test edge case: singular matrix
+    subroutine test_x_singular_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: n = 10
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),inva(n,n)
+        
+        call random_number(a)
+        
+        ! Make the matrix singular
+        a(:,1) = a(:,2)
+        
+        inva = pinv(a,err=state)
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+        
+    end subroutine test_x_singular_pseudoinverse
+#endif
+
+#ifdef LA_WITH_QP
     !> Test edge case: square matrix
     subroutine test_q_square_pseudoinverse(error)
         logical,intent(out) :: error
@@ -466,6 +633,7 @@ module test_la_pinv
         error = failed > 0; if (error) return
         
     end subroutine test_q_singular_pseudoinverse
+#endif
 
     !> Test edge case: square matrix
     subroutine test_c_square_pseudoinverse(error)
@@ -679,6 +847,115 @@ module test_la_pinv
         
     end subroutine test_z_singular_pseudoinverse
 
+#ifdef LA_WITH_XDP
+    !> Test edge case: square matrix
+    subroutine test_y_square_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: n = 10
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),inva(n,n)
+        real(xdp) :: rea(n,n,2)
+        
+        call random_number(rea)
+        a = cmplx(rea(:,:,1),rea(:,:,2),kind=xdp)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+
+    end subroutine test_y_square_pseudoinverse
+
+    !> Test edge case: tall matrix
+    subroutine test_y_tall_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 20,n = 10
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(m,n),inva(n,m)
+        real(xdp) :: rea(m,n,2)
+        
+        call random_number(rea)
+        a = cmplx(rea(:,:,1),rea(:,:,2),kind=xdp)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+
+    end subroutine test_y_tall_pseudoinverse
+
+    !> Test edge case: wide matrix
+    subroutine test_y_wide_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: m = 10,n = 20
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(m,n),inva(n,m)
+        real(xdp) :: rea(m,n,2)
+        
+        call random_number(rea)
+        a = cmplx(rea(:,:,1),rea(:,:,2),kind=xdp)
+        
+        inva = pinv(a,err=state)
+        error = state%error(); if (error) return
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+
+    end subroutine test_y_wide_pseudoinverse
+
+    !> Test edge case: singular matrix
+    subroutine test_y_singular_pseudoinverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: failed
+        integer(ilp),parameter :: n = 10
+        real(xdp),parameter :: tol = sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),inva(n,n)
+        real(xdp) :: rea(n,n,2)
+        
+        call random_number(rea)
+        a = cmplx(rea(:,:,1),rea(:,:,2),kind=xdp)
+        
+        ! Make the matrix singular
+        a(:,1) = a(:,2)
+        
+        inva = pinv(a,err=state)
+        
+        failed = count(abs(a - matmul(a,matmul(inva,a))) > tol)
+        error = failed > 0; if (error) return
+        
+        failed = count(abs(inva - matmul(inva,matmul(a,inva))) > tol)
+        error = failed > 0; if (error) return
+        
+    end subroutine test_y_singular_pseudoinverse
+#endif
+
+#ifdef LA_WITH_QP
     !> Test edge case: square matrix
     subroutine test_w_square_pseudoinverse(error)
         logical,intent(out) :: error
@@ -784,6 +1061,7 @@ module test_la_pinv
         error = failed > 0; if (error) return
         
     end subroutine test_w_singular_pseudoinverse
+#endif
 
 end module test_la_pinv
 

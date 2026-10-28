@@ -16,8 +16,14 @@ module test_la_qr
         call cpu_time(t0)
 
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call test_qr_random_${ri}$(error)
         if (error) return
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #: endfor
 
         call cpu_time(t1)
@@ -30,6 +36,9 @@ module test_la_qr
 
     !> QR factorization of a random matrix
     #:for rk,rt,ri in ALL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_qr_random_${ri}$(error)
         logical,intent(out) :: error
 
@@ -103,6 +112,9 @@ module test_la_qr
         if (error) return     
         
     end subroutine test_qr_random_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 

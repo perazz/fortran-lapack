@@ -8,19 +8,34 @@ module la_lapack_blas_like_scalar
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laisnan
      public :: la_${ri}$lapy3
      public :: la_${ri}$isnan
      public :: la_${ri}$lapy2
      public :: la_${ri}$ladiv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$ladiv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> This routine is not for general use.  It exists solely to avoid
      !> over-optimization in ${ri.upper()}$ISNAN.
      !> ${ri.upper()}$LAISNAN: checks for NaNs by comparing its two arguments for
@@ -44,9 +59,15 @@ module la_lapack_blas_like_scalar
            la_${ri}$laisnan = (${ri}$in1 /= ${ri}$in2)
            return
      end function la_${ri}$laisnan
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAPY3: returns sqrt(x**2+y**2+z**2), taking care not to cause
      !> unnecessary overflow and unnecessary underflow.
 
@@ -79,9 +100,15 @@ module la_lapack_blas_like_scalar
            end if
            return
      end function la_${ri}$lapy3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ISNAN: returns .TRUE. if its argument is NaN, and .FALSE.
      !> otherwise.  To be replaced by the Fortran 2003 intrinsic in the
      !> future.
@@ -97,9 +124,15 @@ module la_lapack_blas_like_scalar
            la_${ri}$isnan = la_${ri}$laisnan(${ri}$in,${ri}$in)
            return
      end function la_${ri}$isnan
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary
      !> overflow and unnecessary underflow.
 
@@ -136,9 +169,15 @@ module la_lapack_blas_like_scalar
            end if
            return
      end function la_${ri}$lapy2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LADIV: performs complex division in  real arithmetic
      !> a + i*b
      !> p + i*q = ---------
@@ -205,9 +244,15 @@ module la_lapack_blas_like_scalar
            q = q*s
            return
      end subroutine la_${ri}$ladiv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$LADIV: := X / Y, where X and Y are complex.  The computation of X / Y
 #:else
@@ -237,6 +282,9 @@ module la_lapack_blas_like_scalar
            la_${ri}$ladiv = cmplx(zr,zi,KIND=${rk}$)
            return
      end function la_${ri}$ladiv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_blas_like_scalar

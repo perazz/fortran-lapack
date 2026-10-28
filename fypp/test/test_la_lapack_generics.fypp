@@ -1,7 +1,7 @@
 #:include "common.fypp"
 ! Kind-agnostic LAPACK generics of the blocked and expert drivers
 module test_la_lapack_generics
-    use la_constants, only: sp, dp, qp, ilp, lk
+    use la_constants, only: sp, dp, xdp, qp, ilp, lk
     use la_lapack, only: geqp3, ggev3, gges3, gghd3, geevx, geesx, gesvx
     use testdrive, only: error_type, check, new_unittest, unittest_type
 
@@ -20,12 +20,21 @@ module test_la_lapack_generics
         allocate(tests(0))
 
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("lapack_generics_${ri}$",test_${ri}$_generics))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
 
     end subroutine test_lapack_generics
 
     #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     !> Eigenvalue selector of the generalized drivers, ${rt}$
     pure logical(lk) function keep_${ri}$(alphar,alphai,beta)
         real(${rk}$), intent(in) :: alphar,alphai,beta
@@ -37,9 +46,15 @@ module test_la_lapack_generics
         real(${rk}$), intent(in) :: alphar,alphai
         keep_schur_${ri}$ = alphar > 0.0_${rk}$ .and. alphai >= 0.0_${rk}$
     end function keep_schur_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
     #:for ck,ct,ci in CMPL_KINDS_TYPES
+    #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+    #:endif
     !> Eigenvalue selector of the generalized drivers, ${ct}$
     pure logical(lk) function keep_${ci}$(alpha,beta)
         complex(${ck}$), intent(in) :: alpha,beta
@@ -51,9 +66,15 @@ module test_la_lapack_generics
         complex(${ck}$), intent(in) :: alpha
         keep_schur_${ci}$ = real(alpha,${ck}$) > 0.0_${ck}$
     end function keep_schur_${ci}$
+    #:if LA_GUARD[ck]
+#endif
+    #:endif
 
     #:endfor
     #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     !> geqp3, ggev3, gges3, gghd3, geevx, geesx and gesvx, ${rt}$
     subroutine test_${ri}$_generics(error)
         type(error_type), allocatable, intent(out) :: error
@@ -138,9 +159,15 @@ module test_la_lapack_generics
         if (allocated(error)) return
 
     end subroutine test_${ri}$_generics
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
     #:for ck,ct,ci in CMPL_KINDS_TYPES
+    #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+    #:endif
     !> geqp3, ggev3, gges3, gghd3, geevx, geesx and gesvx, ${ct}$
     subroutine test_${ci}$_generics(error)
         type(error_type), allocatable, intent(out) :: error
@@ -225,6 +252,9 @@ module test_la_lapack_generics
         if (allocated(error)) return
 
     end subroutine test_${ci}$_generics
+    #:if LA_GUARD[ck]
+#endif
+    #:endif
 
     #:endfor
     ! gcc-15 bugfix utility

@@ -38,7 +38,9 @@ module la_blas
 #else
                module procedure la_daxpy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qaxpy
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine saxpy(n,sa,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
@@ -50,7 +52,15 @@ module la_blas
 #else
                module procedure la_saxpy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_waxpy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xaxpy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yaxpy
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zaxpy(n,za,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
@@ -88,7 +98,9 @@ module la_blas
 #else
                module procedure la_dcopy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qcopy
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine scopy(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
@@ -100,7 +112,15 @@ module la_blas
 #else
                module procedure la_scopy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wcopy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xcopy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ycopy
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zcopy(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
@@ -127,7 +147,9 @@ module la_blas
 #else
                module procedure la_ddot
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qdot
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure real(sp) function sdot(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
@@ -137,6 +159,9 @@ module la_blas
                end function sdot
 #else
                module procedure la_sdot
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xdot
 #endif
           end interface dot
 
@@ -153,7 +178,12 @@ module la_blas
 #else
                module procedure la_cdotc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wdotc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ydotc
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure complex(dp) function zdotc(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
@@ -179,7 +209,12 @@ module la_blas
 #else
                module procedure la_cdotu
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wdotu
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ydotu
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure complex(dp) function zdotu(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
@@ -222,7 +257,9 @@ module la_blas
 #else
                module procedure la_dgbmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -235,7 +272,15 @@ module la_blas
 #else
                module procedure la_sgbmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zgbmv(trans,m,n,kl,ku,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -281,7 +326,9 @@ module la_blas
 #else
                module procedure la_dgemm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgemm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -294,7 +341,15 @@ module la_blas
 #else
                module procedure la_sgemm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgemm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgemm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygemm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zgemm(transa,transb,m,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -339,7 +394,9 @@ module la_blas
 #else
                module procedure la_dgemv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgemv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -352,7 +409,15 @@ module la_blas
 #else
                module procedure la_sgemv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgemv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgemv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygemv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zgemv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -383,7 +448,9 @@ module la_blas
 #else
                module procedure la_dger
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qger
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sger(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -394,6 +461,9 @@ module la_blas
                end subroutine sger
 #else
                module procedure la_sger
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xger
 #endif
           end interface ger
 
@@ -413,7 +483,12 @@ module la_blas
 #else
                module procedure la_cgerc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgerc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygerc
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zgerc(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -443,7 +518,12 @@ module la_blas
 #else
                module procedure la_cgeru
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeru
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeru
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zgeru(m,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -474,7 +554,12 @@ module la_blas
 #else
                module procedure la_chbmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whbmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhbmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zhbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -508,7 +593,12 @@ module la_blas
 #else
                module procedure la_chemm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whemm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhemm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zhemm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -540,7 +630,12 @@ module la_blas
 #else
                module procedure la_chemv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whemv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhemv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zhemv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -573,7 +668,12 @@ module la_blas
 #else
                module procedure la_cher
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wher
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yher
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zher(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -606,7 +706,12 @@ module la_blas
 #else
                module procedure la_cher2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wher2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yher2
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zher2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -642,7 +747,12 @@ module la_blas
 #else
                module procedure la_cher2k
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wher2k
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yher2k
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zher2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -679,7 +789,12 @@ module la_blas
 #else
                module procedure la_cherk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wherk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yherk
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zherk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -712,7 +827,12 @@ module la_blas
 #else
                module procedure la_chpmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zhpmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -745,7 +865,12 @@ module la_blas
 #else
                module procedure la_chpr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpr
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zhpr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
@@ -778,7 +903,12 @@ module la_blas
 #else
                module procedure la_chpr2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpr2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpr2
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zhpr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk
@@ -809,7 +939,9 @@ module la_blas
 #else
                module procedure la_dnrm2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qnrm2
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure real(sp) function snrm2(n,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -819,6 +951,9 @@ module la_blas
                end function snrm2
 #else
                module procedure la_snrm2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xnrm2
 #endif
           end interface nrm2
 
@@ -835,7 +970,9 @@ module la_blas
 #else
                module procedure la_drot
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qrot
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine srot(n,sx,incx,sy,incy,c,s)
                     import sp,dp,qp,ilp,lk
@@ -846,6 +983,9 @@ module la_blas
                end subroutine srot
 #else
                module procedure la_srot
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xrot
 #endif
           end interface rot
 
@@ -887,7 +1027,9 @@ module la_blas
 #else
                module procedure la_drotg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qrotg
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine srotg(a,b,c,s)
                     import sp,dp,qp,ilp,lk
@@ -898,7 +1040,15 @@ module la_blas
 #else
                module procedure la_srotg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wrotg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xrotg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yrotg
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zrotg(a,b,c,s)
                     import sp,dp,qp,ilp,lk
@@ -936,7 +1086,9 @@ module la_blas
 #else
                module procedure la_drotm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qrotm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine srotm(n,sx,incx,sy,incy,sparam)
                     import sp,dp,qp,ilp,lk
@@ -947,6 +1099,9 @@ module la_blas
                end subroutine srotm
 #else
                module procedure la_srotm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xrotm
 #endif
           end interface rotm
 
@@ -975,7 +1130,9 @@ module la_blas
 #else
                module procedure la_drotmg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qrotmg
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine srotmg(sd1,sd2,sx1,sy1,sparam)
                     import sp,dp,qp,ilp,lk
@@ -986,6 +1143,9 @@ module la_blas
                end subroutine srotmg
 #else
                module procedure la_srotmg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xrotmg
 #endif
           end interface rotmg
 
@@ -1006,7 +1166,9 @@ module la_blas
 #else
                module procedure la_dsbmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsbmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ssbmv(uplo,n,k,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -1018,6 +1180,9 @@ module la_blas
                end subroutine ssbmv
 #else
                module procedure la_ssbmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsbmv
 #endif
           end interface sbmv
 
@@ -1045,7 +1210,9 @@ module la_blas
 #else
                module procedure la_dscal
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qscal
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sscal(n,sa,sx,incx)
                     import sp,dp,qp,ilp,lk
@@ -1057,7 +1224,15 @@ module la_blas
 #else
                module procedure la_sscal
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wscal
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xscal
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yscal
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zscal(n,za,zx,incx)
                     import sp,dp,qp,ilp,lk
@@ -1088,7 +1263,12 @@ module la_blas
 #else
                module procedure la_dsdot
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qddot
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xddot
+#endif
           end interface sdot
 
           !> SPMV:  performs the matrix-vector operation
@@ -1108,7 +1288,9 @@ module la_blas
 #else
                module procedure la_dspmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -1120,6 +1302,9 @@ module la_blas
                end subroutine sspmv
 #else
                module procedure la_sspmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspmv
 #endif
           end interface spmv
 
@@ -1140,7 +1325,9 @@ module la_blas
 #else
                module procedure la_dspr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspr
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sspr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
@@ -1152,6 +1339,9 @@ module la_blas
                end subroutine sspr
 #else
                module procedure la_sspr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspr
 #endif
           end interface spr
 
@@ -1172,7 +1362,9 @@ module la_blas
 #else
                module procedure la_dspr2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspr2
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sspr2(uplo,n,alpha,x,incx,y,incy,ap)
                     import sp,dp,qp,ilp,lk
@@ -1184,6 +1376,9 @@ module la_blas
                end subroutine sspr2
 #else
                module procedure la_sspr2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspr2
 #endif
           end interface spr2
 
@@ -1241,7 +1436,9 @@ module la_blas
 #else
                module procedure la_dswap
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qswap
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine sswap(n,sx,incx,sy,incy)
                     import sp,dp,qp,ilp,lk
@@ -1252,7 +1449,15 @@ module la_blas
 #else
                module procedure la_sswap
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wswap
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xswap
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yswap
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zswap(n,zx,incx,zy,incy)
                     import sp,dp,qp,ilp,lk
@@ -1296,7 +1501,9 @@ module la_blas
 #else
                module procedure la_dsymm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsymm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ssymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -1309,7 +1516,15 @@ module la_blas
 #else
                module procedure la_ssymm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsymm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsymm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysymm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zsymm(side,uplo,m,n,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -1341,7 +1556,9 @@ module la_blas
 #else
                module procedure la_dsymv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsymv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ssymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -1353,6 +1570,9 @@ module la_blas
                end subroutine ssymv
 #else
                module procedure la_ssymv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsymv
 #endif
           end interface symv
 
@@ -1373,7 +1593,9 @@ module la_blas
 #else
                module procedure la_dsyr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyr
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ssyr(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -1385,6 +1607,9 @@ module la_blas
                end subroutine ssyr
 #else
                module procedure la_ssyr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyr
 #endif
           end interface syr
 
@@ -1405,7 +1630,9 @@ module la_blas
 #else
                module procedure la_dsyr2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyr2
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ssyr2(uplo,n,alpha,x,incx,y,incy,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -1417,6 +1644,9 @@ module la_blas
                end subroutine ssyr2
 #else
                module procedure la_ssyr2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyr2
 #endif
           end interface syr2
 
@@ -1452,7 +1682,9 @@ module la_blas
 #else
                module procedure la_dsyr2k
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyr2k
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ssyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -1465,7 +1697,15 @@ module la_blas
 #else
                module procedure la_ssyr2k
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyr2k
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyr2k
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyr2k
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zsyr2k(uplo,trans,n,k,alpha,a,lda,b,ldb,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -1512,7 +1752,9 @@ module la_blas
 #else
                module procedure la_dsyrk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyrk
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ssyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -1525,7 +1767,15 @@ module la_blas
 #else
                module procedure la_ssyrk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyrk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyrk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyrk
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine zsyrk(uplo,trans,n,k,alpha,a,lda,beta,c,ldc)
                     import sp,dp,qp,ilp,lk
@@ -1569,7 +1819,9 @@ module la_blas
 #else
                module procedure la_dtbmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtbmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine stbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1582,7 +1834,15 @@ module la_blas
 #else
                module procedure la_stbmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtbmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtbmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytbmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ztbmv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1629,7 +1889,9 @@ module la_blas
 #else
                module procedure la_dtbsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtbsv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine stbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1642,7 +1904,15 @@ module la_blas
 #else
                module procedure la_stbsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtbsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtbsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytbsv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ztbsv(uplo,trans,diag,n,k,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1686,7 +1956,9 @@ module la_blas
 #else
                module procedure la_dtpmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine stpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1699,7 +1971,15 @@ module la_blas
 #else
                module procedure la_stpmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ztpmv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1745,7 +2025,9 @@ module la_blas
 #else
                module procedure la_dtpsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpsv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine stpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1758,7 +2040,15 @@ module la_blas
 #else
                module procedure la_stpsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpsv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ztpsv(uplo,trans,diag,n,ap,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1803,7 +2093,9 @@ module la_blas
 #else
                module procedure la_dtrmm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrmm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine strmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
@@ -1816,7 +2108,15 @@ module la_blas
 #else
                module procedure la_strmm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrmm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrmm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrmm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ztrmm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
@@ -1860,7 +2160,9 @@ module la_blas
 #else
                module procedure la_dtrmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine strmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1873,7 +2175,15 @@ module la_blas
 #else
                module procedure la_strmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrmv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ztrmv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1919,7 +2229,9 @@ module la_blas
 #else
                module procedure la_dtrsm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrsm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine strsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
@@ -1932,7 +2244,15 @@ module la_blas
 #else
                module procedure la_strsm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrsm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrsm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrsm
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ztrsm(side,uplo,transa,diag,m,n,alpha,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
@@ -1978,7 +2298,9 @@ module la_blas
 #else
                module procedure la_dtrsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrsv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine strsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -1991,7 +2313,15 @@ module la_blas
 #else
                module procedure la_strsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrsv
+#endif
 #ifdef LA_EXTERNAL_BLAS
                pure subroutine ztrsv(uplo,trans,diag,n,a,lda,x,incx)
                     import sp,dp,qp,ilp,lk

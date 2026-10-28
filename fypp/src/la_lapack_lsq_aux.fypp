@@ -18,21 +18,36 @@ module la_lapack_lsq_aux
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laic1
      public :: la_${ri}$lals0
      public :: la_${ri}$lalsa
      public :: la_${ri}$lalsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laic1
      public :: la_${ri}$lals0
      public :: la_${ri}$lalsa
      public :: la_${ri}$lalsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAIC1: applies one step of incremental condition estimation in
      !> its simplest version:
      !> Let x, twonorm(x) = 1, be an approximate singular vector of an j-by-j
@@ -244,9 +259,15 @@ module la_lapack_lsq_aux
            end if
            return
      end subroutine la_${ri}$laic1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LALS0: applies back the multiplying factors of either the left or the
      !> right singular vector matrix of a diagonal matrix appended by a row
      !> to the right hand side matrix B in solving the least squares problem
@@ -444,9 +465,15 @@ module la_lapack_lsq_aux
            end if
            return
      end subroutine la_${ri}$lals0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LALSA: is an itermediate step in solving the least squares problem
      !> by computing the SVD of the coefficient matrix in compact form (The
      !> singular vectors are computed as products of simple orthorgonal
@@ -631,9 +658,15 @@ module la_lapack_lsq_aux
            90 continue
            return
      end subroutine la_${ri}$lalsa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LALSD: uses the singular value decomposition of A to solve the least
      !> squares problem of finding X to minimize the Euclidean norm of each
      !> column of A*X-B, where A is N-by-N upper bidiagonal, and X and B
@@ -911,9 +944,15 @@ module la_lapack_lsq_aux
            call la_${ri}$lascl('G',0,0,orgnrm,one,n,nrhs,b,ldb,info)
            return
      end subroutine la_${ri}$lalsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAIC1: applies one step of incremental condition estimation in
      !> its simplest version:
      !> Let x, twonorm(x) = 1, be an approximate singular vector of an j-by-j
@@ -1145,9 +1184,15 @@ module la_lapack_lsq_aux
            end if
            return
      end subroutine la_${ri}$laic1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LALS0: applies back the multiplying factors of either the left or the
      !> right singular vector matrix of a diagonal matrix appended by a row
      !> to the right hand side matrix B in solving the least squares problem
@@ -1402,9 +1447,15 @@ module la_lapack_lsq_aux
            end if
            return
      end subroutine la_${ri}$lals0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LALSA: is an itermediate step in solving the least squares problem
      !> by computing the SVD of the coefficient matrix in compact form (The
      !> singular vectors are computed as products of simple orthorgonal
@@ -1712,9 +1763,15 @@ module la_lapack_lsq_aux
            330 continue
            return
      end subroutine la_${ri}$lalsa
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LALSD: uses the singular value decomposition of A to solve the least
      !> squares problem of finding X to minimize the Euclidean norm of each
      !> column of A*X-B, where A is N-by-N upper bidiagonal, and X and B
@@ -2133,6 +2190,9 @@ module la_lapack_lsq_aux
            call la_${ri}$lascl('G',0,0,orgnrm,one,n,nrhs,b,ldb,info)
            return
      end subroutine la_${ri}$lalsd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_lsq_aux

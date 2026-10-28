@@ -20,6 +20,9 @@ module la_lapack_eigv_gen_hess
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gebak
      public :: la_${ri}$orghr
      public :: la_${ri}$ormhr
@@ -27,8 +30,14 @@ module la_lapack_eigv_gen_hess
      public :: la_${ri}$gehd2
      public :: la_${ri}$lahr2
      public :: la_${ri}$gehrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gebak
      public :: la_${ri}$gebal
      public :: la_${ri}$gehd2
@@ -36,11 +45,17 @@ module la_lapack_eigv_gen_hess
      public :: la_${ri}$unghr
      public :: la_${ri}$unmhr
      public :: la_${ri}$gehrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEBAK: forms the right or left eigenvectors of a real general matrix
      !> by backward transformation on the computed eigenvectors of the
      !> balanced matrix output by ${ri.upper()}$GEBAL.
@@ -143,9 +158,15 @@ module la_lapack_eigv_gen_hess
            end if
            return
      end subroutine la_${ri}$gebak
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORGHR: generates a real orthogonal matrix Q which is defined as the
      !> product of IHI-ILO elementary reflectors of order N, as returned by
      !> ${ri.upper()}$GEHRD:
@@ -236,9 +257,15 @@ module la_lapack_eigv_gen_hess
            work(1) = lwkopt
            return
      end subroutine la_${ri}$orghr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORMHR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -337,9 +364,15 @@ module la_lapack_eigv_gen_hess
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ormhr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEBAL: balances a general real matrix A.  This involves, first,
      !> permuting A by a similarity transformation to isolate eigenvalues
      !> in the first 1 to ILO-1 and last IHI+1 to N elements on the
@@ -516,9 +549,15 @@ module la_lapack_eigv_gen_hess
            ihi = l
            return
      end subroutine la_${ri}$gebal
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEHD2: reduces a real general matrix A to upper Hessenberg form H by
      !> an orthogonal similarity transformation:  Q**T * A * Q = H .
 
@@ -571,9 +610,15 @@ module la_lapack_eigv_gen_hess
            end do
            return
      end subroutine la_${ri}$gehd2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAHR2: reduces the first NB columns of A real general n-BY-(n-k+1)
      !> matrix A so that elements below the k-th subdiagonal are zero. The
      !> reduction is performed by an orthogonal similarity transformation
@@ -662,9 +707,15 @@ module la_lapack_eigv_gen_hess
                      ldy)
            return
      end subroutine la_${ri}$lahr2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEHRD: reduces a real general matrix A to upper Hessenberg form H by
      !> an orthogonal similarity transformation:  Q**T * A * Q = H .
 
@@ -793,9 +844,15 @@ module la_lapack_eigv_gen_hess
            work(1) = lwkopt
            return
      end subroutine la_${ri}$gehrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEBAK: forms the right or left eigenvectors of a complex general
      !> matrix by backward transformation on the computed eigenvectors of the
      !> balanced matrix output by ${ri.upper()}$GEBAL.
@@ -893,9 +950,15 @@ module la_lapack_eigv_gen_hess
            end if
            return
      end subroutine la_${ri}$gebak
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEBAL: balances a general complex matrix A.  This involves, first,
      !> permuting A by a similarity transformation to isolate eigenvalues
      !> in the first 1 to ILO-1 and last IHI+1 to N elements on the
@@ -1068,9 +1131,15 @@ module la_lapack_eigv_gen_hess
            ihi = l
            return
      end subroutine la_${ri}$gebal
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEHD2: reduces a complex general matrix A to upper Hessenberg form H
      !> by a unitary similarity transformation:  Q**H * A * Q = H .
 
@@ -1123,9 +1192,15 @@ module la_lapack_eigv_gen_hess
            end do
            return
      end subroutine la_${ri}$gehd2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAHR2: reduces the first NB columns of A complex general n-BY-(n-k+1)
      !> matrix A so that elements below the k-th subdiagonal are zero. The
      !> reduction is performed by an unitary similarity transformation
@@ -1220,9 +1295,15 @@ module la_lapack_eigv_gen_hess
                      ldy)
            return
      end subroutine la_${ri}$lahr2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNGHR: generates a complex unitary matrix Q which is defined as the
      !> product of IHI-ILO elementary reflectors of order N, as returned by
      !> ${ri.upper()}$GEHRD:
@@ -1313,9 +1394,15 @@ module la_lapack_eigv_gen_hess
            work(1) = lwkopt
            return
      end subroutine la_${ri}$unghr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNMHR: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -1414,9 +1501,15 @@ module la_lapack_eigv_gen_hess
            work(1) = lwkopt
            return
      end subroutine la_${ri}$unmhr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEHRD: reduces a complex general matrix A to upper Hessenberg form H by
      !> an unitary similarity transformation:  Q**H * A * Q = H .
 
@@ -1546,6 +1639,9 @@ module la_lapack_eigv_gen_hess
            work(1) = lwkopt
            return
      end subroutine la_${ri}$gehrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_gen_hess

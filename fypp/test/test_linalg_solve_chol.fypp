@@ -23,6 +23,9 @@ module test_linalg_solve_chol
         allocate(tests(0))
         
         #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("solve_lower_chol_${ri}$",test_solve_lower_chol_${ri}$))
         call add_test(tests,new_unittest("solve_upper_chol_${ri}$",test_solve_upper_chol_${ri}$))
         call add_test(tests,new_unittest("solve_chol_${ri}$",test_solve_chol_${ri}$))
@@ -31,12 +34,18 @@ module test_linalg_solve_chol
         call add_test(tests,new_unittest("solve_lower_chol_multi_rhs_${ri}$",test_solve_lower_chol_multi_rhs_${ri}$))
         call add_test(tests,new_unittest("solve_chol_indefinite_${ri}$",test_solve_chol_indefinite_${ri}$))
         call add_test(tests,new_unittest("solve_chol_semidefinite_${ri}$",test_solve_chol_semidefinite_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
 
     end subroutine test_solve_chol_factorization
 
     !> Test solve_lower_chol with pre-computed lower Cholesky factors
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_solve_lower_chol_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -73,11 +82,17 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_lower_chol_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 
     !> Test solve_upper_chol with pre-computed upper Cholesky factors
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_solve_upper_chol_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -114,11 +129,17 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_upper_chol_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 
     !> Test solve_chol (one-shot) - default preserves A
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_solve_chol_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -154,11 +175,17 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 
     !> Test solve_chol with upper triangular (lower=.false.)
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_solve_chol_upper_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -194,11 +221,17 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_upper_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 
     !> Test solve_chol with overwrite_a=.true.
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_solve_chol_overwrite_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -234,11 +267,17 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_overwrite_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 
     !> Test solve_lower_chol with multiple RHS
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_solve_lower_chol_multi_rhs_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -277,11 +316,17 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_lower_chol_multi_rhs_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 
     !> Test solve_chol with symmetric indefinite matrix (should fail)
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_solve_chol_indefinite_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -304,11 +349,17 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_indefinite_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 
     !> Test solve_chol with symmetric positive semi-definite matrix (should fail)
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_solve_chol_semidefinite_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -331,6 +382,9 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
     end subroutine test_solve_chol_semidefinite_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
 

@@ -8,21 +8,36 @@ module la_blas_level2_gen
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gemv
      public :: la_${ri}$ger
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gemv
      public :: la_${ri}$gerc
      public :: la_${ri}$geru
      public :: la_${ri}$hemv
      public :: la_${ri}$her
      public :: la_${ri}$her2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,
      !> where alpha and beta are scalars, x and y are vectors and A is an
@@ -167,9 +182,15 @@ module la_blas_level2_gen
            end if
            return
      end subroutine la_${ri}$gemv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GER:   performs the rank 1 operation
      !> A := alpha*x*y**T + A,
      !> where alpha is a scalar, x is an m element vector, y is an n element
@@ -249,9 +270,15 @@ module la_blas_level2_gen
            end if
            return
      end subroutine la_${ri}$ger
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEMV:  performs one of the matrix-vector operations
      !> y := alpha*A*x + beta*y,   or   y := alpha*A**T*x + beta*y,   or
      !> y := alpha*A**H*x + beta*y,
@@ -412,9 +439,15 @@ module la_blas_level2_gen
            end if
            return
      end subroutine la_${ri}$gemv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GERC:  performs the rank 1 operation
      !> A := alpha*x*y**H + A,
      !> where alpha is a scalar, x is an m element vector, y is an n element
@@ -494,9 +527,15 @@ module la_blas_level2_gen
            end if
            return
      end subroutine la_${ri}$gerc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GERU:  performs the rank 1 operation
      !> A := alpha*x*y**T + A,
      !> where alpha is a scalar, x is an m element vector, y is an n element
@@ -576,9 +615,15 @@ module la_blas_level2_gen
            end if
            return
      end subroutine la_${ri}$geru
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
@@ -735,9 +780,15 @@ module la_blas_level2_gen
            end if
            return
      end subroutine la_${ri}$hemv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HER:   performs the hermitian rank 1 operation
      !> A := alpha*x*x**H + A,
      !> where alpha is a real scalar, x is an n element vector and A is an
@@ -857,9 +908,15 @@ module la_blas_level2_gen
            end if
            return
      end subroutine la_${ri}$her
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HER2:  performs the hermitian rank 2 operation
      !> A := alpha*x*y**H + conjg( alpha )*y*x**H + A,
      !> where alpha is a scalar, x and y are n element vectors and A is an n
@@ -1003,6 +1060,9 @@ module la_blas_level2_gen
            end if
            return
      end subroutine la_${ri}$her2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_blas_level2_gen

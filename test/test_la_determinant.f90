@@ -24,11 +24,20 @@ module test_la_determinant
 
         call test_d_eye_multiple(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_x_eye_determinant(error)
+        if (error) return
+
+        call test_x_eye_multiple(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_q_eye_determinant(error)
         if (error) return
 
         call test_q_eye_multiple(error)
         if (error) return
+#endif
         call test_c_eye_determinant(error)
         if (error) return
 
@@ -39,18 +48,33 @@ module test_la_determinant
 
         call test_z_eye_multiple(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_y_eye_determinant(error)
+        if (error) return
+
+        call test_y_eye_multiple(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_w_eye_determinant(error)
         if (error) return
 
         call test_w_eye_multiple(error)
         if (error) return
+#endif
 
         call test_c_complex_determinant(error)
         if (error) return
         call test_z_complex_determinant(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_y_complex_determinant(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_w_complex_determinant(error)
         if (error) return
+#endif
 
         call cpu_time(t1)
 
@@ -147,6 +171,52 @@ module test_la_determinant
 
     end subroutine test_d_eye_multiple
 
+#ifdef LA_WITH_XDP
+    subroutine test_x_eye_determinant(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i
+        integer(ilp),parameter :: n = 128_ilp
+
+        real(xdp) :: a(n,n),deta
+
+        a = eye(n)
+
+        !> Determinant function
+        deta = det(a,err=state)
+        error = state%error() .or. .not. abs(deta - 1.0_xdp) < tiny(0.0_xdp)
+        if (error) return
+
+    end subroutine test_x_eye_determinant
+
+    !> Determinant of identity matrix multiplier
+    subroutine test_x_eye_multiple(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 10_ilp
+        real(xdp),parameter :: coef = 0.0001_xdp
+        integer(ilp) :: i,j
+        real(xdp) :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        a = eye(n)
+        do concurrent(i=1:n)
+          a(i,i) = coef
+        end do
+
+        !> Determinant: small, but a is not singular, because it is a multiple of the identity.
+        deta = det(a,err=state)
+        error = state%error() .or. .not. abs(deta - coef**n) < max(tiny(0.0_xdp),epsilon(0.0_xdp)*coef**n)
+        if (error) return
+
+    end subroutine test_x_eye_multiple
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_q_eye_determinant(error)
         logical,intent(out) :: error
 
@@ -189,6 +259,7 @@ module test_la_determinant
         if (error) return
 
     end subroutine test_q_eye_multiple
+#endif
 
     subroutine test_c_eye_determinant(error)
         logical,intent(out) :: error
@@ -276,6 +347,52 @@ module test_la_determinant
 
     end subroutine test_z_eye_multiple
 
+#ifdef LA_WITH_XDP
+    subroutine test_y_eye_determinant(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i
+        integer(ilp),parameter :: n = 128_ilp
+
+        complex(xdp) :: a(n,n),deta
+
+        a = eye(n)
+
+        !> Determinant function
+        deta = det(a,err=state)
+        error = state%error() .or. .not. abs(deta - 1.0_xdp) < tiny(0.0_xdp)
+        if (error) return
+
+    end subroutine test_y_eye_determinant
+
+    !> Determinant of identity matrix multiplier
+    subroutine test_y_eye_multiple(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp),parameter :: n = 10_ilp
+        real(xdp),parameter :: coef = 0.0001_xdp
+        integer(ilp) :: i,j
+        complex(xdp) :: a(n,n),deta
+
+        !> Multiply eye by a very small number
+        a = eye(n)
+        do concurrent(i=1:n)
+          a(i,i) = coef
+        end do
+
+        !> Determinant: small, but a is not singular, because it is a multiple of the identity.
+        deta = det(a,err=state)
+        error = state%error() .or. .not. abs(deta - coef**n) < max(tiny(0.0_xdp),epsilon(0.0_xdp)*coef**n)
+        if (error) return
+
+    end subroutine test_y_eye_multiple
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_w_eye_determinant(error)
         logical,intent(out) :: error
 
@@ -318,6 +435,7 @@ module test_la_determinant
         if (error) return
 
     end subroutine test_w_eye_multiple
+#endif
 
     !> Determinant of complex identity matrix
     subroutine test_c_complex_determinant(error)
@@ -390,6 +508,44 @@ module test_la_determinant
 
     end subroutine test_z_complex_determinant
 
+#ifdef LA_WITH_XDP
+    subroutine test_y_complex_determinant(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i,j,n
+        integer(ilp),parameter :: nmax = 10_ilp
+
+        complex(xdp),parameter :: res(nmax) = [complex(xdp) ::(1,1), (0,2), (-2,2), (-4,0), (-4,-4), &
+                                                  (0,-8), (8,-8), (16,0), (16,16), (0,32)]
+
+        complex(xdp),allocatable :: a(:,:)
+        complex(xdp) :: deta(nmax)
+
+        !> Test determinant for all sizes, 1:nmax
+        matrix_size: do n = 1,nmax
+
+           ! Put 1+i on each diagonal element
+           a = eye(n)
+           do concurrent(i=1:n)
+             a(i,i) = (1.0_xdp,1.0_xdp)
+           end do
+
+           ! Expected result
+           deta(n) = det(a,err=state)
+
+           deallocate (a)
+           if (state%error()) exit matrix_size
+
+        end do matrix_size
+
+        error = state%error() .or. any(.not. abs(res - deta) <= tiny(0.0_xdp))
+
+    end subroutine test_y_complex_determinant
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_w_complex_determinant(error)
         logical,intent(out) :: error
 
@@ -424,6 +580,7 @@ module test_la_determinant
         error = state%error() .or. any(.not. abs(res - deta) <= tiny(0.0_qp))
 
     end subroutine test_w_complex_determinant
+#endif
 
 end module test_la_determinant
 

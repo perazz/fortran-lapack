@@ -140,7 +140,13 @@ module la_solve
      interface solve
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface solve
@@ -148,7 +154,13 @@ module la_solve
      interface solve_lu
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve_lu${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface solve_lu
@@ -156,7 +168,13 @@ module la_solve
      interface solve_chol
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve_chol${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface solve_chol
@@ -164,7 +182,13 @@ module la_solve
      interface solve_lower_chol
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve_lower_chol${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface solve_lower_chol
@@ -172,7 +196,13 @@ module la_solve
      interface solve_upper_chol
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve_upper_chol${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface solve_upper_chol
@@ -238,6 +268,9 @@ module la_solve
 
      #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Linear system solve, ${ndsuf}$, ${rt}$
      function la_${ri}$solve${ndsuf}$(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
@@ -541,6 +574,9 @@ module la_solve
          call la_${ri}$chol_solve${ndsuf}$(u,b,x,'U',err)
 
      end subroutine la_${ri}$solve_upper_chol${ndsuf}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
      #:endfor

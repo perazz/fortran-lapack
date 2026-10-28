@@ -16,10 +16,19 @@ module test_la_pinv
         call cpu_time(t0)
 
         #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call test_${ri}$_eye_pseudoinverse(error)
         if (error) return
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:for ck,ct,ci in ALL_KINDS_TYPES
+        #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+        #:endif
         call test_${ci}$_square_pseudoinverse(error)
         if (error) return
         call test_${ci}$_tall_pseudoinverse(error)
@@ -28,6 +37,9 @@ module test_la_pinv
         if (error) return
         call test_${ci}$_singular_pseudoinverse(error)
         if (error) return        
+        #:if LA_GUARD[ck]
+#endif
+        #:endif
                 
         #:endfor
 
@@ -41,6 +53,9 @@ module test_la_pinv
 
     !> Invert identity matrix
     #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_${ri}$_eye_pseudoinverse(error)
         logical, intent(out) :: error
 
@@ -70,11 +85,17 @@ module test_la_pinv
         error = .not.all(abs(a-inva)<tol)
 
     end subroutine test_${ri}$_eye_pseudoinverse
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 
     #:for ck,ct,ci in ALL_KINDS_TYPES
 
+    #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+    #:endif
     !> Test edge case: square matrix
     subroutine test_${ci}$_square_pseudoinverse(error)
         logical, intent(out) :: error
@@ -200,6 +221,9 @@ module test_la_pinv
         error = failed > 0; if (error) return
         
     end subroutine test_${ci}$_singular_pseudoinverse
+    #:if LA_GUARD[ck]
+#endif
+    #:endif
 
     #:endfor
 

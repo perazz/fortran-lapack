@@ -10,19 +10,34 @@ module la_lapack_blas_like_l1
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lasrt
      public :: la_${ri}$lassq
      public :: la_${ri}$rscl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$${ci}$rscl
      public :: la_${ri}$lacgv
      public :: la_${ri}$lassq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Sort the numbers in D in increasing order (if ID = 'I') or
      !> in decreasing order (if ID = 'D' ).
      !> Use Quick Sort, reverting to Insertion sort on arrays of
@@ -196,9 +211,15 @@ module la_lapack_blas_like_l1
            if (stkpnt > 0) go to 10
            return
      end subroutine la_${ri}$lasrt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> !
      !>
      !> ${ri.upper()}$LASSQ:  returns the values  scl  and  smsq  such that
@@ -316,9 +337,15 @@ module la_lapack_blas_like_l1
         end if
         return
      end subroutine la_${ri}$lassq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$RSCL: multiplies an n-element real vector x by the real scalar 1/a.
      !> This is done without overflow or underflow as long as
      !> the final result x/a does not overflow or underflow.
@@ -373,9 +400,15 @@ module la_lapack_blas_like_l1
            if (.not. done) go to 10
            return
      end subroutine la_${ri}$rscl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$${ci.upper()}$RSCL: multiplies an n-element complex vector x by the real scalar
      !> 1/a.  This is done without overflow or underflow as long as
      !> the final result x/a does not overflow or underflow.
@@ -430,9 +463,15 @@ module la_lapack_blas_like_l1
            if (.not. done) go to 10
            return
      end subroutine la_${ri}$${ci}$rscl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LACGV: conjugates a complex vector of length N.
 
      pure subroutine la_${ri}$lacgv(n,x,incx)
@@ -463,9 +502,15 @@ module la_lapack_blas_like_l1
            end if
            return
      end subroutine la_${ri}$lacgv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> !
      !>
      !> ${ri.upper()}$LASSQ:  returns the values  scl  and  smsq  such that
@@ -592,6 +637,9 @@ module la_lapack_blas_like_l1
         end if
         return
      end subroutine la_${ri}$lassq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_blas_like_l1

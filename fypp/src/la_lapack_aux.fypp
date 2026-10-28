@@ -9,18 +9,30 @@ module la_lapack_aux
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$roundup_lwork
      public :: la_selctg_${ri}$
      public :: la_select_${ri}$
      public :: la_ila${ri}$lc
      public :: la_ila${ri}$lr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_selctg_${ri}$
      public :: la_select_${ri}$
      public :: la_ila${ri}$lc
      public :: la_ila${ri}$lr
      public :: la_i${ri}$max1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
      public :: la_chla_transtype
      public :: la_ieeeck
@@ -39,38 +51,65 @@ module la_lapack_aux
      ! An eigenvalue (ALPHAR(j)+ALPHAI(j))/BETA(j) is selected if SELCTG is true, i.e.,
      abstract interface
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
         pure logical(lk) function la_selctg_${ri}$(alphar,alphai,beta)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             real(${rk}$),intent(in) :: alphar,alphai,beta
         end function la_selctg_${ri}$
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
         pure logical(lk) function la_select_${ri}$(alphar,alphai)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             real(${rk}$),intent(in) :: alphar,alphai
         end function la_select_${ri}$
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
         pure logical(lk) function la_selctg_${ri}$(alpha,beta)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             complex(${rk}$),intent(in) :: alpha,beta
         end function la_selctg_${ri}$
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
         pure logical(lk) function la_select_${ri}$(alpha)
-            import sp,dp,qp,lk
+            import sp,dp,xdp,qp,lk
             implicit none
             complex(${rk}$),intent(in) :: alpha
         end function la_select_${ri}$
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
      end interface
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ROUNDUP_LWORK: deals with a subtle bug with returning LWORK as a Float.
      !> This routine guarantees it is rounded up instead of down by
      !> multiplying LWORK by 1+eps when it is necessary, where eps is the relative machine precision.
@@ -105,9 +144,15 @@ module la_lapack_aux
            end if
            return
      end function la_${ri}$roundup_lwork
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ILA${ri.upper()}$LC: scans A for its last non-zero column.
 
      pure integer(ilp) function la_ila${ri}$lc(m,n,a,lda)
@@ -144,9 +189,15 @@ module la_lapack_aux
            end if
            return
      end function la_ila${ri}$lc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ILA${ri.upper()}$LR: scans A for its last non-zero row.
 
      pure integer(ilp) function la_ila${ri}$lr(m,n,a,lda)
@@ -190,9 +241,15 @@ module la_lapack_aux
            end if
            return
      end function la_ila${ri}$lr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ILA${ri.upper()}$LC: scans A for its last non-zero column.
 
      pure integer(ilp) function la_ila${ri}$lc(m,n,a,lda)
@@ -229,9 +286,15 @@ module la_lapack_aux
            end if
            return
      end function la_ila${ri}$lc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ILA${ri.upper()}$LR: scans A for its last non-zero row.
 
      pure integer(ilp) function la_ila${ri}$lr(m,n,a,lda)
@@ -271,9 +334,15 @@ module la_lapack_aux
            end if
            return
      end function la_ila${ri}$lr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> I${ri.upper()}$MAX1: finds the index of the first vector element of maximum absolute value.
      !> Based on I${ri.upper()}$AMAX from Level 1 BLAS.
      !> The change is to use the 'genuine' absolute value.
@@ -321,6 +390,9 @@ module la_lapack_aux
            end if
            return
      end function la_i${ri}$max1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      !> This subroutine translates from a BLAST-specified integer constant to

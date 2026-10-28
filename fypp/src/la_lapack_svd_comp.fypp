@@ -20,6 +20,9 @@ module la_lapack_svd_comp
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gbbrd
      public :: la_${ri}$gebd2
      public :: la_${ri}$gsvj0
@@ -28,8 +31,14 @@ module la_lapack_svd_comp
      public :: la_${ri}$gebrd
      public :: la_${ri}$orgbr
      public :: la_${ri}$ormbr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gebd2
      public :: la_${ri}$tgsja
      public :: la_${ri}$gbbrd
@@ -38,11 +47,17 @@ module la_lapack_svd_comp
      public :: la_${ri}$unmbr
      public :: la_${ri}$gsvj0
      public :: la_${ri}$gsvj1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBBRD: reduces a real general m-by-n band matrix A to upper
      !> bidiagonal form B by an orthogonal transformation: Q**T * A * P = B.
      !> The routine computes B, and optionally forms Q or P**T, or computes
@@ -300,9 +315,15 @@ module la_lapack_svd_comp
            end if
            return
      end subroutine la_${ri}$gbbrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEBD2: reduces a real general m by n matrix A to upper or lower
      !> bidiagonal form B by an orthogonal transformation: Q**T * A * P = B.
      !> If m >= n, B is upper bidiagonal; if m < n, B is lower bidiagonal.
@@ -395,9 +416,15 @@ module la_lapack_svd_comp
            end if
            return
      end subroutine la_${ri}$gebd2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GSVJ0: is called from ${ri.upper()}$GESVJ as a pre-processor and that is its main
      !> purpose. It applies Jacobi rotations in the same way as ${ri.upper()}$GESVJ does, but
      !> it does not check convergence (stopping criterion). Few tuning
@@ -1068,9 +1095,15 @@ module la_lapack_svd_comp
            end do
            return
      end subroutine la_${ri}$gsvj0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GSVJ1: is called from ${ri.upper()}$GESVJ as a pre-processor and that is its main
      !> purpose. It applies Jacobi rotations in the same way as ${ri.upper()}$GESVJ does, but
      !> it targets only particular pivots and it does not check convergence
@@ -1511,9 +1544,15 @@ module la_lapack_svd_comp
            end do
            return
      end subroutine la_${ri}$gsvj1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSJA: computes the generalized singular value decomposition (GSVD)
      !> of two real upper triangular (or trapezoidal) matrices A and B.
      !> On entry, it is assumed that matrices A and B have the following
@@ -1758,9 +1797,15 @@ module la_lapack_svd_comp
            ncycle = kcycle
            return
      end subroutine la_${ri}$tgsja
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEBRD: reduces a general real M-by-N matrix A to upper or lower
      !> bidiagonal form B by an orthogonal transformation: Q**T * A * P = B.
      !> If m >= n, B is upper bidiagonal; if m < n, B is lower bidiagonal.
@@ -1870,9 +1915,15 @@ module la_lapack_svd_comp
            work(1) = ws
            return
      end subroutine la_${ri}$gebrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORGBR: generates one of the real orthogonal matrices Q or P**T
      !> determined by ${ri.upper()}$GEBRD when reducing a real matrix A to bidiagonal
      !> form: A = Q * B * P**T.  Q and P**T are defined as products of
@@ -2022,9 +2073,15 @@ module la_lapack_svd_comp
            work(1) = lwkopt
            return
      end subroutine la_${ri}$orgbr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> If VECT = 'Q', ${ri.upper()}$ORMBR: overwrites the general real M-by-N matrix C
      !> with
      !> SIDE = 'L'     SIDE = 'R'
@@ -2182,9 +2239,15 @@ module la_lapack_svd_comp
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ormbr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEBD2: reduces a complex general m by n matrix A to upper or lower
      !> real bidiagonal form B by a unitary transformation: Q**H * A * P = B.
      !> If m >= n, B is upper bidiagonal; if m < n, B is lower bidiagonal.
@@ -2283,9 +2346,15 @@ module la_lapack_svd_comp
            end if
            return
      end subroutine la_${ri}$gebd2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TGSJA: computes the generalized singular value decomposition (GSVD)
      !> of two complex upper triangular (or trapezoidal) matrices A and B.
      !> On entry, it is assumed that matrices A and B have the following
@@ -2541,9 +2610,15 @@ module la_lapack_svd_comp
            ncycle = kcycle
            return
      end subroutine la_${ri}$tgsja
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GBBRD: reduces a complex general m-by-n band matrix A to real upper
      !> bidiagonal form B by a unitary transformation: Q**H * A * P = B.
      !> The routine computes B, and optionally forms Q or P**H, or computes
@@ -2820,9 +2895,15 @@ module la_lapack_svd_comp
            end do loop_120
            return
      end subroutine la_${ri}$gbbrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEBRD: reduces a general complex M-by-N matrix A to upper or lower
      !> bidiagonal form B by a unitary transformation: Q**H * A * P = B.
      !> If m >= n, B is upper bidiagonal; if m < n, B is lower bidiagonal.
@@ -2934,9 +3015,15 @@ module la_lapack_svd_comp
            work(1) = ws
            return
      end subroutine la_${ri}$gebrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNGBR: generates one of the complex unitary matrices Q or P**H
      !> determined by ${ri.upper()}$GEBRD when reducing a complex matrix A to bidiagonal
      !> form: A = Q * B * P**H.  Q and P**H are defined as products of
@@ -3086,9 +3173,15 @@ module la_lapack_svd_comp
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ungbr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> If VECT = 'Q', ${ri.upper()}$UNMBR: overwrites the general complex M-by-N matrix C
      !> with
      !> SIDE = 'L'     SIDE = 'R'
@@ -3249,9 +3342,15 @@ module la_lapack_svd_comp
            work(1) = lwkopt
            return
      end subroutine la_${ri}$unmbr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GSVJ0: is called from ${ri.upper()}$GESVJ as a pre-processor and that is its main
      !> purpose. It applies Jacobi rotations in the same way as ${ri.upper()}$GESVJ does, but
      !> it does not check convergence (stopping criterion). Few tuning
@@ -3792,9 +3891,15 @@ module la_lapack_svd_comp
            end do
            return
      end subroutine la_${ri}$gsvj0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GSVJ1: is called from ${ri.upper()}$GESVJ as a pre-processor and that is its main
      !> purpose. It applies Jacobi rotations in the same way as ${ri.upper()}$GESVJ does, but
      !> it targets only particular pivots and it does not check convergence
@@ -4172,6 +4277,9 @@ module la_lapack_svd_comp
            end do
            return
      end subroutine la_${ri}$gsvj1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_svd_comp

@@ -4,7 +4,7 @@
 
 module test_blas_lapack
     use testdrive, only : new_unittest, unittest_type, error_type, check
-    use la_constants, only: sp, dp, qp, ilp, lk
+    use la_constants, only: sp, dp, xdp, qp, ilp, lk
     use linear_algebra, only: eye
     use la_blas
     use la_lapack
@@ -21,8 +21,14 @@ contains
 
         testsuite = [ &
   #:for k1, t1, i1 in REAL_KINDS_TYPES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
             new_unittest("test_gemv${t1[0]}$${k1}$", test_gemv${t1[0]}$${k1}$), &
             new_unittest("test_getri${t1[0]}$${k1}$", test_getri${t1[0]}$${k1}$), &
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
             new_unittest("test_idamax", test_idamax), &
             new_unittest("test_external_blas",external_blas_test), &
@@ -33,6 +39,9 @@ contains
 
 
   #:for k1, t1, i1 in REAL_KINDS_TYPES
+  #:if LA_GUARD[k1]
+#ifdef ${LA_GUARD[k1]}$
+  #:endif
     subroutine test_gemv${t1[0]}$${k1}$(error)
         !> Error handling
         type(error_type), allocatable, intent(out) :: error
@@ -88,6 +97,9 @@ contains
         if (allocated(error)) return
 
     end subroutine test_getri${t1[0]}$${k1}$
+  #:if LA_GUARD[k1]
+#endif
+  #:endif
   #:endfor
 
     ! Return

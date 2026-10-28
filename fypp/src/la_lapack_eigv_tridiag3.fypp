@@ -23,6 +23,9 @@ module la_lapack_eigv_tridiag3
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$stebz
      public :: la_${ri}$stein
      public :: la_${ri}$sterf
@@ -34,18 +37,30 @@ module la_lapack_eigv_tridiag3
      public :: la_${ri}$stegr
      public :: la_${ri}$stemr
      public :: la_${ri}$stevr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$stein
      public :: la_${ri}$pteqr
      public :: la_${ri}$stemr
      public :: la_${ri}$stedc
      public :: la_${ri}$stegr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEBZ: computes the eigenvalues of a symmetric tridiagonal
      !> matrix T.  The user may ask for all eigenvalues, all eigenvalues
      !> in the half-open interval (VL, VU], or the IL-th through IU-th
@@ -438,9 +453,15 @@ module la_lapack_eigv_tridiag3
            if (toofew) info = info + 2
            return
      end subroutine la_${ri}$stebz
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEIN: computes the eigenvectors of a real symmetric tridiagonal
      !> matrix T corresponding to specified eigenvalues, using inverse
      !> iteration.
@@ -643,9 +664,15 @@ module la_lapack_eigv_tridiag3
            end do loop_160
            return
      end subroutine la_${ri}$stein
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STERF: computes all eigenvalues of a symmetric tridiagonal matrix
      !> using the Pal-Walker-Kahan variant of the QL or QR algorithm.
 
@@ -890,9 +917,15 @@ module la_lapack_eigv_tridiag3
            180 continue
            return
      end subroutine la_${ri}$sterf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric tridiagonal matrix A.
 
@@ -976,9 +1009,15 @@ module la_lapack_eigv_tridiag3
            end if
            return
      end subroutine la_${ri}$stev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix A.  Eigenvalues and
      !> eigenvectors can be selected by specifying either a range of values
@@ -1181,9 +1220,15 @@ module la_lapack_eigv_tridiag3
            end if
            return
      end subroutine la_${ri}$stevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEDC: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric tridiagonal matrix using the divide and conquer method.
      !> The eigenvectors of a full or band real symmetric matrix can also be
@@ -1414,9 +1459,15 @@ module la_lapack_eigv_tridiag3
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$stedc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEVD: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric tridiagonal matrix. If eigenvectors are desired, it
      !> uses a divide and conquer algorithm.
@@ -1522,9 +1573,15 @@ module la_lapack_eigv_tridiag3
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$stevd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTEQR: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric positive definite tridiagonal matrix by first factoring the
      !> matrix using ${ri.upper()}$PTTRF, and then calling ${ri.upper()}$BDSQR to compute the singular
@@ -1619,9 +1676,15 @@ module la_lapack_eigv_tridiag3
            end if
            return
      end subroutine la_${ri}$pteqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEGR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T. Any such unreduced matrix has
      !> a well defined set of pairwise different real eigenvalues, the corresponding
@@ -1663,9 +1726,15 @@ module la_lapack_eigv_tridiag3
            call la_${ri}$stemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,n,isuppz, &
                      tryrac,work,lwork,iwork,liwork,info)
      end subroutine la_${ri}$stegr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEMR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T. Any such unreduced matrix has
      !> a well defined set of pairwise different real eigenvalues, the corresponding
@@ -2094,9 +2163,15 @@ module la_lapack_eigv_tridiag3
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$stemr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEVR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T.  Eigenvalues and
      !> eigenvectors can be selected by specifying either a range of values
@@ -2358,9 +2433,15 @@ module la_lapack_eigv_tridiag3
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$stevr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEIN: computes the eigenvectors of a real symmetric tridiagonal
      !> matrix T corresponding to specified eigenvalues, using inverse
      !> iteration.
@@ -2578,9 +2659,15 @@ module la_lapack_eigv_tridiag3
            end do loop_180
            return
      end subroutine la_${ri}$stein
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$PTEQR: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric positive definite tridiagonal matrix by first factoring the
      !> matrix using ${ci.upper()}$PTTRF and then calling ${ri.upper()}$BDSQR to compute the singular
@@ -2676,9 +2763,15 @@ module la_lapack_eigv_tridiag3
            end if
            return
      end subroutine la_${ri}$pteqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEMR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T. Any such unreduced matrix has
      !> a well defined set of pairwise different real eigenvalues, the corresponding
@@ -3121,9 +3214,15 @@ module la_lapack_eigv_tridiag3
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$stemr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEDC: computes all eigenvalues and, optionally, eigenvectors of a
      !> symmetric tridiagonal matrix using the divide and conquer method.
      !> The eigenvectors of a full or band complex Hermitian matrix can also
@@ -3342,9 +3441,15 @@ module la_lapack_eigv_tridiag3
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$stedc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$STEGR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric tridiagonal matrix T. Any such unreduced matrix has
      !> a well defined set of pairwise different real eigenvalues, the corresponding
@@ -3390,6 +3495,9 @@ module la_lapack_eigv_tridiag3
            call la_${ri}$stemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,n,isuppz, &
                      tryrac,work,lwork,iwork,liwork,info)
      end subroutine la_${ri}$stegr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_tridiag3

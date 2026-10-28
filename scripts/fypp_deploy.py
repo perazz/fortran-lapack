@@ -31,7 +31,7 @@ FPRETTIFY_FLAGS = [
 EXCLUDED = {}
 
 # Committed names that do not follow the extension rule below.
-NAME_OVERRIDE = {"la_constants": "la_constants.f90"}
+NAME_OVERRIDE = {}
 
 CPP_DIRECTIVE = re.compile(r"^#\s*(if|ifdef|ifndef|elif|else|endif|define|undef)\b", re.M)
 LABELLED_CONTINUE = re.compile(r"^\s*(\d+)\s+(continue)\s*$")
