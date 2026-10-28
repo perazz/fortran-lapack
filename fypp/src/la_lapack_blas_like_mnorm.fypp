@@ -10,6 +10,9 @@ module la_lapack_blas_like_mnorm
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$langb
      public :: la_${ri}$lange
      public :: la_${ri}$langt
@@ -22,8 +25,14 @@ module la_lapack_blas_like_mnorm
      public :: la_${ri}$lantb
      public :: la_${ri}$lantp
      public :: la_${ri}$lantr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$langb
      public :: la_${ri}$lange
      public :: la_${ri}$langt
@@ -39,11 +48,17 @@ module la_lapack_blas_like_mnorm
      public :: la_${ri}$lantb
      public :: la_${ri}$lantp
      public :: la_${ri}$lantr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANGB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
@@ -119,9 +134,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$langb = value
            return
      end function la_${ri}$langb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANGE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real matrix A.
@@ -194,9 +215,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lange = value
            return
      end function la_${ri}$lange
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANGT:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real tridiagonal matrix A.
@@ -273,9 +300,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$langt = anorm
            return
      end function la_${ri}$langt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANHS:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
@@ -348,9 +381,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lanhs = value
            return
      end function la_${ri}$lanhs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANSB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
@@ -456,9 +495,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lansb = value
            return
      end function la_${ri}$lansb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANSF: returns the value of the one norm, or the Frobenius norm, or
      !> the infinity norm, or the element of largest absolute value of a
      !> real symmetric matrix A in RFP format.
@@ -1167,9 +1212,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lansf = value
            return
      end function la_${ri}$lansf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANSP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A,  supplied in packed form.
@@ -1294,9 +1345,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lansp = value
            return
      end function la_${ri}$lansp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANST:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric tridiagonal matrix A.
@@ -1359,9 +1416,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lanst = anorm
            return
      end function la_${ri}$lanst
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANSY:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A.
@@ -1458,9 +1521,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lansy = value
            return
      end function la_${ri}$lansy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANTB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
@@ -1654,9 +1723,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lantb = value
            return
      end function la_${ri}$lantb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANTP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
@@ -1863,9 +1938,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lantp = value
            return
      end function la_${ri}$lantp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANTR:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
@@ -2052,9 +2133,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lantr = value
            return
      end function la_${ri}$lantr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANGB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
@@ -2130,9 +2217,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$langb = value
            return
      end function la_${ri}$langb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANGE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex matrix A.
@@ -2205,9 +2298,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lange = value
            return
      end function la_${ri}$lange
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANGT:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex tridiagonal matrix A.
@@ -2284,9 +2383,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$langt = anorm
            return
      end function la_${ri}$langt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANHB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n hermitian band matrix A,  with k super-diagonals.
@@ -2410,9 +2515,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lanhb = value
            return
      end function la_${ri}$lanhb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANHE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A.
@@ -2523,9 +2634,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lanhe = value
            return
      end function la_${ri}$lanhe
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANHF:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex Hermitian matrix A in RFP format.
@@ -3746,9 +3863,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lanhf = value
            return
      end function la_${ri}$lanhf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANHP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A,  supplied in packed form.
@@ -3877,9 +4000,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lanhp = value
            return
      end function la_${ri}$lanhp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANHS:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
@@ -3952,9 +4081,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lanhs = value
            return
      end function la_${ri}$lanhs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANHT:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex Hermitian tridiagonal matrix A.
@@ -4022,9 +4157,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lanht = anorm
            return
      end function la_${ri}$lanht
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANSB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
@@ -4130,9 +4271,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lansb = value
            return
      end function la_${ri}$lansb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANSP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A,  supplied in packed form.
@@ -4270,9 +4417,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lansp = value
            return
      end function la_${ri}$lansp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANSY:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A.
@@ -4369,9 +4522,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lansy = value
            return
      end function la_${ri}$lansy
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANTB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
@@ -4565,9 +4724,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lantb = value
            return
      end function la_${ri}$lantb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANTP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
@@ -4774,9 +4939,15 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lantp = value
            return
      end function la_${ri}$lantp
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANTR:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
@@ -4963,6 +5134,9 @@ module la_lapack_blas_like_mnorm
            la_${ri}$lantr = value
            return
      end function la_${ri}$lantr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_blas_like_mnorm

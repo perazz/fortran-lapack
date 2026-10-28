@@ -21,6 +21,9 @@ module test_linalg_norm
         allocate(tests(0))
         
         #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("strided_1d_norm_${ri}$",test_strided_1d_${ri}$))
         #:for rank in range(1, MAXRANK)
         call add_test(tests,new_unittest("norm_${ri}$_${rank}$d",test_norm_${ri}$_${rank}$d))      
@@ -32,12 +35,18 @@ module test_linalg_norm
         call add_test(tests,new_unittest("maxabs_${ri}$_${rank}$d",test_maxabs_${ri}$_${rank}$d))        
         call add_test(tests,new_unittest("norm_dimmed_${ri}$_${rank}$d",test_norm_dimmed_${ri}$_${rank}$d))        
         #:endfor
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
 
     end subroutine test_vector_norms
     
     #:for rk,rt,ri in RC_KINDS_TYPES
     
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     !> Test strided norm
     subroutine test_strided_1d_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
@@ -256,6 +265,9 @@ module test_linalg_norm
     
 
     #:endfor
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     #:endfor
 
     ! gcc-15 bugfix utility

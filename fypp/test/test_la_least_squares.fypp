@@ -12,14 +12,23 @@ module test_la_least_squares
         print *, 'Least squares tests...'
 
         #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call test_${ri}$lstsq_one(error)
         if (error) return
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #: endfor
 
     end subroutine test_least_squares
 
     !> Simple polynomial fit
     #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_${ri}$lstsq_one(error)
         logical, intent(out) :: error
 
@@ -51,6 +60,9 @@ module test_la_least_squares
         error = state%error() .or. .not.all(abs(p-ab)<1.0e-6_${rk}$)
 
     end subroutine test_${ri}$lstsq_one
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     #:endfor
 
 end module test_la_least_squares

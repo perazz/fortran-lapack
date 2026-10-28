@@ -57,13 +57,25 @@ module la_qr
 
      interface qr
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$_qr
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface qr
      
      interface qr_space
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure get_qr_${ri}$_workspace
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor        
      end interface qr_space
      
@@ -120,6 +132,9 @@ module la_qr
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
      
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      ! Get workspace size for QR operations
      pure subroutine get_qr_${ri}$_workspace(a,lwork,err)
          !> Input matrix a[m,n]
@@ -306,6 +321,9 @@ module la_qr
          call err0%handle(err)
 
      end subroutine la_${ri}$_qr
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 

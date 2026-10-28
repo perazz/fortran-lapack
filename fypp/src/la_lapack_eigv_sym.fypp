@@ -27,6 +27,9 @@ module la_lapack_eigv_sym
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$sb2st_kernels
      public :: la_${ri}$sytd2
      public :: la_${ri}$sytrd
@@ -53,8 +56,14 @@ module la_lapack_eigv_sym
      public :: la_${ri}$spevd
      public :: la_${ri}$spgvd
      public :: la_${ri}$syevr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$hb2st_kernels
      public :: la_${ri}$hetd2
      public :: la_${ri}$hetrd
@@ -81,11 +90,17 @@ module la_lapack_eigv_sym
      public :: la_${ri}$hegvd
      public :: la_${ri}$hpevd
      public :: la_${ri}$hpgvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SB2ST_KERNELS: is an internal routine used by the ${ri.upper()}$SYTRD_SB2ST
      !> subroutine.
 
@@ -231,9 +246,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$sb2st_kernels
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTD2: reduces a real symmetric matrix A to symmetric tridiagonal
      !> form T by an orthogonal similarity transformation: Q**T * A * Q = T.
 
@@ -328,9 +349,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$sytd2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRD: reduces a real symmetric matrix A to real symmetric
      !> tridiagonal form T by an orthogonal similarity transformation:
      !> Q**T * A * Q = T.
@@ -457,9 +484,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sytrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRD_SB2ST: reduces a real symmetric band matrix A to real symmetric
      !> tridiagonal form T by a orthogonal similarity transformation:
      !> Q**T * A * Q = T.
@@ -717,9 +750,15 @@ module la_lapack_eigv_sym
            work(1) = lwmin
            return
      end subroutine la_${ri}$sytrd_sb2st
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORGTR: generates a real orthogonal matrix Q which is defined as the
      !> product of n-1 elementary reflectors of order N, as returned by
      !> ${ri.upper()}$SYTRD:
@@ -821,9 +860,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$orgtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORMTR: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -943,9 +988,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ormtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a real symmetric band matrix A.
 
@@ -1052,9 +1103,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$sbev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SBEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric band matrix A.  Eigenvalues and eigenvectors can
      !> be selected by specifying either a range of values or a range of
@@ -1289,9 +1346,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$sbevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SBGV: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite banded eigenproblem, of
      !> the form A*x=(lambda)*B*x. Here A and B are assumed to be symmetric
@@ -1373,9 +1436,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$sbgv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SBGVX: computes selected eigenvalues, and optionally, eigenvectors
      !> of a real generalized symmetric-definite banded eigenproblem, of
      !> the form A*x=(lambda)*B*x.  Here A and B are assumed to be symmetric
@@ -1565,9 +1634,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$sbgvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A in packed storage.
 
@@ -1661,9 +1736,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$spev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric matrix A in packed storage.  Eigenvalues/vectors
      !> can be selected by specifying either a range of values or a range of
@@ -1885,9 +1966,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$spevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPGV: computes all the eigenvalues and, optionally, the eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
@@ -1971,9 +2058,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$spgv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPGVX: computes selected eigenvalues, and optionally, eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A
@@ -2085,9 +2178,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$spgvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A.
 
@@ -2195,9 +2294,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$syev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
      !> selected by specifying either a range of values or a range of indices
@@ -2453,9 +2558,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$syevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYGV: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
@@ -2556,9 +2667,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sygv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYGVX: computes selected eigenvalues, and optionally, eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A
@@ -2687,9 +2804,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$sygvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYTRD_SY2SB: reduces a real symmetric matrix A to real symmetric
      !> band-diagonal form AB by a orthogonal similarity transformation:
      !> Q**T * A * Q = AB.
@@ -2865,9 +2988,15 @@ module la_lapack_eigv_sym
            work(1) = lwmin
            return
      end subroutine la_${ri}$sytrd_sy2sb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYEVD: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A. If eigenvectors are desired, it uses a
      !> divide and conquer algorithm.
@@ -3002,9 +3131,15 @@ module la_lapack_eigv_sym
            iwork(1) = liopt
            return
      end subroutine la_${ri}$syevd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
@@ -3130,9 +3265,15 @@ module la_lapack_eigv_sym
            iwork(1) = liopt
            return
      end subroutine la_${ri}$sygvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SBEVD: computes all the eigenvalues and, optionally, eigenvectors of
      !> a real symmetric band matrix A. If eigenvectors are desired, it uses
      !> a divide and conquer algorithm.
@@ -3269,9 +3410,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$sbevd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SBGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite banded eigenproblem, of the
      !> form A*x=(lambda)*B*x.  Here A and B are assumed to be symmetric and
@@ -3393,9 +3540,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$sbgvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPEVD: computes all the eigenvalues and, optionally, eigenvectors
      !> of a real symmetric matrix A in packed storage. If eigenvectors are
      !> desired, it uses a divide and conquer algorithm.
@@ -3521,9 +3674,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$spevd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a real generalized symmetric-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
@@ -3651,9 +3810,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$spgvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYEVR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a real symmetric matrix A.  Eigenvalues and eigenvectors can be
      !> selected by specifying either a range of values or a range of
@@ -4003,9 +4168,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$syevr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HB2ST_KERNELS: is an internal routine used by the ${ri.upper()}$HETRD_HB2ST
      !> subroutine.
 
@@ -4151,9 +4322,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hb2st_kernels
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETD2: reduces a complex Hermitian matrix A to real symmetric
      !> tridiagonal form T by a unitary similarity transformation:
      !> Q**H * A * Q = T.
@@ -4262,9 +4439,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hetd2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRD: reduces a complex Hermitian matrix A to real symmetric
      !> tridiagonal form T by a unitary similarity transformation:
      !> Q**H * A * Q = T.
@@ -4392,9 +4575,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hetrd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRD_HB2ST: reduces a complex Hermitian band matrix A to real symmetric
      !> tridiagonal form T by a unitary similarity transformation:
      !> Q**H * A * Q = T.
@@ -4679,9 +4868,15 @@ module la_lapack_eigv_sym
            work(1) = lwmin
            return
      end subroutine la_${ri}$hetrd_hb2st
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRD_HE2HB: reduces a complex Hermitian matrix A to complex Hermitian
      !> band-diagonal form AB by a unitary similarity transformation:
      !> Q**H * A * Q = AB.
@@ -4857,9 +5052,15 @@ module la_lapack_eigv_sym
            work(1) = lwmin
            return
      end subroutine la_${ri}$hetrd_he2hb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNGTR: generates a complex unitary matrix Q which is defined as the
      !> product of n-1 elementary reflectors of order N, as returned by
      !> ${ri.upper()}$HETRD:
@@ -4961,9 +5162,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ungtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNMTR: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -5079,9 +5286,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$unmtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix A.
 
@@ -5192,9 +5405,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$heev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEEVR: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
      !> be selected by specifying either a range of values or a range of
@@ -5542,9 +5761,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$heevr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex Hermitian matrix A.  Eigenvalues and eigenvectors can
      !> be selected by specifying either a range of values or a range of
@@ -5791,9 +6016,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$heevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEGV: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
@@ -5903,9 +6134,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hegv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEGVX: computes selected eigenvalues, and optionally, eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
@@ -6042,9 +6279,15 @@ module la_lapack_eigv_sym
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hegvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix in packed storage.
 
@@ -6142,9 +6385,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hpev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex Hermitian matrix A in packed storage.
      !> Eigenvalues/vectors can be selected by specifying either a range of
@@ -6365,9 +6614,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hpevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPGV: computes all the eigenvalues and, optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.
@@ -6460,9 +6715,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hpgv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPGVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
@@ -6582,9 +6843,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hpgvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian band matrix A.
 
@@ -6689,9 +6956,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hbev
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBEVD: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian band matrix A.  If eigenvectors are desired, it
      !> uses a divide and conquer algorithm.
@@ -6841,9 +7114,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$hbevd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBEVX: computes selected eigenvalues and, optionally, eigenvectors
      !> of a complex Hermitian band matrix A.  Eigenvalues and eigenvectors
      !> can be selected by specifying either a range of values or a range of
@@ -7078,9 +7357,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hbevx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBGV: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite banded eigenproblem, of
      !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
@@ -7160,9 +7445,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hbgv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite banded eigenproblem, of
      !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
@@ -7290,9 +7581,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$hbgvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HBGVX: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite banded eigenproblem, of
      !> the form A*x=(lambda)*B*x. Here A and B are assumed to be Hermitian
@@ -7481,9 +7778,15 @@ module la_lapack_eigv_sym
            end if
            return
      end subroutine la_${ri}$hbgvx
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEEVD: computes all eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix A.  If eigenvectors are desired, it uses a
      !> divide and conquer algorithm.
@@ -7636,9 +7939,15 @@ module la_lapack_eigv_sym
            iwork(1) = liopt
            return
      end subroutine la_${ri}$heevd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEGVD: computes all the eigenvalues, and optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
@@ -7775,9 +8084,15 @@ module la_lapack_eigv_sym
            iwork(1) = liopt
            return
      end subroutine la_${ri}$hegvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPEVD: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian matrix A in packed storage.  If eigenvectors are
      !> desired, it uses a divide and conquer algorithm.
@@ -7919,9 +8234,15 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$hpevd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPGVD: computes all the eigenvalues and, optionally, the eigenvectors
      !> of a complex generalized Hermitian-definite eigenproblem, of the form
      !> A*x=(lambda)*B*x,  A*Bx=(lambda)*x,  or B*A*x=(lambda)*x.  Here A and
@@ -8058,6 +8379,9 @@ module la_lapack_eigv_sym
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$hpgvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_sym

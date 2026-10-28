@@ -60,6 +60,9 @@ module la_lapack
 #:endfor
           interface ${generic}$
 #:for specific, internal, stub in entries
+#:if LA_GUARD[specific[0]]
+#ifdef ${LA_GUARD[specific[0]]}$
+#:endif
 #:if stub
 #ifdef LA_EXTERNAL_LAPACK
 $:stubs[stub].format(**LA_BY_INITIAL[specific[0]])
@@ -68,6 +71,9 @@ $:stubs[stub].format(**LA_BY_INITIAL[specific[0]])
 #endif
 #:else
                module procedure la_${internal}$
+#:endif
+#:if LA_GUARD[specific[0]]
+#endif
 #:endif
 #:endfor
           end interface ${generic}$

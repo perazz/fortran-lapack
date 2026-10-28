@@ -37,6 +37,17 @@ module test_linalg_least_squares
         call add_test(tests,new_unittest("solve_weighted_lstsq_d",test_solve_weighted_lstsq_d))
         call add_test(tests,new_unittest("solve_weighted_lstsq_effect_d",test_solve_weighted_lstsq_effect_d))
         call add_test(tests,new_unittest("solve_weighted_lstsq_negative_d",test_solve_weighted_lstsq_negative_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("least_squares_x",test_lstsq_one_x))
+        call add_test(tests,new_unittest("least_squares_randm_x",test_lstsq_random_x))
+        call add_test(tests,new_unittest("weighted_lstsq_x",test_weighted_lstsq_x))
+        call add_test(tests,new_unittest("weighted_lstsq_effect_x",test_weighted_lstsq_effect_x))
+        call add_test(tests,new_unittest("weighted_lstsq_negative_x",test_weighted_lstsq_negative_x))
+        call add_test(tests,new_unittest("solve_weighted_lstsq_x",test_solve_weighted_lstsq_x))
+        call add_test(tests,new_unittest("solve_weighted_lstsq_effect_x",test_solve_weighted_lstsq_effect_x))
+        call add_test(tests,new_unittest("solve_weighted_lstsq_negative_x",test_solve_weighted_lstsq_negative_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("least_squares_q",test_lstsq_one_q))
         call add_test(tests,new_unittest("least_squares_randm_q",test_lstsq_random_q))
         call add_test(tests,new_unittest("weighted_lstsq_q",test_weighted_lstsq_q))
@@ -45,20 +56,37 @@ module test_linalg_least_squares
         call add_test(tests,new_unittest("solve_weighted_lstsq_q",test_solve_weighted_lstsq_q))
         call add_test(tests,new_unittest("solve_weighted_lstsq_effect_q",test_solve_weighted_lstsq_effect_q))
         call add_test(tests,new_unittest("solve_weighted_lstsq_negative_q",test_solve_weighted_lstsq_negative_q))
+#endif
 
         call add_test(tests,new_unittest("weighted_lstsq_c",test_weighted_lstsq_c))
         call add_test(tests,new_unittest("solve_weighted_lstsq_c",test_solve_weighted_lstsq_c))
         call add_test(tests,new_unittest("weighted_lstsq_z",test_weighted_lstsq_z))
         call add_test(tests,new_unittest("solve_weighted_lstsq_z",test_solve_weighted_lstsq_z))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("weighted_lstsq_y",test_weighted_lstsq_y))
+        call add_test(tests,new_unittest("solve_weighted_lstsq_y",test_solve_weighted_lstsq_y))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("weighted_lstsq_w",test_weighted_lstsq_w))
         call add_test(tests,new_unittest("solve_weighted_lstsq_w",test_solve_weighted_lstsq_w))
+#endif
 
         call add_test(tests,new_unittest("lstsq_space_s",test_lstsq_space_s))
         call add_test(tests,new_unittest("lstsq_space_d",test_lstsq_space_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("lstsq_space_x",test_lstsq_space_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("lstsq_space_q",test_lstsq_space_q))
+#endif
         call add_test(tests,new_unittest("lstsq_space_c",test_lstsq_space_c))
         call add_test(tests,new_unittest("lstsq_space_z",test_lstsq_space_z))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("lstsq_space_y",test_lstsq_space_y))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("lstsq_space_w",test_lstsq_space_w))
+#endif
 
     end subroutine test_least_squares
 
@@ -182,6 +210,69 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_lstsq_space_d
+#ifdef LA_WITH_XDP
+    !> Solve into a caller-provided solution array and caller-provided working arrays
+    subroutine test_lstsq_space_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 6,n = 3
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+
+        integer(ilp) :: i,j,rank,lrwork,liwork
+        integer(ilp),allocatable,target :: iwork(:)
+        real(xdp),allocatable,target :: rwork(:)
+        real(xdp) :: singvals(min(m,n))
+        real(xdp) :: a(m,n),b(m),x(n),x_true(n)
+        real(xdp),allocatable :: x_alloc(:)
+
+        ! Vandermonde system with an exact solution
+        do j = 1,n
+            x_true(j) = j
+            do i = 1,m
+                a(i,j) = i**(j - 1)
+            end do
+        end do
+        b = matmul(a,x_true)
+
+        call lstsq_space(a,b,lrwork,liwork)
+        allocate (rwork(lrwork),iwork(liwork))
+        call solve_lstsq(a,b,x,real_storage=rwork,int_storage=iwork, &
+                         singvals=singvals,rank=rank,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < tol),'solve_lstsq into caller storage')
+        if (allocated(error)) return
+
+        call check(error,rank == n,'solve_lstsq returns the full rank')
+        if (allocated(error)) return
+
+        call check(error,all(singvals(1:n - 1) >= singvals(2:n)),'singular values in decreasing order')
+        if (allocated(error)) return
+
+        ! Working space that is too small is a value error
+        call solve_lstsq(a,b,x,real_storage=rwork(1:1),int_storage=iwork,err=state)
+
+        call check(error,state%error(),'insufficient working space is an error')
+        if (allocated(error)) return
+
+        ! A solution array that is too small is a value error
+        call solve_lstsq(a,b,x(1:n - 1),err=state)
+
+        call check(error,state%error(),'a solution array that is too short is an error')
+        if (allocated(error)) return
+
+        ! The function form returns an empty solution for an invalid problem
+        x_alloc = lstsq(a,b(1:m - 1),err=state)
+
+        call check(error,state%error() .and. size(x_alloc) == 0,'an invalid problem returns an empty solution')
+        if (allocated(error)) return
+
+    end subroutine test_lstsq_space_x
+#endif
+#ifdef LA_WITH_QP
     !> Solve into a caller-provided solution array and caller-provided working arrays
     subroutine test_lstsq_space_q(error)
         type(error_type),allocatable,intent(out) :: error
@@ -242,6 +333,7 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_lstsq_space_q
+#endif
     !> Solve into a caller-provided solution array and caller-provided working arrays
     subroutine test_lstsq_space_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -366,6 +458,71 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_lstsq_space_z
+#ifdef LA_WITH_XDP
+    !> Solve into a caller-provided solution array and caller-provided working arrays
+    subroutine test_lstsq_space_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 6,n = 3
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+
+        integer(ilp) :: i,j,rank,lrwork,liwork
+        integer(ilp),allocatable,target :: iwork(:)
+        real(xdp),allocatable,target :: rwork(:)
+        real(xdp) :: singvals(min(m,n))
+        complex(xdp) :: a(m,n),b(m),x(n),x_true(n)
+        complex(xdp),allocatable :: x_alloc(:)
+        integer(ilp) :: lcwork
+        complex(xdp),allocatable,target :: cwork(:)
+
+        ! Vandermonde system with an exact solution
+        do j = 1,n
+            x_true(j) = j
+            do i = 1,m
+                a(i,j) = i**(j - 1)
+            end do
+        end do
+        b = matmul(a,x_true)
+
+        call lstsq_space(a,b,lrwork,liwork,lcwork)
+        allocate (rwork(lrwork),iwork(liwork),cwork(lcwork))
+        call solve_lstsq(a,b,x,real_storage=rwork,int_storage=iwork,cmpl_storage=cwork, &
+                         singvals=singvals,rank=rank,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < tol),'solve_lstsq into caller storage')
+        if (allocated(error)) return
+
+        call check(error,rank == n,'solve_lstsq returns the full rank')
+        if (allocated(error)) return
+
+        call check(error,all(singvals(1:n - 1) >= singvals(2:n)),'singular values in decreasing order')
+        if (allocated(error)) return
+
+        ! Working space that is too small is a value error
+        call solve_lstsq(a,b,x,real_storage=rwork(1:1),int_storage=iwork,cmpl_storage=cwork,err=state)
+
+        call check(error,state%error(),'insufficient working space is an error')
+        if (allocated(error)) return
+
+        ! A solution array that is too small is a value error
+        call solve_lstsq(a,b,x(1:n - 1),err=state)
+
+        call check(error,state%error(),'a solution array that is too short is an error')
+        if (allocated(error)) return
+
+        ! The function form returns an empty solution for an invalid problem
+        x_alloc = lstsq(a,b(1:m - 1),err=state)
+
+        call check(error,state%error() .and. size(x_alloc) == 0,'an invalid problem returns an empty solution')
+        if (allocated(error)) return
+
+    end subroutine test_lstsq_space_y
+#endif
+#ifdef LA_WITH_QP
     !> Solve into a caller-provided solution array and caller-provided working arrays
     subroutine test_lstsq_space_w(error)
         type(error_type),allocatable,intent(out) :: error
@@ -428,6 +585,7 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_lstsq_space_w
+#endif
     
     !> Simple polynomial fit
     subroutine test_lstsq_one_s(error)
@@ -561,6 +719,75 @@ module test_linalg_least_squares
         
     end subroutine test_lstsq_random_d
     
+#ifdef LA_WITH_XDP
+    !> Simple polynomial fit
+    subroutine test_lstsq_one_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp) :: rank
+
+        !> Example scattered data
+        real(xdp),parameter :: x(*) = real([1.0,2.5,3.5,4.0,5.0,7.0,8.5],xdp)
+        real(xdp),parameter :: y(*) = real([0.3,1.1,1.5,2.0,3.2,6.6,8.6],xdp)
+        real(xdp),parameter :: ab(*) = real([0.20925829,0.12013861],xdp)
+
+        real(xdp) :: M(size(x),2),p(2)
+
+        ! Coefficient matrix for polynomial y = a + b*x**2
+        M(:,1) = x**0
+        M(:,2) = x**2
+
+        ! Find polynomial
+        p = lstsq(M,y,rank=rank,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(p - ab) < 1.0e-4_xdp),'data converged')
+        if (allocated(error)) return
+        
+        call check(error,rank == 2,'matrix rank == 2')
+        if (allocated(error)) return
+
+    end subroutine test_lstsq_one_x
+    
+    !> Fit from random array
+    subroutine test_lstsq_random_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: n = 12,m = 3
+        real :: Arnd(n,m),xrnd(m)
+        real(xdp),allocatable :: x(:)
+        real(xdp) :: xsol(m),y(n),A(n,m)
+
+        ! Random coefficient matrix and solution
+        call random_number(Arnd)
+        call random_number(xrnd)
+        
+        ! Compute rhs
+        A = real(Arnd,xdp)
+        xsol = real(xrnd,xdp)
+        y = matmul(A,xsol)
+
+        ! Find polynomial
+        x = lstsq(A,y,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check size
+        call check(error,size(x) == m)
+        if (allocated(error)) return
+        
+        call check(error,all(abs(x - xsol) < 1.0e-4_xdp),'data converged')
+        if (allocated(error)) return
+        
+    end subroutine test_lstsq_random_x
+#endif
+    
+#ifdef LA_WITH_QP
     !> Simple polynomial fit
     subroutine test_lstsq_one_q(error)
         type(error_type),allocatable,intent(out) :: error
@@ -626,6 +853,7 @@ module test_linalg_least_squares
         if (allocated(error)) return
         
     end subroutine test_lstsq_random_q
+#endif
     
     !-------------------------------------------------------------
     !-----     Weighted Least-Squares Tests                  -----
@@ -827,6 +1055,107 @@ module test_linalg_least_squares
 
     end subroutine test_weighted_lstsq_negative_d
 
+#ifdef LA_WITH_XDP
+    !> Test basic weighted least-squares: uniform weights must match ordinary least-squares
+    subroutine test_weighted_lstsq_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 4,n = 2
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: A(m,n),A_original(m,n),A_copy(m,n),b(m)
+        real(xdp) :: w(m)
+        real(xdp),allocatable :: x_weighted(:),x_ols(:)
+
+        ! Simple test case
+        A(:,1) = 1.0_xdp
+        A(:,2) = [1.0_xdp,2.0_xdp,3.0_xdp,4.0_xdp]
+        b = [2.0_xdp,4.0_xdp,5.0_xdp,4.0_xdp]
+        w = 1.0_xdp ! Uniform weights = OLS
+        A_original = A ! Save original to verify A is preserved
+        A_copy = A ! Save copy for lstsq comparison
+
+        x_weighted = weighted_lstsq(w,A,b,err=state)
+
+        call check(error,state%ok(),'weighted_lstsq failed: '//state%print())
+        if (allocated(error)) return
+        
+        call check(error,size(x_weighted) == n,'weighted_lstsq: wrong solution size')
+        if (allocated(error)) return
+
+        ! Verify A is preserved by default (overwrite_a contract)
+        call check(error,all(A == A_original), &
+                   'weighted_lstsq must preserve A by default')
+        if (allocated(error)) return
+
+        ! KEY TEST: Uniform weights should match ordinary least squares exactly
+        x_ols = lstsq(A_copy,b,err=state)
+
+        call check(error,state%ok(),'lstsq failed: '//state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x_weighted - x_ols) < tol), &
+                   'weighted_lstsq with uniform weights must match lstsq')
+        if (allocated(error)) return
+
+    end subroutine test_weighted_lstsq_x
+
+    !> Test that non-uniform weights change the solution
+    subroutine test_weighted_lstsq_effect_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 4,n = 2
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: A(m,n),b(m)
+        real(xdp) :: w_uniform(m),w_nonuniform(m)
+        real(xdp),allocatable :: x_uniform(:),x_weighted(:)
+
+        ! Setup problem
+        A(:,1) = 1.0_xdp
+        A(:,2) = [1.0_xdp,2.0_xdp,3.0_xdp,4.0_xdp]
+        b = [1.0_xdp,3.0_xdp,2.0_xdp,5.0_xdp]
+        
+        w_uniform = 1.0_xdp
+        w_nonuniform = [10.0_xdp,1.0_xdp,1.0_xdp,10.0_xdp] ! Weight first and last more
+
+        x_uniform = weighted_lstsq(w_uniform,A,b,err=state)
+        call check(error,state%ok(),'uniform weighted_lstsq failed')
+        if (allocated(error)) return
+
+        x_weighted = weighted_lstsq(w_nonuniform,A,b,err=state)
+        call check(error,state%ok(),'non-uniform weighted_lstsq failed')
+        if (allocated(error)) return
+
+        ! Solutions should be different
+        call check(error,any(abs(x_uniform - x_weighted) > tol), &
+                   'weighted_lstsq: non-uniform weights should change solution')
+        if (allocated(error)) return
+
+    end subroutine test_weighted_lstsq_effect_x
+
+    !> Test error on negative weights
+    subroutine test_weighted_lstsq_negative_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        real(xdp) :: A(3,2),b(3)
+        real(xdp) :: w(3)
+        real(xdp),allocatable :: x(:)
+
+        A = 1.0_xdp
+        b = 1.0_xdp
+        w = [-1.0_xdp,1.0_xdp,1.0_xdp] ! Invalid: negative weight!
+
+        x = weighted_lstsq(w,A,b,err=state)
+
+        call check(error,state%error(),'weighted_lstsq should fail on negative weights')
+        if (allocated(error)) return
+
+    end subroutine test_weighted_lstsq_negative_x
+#endif
+
+#ifdef LA_WITH_QP
     !> Test basic weighted least-squares: uniform weights must match ordinary least-squares
     subroutine test_weighted_lstsq_q(error)
         type(error_type),allocatable,intent(out) :: error
@@ -924,6 +1253,7 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_weighted_lstsq_negative_q
+#endif
 
     !> Test weighted least-squares with complex data: uniform weights must match lstsq
     subroutine test_weighted_lstsq_c(error)
@@ -1003,6 +1333,48 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_weighted_lstsq_z
+#ifdef LA_WITH_XDP
+    !> Test weighted least-squares with complex data: uniform weights must match lstsq
+    subroutine test_weighted_lstsq_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 4,n = 2
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: A(m,n),A_copy(m,n),b(m)
+        real(xdp) :: w(m)
+        complex(xdp),allocatable :: x_weighted(:),x_ols(:)
+
+        ! Complex test case
+        A(:,1) = cmplx(1.0_xdp,0.5_xdp,kind=xdp)
+        A(:,2) = cmplx([1.0_xdp,2.0_xdp,3.0_xdp,4.0_xdp], &
+                       [0.1_xdp,0.2_xdp,0.3_xdp,0.4_xdp],kind=xdp)
+        b = cmplx([2.0_xdp,4.0_xdp,5.0_xdp,4.0_xdp], &
+                  [1.0_xdp,1.5_xdp,2.0_xdp,1.0_xdp],kind=xdp)
+        w = 1.0_xdp ! Uniform weights = OLS (weights are always real)
+        A_copy = A
+
+        x_weighted = weighted_lstsq(w,A,b,err=state)
+
+        call check(error,state%ok(),'complex weighted_lstsq failed: '//state%print())
+        if (allocated(error)) return
+        
+        call check(error,size(x_weighted) == n,'complex weighted_lstsq: wrong solution size')
+        if (allocated(error)) return
+
+        ! KEY TEST: Uniform weights should match ordinary least squares
+        x_ols = lstsq(A_copy,b,err=state)
+
+        call check(error,state%ok(),'complex lstsq failed: '//state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x_weighted - x_ols) < tol), &
+                   'complex weighted_lstsq with uniform weights must match lstsq')
+        if (allocated(error)) return
+
+    end subroutine test_weighted_lstsq_y
+#endif
+#ifdef LA_WITH_QP
     !> Test weighted least-squares with complex data: uniform weights must match lstsq
     subroutine test_weighted_lstsq_w(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1042,6 +1414,7 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_weighted_lstsq_w
+#endif
 
     !-------------------------------------------------------------
     !-----     Weighted Least-Squares Subroutine Tests        -----
@@ -1233,6 +1606,102 @@ module test_linalg_least_squares
 
     end subroutine test_solve_weighted_lstsq_negative_d
 
+#ifdef LA_WITH_XDP
+    !> Test basic solve_weighted_lstsq: uniform weights must match ordinary least-squares
+    subroutine test_solve_weighted_lstsq_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 4,n = 2
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: A(m,n),A_original(m,n),A_copy(m,n),b(m),x_sub(n)
+        real(xdp) :: w(m)
+        real(xdp),allocatable :: x_ols(:)
+
+        ! Simple test case
+        A(:,1) = 1.0_xdp
+        A(:,2) = [1.0_xdp,2.0_xdp,3.0_xdp,4.0_xdp]
+        b = [2.0_xdp,4.0_xdp,5.0_xdp,4.0_xdp]
+        w = 1.0_xdp ! Uniform weights = OLS
+        A_original = A
+        A_copy = A
+
+        call solve_weighted_lstsq(w,A,b,x_sub,err=state)
+
+        call check(error,state%ok(),'solve_weighted_lstsq failed: '//state%print())
+        if (allocated(error)) return
+
+        ! Verify A is preserved by default (overwrite_a contract)
+        call check(error,all(A == A_original), &
+                   'solve_weighted_lstsq must preserve A by default')
+        if (allocated(error)) return
+
+        ! KEY TEST: Uniform weights should match ordinary least squares exactly
+        x_ols = lstsq(A_copy,b,err=state)
+
+        call check(error,state%ok(),'lstsq failed: '//state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x_sub - x_ols) < tol), &
+                   'solve_weighted_lstsq with uniform weights must match lstsq')
+        if (allocated(error)) return
+
+    end subroutine test_solve_weighted_lstsq_x
+
+    !> Test that non-uniform weights change the solution (subroutine version)
+    subroutine test_solve_weighted_lstsq_effect_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 4,n = 2
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: A(m,n),b(m),x_uniform(n),x_weighted(n)
+        real(xdp) :: w_uniform(m),w_nonuniform(m)
+
+        ! Setup problem
+        A(:,1) = 1.0_xdp
+        A(:,2) = [1.0_xdp,2.0_xdp,3.0_xdp,4.0_xdp]
+        b = [1.0_xdp,3.0_xdp,2.0_xdp,5.0_xdp]
+
+        w_uniform = 1.0_xdp
+        w_nonuniform = [10.0_xdp,1.0_xdp,1.0_xdp,10.0_xdp] ! Weight first and last more
+
+        call solve_weighted_lstsq(w_uniform,A,b,x_uniform,err=state)
+        call check(error,state%ok(),'uniform solve_weighted_lstsq failed')
+        if (allocated(error)) return
+
+        call solve_weighted_lstsq(w_nonuniform,A,b,x_weighted,err=state)
+        call check(error,state%ok(),'non-uniform solve_weighted_lstsq failed')
+        if (allocated(error)) return
+
+        ! Solutions should be different
+        call check(error,any(abs(x_uniform - x_weighted) > tol), &
+                   'solve_weighted_lstsq: non-uniform weights should change solution')
+        if (allocated(error)) return
+
+    end subroutine test_solve_weighted_lstsq_effect_x
+
+    !> Test error on negative weights (subroutine version)
+    subroutine test_solve_weighted_lstsq_negative_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        real(xdp) :: A(3,2),b(3),x(2)
+        real(xdp) :: w(3)
+
+        A = 1.0_xdp
+        b = 1.0_xdp
+        w = [-1.0_xdp,1.0_xdp,1.0_xdp] ! Invalid: negative weight!
+
+        call solve_weighted_lstsq(w,A,b,x,err=state)
+
+        call check(error,state%error(),'solve_weighted_lstsq should fail on negative weights')
+        if (allocated(error)) return
+
+    end subroutine test_solve_weighted_lstsq_negative_x
+#endif
+
+#ifdef LA_WITH_QP
     !> Test basic solve_weighted_lstsq: uniform weights must match ordinary least-squares
     subroutine test_solve_weighted_lstsq_q(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1325,6 +1794,7 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_solve_weighted_lstsq_negative_q
+#endif
 
     !> Test solve_weighted_lstsq with complex data: uniform weights must match lstsq
     subroutine test_solve_weighted_lstsq_c(error)
@@ -1398,6 +1868,45 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_solve_weighted_lstsq_z
+#ifdef LA_WITH_XDP
+    !> Test solve_weighted_lstsq with complex data: uniform weights must match lstsq
+    subroutine test_solve_weighted_lstsq_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 4,n = 2
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: A(m,n),A_copy(m,n),b(m),x_sub(n)
+        real(xdp) :: w(m)
+        complex(xdp),allocatable :: x_ols(:)
+
+        ! Complex test case
+        A(:,1) = cmplx(1.0_xdp,0.5_xdp,kind=xdp)
+        A(:,2) = cmplx([1.0_xdp,2.0_xdp,3.0_xdp,4.0_xdp], &
+                       [0.1_xdp,0.2_xdp,0.3_xdp,0.4_xdp],kind=xdp)
+        b = cmplx([2.0_xdp,4.0_xdp,5.0_xdp,4.0_xdp], &
+                  [1.0_xdp,1.5_xdp,2.0_xdp,1.0_xdp],kind=xdp)
+        w = 1.0_xdp ! Uniform weights = OLS (weights are always real)
+        A_copy = A
+
+        call solve_weighted_lstsq(w,A,b,x_sub,err=state)
+
+        call check(error,state%ok(),'complex solve_weighted_lstsq failed: '//state%print())
+        if (allocated(error)) return
+
+        ! KEY TEST: Uniform weights should match ordinary least squares
+        x_ols = lstsq(A_copy,b,err=state)
+
+        call check(error,state%ok(),'complex lstsq failed: '//state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x_sub - x_ols) < tol), &
+                   'complex solve_weighted_lstsq with uniform weights must match lstsq')
+        if (allocated(error)) return
+
+    end subroutine test_solve_weighted_lstsq_y
+#endif
+#ifdef LA_WITH_QP
     !> Test solve_weighted_lstsq with complex data: uniform weights must match lstsq
     subroutine test_solve_weighted_lstsq_w(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1434,6 +1943,7 @@ module test_linalg_least_squares
         if (allocated(error)) return
 
     end subroutine test_solve_weighted_lstsq_w
+#endif
 
     ! Test issue #823
     subroutine test_issue_823(error)

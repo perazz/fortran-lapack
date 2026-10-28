@@ -23,23 +23,38 @@ module test_linalg_eigenvalues
         allocate(tests(0))
 
         #:for rk,rt,ri in REAL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("test_eig_real_${ri}$",test_eig_real_${ri}$))
         call add_test(tests,new_unittest("test_eigvals_identity_${ri}$",test_eigvals_identity_${ri}$))
         call add_test(tests,new_unittest("test_eigvals_diagonal_B_${ri}$",test_eigvals_diagonal_B_${ri}$))
         call add_test(tests,new_unittest("test_eigvals_nondiagonal_B_${ri}$",test_eigvals_nondiagonal_B_${ri}$))
         call add_test(tests,new_unittest("test_eigh_real_${ri}$",test_eigh_real_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #: endfor
         
         #:for ck,ct,ci in CMPLX_KINDS_TYPES
+        #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+        #:endif
         call add_test(tests,new_unittest("test_eig_complex_${ci}$",test_eig_complex_${ci}$))
         call add_test(tests,new_unittest("test_eig_generalized_complex_${ci}$",test_eigvals_generalized_complex_${ci}$))
         call add_test(tests,new_unittest("test_eig_issue_927_${ci}$",test_issue_927_${ci}$))
+        #:if LA_GUARD[ck]
+#endif
+        #:endif
         #: endfor 
 
     end subroutine test_eig_eigh
 
     !> Simple real matrix eigenvalues
     #:for rk,rt,ri in REAL_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     subroutine test_eig_real_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -233,11 +248,17 @@ module test_linalg_eigenvalues
         
         if (allocated(error)) return
     end subroutine test_eigvals_nondiagonal_B_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
 
     #:endfor
 
     !> Simple complex matrix eigenvalues
     #:for ck,ct,ci in CMPLX_KINDS_TYPES
+    #:if LA_GUARD[ck]
+#ifdef ${LA_GUARD[ck]}$
+    #:endif
     subroutine test_eig_complex_${ci}$(error)
         type(error_type), allocatable, intent(out) :: error
 
@@ -342,6 +363,9 @@ module test_linalg_eigenvalues
       if (allocated(error)) return      
 
     end subroutine test_issue_927_${ci}$
+    #:if LA_GUARD[ck]
+#endif
+    #:endif
 
     #:endfor
 

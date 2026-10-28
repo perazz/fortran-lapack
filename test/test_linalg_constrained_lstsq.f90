@@ -21,10 +21,20 @@ module test_linalg_constrained_least_squares
         
         call add_test(tests,new_unittest("constrained_least_squares_randm_s",test_constrained_lstsq_random_s))
         call add_test(tests,new_unittest("constrained_least_squares_randm_d",test_constrained_lstsq_random_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("constrained_least_squares_randm_x",test_constrained_lstsq_random_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("constrained_least_squares_randm_q",test_constrained_lstsq_random_q))
+#endif
         call add_test(tests,new_unittest("constrained_least_squares_randm_c",test_constrained_lstsq_random_c))
         call add_test(tests,new_unittest("constrained_least_squares_randm_z",test_constrained_lstsq_random_z))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("constrained_least_squares_randm_y",test_constrained_lstsq_random_y))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("constrained_least_squares_randm_w",test_constrained_lstsq_random_w))
+#endif
 
     end subroutine test_constrained_least_squares
     
@@ -176,6 +186,83 @@ module test_linalg_constrained_least_squares
 
     end subroutine test_constrained_lstsq_random_d
     
+#ifdef LA_WITH_XDP
+    !> Fit from random array
+    subroutine test_constrained_lstsq_random_x(error)
+        type(error_type),allocatable,intent(out) :: error
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 5,n = 4,p = 3
+        !> Least-squares cost.
+        real(xdp) :: A(m,n),b(m)
+        !> Equality constraints.
+        real(xdp) :: C(p,n),d(p)
+        !> Solution.
+        real(xdp) :: x(n),x_true(n)
+        !> Workspace.
+        integer(ilp) :: lwork
+        real(xdp),allocatable :: work(:)
+
+        !> Least-squares cost.
+        A(1,:) = [1.0_xdp,1.0_xdp,1.0_xdp,1.0_xdp]
+        A(2,:) = [1.0_xdp,3.0_xdp,1.0_xdp,1.0_xdp]
+        A(3,:) = [1.0_xdp,-1.0_xdp,3.0_xdp,1.0_xdp]
+        A(4,:) = [1.0_xdp,1.0_xdp,1.0_xdp,3.0_xdp]
+        A(5,:) = [1.0_xdp,1.0_xdp,1.0_xdp,-1.0_xdp]
+
+        b = [2.0_xdp,1.0_xdp,6.0_xdp,3.0_xdp,1.0_xdp]
+
+        !> Equality constraints.
+        C(1,:) = [1.0_xdp,1.0_xdp,1.0_xdp,-1.0_xdp]
+        C(2,:) = [1.0_xdp,-1.0_xdp,1.0_xdp,1.0_xdp]
+        C(3,:) = [1.0_xdp,1.0_xdp,-1.0_xdp,1.0_xdp]
+
+        d = [1.0_xdp,3.0_xdp,-1.0_xdp]
+
+        !----- Function interface -----
+        x = constrained_lstsq(A,b,C,d,err=state)
+        x_true = [0.5_xdp,-0.5_xdp,1.5_xdp,0.5_xdp]
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < 1.0e-4_xdp),'Solver converged')
+        if (allocated(error)) return
+
+        !----- Subroutine interface -----
+        call solve_constrained_lstsq(A,b,C,d,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < 1.0e-4_xdp),'Solver converged')
+        if (allocated(error)) return
+
+        !----- Pre-allocated storage -----
+        call constrained_lstsq_space(A,C,lwork,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        allocate (work(lwork))
+        call solve_constrained_lstsq(A,b,C,d,x,storage=work,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < 1.0e-4_xdp),'Solver converged')
+        if (allocated(error)) return
+
+        !----- Overwrite matrices (performance) -----
+        call solve_constrained_lstsq(A,b,C,d,x,storage=work,overwrite_matrices=.true.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < 1.0e-4_xdp),'Solver converged')
+        if (allocated(error)) return
+
+    end subroutine test_constrained_lstsq_random_x
+#endif
+    
+#ifdef LA_WITH_QP
     !> Fit from random array
     subroutine test_constrained_lstsq_random_q(error)
         type(error_type),allocatable,intent(out) :: error
@@ -249,6 +336,7 @@ module test_linalg_constrained_least_squares
         if (allocated(error)) return
 
     end subroutine test_constrained_lstsq_random_q
+#endif
     
     !> Fit from random array
     subroutine test_constrained_lstsq_random_c(error)
@@ -398,6 +486,83 @@ module test_linalg_constrained_least_squares
 
     end subroutine test_constrained_lstsq_random_z
     
+#ifdef LA_WITH_XDP
+    !> Fit from random array
+    subroutine test_constrained_lstsq_random_y(error)
+        type(error_type),allocatable,intent(out) :: error
+        type(la_state) :: state
+        integer(ilp),parameter :: m = 5,n = 4,p = 3
+        !> Least-squares cost.
+        complex(xdp) :: A(m,n),b(m)
+        !> Equality constraints.
+        complex(xdp) :: C(p,n),d(p)
+        !> Solution.
+        complex(xdp) :: x(n),x_true(n)
+        !> Workspace.
+        integer(ilp) :: lwork
+        complex(xdp),allocatable :: work(:)
+
+        !> Least-squares cost.
+        A(1,:) = [1.0_xdp,1.0_xdp,1.0_xdp,1.0_xdp]
+        A(2,:) = [1.0_xdp,3.0_xdp,1.0_xdp,1.0_xdp]
+        A(3,:) = [1.0_xdp,-1.0_xdp,3.0_xdp,1.0_xdp]
+        A(4,:) = [1.0_xdp,1.0_xdp,1.0_xdp,3.0_xdp]
+        A(5,:) = [1.0_xdp,1.0_xdp,1.0_xdp,-1.0_xdp]
+
+        b = [2.0_xdp,1.0_xdp,6.0_xdp,3.0_xdp,1.0_xdp]
+
+        !> Equality constraints.
+        C(1,:) = [1.0_xdp,1.0_xdp,1.0_xdp,-1.0_xdp]
+        C(2,:) = [1.0_xdp,-1.0_xdp,1.0_xdp,1.0_xdp]
+        C(3,:) = [1.0_xdp,1.0_xdp,-1.0_xdp,1.0_xdp]
+
+        d = [1.0_xdp,3.0_xdp,-1.0_xdp]
+
+        !----- Function interface -----
+        x = constrained_lstsq(A,b,C,d,err=state)
+        x_true = [0.5_xdp,-0.5_xdp,1.5_xdp,0.5_xdp]
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < 1.0e-4_xdp),'Solver converged')
+        if (allocated(error)) return
+
+        !----- Subroutine interface -----
+        call solve_constrained_lstsq(A,b,C,d,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < 1.0e-4_xdp),'Solver converged')
+        if (allocated(error)) return
+
+        !----- Pre-allocated storage -----
+        call constrained_lstsq_space(A,C,lwork,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        allocate (work(lwork))
+        call solve_constrained_lstsq(A,b,C,d,x,storage=work,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < 1.0e-4_xdp),'Solver converged')
+        if (allocated(error)) return
+
+        !----- Overwrite matrices (performance) -----
+        call solve_constrained_lstsq(A,b,C,d,x,storage=work,overwrite_matrices=.true.,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - x_true) < 1.0e-4_xdp),'Solver converged')
+        if (allocated(error)) return
+
+    end subroutine test_constrained_lstsq_random_y
+#endif
+    
+#ifdef LA_WITH_QP
     !> Fit from random array
     subroutine test_constrained_lstsq_random_w(error)
         type(error_type),allocatable,intent(out) :: error
@@ -471,6 +636,7 @@ module test_linalg_constrained_least_squares
         if (allocated(error)) return
 
     end subroutine test_constrained_lstsq_random_w
+#endif
     
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

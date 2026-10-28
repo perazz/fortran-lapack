@@ -33,7 +33,13 @@ module la_determinant
      !!
      interface det
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$determinant
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface det
 
@@ -56,7 +62,13 @@ module la_determinant
      ! Operator interface
      interface operator(.det.)
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$pure_determinant
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface operator(.det.)
 
@@ -64,6 +76,9 @@ module la_determinant
      contains
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      ! Compute determinant of a square matrix A
      function la_${ri}$determinant(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
@@ -231,6 +246,9 @@ module la_determinant
          call err0%handle()
 
      end function la_${ri}$pure_determinant
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 

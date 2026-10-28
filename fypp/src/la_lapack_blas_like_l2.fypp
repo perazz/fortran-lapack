@@ -11,12 +11,21 @@ module la_lapack_blas_like_l2
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$la_wwaddw
      public :: la_${ri}$la_gbamv
      public :: la_${ri}$la_geamv
      public :: la_${ri}$lascl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$la_gbamv
      public :: la_${ri}$la_geamv
      public :: la_${ri}$la_heamv
@@ -26,11 +35,17 @@ module la_lapack_blas_like_l2
      public :: la_${ri}$spr
      public :: la_${ri}$symv
      public :: la_${ri}$syr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_WWADDW: adds a vector W into a doubled-single vector (X, Y).
      !> This works for all extant IBM's hex and binary floating point
      !> arithmetic, but not for decimal.
@@ -57,9 +72,15 @@ module la_lapack_blas_like_l2
              10 continue
            return
      end subroutine la_${ri}$la_wwaddw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GBAMV:  performs one of the matrix-vector operations
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
      !> or   y := alpha*abs(A)**T*abs(x) + beta*abs(y),
@@ -246,9 +267,15 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$la_gbamv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GEAMV:  performs one of the matrix-vector operations
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
      !> or   y := alpha*abs(A)**T*abs(x) + beta*abs(y),
@@ -428,9 +455,15 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$la_geamv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASCL: multiplies the M by N real matrix A by the real scalar
      !> CTO/CFROM.  This is done without over/underflow as long as the final
      !> result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that
@@ -601,9 +634,15 @@ module la_lapack_blas_like_l2
            if (.not. done) go to 10
            return
      end subroutine la_${ri}$lascl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GBAMV:  performs one of the matrix-vector operations
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
      !> or   y := alpha*abs(A)**T*abs(x) + beta*abs(y),
@@ -847,9 +886,15 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$la_gbamv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_GEAMV:  performs one of the matrix-vector operations
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
      !> or   y := alpha*abs(A)**T*abs(x) + beta*abs(y),
@@ -1087,9 +1132,15 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$la_geamv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_SYAMV  performs the matrix-vector operation
      !> y := alpha*abs(A)*abs(x) + beta*abs(y),
      !> where alpha and beta are scalars, x and y are vectors and A is an
@@ -1284,9 +1335,15 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$la_heamv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LA_WWADDW: adds a vector W into a doubled-single vector (X, Y).
      !> This works for all extant IBM's hex and binary floating point
      !> arithmetic, but not for decimal.
@@ -1313,9 +1370,15 @@ module la_lapack_blas_like_l2
              10 continue
            return
      end subroutine la_${ri}$la_wwaddw
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASCL: multiplies the M by N complex matrix A by the real scalar
      !> CTO/CFROM.  This is done without over/underflow as long as the final
      !> result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that
@@ -1486,9 +1549,15 @@ module la_lapack_blas_like_l2
            if (.not. done) go to 10
            return
      end subroutine la_${ri}$lascl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPMV:  performs the matrix-vector operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
@@ -1646,9 +1715,15 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$spmv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SPR:    performs the symmetric rank 1 operation
      !> A := alpha*x*x**H + A,
      !> where alpha is a complex scalar, x is an n element vector and A is an
@@ -1769,9 +1844,15 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$spr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYMV:  performs the matrix-vector  operation
      !> y := alpha*A*x + beta*y,
      !> where alpha and beta are scalars, x and y are n element vectors and
@@ -1925,9 +2006,15 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$symv
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$SYR:   performs the symmetric rank 1 operation
      !> A := alpha*x*x**H + A,
      !> where alpha is a complex scalar, x is an n element vector and A is an
@@ -2032,6 +2119,9 @@ module la_lapack_blas_like_l2
            end if
            return
      end subroutine la_${ri}$syr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_blas_like_l2

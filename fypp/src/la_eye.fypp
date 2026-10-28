@@ -107,7 +107,13 @@ module la_eye
      interface eye
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_eye_${ri}$${esuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface eye
@@ -116,49 +122,91 @@ module la_eye
      interface diag
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_diag_${ri}$${esuf}$_from_scalar
         module procedure la_diag_${ri}$${esuf}$_from_array
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_diag_${ri}$_from_array_k
         module procedure la_diag_${ri}$_from_matrix
         module procedure la_diag_${ri}$_from_matrix_k
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface diag
 
      ! Matrix trace interface
      interface trace
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_trace_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface trace
 
      ! Outer product interface
      interface outer_product
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_outer_product_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface outer_product
 
      ! Cross product interface
      interface cross_product
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_cross_product_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface cross_product
 
      ! Kronecker product interface
      interface kronecker_product
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_kronecker_product_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface kronecker_product
 
      ! Hermitian transpose interface
      interface hermitian
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_hermitian_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface hermitian
 
@@ -166,6 +214,9 @@ module la_eye
 
      #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Function to construct an identity matrix of size `m x n`.
      !! This function returns a diagonal identity matrix, with the diagonal elements
      !! equal to 1 and all other elements set to 0.
@@ -222,10 +273,16 @@ module la_eye
          1 call err0%handle(#{if epresent}#err#{endif}#)
 
      end function la_eye_${ri}$${esuf}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      ! Return square diagonal matrix with diagonal values equal to the input scalar
      ${epref}$function la_diag_${ri}$${esuf}$_from_scalar(n,source${earg}$) result(diag)
          !> Matrix size
@@ -317,11 +374,17 @@ module la_eye
          call err0%handle(#{if epresent}#err#{endif}#)
 
      end function la_diag_${ri}$${esuf}$_from_array
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
      #:endfor
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      ! Construct a square matrix whose k-th diagonal is filled with the input array
      pure function la_diag_${ri}$_from_array_k(source,k) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
@@ -489,6 +552,9 @@ module la_eye
          #:endif
 
      end function la_hermitian_${ri}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 

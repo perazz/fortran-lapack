@@ -96,44 +96,86 @@ module la_matrix_property_checks
      ! which reports NaN operands as different exactly as `/=` does.
      interface differ
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_differ_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface differ
 
      interface is_square
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_is_square_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface is_square
 
      interface is_diagonal
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_is_diagonal_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface is_diagonal
 
      interface is_symmetric
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_is_symmetric_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface is_symmetric
 
      interface is_skew_symmetric
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_is_skew_symmetric_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface is_skew_symmetric
 
      interface is_hermitian
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_is_hermitian_${ri}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface is_hermitian
 
      interface is_triangular
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_is_triangular_${ri}$${esuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface is_triangular
@@ -141,7 +183,13 @@ module la_matrix_property_checks
      interface is_hessenberg
         #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_is_hessenberg_${ri}$${esuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface is_hessenberg
@@ -149,6 +197,9 @@ module la_matrix_property_checks
      contains
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      pure elemental logical(lk) function la_differ_${ri}$(x,y) result(differs)
          ${rt}$, intent(in) :: x,y
 
@@ -249,10 +300,16 @@ module la_matrix_property_checks
          res = .true._lk
 
      end function la_is_skew_symmetric_${ri}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 
      #:for rk,rt,ri in REAL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Check whether a real matrix is Hermitian: symmetry and Hermiticity coincide.
      pure logical(lk) function la_is_hermitian_${ri}$(A) result(res)
          !> Input matrix
@@ -261,10 +318,16 @@ module la_matrix_property_checks
          res = is_symmetric(A)
 
      end function la_is_hermitian_${ri}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 
      #:for rk,rt,ri in CMPL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Check whether a complex matrix is Hermitian.
      pure logical(lk) function la_is_hermitian_${ri}$(A) result(res)
          !> Input matrix
@@ -291,11 +354,17 @@ module la_matrix_property_checks
          res = .true._lk
 
      end function la_is_hermitian_${ri}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 
      #:for epref,esuf,earg,epresent in FUNCTION_INTERFACES
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Check whether a matrix is upper or lower triangular.
      ${epref}$logical(lk) function la_is_triangular_${ri}$${esuf}$(A,uplo${earg}$) result(res)
          !> Input matrix
@@ -387,6 +456,9 @@ module la_matrix_property_checks
          1 call err0%handle(#{if epresent}#err#{endif}#)
 
      end function la_is_hessenberg_${ri}$${esuf}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
      #:endfor

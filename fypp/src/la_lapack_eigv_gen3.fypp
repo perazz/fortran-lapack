@@ -22,6 +22,9 @@ module la_lapack_eigv_gen3
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laqr1
      public :: la_${ri}$laqz1
      public :: la_${ri}$laqz2
@@ -35,8 +38,14 @@ module la_lapack_eigv_gen3
      public :: la_${ri}$laqr4
      public :: la_${ri}$laqz0
      public :: la_${ri}$laqz3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laqr1
      public :: la_${ri}$lahqr
      public :: la_${ri}$laqr5
@@ -48,11 +57,17 @@ module la_lapack_eigv_gen3
      public :: la_${ri}$laqr4
      public :: la_${ri}$laqz0
      public :: la_${ri}$laqz2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Given a 2-by-2 or 3-by-3 matrix H, ${ri.upper()}$LAQR1: sets v to a
      !> scalar multiple of the first column of the product
      !> (*)  K = (H - (sr1 + i*si1)*I)*(H - (sr2 + i*si2)*I)
@@ -113,9 +128,15 @@ module la_lapack_eigv_gen3
               end if
            end if
      end subroutine la_${ri}$laqr1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Given a 3-by-3 matrix pencil (A,B), ${ri.upper()}$LAQZ1: sets v to a
      !> scalar multiple of the first column of the product
      !> (*)  K = (A - (beta2*sr2 - i*si)*B)*B^(-1)*(beta1*A - (sr2 + i*si2)*B)*B^(-1).
@@ -171,9 +192,15 @@ module la_lapack_eigv_gen3
               v(3) = zero
            end if
      end subroutine la_${ri}$laqz1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQZ2: chases a 2x2 shift bulge in a matrix pencil down a single position
 
      pure subroutine la_${ri}$laqz2(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq,qstart, &
@@ -285,9 +312,15 @@ module la_lapack_eigv_gen3
               end if
            end if
      end subroutine la_${ri}$laqz2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQZ4: Executes a single multishift QZ sweep
 
      pure subroutine la_${ri}$laqz4(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,sr, &
@@ -545,9 +578,15 @@ module la_lapack_eigv_gen3
               call la_${ri}$lacpy('ALL',n,ns + 1,work,n,z(1,ihi - ns),ldz)
            end if
      end subroutine la_${ri}$laqz4
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQR5:, called by ${ri.upper()}$LAQR0, performs a
      !> single small-bulge multi-shift QR sweep.
 
@@ -963,9 +1002,15 @@ module la_lapack_eigv_gen3
               end if
            end do loop_180
      end subroutine la_${ri}$laqr5
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQTR: solves the real quasi-triangular system
      !> op(T)*p = scale*c,               if LREAL = .TRUE.
      !> or the complex quasi-triangular systems
@@ -1412,9 +1457,15 @@ module la_lapack_eigv_gen3
            end if
            return
      end subroutine la_${ri}$laqtr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAHQR: is an auxiliary routine called by ${ri.upper()}$HSEQR to update the
      !> eigenvalues and Schur decomposition already computed by ${ri.upper()}$HSEQR, by
      !> dealing with the Hessenberg submatrix in rows and columns ILO to
@@ -1726,9 +1777,15 @@ module la_lapack_eigv_gen3
            160 continue
            return
      end subroutine la_${ri}$lahqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQR2: is identical to ${ri.upper()}$LAQR3 except that it avoids
      !> recursion by calling ${ri.upper()}$LAHQR instead of ${ri.upper()}$LAQR4.
      !> Aggressive early deflation:
@@ -2036,9 +2093,15 @@ module la_lapack_eigv_gen3
             ! ==== return optimal workspace. ====
            work(1) = real(lwkopt,KIND=${rk}$)
      end subroutine la_${ri}$laqr2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQR0: computes the eigenvalues of a Hessenberg matrix H
      !> and, optionally, the matrices T and Z from the Schur decomposition
      !> H = Z T Z**T, where T is an upper quasi-triangular matrix (the
@@ -2412,9 +2475,15 @@ module la_lapack_eigv_gen3
            ! ==== return the optimal value of lwork. ====
            work(1) = real(lwkopt,KIND=${rk}$)
      end subroutine la_${ri}$laqr0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Aggressive early deflation:
      !> ${ri.upper()}$LAQR3: accepts as input an upper Hessenberg matrix
      !> H and performs an orthogonal similarity transformation
@@ -2730,9 +2799,15 @@ module la_lapack_eigv_gen3
             ! ==== return optimal workspace. ====
            work(1) = real(lwkopt,KIND=${rk}$)
      end subroutine la_${ri}$laqr3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQR4: implements one level of recursion for ${ri.upper()}$LAQR0.
      !> It is a complete implementation of the small bulge multi-shift
      !> QR algorithm.  It may be called by ${ri.upper()}$LAQR0 and, for large enough
@@ -3107,9 +3182,15 @@ module la_lapack_eigv_gen3
            ! ==== return the optimal value of lwork. ====
            work(1) = real(lwkopt,KIND=${rk}$)
      end subroutine la_${ri}$laqr4
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQZ0: computes the eigenvalues of a real matrix pair (H,T),
      !> where H is an upper Hessenberg matrix and T is upper triangular,
      !> using the double-shift QZ method.
@@ -3506,9 +3587,15 @@ module la_lapack_eigv_gen3
                   beta,q,ldq,z,ldz,work,lwork,norm_info)
            info = norm_info
      end subroutine la_${ri}$laqz0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQZ3: performs AED
 
      recursive subroutine la_${ri}$laqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
@@ -3781,9 +3868,15 @@ module la_lapack_eigv_gen3
               call la_${ri}$lacpy('ALL',n,jw,work,n,z(1,kwtop),ldz)
            end if
      end subroutine la_${ri}$laqz3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Given a 2-by-2 or 3-by-3 matrix H, ${ri.upper()}$LAQR1: sets v to a
      !> scalar multiple of the first column of the product
      !> (*)  K = (H - s1*I)*(H - s2*I)
@@ -3850,9 +3943,15 @@ module la_lapack_eigv_gen3
               end if
            end if
      end subroutine la_${ri}$laqr1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$LAHQR: is an auxiliary routine called by ${ri.upper()}$HSEQR to update the
      !> eigenvalues and Schur decomposition already computed by ${ri.upper()}$HSEQR, by
@@ -4145,9 +4244,15 @@ module la_lapack_eigv_gen3
            150 continue
            return
      end subroutine la_${ri}$lahqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$LAQR5: called by ${ri.upper()}$LAQR0 performs a
 #:else
@@ -4553,9 +4658,15 @@ module la_lapack_eigv_gen3
               end if
            end do loop_180
      end subroutine la_${ri}$laqr5
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQZ1: chases a 1x1 shift bulge in a matrix pencil down a single position
 
      pure subroutine la_${ri}$laqz1(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq,qstart, &
@@ -4609,9 +4720,15 @@ module la_lapack_eigv_gen3
               end if
            end if
      end subroutine la_${ri}$laqz1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQZ3: Executes a single multishift QZ sweep
 
      pure subroutine la_${ri}$laqz3(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,alpha, &
@@ -4851,9 +4968,15 @@ module la_lapack_eigv_gen3
               call la_${ri}$lacpy('ALL',n,ns + 1,work,n,z(1,ihi - ns),ldz)
            end if
      end subroutine la_${ri}$laqz3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQR2: is identical to ${ri.upper()}$LAQR3 except that it avoids
      !> recursion by calling ${ri.upper()}$LAHQR instead of ${ri.upper()}$LAQR4.
      !> Aggressive early deflation:
@@ -5075,9 +5198,15 @@ module la_lapack_eigv_gen3
             ! ==== return optimal workspace. ====
            work(1) = cmplx(lwkopt,0,KIND=${rk}$)
      end subroutine la_${ri}$laqr2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQR0: computes the eigenvalues of a Hessenberg matrix H
      !> and, optionally, the matrices T and Z from the Schur decomposition
      !> H = Z T Z**H, where T is an upper triangular matrix (the
@@ -5427,9 +5556,15 @@ module la_lapack_eigv_gen3
            ! ==== return the optimal value of lwork. ====
            work(1) = cmplx(lwkopt,0,KIND=${rk}$)
      end subroutine la_${ri}$laqr0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> Aggressive early deflation:
      !> ${ri.upper()}$LAQR3: accepts as input an upper Hessenberg matrix
      !> H and performs an unitary similarity transformation
@@ -5655,9 +5790,15 @@ module la_lapack_eigv_gen3
             ! ==== return optimal workspace. ====
            work(1) = cmplx(lwkopt,0,KIND=${rk}$)
      end subroutine la_${ri}$laqr3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQR4: implements one level of recursion for ${ri.upper()}$LAQR0.
      !> It is a complete implementation of the small bulge multi-shift
      !> QR algorithm.  It may be called by ${ri.upper()}$LAQR0 and, for large enough
@@ -6008,9 +6149,15 @@ module la_lapack_eigv_gen3
            ! ==== return the optimal value of lwork. ====
            work(1) = cmplx(lwkopt,0,KIND=${rk}$)
      end subroutine la_${ri}$laqr4
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$LAQZ0: computes the eigenvalues of a matrix pair (H,T),
 #:else
@@ -6375,9 +6522,15 @@ module la_lapack_eigv_gen3
                   ldq,z,ldz,work,lwork,rwork,norm_info)
            info = norm_info
      end subroutine la_${ri}$laqz0
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAQZ2: performs AED
 
      recursive subroutine la_${ri}$laqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
@@ -6566,6 +6719,9 @@ module la_lapack_eigv_gen3
               call la_${ri}$lacpy('ALL',n,jw,work,n,z(1,kwtop),ldz)
            end if
      end subroutine la_${ri}$laqz2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_gen3

@@ -21,10 +21,20 @@ module test_linalg_qr
         
         call add_test(tests,new_unittest("qr_random_s",test_qr_random_s))
         call add_test(tests,new_unittest("qr_random_d",test_qr_random_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("qr_random_x",test_qr_random_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("qr_random_q",test_qr_random_q))
+#endif
         call add_test(tests,new_unittest("qr_random_c",test_qr_random_c))
         call add_test(tests,new_unittest("qr_random_z",test_qr_random_z))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("qr_random_y",test_qr_random_y))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("qr_random_w",test_qr_random_w))
+#endif
 
     end subroutine test_qr_factorization
 
@@ -177,6 +187,83 @@ module test_linalg_qr
         
     end subroutine test_qr_random_d
 
+#ifdef LA_WITH_XDP
+    subroutine test_qr_random_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 15_ilp
+        integer(ilp),parameter :: n = 4_ilp
+        integer(ilp),parameter :: k = min(m,n)
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(m,n),aorig(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n),qerr(m,k - 1),rerr(k - 1,n)
+        real(xdp) :: rea(m,n)
+        integer(ilp) :: lwork
+        real(xdp),allocatable :: work(:)
+        type(la_state) :: state
+        
+        call random_number(rea)
+        a = rea
+        aorig = a
+        
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_xdp,ieee_quiet_nan)
+        r = ieee_value(0.0_xdp,ieee_quiet_nan)
+        call qr(a,q,r,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(a - matmul(q,r)) < tol),'converged solution (fulle)')
+        if (allocated(error)) return
+                
+        ! 2) QR factorization with reduced matrices
+        call qr(a,qred,rred,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(a - matmul(qred,rred)) < tol),'converged solution (reduced)')
+        if (allocated(error)) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(aorig - matmul(qred,rred)) < tol),'converged solution (overwrite A)')
+        if (allocated(error)) return
+        
+        ! 4) External storage option
+        a = aorig
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=state)
+    
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(a - matmul(q,r)) < tol),'converged solution (external storage)')
+        if (allocated(error)) return
+        
+        ! Check that an invalid problem size returns an error
+        a = aorig
+        call qr(a,qerr,rerr,err=state)
+        call check(error,state%error(),'invalid matrix sizes')
+        if (allocated(error)) return
+        
+    end subroutine test_qr_random_x
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_qr_random_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -250,6 +337,7 @@ module test_linalg_qr
         if (allocated(error)) return
         
     end subroutine test_qr_random_q
+#endif
 
     subroutine test_qr_random_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -403,6 +491,85 @@ module test_linalg_qr
         
     end subroutine test_qr_random_z
 
+#ifdef LA_WITH_XDP
+    subroutine test_qr_random_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 15_ilp
+        integer(ilp),parameter :: n = 4_ilp
+        integer(ilp),parameter :: k = min(m,n)
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(m,n),aorig(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n),qerr(m,k - 1),rerr(k - 1,n)
+        real(xdp) :: rea(m,n)
+        real(xdp) :: ima(m,n)
+        integer(ilp) :: lwork
+        complex(xdp),allocatable :: work(:)
+        type(la_state) :: state
+        
+        call random_number(rea)
+        call random_number(ima)
+        a = cmplx(rea,ima,kind=xdp)
+        aorig = a
+        
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_xdp,ieee_quiet_nan)
+        r = ieee_value(0.0_xdp,ieee_quiet_nan)
+        call qr(a,q,r,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(a - matmul(q,r)) < tol),'converged solution (fulle)')
+        if (allocated(error)) return
+                
+        ! 2) QR factorization with reduced matrices
+        call qr(a,qred,rred,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(a - matmul(qred,rred)) < tol),'converged solution (reduced)')
+        if (allocated(error)) return
+        
+        ! 3) overwrite A
+        call qr(a,qred,rred,overwrite_a=.true.,err=state)
+        
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(aorig - matmul(qred,rred)) < tol),'converged solution (overwrite A)')
+        if (allocated(error)) return
+        
+        ! 4) External storage option
+        a = aorig
+        call qr_space(a,lwork)
+        allocate (work(lwork))
+        call qr(a,q,r,storage=work,err=state)
+    
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        ! Check solution
+        call check(error,all(abs(a - matmul(q,r)) < tol),'converged solution (external storage)')
+        if (allocated(error)) return
+        
+        ! Check that an invalid problem size returns an error
+        a = aorig
+        call qr(a,qerr,rerr,err=state)
+        call check(error,state%error(),'invalid matrix sizes')
+        if (allocated(error)) return
+        
+    end subroutine test_qr_random_y
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_qr_random_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -478,6 +645,7 @@ module test_linalg_qr
         if (allocated(error)) return
         
     end subroutine test_qr_random_w
+#endif
 
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

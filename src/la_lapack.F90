@@ -138,7 +138,9 @@ module la_lapack
 #else
                module procedure la_dbbcsd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qbbcsd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
@@ -156,7 +158,15 @@ module la_lapack
 #else
                module procedure la_sbbcsd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wbbcsd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xbbcsd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ybbcsd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zbbcsd(jobu1,jobu2,jobv1t,jobv2t,trans,m,p,q,theta,phi, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t,b11d,b11e,b12d,b12e,b21d,b21e,b22d, &
@@ -208,7 +218,9 @@ module la_lapack
 #else
                module procedure la_dbdsdc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qbdsdc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sbdsdc(uplo,compq,n,d,e,u,ldu,vt,ldvt,q,iq,work,iwork, &
                          info)
@@ -222,6 +234,9 @@ module la_lapack
                end subroutine sbdsdc
 #else
                module procedure la_sbdsdc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xbdsdc
 #endif
           end interface bdsdc
 
@@ -279,7 +294,9 @@ module la_lapack
 #else
                module procedure la_dbdsqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qbdsqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc, &
                          work,info)
@@ -294,7 +311,15 @@ module la_lapack
 #else
                module procedure la_sbdsqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wbdsqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xbdsqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ybdsqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zbdsqr(uplo,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c,ldc, &
                          rwork,info)
@@ -339,7 +364,9 @@ module la_lapack
 #else
                module procedure la_ddisna
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qdisna
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sdisna(job,m,n,d,sep,info)
                     import sp,dp,qp,ilp,lk
@@ -352,6 +379,9 @@ module la_lapack
                end subroutine sdisna
 #else
                module procedure la_sdisna
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xdisna
 #endif
           end interface disna
 
@@ -389,7 +419,9 @@ module la_lapack
 #else
                module procedure la_dgbbrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbbrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt, &
                          c,ldc,work,info)
@@ -404,7 +436,15 @@ module la_lapack
 #else
                module procedure la_sgbbrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbbrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbbrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbbrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgbbrd(vect,m,n,ncc,kl,ku,ab,ldab,d,e,q,ldq,pt,ldpt, &
                          c,ldc,work,rwork,info)
@@ -459,7 +499,9 @@ module la_lapack
 #else
                module procedure la_dgbcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,iwork, &
                          info)
@@ -474,7 +516,15 @@ module la_lapack
 #else
                module procedure la_sgbcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgbcon(norm,n,kl,ku,ab,ldab,ipiv,anorm,rcond,work,rwork, &
                          info)
@@ -529,7 +579,9 @@ module la_lapack
 #else
                module procedure la_dgbequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
@@ -543,7 +595,15 @@ module la_lapack
 #else
                module procedure la_sgbequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgbequ(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
@@ -601,7 +661,9 @@ module la_lapack
 #else
                module procedure la_dgbequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
@@ -615,7 +677,15 @@ module la_lapack
 #else
                module procedure la_sgbequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgbequb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,info)
                          
@@ -666,7 +736,9 @@ module la_lapack
 #else
                module procedure la_dgbrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb, &
                          x,ldx,ferr,berr,work,iwork,info)
@@ -682,7 +754,15 @@ module la_lapack
 #else
                module procedure la_sgbrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgbrfs(trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,b,ldb, &
                          x,ldx,ferr,berr,work,rwork,info)
@@ -732,7 +812,9 @@ module la_lapack
 #else
                module procedure la_dgbsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -744,7 +826,15 @@ module la_lapack
 #else
                module procedure la_sgbsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgbsv(n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -784,7 +874,9 @@ module la_lapack
 #else
                module procedure la_dgbtrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbtrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -796,7 +888,15 @@ module la_lapack
 #else
                module procedure la_sgbtrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbtrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbtrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbtrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgbtrf(m,n,kl,ku,ab,ldab,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -843,7 +943,9 @@ module la_lapack
 #else
                module procedure la_dgbtrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgbtrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                          
@@ -858,7 +960,15 @@ module la_lapack
 #else
                module procedure la_sgbtrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgbtrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgbtrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygbtrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgbtrs(trans,n,kl,ku,nrhs,ab,ldab,ipiv,b,ldb,info)
                          
@@ -905,7 +1015,9 @@ module la_lapack
 #else
                module procedure la_dgebak
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgebak
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
                     import sp,dp,qp,ilp,lk
@@ -919,7 +1031,15 @@ module la_lapack
 #else
                module procedure la_sgebak
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgebak
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgebak
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygebak
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgebak(job,side,n,ilo,ihi,scale,m,v,ldv,info)
                     import sp,dp,qp,ilp,lk
@@ -970,7 +1090,9 @@ module la_lapack
 #else
                module procedure la_dgebal
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgebal
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgebal(job,n,a,lda,ilo,ihi,scale,info)
                     import sp,dp,qp,ilp,lk
@@ -984,7 +1106,15 @@ module la_lapack
 #else
                module procedure la_sgebal
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgebal
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgebal
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygebal
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgebal(job,n,a,lda,ilo,ihi,scale,info)
                     import sp,dp,qp,ilp,lk
@@ -1029,7 +1159,9 @@ module la_lapack
 #else
                module procedure la_dgebrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgebrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1042,7 +1174,15 @@ module la_lapack
 #else
                module procedure la_sgebrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgebrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgebrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygebrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgebrd(m,n,a,lda,d,e,tauq,taup,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1094,7 +1234,9 @@ module la_lapack
 #else
                module procedure la_dgecon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgecon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgecon(norm,n,a,lda,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1109,7 +1251,15 @@ module la_lapack
 #else
                module procedure la_sgecon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgecon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgecon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygecon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgecon(norm,n,a,lda,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1161,7 +1311,9 @@ module la_lapack
 #else
                module procedure la_dgeequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -1174,7 +1326,15 @@ module la_lapack
 #else
                module procedure la_sgeequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgeequ(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -1229,7 +1389,9 @@ module la_lapack
 #else
                module procedure la_dgeequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -1242,7 +1404,15 @@ module la_lapack
 #else
                module procedure la_sgeequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgeequb(m,n,a,lda,r,c,rowcnd,colcnd,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -1299,7 +1469,9 @@ module la_lapack
 #else
                module procedure la_dgees
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgees
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work, &
                          lwork,bwork,info)
@@ -1316,7 +1488,15 @@ module la_lapack
 #else
                module procedure la_sgees
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgees
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgees
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygees
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
                          rwork,bwork,info)
@@ -1389,7 +1569,9 @@ module la_lapack
 #else
                module procedure la_dgeesx
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeesx
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
                          rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
@@ -1406,7 +1588,15 @@ module la_lapack
 #else
                module procedure la_sgeesx
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeesx
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeesx
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeesx
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
                          rcondv,work,lwork,rwork,bwork,info)
@@ -1466,7 +1656,9 @@ module la_lapack
 #else
                module procedure la_dgeev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
                          info)
@@ -1481,7 +1673,15 @@ module la_lapack
 #else
                module procedure la_sgeev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork, &
                          rwork,info)
@@ -1555,7 +1755,9 @@ module la_lapack
 #else
                module procedure la_dgeevx
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeevx
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
                          ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
@@ -1571,7 +1773,15 @@ module la_lapack
 #else
                module procedure la_sgeevx
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeevx
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeevx
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeevx
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
                          ihi,scale,abnrm,rconde,rcondv,work,lwork,rwork,info)
@@ -1616,7 +1826,9 @@ module la_lapack
 #else
                module procedure la_dgehrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgehrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1629,7 +1841,15 @@ module la_lapack
 #else
                module procedure la_sgehrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgehrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgehrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygehrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgehrd(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1684,7 +1904,9 @@ module la_lapack
 #else
                module procedure la_dgejsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgejsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u, &
                          ldu,v,ldv,work,lwork,iwork,info)
@@ -1699,7 +1921,15 @@ module la_lapack
 #else
                module procedure la_sgejsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgejsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgejsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygejsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgejsv(joba,jobu,jobv,jobr,jobt,jobp,m,n,a,lda,sva,u, &
                          ldu,v,ldv,cwork,lwork,rwork,lrwork,iwork,info)
@@ -1748,7 +1978,9 @@ module la_lapack
 #else
                module procedure la_dgelq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgelq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgelq(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1761,7 +1993,15 @@ module la_lapack
 #else
                module procedure la_sgelq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgelq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgelq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygelq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgelq(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1807,7 +2047,9 @@ module la_lapack
 #else
                module procedure la_dgelqf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgelqf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgelqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1820,7 +2062,15 @@ module la_lapack
 #else
                module procedure la_sgelqf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgelqf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgelqf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygelqf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgelqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -1862,7 +2112,9 @@ module la_lapack
 #else
                module procedure la_dgelqt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgelqt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgelqt(m,n,mb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
@@ -1875,7 +2127,15 @@ module la_lapack
 #else
                module procedure la_sgelqt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgelqt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgelqt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygelqt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgelqt(m,n,mb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
@@ -1919,7 +2179,9 @@ module la_lapack
 #else
                module procedure la_dgelqt3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgelqt3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine sgelqt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -1932,7 +2194,15 @@ module la_lapack
 #else
                module procedure la_sgelqt3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgelqt3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgelqt3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygelqt3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine zgelqt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -1992,7 +2262,9 @@ module la_lapack
 #else
                module procedure la_dgels
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgels
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2006,7 +2278,15 @@ module la_lapack
 #else
                module procedure la_sgels
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgels
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgels
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygels
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2077,7 +2357,9 @@ module la_lapack
 #else
                module procedure la_dgelsd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgelsd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
                          info)
@@ -2092,7 +2374,15 @@ module la_lapack
 #else
                module procedure la_sgelsd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgelsd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgelsd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygelsd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                          iwork,info)
@@ -2152,7 +2442,9 @@ module la_lapack
 #else
                module procedure la_dgelss
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgelss
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
                          
@@ -2167,7 +2459,15 @@ module la_lapack
 #else
                module procedure la_sgelss
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgelss
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgelss
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygelss
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                          info)
@@ -2249,7 +2549,9 @@ module la_lapack
 #else
                module procedure la_dgelsy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgelsy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info &
                          )
@@ -2265,7 +2567,15 @@ module la_lapack
 #else
                module procedure la_sgelsy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgelsy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgelsy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygelsy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork, &
                          rwork,info)
@@ -2322,7 +2632,9 @@ module la_lapack
 #else
                module procedure la_dgemlq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgemlq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
                           info)
@@ -2338,7 +2650,15 @@ module la_lapack
 #else
                module procedure la_sgemlq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgemlq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgemlq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygemlq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgemlq(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
                           info)
@@ -2396,7 +2716,9 @@ module la_lapack
 #else
                module procedure la_dgemlqt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgemlqt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work, &
                          info)
@@ -2412,7 +2734,15 @@ module la_lapack
 #else
                module procedure la_sgemlqt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgemlqt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgemlqt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygemlqt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgemlqt(side,trans,m,n,k,mb,v,ldv,t,ldt,c,ldc,work, &
                          info)
@@ -2468,7 +2798,9 @@ module la_lapack
 #else
                module procedure la_dgemqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgemqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
                           info)
@@ -2484,7 +2816,15 @@ module la_lapack
 #else
                module procedure la_sgemqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgemqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgemqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygemqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgemqr(side,trans,m,n,k,a,lda,t,tsize,c,ldc,work,lwork, &
                           info)
@@ -2542,7 +2882,9 @@ module la_lapack
 #else
                module procedure la_dgemqrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgemqrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work, &
                          info)
@@ -2558,7 +2900,15 @@ module la_lapack
 #else
                module procedure la_sgemqrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgemqrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgemqrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygemqrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgemqrt(side,trans,m,n,k,nb,v,ldv,t,ldt,c,ldc,work, &
                          info)
@@ -2603,7 +2953,9 @@ module la_lapack
 #else
                module procedure la_dgeqlf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqlf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgeqlf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2616,7 +2968,15 @@ module la_lapack
 #else
                module procedure la_sgeqlf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqlf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqlf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqlf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgeqlf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2661,7 +3021,9 @@ module la_lapack
 #else
                module procedure la_dgeqp3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqp3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgeqp3(m,n,a,lda,jpvt,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2675,7 +3037,15 @@ module la_lapack
 #else
                module procedure la_sgeqp3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqp3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqp3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqp3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgeqp3(m,n,a,lda,jpvt,tau,work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2724,7 +3094,9 @@ module la_lapack
 #else
                module procedure la_dgeqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgeqr(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2737,7 +3109,15 @@ module la_lapack
 #else
                module procedure la_sgeqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgeqr(m,n,a,lda,t,tsize,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2785,7 +3165,9 @@ module la_lapack
 #else
                module procedure la_dgeqr2p
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqr2p
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
@@ -2798,7 +3180,15 @@ module la_lapack
 #else
                module procedure la_sgeqr2p
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqr2p
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqr2p
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqr2p
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
@@ -2845,7 +3235,9 @@ module la_lapack
 #else
                module procedure la_dgeqrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgeqrf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2858,7 +3250,15 @@ module la_lapack
 #else
                module procedure la_sgeqrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgeqrf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2906,7 +3306,9 @@ module la_lapack
 #else
                module procedure la_dgeqrfp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqrfp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2919,7 +3321,15 @@ module la_lapack
 #else
                module procedure la_sgeqrfp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqrfp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqrfp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqrfp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -2961,7 +3371,9 @@ module la_lapack
 #else
                module procedure la_dgeqrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgeqrt(m,n,nb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
@@ -2974,7 +3386,15 @@ module la_lapack
 #else
                module procedure la_sgeqrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgeqrt(m,n,nb,a,lda,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
@@ -3016,7 +3436,9 @@ module la_lapack
 #else
                module procedure la_dgeqrt2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqrt2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgeqrt2(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -3029,7 +3451,15 @@ module la_lapack
 #else
                module procedure la_sgeqrt2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqrt2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqrt2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqrt2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgeqrt2(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -3073,7 +3503,9 @@ module la_lapack
 #else
                module procedure la_dgeqrt3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgeqrt3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine sgeqrt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -3086,7 +3518,15 @@ module la_lapack
 #else
                module procedure la_sgeqrt3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgeqrt3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgeqrt3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygeqrt3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine zgeqrt3(m,n,a,lda,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -3136,7 +3576,9 @@ module la_lapack
 #else
                module procedure la_dgerfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgerfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx, &
                          ferr,berr,work,iwork,info)
@@ -3152,7 +3594,15 @@ module la_lapack
 #else
                module procedure la_sgerfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgerfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgerfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygerfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgerfs(trans,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx, &
                          ferr,berr,work,rwork,info)
@@ -3198,7 +3648,9 @@ module la_lapack
 #else
                module procedure la_dgerqf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgerqf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgerqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -3211,7 +3663,15 @@ module la_lapack
 #else
                module procedure la_sgerqf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgerqf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgerqf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygerqf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgerqf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -3273,7 +3733,9 @@ module la_lapack
 #else
                module procedure la_dgesdd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgesdd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork, &
                          info)
@@ -3288,7 +3750,15 @@ module la_lapack
 #else
                module procedure la_sgesdd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgesdd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgesdd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygesdd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                          iwork,info)
@@ -3338,7 +3808,9 @@ module la_lapack
 #else
                module procedure la_dgesv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgesv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -3350,7 +3822,15 @@ module la_lapack
 #else
                module procedure la_sgesv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgesv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgesv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygesv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgesv(n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -3405,7 +3885,9 @@ module la_lapack
 #else
                module procedure la_dgesvd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgesvd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
                          info)
@@ -3420,7 +3902,15 @@ module la_lapack
 #else
                module procedure la_sgesvd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgesvd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgesvd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygesvd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
                          rwork,info)
@@ -3479,7 +3969,9 @@ module la_lapack
 #else
                module procedure la_dgesvdq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgesvdq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                          numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
@@ -3495,7 +3987,15 @@ module la_lapack
 #else
                module procedure la_sgesvdq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgesvdq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgesvdq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygesvdq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                          numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
@@ -3553,7 +4053,9 @@ module la_lapack
 #else
                module procedure la_dgesvj
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgesvj
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,work, &
                          lwork,info)
@@ -3568,7 +4070,15 @@ module la_lapack
 #else
                module procedure la_sgesvj
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgesvj
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgesvj
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygesvj
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgesvj(joba,jobu,jobv,m,n,a,lda,sva,mv,v,ldv,cwork, &
                          lwork,rwork,lrwork,info)
@@ -3627,7 +4137,9 @@ module la_lapack
 #else
                module procedure la_dgesvx
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgesvx
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
                          ldx,rcond,ferr,berr,work,iwork,info)
@@ -3644,7 +4156,15 @@ module la_lapack
 #else
                module procedure la_sgesvx
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgesvx
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgesvx
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygesvx
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
                          ldx,rcond,ferr,berr,work,rwork,info)
@@ -3696,7 +4216,9 @@ module la_lapack
 #else
                module procedure la_dgetrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgetrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -3708,7 +4230,15 @@ module la_lapack
 #else
                module procedure la_sgetrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgetrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgetrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygetrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgetrf(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -3764,7 +4294,9 @@ module la_lapack
 #else
                module procedure la_dgetrf2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgetrf2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine sgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -3776,7 +4308,15 @@ module la_lapack
 #else
                module procedure la_sgetrf2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgetrf2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgetrf2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygetrf2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine zgetrf2(m,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -3819,7 +4359,9 @@ module la_lapack
 #else
                module procedure la_dgetri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgetri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -3832,7 +4374,15 @@ module la_lapack
 #else
                module procedure la_sgetri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgetri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgetri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygetri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgetri(n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -3878,7 +4428,9 @@ module la_lapack
 #else
                module procedure la_dgetrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgetrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -3892,7 +4444,15 @@ module la_lapack
 #else
                module procedure la_sgetrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgetrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgetrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygetrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgetrs(trans,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -3953,7 +4513,9 @@ module la_lapack
 #else
                module procedure la_dgetsls
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgetsls
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -3967,7 +4529,15 @@ module la_lapack
 #else
                module procedure la_sgetsls
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgetsls
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgetsls
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygetsls
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -4022,7 +4592,9 @@ module la_lapack
 #else
                module procedure la_dgetsqrhrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgetsqrhrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
                          
@@ -4036,7 +4608,15 @@ module la_lapack
 #else
                module procedure la_sgetsqrhrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgetsqrhrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgetsqrhrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygetsqrhrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgetsqrhrt(m,n,mb1,nb1,nb2,a,lda,t,ldt,work,lwork,info)
                          
@@ -4085,7 +4665,9 @@ module la_lapack
 #else
                module procedure la_dggbak
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qggbak
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
                          
@@ -4100,7 +4682,15 @@ module la_lapack
 #else
                module procedure la_sggbak
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wggbak
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xggbak
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yggbak
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zggbak(job,side,n,ilo,ihi,lscale,rscale,m,v,ldv,info)
                          
@@ -4155,7 +4745,9 @@ module la_lapack
 #else
                module procedure la_dggbal
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qggbal
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work, &
                          info)
@@ -4170,7 +4762,15 @@ module la_lapack
 #else
                module procedure la_sggbal
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wggbal
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xggbal
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yggbal
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zggbal(job,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work, &
                          info)
@@ -4243,7 +4843,9 @@ module la_lapack
 #else
                module procedure la_dgges
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgges
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                          alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
@@ -4261,7 +4863,15 @@ module la_lapack
 #else
                module procedure la_sgges
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgges
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgges
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygges
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha, &
                          beta,vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
@@ -4344,7 +4954,9 @@ module la_lapack
 #else
                module procedure la_dgges3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgges3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                          alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
@@ -4362,7 +4974,15 @@ module la_lapack
 #else
                module procedure la_sgges3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgges3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgges3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygges3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                          vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
@@ -4430,7 +5050,9 @@ module la_lapack
 #else
                module procedure la_dggev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qggev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl, &
                          vr,ldvr,work,lwork,info)
@@ -4446,7 +5068,15 @@ module la_lapack
 #else
                module procedure la_sggev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wggev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xggev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yggev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                          work,lwork,rwork,info)
@@ -4512,7 +5142,9 @@ module la_lapack
 #else
                module procedure la_dggev3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qggev3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                          ldvr,work,lwork,info)
@@ -4528,7 +5160,15 @@ module la_lapack
 #else
                module procedure la_sggev3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wggev3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xggev3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yggev3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                          work,lwork,rwork,info)
@@ -4592,7 +5232,9 @@ module la_lapack
 #else
                module procedure la_dggglm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qggglm
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
                          
@@ -4606,7 +5248,15 @@ module la_lapack
 #else
                module procedure la_sggglm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wggglm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xggglm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yggglm
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info)
                          
@@ -4676,7 +5326,9 @@ module la_lapack
 #else
                module procedure la_dgghd3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgghd3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgghd3(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,work, &
                          lwork,info)
@@ -4691,7 +5343,15 @@ module la_lapack
 #else
                module procedure la_sgghd3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgghd3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgghd3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygghd3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgghd3(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz,work, &
                          lwork,info)
@@ -4758,7 +5418,9 @@ module la_lapack
 #else
                module procedure la_dgghrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgghrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz, &
                          info)
@@ -4772,7 +5434,15 @@ module la_lapack
 #else
                module procedure la_sgghrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgghrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgghrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygghrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgghrd(compq,compz,n,ilo,ihi,a,lda,b,ldb,q,ldq,z,ldz, &
                          info)
@@ -4827,7 +5497,9 @@ module la_lapack
 #else
                module procedure la_dgglse
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgglse
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
                          
@@ -4841,7 +5513,15 @@ module la_lapack
 #else
                module procedure la_sgglse
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgglse
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgglse
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygglse
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info)
                          
@@ -4902,7 +5582,9 @@ module la_lapack
 #else
                module procedure la_dggqrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qggqrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
                          
@@ -4916,7 +5598,15 @@ module la_lapack
 #else
                module procedure la_sggqrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wggqrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xggqrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yggqrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zggqrf(n,m,p,a,lda,taua,b,ldb,taub,work,lwork,info)
                          
@@ -4977,7 +5667,9 @@ module la_lapack
 #else
                module procedure la_dggrqf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qggrqf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
                          
@@ -4991,7 +5683,15 @@ module la_lapack
 #else
                module procedure la_sggrqf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wggrqf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xggrqf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yggrqf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zggrqf(m,p,n,a,lda,taua,b,ldb,taub,work,lwork,info)
                          
@@ -5043,7 +5743,9 @@ module la_lapack
 #else
                module procedure la_dgsvj0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgsvj0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
                          nsweep,work,lwork,info)
@@ -5059,7 +5761,15 @@ module la_lapack
 #else
                module procedure la_sgsvj0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgsvj0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgsvj0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygsvj0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgsvj0(jobv,m,n,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
                          nsweep,work,lwork,info)
@@ -5134,7 +5844,9 @@ module la_lapack
 #else
                module procedure la_dgsvj1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgsvj1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
                           nsweep,work,lwork,info)
@@ -5150,7 +5862,15 @@ module la_lapack
 #else
                module procedure la_sgsvj1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgsvj1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgsvj1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygsvj1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgsvj1(jobv,m,n,n1,a,lda,d,sva,mv,v,ldv,eps,sfmin,tol, &
                           nsweep,work,lwork,info)
@@ -5205,7 +5925,9 @@ module la_lapack
 #else
                module procedure la_dgtcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgtcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,iwork, &
                          info)
@@ -5220,7 +5942,15 @@ module la_lapack
 #else
                module procedure la_sgtcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgtcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgtcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygtcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgtcon(norm,n,dl,d,du,du2,ipiv,anorm,rcond,work,info)
                          
@@ -5276,7 +6006,9 @@ module la_lapack
 #else
                module procedure la_dgtrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgtrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb, &
                          x,ldx,ferr,berr,work,iwork,info)
@@ -5293,7 +6025,15 @@ module la_lapack
 #else
                module procedure la_sgtrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgtrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgtrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygtrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgtrfs(trans,n,nrhs,dl,d,du,dlf,df,duf,du2,ipiv,b,ldb, &
                          x,ldx,ferr,berr,work,rwork,info)
@@ -5342,7 +6082,9 @@ module la_lapack
 #else
                module procedure la_dgtsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgtsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgtsv(n,nrhs,dl,d,du,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -5354,7 +6096,15 @@ module la_lapack
 #else
                module procedure la_sgtsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgtsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgtsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygtsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgtsv(n,nrhs,dl,d,du,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -5400,7 +6150,9 @@ module la_lapack
 #else
                module procedure la_dgttrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgttrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -5413,7 +6165,15 @@ module la_lapack
 #else
                module procedure la_sgttrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgttrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgttrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygttrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgttrf(n,dl,d,du,du2,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -5459,7 +6219,9 @@ module la_lapack
 #else
                module procedure la_dgttrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qgttrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -5473,7 +6235,15 @@ module la_lapack
 #else
                module procedure la_sgttrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wgttrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xgttrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ygttrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zgttrs(trans,n,nrhs,dl,d,du,du2,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -5506,7 +6276,12 @@ module la_lapack
 #else
                module procedure la_chb2st_kernels
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whb2st_kernels
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhb2st_kernels
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a, &
                          lda,v,tau,ldvt,work)
@@ -5541,7 +6316,12 @@ module la_lapack
 #else
                module procedure la_chbev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whbev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhbev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
                          
@@ -5584,7 +6364,12 @@ module la_lapack
 #else
                module procedure la_chbevd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whbevd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhbevd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
@@ -5626,7 +6411,12 @@ module la_lapack
 #else
                module procedure la_chbgst
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whbgst
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhbgst
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work, &
                          rwork,info)
@@ -5665,7 +6455,12 @@ module la_lapack
 #else
                module procedure la_chbgv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whbgv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhbgv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
                          rwork,info)
@@ -5710,7 +6505,12 @@ module la_lapack
 #else
                module procedure la_chbgvd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whbgvd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhbgvd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
                          lwork,rwork,lrwork,iwork,liwork,info)
@@ -5747,7 +6547,12 @@ module la_lapack
 #else
                module procedure la_chbtrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whbtrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhbtrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
                          
@@ -5786,7 +6591,12 @@ module la_lapack
 #else
                module procedure la_checon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whecon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhecon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhecon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
@@ -5826,7 +6636,12 @@ module la_lapack
 #else
                module procedure la_checon_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whecon_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhecon_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhecon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
                          
@@ -5867,7 +6682,12 @@ module la_lapack
 #else
                module procedure la_cheequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wheequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yheequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zheequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
@@ -5901,7 +6721,12 @@ module la_lapack
 #else
                module procedure la_cheev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wheev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yheev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -5943,7 +6768,12 @@ module la_lapack
 #else
                module procedure la_cheevd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wheevd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yheevd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
@@ -6028,7 +6858,12 @@ module la_lapack
 #else
                module procedure la_cheevr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wheevr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yheevr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
                          ldz,isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
@@ -6067,7 +6902,12 @@ module la_lapack
 #else
                module procedure la_chegst
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whegst
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhegst
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhegst(itype,uplo,n,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -6103,7 +6943,12 @@ module la_lapack
 #else
                module procedure la_chegv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whegv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhegv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info &
                          )
@@ -6148,7 +6993,12 @@ module la_lapack
 #else
                module procedure la_chegvd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whegvd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhegvd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
@@ -6186,7 +7036,12 @@ module la_lapack
 #else
                module procedure la_cherfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wherfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yherfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zherfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
                           berr,work,rwork,info)
@@ -6231,7 +7086,12 @@ module la_lapack
 #else
                module procedure la_chesv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whesv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhesv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhesv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -6273,7 +7133,12 @@ module la_lapack
 #else
                module procedure la_chesv_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whesv_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhesv_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhesv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -6319,7 +7184,12 @@ module la_lapack
 #else
                module procedure la_chesv_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whesv_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhesv_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhesv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
                          )
@@ -6367,7 +7237,12 @@ module la_lapack
 #else
                module procedure la_chesv_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whesv_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhesv_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhesv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -6398,7 +7273,12 @@ module la_lapack
 #else
                module procedure la_cheswapr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wheswapr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yheswapr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zheswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
@@ -6435,7 +7315,12 @@ module la_lapack
 #else
                module procedure la_chetf2_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetf2_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetf2_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -6471,7 +7356,12 @@ module la_lapack
 #else
                module procedure la_chetf2_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetf2_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetf2_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -6504,7 +7394,12 @@ module la_lapack
 #else
                module procedure la_chetrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -6540,7 +7435,12 @@ module la_lapack
 #else
                module procedure la_chetrd_hb2st
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrd_hb2st
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrd_hb2st
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrd_hb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous, &
                          lhous,work,lwork,info)
@@ -6576,7 +7476,12 @@ module la_lapack
 #else
                module procedure la_chetrd_he2hb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrd_he2hb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrd_he2hb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrd_he2hb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info &
                          )
@@ -6615,7 +7520,12 @@ module la_lapack
 #else
                module procedure la_chetrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -6651,7 +7561,12 @@ module la_lapack
 #else
                module procedure la_chetrf_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrf_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrf_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -6690,7 +7605,12 @@ module la_lapack
 #else
                module procedure la_chetrf_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrf_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrf_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -6728,7 +7648,12 @@ module la_lapack
 #else
                module procedure la_chetrf_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrf_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrf_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -6761,7 +7686,12 @@ module la_lapack
 #else
                module procedure la_chetri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -6794,7 +7724,12 @@ module la_lapack
 #else
                module procedure la_chetri_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetri_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetri_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -6827,7 +7762,12 @@ module la_lapack
 #else
                module procedure la_chetrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -6860,7 +7800,12 @@ module la_lapack
 #else
                module procedure la_chetrs2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrs2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrs2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
@@ -6899,7 +7844,12 @@ module la_lapack
 #else
                module procedure la_chetrs_3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrs_3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrs_3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -6934,7 +7884,12 @@ module la_lapack
 #else
                module procedure la_chetrs_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrs_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrs_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -6969,7 +7924,12 @@ module la_lapack
 #else
                module procedure la_chetrs_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whetrs_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhetrs_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhetrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -7007,7 +7967,12 @@ module la_lapack
 #else
                module procedure la_chfrk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whfrk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhfrk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
                     import sp,dp,qp,ilp,lk
@@ -7086,7 +8051,9 @@ module la_lapack
 #else
                module procedure la_dhgeqz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qhgeqz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine shgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                          beta,q,ldq,z,ldz,work,lwork,info)
@@ -7101,7 +8068,15 @@ module la_lapack
 #else
                module procedure la_shgeqz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whgeqz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xhgeqz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhgeqz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q, &
                          ldq,z,ldz,work,lwork,rwork,info)
@@ -7140,7 +8115,12 @@ module la_lapack
 #else
                module procedure la_chpcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhpcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
@@ -7175,7 +8155,12 @@ module la_lapack
 #else
                module procedure la_chpev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -7217,7 +8202,12 @@ module la_lapack
 #else
                module procedure la_chpevd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpevd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpevd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
@@ -7256,7 +8246,12 @@ module la_lapack
 #else
                module procedure la_chpgst
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpgst
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpgst
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhpgst(itype,uplo,n,ap,bp,info)
                     import sp,dp,qp,ilp,lk
@@ -7293,7 +8288,12 @@ module la_lapack
 #else
                module procedure la_chpgv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpgv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpgv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
                          
@@ -7339,7 +8339,12 @@ module la_lapack
 #else
                module procedure la_chpgvd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpgvd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpgvd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
@@ -7378,7 +8383,12 @@ module la_lapack
 #else
                module procedure la_chprfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whprfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhprfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
                          work,rwork,info)
@@ -7421,7 +8431,12 @@ module la_lapack
 #else
                module procedure la_chpsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whpsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhpsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhpsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -7454,7 +8469,12 @@ module la_lapack
 #else
                module procedure la_chptrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whptrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhptrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhptrd(uplo,n,ap,d,e,tau,info)
                     import sp,dp,qp,ilp,lk
@@ -7490,7 +8510,12 @@ module la_lapack
 #else
                module procedure la_chptrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whptrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhptrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -7522,7 +8547,12 @@ module la_lapack
 #else
                module procedure la_chptri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whptri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhptri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -7555,7 +8585,12 @@ module la_lapack
 #else
                module procedure la_chptrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whptrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhptrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -7611,7 +8646,9 @@ module la_lapack
 #else
                module procedure la_dhsein
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qhsein
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine shsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr, &
                          ldvr,mm,m,work,ifaill,ifailr,info)
@@ -7628,7 +8665,15 @@ module la_lapack
 #else
                module procedure la_shsein
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whsein
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xhsein
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhsein
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr, &
                          mm,m,work,rwork,ifaill,ifailr,info)
@@ -7685,7 +8730,9 @@ module la_lapack
 #else
                module procedure la_dhseqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qhseqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine shseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork, &
                          info)
@@ -7700,7 +8747,15 @@ module la_lapack
 #else
                module procedure la_shseqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_whseqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xhseqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yhseqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zhseqr(job,compz,n,ilo,ihi,h,ldh,w,z,ldz,work,lwork, &
                          info)
@@ -7730,7 +8785,9 @@ module la_lapack
 #else
                module procedure la_disnan
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qisnan
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure logical(lk) function sisnan(sin)
                     import sp,dp,qp,ilp,lk
@@ -7739,6 +8796,9 @@ module la_lapack
                end function sisnan
 #else
                module procedure la_sisnan
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xisnan
 #endif
           end interface isnan
 
@@ -7781,7 +8841,9 @@ module la_lapack
 #else
                module procedure la_dla_gbamv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_gbamv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
@@ -7794,7 +8856,15 @@ module la_lapack
 #else
                module procedure la_sla_gbamv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_gbamv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_gbamv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_gbamv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
@@ -7834,7 +8904,9 @@ module la_lapack
 #else
                module procedure la_dla_gbrcond
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_gbrcond
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function sla_gbrcond(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,cmode, &
                          c,info,work,iwork)
@@ -7848,6 +8920,9 @@ module la_lapack
                end function sla_gbrcond
 #else
                module procedure la_sla_gbrcond
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_gbrcond
 #endif
           end interface la_gbrcond
 
@@ -7871,7 +8946,12 @@ module la_lapack
 #else
                module procedure la_cla_gbrcond_c
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_gbrcond_c
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_gbrcond_c
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zla_gbrcond_c(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
                          capply,info,work,rwork)
@@ -7920,7 +9000,9 @@ module la_lapack
 #else
                module procedure la_dla_gbrpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_gbrpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(sp) function sla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
                          
@@ -7932,7 +9014,15 @@ module la_lapack
 #else
                module procedure la_sla_gbrpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_gbrpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_gbrpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_gbrpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(dp) function zla_gbrpvgrw(n,kl,ku,ncols,ab,ldab,afb,ldafb)
                          
@@ -7983,7 +9073,9 @@ module la_lapack
 #else
                module procedure la_dla_geamv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_geamv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -7995,7 +9087,15 @@ module la_lapack
 #else
                module procedure la_sla_geamv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_geamv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_geamv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_geamv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -8034,7 +9134,9 @@ module la_lapack
 #else
                module procedure la_dla_gercond
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_gercond
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function sla_gercond(trans,n,a,lda,af,ldaf,ipiv,cmode,c,info, &
                          work,iwork)
@@ -8048,6 +9150,9 @@ module la_lapack
                end function sla_gercond
 #else
                module procedure la_sla_gercond
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_gercond
 #endif
           end interface la_gercond
 
@@ -8071,7 +9176,12 @@ module la_lapack
 #else
                module procedure la_cla_gercond_c
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_gercond_c
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_gercond_c
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zla_gercond_c(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                          work,rwork)
@@ -8118,7 +9228,9 @@ module la_lapack
 #else
                module procedure la_dla_gerpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_gerpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(sp) function sla_gerpvgrw(n,ncols,a,lda,af,ldaf)
                     import sp,dp,qp,ilp,lk
@@ -8129,7 +9241,15 @@ module la_lapack
 #else
                module procedure la_sla_gerpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_gerpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_gerpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_gerpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(dp) function zla_gerpvgrw(n,ncols,a,lda,af,ldaf)
                     import sp,dp,qp,ilp,lk
@@ -8167,7 +9287,12 @@ module la_lapack
 #else
                module procedure la_cla_heamv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_heamv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_heamv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -8202,7 +9327,12 @@ module la_lapack
 #else
                module procedure la_cla_hercond_c
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_hercond_c
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_hercond_c
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zla_hercond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                          work,rwork)
@@ -8242,7 +9372,12 @@ module la_lapack
 #else
                module procedure la_cla_herpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_herpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_herpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zla_herpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
                          
@@ -8287,7 +9422,9 @@ module la_lapack
 #else
                module procedure la_dla_lin_berr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_lin_berr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sla_lin_berr(n,nz,nrhs,res,ayb,berr)
                     import sp,dp,qp,ilp,lk
@@ -8299,7 +9436,15 @@ module la_lapack
 #else
                module procedure la_sla_lin_berr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_lin_berr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_lin_berr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_lin_berr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zla_lin_berr(n,nz,nrhs,res,ayb,berr)
                     import sp,dp,qp,ilp,lk
@@ -8338,7 +9483,9 @@ module la_lapack
 #else
                module procedure la_dla_porcond
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_porcond
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function sla_porcond(uplo,n,a,lda,af,ldaf,cmode,c,info,work, &
                          iwork)
@@ -8352,6 +9499,9 @@ module la_lapack
                end function sla_porcond
 #else
                module procedure la_sla_porcond
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_porcond
 #endif
           end interface la_porcond
 
@@ -8375,7 +9525,12 @@ module la_lapack
 #else
                module procedure la_cla_porcond_c
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_porcond_c
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_porcond_c
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zla_porcond_c(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
                          rwork)
@@ -8426,7 +9581,9 @@ module la_lapack
 #else
                module procedure la_dla_porpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_porpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function sla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
                     import sp,dp,qp,ilp,lk
@@ -8439,7 +9596,15 @@ module la_lapack
 #else
                module procedure la_sla_porpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_porpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_porpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_porpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
                     import sp,dp,qp,ilp,lk
@@ -8490,7 +9655,9 @@ module la_lapack
 #else
                module procedure la_dla_syamv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_syamv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -8502,7 +9669,15 @@ module la_lapack
 #else
                module procedure la_sla_syamv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_syamv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_syamv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_syamv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -8541,7 +9716,9 @@ module la_lapack
 #else
                module procedure la_dla_syrcond
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_syrcond
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function sla_syrcond(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info, &
                          work,iwork)
@@ -8555,6 +9732,9 @@ module la_lapack
                end function sla_syrcond
 #else
                module procedure la_sla_syrcond
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_syrcond
 #endif
           end interface la_syrcond
 
@@ -8578,7 +9758,12 @@ module la_lapack
 #else
                module procedure la_cla_syrcond_c
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_syrcond_c
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_syrcond_c
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zla_syrcond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                          work,rwork)
@@ -8631,7 +9816,9 @@ module la_lapack
 #else
                module procedure la_dla_syrpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_syrpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function sla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
                          
@@ -8645,7 +9832,15 @@ module la_lapack
 #else
                module procedure la_sla_syrpvgrw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_syrpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_syrpvgrw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_syrpvgrw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
                          
@@ -8687,7 +9882,9 @@ module la_lapack
 #else
                module procedure la_dla_wwaddw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qla_wwaddw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sla_wwaddw(n,x,y,w)
                     import sp,dp,qp,ilp,lk
@@ -8699,7 +9896,15 @@ module la_lapack
 #else
                module procedure la_sla_wwaddw
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wla_wwaddw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_wwaddw
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_wwaddw
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zla_wwaddw(n,x,y,w)
                     import sp,dp,qp,ilp,lk
@@ -8731,7 +9936,9 @@ module la_lapack
 #else
                module procedure la_dlabad
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlabad
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slabad(small,large)
                     import sp,dp,qp,ilp,lk
@@ -8740,6 +9947,9 @@ module la_lapack
                end subroutine slabad
 #else
                module procedure la_slabad
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlabad
 #endif
           end interface labad
 
@@ -8774,7 +9984,9 @@ module la_lapack
 #else
                module procedure la_dlabrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlabrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
                     import sp,dp,qp,ilp,lk
@@ -8786,7 +9998,15 @@ module la_lapack
 #else
                module procedure la_slabrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlabrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlabrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylabrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlabrd(m,n,nb,a,lda,d,e,tauq,taup,x,ldx,y,ldy)
                     import sp,dp,qp,ilp,lk
@@ -8813,7 +10033,12 @@ module la_lapack
 #else
                module procedure la_clacgv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlacgv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylacgv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlacgv(n,x,incx)
                     import sp,dp,qp,ilp,lk
@@ -8855,7 +10080,9 @@ module la_lapack
 #else
                module procedure la_dlacon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlacon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine slacon(n,v,x,isgn,est,kase)
                     import sp,dp,qp,ilp,lk
@@ -8869,7 +10096,15 @@ module la_lapack
 #else
                module procedure la_slacon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlacon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlacon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylacon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zlacon(n,v,x,est,kase)
                     import sp,dp,qp,ilp,lk
@@ -8912,7 +10147,9 @@ module la_lapack
 #else
                module procedure la_dlacpy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlacpy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slacpy(uplo,m,n,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
@@ -8925,7 +10162,15 @@ module la_lapack
 #else
                module procedure la_slacpy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlacpy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlacpy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylacpy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlacpy(uplo,m,n,a,lda,b,ldb)
                     import sp,dp,qp,ilp,lk
@@ -8958,7 +10203,12 @@ module la_lapack
 #else
                module procedure la_clacrm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlacrm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylacrm
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlacrm(m,n,a,lda,b,ldb,c,ldc,rwork)
                     import sp,dp,qp,ilp,lk
@@ -8990,7 +10240,12 @@ module la_lapack
 #else
                module procedure la_clacrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlacrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylacrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlacrt(n,cx,incx,cy,incy,c,s)
                     import sp,dp,qp,ilp,lk
@@ -9017,7 +10272,12 @@ module la_lapack
 #else
                module procedure la_cladiv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wladiv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yladiv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure complex(dp) function zladiv(x,y)
                     import sp,dp,qp,ilp,lk
@@ -9047,7 +10307,9 @@ module la_lapack
 #else
                module procedure la_dladiv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qladiv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sladiv(a,b,c,d,p,q)
                     import sp,dp,qp,ilp,lk
@@ -9057,6 +10319,9 @@ module la_lapack
                end subroutine sladiv
 #else
                module procedure la_sladiv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xladiv
 #endif
           end interface ladiv_s
 
@@ -9072,7 +10337,9 @@ module la_lapack
 #else
                module procedure la_dladiv1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qladiv1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sladiv1(a,b,c,d,p,q)
                     import sp,dp,qp,ilp,lk
@@ -9083,6 +10350,9 @@ module la_lapack
                end subroutine sladiv1
 #else
                module procedure la_sladiv1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xladiv1
 #endif
           end interface ladiv1
 
@@ -9096,7 +10366,9 @@ module la_lapack
 #else
                module procedure la_dladiv2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qladiv2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(sp) function sladiv2(a,b,c,d,r,t)
                     import sp,dp,qp,ilp,lk
@@ -9105,6 +10377,9 @@ module la_lapack
                end function sladiv2
 #else
                module procedure la_sladiv2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xladiv2
 #endif
           end interface ladiv2
 
@@ -9155,7 +10430,9 @@ module la_lapack
 #else
                module procedure la_dlaebz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaebz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaebz(ijob,nitmax,n,mmax,minp,nbmin,abstol,reltol,pivmin, &
                          d,e,e2,nval,ab,c,mout,nab,work,iwork,info)
@@ -9170,6 +10447,9 @@ module la_lapack
                end subroutine slaebz
 #else
                module procedure la_slaebz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaebz
 #endif
           end interface laebz
 
@@ -9206,7 +10486,9 @@ module la_lapack
 #else
                module procedure la_dlaed0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaed0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaed0(icompq,qsiz,n,d,e,q,ldq,qstore,ldqs,work,iwork, &
                          info)
@@ -9220,7 +10502,15 @@ module la_lapack
 #else
                module procedure la_slaed0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaed0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaed0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaed0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaed0(qsiz,n,d,e,q,ldq,qstore,ldqs,rwork,iwork,info)
                          
@@ -9279,7 +10569,9 @@ module la_lapack
 #else
                module procedure la_dlaed1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaed1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaed1(n,d,q,ldq,indxq,rho,cutpnt,work,iwork,info)
                          
@@ -9293,6 +10585,9 @@ module la_lapack
                end subroutine slaed1
 #else
                module procedure la_slaed1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaed1
 #endif
           end interface laed1
 
@@ -9319,7 +10614,9 @@ module la_lapack
 #else
                module procedure la_dlaed4
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaed4
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaed4(n,i,d,z,delta,rho,dlam,info)
                     import sp,dp,qp,ilp,lk
@@ -9331,6 +10628,9 @@ module la_lapack
                end subroutine slaed4
 #else
                module procedure la_slaed4
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaed4
 #endif
           end interface laed4
 
@@ -9353,7 +10653,9 @@ module la_lapack
 #else
                module procedure la_dlaed5
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaed5
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaed5(i,d,z,delta,rho,dlam)
                     import sp,dp,qp,ilp,lk
@@ -9364,6 +10666,9 @@ module la_lapack
                end subroutine slaed5
 #else
                module procedure la_slaed5
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaed5
 #endif
           end interface laed5
 
@@ -9392,7 +10697,9 @@ module la_lapack
 #else
                module procedure la_dlaed6
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaed6
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaed6(kniter,orgati,rho,d,z,finit,tau,info)
                     import sp,dp,qp,ilp,lk
@@ -9405,6 +10712,9 @@ module la_lapack
                end subroutine slaed6
 #else
                module procedure la_slaed6
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaed6
 #endif
           end interface laed6
 
@@ -9468,7 +10778,9 @@ module la_lapack
 #else
                module procedure la_dlaed7
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaed7
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaed7(icompq,n,qsiz,tlvls,curlvl,curpbm,d,q,ldq,indxq, &
                rho,cutpnt,qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,iwork,info)
@@ -9486,7 +10798,15 @@ module la_lapack
 #else
                module procedure la_slaed7
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaed7
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaed7
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaed7
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaed7(n,cutpnt,qsiz,tlvls,curlvl,curpbm,d,q,ldq,rho, &
                indxq,qstore,qptr,prmptr,perm,givptr,givcol,givnum,work,rwork,iwork,info)
@@ -9546,7 +10866,9 @@ module la_lapack
 #else
                module procedure la_dlaed8
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaed8
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaed8(icompq,k,n,qsiz,d,q,ldq,indxq,rho,cutpnt,z, &
                          dlamda,q2,ldq2,w,perm,givptr,givcol,givnum,indxp,indx,info)
@@ -9562,7 +10884,15 @@ module la_lapack
 #else
                module procedure la_slaed8
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaed8
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaed8
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaed8
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaed8(k,n,qsiz,q,ldq,d,rho,cutpnt,z,dlamda,q2,ldq2,w, &
                          indxp,indx,indxq,perm,givptr,givcol,givnum,info)
@@ -9601,7 +10931,9 @@ module la_lapack
 #else
                module procedure la_dlaed9
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaed9
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaed9(k,kstart,kstop,n,d,q,ldq,rho,dlamda,w,s,lds, &
                          info)
@@ -9615,6 +10947,9 @@ module la_lapack
                end subroutine slaed9
 #else
                module procedure la_slaed9
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaed9
 #endif
           end interface laed9
 
@@ -9636,7 +10971,9 @@ module la_lapack
 #else
                module procedure la_dlaeda
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaeda
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaeda(n,tlvls,curlvl,curpbm,prmptr,perm,givptr,givcol, &
                          givnum,q,qptr,z,ztemp,info)
@@ -9650,6 +10987,9 @@ module la_lapack
                end subroutine slaeda
 #else
                module procedure la_slaeda
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaeda
 #endif
           end interface laeda
 
@@ -9689,7 +11029,9 @@ module la_lapack
 #else
                module procedure la_dlaein
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaein
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaein(rightv,noinit,n,h,ldh,wr,wi,vr,vi,b,ldb,work, &
                          eps3,smlnum,bignum,info)
@@ -9705,7 +11047,15 @@ module la_lapack
 #else
                module procedure la_slaein
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaein
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaein
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaein
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaein(rightv,noinit,n,h,ldh,w,v,b,ldb,rwork,eps3, &
                          smlnum,info)
@@ -9745,7 +11095,12 @@ module la_lapack
 #else
                module procedure la_claesy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaesy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaesy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaesy(a,b,c,rt1,rt2,evscal,cs1,sn1)
                     import sp,dp,qp,ilp,lk
@@ -9779,7 +11134,9 @@ module la_lapack
 #else
                module procedure la_dlaexc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaexc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine slaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
                     import sp,dp,qp,ilp,lk
@@ -9792,6 +11149,9 @@ module la_lapack
                end subroutine slaexc
 #else
                module procedure la_slaexc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaexc
 #endif
           end interface laexc
 
@@ -9821,7 +11181,9 @@ module la_lapack
 #else
                module procedure la_dlagtf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlagtf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slagtf(n,a,lambda,b,c,tol,d,in,info)
                     import sp,dp,qp,ilp,lk
@@ -9834,6 +11196,9 @@ module la_lapack
                end subroutine slagtf
 #else
                module procedure la_slagtf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlagtf
 #endif
           end interface lagtf
 
@@ -9870,7 +11235,9 @@ module la_lapack
 #else
                module procedure la_dlagtm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlagtm
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
                          
@@ -9884,7 +11251,15 @@ module la_lapack
 #else
                module procedure la_slagtm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlagtm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlagtm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylagtm
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlagtm(trans,n,nrhs,alpha,dl,d,du,x,ldx,beta,b,ldb)
                          
@@ -9923,7 +11298,9 @@ module la_lapack
 #else
                module procedure la_dlagts
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlagts
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slagts(job,n,a,b,c,d,in,y,tol,info)
                     import sp,dp,qp,ilp,lk
@@ -9935,6 +11312,9 @@ module la_lapack
                end subroutine slagts
 #else
                module procedure la_slagts
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlagts
 #endif
           end interface lagts
 
@@ -9965,7 +11345,12 @@ module la_lapack
 #else
                module procedure la_clahef
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlahef
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylahef
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlahef(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -10005,7 +11390,12 @@ module la_lapack
 #else
                module procedure la_clahef_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlahef_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylahef_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlahef_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
@@ -10047,7 +11437,12 @@ module la_lapack
 #else
                module procedure la_clahef_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlahef_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylahef_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlahef_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -10090,7 +11485,12 @@ module la_lapack
 #else
                module procedure la_clahef_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlahef_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylahef_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlahef_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -10139,7 +11539,9 @@ module la_lapack
 #else
                module procedure la_dlahqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlahqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slahqr(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z, &
                          ldz,info)
@@ -10154,7 +11556,15 @@ module la_lapack
 #else
                module procedure la_slahqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlahqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlahqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylahqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlahqr(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
                          info)
@@ -10216,7 +11626,9 @@ module la_lapack
 #else
                module procedure la_dlaic1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaic1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaic1(job,j,x,sest,w,gamma,sestpr,s,c)
                     import sp,dp,qp,ilp,lk
@@ -10228,7 +11640,15 @@ module la_lapack
 #else
                module procedure la_slaic1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaic1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaic1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaic1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaic1(job,j,x,sest,w,gamma,sestpr,s,c)
                     import sp,dp,qp,ilp,lk
@@ -10265,7 +11685,9 @@ module la_lapack
 #else
                module procedure la_dlaisnan
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaisnan
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure logical(lk) function slaisnan(sin1,sin2)
                     import sp,dp,qp,ilp,lk
@@ -10274,6 +11696,9 @@ module la_lapack
                end function slaisnan
 #else
                module procedure la_slaisnan
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaisnan
 #endif
           end interface laisnan
 
@@ -10331,7 +11756,9 @@ module la_lapack
 #else
                module procedure la_dlals0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlals0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
                          givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,work,info)
@@ -10348,7 +11775,15 @@ module la_lapack
 #else
                module procedure la_slals0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlals0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlals0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylals0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlals0(icompq,nl,nr,sqre,nrhs,b,ldb,bx,ldbx,perm,givptr, &
                          givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,rwork,info)
@@ -10413,7 +11848,9 @@ module la_lapack
 #else
                module procedure la_dlalsa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlalsa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k, &
                difl,difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
@@ -10431,7 +11868,15 @@ module la_lapack
 #else
                module procedure la_slalsa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlalsa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlalsa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylalsa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlalsa(icompq,smlsiz,n,nrhs,b,ldb,bx,ldbx,u,ldu,vt,k, &
                difl,difr,z,poles,givptr,givcol,ldgcol,perm,givnum,c,s,rwork,iwork,info &
@@ -10499,7 +11944,9 @@ module la_lapack
 #else
                module procedure la_dlalsd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlalsd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work, &
                          iwork,info)
@@ -10515,7 +11962,15 @@ module la_lapack
 #else
                module procedure la_slalsd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlalsd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlalsd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylalsd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlalsd(uplo,smlsiz,n,nrhs,d,e,b,ldb,rcond,rank,work, &
                          rwork,iwork,info)
@@ -10550,7 +12005,9 @@ module la_lapack
 #else
                module procedure la_dlamrg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlamrg
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slamrg(n1,n2,a,strd1,strd2,index)
                     import sp,dp,qp,ilp,lk
@@ -10561,6 +12018,9 @@ module la_lapack
                end subroutine slamrg
 #else
                module procedure la_slamrg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlamrg
 #endif
           end interface lamrg
 
@@ -10602,7 +12062,9 @@ module la_lapack
 #else
                module procedure la_dlamswlq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlamswlq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
                          work,lwork,info)
@@ -10618,7 +12080,15 @@ module la_lapack
 #else
                module procedure la_slamswlq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlamswlq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlamswlq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylamswlq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlamswlq(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
                          work,lwork,info)
@@ -10674,7 +12144,9 @@ module la_lapack
 #else
                module procedure la_dlamtsqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlamtsqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
                          work,lwork,info)
@@ -10690,7 +12162,15 @@ module la_lapack
 #else
                module procedure la_slamtsqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlamtsqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlamtsqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylamtsqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlamtsqr(side,trans,m,n,k,mb,nb,a,lda,t,ldt,c,ldc, &
                          work,lwork,info)
@@ -10734,7 +12214,9 @@ module la_lapack
 #else
                module procedure la_dlaneg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaneg
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure integer(ilp) function slaneg(n,d,lld,sigma,pivmin,r)
                     import sp,dp,qp,ilp,lk
@@ -10744,6 +12226,9 @@ module la_lapack
                end function slaneg
 #else
                module procedure la_slaneg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaneg
 #endif
           end interface laneg
 
@@ -10775,7 +12260,9 @@ module la_lapack
 #else
                module procedure la_dlangb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlangb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slangb(norm,n,kl,ku,ab,ldab,work)
                     import sp,dp,qp,ilp,lk
@@ -10788,7 +12275,15 @@ module la_lapack
 #else
                module procedure la_slangb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlangb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlangb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylangb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlangb(norm,n,kl,ku,ab,ldab,work)
                     import sp,dp,qp,ilp,lk
@@ -10831,7 +12326,9 @@ module la_lapack
 #else
                module procedure la_dlange
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlange
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slange(norm,m,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -10844,7 +12341,15 @@ module la_lapack
 #else
                module procedure la_slange
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlange
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlange
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylange
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlange(norm,m,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -10885,7 +12390,9 @@ module la_lapack
 #else
                module procedure la_dlangt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlangt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(sp) function slangt(norm,n,dl,d,du)
                     import sp,dp,qp,ilp,lk
@@ -10897,7 +12404,15 @@ module la_lapack
 #else
                module procedure la_slangt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlangt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlangt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylangt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(dp) function zlangt(norm,n,dl,d,du)
                     import sp,dp,qp,ilp,lk
@@ -10927,7 +12442,12 @@ module la_lapack
 #else
                module procedure la_clanhb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlanhb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlanhb(norm,uplo,n,k,ab,ldab,work)
                     import sp,dp,qp,ilp,lk
@@ -10958,7 +12478,12 @@ module la_lapack
 #else
                module procedure la_clanhe
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlanhe
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhe
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlanhe(norm,uplo,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -10989,7 +12514,12 @@ module la_lapack
 #else
                module procedure la_clanhf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlanhf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlanhf(norm,transr,uplo,n,a,work)
                     import sp,dp,qp,ilp,lk
@@ -11020,7 +12550,12 @@ module la_lapack
 #else
                module procedure la_clanhp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlanhp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlanhp(norm,uplo,n,ap,work)
                     import sp,dp,qp,ilp,lk
@@ -11063,7 +12598,9 @@ module la_lapack
 #else
                module procedure la_dlanhs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlanhs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slanhs(norm,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -11076,7 +12613,15 @@ module la_lapack
 #else
                module procedure la_slanhs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlanhs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlanhs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlanhs(norm,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -11107,7 +12652,12 @@ module la_lapack
 #else
                module procedure la_clanht
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlanht
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanht
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(dp) function zlanht(norm,n,d,e)
                     import sp,dp,qp,ilp,lk
@@ -11150,7 +12700,9 @@ module la_lapack
 #else
                module procedure la_dlansb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlansb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slansb(norm,uplo,n,k,ab,ldab,work)
                     import sp,dp,qp,ilp,lk
@@ -11163,7 +12715,15 @@ module la_lapack
 #else
                module procedure la_slansb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlansb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlansb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylansb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlansb(norm,uplo,n,k,ab,ldab,work)
                     import sp,dp,qp,ilp,lk
@@ -11194,7 +12754,9 @@ module la_lapack
 #else
                module procedure la_dlansf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlansf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slansf(norm,transr,uplo,n,a,work)
                     import sp,dp,qp,ilp,lk
@@ -11206,6 +12768,9 @@ module la_lapack
                end function slansf
 #else
                module procedure la_slansf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlansf
 #endif
           end interface lansf
 
@@ -11237,7 +12802,9 @@ module la_lapack
 #else
                module procedure la_dlansp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlansp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slansp(norm,uplo,n,ap,work)
                     import sp,dp,qp,ilp,lk
@@ -11250,7 +12817,15 @@ module la_lapack
 #else
                module procedure la_slansp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlansp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlansp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylansp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlansp(norm,uplo,n,ap,work)
                     import sp,dp,qp,ilp,lk
@@ -11280,7 +12855,9 @@ module la_lapack
 #else
                module procedure la_dlanst
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlanst
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure real(sp) function slanst(norm,n,d,e)
                     import sp,dp,qp,ilp,lk
@@ -11291,6 +12868,9 @@ module la_lapack
                end function slanst
 #else
                module procedure la_slanst
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlanst
 #endif
           end interface lanst
 
@@ -11322,7 +12902,9 @@ module la_lapack
 #else
                module procedure la_dlansy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlansy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slansy(norm,uplo,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -11335,7 +12917,15 @@ module la_lapack
 #else
                module procedure la_slansy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlansy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlansy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylansy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlansy(norm,uplo,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -11379,7 +12969,9 @@ module la_lapack
 #else
                module procedure la_dlantb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlantb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slantb(norm,uplo,diag,n,k,ab,ldab,work)
                          
@@ -11393,7 +12985,15 @@ module la_lapack
 #else
                module procedure la_slantb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlantb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlantb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylantb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlantb(norm,uplo,diag,n,k,ab,ldab,work)
                     import sp,dp,qp,ilp,lk
@@ -11436,7 +13036,9 @@ module la_lapack
 #else
                module procedure la_dlantp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlantp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slantp(norm,uplo,diag,n,ap,work)
                     import sp,dp,qp,ilp,lk
@@ -11449,7 +13051,15 @@ module la_lapack
 #else
                module procedure la_slantp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlantp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlantp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylantp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlantp(norm,uplo,diag,n,ap,work)
                     import sp,dp,qp,ilp,lk
@@ -11492,7 +13102,9 @@ module la_lapack
 #else
                module procedure la_dlantr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlantr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(sp) function slantr(norm,uplo,diag,m,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -11505,7 +13117,15 @@ module la_lapack
 #else
                module procedure la_slantr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlantr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlantr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylantr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                real(dp) function zlantr(norm,uplo,diag,m,n,a,lda,work)
                     import sp,dp,qp,ilp,lk
@@ -11566,7 +13186,9 @@ module la_lapack
 #else
                module procedure la_dlaorhr_col_getrfnp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaorhr_col_getrfnp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaorhr_col_getrfnp(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
@@ -11578,6 +13200,9 @@ module la_lapack
                end subroutine slaorhr_col_getrfnp
 #else
                module procedure la_slaorhr_col_getrfnp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaorhr_col_getrfnp
 #endif
           end interface laorhr_col_getrfnp
 
@@ -11642,7 +13267,9 @@ module la_lapack
 #else
                module procedure la_dlaorhr_col_getrfnp2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaorhr_col_getrfnp2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine slaorhr_col_getrfnp2(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
@@ -11654,6 +13281,9 @@ module la_lapack
                end subroutine slaorhr_col_getrfnp2
 #else
                module procedure la_slaorhr_col_getrfnp2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaorhr_col_getrfnp2
 #endif
           end interface laorhr_col_getrfnp2
 
@@ -11686,7 +13316,9 @@ module la_lapack
 #else
                module procedure la_dlapll
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlapll
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slapll(n,x,incx,y,incy,ssmin)
                     import sp,dp,qp,ilp,lk
@@ -11698,7 +13330,15 @@ module la_lapack
 #else
                module procedure la_slapll
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlapll
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlapll
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylapll
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlapll(n,x,incx,y,incy,ssmin)
                     import sp,dp,qp,ilp,lk
@@ -11743,7 +13383,9 @@ module la_lapack
 #else
                module procedure la_dlapmr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlapmr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slapmr(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
@@ -11756,7 +13398,15 @@ module la_lapack
 #else
                module procedure la_slapmr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlapmr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlapmr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylapmr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlapmr(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
@@ -11802,7 +13452,9 @@ module la_lapack
 #else
                module procedure la_dlapmt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlapmt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slapmt(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
@@ -11815,7 +13467,15 @@ module la_lapack
 #else
                module procedure la_slapmt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlapmt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlapmt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylapmt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlapmt(forwrd,m,n,x,ldx,k)
                     import sp,dp,qp,ilp,lk
@@ -11860,7 +13520,9 @@ module la_lapack
 #else
                module procedure la_dlaqgb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqgb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
                          
@@ -11874,7 +13536,15 @@ module la_lapack
 #else
                module procedure la_slaqgb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqgb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqgb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqgb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqgb(m,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,equed)
                          
@@ -11917,7 +13587,9 @@ module la_lapack
 #else
                module procedure la_dlaqge
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqge
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -11930,7 +13602,15 @@ module la_lapack
 #else
                module procedure la_slaqge
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqge
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqge
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqge
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqge(m,n,a,lda,r,c,rowcnd,colcnd,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -11962,7 +13642,12 @@ module la_lapack
 #else
                module procedure la_claqhb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqhb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqhb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqhb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -11995,7 +13680,12 @@ module la_lapack
 #else
                module procedure la_claqhe
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqhe
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqhe
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqhe(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -12027,7 +13717,12 @@ module la_lapack
 #else
                module procedure la_claqhp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqhp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqhp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqhp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -12081,7 +13776,9 @@ module la_lapack
 #else
                module procedure la_dlaqps
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqps
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f, &
                          ldf)
@@ -12096,7 +13793,15 @@ module la_lapack
 #else
                module procedure la_slaqps
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqps
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqps
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqps
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqps(m,n,offset,nb,kb,a,lda,jpvt,tau,vn1,vn2,auxv,f, &
                          ldf)
@@ -12151,7 +13856,9 @@ module la_lapack
 #else
                module procedure la_dlaqr0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqr0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine slaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
                          work,lwork,info)
@@ -12166,7 +13873,15 @@ module la_lapack
 #else
                module procedure la_slaqr0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqr0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqr0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqr0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
                          work,lwork,info)
@@ -12212,7 +13927,9 @@ module la_lapack
 #else
                module procedure la_dlaqr1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqr1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqr1(n,h,ldh,sr1,si1,sr2,si2,v)
                     import sp,dp,qp,ilp,lk
@@ -12224,7 +13941,15 @@ module la_lapack
 #else
                module procedure la_slaqr1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqr1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqr1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqr1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqr1(n,h,ldh,s1,s2,v)
                     import sp,dp,qp,ilp,lk
@@ -12281,7 +14006,9 @@ module la_lapack
 #else
                module procedure la_dlaqr4
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqr4
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine slaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
                          work,lwork,info)
@@ -12296,7 +14023,15 @@ module la_lapack
 #else
                module procedure la_slaqr4
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqr4
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqr4
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqr4
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,w,iloz,ihiz,z,ldz, &
                          work,lwork,info)
@@ -12344,7 +14079,9 @@ module la_lapack
 #else
                module procedure la_dlaqr5
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqr5
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,sr,si,h,ldh, &
                           iloz,ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
@@ -12359,7 +14096,15 @@ module la_lapack
 #else
                module procedure la_slaqr5
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqr5
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqr5
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqr5
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqr5(wantt,wantz,kacc22,n,ktop,kbot,nshfts,s,h,ldh, &
                          iloz,ihiz,z,ldz,v,ldv,u,ldu,nv,wv,ldwv,nh,wh,ldwh)
@@ -12405,7 +14150,9 @@ module la_lapack
 #else
                module procedure la_dlaqsb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqsb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -12419,7 +14166,15 @@ module la_lapack
 #else
                module procedure la_slaqsb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqsb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqsb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqsb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqsb(uplo,n,kd,ab,ldab,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -12464,7 +14219,9 @@ module la_lapack
 #else
                module procedure la_dlaqsp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqsp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqsp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -12478,7 +14235,15 @@ module la_lapack
 #else
                module procedure la_slaqsp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqsp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqsp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqsp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqsp(uplo,n,ap,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -12523,7 +14288,9 @@ module la_lapack
 #else
                module procedure la_dlaqsy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqsy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqsy(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -12537,7 +14304,15 @@ module la_lapack
 #else
                module procedure la_slaqsy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqsy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqsy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqsy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqsy(uplo,n,a,lda,s,scond,amax,equed)
                     import sp,dp,qp,ilp,lk
@@ -12586,7 +14361,9 @@ module la_lapack
 #else
                module procedure la_dlaqtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine slaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
                     import sp,dp,qp,ilp,lk
@@ -12600,6 +14377,9 @@ module la_lapack
                end subroutine slaqtr
 #else
                module procedure la_slaqtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqtr
 #endif
           end interface laqtr
 
@@ -12673,7 +14453,9 @@ module la_lapack
 #else
                module procedure la_dlaqz0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqz0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                recursive subroutine slaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
                          alphar,alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
@@ -12688,7 +14470,15 @@ module la_lapack
 #else
                module procedure la_slaqz0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqz0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqz0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqz0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                recursive subroutine zlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
                          alpha,beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
@@ -12732,7 +14522,9 @@ module la_lapack
 #else
                module procedure la_dlaqz1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqz1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqz1(a,lda,b,ldb,sr1,sr2,si,beta1,beta2,v)
                     import sp,dp,qp,ilp,lk
@@ -12744,7 +14536,15 @@ module la_lapack
 #else
                module procedure la_slaqz1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaqz1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqz1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaqz1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaqz1(ilq,ilz,k,istartm,istopm,ihi,a,lda,b,ldb,nq, &
                          qstart,q,ldq,nz,zstart,z,ldz)
@@ -12780,7 +14580,9 @@ module la_lapack
 #else
                module procedure la_dlaqz4
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaqz4
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaqz4(ilschur,ilq,ilz,n,ilo,ihi,nshifts,nblock_desired,sr, &
                 si,ss,a,lda,b,ldb,q,ldq,z,ldz,qc,ldqc,zc,ldzc,work,lwork,info)
@@ -12798,6 +14600,9 @@ module la_lapack
                end subroutine slaqz4
 #else
                module procedure la_slaqz4
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaqz4
 #endif
           end interface laqz4
 
@@ -12849,7 +14654,9 @@ module la_lapack
 #else
                module procedure la_dlar1v
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlar1v
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
                           negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
@@ -12866,7 +14673,15 @@ module la_lapack
 #else
                module procedure la_slar1v
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlar1v
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlar1v
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylar1v
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlar1v(n,b1,bn,lambda,d,l,ld,lld,pivmin,gaptol,z,wantnc, &
                           negcnt,ztz,mingma,r,isuppz,nrminv,resid,rqcorr,work)
@@ -12916,7 +14731,9 @@ module la_lapack
 #else
                module procedure la_dlar2v
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlar2v
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slar2v(n,x,y,z,incx,c,s,incc)
                     import sp,dp,qp,ilp,lk
@@ -12928,7 +14745,15 @@ module la_lapack
 #else
                module procedure la_slar2v
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlar2v
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlar2v
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylar2v
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlar2v(n,x,y,z,incx,c,s,incc)
                     import sp,dp,qp,ilp,lk
@@ -12961,7 +14786,12 @@ module la_lapack
 #else
                module procedure la_clarcm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarcm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarcm
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarcm(m,n,a,lda,b,ldb,c,ldc,rwork)
                     import sp,dp,qp,ilp,lk
@@ -13012,7 +14842,9 @@ module la_lapack
 #else
                module procedure la_dlarf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarf(side,m,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
@@ -13026,7 +14858,15 @@ module la_lapack
 #else
                module procedure la_slarf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarf(side,m,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
@@ -13073,7 +14913,9 @@ module la_lapack
 #else
                module procedure la_dlarfb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarfb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c, &
                          ldc,work,ldwork)
@@ -13088,7 +14930,15 @@ module la_lapack
 #else
                module procedure la_slarfb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarfb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarfb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarfb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarfb(side,trans,direct,storev,m,n,k,v,ldv,t,ldt,c, &
                          ldc,work,ldwork)
@@ -13141,7 +14991,9 @@ module la_lapack
 #else
                module procedure la_dlarfb_gett
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarfb_gett
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
                          
@@ -13156,7 +15008,15 @@ module la_lapack
 #else
                module procedure la_slarfb_gett
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarfb_gett
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarfb_gett
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarfb_gett
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarfb_gett(ident,m,n,k,t,ldt,a,lda,b,ldb,work,ldwork)
                          
@@ -13209,7 +15069,9 @@ module la_lapack
 #else
                module procedure la_dlarfg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarfg
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarfg(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
@@ -13221,7 +15083,15 @@ module la_lapack
 #else
                module procedure la_slarfg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarfg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarfg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarfg
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarfg(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
@@ -13270,7 +15140,9 @@ module la_lapack
 #else
                module procedure la_dlarfgp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarfgp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine slarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
@@ -13282,7 +15154,15 @@ module la_lapack
 #else
                module procedure la_slarfgp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarfgp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarfgp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarfgp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zlarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
@@ -13331,7 +15211,9 @@ module la_lapack
 #else
                module procedure la_dlarft
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarft
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarft(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
@@ -13344,7 +15226,15 @@ module la_lapack
 #else
                module procedure la_slarft
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarft
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarft
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarft
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarft(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
@@ -13392,7 +15282,9 @@ module la_lapack
 #else
                module procedure la_dlarfy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarfy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarfy(uplo,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
@@ -13406,7 +15298,15 @@ module la_lapack
 #else
                module procedure la_slarfy
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarfy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarfy
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarfy
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarfy(uplo,n,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
@@ -13455,7 +15355,9 @@ module la_lapack
 #else
                module procedure la_dlargv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlargv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slargv(n,x,incx,y,incy,c,incc)
                     import sp,dp,qp,ilp,lk
@@ -13467,7 +15369,15 @@ module la_lapack
 #else
                module procedure la_slargv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlargv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlargv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylargv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlargv(n,x,incx,y,incy,c,incc)
                     import sp,dp,qp,ilp,lk
@@ -13506,7 +15416,9 @@ module la_lapack
 #else
                module procedure la_dlarnv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarnv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
@@ -13518,7 +15430,15 @@ module la_lapack
 #else
                module procedure la_slarnv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarnv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarnv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarnv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarnv(idist,iseed,n,x)
                     import sp,dp,qp,ilp,lk
@@ -13547,7 +15467,9 @@ module la_lapack
 #else
                module procedure la_dlarra
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarra
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarra(n,d,e,e2,spltol,tnrm,nsplit,isplit,info)
                     import sp,dp,qp,ilp,lk
@@ -13559,6 +15481,9 @@ module la_lapack
                end subroutine slarra
 #else
                module procedure la_slarra
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarra
 #endif
           end interface larra
 
@@ -13585,7 +15510,9 @@ module la_lapack
 #else
                module procedure la_dlarrb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarrb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarrb(n,d,lld,ifirst,ilast,rtol1,rtol2,offset,w,wgap, &
                          werr,work,iwork,pivmin,spdiam,twist,info)
@@ -13599,6 +15526,9 @@ module la_lapack
                end subroutine slarrb
 #else
                module procedure la_slarrb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarrb
 #endif
           end interface larrb
 
@@ -13619,7 +15549,9 @@ module la_lapack
 #else
                module procedure la_dlarrc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarrc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarrc(jobt,n,vl,vu,d,e,pivmin,eigcnt,lcnt,rcnt,info)
                          
@@ -13632,6 +15564,9 @@ module la_lapack
                end subroutine slarrc
 #else
                module procedure la_slarrc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarrc
 #endif
           end interface larrc
 
@@ -13663,7 +15598,9 @@ module la_lapack
 #else
                module procedure la_dlarrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarrd(range,order,n,vl,vu,il,iu,gers,reltol,d,e,e2, &
                pivmin,nsplit,isplit,m,w,werr,wl,wu,iblock,indexw,work,iwork,info)
@@ -13678,6 +15615,9 @@ module la_lapack
                end subroutine slarrd
 #else
                module procedure la_slarrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarrd
 #endif
           end interface larrd
 
@@ -13712,7 +15652,9 @@ module la_lapack
 #else
                module procedure la_dlarre
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarre
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarre(range,n,vl,vu,il,iu,d,e,e2,rtol1,rtol2,spltol, &
                nsplit,isplit,m,w,werr,wgap,iblock,indexw,gers,pivmin,work,iwork,info)
@@ -13729,6 +15671,9 @@ module la_lapack
                end subroutine slarre
 #else
                module procedure la_slarre
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarre
 #endif
           end interface larre
 
@@ -13753,7 +15698,9 @@ module la_lapack
 #else
                module procedure la_dlarrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarrf(n,d,l,ld,clstrt,clend,w,wgap,werr,spdiam,clgapl, &
                          clgapr,pivmin,sigma,dplus,lplus,work,info)
@@ -13768,6 +15715,9 @@ module la_lapack
                end subroutine slarrf
 #else
                module procedure la_slarrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarrf
 #endif
           end interface larrf
 
@@ -13793,7 +15743,9 @@ module la_lapack
 #else
                module procedure la_dlarrj
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarrj
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarrj(n,d,e2,ifirst,ilast,rtol,offset,w,werr,work,iwork, &
                          pivmin,spdiam,info)
@@ -13807,6 +15759,9 @@ module la_lapack
                end subroutine slarrj
 #else
                module procedure la_slarrj
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarrj
 #endif
           end interface larrj
 
@@ -13832,7 +15787,9 @@ module la_lapack
 #else
                module procedure la_dlarrk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarrk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarrk(n,iw,gl,gu,d,e2,pivmin,reltol,w,werr,info)
                     import sp,dp,qp,ilp,lk
@@ -13844,6 +15801,9 @@ module la_lapack
                end subroutine slarrk
 #else
                module procedure la_slarrk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarrk
 #endif
           end interface larrk
 
@@ -13863,7 +15823,9 @@ module la_lapack
 #else
                module procedure la_dlarrr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarrr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarrr(n,d,e,info)
                     import sp,dp,qp,ilp,lk
@@ -13875,6 +15837,9 @@ module la_lapack
                end subroutine slarrr
 #else
                module procedure la_slarrr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarrr
 #endif
           end interface larrr
 
@@ -13915,7 +15880,9 @@ module la_lapack
 #else
                module procedure la_dlarrv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarrv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
                rtol2,w,werr,wgap,iblock,indexw,gers,z,ldz,isuppz,work,iwork,info)
@@ -13932,7 +15899,15 @@ module la_lapack
 #else
                module procedure la_slarrv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarrv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarrv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarrv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarrv(n,vl,vu,d,l,pivmin,isplit,m,dol,dou,minrgp,rtol1, &
                rtol2,w,werr,wgap,iblock,indexw,gers,z,ldz,isuppz,work,iwork,info)
@@ -13998,7 +15973,9 @@ module la_lapack
 #else
                module procedure la_dlartg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlartg
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slartg(f,g,c,s,r)
                     import sp,dp,qp,ilp,lk
@@ -14009,7 +15986,15 @@ module la_lapack
 #else
                module procedure la_slartg
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlartg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlartg
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylartg
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlartg(f,g,c,s,r)
                     import sp,dp,qp,ilp,lk
@@ -14043,7 +16028,9 @@ module la_lapack
 #else
                module procedure la_dlartgp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlartgp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slartgp(f,g,cs,sn,r)
                     import sp,dp,qp,ilp,lk
@@ -14053,6 +16040,9 @@ module la_lapack
                end subroutine slartgp
 #else
                module procedure la_slartgp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlartgp
 #endif
           end interface lartgp
 
@@ -14075,7 +16065,9 @@ module la_lapack
 #else
                module procedure la_dlartgs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlartgs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slartgs(x,y,sigma,cs,sn)
                     import sp,dp,qp,ilp,lk
@@ -14085,6 +16077,9 @@ module la_lapack
                end subroutine slartgs
 #else
                module procedure la_slartgs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlartgs
 #endif
           end interface lartgs
 
@@ -14116,7 +16111,9 @@ module la_lapack
 #else
                module procedure la_dlartv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlartv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slartv(n,x,incx,y,incy,c,s,incc)
                     import sp,dp,qp,ilp,lk
@@ -14128,7 +16125,15 @@ module la_lapack
 #else
                module procedure la_slartv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlartv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlartv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylartv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlartv(n,x,incx,y,incy,c,s,incc)
                     import sp,dp,qp,ilp,lk
@@ -14158,7 +16163,9 @@ module la_lapack
 #else
                module procedure la_dlaruv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaruv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaruv(iseed,n,x)
                     import sp,dp,qp,ilp,lk
@@ -14169,6 +16176,9 @@ module la_lapack
                end subroutine slaruv
 #else
                module procedure la_slaruv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaruv
 #endif
           end interface laruv
 
@@ -14208,7 +16218,9 @@ module la_lapack
 #else
                module procedure la_dlarz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarz(side,m,n,l,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
@@ -14222,7 +16234,15 @@ module la_lapack
 #else
                module procedure la_slarz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarz(side,m,n,l,v,incv,tau,c,ldc,work)
                     import sp,dp,qp,ilp,lk
@@ -14268,7 +16288,9 @@ module la_lapack
 #else
                module procedure la_dlarzb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarzb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c, &
                          ldc,work,ldwork)
@@ -14282,7 +16304,15 @@ module la_lapack
 #else
                module procedure la_slarzb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarzb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarzb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarzb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarzb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,c, &
                          ldc,work,ldwork)
@@ -14337,7 +16367,9 @@ module la_lapack
 #else
                module procedure la_dlarzt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlarzt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
@@ -14351,7 +16383,15 @@ module la_lapack
 #else
                module procedure la_slarzt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlarzt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlarzt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylarzt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlarzt(direct,storev,n,k,v,ldv,tau,t,ldt)
                     import sp,dp,qp,ilp,lk
@@ -14399,7 +16439,9 @@ module la_lapack
 #else
                module procedure la_dlascl
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlascl
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -14413,7 +16455,15 @@ module la_lapack
 #else
                module procedure la_slascl
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlascl
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlascl
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylascl
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlascl(type,kl,ku,cfrom,cto,m,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -14450,7 +16500,9 @@ module la_lapack
 #else
                module procedure la_dlasd0
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasd0
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasd0(n,sqre,d,e,u,ldu,vt,ldvt,smlsiz,iwork,work,info)
                          
@@ -14463,6 +16515,9 @@ module la_lapack
                end subroutine slasd0
 #else
                module procedure la_slasd0
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasd0
 #endif
           end interface lasd0
 
@@ -14510,7 +16565,9 @@ module la_lapack
 #else
                module procedure la_dlasd1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasd1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasd1(nl,nr,sqre,d,alpha,beta,u,ldu,vt,ldvt,idxq,iwork, &
                           work,info)
@@ -14524,6 +16581,9 @@ module la_lapack
                end subroutine slasd1
 #else
                module procedure la_slasd1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasd1
 #endif
           end interface lasd1
 
@@ -14551,7 +16611,9 @@ module la_lapack
 #else
                module procedure la_dlasd4
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasd4
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasd4(n,i,d,z,delta,rho,sigma,work,info)
                     import sp,dp,qp,ilp,lk
@@ -14563,6 +16625,9 @@ module la_lapack
                end subroutine slasd4
 #else
                module procedure la_slasd4
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasd4
 #endif
           end interface lasd4
 
@@ -14586,7 +16651,9 @@ module la_lapack
 #else
                module procedure la_dlasd5
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasd5
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasd5(i,d,z,delta,rho,dsigma,work)
                     import sp,dp,qp,ilp,lk
@@ -14597,6 +16664,9 @@ module la_lapack
                end subroutine slasd5
 #else
                module procedure la_slasd5
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasd5
 #endif
           end interface lasd5
 
@@ -14653,7 +16723,9 @@ module la_lapack
 #else
                module procedure la_dlasd6
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasd6
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasd6(icompq,nl,nr,sqre,d,vf,vl,alpha,beta,idxq,perm, &
                givptr,givcol,ldgcol,givnum,ldgnum,poles,difl,difr,z,k,c,s,work,iwork, &
@@ -14670,6 +16742,9 @@ module la_lapack
                end subroutine slasd6
 #else
                module procedure la_slasd6
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasd6
 #endif
           end interface lasd6
 
@@ -14699,7 +16774,9 @@ module la_lapack
 #else
                module procedure la_dlasd7
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasd7
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasd7(icompq,nl,nr,sqre,k,d,z,zw,vf,vfw,vl,vlw,alpha, &
                beta,dsigma,idx,idxp,idxq,perm,givptr,givcol,ldgcol,givnum,ldgnum,c,s, &
@@ -14717,6 +16794,9 @@ module la_lapack
                end subroutine slasd7
 #else
                module procedure la_slasd7
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasd7
 #endif
           end interface lasd7
 
@@ -14741,7 +16821,9 @@ module la_lapack
 #else
                module procedure la_dlasd8
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasd8
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasd8(icompq,k,d,z,vf,vl,difl,difr,lddifr,dsigma,work, &
                          info)
@@ -14754,6 +16836,9 @@ module la_lapack
                end subroutine slasd8
 #else
                module procedure la_slasd8
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasd8
 #endif
           end interface lasd8
 
@@ -14781,7 +16866,9 @@ module la_lapack
 #else
                module procedure la_dlasda
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasda
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasda(icompq,smlsiz,n,sqre,d,e,u,ldu,vt,k,difl,difr,z, &
                           poles,givptr,givcol,ldgcol,perm,givnum,c,s,work,iwork,info)
@@ -14796,6 +16883,9 @@ module la_lapack
                end subroutine slasda
 #else
                module procedure la_slasda
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasda
 #endif
           end interface lasda
 
@@ -14826,7 +16916,9 @@ module la_lapack
 #else
                module procedure la_dlasdq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasdq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasdq(uplo,sqre,n,ncvt,nru,ncc,d,e,vt,ldvt,u,ldu,c, &
                          ldc,work,info)
@@ -14840,6 +16932,9 @@ module la_lapack
                end subroutine slasdq
 #else
                module procedure la_slasdq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasdq
 #endif
           end interface lasdq
 
@@ -14870,7 +16965,9 @@ module la_lapack
 #else
                module procedure la_dlaset
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaset
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaset(uplo,m,n,alpha,beta,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -14883,7 +16980,15 @@ module la_lapack
 #else
                module procedure la_slaset
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaset
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaset
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaset
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaset(uplo,m,n,alpha,beta,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -14921,7 +17026,9 @@ module la_lapack
 #else
                module procedure la_dlasq1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasq1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasq1(n,d,e,work,info)
                     import sp,dp,qp,ilp,lk
@@ -14933,6 +17040,9 @@ module la_lapack
                end subroutine slasq1
 #else
                module procedure la_slasq1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasq1
 #endif
           end interface lasq1
 
@@ -14953,7 +17063,9 @@ module la_lapack
 #else
                module procedure la_dlasq4
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasq4
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasq4(i0,n0,z,pp,n0in,dmin,dmin1,dmin2,dn,dn1,dn2,tau, &
                          ttype,g)
@@ -14967,6 +17079,9 @@ module la_lapack
                end subroutine slasq4
 #else
                module procedure la_slasq4
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasq4
 #endif
           end interface lasq4
 
@@ -14987,7 +17102,9 @@ module la_lapack
 #else
                module procedure la_dlasq5
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasq5
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasq5(i0,n0,z,pp,tau,sigma,dmin,dmin1,dmin2,dn,dnm1, &
                          dnm2,ieee,eps)
@@ -15001,6 +17118,9 @@ module la_lapack
                end subroutine slasq5
 #else
                module procedure la_slasq5
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasq5
 #endif
           end interface lasq5
 
@@ -15018,7 +17138,9 @@ module la_lapack
 #else
                module procedure la_dlasq6
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasq6
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasq6(i0,n0,z,pp,dmin,dmin1,dmin2,dn,dnm1,dnm2)
                     import sp,dp,qp,ilp,lk
@@ -15029,6 +17151,9 @@ module la_lapack
                end subroutine slasq6
 #else
                module procedure la_slasq6
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasq6
 #endif
           end interface lasq6
 
@@ -15108,7 +17233,9 @@ module la_lapack
 #else
                module procedure la_dlasr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasr(side,pivot,direct,m,n,c,s,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -15121,7 +17248,15 @@ module la_lapack
 #else
                module procedure la_slasr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlasr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylasr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlasr(side,pivot,direct,m,n,c,s,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -15153,7 +17288,9 @@ module la_lapack
 #else
                module procedure la_dlasrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasrt(id,n,d,info)
                     import sp,dp,qp,ilp,lk
@@ -15165,6 +17302,9 @@ module la_lapack
                end subroutine slasrt
 #else
                module procedure la_slasrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasrt
 #endif
           end interface lasrt
 
@@ -15211,7 +17351,9 @@ module la_lapack
 #else
                module procedure la_dlassq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlassq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slassq(n,x,incx,scl,sumsq)
                     import sp,dp,qp,ilp,lk
@@ -15223,7 +17365,15 @@ module la_lapack
 #else
                module procedure la_slassq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlassq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlassq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylassq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlassq(n,x,incx,scl,sumsq)
                     import sp,dp,qp,ilp,lk
@@ -15272,7 +17422,9 @@ module la_lapack
 #else
                module procedure la_dlaswlq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaswlq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -15285,7 +17437,15 @@ module la_lapack
 #else
                module procedure la_slaswlq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaswlq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaswlq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaswlq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaswlq(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -15323,7 +17483,9 @@ module la_lapack
 #else
                module procedure la_dlaswp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlaswp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slaswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
@@ -15334,7 +17496,15 @@ module la_lapack
 #else
                module procedure la_slaswp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaswp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlaswp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaswp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaswp(n,a,lda,k1,k2,ipiv,incx)
                     import sp,dp,qp,ilp,lk
@@ -15387,7 +17557,9 @@ module la_lapack
 #else
                module procedure la_dlasyf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasyf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -15401,7 +17573,15 @@ module la_lapack
 #else
                module procedure la_slasyf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlasyf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasyf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylasyf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlasyf(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -15454,7 +17634,9 @@ module la_lapack
 #else
                module procedure la_dlasyf_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasyf_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
@@ -15468,7 +17650,15 @@ module la_lapack
 #else
                module procedure la_slasyf_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlasyf_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasyf_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylasyf_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlasyf_aa(uplo,j1,m,nb,a,lda,ipiv,h,ldh,work)
                     import sp,dp,qp,ilp,lk
@@ -15523,7 +17713,9 @@ module la_lapack
 #else
                module procedure la_dlasyf_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasyf_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -15537,7 +17729,15 @@ module la_lapack
 #else
                module procedure la_slasyf_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlasyf_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasyf_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylasyf_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlasyf_rk(uplo,n,nb,kb,a,lda,e,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -15592,7 +17792,9 @@ module la_lapack
 #else
                module procedure la_dlasyf_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlasyf_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -15606,7 +17808,15 @@ module la_lapack
 #else
                module procedure la_slasyf_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlasyf_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlasyf_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylasyf_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlasyf_rook(uplo,n,nb,kb,a,lda,ipiv,w,ldw,info)
                     import sp,dp,qp,ilp,lk
@@ -15664,7 +17874,9 @@ module la_lapack
 #else
                module procedure la_dlatbs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlatbs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
                           info)
@@ -15680,7 +17892,15 @@ module la_lapack
 #else
                module procedure la_slatbs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlatbs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlatbs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylatbs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlatbs(uplo,trans,diag,normin,n,kd,ab,ldab,x,scale,cnorm, &
                           info)
@@ -15729,7 +17949,9 @@ module la_lapack
 #else
                module procedure la_dlatdf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlatdf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
@@ -15740,7 +17962,15 @@ module la_lapack
 #else
                module procedure la_slatdf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlatdf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlatdf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylatdf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlatdf(ijob,n,z,ldz,rhs,rdsum,rdscal,ipiv,jpiv)
                     import sp,dp,qp,ilp,lk
@@ -15797,7 +18027,9 @@ module la_lapack
 #else
                module procedure la_dlatps
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlatps
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
                          
@@ -15813,7 +18045,15 @@ module la_lapack
 #else
                module procedure la_slatps
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlatps
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlatps
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylatps
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlatps(uplo,trans,diag,normin,n,ap,x,scale,cnorm,info)
                          
@@ -15867,7 +18107,9 @@ module la_lapack
 #else
                module procedure la_dlatrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlatrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
                     import sp,dp,qp,ilp,lk
@@ -15880,7 +18122,15 @@ module la_lapack
 #else
                module procedure la_slatrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlatrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlatrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylatrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlatrd(uplo,n,nb,a,lda,e,tau,w,ldw)
                     import sp,dp,qp,ilp,lk
@@ -15938,7 +18188,9 @@ module la_lapack
 #else
                module procedure la_dlatrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlatrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info &
                          )
@@ -15954,7 +18206,15 @@ module la_lapack
 #else
                module procedure la_slatrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlatrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlatrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylatrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlatrs(uplo,trans,diag,normin,n,a,lda,x,scale,cnorm,info &
                          )
@@ -16000,7 +18260,9 @@ module la_lapack
 #else
                module procedure la_dlatrz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlatrz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slatrz(m,n,l,a,lda,tau,work)
                     import sp,dp,qp,ilp,lk
@@ -16012,7 +18274,15 @@ module la_lapack
 #else
                module procedure la_slatrz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlatrz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlatrz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylatrz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlatrz(m,n,l,a,lda,tau,work)
                     import sp,dp,qp,ilp,lk
@@ -16062,7 +18332,9 @@ module la_lapack
 #else
                module procedure la_dlatsqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlatsqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -16075,7 +18347,15 @@ module la_lapack
 #else
                module procedure la_slatsqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlatsqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlatsqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylatsqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlatsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -16136,7 +18416,12 @@ module la_lapack
 #else
                module procedure la_claunhr_col_getrfnp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaunhr_col_getrfnp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaunhr_col_getrfnp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlaunhr_col_getrfnp(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
@@ -16212,7 +18497,12 @@ module la_lapack
 #else
                module procedure la_claunhr_col_getrfnp2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlaunhr_col_getrfnp2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylaunhr_col_getrfnp2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine zlaunhr_col_getrfnp2(m,n,a,lda,d,info)
                     import sp,dp,qp,ilp,lk
@@ -16260,7 +18550,9 @@ module la_lapack
 #else
                module procedure la_dlauum
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qlauum
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine slauum(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -16273,7 +18565,15 @@ module la_lapack
 #else
                module procedure la_slauum
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wlauum
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlauum
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylauum
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zlauum(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -16307,7 +18607,9 @@ module la_lapack
 #else
                module procedure la_dopgtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qopgtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sopgtr(uplo,n,ap,tau,q,ldq,work,info)
                     import sp,dp,qp,ilp,lk
@@ -16320,6 +18622,9 @@ module la_lapack
                end subroutine sopgtr
 #else
                module procedure la_sopgtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xopgtr
 #endif
           end interface opgtr
 
@@ -16349,7 +18654,9 @@ module la_lapack
 #else
                module procedure la_dopmtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qopmtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sopmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
                          
@@ -16364,6 +18671,9 @@ module la_lapack
                end subroutine sopmtr
 #else
                module procedure la_sopmtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xopmtr
 #endif
           end interface opmtr
 
@@ -16400,7 +18710,9 @@ module la_lapack
 #else
                module procedure la_dorbdb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorbdb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
@@ -16416,6 +18728,9 @@ module la_lapack
                end subroutine sorbdb
 #else
                module procedure la_sorbdb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorbdb
 #endif
           end interface orbdb
 
@@ -16449,7 +18764,9 @@ module la_lapack
 #else
                module procedure la_dorbdb1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorbdb1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
@@ -16463,6 +18780,9 @@ module la_lapack
                end subroutine sorbdb1
 #else
                module procedure la_sorbdb1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorbdb1
 #endif
           end interface orbdb1
 
@@ -16496,7 +18816,9 @@ module la_lapack
 #else
                module procedure la_dorbdb2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorbdb2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
@@ -16510,6 +18832,9 @@ module la_lapack
                end subroutine sorbdb2
 #else
                module procedure la_sorbdb2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorbdb2
 #endif
           end interface orbdb2
 
@@ -16543,7 +18868,9 @@ module la_lapack
 #else
                module procedure la_dorbdb3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorbdb3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
@@ -16557,6 +18884,9 @@ module la_lapack
                end subroutine sorbdb3
 #else
                module procedure la_sorbdb3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorbdb3
 #endif
           end interface orbdb3
 
@@ -16590,7 +18920,9 @@ module la_lapack
 #else
                module procedure la_dorbdb4
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorbdb4
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
@@ -16604,6 +18936,9 @@ module la_lapack
                end subroutine sorbdb4
 #else
                module procedure la_sorbdb4
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorbdb4
 #endif
           end interface orbdb4
 
@@ -16633,7 +18968,9 @@ module la_lapack
 #else
                module procedure la_dorbdb5
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorbdb5
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
@@ -16647,6 +18984,9 @@ module la_lapack
                end subroutine sorbdb5
 #else
                module procedure la_sorbdb5
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorbdb5
 #endif
           end interface orbdb5
 
@@ -16674,7 +19014,9 @@ module la_lapack
 #else
                module procedure la_dorbdb6
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorbdb6
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
@@ -16688,6 +19030,9 @@ module la_lapack
                end subroutine sorbdb6
 #else
                module procedure la_sorbdb6
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorbdb6
 #endif
           end interface orbdb6
 
@@ -16723,7 +19068,9 @@ module la_lapack
 #else
                module procedure la_dorcsd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorcsd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                recursive subroutine sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
@@ -16741,6 +19088,9 @@ module la_lapack
                end subroutine sorcsd
 #else
                module procedure la_sorcsd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorcsd
 #endif
           end interface orcsd
 
@@ -16775,7 +19125,9 @@ module la_lapack
 #else
                module procedure la_dorcsd2by1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorcsd2by1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
@@ -16790,6 +19142,9 @@ module la_lapack
                end subroutine sorcsd2by1
 #else
                module procedure la_sorcsd2by1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorcsd2by1
 #endif
           end interface orcsd2by1
 
@@ -16812,7 +19167,9 @@ module la_lapack
 #else
                module procedure la_dorg2l
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorg2l
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorg2l(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
@@ -16825,6 +19182,9 @@ module la_lapack
                end subroutine sorg2l
 #else
                module procedure la_sorg2l
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorg2l
 #endif
           end interface org2l
 
@@ -16847,7 +19207,9 @@ module la_lapack
 #else
                module procedure la_dorg2r
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorg2r
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorg2r(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
@@ -16860,6 +19222,9 @@ module la_lapack
                end subroutine sorg2r
 #else
                module procedure la_sorg2r
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorg2r
 #endif
           end interface org2r
 
@@ -16894,7 +19259,9 @@ module la_lapack
 #else
                module procedure la_dorgbr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorgbr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorgbr(vect,m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -16908,6 +19275,9 @@ module la_lapack
                end subroutine sorgbr
 #else
                module procedure la_sorgbr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorgbr
 #endif
           end interface orgbr
 
@@ -16929,7 +19299,9 @@ module la_lapack
 #else
                module procedure la_dorghr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorghr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -16942,6 +19314,9 @@ module la_lapack
                end subroutine sorghr
 #else
                module procedure la_sorghr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorghr
 #endif
           end interface orghr
 
@@ -16964,7 +19339,9 @@ module la_lapack
 #else
                module procedure la_dorglq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorglq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorglq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -16977,6 +19354,9 @@ module la_lapack
                end subroutine sorglq
 #else
                module procedure la_sorglq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorglq
 #endif
           end interface orglq
 
@@ -16999,7 +19379,9 @@ module la_lapack
 #else
                module procedure la_dorgql
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorgql
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorgql(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -17012,6 +19394,9 @@ module la_lapack
                end subroutine sorgql
 #else
                module procedure la_sorgql
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorgql
 #endif
           end interface orgql
 
@@ -17034,7 +19419,9 @@ module la_lapack
 #else
                module procedure la_dorgqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorgqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorgqr(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -17047,6 +19434,9 @@ module la_lapack
                end subroutine sorgqr
 #else
                module procedure la_sorgqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorgqr
 #endif
           end interface orgqr
 
@@ -17069,7 +19459,9 @@ module la_lapack
 #else
                module procedure la_dorgrq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorgrq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorgrq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -17082,6 +19474,9 @@ module la_lapack
                end subroutine sorgrq
 #else
                module procedure la_sorgrq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorgrq
 #endif
           end interface orgrq
 
@@ -17105,7 +19500,9 @@ module la_lapack
 #else
                module procedure la_dorgtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorgtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorgtr(uplo,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -17119,6 +19516,9 @@ module la_lapack
                end subroutine sorgtr
 #else
                module procedure la_sorgtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorgtr
 #endif
           end interface orgtr
 
@@ -17141,7 +19541,9 @@ module la_lapack
 #else
                module procedure la_dorgtsqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorgtsqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorgtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -17154,6 +19556,9 @@ module la_lapack
                end subroutine sorgtsqr
 #else
                module procedure la_sorgtsqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorgtsqr
 #endif
           end interface orgtsqr
 
@@ -17187,7 +19592,9 @@ module la_lapack
 #else
                module procedure la_dorgtsqr_row
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorgtsqr_row
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorgtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                          
@@ -17201,6 +19608,9 @@ module la_lapack
                end subroutine sorgtsqr_row
 #else
                module procedure la_sorgtsqr_row
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorgtsqr_row
 #endif
           end interface orgtsqr_row
 
@@ -17226,7 +19636,9 @@ module la_lapack
 #else
                module procedure la_dorhr_col
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorhr_col
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorhr_col(m,n,nb,a,lda,t,ldt,d,info)
                     import sp,dp,qp,ilp,lk
@@ -17238,6 +19650,9 @@ module la_lapack
                end subroutine sorhr_col
 #else
                module procedure la_sorhr_col
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorhr_col
 #endif
           end interface orhr_col
 
@@ -17267,7 +19682,9 @@ module la_lapack
 #else
                module procedure la_dorm2l
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorm2l
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
                          
@@ -17282,6 +19699,9 @@ module la_lapack
                end subroutine sorm2l
 #else
                module procedure la_sorm2l
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorm2l
 #endif
           end interface orm2l
 
@@ -17311,7 +19731,9 @@ module la_lapack
 #else
                module procedure la_dorm2r
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qorm2r
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sorm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
                          
@@ -17326,6 +19748,9 @@ module la_lapack
                end subroutine sorm2r
 #else
                module procedure la_sorm2r
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xorm2r
 #endif
           end interface orm2r
 
@@ -17367,7 +19792,9 @@ module la_lapack
 #else
                module procedure la_dormbr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qormbr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sormbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work, &
                          lwork,info)
@@ -17382,6 +19809,9 @@ module la_lapack
                end subroutine sormbr
 #else
                module procedure la_sormbr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xormbr
 #endif
           end interface ormbr
 
@@ -17409,7 +19839,9 @@ module la_lapack
 #else
                module procedure la_dormhr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qormhr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sormhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work, &
                          lwork,info)
@@ -17424,6 +19856,9 @@ module la_lapack
                end subroutine sormhr
 #else
                module procedure la_sormhr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xormhr
 #endif
           end interface ormhr
 
@@ -17452,7 +19887,9 @@ module la_lapack
 #else
                module procedure la_dormlq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qormlq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sormlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -17467,6 +19904,9 @@ module la_lapack
                end subroutine sormlq
 #else
                module procedure la_sormlq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xormlq
 #endif
           end interface ormlq
 
@@ -17495,7 +19935,9 @@ module la_lapack
 #else
                module procedure la_dormql
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qormql
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sormql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -17510,6 +19952,9 @@ module la_lapack
                end subroutine sormql
 #else
                module procedure la_sormql
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xormql
 #endif
           end interface ormql
 
@@ -17538,7 +19983,9 @@ module la_lapack
 #else
                module procedure la_dormqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qormqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sormqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -17553,6 +20000,9 @@ module la_lapack
                end subroutine sormqr
 #else
                module procedure la_sormqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xormqr
 #endif
           end interface ormqr
 
@@ -17581,7 +20031,9 @@ module la_lapack
 #else
                module procedure la_dormrq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qormrq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sormrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -17596,6 +20048,9 @@ module la_lapack
                end subroutine sormrq
 #else
                module procedure la_sormrq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xormrq
 #endif
           end interface ormrq
 
@@ -17624,7 +20079,9 @@ module la_lapack
 #else
                module procedure la_dormrz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qormrz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sormrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -17639,6 +20096,9 @@ module la_lapack
                end subroutine sormrz
 #else
                module procedure la_sormrz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xormrz
 #endif
           end interface ormrz
 
@@ -17667,7 +20127,9 @@ module la_lapack
 #else
                module procedure la_dormtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qormtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sormtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -17682,6 +20144,9 @@ module la_lapack
                end subroutine sormtr
 #else
                module procedure la_sormtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xormtr
 #endif
           end interface ormtr
 
@@ -17722,7 +20187,9 @@ module la_lapack
 #else
                module procedure la_dpbcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpbcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,iwork,info)
                          
@@ -17737,7 +20204,15 @@ module la_lapack
 #else
                module procedure la_spbcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpbcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpbcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypbcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpbcon(uplo,n,kd,ab,ldab,anorm,rcond,work,rwork,info)
                          
@@ -17791,7 +20266,9 @@ module la_lapack
 #else
                module procedure la_dpbequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpbequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -17805,7 +20282,15 @@ module la_lapack
 #else
                module procedure la_spbequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpbequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpbequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypbequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpbequ(uplo,n,kd,ab,ldab,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -17857,7 +20342,9 @@ module la_lapack
 #else
                module procedure la_dpbrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpbrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx, &
                          ferr,berr,work,iwork,info)
@@ -17873,7 +20360,15 @@ module la_lapack
 #else
                module procedure la_spbrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpbrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpbrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypbrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpbrfs(uplo,n,kd,nrhs,ab,ldab,afb,ldafb,b,ldb,x,ldx, &
                          ferr,berr,work,rwork,info)
@@ -17926,7 +20421,9 @@ module la_lapack
 #else
                module procedure la_dpbstf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpbstf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spbstf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
@@ -17939,7 +20436,15 @@ module la_lapack
 #else
                module procedure la_spbstf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpbstf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpbstf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypbstf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpbstf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
@@ -17990,7 +20495,9 @@ module la_lapack
 #else
                module procedure la_dpbsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpbsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18003,7 +20510,15 @@ module la_lapack
 #else
                module procedure la_spbsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpbsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpbsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypbsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpbsv(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18049,7 +20564,9 @@ module la_lapack
 #else
                module procedure la_dpbtrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpbtrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spbtrf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
@@ -18062,7 +20579,15 @@ module la_lapack
 #else
                module procedure la_spbtrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpbtrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpbtrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypbtrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpbtrf(uplo,n,kd,ab,ldab,info)
                     import sp,dp,qp,ilp,lk
@@ -18107,7 +20632,9 @@ module la_lapack
 #else
                module procedure la_dpbtrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpbtrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18121,7 +20648,15 @@ module la_lapack
 #else
                module procedure la_spbtrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpbtrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpbtrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypbtrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpbtrs(uplo,n,kd,nrhs,ab,ldab,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18169,7 +20704,9 @@ module la_lapack
 #else
                module procedure la_dpftrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpftrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spftrf(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
@@ -18182,7 +20719,15 @@ module la_lapack
 #else
                module procedure la_spftrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpftrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpftrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypftrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpftrf(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
@@ -18225,7 +20770,9 @@ module la_lapack
 #else
                module procedure la_dpftri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpftri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spftri(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
@@ -18238,7 +20785,15 @@ module la_lapack
 #else
                module procedure la_spftri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpftri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpftri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypftri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpftri(transr,uplo,n,a,info)
                     import sp,dp,qp,ilp,lk
@@ -18283,7 +20838,9 @@ module la_lapack
 #else
                module procedure la_dpftrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpftrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spftrs(transr,uplo,n,nrhs,a,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18297,7 +20854,15 @@ module la_lapack
 #else
                module procedure la_spftrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpftrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpftrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypftrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpftrs(transr,uplo,n,nrhs,a,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18348,7 +20913,9 @@ module la_lapack
 #else
                module procedure la_dpocon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpocon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spocon(uplo,n,a,lda,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -18363,7 +20930,15 @@ module la_lapack
 #else
                module procedure la_spocon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpocon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpocon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypocon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpocon(uplo,n,a,lda,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -18414,7 +20989,9 @@ module la_lapack
 #else
                module procedure la_dpoequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpoequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spoequ(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -18427,7 +21004,15 @@ module la_lapack
 #else
                module procedure la_spoequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpoequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpoequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypoequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpoequ(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -18480,7 +21065,9 @@ module la_lapack
 #else
                module procedure la_dpoequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpoequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spoequb(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -18493,7 +21080,15 @@ module la_lapack
 #else
                module procedure la_spoequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpoequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpoequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypoequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpoequb(n,a,lda,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -18544,7 +21139,9 @@ module la_lapack
 #else
                module procedure la_dporfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qporfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
                           work,iwork,info)
@@ -18560,7 +21157,15 @@ module la_lapack
 #else
                module procedure la_sporfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wporfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xporfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yporfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zporfs(uplo,n,nrhs,a,lda,af,ldaf,b,ldb,x,ldx,ferr,berr, &
                           work,rwork,info)
@@ -18614,7 +21219,9 @@ module la_lapack
 #else
                module procedure la_dposv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qposv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sposv(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18627,7 +21234,15 @@ module la_lapack
 #else
                module procedure la_sposv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wposv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xposv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yposv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zposv(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18674,7 +21289,9 @@ module la_lapack
 #else
                module procedure la_dpotrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpotrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spotrf(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -18687,7 +21304,15 @@ module la_lapack
 #else
                module procedure la_spotrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpotrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpotrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypotrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpotrf(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -18740,7 +21365,9 @@ module la_lapack
 #else
                module procedure la_dpotrf2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpotrf2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine spotrf2(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -18753,7 +21380,15 @@ module la_lapack
 #else
                module procedure la_spotrf2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpotrf2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpotrf2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypotrf2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure recursive subroutine zpotrf2(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -18796,7 +21431,9 @@ module la_lapack
 #else
                module procedure la_dpotri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpotri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spotri(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -18809,7 +21446,15 @@ module la_lapack
 #else
                module procedure la_spotri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpotri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpotri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypotri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpotri(uplo,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -18854,7 +21499,9 @@ module la_lapack
 #else
                module procedure la_dpotrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpotrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spotrs(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18868,7 +21515,15 @@ module la_lapack
 #else
                module procedure la_spotrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpotrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpotrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypotrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpotrs(uplo,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -18919,7 +21574,9 @@ module la_lapack
 #else
                module procedure la_dppcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qppcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sppcon(uplo,n,ap,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -18933,7 +21590,15 @@ module la_lapack
 #else
                module procedure la_sppcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wppcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xppcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yppcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zppcon(uplo,n,ap,anorm,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -18986,7 +21651,9 @@ module la_lapack
 #else
                module procedure la_dppequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qppequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sppequ(uplo,n,ap,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -19000,7 +21667,15 @@ module la_lapack
 #else
                module procedure la_sppequ
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wppequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xppequ
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yppequ
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zppequ(uplo,n,ap,s,scond,amax,info)
                     import sp,dp,qp,ilp,lk
@@ -19052,7 +21727,9 @@ module la_lapack
 #else
                module procedure la_dpprfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpprfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work, &
                          iwork,info)
@@ -19068,7 +21745,15 @@ module la_lapack
 #else
                module procedure la_spprfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpprfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpprfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypprfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpprfs(uplo,n,nrhs,ap,afp,b,ldb,x,ldx,ferr,berr,work, &
                          rwork,info)
@@ -19122,7 +21807,9 @@ module la_lapack
 #else
                module procedure la_dppsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qppsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sppsv(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -19135,7 +21822,15 @@ module la_lapack
 #else
                module procedure la_sppsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wppsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xppsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yppsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zppsv(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -19181,7 +21876,9 @@ module la_lapack
 #else
                module procedure la_dpptrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpptrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spptrf(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -19194,7 +21891,15 @@ module la_lapack
 #else
                module procedure la_spptrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpptrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpptrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypptrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpptrf(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -19237,7 +21942,9 @@ module la_lapack
 #else
                module procedure la_dpptri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpptri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spptri(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -19250,7 +21957,15 @@ module la_lapack
 #else
                module procedure la_spptri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpptri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpptri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypptri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpptri(uplo,n,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -19295,7 +22010,9 @@ module la_lapack
 #else
                module procedure la_dpptrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpptrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spptrs(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -19309,7 +22026,15 @@ module la_lapack
 #else
                module procedure la_spptrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpptrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpptrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypptrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpptrs(uplo,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -19363,7 +22088,9 @@ module la_lapack
 #else
                module procedure la_dpstrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpstrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
@@ -19378,7 +22105,15 @@ module la_lapack
 #else
                module procedure la_spstrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpstrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpstrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypstrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpstrf(uplo,n,a,lda,piv,rank,tol,work,info)
                     import sp,dp,qp,ilp,lk
@@ -19428,7 +22163,9 @@ module la_lapack
 #else
                module procedure la_dptcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qptcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sptcon(n,d,e,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
@@ -19441,7 +22178,15 @@ module la_lapack
 #else
                module procedure la_sptcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wptcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xptcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yptcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zptcon(n,d,e,anorm,rcond,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -19500,7 +22245,9 @@ module la_lapack
 #else
                module procedure la_dpteqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpteqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
@@ -19514,7 +22261,15 @@ module la_lapack
 #else
                module procedure la_spteqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpteqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpteqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypteqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
@@ -19567,7 +22322,9 @@ module la_lapack
 #else
                module procedure la_dptrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qptrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sptrfs(n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr,work, &
                          info)
@@ -19582,7 +22339,15 @@ module la_lapack
 #else
                module procedure la_sptrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wptrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xptrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yptrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zptrfs(uplo,n,nrhs,d,e,df,ef,b,ldb,x,ldx,ferr,berr, &
                          work,rwork,info)
@@ -19631,7 +22396,9 @@ module la_lapack
 #else
                module procedure la_dptsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qptsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sptsv(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -19643,7 +22410,15 @@ module la_lapack
 #else
                module procedure la_sptsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wptsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xptsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yptsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zptsv(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -19685,7 +22460,9 @@ module la_lapack
 #else
                module procedure la_dpttrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpttrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spttrf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
@@ -19697,7 +22474,15 @@ module la_lapack
 #else
                module procedure la_spttrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpttrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpttrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypttrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpttrf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
@@ -19745,7 +22530,9 @@ module la_lapack
 #else
                module procedure la_dpttrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qpttrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine spttrs(n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -19758,7 +22545,15 @@ module la_lapack
 #else
                module procedure la_spttrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wpttrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xpttrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ypttrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zpttrs(uplo,n,nrhs,d,e,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -19790,7 +22585,12 @@ module la_lapack
 #else
                module procedure la_crot
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wrot
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yrot
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zrot(n,cx,incx,cy,incy,c,s)
                     import sp,dp,qp,ilp,lk
@@ -19820,7 +22620,9 @@ module la_lapack
 #else
                module procedure la_drscl
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qrscl
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine srscl(n,sa,sx,incx)
                     import sp,dp,qp,ilp,lk
@@ -19831,6 +22633,9 @@ module la_lapack
                end subroutine srscl
 #else
                module procedure la_srscl
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xrscl
 #endif
           end interface rscl
 
@@ -19851,7 +22656,9 @@ module la_lapack
 #else
                module procedure la_dsb2st_kernels
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsb2st_kernels
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssb2st_kernels(uplo,wantz,ttype,st,ed,sweep,n,nb,ib,a, &
                          lda,v,tau,ldvt,work)
@@ -19865,6 +22672,9 @@ module la_lapack
                end subroutine ssb2st_kernels
 #else
                module procedure la_ssb2st_kernels
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsb2st_kernels
 #endif
           end interface sb2st_kernels
 
@@ -19884,7 +22694,9 @@ module la_lapack
 #else
                module procedure la_dsbev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsbev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ssbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
@@ -19897,6 +22709,9 @@ module la_lapack
                end subroutine ssbev
 #else
                module procedure la_ssbev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsbev
 #endif
           end interface sbev
 
@@ -19924,7 +22739,9 @@ module la_lapack
 #else
                module procedure la_dsbevd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsbevd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ssbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork, &
                          liwork,info)
@@ -19938,6 +22755,9 @@ module la_lapack
                end subroutine ssbevd
 #else
                module procedure la_ssbevd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsbevd
 #endif
           end interface sbevd
 
@@ -19964,7 +22784,9 @@ module la_lapack
 #else
                module procedure la_dsbgst
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsbgst
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssbgst(vect,uplo,n,ka,kb,ab,ldab,bb,ldbb,x,ldx,work, &
                          info)
@@ -19979,6 +22801,9 @@ module la_lapack
                end subroutine ssbgst
 #else
                module procedure la_ssbgst
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsbgst
 #endif
           end interface sbgst
 
@@ -20001,7 +22826,9 @@ module la_lapack
 #else
                module procedure la_dsbgv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsbgv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssbgv(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
                          info)
@@ -20015,6 +22842,9 @@ module la_lapack
                end subroutine ssbgv
 #else
                module procedure la_ssbgv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsbgv
 #endif
           end interface sbgv
 
@@ -20044,7 +22874,9 @@ module la_lapack
 #else
                module procedure la_dsbgvd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsbgvd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssbgvd(jobz,uplo,n,ka,kb,ab,ldab,bb,ldbb,w,z,ldz,work, &
                          lwork,iwork,liwork,info)
@@ -20058,6 +22890,9 @@ module la_lapack
                end subroutine ssbgvd
 #else
                module procedure la_ssbgvd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsbgvd
 #endif
           end interface sbgvd
 
@@ -20079,7 +22914,9 @@ module la_lapack
 #else
                module procedure la_dsbtrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsbtrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssbtrd(vect,uplo,n,kd,ab,ldab,d,e,q,ldq,work,info)
                          
@@ -20093,6 +22930,9 @@ module la_lapack
                end subroutine ssbtrd
 #else
                module procedure la_ssbtrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsbtrd
 #endif
           end interface sbtrd
 
@@ -20117,7 +22957,9 @@ module la_lapack
 #else
                module procedure la_dsfrk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsfrk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssfrk(transr,uplo,trans,n,k,alpha,a,lda,beta,c)
                     import sp,dp,qp,ilp,lk
@@ -20129,6 +22971,9 @@ module la_lapack
                end subroutine ssfrk
 #else
                module procedure la_ssfrk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsfrk
 #endif
           end interface sfrk
 
@@ -20166,7 +23011,9 @@ module la_lapack
 #else
                module procedure la_dspcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sspcon(uplo,n,ap,ipiv,anorm,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -20180,7 +23027,15 @@ module la_lapack
 #else
                module procedure la_sspcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wspcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yspcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zspcon(uplo,n,ap,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
@@ -20214,7 +23069,9 @@ module la_lapack
 #else
                module procedure la_dspev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sspev(jobz,uplo,n,ap,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
@@ -20227,6 +23084,9 @@ module la_lapack
                end subroutine sspev
 #else
                module procedure la_sspev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspev
 #endif
           end interface spev
 
@@ -20254,7 +23114,9 @@ module la_lapack
 #else
                module procedure la_dspevd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspevd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
                          
@@ -20268,6 +23130,9 @@ module la_lapack
                end subroutine sspevd
 #else
                module procedure la_sspevd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspevd
 #endif
           end interface spevd
 
@@ -20292,7 +23157,9 @@ module la_lapack
 #else
                module procedure la_dspgst
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspgst
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sspgst(itype,uplo,n,ap,bp,info)
                     import sp,dp,qp,ilp,lk
@@ -20305,6 +23172,9 @@ module la_lapack
                end subroutine sspgst
 #else
                module procedure la_sspgst
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspgst
 #endif
           end interface spgst
 
@@ -20327,7 +23197,9 @@ module la_lapack
 #else
                module procedure la_dspgv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspgv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
@@ -20340,6 +23212,9 @@ module la_lapack
                end subroutine sspgv
 #else
                module procedure la_sspgv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspgv
 #endif
           end interface spgv
 
@@ -20370,7 +23245,9 @@ module la_lapack
 #else
                module procedure la_dspgvd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspgvd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine sspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork, &
                          liwork,info)
@@ -20384,6 +23261,9 @@ module la_lapack
                end subroutine sspgvd
 #else
                module procedure la_sspgvd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspgvd
 #endif
           end interface spgvd
 
@@ -20404,7 +23284,12 @@ module la_lapack
 #else
                module procedure la_cspmv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wspmv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yspmv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zspmv(uplo,n,alpha,ap,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -20436,7 +23321,12 @@ module la_lapack
 #else
                module procedure la_cspr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wspr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yspr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zspr(uplo,n,alpha,x,incx,ap)
                     import sp,dp,qp,ilp,lk
@@ -20487,7 +23377,9 @@ module la_lapack
 #else
                module procedure la_dsprfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsprfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
                          work,iwork,info)
@@ -20503,7 +23395,15 @@ module la_lapack
 #else
                module procedure la_ssprfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsprfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsprfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysprfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsprfs(uplo,n,nrhs,ap,afp,ipiv,b,ldb,x,ldx,ferr,berr, &
                          work,rwork,info)
@@ -20558,7 +23458,9 @@ module la_lapack
 #else
                module procedure la_dspsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qspsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -20571,7 +23473,15 @@ module la_lapack
 #else
                module procedure la_sspsv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wspsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xspsv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yspsv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zspsv(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -20603,7 +23513,9 @@ module la_lapack
 #else
                module procedure la_dsptrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsptrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssptrd(uplo,n,ap,d,e,tau,info)
                     import sp,dp,qp,ilp,lk
@@ -20616,6 +23528,9 @@ module la_lapack
                end subroutine ssptrd
 #else
                module procedure la_ssptrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsptrd
 #endif
           end interface sptrd
 
@@ -20651,7 +23566,9 @@ module la_lapack
 #else
                module procedure la_dsptrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsptrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -20664,7 +23581,15 @@ module la_lapack
 #else
                module procedure la_ssptrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsptrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsptrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysptrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsptrf(uplo,n,ap,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -20709,7 +23634,9 @@ module la_lapack
 #else
                module procedure la_dsptri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsptri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -20723,7 +23650,15 @@ module la_lapack
 #else
                module procedure la_ssptri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsptri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsptri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysptri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsptri(uplo,n,ap,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -20769,7 +23704,9 @@ module la_lapack
 #else
                module procedure la_dsptrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsptrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -20783,7 +23720,15 @@ module la_lapack
 #else
                module procedure la_ssptrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsptrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsptrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysptrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsptrs(uplo,n,nrhs,ap,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -20825,7 +23770,9 @@ module la_lapack
 #else
                module procedure la_dstebz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qstebz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sstebz(range,order,n,vl,vu,il,iu,abstol,d,e,m,nsplit,w, &
                           iblock,isplit,work,iwork,info)
@@ -20840,6 +23787,9 @@ module la_lapack
                end subroutine sstebz
 #else
                module procedure la_sstebz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xstebz
 #endif
           end interface stebz
 
@@ -20885,7 +23835,9 @@ module la_lapack
 #else
                module procedure la_dstedc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qstedc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sstedc(compz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
                          
@@ -20900,7 +23852,15 @@ module la_lapack
 #else
                module procedure la_sstedc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wstedc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xstedc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ystedc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zstedc(compz,n,d,e,z,ldz,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
@@ -20967,7 +23927,9 @@ module la_lapack
 #else
                module procedure la_dstegr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qstegr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
@@ -20983,7 +23945,15 @@ module la_lapack
 #else
                module procedure la_sstegr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wstegr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xstegr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ystegr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zstegr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
@@ -21039,7 +24009,9 @@ module la_lapack
 #else
                module procedure la_dstein
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qstein
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail, &
                          info)
@@ -21053,7 +24025,15 @@ module la_lapack
 #else
                module procedure la_sstein
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wstein
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xstein
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ystein
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zstein(n,d,e,m,w,iblock,isplit,z,ldz,work,iwork,ifail, &
                          info)
@@ -21163,7 +24143,9 @@ module la_lapack
 #else
                module procedure la_dstemr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qstemr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc, &
                          isuppz,tryrac,work,lwork,iwork,liwork,info)
@@ -21180,7 +24162,15 @@ module la_lapack
 #else
                module procedure la_sstemr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wstemr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xstemr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ystemr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zstemr(jobz,range,n,d,e,vl,vu,il,iu,m,w,z,ldz,nzc, &
                          isuppz,tryrac,work,lwork,iwork,liwork,info)
@@ -21233,7 +24223,9 @@ module la_lapack
 #else
                module procedure la_dsteqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsteqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
@@ -21247,7 +24239,15 @@ module la_lapack
 #else
                module procedure la_ssteqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsteqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsteqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysteqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsteqr(compz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
@@ -21278,7 +24278,9 @@ module la_lapack
 #else
                module procedure la_dsterf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsterf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssterf(n,d,e,info)
                     import sp,dp,qp,ilp,lk
@@ -21289,6 +24291,9 @@ module la_lapack
                end subroutine ssterf
 #else
                module procedure la_ssterf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsterf
 #endif
           end interface sterf
 
@@ -21308,7 +24313,9 @@ module la_lapack
 #else
                module procedure la_dstev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qstev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sstev(jobz,n,d,e,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
@@ -21321,6 +24328,9 @@ module la_lapack
                end subroutine sstev
 #else
                module procedure la_sstev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xstev
 #endif
           end interface stev
 
@@ -21348,7 +24358,9 @@ module la_lapack
 #else
                module procedure la_dstevd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qstevd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sstevd(jobz,n,d,e,z,ldz,work,lwork,iwork,liwork,info)
                          
@@ -21362,6 +24374,9 @@ module la_lapack
                end subroutine sstevd
 #else
                module procedure la_sstevd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xstevd
 #endif
           end interface stevd
 
@@ -21416,7 +24431,9 @@ module la_lapack
 #else
                module procedure la_dstevr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qstevr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine sstevr(jobz,range,n,d,e,vl,vu,il,iu,abstol,m,w,z,ldz, &
                          isuppz,work,lwork,iwork,liwork,info)
@@ -21431,6 +24448,9 @@ module la_lapack
                end subroutine sstevr
 #else
                module procedure la_sstevr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xstevr
 #endif
           end interface stevr
 
@@ -21469,7 +24489,9 @@ module la_lapack
 #else
                module procedure la_dsycon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsycon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssycon(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info)
                          
@@ -21484,7 +24506,15 @@ module la_lapack
 #else
                module procedure la_ssycon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsycon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsycon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysycon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsycon(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
                     import sp,dp,qp,ilp,lk
@@ -21538,7 +24568,9 @@ module la_lapack
 #else
                module procedure la_dsycon_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsycon_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,iwork,info &
                          )
@@ -21553,7 +24585,15 @@ module la_lapack
 #else
                module procedure la_ssycon_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsycon_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsycon_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysycon_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsycon_rook(uplo,n,a,lda,ipiv,anorm,rcond,work,info)
                          
@@ -21602,7 +24642,9 @@ module la_lapack
 #else
                module procedure la_dsyconv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyconv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssyconv(uplo,way,n,a,lda,ipiv,e,info)
                     import sp,dp,qp,ilp,lk
@@ -21616,7 +24658,15 @@ module la_lapack
 #else
                module procedure la_ssyconv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyconv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyconv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyconv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsyconv(uplo,way,n,a,lda,ipiv,e,info)
                     import sp,dp,qp,ilp,lk
@@ -21676,7 +24726,9 @@ module la_lapack
 #else
                module procedure la_dsyconvf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyconvf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssyconvf(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -21690,7 +24742,15 @@ module la_lapack
 #else
                module procedure la_ssyconvf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyconvf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyconvf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyconvf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsyconvf(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -21746,7 +24806,9 @@ module la_lapack
 #else
                module procedure la_dsyconvf_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyconvf_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -21759,7 +24821,15 @@ module la_lapack
 #else
                module procedure la_ssyconvf_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyconvf_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyconvf_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyconvf_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsyconvf_rook(uplo,way,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -21809,7 +24879,9 @@ module la_lapack
 #else
                module procedure la_dsyequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssyequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
@@ -21823,7 +24895,15 @@ module la_lapack
 #else
                module procedure la_ssyequb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyequb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyequb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsyequb(uplo,n,a,lda,s,scond,amax,work,info)
                     import sp,dp,qp,ilp,lk
@@ -21856,7 +24936,9 @@ module la_lapack
 #else
                module procedure la_dsyev
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyev
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ssyev(jobz,uplo,n,a,lda,w,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -21869,6 +24951,9 @@ module la_lapack
                end subroutine ssyev
 #else
                module procedure la_ssyev
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyev
 #endif
           end interface syev
 
@@ -21898,7 +24983,9 @@ module la_lapack
 #else
                module procedure la_dsyevd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyevd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ssyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
                          
@@ -21912,6 +24999,9 @@ module la_lapack
                end subroutine ssyevd
 #else
                module procedure la_ssyevd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyevd
 #endif
           end interface syevd
 
@@ -21981,7 +25071,9 @@ module la_lapack
 #else
                module procedure la_dsyevr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyevr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ssyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
                          ldz,isuppz,work,lwork,iwork,liwork,info)
@@ -21996,6 +25088,9 @@ module la_lapack
                end subroutine ssyevr
 #else
                module procedure la_ssyevr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyevr
 #endif
           end interface syevr
 
@@ -22020,7 +25115,9 @@ module la_lapack
 #else
                module procedure la_dsygst
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsygst
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssygst(itype,uplo,n,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -22033,6 +25130,9 @@ module la_lapack
                end subroutine ssygst
 #else
                module procedure la_ssygst
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsygst
 #endif
           end interface sygst
 
@@ -22056,7 +25156,9 @@ module la_lapack
 #else
                module procedure la_dsygv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsygv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ssygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
                          
@@ -22070,6 +25172,9 @@ module la_lapack
                end subroutine ssygv
 #else
                module procedure la_ssygv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsygv
 #endif
           end interface sygv
 
@@ -22099,7 +25204,9 @@ module la_lapack
 #else
                module procedure la_dsygvd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsygvd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ssygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork, &
                          liwork,info)
@@ -22113,6 +25220,9 @@ module la_lapack
                end subroutine ssygvd
 #else
                module procedure la_ssygvd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsygvd
 #endif
           end interface sygvd
 
@@ -22133,7 +25243,12 @@ module la_lapack
 #else
                module procedure la_csymv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsymv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysymv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsymv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
@@ -22165,7 +25280,12 @@ module la_lapack
 #else
                module procedure la_csyr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsyr(uplo,n,alpha,x,incx,a,lda)
                     import sp,dp,qp,ilp,lk
@@ -22215,7 +25335,9 @@ module la_lapack
 #else
                module procedure la_dsyrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
                           berr,work,iwork,info)
@@ -22231,7 +25353,15 @@ module la_lapack
 #else
                module procedure la_ssyrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsyrfs(uplo,n,nrhs,a,lda,af,ldaf,ipiv,b,ldb,x,ldx,ferr, &
                           berr,work,rwork,info)
@@ -22290,7 +25420,9 @@ module la_lapack
 #else
                module procedure la_dsysv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsysv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -22305,7 +25437,15 @@ module la_lapack
 #else
                module procedure la_ssysv
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsysv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsysv
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysysv
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsysv(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -22361,7 +25501,9 @@ module la_lapack
 #else
                module procedure la_dsysv_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsysv_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -22376,7 +25518,15 @@ module la_lapack
 #else
                module procedure la_ssysv_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsysv_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsysv_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysysv_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsysv_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -22436,7 +25586,9 @@ module la_lapack
 #else
                module procedure la_dsysv_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsysv_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
                          )
@@ -22451,7 +25603,15 @@ module la_lapack
 #else
                module procedure la_ssysv_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsysv_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsysv_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysysv_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsysv_rk(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,work,lwork,info &
                          )
@@ -22513,7 +25673,9 @@ module la_lapack
 #else
                module procedure la_dsysv_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsysv_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -22528,7 +25690,15 @@ module la_lapack
 #else
                module procedure la_ssysv_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsysv_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsysv_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysysv_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsysv_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -22570,7 +25740,9 @@ module la_lapack
 #else
                module procedure la_dsyswapr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsyswapr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssyswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
@@ -22582,7 +25754,15 @@ module la_lapack
 #else
                module procedure la_ssyswapr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsyswapr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsyswapr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysyswapr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsyswapr(uplo,n,a,lda,i1,i2)
                     import sp,dp,qp,ilp,lk
@@ -22632,7 +25812,9 @@ module la_lapack
 #else
                module procedure la_dsytf2_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytf2_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -22646,7 +25828,15 @@ module la_lapack
 #else
                module procedure la_ssytf2_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytf2_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytf2_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytf2_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytf2_rk(uplo,n,a,lda,e,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -22694,7 +25884,9 @@ module la_lapack
 #else
                module procedure la_dsytf2_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytf2_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -22707,7 +25899,15 @@ module la_lapack
 #else
                module procedure la_ssytf2_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytf2_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytf2_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytf2_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytf2_rook(uplo,n,a,lda,ipiv,info)
                     import sp,dp,qp,ilp,lk
@@ -22739,7 +25939,9 @@ module la_lapack
 #else
                module procedure la_dsytrd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrd(uplo,n,a,lda,d,e,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -22752,6 +25954,9 @@ module la_lapack
                end subroutine ssytrd
 #else
                module procedure la_ssytrd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrd
 #endif
           end interface sytrd
 
@@ -22773,7 +25978,9 @@ module la_lapack
 #else
                module procedure la_dsytrd_sb2st
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrd_sb2st
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrd_sb2st(stage1,vect,uplo,n,kd,ab,ldab,d,e,hous, &
                          lhous,work,lwork,info)
@@ -22787,6 +25994,9 @@ module la_lapack
                end subroutine ssytrd_sb2st
 #else
                module procedure la_ssytrd_sb2st
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrd_sb2st
 #endif
           end interface sytrd_sb2st
 
@@ -22808,7 +26018,9 @@ module la_lapack
 #else
                module procedure la_dsytrd_sy2sb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrd_sy2sb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrd_sy2sb(uplo,n,kd,a,lda,ab,ldab,tau,work,lwork,info &
                          )
@@ -22822,6 +26034,9 @@ module la_lapack
                end subroutine ssytrd_sy2sb
 #else
                module procedure la_ssytrd_sy2sb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrd_sy2sb
 #endif
           end interface sytrd_sy2sb
 
@@ -22860,7 +26075,9 @@ module la_lapack
 #else
                module procedure la_dsytrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -22874,7 +26091,15 @@ module la_lapack
 #else
                module procedure la_ssytrf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrf(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -22923,7 +26148,9 @@ module la_lapack
 #else
                module procedure la_dsytrf_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrf_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -22937,7 +26164,15 @@ module la_lapack
 #else
                module procedure la_ssytrf_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrf_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrf_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrf_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrf_aa(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -22989,7 +26224,9 @@ module la_lapack
 #else
                module procedure la_dsytrf_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrf_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -23003,7 +26240,15 @@ module la_lapack
 #else
                module procedure la_ssytrf_rk
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrf_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrf_rk
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrf_rk
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrf_rk(uplo,n,a,lda,e,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -23054,7 +26299,9 @@ module la_lapack
 #else
                module procedure la_dsytrf_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrf_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -23068,7 +26315,15 @@ module la_lapack
 #else
                module procedure la_ssytrf_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrf_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrf_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrf_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrf_rook(uplo,n,a,lda,ipiv,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -23114,7 +26369,9 @@ module la_lapack
 #else
                module procedure la_dsytri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -23128,7 +26385,15 @@ module la_lapack
 #else
                module procedure la_ssytri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytri(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -23174,7 +26439,9 @@ module la_lapack
 #else
                module procedure la_dsytri_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytri_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -23188,7 +26455,15 @@ module la_lapack
 #else
                module procedure la_ssytri_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytri_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytri_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytri_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytri_rook(uplo,n,a,lda,ipiv,work,info)
                     import sp,dp,qp,ilp,lk
@@ -23234,7 +26509,9 @@ module la_lapack
 #else
                module procedure la_dsytrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -23248,7 +26525,15 @@ module la_lapack
 #else
                module procedure la_ssytrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrs(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -23294,7 +26579,9 @@ module la_lapack
 #else
                module procedure la_dsytrs2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrs2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
@@ -23308,7 +26595,15 @@ module la_lapack
 #else
                module procedure la_ssytrs2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrs2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrs2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrs2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrs2(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,info)
                     import sp,dp,qp,ilp,lk
@@ -23360,7 +26655,9 @@ module la_lapack
 #else
                module procedure la_dsytrs_3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrs_3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -23374,7 +26671,15 @@ module la_lapack
 #else
                module procedure la_ssytrs_3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrs_3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrs_3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrs_3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrs_3(uplo,n,nrhs,a,lda,e,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -23424,7 +26729,9 @@ module la_lapack
 #else
                module procedure la_dsytrs_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrs_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -23440,7 +26747,15 @@ module la_lapack
 #else
                module procedure la_ssytrs_aa
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrs_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrs_aa
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrs_aa
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrs_aa(uplo,n,nrhs,a,lda,ipiv,b,ldb,work,lwork,info)
                          
@@ -23488,7 +26803,9 @@ module la_lapack
 #else
                module procedure la_dsytrs_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qsytrs_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ssytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -23502,7 +26819,15 @@ module la_lapack
 #else
                module procedure la_ssytrs_rook
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wsytrs_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xsytrs_rook
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ysytrs_rook
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zsytrs_rook(uplo,n,nrhs,a,lda,ipiv,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -23554,7 +26879,9 @@ module la_lapack
 #else
                module procedure la_dtbcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtbcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine stbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
                          
@@ -23569,7 +26896,15 @@ module la_lapack
 #else
                module procedure la_stbcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtbcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtbcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytbcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ztbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
                          
@@ -23623,7 +26958,9 @@ module la_lapack
 #else
                module procedure la_dtbrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtbrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx, &
                          ferr,berr,work,iwork,info)
@@ -23638,7 +26975,15 @@ module la_lapack
 #else
                module procedure la_stbrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtbrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtbrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytbrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztbrfs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,x,ldx, &
                          ferr,berr,work,rwork,info)
@@ -23689,7 +27034,9 @@ module la_lapack
 #else
                module procedure la_dtbtrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtbtrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
                          
@@ -23704,7 +27051,15 @@ module la_lapack
 #else
                module procedure la_stbtrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtbtrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtbtrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytbtrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztbtrs(uplo,trans,diag,n,kd,nrhs,ab,ldab,b,ldb,info)
                          
@@ -23756,7 +27111,9 @@ module la_lapack
 #else
                module procedure la_dtfsm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtfsm
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
                          
@@ -23770,7 +27127,15 @@ module la_lapack
 #else
                module procedure la_stfsm
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtfsm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtfsm
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytfsm
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztfsm(transr,side,uplo,trans,diag,m,n,alpha,a,b,ldb)
                          
@@ -23814,7 +27179,9 @@ module la_lapack
 #else
                module procedure la_dtftri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtftri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stftri(transr,uplo,diag,n,a,info)
                     import sp,dp,qp,ilp,lk
@@ -23827,7 +27194,15 @@ module la_lapack
 #else
                module procedure la_stftri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtftri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtftri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytftri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztftri(transr,uplo,diag,n,a,info)
                     import sp,dp,qp,ilp,lk
@@ -23871,7 +27246,9 @@ module la_lapack
 #else
                module procedure la_dtfttp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtfttp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stfttp(transr,uplo,n,arf,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -23885,7 +27262,15 @@ module la_lapack
 #else
                module procedure la_stfttp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtfttp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtfttp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytfttp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztfttp(transr,uplo,n,arf,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -23930,7 +27315,9 @@ module la_lapack
 #else
                module procedure la_dtfttr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtfttr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stfttr(transr,uplo,n,arf,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -23944,7 +27331,15 @@ module la_lapack
 #else
                module procedure la_stfttr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtfttr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtfttr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytfttr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztfttr(transr,uplo,n,arf,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -24012,7 +27407,9 @@ module la_lapack
 #else
                module procedure la_dtgevc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtgevc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr, &
                           mm,m,work,info)
@@ -24029,7 +27426,15 @@ module la_lapack
 #else
                module procedure la_stgevc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtgevc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtgevc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytgevc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztgevc(side,howmny,select,n,s,lds,p,ldp,vl,ldvl,vr,ldvr, &
                           mm,m,work,rwork,info)
@@ -24089,7 +27494,9 @@ module la_lapack
 #else
                module procedure la_dtgexc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtgexc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
                           work,lwork,info)
@@ -24105,7 +27512,15 @@ module la_lapack
 #else
                module procedure la_stgexc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtgexc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtgexc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytgexc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztgexc(wantq,wantz,n,a,lda,b,ldb,q,ldq,z,ldz,ifst,ilst, &
                           info)
@@ -24172,7 +27587,9 @@ module la_lapack
 #else
                module procedure la_dtgsen
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtgsen
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alphar, &
                alphai,beta,q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
@@ -24189,7 +27606,15 @@ module la_lapack
 #else
                module procedure la_stgsen
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtgsen
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtgsen
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytgsen
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztgsen(ijob,wantq,wantz,select,n,a,lda,b,ldb,alpha,beta, &
                          q,ldq,z,ldz,m,pl,pr,dif,work,lwork,iwork,liwork,info)
@@ -24303,7 +27728,9 @@ module la_lapack
 #else
                module procedure la_dtgsja
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtgsja
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
                           alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
@@ -24320,7 +27747,15 @@ module la_lapack
 #else
                module procedure la_stgsja
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtgsja
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtgsja
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytgsja
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztgsja(jobu,jobv,jobq,m,p,n,k,l,a,lda,b,ldb,tola,tolb, &
                           alpha,beta,u,ldu,v,ldv,q,ldq,work,ncycle,info)
@@ -24376,7 +27811,9 @@ module la_lapack
 #else
                module procedure la_dtgsna
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtgsna
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr, &
                          s,dif,mm,m,work,lwork,iwork,info)
@@ -24392,7 +27829,15 @@ module la_lapack
 #else
                module procedure la_stgsna
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtgsna
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtgsna
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytgsna
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztgsna(job,howmny,select,n,a,lda,b,ldb,vl,ldvl,vr,ldvr, &
                          s,dif,mm,m,work,lwork,iwork,info)
@@ -24470,7 +27915,9 @@ module la_lapack
 #else
                module procedure la_dtgsyl
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtgsyl
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde, &
                          f,ldf,scale,dif,work,lwork,iwork,info)
@@ -24486,7 +27933,15 @@ module la_lapack
 #else
                module procedure la_stgsyl
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtgsyl
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtgsyl
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytgsyl
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztgsyl(trans,ijob,m,n,a,lda,b,ldb,c,ldc,d,ldd,e,lde, &
                          f,ldf,scale,dif,work,lwork,iwork,info)
@@ -24539,7 +27994,9 @@ module la_lapack
 #else
                module procedure la_dtpcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine stpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -24553,7 +28010,15 @@ module la_lapack
 #else
                module procedure la_stpcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ztpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -24599,7 +28064,9 @@ module la_lapack
 #else
                module procedure la_dtplqt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtplqt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
@@ -24612,7 +28079,15 @@ module la_lapack
 #else
                module procedure la_stplqt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtplqt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtplqt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytplqt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztplqt(m,n,l,mb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
@@ -24655,7 +28130,9 @@ module la_lapack
 #else
                module procedure la_dtplqt2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtplqt2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -24668,7 +28145,15 @@ module la_lapack
 #else
                module procedure la_stplqt2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtplqt2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtplqt2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytplqt2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztplqt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -24717,7 +28202,9 @@ module la_lapack
 #else
                module procedure la_dtpmlqt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpmlqt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b, &
                          ldb,work,info)
@@ -24733,7 +28220,15 @@ module la_lapack
 #else
                module procedure la_stpmlqt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpmlqt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpmlqt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpmlqt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztpmlqt(side,trans,m,n,k,l,mb,v,ldv,t,ldt,a,lda,b, &
                          ldb,work,info)
@@ -24785,7 +28280,9 @@ module la_lapack
 #else
                module procedure la_dtpmqrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpmqrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b, &
                          ldb,work,info)
@@ -24801,7 +28298,15 @@ module la_lapack
 #else
                module procedure la_stpmqrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpmqrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpmqrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpmqrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztpmqrt(side,trans,m,n,k,l,nb,v,ldv,t,ldt,a,lda,b, &
                          ldb,work,info)
@@ -24848,7 +28353,9 @@ module la_lapack
 #else
                module procedure la_dtpqrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpqrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
@@ -24861,7 +28368,15 @@ module la_lapack
 #else
                module procedure la_stpqrt
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpqrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpqrt
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpqrt
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztpqrt(m,n,l,nb,a,lda,b,ldb,t,ldt,work,info)
                     import sp,dp,qp,ilp,lk
@@ -24904,7 +28419,9 @@ module la_lapack
 #else
                module procedure la_dtpqrt2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpqrt2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -24917,7 +28434,15 @@ module la_lapack
 #else
                module procedure la_stpqrt2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpqrt2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpqrt2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpqrt2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztpqrt2(m,n,l,a,lda,b,ldb,t,ldt,info)
                     import sp,dp,qp,ilp,lk
@@ -24964,7 +28489,9 @@ module la_lapack
 #else
                module procedure la_dtprfb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtprfb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a, &
                          lda,b,ldb,work,ldwork)
@@ -24979,7 +28506,15 @@ module la_lapack
 #else
                module procedure la_stprfb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtprfb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtprfb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytprfb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztprfb(side,trans,direct,storev,m,n,k,l,v,ldv,t,ldt,a, &
                          lda,b,ldb,work,ldwork)
@@ -25032,7 +28567,9 @@ module la_lapack
 #else
                module procedure la_dtprfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtprfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr, &
                          work,iwork,info)
@@ -25047,7 +28584,15 @@ module la_lapack
 #else
                module procedure la_stprfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtprfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtprfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytprfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztprfs(uplo,trans,diag,n,nrhs,ap,b,ldb,x,ldx,ferr,berr, &
                          work,rwork,info)
@@ -25092,7 +28637,9 @@ module la_lapack
 #else
                module procedure la_dtptri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtptri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stptri(uplo,diag,n,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -25105,7 +28652,15 @@ module la_lapack
 #else
                module procedure la_stptri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtptri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtptri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytptri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztptri(uplo,diag,n,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -25152,7 +28707,9 @@ module la_lapack
 #else
                module procedure la_dtptrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtptrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -25166,7 +28723,15 @@ module la_lapack
 #else
                module procedure la_stptrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtptrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtptrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytptrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztptrs(uplo,trans,diag,n,nrhs,ap,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -25211,7 +28776,9 @@ module la_lapack
 #else
                module procedure la_dtpttf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpttf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stpttf(transr,uplo,n,ap,arf,info)
                     import sp,dp,qp,ilp,lk
@@ -25225,7 +28792,15 @@ module la_lapack
 #else
                module procedure la_stpttf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpttf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpttf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpttf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztpttf(transr,uplo,n,ap,arf,info)
                     import sp,dp,qp,ilp,lk
@@ -25270,7 +28845,9 @@ module la_lapack
 #else
                module procedure la_dtpttr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtpttr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stpttr(uplo,n,ap,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -25284,7 +28861,15 @@ module la_lapack
 #else
                module procedure la_stpttr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtpttr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtpttr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytpttr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztpttr(uplo,n,ap,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -25334,7 +28919,9 @@ module la_lapack
 #else
                module procedure la_dtrcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine strcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -25348,7 +28935,15 @@ module la_lapack
 #else
                module procedure la_strcon
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrcon
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrcon
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ztrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
@@ -25413,7 +29008,9 @@ module la_lapack
 #else
                module procedure la_dtrevc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrevc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine strevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
                          work,info)
@@ -25430,7 +29027,15 @@ module la_lapack
 #else
                module procedure la_strevc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrevc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrevc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrevc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrevc(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
                          work,rwork,info)
@@ -25498,7 +29103,9 @@ module la_lapack
 #else
                module procedure la_dtrevc3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrevc3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine strevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
                           work,lwork,info)
@@ -25515,7 +29122,15 @@ module la_lapack
 #else
                module procedure la_strevc3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrevc3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrevc3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrevc3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrevc3(side,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,mm,m, &
                           work,lwork,rwork,lrwork,info)
@@ -25567,7 +29182,9 @@ module la_lapack
 #else
                module procedure la_dtrexc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrexc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine strexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
                     import sp,dp,qp,ilp,lk
@@ -25582,7 +29199,15 @@ module la_lapack
 #else
                module procedure la_strexc
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrexc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrexc
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrexc
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrexc(compq,n,t,ldt,q,ldq,ifst,ilst,info)
                     import sp,dp,qp,ilp,lk
@@ -25633,7 +29258,9 @@ module la_lapack
 #else
                module procedure la_dtrrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine strrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr, &
                          berr,work,iwork,info)
@@ -25648,7 +29275,15 @@ module la_lapack
 #else
                module procedure la_strrfs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrrfs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrrfs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrrfs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,x,ldx,ferr, &
                          berr,work,rwork,info)
@@ -25705,7 +29340,9 @@ module la_lapack
 #else
                module procedure la_dtrsen
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrsen
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine strsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                          lwork,iwork,liwork,info)
@@ -25721,7 +29358,15 @@ module la_lapack
 #else
                module procedure la_strsen
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrsen
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrsen
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrsen
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ztrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                           info)
@@ -25775,7 +29420,9 @@ module la_lapack
 #else
                module procedure la_dtrsna
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrsna
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine strsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
                          m,work,ldwork,iwork,info)
@@ -25791,7 +29438,15 @@ module la_lapack
 #else
                module procedure la_strsna
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrsna
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrsna
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrsna
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep, &
                          mm,m,work,ldwork,rwork,info)
@@ -25848,7 +29503,9 @@ module la_lapack
 #else
                module procedure la_dtrsyl
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrsyl
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine strsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
                          
@@ -25864,7 +29521,15 @@ module la_lapack
 #else
                module procedure la_strsyl
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrsyl
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrsyl
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrsyl
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine ztrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
                          
@@ -25910,7 +29575,9 @@ module la_lapack
 #else
                module procedure la_dtrtri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrtri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine strtri(uplo,diag,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -25923,7 +29590,15 @@ module la_lapack
 #else
                module procedure la_strtri
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrtri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrtri
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrtri
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrtri(uplo,diag,n,a,lda,info)
                     import sp,dp,qp,ilp,lk
@@ -25969,7 +29644,9 @@ module la_lapack
 #else
                module procedure la_dtrtrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrtrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine strtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -25983,7 +29660,15 @@ module la_lapack
 #else
                module procedure la_strtrs
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrtrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrtrs
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrtrs
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrtrs(uplo,trans,diag,n,nrhs,a,lda,b,ldb,info)
                     import sp,dp,qp,ilp,lk
@@ -26028,7 +29713,9 @@ module la_lapack
 #else
                module procedure la_dtrttf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrttf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine strttf(transr,uplo,n,a,lda,arf,info)
                     import sp,dp,qp,ilp,lk
@@ -26042,7 +29729,15 @@ module la_lapack
 #else
                module procedure la_strttf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrttf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrttf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrttf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrttf(transr,uplo,n,a,lda,arf,info)
                     import sp,dp,qp,ilp,lk
@@ -26087,7 +29782,9 @@ module la_lapack
 #else
                module procedure la_dtrttp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtrttp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine strttp(uplo,n,a,lda,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -26101,7 +29798,15 @@ module la_lapack
 #else
                module procedure la_strttp
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtrttp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtrttp
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytrttp
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztrttp(uplo,n,a,lda,ap,info)
                     import sp,dp,qp,ilp,lk
@@ -26148,7 +29853,9 @@ module la_lapack
 #else
                module procedure la_dtzrzf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_qtzrzf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine stzrzf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26161,7 +29868,15 @@ module la_lapack
 #else
                module procedure la_stzrzf
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wtzrzf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xtzrzf
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ytzrzf
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine ztzrzf(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26210,7 +29925,12 @@ module la_lapack
 #else
                module procedure la_cunbdb
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunbdb
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunbdb
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
@@ -26260,7 +29980,12 @@ module la_lapack
 #else
                module procedure la_cunbdb1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunbdb1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunbdb1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
@@ -26307,7 +30032,12 @@ module la_lapack
 #else
                module procedure la_cunbdb2
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunbdb2
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunbdb2
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
@@ -26354,7 +30084,12 @@ module la_lapack
 #else
                module procedure la_cunbdb3
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunbdb3
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunbdb3
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
@@ -26402,7 +30137,12 @@ module la_lapack
 #else
                module procedure la_cunbdb4
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunbdb4
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunbdb4
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
@@ -26446,7 +30186,12 @@ module la_lapack
 #else
                module procedure la_cunbdb5
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunbdb5
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunbdb5
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunbdb5(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
@@ -26487,7 +30232,12 @@ module la_lapack
 #else
                module procedure la_cunbdb6
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunbdb6
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunbdb6
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work, &
                          lwork,info)
@@ -26537,7 +30287,12 @@ module la_lapack
 #else
                module procedure la_cuncsd
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wuncsd
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yuncsd
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                recursive subroutine zuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
@@ -26591,7 +30346,12 @@ module la_lapack
 #else
                module procedure la_cuncsd2by1
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wuncsd2by1
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yuncsd2by1
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                subroutine zuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
@@ -26629,7 +30389,12 @@ module la_lapack
 #else
                module procedure la_cung2l
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wung2l
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yung2l
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zung2l(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
@@ -26664,7 +30429,12 @@ module la_lapack
 #else
                module procedure la_cung2r
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wung2r
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yung2r
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zung2r(m,n,k,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
@@ -26711,7 +30481,12 @@ module la_lapack
 #else
                module procedure la_cungbr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wungbr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yungbr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zungbr(vect,m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26746,7 +30521,12 @@ module la_lapack
 #else
                module procedure la_cunghr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunghr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunghr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunghr(n,ilo,ihi,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26781,7 +30561,12 @@ module la_lapack
 #else
                module procedure la_cunglq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunglq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunglq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunglq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26816,7 +30601,12 @@ module la_lapack
 #else
                module procedure la_cungql
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wungql
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yungql
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zungql(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26851,7 +30641,12 @@ module la_lapack
 #else
                module procedure la_cungqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wungqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yungqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zungqr(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26886,7 +30681,12 @@ module la_lapack
 #else
                module procedure la_cungrq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wungrq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yungrq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zungrq(m,n,k,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26922,7 +30722,12 @@ module la_lapack
 #else
                module procedure la_cungtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wungtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yungtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zungtr(uplo,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -26958,7 +30763,12 @@ module la_lapack
 #else
                module procedure la_cungtsqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wungtsqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yungtsqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zungtsqr(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                     import sp,dp,qp,ilp,lk
@@ -27004,7 +30814,12 @@ module la_lapack
 #else
                module procedure la_cungtsqr_row
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wungtsqr_row
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yungtsqr_row
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zungtsqr_row(m,n,mb,nb,a,lda,t,ldt,work,lwork,info)
                          
@@ -27043,7 +30858,12 @@ module la_lapack
 #else
                module procedure la_cunhr_col
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunhr_col
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunhr_col
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunhr_col(m,n,nb,a,lda,t,ldt,d,info)
                     import sp,dp,qp,ilp,lk
@@ -27084,7 +30904,12 @@ module la_lapack
 #else
                module procedure la_cunm2l
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunm2l
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunm2l
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunm2l(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
                          
@@ -27128,7 +30953,12 @@ module la_lapack
 #else
                module procedure la_cunm2r
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunm2r
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunm2r
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunm2r(side,trans,m,n,k,a,lda,tau,c,ldc,work,info)
                          
@@ -27184,7 +31014,12 @@ module la_lapack
 #else
                module procedure la_cunmbr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunmbr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunmbr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunmbr(vect,side,trans,m,n,k,a,lda,tau,c,ldc,work, &
                          lwork,info)
@@ -27226,7 +31061,12 @@ module la_lapack
 #else
                module procedure la_cunmhr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunmhr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunmhr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunmhr(side,trans,m,n,ilo,ihi,a,lda,tau,c,ldc,work, &
                          lwork,info)
@@ -27269,7 +31109,12 @@ module la_lapack
 #else
                module procedure la_cunmlq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunmlq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunmlq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunmlq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -27312,7 +31157,12 @@ module la_lapack
 #else
                module procedure la_cunmql
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunmql
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunmql
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunmql(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -27355,7 +31205,12 @@ module la_lapack
 #else
                module procedure la_cunmqr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunmqr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunmqr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunmqr(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -27398,7 +31253,12 @@ module la_lapack
 #else
                module procedure la_cunmrq
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunmrq
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunmrq
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunmrq(side,trans,m,n,k,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -27441,7 +31301,12 @@ module la_lapack
 #else
                module procedure la_cunmrz
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunmrz
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunmrz
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunmrz(side,trans,m,n,k,l,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -27484,7 +31349,12 @@ module la_lapack
 #else
                module procedure la_cunmtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wunmtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yunmtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zunmtr(side,uplo,trans,m,n,a,lda,tau,c,ldc,work,lwork, &
                          info)
@@ -27521,7 +31391,12 @@ module la_lapack
 #else
                module procedure la_cupgtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wupgtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yupgtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zupgtr(uplo,n,ap,tau,q,ldq,work,info)
                     import sp,dp,qp,ilp,lk
@@ -27563,7 +31438,12 @@ module la_lapack
 #else
                module procedure la_cupmtr
 #endif
+#ifdef LA_WITH_QP
                module procedure la_wupmtr
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yupmtr
+#endif
 #ifdef LA_EXTERNAL_LAPACK
                pure subroutine zupmtr(side,uplo,trans,m,n,ap,tau,c,ldc,work,info)
                          

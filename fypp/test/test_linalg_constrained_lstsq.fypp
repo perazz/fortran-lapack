@@ -23,12 +23,21 @@ module test_linalg_constrained_least_squares
         allocate(tests(0))
         
         #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         call add_test(tests,new_unittest("constrained_least_squares_randm_${ri}$",test_constrained_lstsq_random_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
 
     end subroutine test_constrained_least_squares
     
     #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
     !> Fit from random array
     subroutine test_constrained_lstsq_random_${ri}$(error)
         type(error_type), allocatable, intent(out) :: error
@@ -102,6 +111,9 @@ module test_linalg_constrained_least_squares
         if (allocated(error)) return
 
     end subroutine test_constrained_lstsq_random_${ri}$    
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
     
     #:endfor
     

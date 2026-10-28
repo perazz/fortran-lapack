@@ -18,6 +18,9 @@ module la_lapack_orthogonal_factors_ql
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$org2l
      public :: la_${ri}$orgl2
      public :: la_${ri}$orglq
@@ -40,8 +43,14 @@ module la_lapack_orthogonal_factors_ql
      public :: la_${ri}$gemlq
      public :: la_${ri}$laswlq
      public :: la_${ri}$gelq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$tplqt2
      public :: la_${ri}$ung2l
      public :: la_${ri}$ungl2
@@ -65,11 +74,17 @@ module la_lapack_orthogonal_factors_ql
      public :: la_${ri}$laswlq
      public :: la_${ri}$gelq
      public :: la_${ri}$gemlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORG2L: generates an m by n real matrix Q with orthonormal columns,
      !> which is defined as the last n columns of a product of k elementary
      !> reflectors of order m
@@ -134,9 +149,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$org2l
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORGL2: generates an m by n real matrix Q with orthonormal rows,
      !> which is defined as the first m rows of a product of k elementary
      !> reflectors of order n
@@ -206,9 +227,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$orgl2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORGLQ: generates an M-by-N real matrix Q with orthonormal rows,
      !> which is defined as the first M rows of a product of K elementary
      !> reflectors of order N
@@ -325,9 +352,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = iws
            return
      end subroutine la_${ri}$orglq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORGQL: generates an M-by-N real matrix Q with orthonormal columns,
      !> which is defined as the last N columns of a product of K elementary
      !> reflectors of order M
@@ -449,9 +482,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = iws
            return
      end subroutine la_${ri}$orgql
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORM2L: overwrites the general real m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
      !> Q**T * C  if SIDE = 'L' and TRANS = 'T', or
@@ -546,9 +585,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$orm2l
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORML2: overwrites the general real m by n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
      !> Q**T* C  if SIDE = 'L' and TRANS = 'T', or
@@ -648,9 +693,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$orml2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORMLQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -793,9 +844,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ormlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$ORMQL: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -932,9 +989,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = lwkopt
            return
      end subroutine la_${ri}$ormql
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${riu.upper()}$GEMLQT overwrites the general real M-by-N matrix C with
 #:else
@@ -1036,9 +1099,15 @@ module la_lapack_orthogonal_factors_ql
            end if
            return
      end subroutine la_${ri}$gemlqt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPLQT2: computes a LQ a factorization of a real "triangular-pentagonal"
      !> matrix C, which is composed of a triangular block A and pentagonal block B,
      !> using the compact WY representation for Q.
@@ -1136,9 +1205,15 @@ module la_lapack_orthogonal_factors_ql
               end do
            end do
      end subroutine la_${ri}$tplqt2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$TPMLQT: applies a real orthogonal matrix Q obtained from a
 #:else
@@ -1260,9 +1335,15 @@ module la_lapack_orthogonal_factors_ql
            end if
            return
      end subroutine la_${ri}$tpmlqt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQ2: computes an LQ factorization of a real m-by-n matrix A:
      !> A = ( L 0 ) *  Q
      !> where:
@@ -1317,9 +1398,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$gelq2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQF: computes an LQ factorization of a real M-by-N matrix A:
      !> A = ( L 0 ) *  Q
      !> where:
@@ -1416,9 +1503,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = iws
            return
      end subroutine la_${ri}$gelqf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQT3: recursively computes a LQ factorization of a real M-by-N
      !> matrix A, using the compact WY representation of Q.
      !> Based on the algorithm of Elmroth and Gustavson,
@@ -1506,9 +1599,15 @@ module la_lapack_orthogonal_factors_ql
            end if
            return
      end subroutine la_${ri}$gelqt3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEQL2: computes a QL factorization of a real m by n matrix A:
      !> A = Q * L.
 
@@ -1558,9 +1657,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$geql2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEQLF: computes a QL factorization of a real M-by-N matrix A:
      !> A = Q * L.
 
@@ -1666,9 +1771,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = iws
            return
      end subroutine la_${ri}$geqlf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAMSWLQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -1850,9 +1961,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = lw
            return
      end subroutine la_${ri}$lamswlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPLQT: computes a blocked LQ factorization of a real
      !> "triangular-pentagonal" matrix C, which is composed of a
      !> triangular block A and pentagonal block B, using the compact
@@ -1914,9 +2031,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$tplqt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${riu.upper()}$GELQT computes a blocked LQ factorization of a real M-by-N matrix A
 #:else
@@ -1971,9 +2094,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$gelqt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEMLQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -2078,9 +2207,15 @@ module la_lapack_orthogonal_factors_ql
 #:endif
            return
      end subroutine la_${ri}$gemlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASWLQ: computes a blocked Tall-Skinny LQ factorization of
      !> a real M-by-N matrix A for M <= N:
      !> A = ( L 0 ) *  Q,
@@ -2168,9 +2303,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = m*mb
            return
      end subroutine la_${ri}$laswlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQ: computes an LQ factorization of a real M-by-N matrix A:
      !> A = ( L 0 ) *  Q
      !> where:
@@ -2295,9 +2436,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = lwreq
            return
      end subroutine la_${ri}$gelq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPLQT2: computes a LQ a factorization of a complex "triangular-pentagonal"
      !> matrix C, which is composed of a triangular block A and pentagonal block B,
      !> using the compact WY representation for Q.
@@ -2414,9 +2561,15 @@ module la_lapack_orthogonal_factors_ql
               end do
            end do
      end subroutine la_${ri}$tplqt2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNG2L: generates an m by n complex matrix Q with orthonormal columns,
      !> which is defined as the last n columns of a product of k elementary
      !> reflectors of order m
@@ -2481,9 +2634,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$ung2l
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNGL2: generates an m-by-n complex matrix Q with orthonormal rows,
      !> which is defined as the first m rows of a product of k elementary
      !> reflectors of order n
@@ -2559,9 +2718,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$ungl2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNGLQ: generates an M-by-N complex matrix Q with orthonormal rows,
      !> which is defined as the first M rows of a product of K elementary
      !> reflectors of order N
@@ -2678,9 +2843,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = iws
            return
      end subroutine la_${ri}$unglq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNGQL: generates an M-by-N complex matrix Q with orthonormal columns,
      !> which is defined as the last N columns of a product of K elementary
      !> reflectors of order M
@@ -2802,9 +2973,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = iws
            return
      end subroutine la_${ri}$ungql
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      pure subroutine la_${ri}$unm22(side,trans,m,n,n1,n2,q,ldq,c,ldc,work,lwork,info)
         use la_constants_${rk}$
 
@@ -2986,9 +3163,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = cmplx(lwkopt,KIND=${rk}$)
            return
      end subroutine la_${ri}$unm22
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNM2L: overwrites the general complex m-by-n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
      !> Q**H* C  if SIDE = 'L' and TRANS = 'C', or
@@ -3088,9 +3271,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$unm2l
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNML2: overwrites the general complex m-by-n matrix C with
      !> Q * C  if SIDE = 'L' and TRANS = 'N', or
      !> Q**H* C  if SIDE = 'L' and TRANS = 'C', or
@@ -3197,9 +3386,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$unml2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNMLQ: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -3358,9 +3553,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = lwkopt
            return
      end subroutine la_${ri}$unmlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$UNMQL: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -3500,9 +3701,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = lwkopt
            return
      end subroutine la_${ri}$unmql
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQ2: computes an LQ factorization of a complex m-by-n matrix A:
      !> A = ( L 0 ) *  Q
      !> where:
@@ -3559,9 +3766,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$gelq2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQF: computes an LQ factorization of a complex M-by-N matrix A:
      !> A = ( L 0 ) *  Q
      !> where:
@@ -3658,9 +3871,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = iws
            return
      end subroutine la_${ri}$gelqf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQT3: recursively computes a LQ factorization of a complex M-by-N
      !> matrix A, using the compact WY representation of Q.
      !> Based on the algorithm of Elmroth and Gustavson,
@@ -3751,9 +3970,15 @@ module la_lapack_orthogonal_factors_ql
            end if
            return
      end subroutine la_${ri}$gelqt3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEMLQT: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q C            C Q
@@ -3851,9 +4076,15 @@ module la_lapack_orthogonal_factors_ql
            end if
            return
      end subroutine la_${ri}$gemlqt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEQL2: computes a QL factorization of a complex m by n matrix A:
      !> A = Q * L.
 
@@ -3903,9 +4134,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$geql2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEQLF: computes a QL factorization of a complex M-by-N matrix A:
      !> A = Q * L.
 
@@ -4011,9 +4248,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = iws
            return
      end subroutine la_${ri}$geqlf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPLQT: computes a blocked LQ factorization of a complex
      !> "triangular-pentagonal" matrix C, which is composed of a
      !> triangular block A and pentagonal block B, using the compact
@@ -4075,9 +4318,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$tplqt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TPMLQT: applies a complex unitary matrix Q obtained from a
      !> "triangular-pentagonal" complex block reflector H to a general
      !> complex matrix C, which consists of two blocks A and B.
@@ -4195,9 +4444,15 @@ module la_lapack_orthogonal_factors_ql
            end if
            return
      end subroutine la_${ri}$tpmlqt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQT: computes a blocked LQ factorization of a complex M-by-N matrix A
      !> using the compact WY representation of Q.
 
@@ -4248,9 +4503,15 @@ module la_lapack_orthogonal_factors_ql
            end do
            return
      end subroutine la_${ri}$gelqt
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAMSWLQ: overwrites the general complex M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -4442,9 +4703,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = lw
            return
      end subroutine la_${ri}$lamswlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASWLQ: computes a blocked Tall-Skinny LQ factorization of
 #:if rk == "sp"
      !> a complex M-by-N matrix A for M <= N:
@@ -4542,9 +4809,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = m*mb
            return
      end subroutine la_${ri}$laswlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GELQ: computes an LQ factorization of a complex M-by-N matrix A:
      !> A = ( L 0 ) *  Q
      !> where:
@@ -4669,9 +4942,15 @@ module la_lapack_orthogonal_factors_ql
            work(1) = lwreq
            return
      end subroutine la_${ri}$gelq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GEMLQ: overwrites the general real M-by-N matrix C with
      !> SIDE = 'L'     SIDE = 'R'
      !> TRANS = 'N':      Q * C          C * Q
@@ -4776,6 +5055,9 @@ module la_lapack_orthogonal_factors_ql
 #:endif
            return
      end subroutine la_${ri}$gemlq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_orthogonal_factors_ql

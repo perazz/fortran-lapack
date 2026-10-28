@@ -15,19 +15,34 @@ module la_lapack_eigv_gen_aux
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$lasy2
      public :: la_${ri}$laln2
      public :: la_${ri}$lanv2
      public :: la_${ri}$laexc
      public :: la_${ri}$trexc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$trexc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LASY2: solves for the N1 by N2 matrix X, 1 <= N1,N2 <= 2, in
      !> op(TL)*X + ISGN*X*op(TR) = SCALE*B,
      !> where TL is N1 by N1, TR is N2 by N2, B is N1 by N2, and ISGN = 1 or
@@ -287,9 +302,15 @@ module la_lapack_eigv_gen_aux
            xnorm = max(abs(tmp(1)) + abs(tmp(3)),abs(tmp(2)) + abs(tmp(4)))
            return
      end subroutine la_${ri}$lasy2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LALN2: solves a system of the form  (ca A - w D ) X = s B
      !> or (ca A**T - w D) X = s B   with possible scaling ("s") and
      !> perturbation of A.  (A**T means A-transpose.)
@@ -618,9 +639,15 @@ module la_lapack_eigv_gen_aux
            end if
            return
      end subroutine la_${ri}$laln2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LANV2: computes the Schur factorization of a real 2-by-2 nonsymmetric
      !> matrix in standard form:
      !> [ A  B ] = [ CS -SN ] [ AA  BB ] [ CS  SN ]
@@ -766,9 +793,15 @@ module la_lapack_eigv_gen_aux
            end if
            return
      end subroutine la_${ri}$lanv2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in
      !> an upper quasi-triangular matrix T by an orthogonal similarity
      !> transformation.
@@ -969,9 +1002,15 @@ module la_lapack_eigv_gen_aux
 #:endif
            return
      end subroutine la_${ri}$laexc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TREXC: reorders the real Schur factorization of a real matrix
      !> A = Q*T*Q**T, so that the diagonal block of T with row index IFST is
      !> moved to row ILST.
@@ -1176,9 +1215,15 @@ module la_lapack_eigv_gen_aux
            ilst = here
            return
      end subroutine la_${ri}$trexc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TREXC: reorders the Schur factorization of a complex matrix
      !> A = Q*T*Q**H, so that the diagonal element of T with row index IFST
      !> is moved to row ILST.
@@ -1257,6 +1302,9 @@ module la_lapack_eigv_gen_aux
            end do
            return
      end subroutine la_${ri}$trexc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_gen_aux

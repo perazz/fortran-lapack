@@ -169,7 +169,13 @@ module la_least_squares
      interface lstsq
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$lstsq${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface lstsq
@@ -177,7 +183,13 @@ module la_least_squares
      interface lstsq_space
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$lstsq_space${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface lstsq_space
@@ -185,38 +197,74 @@ module la_least_squares
      interface solve_lstsq
         #:for nd,ndsuf,nde in ALL_RANKS
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve_lstsq${ndsuf}$
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
         #:endfor
      end interface solve_lstsq
 
      interface weighted_lstsq
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$weighted_lstsq
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface weighted_lstsq
 
      interface solve_weighted_lstsq
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve_weighted_lstsq
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface solve_weighted_lstsq
 
      interface constrained_lstsq
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$constrained_lstsq
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface constrained_lstsq
 
      interface solve_constrained_lstsq
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$solve_constrained_lstsq
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface solve_constrained_lstsq
 
      interface constrained_lstsq_space
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$constrained_lstsq_space
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface constrained_lstsq_space
 
@@ -224,6 +272,9 @@ module la_least_squares
      contains
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Workspace needed by ${rt}$ gelsd
      pure subroutine ${ri}$gelsd_space(m,n,nrhs,lrwork,liwork,lcwork)
          integer(ilp), intent(in) :: m,n,nrhs
@@ -259,12 +310,18 @@ module la_least_squares
          liwork = ceiling(1.25*liwork,kind=ilp)
 
      end subroutine ${ri}$gelsd_space
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 
      #:for nd,ndsuf,nde in ALL_RANKS
      #:for rk,rt,ri in ALL_KINDS_TYPES
 
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Working space needed by the ${rt}$ least-squares solver
      pure subroutine la_${ri}$lstsq_space${ndsuf}$(a,b,lrwork,liwork#{if rt.startswith('complex')}#,lcwork#{endif}#)
          !> Input matrix a[m,n]
@@ -535,6 +592,9 @@ module la_least_squares
          call err0%handle(err)
 
      end subroutine la_${ri}$solve_lstsq${ndsuf}$
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
      #:endfor
@@ -607,6 +667,9 @@ module la_least_squares
      end subroutine la_handle_gglse
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      !> Working space needed by the ${rt}$ equality-constrained least-squares solver
      subroutine la_${ri}$constrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
@@ -856,6 +919,9 @@ module la_least_squares
          call err0%handle(err)
 
      end subroutine la_${ri}$solve_weighted_lstsq
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 

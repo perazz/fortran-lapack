@@ -23,22 +23,44 @@ module test_linalg_solve
         call add_test(tests,new_unittest("solve_s_multiple",test_s_solve_multiple))
         call add_test(tests,new_unittest("solve_d",test_d_solve))
         call add_test(tests,new_unittest("solve_d_multiple",test_d_solve_multiple))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("solve_x",test_x_solve))
+        call add_test(tests,new_unittest("solve_x_multiple",test_x_solve_multiple))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("solve_q",test_q_solve))
         call add_test(tests,new_unittest("solve_q_multiple",test_q_solve_multiple))
+#endif
 
         call add_test(tests,new_unittest("solve_complex_c",test_c_solve))
         call add_test(tests,new_unittest("solve_2x2_complex_c",test_2x2_c_solve))
         call add_test(tests,new_unittest("solve_complex_z",test_z_solve))
         call add_test(tests,new_unittest("solve_2x2_complex_z",test_2x2_z_solve))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("solve_complex_y",test_y_solve))
+        call add_test(tests,new_unittest("solve_2x2_complex_y",test_2x2_y_solve))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("solve_complex_w",test_w_solve))
         call add_test(tests,new_unittest("solve_2x2_complex_w",test_2x2_w_solve))
+#endif
 
         call add_test(tests,new_unittest("solve_lu_s",test_s_solve_lu))
         call add_test(tests,new_unittest("solve_lu_d",test_d_solve_lu))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("solve_lu_x",test_x_solve_lu))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("solve_lu_q",test_q_solve_lu))
+#endif
         call add_test(tests,new_unittest("solve_lu_c",test_c_solve_lu))
         call add_test(tests,new_unittest("solve_lu_z",test_z_solve_lu))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("solve_lu_y",test_y_solve_lu))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("solve_lu_w",test_w_solve_lu))
+#endif
 
     end subroutine test_linear_systems
     
@@ -140,6 +162,58 @@ module test_linalg_solve
         if (allocated(error)) return
         
     end subroutine test_d_solve_multiple
+#ifdef LA_WITH_XDP
+    !> Simple linear system
+    subroutine test_x_solve(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        real(xdp) :: A(3,3) = transpose(reshape([real(xdp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        real(xdp) :: b(3) = [real(xdp) :: 1,4,-1]
+        real(xdp) :: res(3) = [real(xdp) :: -2,-2,3]
+        real(xdp) :: x(3)
+
+        x = solve(a,b,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_xdp))),'results match expected')
+        if (allocated(error)) return
+
+    end subroutine test_x_solve
+
+    !> Simple linear system with multiple right hand sides
+    subroutine test_x_solve_multiple(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        real(xdp) :: A(3,3) = transpose(reshape([real(xdp) :: 1,-1,2, &
+                                                            0,1,1, &
+                                                            1,-1,3], [3,3]))
+        real(xdp) :: b(3,3) = transpose(reshape([real(xdp) :: 0,1,2, &
+                                                            1,-2,-1, &
+                                                            2,3,-1], [3,3]))
+        real(xdp) :: res(3,3) = transpose(reshape([real(xdp) :: -5,-7,10, &
+                                                           -1,-4,2, &
+                                                            2,2,-3], [3,3]))
+        real(xdp) :: x(3,3)
+
+        x = solve(a,b,err=state)
+        
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_xdp))),'results match expected')
+        if (allocated(error)) return
+        
+    end subroutine test_x_solve_multiple
+#endif
+#ifdef LA_WITH_QP
     !> Simple linear system
     subroutine test_q_solve(error)
         type(error_type),allocatable,intent(out) :: error
@@ -189,6 +263,7 @@ module test_linalg_solve
         if (allocated(error)) return
         
     end subroutine test_q_solve_multiple
+#endif
 
     !> Complex linear system
     !> Militaru, Popa, "On the numerical solving of complex linear systems",
@@ -314,6 +389,71 @@ module test_linalg_solve
         if (allocated(error)) return
 
     end subroutine test_2x2_z_solve
+#ifdef LA_WITH_XDP
+    !> Complex linear system
+    !> Militaru, Popa, "On the numerical solving of complex linear systems",
+    !> Int J Pure Appl Math 76(1), 113-122, 2012.
+    subroutine test_y_solve(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        complex(xdp) :: A(5,5),b(5),res(5),x(5)
+
+        ! Fill in linear system
+        A = (0.0_xdp,0.0_xdp)
+
+        A(1:2,1) = [(19.73_xdp,0.0_xdp), (0.0_xdp,-0.51_xdp)]
+        A(1:3,2) = [(12.11_xdp,-1.0_xdp), (32.3_xdp,7.0_xdp), (0.0_xdp,-0.51_xdp)]
+        A(1:4,3) = [(0.0_xdp,5.0_xdp), (23.07_xdp,0.0_xdp), (70.0_xdp,7.3_xdp), (1.0_xdp,1.1_xdp)]
+        A(2:5,4) = [(0.0_xdp,1.0_xdp), (3.95_xdp,0.0_xdp), (50.17_xdp,0.0_xdp), (0.0_xdp,-9.351_xdp)]
+        A(3:5,5) = [(19.0_xdp,31.83_xdp), (45.51_xdp,0.0_xdp), (55.0_xdp,0.0_xdp)]
+
+       b = [(77.38_xdp,8.82_xdp), (157.48_xdp,19.8_xdp), (1175.62_xdp,20.69_xdp), (912.12_xdp,-801.75_xdp), (550.0_xdp,-1060.4_xdp)]
+
+        ! Exact result
+        res = [(3.3_xdp,-1.0_xdp), (1.0_xdp,0.17_xdp), (5.5_xdp,0.0_xdp), (9.0_xdp,0.0_xdp), (10.0_xdp,-17.75_xdp)]
+
+        x = solve(a,b,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(x - res) < abs(res)*1.0e-3_xdp),'results match expected')
+        if (allocated(error)) return
+
+    end subroutine test_y_solve
+
+    !> 2x2 Complex linear system
+    subroutine test_2x2_y_solve(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+        
+        complex(xdp),parameter :: i = (0.0_xdp,1.0_xdp)
+
+        complex(xdp) :: A(2,2),b(2),res(2),x(2)
+
+        ! Fill in linear system
+        A(1,:) = [1 + 2*i,2 - i]
+        A(2,:) = [2 + i,i]
+
+        b = [1,-1]
+
+        ! Exact result
+        res = [(-0.28_xdp,-0.04_xdp), (0.36_xdp,0.48_xdp)]
+
+        x = solve(a,b,err=state)
+        
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(x - res) < abs(res)*sqrt(epsilon(0.0_xdp))),'results match expected')
+        if (allocated(error)) return
+
+    end subroutine test_2x2_y_solve
+#endif
+#ifdef LA_WITH_QP
     !> Complex linear system
     !> Militaru, Popa, "On the numerical solving of complex linear systems",
     !> Int J Pure Appl Math 76(1), 113-122, 2012.
@@ -376,6 +516,7 @@ module test_linalg_solve
         if (allocated(error)) return
 
     end subroutine test_2x2_w_solve
+#endif
     
     !> Solve into a caller-provided solution array, with and without pivot storage
     subroutine test_s_solve_lu(error)
@@ -489,6 +630,65 @@ module test_linalg_solve
 
     end subroutine test_d_solve_lu
 
+#ifdef LA_WITH_XDP
+    !> Solve into a caller-provided solution array, with and without pivot storage
+    subroutine test_x_solve_lu(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: pivot(3)
+        real(xdp) :: A(3,3) = transpose(reshape([real(xdp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        real(xdp) :: b(3) = [real(xdp) :: 1,4,-1]
+        real(xdp) :: res(3) = [real(xdp) :: -2,-2,3]
+        real(xdp) :: x(3),bmat(3,2),xmat(3,2),resmat(3,2)
+
+        !> Internal pivot storage
+        call solve_lu(a,b,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_xdp))),'solve_lu: results match expected')
+        if (allocated(error)) return
+
+        !> Caller-provided pivot storage
+        x = 0
+        call solve_lu(a,b,x,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_xdp))),'solve_lu: results match expected (pivot)')
+        if (allocated(error)) return
+
+        !> Several right-hand sides at once
+        bmat(:,1) = b
+        bmat(:,2) = 2*b
+        resmat(:,1) = res
+        resmat(:,2) = 2*res
+
+        call solve_lu(a,bmat,xmat,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(xmat - resmat) < abs(resmat*epsilon(0.0_xdp))), &
+                   'solve_lu: multiple results match expected')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call solve_lu(a,b,x,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state == LINALG_VALUE_ERROR,'solve_lu: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_x_solve_lu
+#endif
+
+#ifdef LA_WITH_QP
     !> Solve into a caller-provided solution array, with and without pivot storage
     subroutine test_q_solve_lu(error)
         type(error_type),allocatable,intent(out) :: error
@@ -544,6 +744,7 @@ module test_linalg_solve
         if (allocated(error)) return
 
     end subroutine test_q_solve_lu
+#endif
 
     !> Solve into a caller-provided solution array, with and without pivot storage
     subroutine test_c_solve_lu(error)
@@ -657,6 +858,65 @@ module test_linalg_solve
 
     end subroutine test_z_solve_lu
 
+#ifdef LA_WITH_XDP
+    !> Solve into a caller-provided solution array, with and without pivot storage
+    subroutine test_y_solve_lu(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: pivot(3)
+        complex(xdp) :: A(3,3) = transpose(reshape([complex(xdp) :: 1,3,3, &
+                                                            1,3,4, &
+                                                            1,4,3], [3,3]))
+        complex(xdp) :: b(3) = [complex(xdp) :: 1,4,-1]
+        complex(xdp) :: res(3) = [complex(xdp) :: -2,-2,3]
+        complex(xdp) :: x(3),bmat(3,2),xmat(3,2),resmat(3,2)
+
+        !> Internal pivot storage
+        call solve_lu(a,b,x,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_xdp))),'solve_lu: results match expected')
+        if (allocated(error)) return
+
+        !> Caller-provided pivot storage
+        x = 0
+        call solve_lu(a,b,x,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(x - res) < abs(res*epsilon(0.0_xdp))),'solve_lu: results match expected (pivot)')
+        if (allocated(error)) return
+
+        !> Several right-hand sides at once
+        bmat(:,1) = b
+        bmat(:,2) = 2*b
+        resmat(:,1) = res
+        resmat(:,2) = 2*res
+
+        call solve_lu(a,bmat,xmat,pivot=pivot,err=state)
+
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(xmat - resmat) < abs(resmat*epsilon(0.0_xdp))), &
+                   'solve_lu: multiple results match expected')
+        if (allocated(error)) return
+
+        !> A pivot array that is too short is a value error
+        call solve_lu(a,b,x,pivot=pivot(1:2),err=state)
+
+        call check(error,state%state == LINALG_VALUE_ERROR,'solve_lu: short pivot returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_y_solve_lu
+#endif
+
+#ifdef LA_WITH_QP
     !> Solve into a caller-provided solution array, with and without pivot storage
     subroutine test_w_solve_lu(error)
         type(error_type),allocatable,intent(out) :: error
@@ -712,6 +972,7 @@ module test_linalg_solve
         if (allocated(error)) return
 
     end subroutine test_w_solve_lu
+#endif
 
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

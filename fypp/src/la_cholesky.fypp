@@ -39,8 +39,14 @@ module la_cholesky
      !!
      interface cholesky
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$_cholesky_inplace
         module procedure la_${ri}$_cholesky
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor
      end interface cholesky     
         
@@ -70,7 +76,13 @@ module la_cholesky
      !!
      interface chol
         #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
         module procedure la_${ri}$_cholesky_fun
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
         #:endfor    
      end interface chol  
 
@@ -103,6 +115,9 @@ module la_cholesky
      
      #:for rk,rt,ri in ALL_KINDS_TYPES
      
+     #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+     #:endif
      ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U. 
      ! The factorization is returned in-place, overwriting matrix A
      pure subroutine la_${ri}$_cholesky_inplace(a,lower,other_zeroed,err) 
@@ -229,6 +244,9 @@ module la_cholesky
          call la_${ri}$_cholesky_inplace(c,lower,other_zeroed)
 
      end function la_${ri}$_cholesky_fun
+     #:if LA_GUARD[rk]
+#endif
+     #:endif
 
      #:endfor
 

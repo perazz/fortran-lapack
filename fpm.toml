@@ -16,8 +16,43 @@ implicit-external = false
 source-form = "free"
 [library]
 source-dir="src"
+# Unconditional: fpm turns -cpp on for the whole build only if some package asks for
+# preprocessing, so a consumer that activates no feature would otherwise see the kind
+# guards as source text.
 [preprocess]
 [preprocess.cpp]
+
+[features]
+# 128-bit quadruple precision: real(qp)/complex(qp), BLAS/LAPACK initials q/w.
+# About a third of the library's source lines.
+quad.description = "128-bit quadruple precision kinds (qp, real128)"
+quad.preprocess.cpp.macros = "LA_WITH_QP"
+
+# 80-bit extended precision: real(xdp)/complex(xdp), BLAS/LAPACK initials x/y.
+# gfortran real(10), x86 and x86_64 only; never a default feature, because
+# selected_real_kind(18) returns the 128-bit kind on aarch64 and fpm has no architecture
+# selector.  A build that asks for it on such a target stops in la_constants.
+xdp.description = "80-bit extended precision kinds (xdp, x86 only)"
+xdp.preprocess.cpp.macros = "LA_WITH_XDP"
+
+# Link the reference BLAS/LAPACK instead of the bundled s/d/c/z implementations.
+external-blas.preprocess.cpp.macros = "LA_EXTERNAL_BLAS"
+external-lapack.preprocess.cpp.macros = "LA_EXTERNAL_LAPACK"
+# fpm places link flags ahead of the objects, so the default --as-needed would drop both
+# libraries before anything references them.
+external-blas.link-time-flags = "-Wl,--no-as-needed -lblas"
+external-lapack.link-time-flags = "-Wl,--no-as-needed -llapack"
+
+[profiles]
+# What a plain `fpm build`, `--profile debug`, `--profile release` and every consumer that
+# asks for nothing get: the kinds the library has always carried.
+default = ["quad"]
+# sp and dp only, the fast build.
+lean = []
+# every kind this library has, on a target that can hold them all.
+allkinds = ["quad", "xdp"]
+# reference BLAS/LAPACK for s/d/c/z, bundled code for q/w.
+external = ["quad", "external-blas", "external-lapack"]
 
 [dev-dependencies]
 test-drive.git = "https://github.com/fortran-lang/test-drive"

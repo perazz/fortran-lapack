@@ -7,11 +7,23 @@ module la_blas_aux
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$cabs1
      public :: la_i${ri}$amax
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_i${ri}$amax
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
      public :: la_lsame
      public :: la_xerbla
@@ -20,6 +32,9 @@ module la_blas_aux
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$CABS1: computes |Re(.)| + |Im(.)| of a complex number
 #:else
@@ -42,9 +57,15 @@ module la_blas_aux
            la_${ri}$cabs1 = abs(real(z,KIND=${rk}$)) + abs(aimag(z))
            return
      end function la_${ri}$cabs1
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> I${ri.upper()}$AMAX: finds the index of the first element having maximum absolute value.
 
      pure integer(ilp) function la_i${ri}$amax(n,${ri}$x,incx)
@@ -89,9 +110,15 @@ module la_blas_aux
            end if
            return
      end function la_i${ri}$amax
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> I${ri.upper()}$AMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|
 
      pure integer(ilp) function la_i${ri}$amax(n,${ri}$x,incx)
@@ -134,6 +161,9 @@ module la_blas_aux
            end if
            return
      end function la_i${ri}$amax
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      !> LSAME: returns .TRUE. if CA is the same letter as CB regardless of

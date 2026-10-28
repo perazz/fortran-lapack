@@ -21,6 +21,9 @@ module la_lapack_eigv_gen2
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$laein
      public :: la_${ri}$trevc
      public :: la_${ri}$trevc3
@@ -29,8 +32,14 @@ module la_lapack_eigv_gen2
      public :: la_${ri}$trsen
      public :: la_${ri}$trsna
      public :: la_${ri}$hseqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$trevc
      public :: la_${ri}$trevc3
      public :: la_${ri}$trsna
@@ -39,11 +48,17 @@ module la_lapack_eigv_gen2
      public :: la_${ri}$hsein
      public :: la_${ri}$trsen
      public :: la_${ri}$hseqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAEIN: uses inverse iteration to find a right or left eigenvector
      !> corresponding to the eigenvalue (WR,WI) of a real upper Hessenberg
      !> matrix H.
@@ -394,9 +409,15 @@ module la_lapack_eigv_gen2
            end if
            return
      end subroutine la_${ri}$laein
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TREVC: computes some or all of the right and/or left eigenvectors of
      !> a real upper quasi-triangular matrix T.
      !> Matrices of this type are produced by the Schur factorization of
@@ -1015,9 +1036,15 @@ module la_lapack_eigv_gen2
            end if
            return
      end subroutine la_${ri}$trevc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TREVC3: computes some or all of the right and/or left eigenvectors of
      !> a real upper quasi-triangular matrix T.
      !> Matrices of this type are produced by the Schur factorization of
@@ -1839,9 +1866,15 @@ module la_lapack_eigv_gen2
            end if
            return
      end subroutine la_${ri}$trevc3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRSYL: solves the real Sylvester matrix equation:
      !> op(A)*X + X*op(B) = scale*C or
      !> op(A)*X - X*op(B) = scale*C,
@@ -2576,9 +2609,15 @@ module la_lapack_eigv_gen2
            end if
            return
      end subroutine la_${ri}$trsyl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HSEIN: uses inverse iteration to find specified right and/or left
      !> eigenvectors of a real upper Hessenberg matrix H.
      !> The right eigenvector x and the left eigenvector y of the matrix H
@@ -2794,9 +2833,15 @@ module la_lapack_eigv_gen2
            end do loop_120
            return
      end subroutine la_${ri}$hsein
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRSEN: reorders the real Schur factorization of a real matrix
      !> A = Q*T*Q**T, so that a selected cluster of eigenvalues appears in
      !> the leading diagonal blocks of the upper quasi-triangular matrix T,
@@ -2992,9 +3037,15 @@ module la_lapack_eigv_gen2
            iwork(1) = liwmin
            return
      end subroutine la_${ri}$trsen
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRSNA: estimates reciprocal condition numbers for specified
      !> eigenvalues and/or right eigenvectors of a real upper
      !> quasi-triangular matrix T (or of any matrix Q*T*Q**T with Q
@@ -3240,9 +3291,15 @@ module la_lapack_eigv_gen2
            end do loop_60
            return
      end subroutine la_${ri}$trsna
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HSEQR: computes the eigenvalues of a Hessenberg matrix H
      !> and, optionally, the matrices T and Z from the Schur decomposition
      !> H = Z T Z**T, where T is an upper quasi-triangular matrix (the
@@ -3393,9 +3450,15 @@ module la_lapack_eigv_gen2
               work(1) = max(real(max(1,n),KIND=${rk}$),work(1))
            end if
      end subroutine la_${ri}$hseqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TREVC: computes some or all of the right and/or left eigenvectors of
      !> a complex upper triangular matrix T.
      !> Matrices of this type are produced by the Schur factorization of
@@ -3603,9 +3666,15 @@ module la_lapack_eigv_gen2
            end if
            return
      end subroutine la_${ri}$trevc
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TREVC3: computes some or all of the right and/or left eigenvectors of
      !> a complex upper triangular matrix T.
      !> Matrices of this type are produced by the Schur factorization of
@@ -3901,9 +3970,15 @@ module la_lapack_eigv_gen2
            end if
            return
      end subroutine la_${ri}$trevc3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRSNA: estimates reciprocal condition numbers for specified
      !> eigenvalues and/or right eigenvectors of a complex upper triangular
      !> matrix T (or of any matrix Q*T*Q**H with Q unitary).
@@ -4057,9 +4132,15 @@ module la_lapack_eigv_gen2
            end do loop_50
            return
      end subroutine la_${ri}$trsna
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAEIN: uses inverse iteration to find a right or left eigenvector
      !> corresponding to the eigenvalue W of a complex upper Hessenberg
      !> matrix H.
@@ -4207,9 +4288,15 @@ module la_lapack_eigv_gen2
            call la_${ri}$${ci}$scal(n,one/cabs1(v(i)),v,1)
            return
      end subroutine la_${ri}$laein
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRSYL: solves the complex Sylvester matrix equation:
      !> op(A)*X + X*op(B) = scale*C or
      !> op(A)*X - X*op(B) = scale*C,
@@ -4440,9 +4527,15 @@ module la_lapack_eigv_gen2
            end if
            return
      end subroutine la_${ri}$trsyl
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HSEIN: uses inverse iteration to find specified right and/or left
      !> eigenvectors of a complex upper Hessenberg matrix H.
      !> The right eigenvector x and the left eigenvector y of the matrix H
@@ -4624,9 +4717,15 @@ module la_lapack_eigv_gen2
            end do loop_100
            return
      end subroutine la_${ri}$hsein
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$TRSEN: reorders the Schur factorization of a complex matrix
      !> A = Q*T*Q**H, so that a selected cluster of eigenvalues appears in
      !> the leading positions on the diagonal of the upper triangular matrix
@@ -4764,9 +4863,15 @@ module la_lapack_eigv_gen2
            work(1) = lwmin
            return
      end subroutine la_${ri}$trsen
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HSEQR: computes the eigenvalues of a Hessenberg matrix H
      !> and, optionally, the matrices T and Z from the Schur decomposition
      !> H = Z T Z**H, where T is an upper triangular matrix (the
@@ -4914,6 +5019,9 @@ module la_lapack_eigv_gen2
                         rzero,KIND=${rk}$)
            end if
      end subroutine la_${ri}$hseqr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_gen2

@@ -18,14 +18,26 @@ module test_la_inverse
         if (error) return
         call test_d_eye_inverse(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_x_eye_inverse(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_q_eye_inverse(error)
         if (error) return
+#endif
         call test_c_eye_inverse(error)
         if (error) return
         call test_z_eye_inverse(error)
         if (error) return
+#ifdef LA_WITH_XDP
+        call test_y_eye_inverse(error)
+        if (error) return
+#endif
+#ifdef LA_WITH_QP
         call test_w_eye_inverse(error)
         if (error) return
+#endif
 
         call cpu_time(t1)
 
@@ -86,6 +98,34 @@ module test_la_inverse
 
     end subroutine test_d_eye_inverse
 
+#ifdef LA_WITH_XDP
+    subroutine test_x_eye_inverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i,j
+        integer(ilp),parameter :: n = 250_ilp
+
+        real(xdp) :: a(n,n),inva(n,n)
+
+        do concurrent(i=1:n,j=1:n)
+          a(i,j) = merge(1.0_xdp,0.0_xdp,i == j)
+        end do
+
+        !> Invert function
+        inva = inv(a,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_xdp))
+        if (error) return
+
+        !> Inverse subroutine
+        call invert(a,err=state)
+        error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_xdp))
+
+    end subroutine test_x_eye_inverse
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_q_eye_inverse(error)
         logical,intent(out) :: error
 
@@ -110,6 +150,7 @@ module test_la_inverse
         error = state%error() .or. .not. all(abs(a - inva) < tiny(0.0_qp))
 
     end subroutine test_q_eye_inverse
+#endif
 
     !> Invert identity matrix
     subroutine test_c_eye_inverse(error)
@@ -222,6 +263,64 @@ module test_la_inverse
 
     end subroutine test_z_eye_inverse
 
+#ifdef LA_WITH_XDP
+    subroutine test_y_eye_inverse(error)
+        logical,intent(out) :: error
+
+        type(la_state) :: state
+
+        integer(ilp) :: i,j,failed
+        integer(ilp),parameter :: n = 250_ilp
+
+        complex(xdp) :: a(n,n),copya(n,n),inva(n,n)
+
+        do concurrent(i=1:n,j=1:n)
+          a(i,j) = merge((1.0_xdp,1.0_xdp), (0.0_xdp,0.0_xdp),i == j)
+        end do
+        copya = a
+
+        !> The inverse of a complex diagonal matrix has conjg(z_ii)/abs(z_ii)^2 on the diagonal
+        inva = inv(a,err=state)
+
+        failed = 0
+        do i = 1,n
+            do j = 1,n
+                if (.not. is_diagonal_inverse(a(i,j),inva(i,j),i,j)) failed = failed + 1
+            end do
+        end do
+
+        error = state%error() .or. .not. failed == 0
+        if (error) return
+
+        !> Inverse subroutine
+        call invert(copya,err=state)
+
+        failed = 0
+        do i = 1,n
+            do j = 1,n
+                if (.not. is_diagonal_inverse(a(i,j),copya(i,j),i,j)) failed = failed + 1
+            end do
+        end do
+
+        error = state%error() .or. .not. failed == 0
+
+        contains
+
+           elemental logical function is_diagonal_inverse(aij,invaij,i,j)
+               complex(xdp),intent(in) :: aij,invaij
+               integer(ilp),intent(in) :: i,j
+               if (i /= j) then
+                  is_diagonal_inverse = max(abs(aij),abs(invaij)) < tiny(0.0_xdp)
+               else
+                  ! Product should return the real identity
+                  is_diagonal_inverse = abs(aij*invaij - (1.0_xdp,0.0_xdp)) < tiny(0.0_xdp)
+               end if
+           end function is_diagonal_inverse
+
+    end subroutine test_y_eye_inverse
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_w_eye_inverse(error)
         logical,intent(out) :: error
 
@@ -276,6 +375,7 @@ module test_la_inverse
            end function is_diagonal_inverse
 
     end subroutine test_w_eye_inverse
+#endif
 
 end module test_la_inverse
 

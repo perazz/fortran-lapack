@@ -19,6 +19,9 @@ module la_lapack_solve_ldl_comp3
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$heswapr
      public :: la_${ri}$hetf2
      public :: la_${ri}$hetri
@@ -34,11 +37,17 @@ module la_lapack_solve_ldl_comp3
      public :: la_${ri}$hecon
      public :: la_${ri}$herfs
      public :: la_${ri}$hpcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HESWAPR: applies an elementary permutation on the rows and the columns of
      !> a hermitian matrix.
 
@@ -110,9 +119,15 @@ module la_lapack_solve_ldl_comp3
                end do
            end if
      end subroutine la_${ri}$heswapr
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETF2: computes the factorization of a complex Hermitian matrix A
      !> using the Bunch-Kaufman diagonal pivoting method:
      !> A = U*D*U**H  or  A = L*D*L**H
@@ -466,9 +481,15 @@ module la_lapack_solve_ldl_comp3
            90 continue
            return
      end subroutine la_${ri}$hetf2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRI: computes the inverse of a complex Hermitian indefinite matrix
      !> A using the factorization A = U*D*U**H or A = L*D*L**H computed by
      !> ${ri.upper()}$HETRF.
@@ -676,9 +697,15 @@ module la_lapack_solve_ldl_comp3
            end if
            return
      end subroutine la_${ri}$hetri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRS_3: solves a system of linear equations A * X = B with a complex
      !> Hermitian matrix A using the factorization computed
 #:if rk == "sp"
@@ -847,9 +874,15 @@ module la_lapack_solve_ldl_comp3
            end if
            return
      end subroutine la_${ri}$hetrs_3
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPTRF: computes the factorization of a complex Hermitian packed
      !> matrix A using the Bunch-Kaufman diagonal pivoting method:
      !> A = U*D*U**H  or  A = L*D*L**H
@@ -1203,9 +1236,15 @@ module la_lapack_solve_ldl_comp3
            110 continue
            return
      end subroutine la_${ri}$hptrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPTRI: computes the inverse of a complex Hermitian indefinite matrix
      !> A in packed storage using the factorization A = U*D*U**H or
      !> A = L*D*L**H computed by ${ri.upper()}$HPTRF.
@@ -1428,9 +1467,15 @@ module la_lapack_solve_ldl_comp3
            end if
            return
      end subroutine la_${ri}$hptri
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$LAHEF: computes a partial factorization of a complex Hermitian
      !> matrix A using the Bunch-Kaufman diagonal pivoting method. The
      !> partial factorization has the form:
@@ -2003,9 +2048,15 @@ module la_lapack_solve_ldl_comp3
            end if
            return
      end subroutine la_${ri}$lahef
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HEEQUB: computes row and column scalings intended to equilibrate a
      !> Hermitian matrix A (with respect to the Euclidean norm) and reduce
      !> its condition number. The scale factors S are computed by the BIN
@@ -2200,9 +2251,15 @@ module la_lapack_solve_ldl_comp3
            end do
            scond = max(smin,smlnum)/min(smax,bignum)
      end subroutine la_${ri}$heequb
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRF: computes the factorization of a complex Hermitian matrix A
      !> using the Bunch-Kaufman diagonal pivoting method.  The form of the
      !> factorization is
@@ -2328,9 +2385,15 @@ module la_lapack_solve_ldl_comp3
            work(1) = lwkopt
            return
      end subroutine la_${ri}$hetrf
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRS: solves a system of linear equations A*X = B with a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
      !> A = L*D*L**H computed by ${ri.upper()}$HETRF.
@@ -2566,9 +2629,15 @@ module la_lapack_solve_ldl_comp3
            end if
            return
      end subroutine la_${ri}$hetrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HETRS2: solves a system of linear equations A*X = B with a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
      !> A = L*D*L**H computed by ${ri.upper()}$HETRF and converted by ${ri.upper()}$SYCONV.
@@ -2754,9 +2823,15 @@ module la_lapack_solve_ldl_comp3
            call la_${ri}$syconv(uplo,'R',n,a,lda,ipiv,work,iinfo)
            return
      end subroutine la_${ri}$hetrs2
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPTRS: solves a system of linear equations A*X = B with a complex
      !> Hermitian matrix A stored in packed format using the factorization
      !> A = U*D*U**H or A = L*D*L**H computed by ${ri.upper()}$HPTRF.
@@ -3002,9 +3077,15 @@ module la_lapack_solve_ldl_comp3
            end if
            return
      end subroutine la_${ri}$hptrs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HECON: estimates the reciprocal of the condition number of a complex
      !> Hermitian matrix A using the factorization A = U*D*U**H or
      !> A = L*D*L**H computed by ${ri.upper()}$HETRF.
@@ -3086,9 +3167,15 @@ module la_lapack_solve_ldl_comp3
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$hecon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HERFS: improves the computed solution to a system of linear
      !> equations when the coefficient matrix is Hermitian indefinite, and
      !> provides error bounds and backward error estimates for the solution.
@@ -3282,9 +3369,15 @@ module la_lapack_solve_ldl_comp3
            end do loop_140
            return
      end subroutine la_${ri}$herfs
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$HPCON: estimates the reciprocal of the condition number of a complex
      !> Hermitian packed matrix A using the factorization A = U*D*U**H or
      !> A = L*D*L**H computed by ${ri.upper()}$HPTRF.
@@ -3366,6 +3459,9 @@ module la_lapack_solve_ldl_comp3
            if (ainvnm /= zero) rcond = (one/ainvnm)/anorm
            return
      end subroutine la_${ri}$hpcon
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_solve_ldl_comp3

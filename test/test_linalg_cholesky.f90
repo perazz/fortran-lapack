@@ -21,10 +21,20 @@ module test_linalg_cholesky
         
         call add_test(tests,new_unittest("least_cholesky_s",test_cholesky_s))
         call add_test(tests,new_unittest("least_cholesky_d",test_cholesky_d))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("least_cholesky_x",test_cholesky_x))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("least_cholesky_q",test_cholesky_q))
+#endif
         call add_test(tests,new_unittest("least_cholesky_c",test_cholesky_c))
         call add_test(tests,new_unittest("least_cholesky_z",test_cholesky_z))
+#ifdef LA_WITH_XDP
+        call add_test(tests,new_unittest("least_cholesky_y",test_cholesky_y))
+#endif
+#ifdef LA_WITH_QP
         call add_test(tests,new_unittest("least_cholesky_w",test_cholesky_w))
+#endif
 
     end subroutine test_cholesky_factorization
 
@@ -99,6 +109,44 @@ module test_linalg_cholesky
         
     end subroutine test_cholesky_d
 
+#ifdef LA_WITH_XDP
+    subroutine test_cholesky_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(n,n),l(n,n)
+        type(la_state) :: state
+        
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_xdp,0.0000_xdp,0.0000_xdp]
+        l(2,:) = [6.1237_xdp,4.1833_xdp,0.0000_xdp]
+        l(3,:) = [22.4537_xdp,20.9165_xdp,6.1101_xdp]
+        
+        ! 1) Cholesky factorization with full matrices
+        call cholesky(a,l,other_zeroed=.true.,err=state)
+        
+        call check(error,state%ok(),'cholesky (subr) :: '//state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (subr) :: data converged')
+        if (allocated(error)) return
+        
+        ! 2) Function interface
+        l = chol(a,other_zeroed=.true.)
+        
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (function) :: data converged')
+        if (allocated(error)) return
+        
+    end subroutine test_cholesky_x
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_cholesky_q(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -133,6 +181,7 @@ module test_linalg_cholesky
         if (allocated(error)) return
         
     end subroutine test_cholesky_q
+#endif
 
     subroutine test_cholesky_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -204,6 +253,44 @@ module test_linalg_cholesky
         
     end subroutine test_cholesky_z
 
+#ifdef LA_WITH_XDP
+    subroutine test_cholesky_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: n = 3_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(n,n),l(n,n)
+        type(la_state) :: state
+        
+        ! Set real matrix
+        a(1,:) = [6,15,55]
+        a(2,:) = [15,55,225]
+        a(3,:) = [55,225,979]
+        
+        ! Set result (lower factor)
+        l(1,:) = [2.4495_xdp,0.0000_xdp,0.0000_xdp]
+        l(2,:) = [6.1237_xdp,4.1833_xdp,0.0000_xdp]
+        l(3,:) = [22.4537_xdp,20.9165_xdp,6.1101_xdp]
+        
+        ! 1) Cholesky factorization with full matrices
+        call cholesky(a,l,other_zeroed=.true.,err=state)
+        
+        call check(error,state%ok(),'cholesky (subr) :: '//state%print())
+        if (allocated(error)) return
+        
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (subr) :: data converged')
+        if (allocated(error)) return
+        
+        ! 2) Function interface
+        l = chol(a,other_zeroed=.true.)
+        
+        call check(error,all(abs(a - matmul(l,transpose(l))) < tol),'cholesky (function) :: data converged')
+        if (allocated(error)) return
+        
+    end subroutine test_cholesky_y
+#endif
+
+#ifdef LA_WITH_QP
     subroutine test_cholesky_w(error)
         type(error_type),allocatable,intent(out) :: error
 
@@ -238,6 +325,7 @@ module test_linalg_cholesky
         if (allocated(error)) return
         
     end subroutine test_cholesky_w
+#endif
 
     ! gcc-15 bugfix utility
     subroutine add_test(tests,new_test)

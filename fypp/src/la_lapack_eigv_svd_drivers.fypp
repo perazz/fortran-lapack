@@ -22,17 +22,32 @@ module la_lapack_eigv_svd_drivers
 
      public :: sp,dp,qp,lk,ilp
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gesvd
      public :: la_${ri}$gesvdq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      public :: la_${ri}$gesvd
      public :: la_${ri}$gesvdq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
      contains
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESVD: computes the singular value decomposition (SVD) of a real
      !> M-by-N matrix A, optionally computing the left and/or right singular
      !> vectors. The SVD is written
@@ -3015,9 +3030,15 @@ module la_lapack_eigv_svd_drivers
            work(1) = maxwrk
            return
      end subroutine la_${ri}$gesvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_REAL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESVDQ: computes the singular value decomposition (SVD) of a real
      !> M-by-N matrix A, where M >= N. The SVD of A is written as
      !> [++]   [xx]   [x0]   [xx]
@@ -3899,9 +3920,15 @@ module la_lapack_eigv_svd_drivers
            numrank = nr
            return
      end subroutine la_${ri}$gesvdq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
      !> ${ri.upper()}$GESVD: computes the singular value decomposition (SVD) of a complex
      !> M-by-N matrix A, optionally computing the left and/or right singular
      !> vectors. The SVD is written
@@ -6358,9 +6385,15 @@ module la_lapack_eigv_svd_drivers
            work(1) = maxwrk
            return
      end subroutine la_${ri}$gesvd
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 #:for rk, rt, ri, ci, rkl, ril, cil, rku, riu, ciu in LA_CMPL_KINDS
+#:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+#:endif
 #:if rk == "sp"
      !> ${ri.upper()}$GESVDQ: computes the singular value decomposition (SVD) of a complex
 #:else
@@ -7245,6 +7278,9 @@ module la_lapack_eigv_svd_drivers
            numrank = nr
            return
      end subroutine la_${ri}$gesvdq
+#:if LA_GUARD[rk]
+#endif
+#:endif
 #:endfor
 
 end module la_lapack_eigv_svd_drivers

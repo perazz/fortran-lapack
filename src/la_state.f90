@@ -313,6 +313,34 @@ module la_state_type
                 call append (msg,v,prefix)
              rank (1)
                 call appendv(msg,v)
+             rank (2)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (3)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (4)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (5)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (6)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (7)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (8)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (9)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (10)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (11)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (12)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (13)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             rank (14)
+                call appenda(msg,reshape(v,[size(v)]),shape(v))
+             ! gfortran does not resolve rank (15) in select rank, so a rank-15 array, like an
+             ! assumed-size one, lands here
              rank default
                 write (buffer,'(i0)') rank(v)
                 msg = trim(msg)//' <ERROR: INVALID RANK>'
@@ -321,6 +349,27 @@ module la_state_type
        endif
        
     end subroutine appendr
+
+    ! Append an array of rank two or more: its elements in array element order, then its shape
+    pure subroutine appenda(msg,a,shp)
+       class(*),intent(in) :: a(:)
+       integer,intent(in) :: shp(:)
+       character(len=*),intent(inout) :: msg
+
+       character(len=MSG_LENGTH) :: buffer
+       integer :: j
+
+       call appendv(msg,a)
+
+       write (buffer,'(i0)') shp(1)
+       msg = trim(msg)//' ('//trim(buffer)
+       do j = 2,size(shp)
+          write (buffer,'(i0)') shp(j)
+          msg = trim(msg)//'x'//trim(buffer)
+       end do
+       msg = trim(msg)//')'
+
+    end subroutine appenda
 
     ! Append a generic value to the error flag
     pure subroutine append(msg,a,prefix)
