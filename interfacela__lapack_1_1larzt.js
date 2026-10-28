@@ -7,6 +7,8 @@ var interfacela__lapack_1_1larzt =
     [ "la_qlarzt", "interfacela__lapack_1_1larzt.html#a935440273c56ce02c82219cc3fed3004", null ],
     [ "la_slarzt", "interfacela__lapack_1_1larzt.html#a78b4d6f8e793384988c2a4ecfa8a1cb4", null ],
     [ "la_wlarzt", "interfacela__lapack_1_1larzt.html#afda9f2df957fde6429d9bb7991ca0e92", null ],
+    [ "la_xlarzt", "interfacela__lapack_1_1larzt.html#a40198f594b246768673111e782e2bf82", null ],
+    [ "la_ylarzt", "interfacela__lapack_1_1larzt.html#a686f8c17b4eb99b640c618528bb7349e", null ],
     [ "la_zlarzt", "interfacela__lapack_1_1larzt.html#a90c8ecdac85ce2dd83bb2e2b59803adb", null ],
     [ "slarzt", "interfacela__lapack_1_1larzt.html#aee5780531b5a9d326f5e87f9cde67b59", null ],
     [ "zlarzt", "interfacela__lapack_1_1larzt.html#ad52b5e51f82ebfd3ea76850cafd8fcc7", null ]

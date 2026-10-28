@@ -1,15 +1,15 @@
 <map id="la_lapack_eigv_tridiag2::la_slar1v" name="la_lapack_eigv_tridiag2::la_slar1v">
-<area shape="rect" id="Node000001" title="SLAR1V: computes the (scaled) r&#45;th column of the inverse of the sumbmatrix in rows B1 through BN of t..." alt="" coords="5,73,181,113"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="229,29,377,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,72,215,65,216,70,182,78"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="229,117,377,157"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="182,109,216,116,215,122,181,114"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="265,30,262,20,269,11,282,5,303,3,327,6,341,13,338,18,326,11,303,8,284,10,272,15,268,21,270,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="434,29,583,69"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="378,47,420,47,420,52,378,52"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="470,30,468,20,474,11,488,5,509,3,533,6,546,13,543,18,531,11,509,8,489,10,477,15,473,21,475,28"/>
-<area shape="poly" id="edge8_Node000004_Node000004" title=" " alt="" coords="265,118,262,108,269,99,282,93,303,91,327,94,341,101,338,106,326,99,303,96,284,98,272,103,268,109,270,116"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="425,125,592,150"/>
-<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="378,135,411,135,411,140,378,140"/>
-<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="475,126,468,116,471,106,485,100,509,98,537,102,549,111,545,115,535,107,509,103,487,105,475,110,473,116,479,123"/>
+<area shape="rect" id="Node000001" title="SLAR1V: computes the (scaled) r&#45;th column of the inverse of the sumbmatrix in rows B1 through BN of t..." alt="" coords="5,76,181,121"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="229,29,376,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,76,216,71,211,72,182,81"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="229,123,376,167"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="181,115,216,125,210,125,181,121"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="263,28,262,19,268,10,282,5,302,3,324,5,339,14,333,14,323,10,302,8,283,10,272,15,267,21,268,30"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="432,29,581,74"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="376,49,420,51,414,52,377,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="468,27,466,19,473,10,486,5,507,3,528,5,543,14,538,14,527,10,507,8,488,10,476,15,471,21,472,30"/>
+<area shape="poly" id="edge8_Node000004_Node000004" title=" " alt="" coords="263,121,262,113,268,104,282,98,302,96,324,98,339,107,334,107,323,104,302,101,283,103,272,108,267,114,268,124"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="424,131,589,159"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="376,142,411,145,406,145,377,148"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="471,129,466,122,470,113,484,107,507,105,531,107,545,116,540,115,529,112,507,110,486,112,474,117,471,122,476,132"/>
 </map>

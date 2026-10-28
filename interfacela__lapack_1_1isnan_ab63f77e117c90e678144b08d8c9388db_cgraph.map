@@ -1,15 +1,9 @@
 <map id="la_lapack::isnan::disnan" name="la_lapack::isnan::disnan">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,81,184,106"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="232,29,380,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,78,218,65,219,70,157,83"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="232,117,380,157"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="157,103,219,117,218,122,156,109"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="269,30,267,20,272,11,286,5,306,3,329,6,342,13,339,18,328,11,306,8,287,10,276,15,272,21,274,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="428,29,579,69"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="380,47,414,47,414,52,380,52"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="466,30,464,20,470,11,483,5,503,3,527,6,539,13,537,18,525,11,503,8,484,10,473,15,469,21,471,28"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="269,118,267,108,272,99,286,93,306,91,329,94,342,101,339,106,328,99,306,96,287,98,276,103,272,109,274,116"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="428,117,579,157"/>
-<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="380,135,414,135,414,140,380,140"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="466,118,464,108,470,99,483,93,503,91,527,94,539,101,537,106,525,99,503,96,484,98,473,103,469,109,471,116"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,38,183,66"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="231,29,378,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,49,217,51,212,52,183,54"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="267,27,265,19,272,10,285,5,304,3,325,5,339,14,334,13,324,10,304,8,286,10,275,15,270,21,271,30"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="426,29,575,74"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="378,49,413,52,408,52,378,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="463,27,462,19,468,10,481,5,501,3,522,5,536,14,531,13,520,10,501,8,483,10,471,15,467,21,467,30"/>
 </map>

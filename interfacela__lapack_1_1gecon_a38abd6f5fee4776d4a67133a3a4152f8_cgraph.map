@@ -1,5 +1,5 @@
 <map id="la_lapack::gecon::zgecon" name="la_lapack::gecon::zgecon">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,191,38"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a230b5d9a2258c41048d4aa2e582440d8" title="ZGECON: estimates the reciprocal of the condition number of a general complex matrix A,..." alt="" coords="239,5,384,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,23,225,23,225,28,191,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,14,190,42"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a230b5d9a2258c41048d4aa2e582440d8" title="ZGECON: estimates the reciprocal of the condition number of a general complex matrix A,..." alt="" coords="238,5,382,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,25,225,27,220,28,190,30"/>
 </map>

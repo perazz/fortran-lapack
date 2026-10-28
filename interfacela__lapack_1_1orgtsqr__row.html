@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad43248ae2c12f4de10b9efec8f2bc8e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a066f48a2cb0253b1c7e2267701e6ee" id="r_a8a066f48a2cb0253b1c7e2267701e6ee"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a066f48a2cb0253b1c7e2267701e6ee">la_sorgtsqr_row</a></td></tr>
 <tr class="separator:a8a066f48a2cb0253b1c7e2267701e6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade0b7b559eea9f2fecd7ffc56387610a" id="r_ade0b7b559eea9f2fecd7ffc56387610a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade0b7b559eea9f2fecd7ffc56387610a">la_xorgtsqr_row</a></td></tr>
+<tr class="separator:ade0b7b559eea9f2fecd7ffc56387610a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORGTSQR_ROW: generates an M-by-N real matrix Q_out with orthonormal columns from the output of DLATSQR. These N orthonormal columns are the first N columns of a product of complex unitary matrices Q(k)_in of order M, which are returned by DLATSQR in a special format. Q_out = first_N_columns_of( Q(1)_in * Q(2)_in * ... * Q(k)_in ). The input matrices Q(k)_in are stored in row and column blocks in A. See the documentation of DLATSQR for more details on the format of Q(k)_in, where each Q(k)_in is represented by block Householder transformations. This routine calls an auxiliary routine DLARFB_GETT, where the computation is performed on each individual block. The algorithm first sweeps NB-sized column blocks from the right to left starting in the bottom row block and continues to the top row block (hence _ROW in the routine name). This sweep is in reverse order of the order in which DLATSQR generates the output blocks. </p>
@@ -237,6 +239,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::orgtsqr_row::la_sorgtsqr_row</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ade0b7b559eea9f2fecd7ffc56387610a" name="ade0b7b559eea9f2fecd7ffc56387610a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade0b7b559eea9f2fecd7ffc56387610a">&#9670;&#160;</a></span>la_xorgtsqr_row()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::orgtsqr_row::la_xorgtsqr_row</td>
         </tr>
       </table>
 </div><div class="memdoc">

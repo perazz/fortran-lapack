@@ -7,6 +7,8 @@ var interfacela__lapack_1_1gebak =
     [ "la_qgebak", "interfacela__lapack_1_1gebak.html#a012fa2c3269688fc1bdcbe36bf2174da", null ],
     [ "la_sgebak", "interfacela__lapack_1_1gebak.html#a190671c706c8b7e13fdc0e1f062004ce", null ],
     [ "la_wgebak", "interfacela__lapack_1_1gebak.html#a70aeefac76851ca7c4758b7dd92c227d", null ],
+    [ "la_xgebak", "interfacela__lapack_1_1gebak.html#a856413bd56ee467745de6378b82ce51c", null ],
+    [ "la_ygebak", "interfacela__lapack_1_1gebak.html#a6896ff08167e263dca37774cf7b4717e", null ],
     [ "la_zgebak", "interfacela__lapack_1_1gebak.html#a16bdbd49823da9ded5a40d3fe9f5864e", null ],
     [ "sgebak", "interfacela__lapack_1_1gebak.html#a755548d49155530d5e23be9db555e3c9", null ],
     [ "zgebak", "interfacela__lapack_1_1gebak.html#ad8b5e594fd6c71a678310e958e373c9e", null ]

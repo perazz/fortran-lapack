@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad3c6a914a8b3a4e91461e436e602d616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc9ef5dae63c7e3ba781f99657e183cc" id="r_acc9ef5dae63c7e3ba781f99657e183cc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc9ef5dae63c7e3ba781f99657e183cc">la_slasd1</a></td></tr>
 <tr class="separator:acc9ef5dae63c7e3ba781f99657e183cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42976955b8182d84273454bfe1067203" id="r_a42976955b8182d84273454bfe1067203"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42976955b8182d84273454bfe1067203">la_xlasd1</a></td></tr>
+<tr class="separator:a42976955b8182d84273454bfe1067203"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LASD1: computes the SVD of an upper bidiagonal N-by-M matrix B, where N = NL + NR + 1 and M = N + SQRE. LASD1 is called from DLASD0. A related subroutine DLASD7 handles the case in which the singular values (and the singular vectors in factored form) are desired. LASD1 computes the SVD as follows: ( D1(in) 0 0 0 ) B = U(in) * ( Z1**T a Z2**T b ) * VT(in) ( 0 0 D2(in) 0 ) = U(out) * ( D(out) 0) * VT(out) where Z**T = (Z1**T a Z2**T b) = u**T VT**T, and u is a vector of dimension M with ALPHA and BETA in the NL+1 and NL+2 th entries and zeros elsewhere; and the entry b is empty if SQRE = 0. The left singular vectors of the original matrix are stored in U, and the transpose of the right singular vectors are stored in VT, and the singular values are in D. The algorithm consists of three stages: The first stage consists of deflating the size of the problem when there are multiple singular values or when there are zeros in the Z vector. For each such occurrence the dimension of the secular equation problem is reduced by one. This stage is performed by the routine DLASD2. The second stage consists of calculating the updated singular values. This is done by finding the square roots of the roots of the secular equation via the routine DLASD4 (as called by DLASD3). This routine also calculates the singular vectors of the current problem. The final stage consists of computing the updated singular vectors directly using the updated singular values. The singular vectors for the current problem are multiplied with the singular vectors from the overall problem. </p>
@@ -252,6 +254,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::lasd1::la_slasd1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42976955b8182d84273454bfe1067203" name="a42976955b8182d84273454bfe1067203"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42976955b8182d84273454bfe1067203">&#9670;&#160;</a></span>la_xlasd1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::lasd1::la_xlasd1</td>
         </tr>
       </table>
 </div><div class="memdoc">

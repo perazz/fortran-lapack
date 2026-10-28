@@ -7,6 +7,8 @@ var interfacela__blas_1_1scal =
     [ "la_qscal", "interfacela__blas_1_1scal.html#a381a9006f9cb9696e3359454e7059bc1", null ],
     [ "la_sscal", "interfacela__blas_1_1scal.html#a1ec5b7bc9779b9a58801ad9f8a8632e2", null ],
     [ "la_wscal", "interfacela__blas_1_1scal.html#a45f0048ff2fabaa4915e4b96eab88c24", null ],
+    [ "la_xscal", "interfacela__blas_1_1scal.html#a19275388f7583d1dfc549152345d0702", null ],
+    [ "la_yscal", "interfacela__blas_1_1scal.html#a9b35accaa8622a0aa277563637abedad", null ],
     [ "la_zscal", "interfacela__blas_1_1scal.html#a73c43034d24839139073d51c8a293cc8", null ],
     [ "sscal", "interfacela__blas_1_1scal.html#a17164b26bb5c2cff4922e4997108fb4d", null ],
     [ "zscal", "interfacela__blas_1_1scal.html#a639c502ae44e189947179eea0a2a2710", null ]

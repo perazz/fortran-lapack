@@ -4,5 +4,6 @@ var interfacela__lapack_1_1lasrt =
     [ "la_dlasrt", "interfacela__lapack_1_1lasrt.html#a85db70eaf129b0ff5584200cd7109674", null ],
     [ "la_qlasrt", "interfacela__lapack_1_1lasrt.html#a480996284f7f3285674dbc58a87edcf4", null ],
     [ "la_slasrt", "interfacela__lapack_1_1lasrt.html#aa63f174cef6349f65899269268ead2ec", null ],
+    [ "la_xlasrt", "interfacela__lapack_1_1lasrt.html#a6d810f029e9c5b78861e11bdf16c76db", null ],
     [ "slasrt", "interfacela__lapack_1_1lasrt.html#aaef0115e3a10e3880390651c8b1255a9", null ]
 ];

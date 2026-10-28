@@ -4,5 +4,6 @@ var interfacela__blas_1_1nrm2 =
     [ "la_dnrm2", "interfacela__blas_1_1nrm2.html#a9f4a3b3e4b50632b0b95f291f706be89", null ],
     [ "la_qnrm2", "interfacela__blas_1_1nrm2.html#aebbc76344960d5e5b9b0fdb6a4a230cd", null ],
     [ "la_snrm2", "interfacela__blas_1_1nrm2.html#aa8398438163f6399a74ee7d2fa26d934", null ],
+    [ "la_xnrm2", "interfacela__blas_1_1nrm2.html#abcc5256c0d5fa85c5c8a4b3a31308469", null ],
     [ "snrm2", "interfacela__blas_1_1nrm2.html#a3abcec865f86d1c8226fce411709e7ed", null ]
 ];

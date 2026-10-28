@@ -126,9 +126,17 @@ Variables</h2></td></tr>
 <tr class="memitem:a81a871edc6f44403650775c5b3a50b52" id="r_a81a871edc6f44403650775c5b3a50b52"><td class="memItemLeft" align="right" valign="top">integer, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a81a871edc6f44403650775c5b3a50b52">dp</a> = real64</td></tr>
 <tr class="memdesc:a81a871edc6f44403650775c5b3a50b52"><td class="mdescLeft">&#160;</td><td class="mdescRight">Double-precision floats.  <br /></td></tr>
 <tr class="separator:a81a871edc6f44403650775c5b3a50b52"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76e2725ceb541bc0f62d7b28f6e2ca3b" id="r_a76e2725ceb541bc0f62d7b28f6e2ca3b"><td class="memItemLeft" align="right" valign="top">integer, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a> = real128</td></tr>
-<tr class="memdesc:a76e2725ceb541bc0f62d7b28f6e2ca3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quadruple-precision floats.  <br /></td></tr>
+<tr class="memitem:a82d56bcb06249d58e9ed7409b230d3a2" id="r_a82d56bcb06249d58e9ed7409b230d3a2"><td class="memItemLeft" align="right" valign="top">integer, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a> = -1</td></tr>
+<tr class="memdesc:a82d56bcb06249d58e9ed7409b230d3a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">80-bit extended-precision floats; -1 when the build did not ask for them  <br /></td></tr>
+<tr class="separator:a82d56bcb06249d58e9ed7409b230d3a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76e2725ceb541bc0f62d7b28f6e2ca3b" id="r_a76e2725ceb541bc0f62d7b28f6e2ca3b"><td class="memItemLeft" align="right" valign="top">integer, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a> = -1</td></tr>
+<tr class="memdesc:a76e2725ceb541bc0f62d7b28f6e2ca3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quadruple-precision floats; -1 when the build did not ask for them.  <br /></td></tr>
 <tr class="separator:a76e2725ceb541bc0f62d7b28f6e2ca3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac060ddcd6b8846fa0049f777f27d364d" id="r_ac060ddcd6b8846fa0049f777f27d364d"><td class="memItemLeft" align="right" valign="top">logical, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac060ddcd6b8846fa0049f777f27d364d">la_with_xdp</a> = .false.</td></tr>
+<tr class="memdesc:ac060ddcd6b8846fa0049f777f27d364d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the extended- and quadruple-precision procedures are part of this build.  <br /></td></tr>
+<tr class="separator:ac060ddcd6b8846fa0049f777f27d364d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e999a42a9a5942b2c93c428e228c959" id="r_a1e999a42a9a5942b2c93c428e228c959"><td class="memItemLeft" align="right" valign="top">logical, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e999a42a9a5942b2c93c428e228c959">la_with_qp</a> = .false.</td></tr>
+<tr class="separator:a1e999a42a9a5942b2c93c428e228c959"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab69b1529685742074aaa0fa65f97a084" id="r_ab69b1529685742074aaa0fa65f97a084"><td class="memItemLeft" align="right" valign="top">integer, parameter&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab69b1529685742074aaa0fa65f97a084">lk</a> = kind(.true.)</td></tr>
 <tr class="memdesc:ab69b1529685742074aaa0fa65f97a084"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal logical kind.  <br /></td></tr>
 <tr class="separator:ab69b1529685742074aaa0fa65f97a084"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,6 +179,36 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a1e999a42a9a5942b2c93c428e228c959" name="a1e999a42a9a5942b2c93c428e228c959"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e999a42a9a5942b2c93c428e228c959">&#9670;&#160;</a></span>la_with_qp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">logical, parameter la_constants::la_with_qp = .false.</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac060ddcd6b8846fa0049f777f27d364d" name="ac060ddcd6b8846fa0049f777f27d364d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac060ddcd6b8846fa0049f777f27d364d">&#9670;&#160;</a></span>la_with_xdp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">logical, parameter la_constants::la_with_xdp = .false.</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Whether the extended- and quadruple-precision procedures are part of this build. </p>
+
+</div>
+</div>
 <a id="ab69b1529685742074aaa0fa65f97a084" name="ab69b1529685742074aaa0fa65f97a084"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab69b1529685742074aaa0fa65f97a084">&#9670;&#160;</a></span>lk</h2>
 
@@ -194,12 +232,12 @@ Variables</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">integer, parameter la_constants::qp = real128</td>
+          <td class="memname">integer, parameter la_constants::qp = -1</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Quadruple-precision floats. </p>
+<p>Quadruple-precision floats; -1 when the build did not ask for them. </p>
 
 </div>
 </div>
@@ -216,6 +254,22 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Single-precision floats. </p>
+
+</div>
+</div>
+<a id="a82d56bcb06249d58e9ed7409b230d3a2" name="a82d56bcb06249d58e9ed7409b230d3a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82d56bcb06249d58e9ed7409b230d3a2">&#9670;&#160;</a></span>xdp</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">integer, parameter la_constants::xdp = -1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>80-bit extended-precision floats; -1 when the build did not ask for them </p>
 
 </div>
 </div>

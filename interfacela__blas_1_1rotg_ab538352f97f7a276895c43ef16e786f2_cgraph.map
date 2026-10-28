@@ -1,7 +1,5 @@
 <map id="la_blas::rotg::srotg" name="la_blas::rotg::srotg">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,45,148,70"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a56f8f90b1d9052f636c0e35b7978664e" title="!" alt="" coords="196,5,331,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,43,182,37,183,42,149,48"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ad45150a3135d54c1a175fa0664af4ddb" title="!" alt="" coords="196,69,331,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,67,183,73,182,78,148,72"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,14,148,42"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a56f8f90b1d9052f636c0e35b7978664e" title="!" alt="" coords="196,5,330,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,25,183,27,177,28,148,30"/>
 </map>

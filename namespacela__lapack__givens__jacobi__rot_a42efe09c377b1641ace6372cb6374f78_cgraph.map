@@ -1,8 +1,8 @@
 <map id="la_lapack_givens_jacobi_rot::la_clasr" name="la_lapack_givens_jacobi_rot::la_clasr">
-<area shape="rect" id="Node000001" title="CLASR: applies a sequence of real plane rotations to a complex matrix A, from either the left or the ..." alt="" coords="5,47,185,87"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="233,29,400,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,54,220,50,220,56,186,60"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="233,79,400,104"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="186,74,220,78,220,84,185,80"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="281,31,273,21,277,11,292,5,317,3,347,6,360,15,356,20,345,11,317,8,293,10,280,15,278,20,285,28"/>
+<area shape="rect" id="Node000001" title="CLASR: applies a sequence of real plane rotations to a complex matrix A, from either the left or the ..." alt="" coords="5,48,185,92"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="233,29,398,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,56,220,54,215,56,185,62"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="233,81,398,109"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="185,77,220,84,215,84,185,83"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="277,28,271,20,276,11,291,5,315,3,341,5,357,14,351,14,340,10,315,8,292,10,280,15,277,20,282,30"/>
 </map>

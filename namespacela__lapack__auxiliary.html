@@ -126,72 +126,48 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a8293083751ff173fbdcd2959fcaf5ec5" id="r_a8293083751ff173fbdcd2959fcaf5ec5"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8293083751ff173fbdcd2959fcaf5ec5">la_dlabad</a> (small, large)</td></tr>
 <tr class="memdesc:a8293083751ff173fbdcd2959fcaf5ec5"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the square root of each of these values if the log of LARGE is sufficiently large. This subroutine is intended to identify machines with a large exponent range, such as the Crays, and redefine the underflow and overflow limits to be the square roots of the values computed by DLAMCH. This subroutine is needed because DLAMCH does not compensate for poor arithmetic in the upper half of the exponent range, as is found on a Cray.  <br /></td></tr>
 <tr class="separator:a8293083751ff173fbdcd2959fcaf5ec5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acecd2a5f4b24222c89102e10fa753f18" id="r_acecd2a5f4b24222c89102e10fa753f18"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acecd2a5f4b24222c89102e10fa753f18">la_qlabad</a> (small, large)</td></tr>
-<tr class="memdesc:acecd2a5f4b24222c89102e10fa753f18"><td class="mdescLeft">&#160;</td><td class="mdescRight">QLABAD: takes as input the values computed by QLAMCH for underflow and overflow, and returns the square root of each of these values if the log of LARGE is sufficiently large. This subroutine is intended to identify machines with a large exponent range, such as the Crays, and redefine the underflow and overflow limits to be the square roots of the values computed by QLAMCH. This subroutine is needed because QLAMCH does not compensate for poor arithmetic in the upper half of the exponent range, as is found on a Cray.  <br /></td></tr>
-<tr class="separator:acecd2a5f4b24222c89102e10fa753f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a060d1eb779ff4b79b8e210d748d3e239" id="r_a060d1eb779ff4b79b8e210d748d3e239"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a060d1eb779ff4b79b8e210d748d3e239">la_sladiv2</a> (a, b, c, d, r, t)</td></tr>
 <tr class="separator:a060d1eb779ff4b79b8e210d748d3e239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab34a41a5a2d8aa8270e1b467aae0ae9b" id="r_ab34a41a5a2d8aa8270e1b467aae0ae9b"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab34a41a5a2d8aa8270e1b467aae0ae9b">la_dladiv2</a> (a, b, c, d, r, t)</td></tr>
 <tr class="separator:ab34a41a5a2d8aa8270e1b467aae0ae9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a088708e93ad9e6f96c089c9f0cc72bbc" id="r_a088708e93ad9e6f96c089c9f0cc72bbc"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a088708e93ad9e6f96c089c9f0cc72bbc">la_qladiv2</a> (a, b, c, d, r, t)</td></tr>
-<tr class="separator:a088708e93ad9e6f96c089c9f0cc72bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a27cc40b0d8dcb78f2348c02f75cec811" id="r_a27cc40b0d8dcb78f2348c02f75cec811"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27cc40b0d8dcb78f2348c02f75cec811">la_slamch</a> (cmach)</td></tr>
 <tr class="memdesc:a27cc40b0d8dcb78f2348c02f75cec811"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLAMCH: determines single precision machine parameters.  <br /></td></tr>
 <tr class="separator:a27cc40b0d8dcb78f2348c02f75cec811"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1af887c0d867c49872aaec978c6f22f6" id="r_a1af887c0d867c49872aaec978c6f22f6"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1af887c0d867c49872aaec978c6f22f6">la_dlamch</a> (cmach)</td></tr>
 <tr class="memdesc:a1af887c0d867c49872aaec978c6f22f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLAMCH: determines double precision machine parameters.  <br /></td></tr>
 <tr class="separator:a1af887c0d867c49872aaec978c6f22f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a422783a9c3975903ac0fc1dc06f4ec01" id="r_a422783a9c3975903ac0fc1dc06f4ec01"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a422783a9c3975903ac0fc1dc06f4ec01">la_qlamch</a> (cmach)</td></tr>
-<tr class="memdesc:a422783a9c3975903ac0fc1dc06f4ec01"><td class="mdescLeft">&#160;</td><td class="mdescRight">QLAMCH: determines quad precision machine parameters.  <br /></td></tr>
-<tr class="separator:a422783a9c3975903ac0fc1dc06f4ec01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1741a8580a44c728a90898fdfa6f879" id="r_ad1741a8580a44c728a90898fdfa6f879"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad1741a8580a44c728a90898fdfa6f879">la_slamc3</a> (a, b)</td></tr>
 <tr class="separator:ad1741a8580a44c728a90898fdfa6f879"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8c91d07f3ce487a7a13ce12d1e2326c" id="r_ad8c91d07f3ce487a7a13ce12d1e2326c"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad8c91d07f3ce487a7a13ce12d1e2326c">la_dlamc3</a> (a, b)</td></tr>
 <tr class="separator:ad8c91d07f3ce487a7a13ce12d1e2326c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b1acabdc8833f4f8b5f55dafba5607a" id="r_a2b1acabdc8833f4f8b5f55dafba5607a"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b1acabdc8833f4f8b5f55dafba5607a">la_qlamc3</a> (a, b)</td></tr>
-<tr class="separator:a2b1acabdc8833f4f8b5f55dafba5607a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59d17b0d7adb4e239a4b29d529861536" id="r_a59d17b0d7adb4e239a4b29d529861536"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a59d17b0d7adb4e239a4b29d529861536">la_slaqsb</a> (uplo, n, kd, ab, ldab, s, scond, amax, equed)</td></tr>
 <tr class="memdesc:a59d17b0d7adb4e239a4b29d529861536"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S.  <br /></td></tr>
 <tr class="separator:a59d17b0d7adb4e239a4b29d529861536"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa966145d4a533b563f8080647322b494" id="r_aa966145d4a533b563f8080647322b494"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa966145d4a533b563f8080647322b494">la_dlaqsb</a> (uplo, n, kd, ab, ldab, s, scond, amax, equed)</td></tr>
 <tr class="memdesc:aa966145d4a533b563f8080647322b494"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S.  <br /></td></tr>
 <tr class="separator:aa966145d4a533b563f8080647322b494"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95a32f105d58de98ebaefd95bd615555" id="r_a95a32f105d58de98ebaefd95bd615555"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95a32f105d58de98ebaefd95bd615555">la_qlaqsb</a> (uplo, n, kd, ab, ldab, s, scond, amax, equed)</td></tr>
-<tr class="memdesc:a95a32f105d58de98ebaefd95bd615555"><td class="mdescLeft">&#160;</td><td class="mdescRight">QLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S.  <br /></td></tr>
-<tr class="separator:a95a32f105d58de98ebaefd95bd615555"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fde879591948a8c447452883e417e87" id="r_a7fde879591948a8c447452883e417e87"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7fde879591948a8c447452883e417e87">la_scsum1</a> (n, cx, incx)</td></tr>
 <tr class="memdesc:a7fde879591948a8c447452883e417e87"><td class="mdescLeft">&#160;</td><td class="mdescRight">SCSUM1: takes the sum of the absolute values of a complex vector and returns a single precision result. Based on SCASUM from the Level 1 BLAS. The change is to use the 'genuine' absolute value.  <br /></td></tr>
 <tr class="separator:a7fde879591948a8c447452883e417e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb909b8af822412fdf506d34b2f8ac8f" id="r_afb909b8af822412fdf506d34b2f8ac8f"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb909b8af822412fdf506d34b2f8ac8f">la_dzsum1</a> (n, cx, incx)</td></tr>
 <tr class="memdesc:afb909b8af822412fdf506d34b2f8ac8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">DZSUM1: takes the sum of the absolute values of a complex vector and returns a double precision result. Based on DZASUM from the Level 1 BLAS. The change is to use the 'genuine' absolute value.  <br /></td></tr>
 <tr class="separator:afb909b8af822412fdf506d34b2f8ac8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fe01efca7314cc8db49eac43f581ed2" id="r_a9fe01efca7314cc8db49eac43f581ed2"><td class="memItemLeft" align="right" valign="top">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fe01efca7314cc8db49eac43f581ed2">la_qwsum1</a> (n, cx, incx)</td></tr>
-<tr class="memdesc:a9fe01efca7314cc8db49eac43f581ed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">QWSUM1: takes the sum of the absolute values of a complex vector and returns a quad precision result. Based on QWASUM from the Level 1 BLAS. The change is to use the 'genuine' absolute value.  <br /></td></tr>
-<tr class="separator:a9fe01efca7314cc8db49eac43f581ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d748d5192da42c522f28e566338f2ed" id="r_a8d748d5192da42c522f28e566338f2ed"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d748d5192da42c522f28e566338f2ed">la_sladiv1</a> (a, b, c, d, p, q)</td></tr>
 <tr class="separator:a8d748d5192da42c522f28e566338f2ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bf9fec8cb3f0a42fd05beb1ffd1b13e" id="r_a1bf9fec8cb3f0a42fd05beb1ffd1b13e"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bf9fec8cb3f0a42fd05beb1ffd1b13e">la_dladiv1</a> (a, b, c, d, p, q)</td></tr>
 <tr class="separator:a1bf9fec8cb3f0a42fd05beb1ffd1b13e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a931ac267fdb09d42261b16201c50642a" id="r_a931ac267fdb09d42261b16201c50642a"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a931ac267fdb09d42261b16201c50642a">la_qladiv1</a> (a, b, c, d, p, q)</td></tr>
-<tr class="separator:a931ac267fdb09d42261b16201c50642a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca4ae01d937b93445aad6b49bb45514d" id="r_aca4ae01d937b93445aad6b49bb45514d"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aca4ae01d937b93445aad6b49bb45514d">la_claqsb</a> (uplo, n, kd, ab, ldab, s, scond, amax, equed)</td></tr>
 <tr class="memdesc:aca4ae01d937b93445aad6b49bb45514d"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S.  <br /></td></tr>
 <tr class="separator:aca4ae01d937b93445aad6b49bb45514d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21cb9e928b8c4ef8e01997072140361f" id="r_a21cb9e928b8c4ef8e01997072140361f"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a21cb9e928b8c4ef8e01997072140361f">la_zlaqsb</a> (uplo, n, kd, ab, ldab, s, scond, amax, equed)</td></tr>
 <tr class="memdesc:a21cb9e928b8c4ef8e01997072140361f"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S.  <br /></td></tr>
 <tr class="separator:a21cb9e928b8c4ef8e01997072140361f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c3c13482b4910323dc7906b8bb1cde7" id="r_a9c3c13482b4910323dc7906b8bb1cde7"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c3c13482b4910323dc7906b8bb1cde7">la_wlaqsb</a> (uplo, n, kd, ab, ldab, s, scond, amax, equed)</td></tr>
-<tr class="memdesc:a9c3c13482b4910323dc7906b8bb1cde7"><td class="mdescLeft">&#160;</td><td class="mdescRight">WLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S.  <br /></td></tr>
-<tr class="separator:a9c3c13482b4910323dc7906b8bb1cde7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a277a1d747eac876341fedc2f79826ef5" id="r_a277a1d747eac876341fedc2f79826ef5"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a277a1d747eac876341fedc2f79826ef5">la_crot</a> (n, cx, incx, cy, incy, c, s)</td></tr>
 <tr class="memdesc:a277a1d747eac876341fedc2f79826ef5"><td class="mdescLeft">&#160;</td><td class="mdescRight">CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex, and the vectors CX and CY are complex.  <br /></td></tr>
 <tr class="separator:a277a1d747eac876341fedc2f79826ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75a204a7e87f4ca35a85d3bc72613aee" id="r_a75a204a7e87f4ca35a85d3bc72613aee"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a75a204a7e87f4ca35a85d3bc72613aee">la_zrot</a> (n, cx, incx, cy, incy, c, s)</td></tr>
 <tr class="memdesc:a75a204a7e87f4ca35a85d3bc72613aee"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex, and the vectors CX and CY are complex.  <br /></td></tr>
 <tr class="separator:a75a204a7e87f4ca35a85d3bc72613aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a944e706e872d488051fe33353e5b6415" id="r_a944e706e872d488051fe33353e5b6415"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a944e706e872d488051fe33353e5b6415">la_wrot</a> (n, cx, incx, cy, incy, c, s)</td></tr>
-<tr class="memdesc:a944e706e872d488051fe33353e5b6415"><td class="mdescLeft">&#160;</td><td class="mdescRight">WROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex, and the vectors CX and CY are complex.  <br /></td></tr>
-<tr class="separator:a944e706e872d488051fe33353e5b6415"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LAPACK auxiliary: machine parameters, safe division, band scaling. </p>
@@ -256,14 +232,14 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_aca4ae01d937b93445aad6b49bb45514d_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_aca4ae01d937b93445aad6b49bb45514d_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_aca4ae01d937b93445aad6b49bb45514d_cgraph" id="anamespacela__lapack__auxiliary_aca4ae01d937b93445aad6b49bb45514d_cgraph">
-<area shape="rect" title="CLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,22,153,62"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,29,564,55"/>
-<area shape="poly" title=" " alt="" coords="154,28,201,23,275,20,350,23,384,26,384,32,349,29,275,26,202,29,154,33"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="201,62,349,102"/>
-<area shape="poly" title=" " alt="" coords="154,55,188,62,187,67,153,60"/>
-<area shape="poly" title=" " alt="" coords="447,31,440,21,443,11,457,5,481,3,509,6,521,15,517,20,507,11,481,8,459,10,447,15,445,20,451,28"/>
-<area shape="poly" title=" " alt="" coords="349,65,401,55,402,60,350,70"/>
-<area shape="poly" title=" " alt="" coords="239,62,236,52,242,43,255,37,275,35,298,38,311,46,308,50,297,43,275,41,257,43,246,47,242,53,244,61"/>
+<area shape="rect" title="CLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,21,153,66"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="396,29,561,57"/>
+<area shape="poly" title=" " alt="" coords="153,28,200,23,274,20,348,23,383,28,378,29,348,28,274,25,201,28,154,34"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="201,62,348,107"/>
+<area shape="poly" title=" " alt="" coords="153,56,188,65,182,66,153,61"/>
+<area shape="poly" title=" " alt="" coords="443,28,438,20,442,11,456,5,479,3,503,5,517,14,512,14,501,10,479,8,458,10,446,15,443,20,448,30"/>
+<area shape="poly" title=" " alt="" coords="348,67,389,61,394,60,349,72"/>
+<area shape="poly" title=" " alt="" coords="237,60,235,52,242,43,255,38,274,36,295,38,309,47,304,46,294,43,274,41,256,43,245,47,241,53,241,63"/>
 </map>
 </div>
 
@@ -383,10 +359,10 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_a1bf9fec8cb3f0a42fd05beb1ffd1b13e_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a1bf9fec8cb3f0a42fd05beb1ffd1b13e_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_a1bf9fec8cb3f0a42fd05beb1ffd1b13e_cgraph" id="anamespacela__lapack__auxiliary_a1bf9fec8cb3f0a42fd05beb1ffd1b13e_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#ab34a41a5a2d8aa8270e1b467aae0ae9b" title=" " alt="" coords="201,29,349,69"/>
-<area shape="poly" title=" " alt="" coords="154,47,187,47,187,52,154,52"/>
-<area shape="poly" title=" " alt="" coords="239,30,236,20,242,11,255,5,275,3,298,6,311,13,308,17,297,11,275,8,257,10,246,15,242,21,244,28"/>
+<area shape="rect" title=" " alt="" coords="5,29,153,74"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#ab34a41a5a2d8aa8270e1b467aae0ae9b" title=" " alt="" coords="201,29,348,74"/>
+<area shape="poly" title=" " alt="" coords="153,49,187,51,182,52,153,54"/>
+<area shape="poly" title=" " alt="" coords="237,27,235,19,242,10,255,5,274,3,295,5,309,14,304,13,294,10,274,8,256,10,245,15,241,21,241,30"/>
 </map>
 </div>
 
@@ -435,8 +411,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_ab34a41a5a2d8aa8270e1b467aae0ae9b_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_ab34a41a5a2d8aa8270e1b467aae0ae9b_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_ab34a41a5a2d8aa8270e1b467aae0ae9b_cgraph" id="anamespacela__lapack__auxiliary_ab34a41a5a2d8aa8270e1b467aae0ae9b_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
+<area shape="rect" title=" " alt="" coords="5,29,153,74"/>
+<area shape="poly" title=" " alt="" coords="50,28,49,19,54,11,64,5,79,3,95,5,106,14,101,14,93,10,79,8,66,10,58,14,54,20,55,29"/>
 </map>
 </div>
 
@@ -465,8 +441,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_ad8c91d07f3ce487a7a13ce12d1e2326c_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_ad8c91d07f3ce487a7a13ce12d1e2326c_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_ad8c91d07f3ce487a7a13ce12d1e2326c_cgraph" id="anamespacela__lapack__auxiliary_ad8c91d07f3ce487a7a13ce12d1e2326c_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
+<area shape="rect" title=" " alt="" coords="5,29,153,74"/>
+<area shape="poly" title=" " alt="" coords="50,28,49,19,54,11,64,5,79,3,95,5,106,14,101,14,93,10,79,8,66,10,58,14,54,20,55,29"/>
 </map>
 </div>
 
@@ -493,11 +469,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_a1af887c0d867c49872aaec978c6f22f6_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a1af887c0d867c49872aaec978c6f22f6_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_a1af887c0d867c49872aaec978c6f22f6_cgraph" id="anamespacela__lapack__auxiliary_a1af887c0d867c49872aaec978c6f22f6_cgraph">
-<area shape="rect" title="DLAMCH: determines double precision machine parameters." alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="41,30,38,20,45,11,58,5,79,3,103,6,117,13,114,18,102,11,79,8,60,10,48,15,44,21,46,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,37,368,62"/>
-<area shape="poly" title=" " alt="" coords="154,47,187,47,187,52,154,52"/>
-<area shape="poly" title=" " alt="" coords="251,38,244,28,247,18,261,12,285,10,313,14,325,23,321,27,311,19,285,15,263,17,251,22,249,28,255,35"/>
+<area shape="rect" title="DLAMCH: determines double precision machine parameters." alt="" coords="5,29,153,74"/>
+<area shape="poly" title=" " alt="" coords="40,28,38,19,45,10,59,5,79,3,101,5,115,13,110,14,99,10,79,8,60,10,48,15,44,21,45,29"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,38,366,66"/>
+<area shape="poly" title=" " alt="" coords="153,49,188,51,182,52,153,54"/>
+<area shape="poly" title=" " alt="" coords="248,36,242,29,247,19,261,13,283,11,307,14,322,23,317,22,306,19,283,16,262,18,251,23,248,29,253,38"/>
 </map>
 </div>
 
@@ -563,14 +539,14 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_aa966145d4a533b563f8080647322b494_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_aa966145d4a533b563f8080647322b494_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_aa966145d4a533b563f8080647322b494_cgraph" id="anamespacela__lapack__auxiliary_aa966145d4a533b563f8080647322b494_cgraph">
-<area shape="rect" title="DLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,59,153,99"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="201,29,349,69"/>
-<area shape="poly" title=" " alt="" coords="153,65,187,60,188,65,154,70"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,66,564,91"/>
-<area shape="poly" title=" " alt="" coords="153,78,201,79,349,79,384,78,384,84,349,84,201,84,153,83"/>
-<area shape="poly" title=" " alt="" coords="239,30,236,20,242,11,255,5,275,3,298,6,311,13,308,17,297,11,275,8,257,10,246,15,242,21,244,28"/>
-<area shape="poly" title=" " alt="" coords="350,57,384,62,383,67,349,63"/>
-<area shape="poly" title=" " alt="" coords="447,68,440,58,443,48,457,42,481,39,509,43,521,52,517,56,507,48,481,45,459,47,447,51,445,57,451,64"/>
+<area shape="rect" title="DLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,60,153,105"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="201,29,348,74"/>
+<area shape="poly" title=" " alt="" coords="153,68,188,65,182,66,154,73"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="396,68,561,96"/>
+<area shape="poly" title=" " alt="" coords="153,82,201,84,348,84,383,86,378,86,348,89,201,89,153,88"/>
+<area shape="poly" title=" " alt="" coords="237,27,235,19,242,10,255,5,274,3,295,5,309,14,304,14,294,10,274,8,256,10,245,15,241,21,242,30"/>
+<area shape="poly" title=" " alt="" coords="349,60,383,68,378,68,348,65"/>
+<area shape="poly" title=" " alt="" coords="443,67,438,60,442,50,456,44,479,42,503,44,517,54,512,53,501,49,479,47,458,49,446,54,443,59,448,69"/>
 </map>
 </div>
 
@@ -606,304 +582,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_afb909b8af822412fdf506d34b2f8ac8f_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_afb909b8af822412fdf506d34b2f8ac8f_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_afb909b8af822412fdf506d34b2f8ac8f_cgraph" id="anamespacela__lapack__auxiliary_afb909b8af822412fdf506d34b2f8ac8f_cgraph">
-<area shape="rect" title="DZSUM1: takes the sum of the absolute values of a complex vector and returns a double precision resul..." alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="acecd2a5f4b24222c89102e10fa753f18" name="acecd2a5f4b24222c89102e10fa753f18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acecd2a5f4b24222c89102e10fa753f18">&#9670;&#160;</a></span>la_qlabad()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_auxiliary::la_qlabad </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>small</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>large</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QLABAD: takes as input the values computed by QLAMCH for underflow and overflow, and returns the square root of each of these values if the log of LARGE is sufficiently large. This subroutine is intended to identify machines with a large exponent range, such as the Crays, and redefine the underflow and overflow limits to be the square roots of the values computed by QLAMCH. This subroutine is needed because QLAMCH does not compensate for poor arithmetic in the upper half of the exponent range, as is found on a Cray. </p>
-
-</div>
-</div>
-<a id="a931ac267fdb09d42261b16201c50642a" name="a931ac267fdb09d42261b16201c50642a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a931ac267fdb09d42261b16201c50642a">&#9670;&#160;</a></span>la_qladiv1()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_auxiliary::la_qladiv1 </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>d</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>p</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>q</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__auxiliary_a931ac267fdb09d42261b16201c50642a_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a931ac267fdb09d42261b16201c50642a_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__auxiliary_a931ac267fdb09d42261b16201c50642a_cgraph" id="anamespacela__lapack__auxiliary_a931ac267fdb09d42261b16201c50642a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a088708e93ad9e6f96c089c9f0cc72bbc" title=" " alt="" coords="201,29,349,69"/>
-<area shape="poly" title=" " alt="" coords="154,47,187,47,187,52,154,52"/>
-<area shape="poly" title=" " alt="" coords="239,30,236,20,242,11,255,5,275,3,298,6,311,13,308,17,297,11,275,8,257,10,246,15,242,21,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a088708e93ad9e6f96c089c9f0cc72bbc" name="a088708e93ad9e6f96c089c9f0cc72bbc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a088708e93ad9e6f96c089c9f0cc72bbc">&#9670;&#160;</a></span>la_qladiv2()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public la_lapack_auxiliary::la_qladiv2 </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>d</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>t</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__auxiliary_a088708e93ad9e6f96c089c9f0cc72bbc_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a088708e93ad9e6f96c089c9f0cc72bbc_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__auxiliary_a088708e93ad9e6f96c089c9f0cc72bbc_cgraph" id="anamespacela__lapack__auxiliary_a088708e93ad9e6f96c089c9f0cc72bbc_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a2b1acabdc8833f4f8b5f55dafba5607a" name="a2b1acabdc8833f4f8b5f55dafba5607a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b1acabdc8833f4f8b5f55dafba5607a">&#9670;&#160;</a></span>la_qlamc3()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public la_lapack_auxiliary::la_qlamc3 </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__auxiliary_a2b1acabdc8833f4f8b5f55dafba5607a_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a2b1acabdc8833f4f8b5f55dafba5607a_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__auxiliary_a2b1acabdc8833f4f8b5f55dafba5607a_cgraph" id="anamespacela__lapack__auxiliary_a2b1acabdc8833f4f8b5f55dafba5607a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a422783a9c3975903ac0fc1dc06f4ec01" name="a422783a9c3975903ac0fc1dc06f4ec01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a422783a9c3975903ac0fc1dc06f4ec01">&#9670;&#160;</a></span>la_qlamch()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public la_lapack_auxiliary::la_qlamch </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>cmach</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QLAMCH: determines quad precision machine parameters. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__auxiliary_a422783a9c3975903ac0fc1dc06f4ec01_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a422783a9c3975903ac0fc1dc06f4ec01_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__auxiliary_a422783a9c3975903ac0fc1dc06f4ec01_cgraph" id="anamespacela__lapack__auxiliary_a422783a9c3975903ac0fc1dc06f4ec01_cgraph">
-<area shape="rect" title="QLAMCH: determines quad precision machine parameters." alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="41,30,38,20,45,11,58,5,79,3,103,6,117,13,114,18,102,11,79,8,60,10,48,15,44,21,46,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,37,368,62"/>
-<area shape="poly" title=" " alt="" coords="154,47,187,47,187,52,154,52"/>
-<area shape="poly" title=" " alt="" coords="251,38,244,28,247,18,261,12,285,10,313,14,325,23,321,27,311,19,285,15,263,17,251,22,249,28,255,35"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a95a32f105d58de98ebaefd95bd615555" name="a95a32f105d58de98ebaefd95bd615555"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95a32f105d58de98ebaefd95bd615555">&#9670;&#160;</a></span>la_qlaqsb()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_auxiliary::la_qlaqsb </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>kd</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldab,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>ab</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldab</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>scond</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>amax</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(out)</td>          <td class="paramname"><span class="paramname"><em>equed</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__auxiliary_a95a32f105d58de98ebaefd95bd615555_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a95a32f105d58de98ebaefd95bd615555_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__auxiliary_a95a32f105d58de98ebaefd95bd615555_cgraph" id="anamespacela__lapack__auxiliary_a95a32f105d58de98ebaefd95bd615555_cgraph">
-<area shape="rect" title="QLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,22,153,62"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,29,564,55"/>
-<area shape="poly" title=" " alt="" coords="154,28,201,23,275,20,350,23,384,26,384,32,349,29,275,26,202,29,154,33"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="201,62,349,102"/>
-<area shape="poly" title=" " alt="" coords="154,55,188,62,187,67,153,60"/>
-<area shape="poly" title=" " alt="" coords="447,31,440,21,443,11,457,5,481,3,509,6,521,15,517,20,507,11,481,8,459,10,447,15,445,20,451,28"/>
-<area shape="poly" title=" " alt="" coords="349,65,401,55,402,60,350,70"/>
-<area shape="poly" title=" " alt="" coords="239,62,236,52,242,43,255,37,275,35,298,38,311,46,308,50,297,43,275,41,257,43,246,47,242,53,244,61"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a9fe01efca7314cc8db49eac43f581ed2" name="a9fe01efca7314cc8db49eac43f581ed2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fe01efca7314cc8db49eac43f581ed2">&#9670;&#160;</a></span>la_qwsum1()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function, public la_lapack_auxiliary::la_qwsum1 </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QWSUM1: takes the sum of the absolute values of a complex vector and returns a quad precision result. Based on QWASUM from the Level 1 BLAS. The change is to use the 'genuine' absolute value. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__auxiliary_a9fe01efca7314cc8db49eac43f581ed2_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a9fe01efca7314cc8db49eac43f581ed2_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__auxiliary_a9fe01efca7314cc8db49eac43f581ed2_cgraph" id="anamespacela__lapack__auxiliary_a9fe01efca7314cc8db49eac43f581ed2_cgraph">
-<area shape="rect" title="QWSUM1: takes the sum of the absolute values of a complex vector and returns a quad precision result...." alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
+<area shape="rect" title="DZSUM1: takes the sum of the absolute values of a complex vector and returns a double precision resul..." alt="" coords="5,29,153,74"/>
+<area shape="poly" title=" " alt="" coords="50,28,49,19,54,11,64,5,79,3,95,5,106,14,101,14,93,10,79,8,66,10,58,14,54,20,55,29"/>
 </map>
 </div>
 
@@ -939,8 +619,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_a7fde879591948a8c447452883e417e87_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a7fde879591948a8c447452883e417e87_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_a7fde879591948a8c447452883e417e87_cgraph" id="anamespacela__lapack__auxiliary_a7fde879591948a8c447452883e417e87_cgraph">
-<area shape="rect" title="SCSUM1: takes the sum of the absolute values of a complex vector and returns a single precision resul..." alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
+<area shape="rect" title="SCSUM1: takes the sum of the absolute values of a complex vector and returns a single precision resul..." alt="" coords="5,29,153,74"/>
+<area shape="poly" title=" " alt="" coords="50,28,49,19,54,11,64,5,79,3,95,5,106,14,101,14,93,10,79,8,66,10,58,14,54,20,55,29"/>
 </map>
 </div>
 
@@ -1012,10 +692,10 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_a8d748d5192da42c522f28e566338f2ed_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a8d748d5192da42c522f28e566338f2ed_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_a8d748d5192da42c522f28e566338f2ed_cgraph" id="anamespacela__lapack__auxiliary_a8d748d5192da42c522f28e566338f2ed_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="201,29,349,69"/>
-<area shape="poly" title=" " alt="" coords="154,47,187,47,187,52,154,52"/>
-<area shape="poly" title=" " alt="" coords="239,30,236,20,242,11,255,5,275,3,298,6,311,13,308,17,297,11,275,8,257,10,246,15,242,21,244,28"/>
+<area shape="rect" title=" " alt="" coords="5,29,153,74"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="201,29,348,74"/>
+<area shape="poly" title=" " alt="" coords="153,49,187,51,182,52,153,54"/>
+<area shape="poly" title=" " alt="" coords="237,27,235,19,242,10,255,5,274,3,295,5,309,14,304,13,294,10,274,8,256,10,245,15,241,21,241,30"/>
 </map>
 </div>
 
@@ -1064,8 +744,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_a060d1eb779ff4b79b8e210d748d3e239_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a060d1eb779ff4b79b8e210d748d3e239_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_a060d1eb779ff4b79b8e210d748d3e239_cgraph" id="anamespacela__lapack__auxiliary_a060d1eb779ff4b79b8e210d748d3e239_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
+<area shape="rect" title=" " alt="" coords="5,29,153,74"/>
+<area shape="poly" title=" " alt="" coords="50,28,49,19,54,11,64,5,79,3,95,5,106,14,101,14,93,10,79,8,66,10,58,14,54,20,55,29"/>
 </map>
 </div>
 
@@ -1094,8 +774,8 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_ad1741a8580a44c728a90898fdfa6f879_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_ad1741a8580a44c728a90898fdfa6f879_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_ad1741a8580a44c728a90898fdfa6f879_cgraph" id="anamespacela__lapack__auxiliary_ad1741a8580a44c728a90898fdfa6f879_cgraph">
-<area shape="rect" title=" " alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="51,29,49,20,54,11,64,5,79,3,97,6,107,13,103,17,95,11,79,8,66,10,58,14,55,21,56,28"/>
+<area shape="rect" title=" " alt="" coords="5,29,153,74"/>
+<area shape="poly" title=" " alt="" coords="50,28,49,19,54,11,64,5,79,3,95,5,106,14,101,14,93,10,79,8,66,10,58,14,54,20,55,29"/>
 </map>
 </div>
 
@@ -1122,11 +802,11 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_a27cc40b0d8dcb78f2348c02f75cec811_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a27cc40b0d8dcb78f2348c02f75cec811_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_a27cc40b0d8dcb78f2348c02f75cec811_cgraph" id="anamespacela__lapack__auxiliary_a27cc40b0d8dcb78f2348c02f75cec811_cgraph">
-<area shape="rect" title="SLAMCH: determines single precision machine parameters." alt="" coords="5,29,153,69"/>
-<area shape="poly" title=" " alt="" coords="41,30,38,20,45,11,58,5,79,3,103,6,117,13,114,18,102,11,79,8,60,10,48,15,44,21,46,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,37,368,62"/>
-<area shape="poly" title=" " alt="" coords="154,47,187,47,187,52,154,52"/>
-<area shape="poly" title=" " alt="" coords="251,38,244,28,247,18,261,12,285,10,313,14,325,23,321,27,311,19,285,15,263,17,251,22,249,28,255,35"/>
+<area shape="rect" title="SLAMCH: determines single precision machine parameters." alt="" coords="5,29,153,74"/>
+<area shape="poly" title=" " alt="" coords="40,28,38,19,45,10,59,5,79,3,101,5,115,13,110,14,99,10,79,8,60,10,48,15,44,21,45,29"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,38,366,66"/>
+<area shape="poly" title=" " alt="" coords="153,49,188,51,182,52,153,54"/>
+<area shape="poly" title=" " alt="" coords="248,36,242,29,247,19,261,13,283,11,307,14,322,23,317,22,306,19,283,16,262,18,251,23,248,29,253,38"/>
 </map>
 </div>
 
@@ -1192,137 +872,16 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_a59d17b0d7adb4e239a4b29d529861536_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a59d17b0d7adb4e239a4b29d529861536_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_a59d17b0d7adb4e239a4b29d529861536_cgraph" id="anamespacela__lapack__auxiliary_a59d17b0d7adb4e239a4b29d529861536_cgraph">
-<area shape="rect" title="SLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,22,153,62"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,29,564,55"/>
-<area shape="poly" title=" " alt="" coords="154,28,201,23,275,20,350,23,384,26,384,32,349,29,275,26,202,29,154,33"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="201,62,349,102"/>
-<area shape="poly" title=" " alt="" coords="154,55,188,62,187,67,153,60"/>
-<area shape="poly" title=" " alt="" coords="447,31,440,21,443,11,457,5,481,3,509,6,521,15,517,20,507,11,481,8,459,10,447,15,445,20,451,28"/>
-<area shape="poly" title=" " alt="" coords="349,65,401,55,402,60,350,70"/>
-<area shape="poly" title=" " alt="" coords="239,62,236,52,242,43,255,37,275,35,298,38,311,46,308,50,297,43,275,41,257,43,246,47,242,53,244,61"/>
+<area shape="rect" title="SLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,21,153,66"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="396,29,561,57"/>
+<area shape="poly" title=" " alt="" coords="153,28,200,23,274,20,348,23,383,28,378,29,348,28,274,25,201,28,154,34"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="201,62,348,107"/>
+<area shape="poly" title=" " alt="" coords="153,56,188,65,182,66,153,61"/>
+<area shape="poly" title=" " alt="" coords="443,28,438,20,442,11,456,5,479,3,503,5,517,14,512,14,501,10,479,8,458,10,446,15,443,20,448,30"/>
+<area shape="poly" title=" " alt="" coords="348,67,389,61,394,60,349,72"/>
+<area shape="poly" title=" " alt="" coords="237,60,235,52,242,43,255,38,274,36,295,38,309,47,304,46,294,43,274,41,256,43,245,47,241,53,241,63"/>
 </map>
 </div>
-
-</div>
-</div>
-<a id="a9c3c13482b4910323dc7906b8bb1cde7" name="a9c3c13482b4910323dc7906b8bb1cde7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c3c13482b4910323dc7906b8bb1cde7">&#9670;&#160;</a></span>la_wlaqsb()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_auxiliary::la_wlaqsb </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>kd</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldab,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>ab</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldab</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>s</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>scond</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>amax</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(out)</td>          <td class="paramname"><span class="paramname"><em>equed</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__auxiliary_a9c3c13482b4910323dc7906b8bb1cde7_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a9c3c13482b4910323dc7906b8bb1cde7_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__auxiliary_a9c3c13482b4910323dc7906b8bb1cde7_cgraph" id="anamespacela__lapack__auxiliary_a9c3c13482b4910323dc7906b8bb1cde7_cgraph">
-<area shape="rect" title="WLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,22,153,62"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,29,564,55"/>
-<area shape="poly" title=" " alt="" coords="154,28,201,23,275,20,350,23,384,26,384,32,349,29,275,26,202,29,154,33"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="201,62,349,102"/>
-<area shape="poly" title=" " alt="" coords="154,55,188,62,187,67,153,60"/>
-<area shape="poly" title=" " alt="" coords="447,31,440,21,443,11,457,5,481,3,509,6,521,15,517,20,507,11,481,8,459,10,447,15,445,20,451,28"/>
-<area shape="poly" title=" " alt="" coords="349,65,401,55,402,60,350,70"/>
-<area shape="poly" title=" " alt="" coords="239,62,236,52,242,43,255,37,275,35,298,38,311,46,308,50,297,43,275,41,257,43,246,47,242,53,244,61"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a944e706e872d488051fe33353e5b6415" name="a944e706e872d488051fe33353e5b6415"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a944e706e872d488051fe33353e5b6415">&#9670;&#160;</a></span>la_wrot()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_auxiliary::la_wrot </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>cx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>cy</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incy</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>s</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex, and the vectors CX and CY are complex. </p>
 
 </div>
 </div>
@@ -1386,14 +945,14 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__auxiliary_a21cb9e928b8c4ef8e01997072140361f_cgraph.png" border="0" usemap="#anamespacela__lapack__auxiliary_a21cb9e928b8c4ef8e01997072140361f_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__auxiliary_a21cb9e928b8c4ef8e01997072140361f_cgraph" id="anamespacela__lapack__auxiliary_a21cb9e928b8c4ef8e01997072140361f_cgraph">
-<area shape="rect" title="ZLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,59,153,99"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="201,29,349,69"/>
-<area shape="poly" title=" " alt="" coords="153,65,187,60,188,65,154,70"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,66,564,91"/>
-<area shape="poly" title=" " alt="" coords="153,78,201,79,349,79,384,78,384,84,349,84,201,84,153,83"/>
-<area shape="poly" title=" " alt="" coords="239,30,236,20,242,11,255,5,275,3,298,6,311,13,308,17,297,11,275,8,257,10,246,15,242,21,244,28"/>
-<area shape="poly" title=" " alt="" coords="350,57,384,62,383,67,349,63"/>
-<area shape="poly" title=" " alt="" coords="447,68,440,58,443,48,457,42,481,39,509,43,521,52,517,56,507,48,481,45,459,47,447,51,445,57,451,64"/>
+<area shape="rect" title="ZLAQSB: equilibrates a symmetric band matrix A using the scaling factors in the vector S." alt="" coords="5,60,153,105"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="201,29,348,74"/>
+<area shape="poly" title=" " alt="" coords="153,68,188,65,182,66,154,73"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="396,68,561,96"/>
+<area shape="poly" title=" " alt="" coords="153,82,201,84,348,84,383,86,378,86,348,89,201,89,153,88"/>
+<area shape="poly" title=" " alt="" coords="237,27,235,19,242,10,255,5,274,3,295,5,309,14,304,14,294,10,274,8,256,10,245,15,241,21,242,30"/>
+<area shape="poly" title=" " alt="" coords="349,60,383,68,378,68,348,65"/>
+<area shape="poly" title=" " alt="" coords="443,67,438,60,442,50,456,44,479,42,503,44,517,54,512,53,501,49,479,47,458,49,446,54,443,59,448,69"/>
 </map>
 </div>
 

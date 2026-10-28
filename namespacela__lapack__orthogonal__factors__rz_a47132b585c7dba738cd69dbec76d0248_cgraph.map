@@ -1,18 +1,18 @@
 <map id="la_lapack_orthogonal_factors_rz::la_slarz" name="la_lapack_orthogonal_factors_rz::la_slarz">
-<area shape="rect" id="Node000001" title="SLARZ: applies a real elementary reflector H to a real M&#45;by&#45;N matrix C, from either the left or the r..." alt="" coords="5,99,167,139"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="409,142,576,167"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,97,150,55,181,35,214,20,255,8,289,3,322,7,362,20,400,42,432,71,459,102,479,129,474,132,455,105,429,75,397,47,360,25,321,12,289,8,256,13,216,25,183,40,154,60,107,101"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ae2b6448401fe13574104d59fe4c0615c" title="SAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="221,35,355,75"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="149,96,210,76,212,82,151,101"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="221,99,355,139"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="167,116,207,116,207,121,167,121"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="215,163,361,203"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="151,136,212,156,210,161,149,141"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="215,227,361,267"/>
-<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="112,137,159,174,216,213,227,218,224,223,213,217,156,178,109,141"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="459,144,452,134,456,124,470,118,493,115,521,119,532,128,529,132,519,124,493,121,471,123,460,128,457,133,464,140"/>
-<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="361,170,395,165,396,171,362,175"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="409,198,576,223"/>
-<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="362,190,396,195,395,200,361,195"/>
-<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="361,231,406,223,407,229,362,237"/>
+<area shape="rect" id="Node000001" title="SLARZ: applies a real elementary reflector H to a real M&#45;by&#45;N matrix C, from either the left or the r..." alt="" coords="5,105,166,150"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="407,154,572,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,103,149,59,180,37,213,21,253,8,287,3,321,7,360,21,398,45,431,76,457,109,476,141,471,139,452,112,427,80,395,49,358,26,319,12,287,8,254,13,215,26,182,42,153,63,108,107"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ae2b6448401fe13574104d59fe4c0615c" title="SAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="219,36,354,81"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="151,102,207,85,203,88,154,107"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="219,105,354,150"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="166,125,206,126,201,129,167,130"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="214,175,359,219"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="152,148,207,168,202,170,152,153"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="214,244,359,289"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="112,148,159,188,215,229,224,237,219,236,212,234,156,192,111,153"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="454,152,449,145,453,135,467,129,490,127,514,130,528,139,523,138,512,135,490,132,469,134,457,139,454,145,459,154"/>
+<area shape="poly" id="edge6_Node000005_Node000002" title=" " alt="" coords="359,184,394,181,389,182,360,189"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="407,214,572,241"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="360,205,394,213,389,213,360,211"/>
+<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="359,250,396,245,401,245,360,255"/>
 </map>

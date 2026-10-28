@@ -7,6 +7,8 @@ var interfacela__blas_1_1symm =
     [ "la_qsymm", "interfacela__blas_1_1symm.html#a3b2978af26f46a766b8de673321903c7", null ],
     [ "la_ssymm", "interfacela__blas_1_1symm.html#a0ab44f6fd4f1c7dc7773daf80e9985d3", null ],
     [ "la_wsymm", "interfacela__blas_1_1symm.html#a5744d9c709020705a48d32ea6fbc9d13", null ],
+    [ "la_xsymm", "interfacela__blas_1_1symm.html#a7d11357f4b71db7e0793547402d9713e", null ],
+    [ "la_ysymm", "interfacela__blas_1_1symm.html#a3f20b73836a0cfaa4b6c43f245771a2d", null ],
     [ "la_zsymm", "interfacela__blas_1_1symm.html#ae4dfa2afe2126c74efd2a47c20ad93d1", null ],
     [ "ssymm", "interfacela__blas_1_1symm.html#a6897897e951aba238bd805b56cba3374", null ],
     [ "zsymm", "interfacela__blas_1_1symm.html#aaff238fb415d9e03ed6bf6ae0458742d", null ]

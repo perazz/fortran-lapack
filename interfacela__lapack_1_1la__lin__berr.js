@@ -7,6 +7,8 @@ var interfacela__lapack_1_1la__lin__berr =
     [ "la_qla_lin_berr", "interfacela__lapack_1_1la__lin__berr.html#ab912302264dc56c13327a5ca8082afef", null ],
     [ "la_sla_lin_berr", "interfacela__lapack_1_1la__lin__berr.html#ac2e497368c29bff5e7a102e44ce2fdeb", null ],
     [ "la_wla_lin_berr", "interfacela__lapack_1_1la__lin__berr.html#ac8ab704a06c90444014708506bc194a7", null ],
+    [ "la_xla_lin_berr", "interfacela__lapack_1_1la__lin__berr.html#afe9cfa18b9ba9f6f658ec220afe90c0d", null ],
+    [ "la_yla_lin_berr", "interfacela__lapack_1_1la__lin__berr.html#aee20c9916c000698ea42f183bd8a8d47", null ],
     [ "la_zla_lin_berr", "interfacela__lapack_1_1la__lin__berr.html#ab23a5c61d513778857342a5e47da2e00", null ],
     [ "sla_lin_berr", "interfacela__lapack_1_1la__lin__berr.html#ae2519a7edefb749cd6179e4bcaefd979", null ],
     [ "zla_lin_berr", "interfacela__lapack_1_1la__lin__berr.html#a005ca52b9c737cbf3f0c6879e00a6723", null ]

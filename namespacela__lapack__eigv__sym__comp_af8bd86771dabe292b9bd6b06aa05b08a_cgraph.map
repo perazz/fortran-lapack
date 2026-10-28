@@ -1,26 +1,26 @@
 <map id="la_lapack_eigv_sym_comp::la_ssbgst" name="la_lapack_eigv_sym_comp::la_ssbgst">
-<area shape="rect" id="Node000001" title="SSBGST: reduces a real symmetric&#45;definite banded generalized eigenproblem A*x = lambda*B*x to standar..." alt="" coords="5,267,160,307"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="436,261,603,286"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,265,112,238,138,208,170,178,207,156,256,139,298,134,339,140,389,156,424,174,456,199,502,248,498,251,452,202,421,179,387,161,338,145,298,139,257,144,209,161,173,183,142,211,117,241,98,268"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="225,5,371,45"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="88,266,103,224,128,170,162,113,206,62,222,50,225,54,210,66,166,116,132,173,108,226,93,268"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="436,42,603,67"/>
-<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="92,265,109,234,135,196,167,158,207,126,258,99,314,79,370,66,422,58,423,63,371,71,316,84,261,104,209,130,171,162,139,199,114,237,96,268"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__givens__jacobi__rot.html#afa5355c716a10753b017b9f9d83841f1" title="SLAR2V: applies a vector of real plane rotations from both sides to a sequence of 2&#45;by&#45;2 real symmetr..." alt="" coords="208,171,388,211"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="119,264,207,220,224,213,226,218,209,225,121,269"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__givens__jacobi__rot.html#ac13c04dfde87eb8cd34fd9142f8d7c8c" title="SLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="208,235,388,275"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="160,273,194,267,195,273,161,278"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="208,299,388,339"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="161,295,195,301,194,306,160,301"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__givens__jacobi__rot.html#a137f4e7a1d0434e8f6c266fb55a53fd4" title="SLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="208,363,388,403"/>
-<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="121,304,209,348,226,355,224,360,207,353,119,309"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__base.html#a1820d5cc47f17a2df32a206d9865b05b" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="224,427,372,467"/>
-<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="101,305,146,358,176,387,209,412,219,418,217,423,207,417,173,391,142,362,97,308"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#af0c9560d34bb1a5bc4eeb76a61cb3147" title="applies a plane rotation." alt="" coords="215,491,381,517"/>
-<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="94,306,110,343,135,389,168,436,210,477,220,483,217,488,206,481,164,440,130,392,105,345,89,308"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="231,541,365,581"/>
-<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="91,306,105,351,129,411,163,473,185,502,210,527,220,535,217,539,206,531,181,505,159,476,124,413,100,353,86,308"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="483,262,475,252,479,242,494,236,519,234,550,238,562,247,559,251,548,243,519,239,496,241,483,246,481,252,487,259"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="372,32,423,39,422,44,371,38"/>
-<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="365,424,387,412,421,385,453,354,500,296,504,299,457,357,425,389,389,417,367,429"/>
+<area shape="rect" id="Node000001" title="SSBGST: reduces a real symmetric&#45;definite banded generalized eigenproblem A*x = lambda*B*x to standar..." alt="" coords="5,280,159,325"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="434,276,599,304"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,279,111,250,136,217,168,185,205,161,254,143,296,137,338,144,387,161,423,181,454,208,501,264,495,264,450,212,420,186,385,166,336,149,296,143,256,148,208,166,171,189,140,220,115,253,98,281"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="224,5,369,50"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="87,279,103,235,127,179,161,120,205,67,221,56,218,61,209,71,165,123,132,181,108,237,93,280"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="434,44,599,72"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="91,279,108,245,133,205,166,165,205,131,256,103,311,83,367,70,421,63,416,66,368,75,313,88,258,108,208,135,170,168,138,208,113,248,96,281"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__givens__jacobi__rot.html#afa5355c716a10753b017b9f9d83841f1" title="SLAR2V: applies a vector of real plane rotations from both sides to a sequence of 2&#45;by&#45;2 real symmetr..." alt="" coords="207,176,386,221"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="119,277,205,231,221,225,217,229,208,235,123,281"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__givens__jacobi__rot.html#ac13c04dfde87eb8cd34fd9142f8d7c8c" title="SLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="207,245,386,290"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="158,288,193,283,189,286,161,292"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="207,315,386,359"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="158,312,193,319,189,321,160,317"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__givens__jacobi__rot.html#a137f4e7a1d0434e8f6c266fb55a53fd4" title="SLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="207,384,386,429"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="121,323,208,369,222,377,217,378,205,374,121,328"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__base.html#a1820d5cc47f17a2df32a206d9865b05b" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="223,453,370,498"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="98,322,145,380,175,411,208,439,217,445,211,446,205,443,171,415,141,384,98,328"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#af0c9560d34bb1a5bc4eeb76a61cb3147" title="applies a plane rotation." alt="" coords="213,522,380,550"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="91,322,108,364,132,414,166,465,186,488,208,508,215,514,210,514,205,512,182,492,161,468,128,416,103,366,90,328"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="229,573,364,618"/>
+<area shape="poly" id="edge12_Node000001_Node000011" title=" " alt="" coords="88,322,104,373,127,435,162,501,183,532,208,559,218,569,213,568,205,563,179,535,157,504,122,437,99,374,88,328"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="479,276,473,268,478,258,493,252,517,250,543,252,558,261,553,261,541,257,517,255,494,257,481,262,478,267,484,276"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="369,35,421,43,416,46,371,40"/>
+<area shape="poly" id="edge10_Node000009_Node000002" title=" " alt="" coords="365,450,384,439,419,410,450,377,496,319,501,315,454,380,423,414,388,443,367,455"/>
 </map>

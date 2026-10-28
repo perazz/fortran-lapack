@@ -124,18 +124,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a49d2dda8308f54060b14fef376b6c785" id="r_a49d2dda8308f54060b14fef376b6c785"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a49d2dda8308f54060b14fef376b6c785">la_dconstrained_lstsq_space</a> (a, c, lwork, err)</td></tr>
 <tr class="memdesc:a49d2dda8308f54060b14fef376b6c785"><td class="mdescLeft">&#160;</td><td class="mdescRight">Working space needed by the real(dp) equality-constrained least-squares solver.  <br /></td></tr>
 <tr class="separator:a49d2dda8308f54060b14fef376b6c785"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22b04a6e8ae4ad7bad1b63ef6f6b11de" id="r_a22b04a6e8ae4ad7bad1b63ef6f6b11de"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a22b04a6e8ae4ad7bad1b63ef6f6b11de">la_qconstrained_lstsq_space</a> (a, c, lwork, err)</td></tr>
-<tr class="memdesc:a22b04a6e8ae4ad7bad1b63ef6f6b11de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Working space needed by the real(qp) equality-constrained least-squares solver.  <br /></td></tr>
-<tr class="separator:a22b04a6e8ae4ad7bad1b63ef6f6b11de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae867f5cbeba2d1108d25ecc7f292b61" id="r_aae867f5cbeba2d1108d25ecc7f292b61"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae867f5cbeba2d1108d25ecc7f292b61">la_cconstrained_lstsq_space</a> (a, c, lwork, err)</td></tr>
 <tr class="memdesc:aae867f5cbeba2d1108d25ecc7f292b61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Working space needed by the complex(sp) equality-constrained least-squares solver.  <br /></td></tr>
 <tr class="separator:aae867f5cbeba2d1108d25ecc7f292b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac391ab859c87ac1a298fb6b76be73adf" id="r_ac391ab859c87ac1a298fb6b76be73adf"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac391ab859c87ac1a298fb6b76be73adf">la_zconstrained_lstsq_space</a> (a, c, lwork, err)</td></tr>
 <tr class="memdesc:ac391ab859c87ac1a298fb6b76be73adf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Working space needed by the complex(dp) equality-constrained least-squares solver.  <br /></td></tr>
 <tr class="separator:ac391ab859c87ac1a298fb6b76be73adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a796535dc5670a037ca3f9280b1779d17" id="r_a796535dc5670a037ca3f9280b1779d17"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a796535dc5670a037ca3f9280b1779d17">la_wconstrained_lstsq_space</a> (a, c, lwork, err)</td></tr>
-<tr class="memdesc:a796535dc5670a037ca3f9280b1779d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Working space needed by the complex(qp) equality-constrained least-squares solver.  <br /></td></tr>
-<tr class="separator:a796535dc5670a037ca3f9280b1779d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aae867f5cbeba2d1108d25ecc7f292b61" name="aae867f5cbeba2d1108d25ecc7f292b61"></a>
@@ -222,48 +216,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a22b04a6e8ae4ad7bad1b63ef6f6b11de" name="a22b04a6e8ae4ad7bad1b63ef6f6b11de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22b04a6e8ae4ad7bad1b63ef6f6b11de">&#9670;&#160;</a></span>la_qconstrained_lstsq_space()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine la_least_squares::constrained_lstsq_space::la_qconstrained_lstsq_space </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>lwork</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Working space needed by the real(qp) equality-constrained least-squares solver. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Least-squares matrix a[m,n] </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">c</td><td>Equality constraint matrix c[p,n] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Size of the working space array </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a6fa63e1870c52182d5e921cb5d94893d" name="a6fa63e1870c52182d5e921cb5d94893d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6fa63e1870c52182d5e921cb5d94893d">&#9670;&#160;</a></span>la_sconstrained_lstsq_space()</h2>
 
@@ -294,48 +246,6 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Working space needed by the real(sp) equality-constrained least-squares solver. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Least-squares matrix a[m,n] </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">c</td><td>Equality constraint matrix c[p,n] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">lwork</td><td>Size of the working space array </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a796535dc5670a037ca3f9280b1779d17" name="a796535dc5670a037ca3f9280b1779d17"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a796535dc5670a037ca3f9280b1779d17">&#9670;&#160;</a></span>la_wconstrained_lstsq_space()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine la_least_squares::constrained_lstsq_space::la_wconstrained_lstsq_space </td>
-          <td>(</td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>lwork</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Working space needed by the complex(qp) equality-constrained least-squares solver. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Least-squares matrix a[m,n] </td></tr>
@@ -391,7 +301,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__least__squares_8f90.html">la_least_squares.f90</a></li>
+<li><a class="el" href="la__least__squares_8_f90.html">la_least_squares.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

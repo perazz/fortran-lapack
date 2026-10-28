@@ -137,6 +137,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9999e2744d46a4043e98532982ff6556"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa542e55e91604dd414f8af6dc567322b" id="r_aa542e55e91604dd414f8af6dc567322b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa542e55e91604dd414f8af6dc567322b">la_wgbtrs</a></td></tr>
 <tr class="separator:aa542e55e91604dd414f8af6dc567322b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2396b84bf37d790436b744f69b5d487" id="r_af2396b84bf37d790436b744f69b5d487"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af2396b84bf37d790436b744f69b5d487">la_xgbtrs</a></td></tr>
+<tr class="separator:af2396b84bf37d790436b744f69b5d487"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae929a52ff64fa4d151cb7677d29d4a11" id="r_ae929a52ff64fa4d151cb7677d29d4a11"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae929a52ff64fa4d151cb7677d29d4a11">la_ygbtrs</a></td></tr>
+<tr class="separator:ae929a52ff64fa4d151cb7677d29d4a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7c67d4e2676130c9dfa5445b4d49643" id="r_ae7c67d4e2676130c9dfa5445b4d49643"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7c67d4e2676130c9dfa5445b4d49643">zgbtrs</a> (trans, n, kl, ku, nrhs, ab, ldab, ipiv, b, ldb, info)</td></tr>
 <tr class="separator:ae7c67d4e2676130c9dfa5445b4d49643"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10a3672fa87154f92828649bf920bbc3" id="r_a10a3672fa87154f92828649bf920bbc3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a10a3672fa87154f92828649bf920bbc3">la_zgbtrs</a></td></tr>
@@ -213,9 +217,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interfacela__lapack_1_1gbtrs_a912a2b2e4cf034ab6cd21b42b109a274_cgraph.png" border="0" usemap="#ainterfacela__lapack_1_1gbtrs_a912a2b2e4cf034ab6cd21b42b109a274_cgraph" alt=""/></div>
 <map name="ainterfacela__lapack_1_1gbtrs_a912a2b2e4cf034ab6cd21b42b109a274_cgraph" id="ainterfacela__lapack_1_1gbtrs_a912a2b2e4cf034ab6cd21b42b109a274_cgraph">
-<area shape="rect" title=" " alt="" coords="5,13,179,38"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#ae8166a794138f058c7b7a18d796d72ec" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="227,5,372,45"/>
-<area shape="poly" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
+<area shape="rect" title=" " alt="" coords="5,14,178,42"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#ae8166a794138f058c7b7a18d796d72ec" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="226,5,370,50"/>
+<area shape="poly" title=" " alt="" coords="178,25,213,27,207,28,178,30"/>
 </map>
 </div>
 
@@ -289,44 +293,27 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interfacela__lapack_1_1gbtrs_ae8e5592f6fa5de6c0c10d8c9cc711f98_cgraph.png" border="0" usemap="#ainterfacela__lapack_1_1gbtrs_ae8e5592f6fa5de6c0c10d8c9cc711f98_cgraph" alt=""/></div>
 <map name="ainterfacela__lapack_1_1gbtrs_ae8e5592f6fa5de6c0c10d8c9cc711f98_cgraph" id="ainterfacela__lapack_1_1gbtrs_ae8e5592f6fa5de6c0c10d8c9cc711f98_cgraph">
-<area shape="rect" title=" " alt="" coords="5,316,180,342"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="228,220,373,260"/>
-<area shape="poly" title=" " alt="" coords="122,314,240,263,242,268,124,319"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a7997d133d3b7b13dc0e90ff5e81958f7" title="QGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="228,398,373,438"/>
-<area shape="poly" title=" " alt="" coords="124,339,242,390,240,395,122,344"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="421,220,568,260"/>
-<area shape="poly" title=" " alt="" coords="374,237,408,237,408,242,374,242"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="616,199,783,224"/>
-<area shape="poly" title=" " alt="" coords="304,219,316,176,338,122,372,69,394,46,420,27,459,8,494,3,529,9,569,27,593,42,614,60,649,103,674,147,691,185,686,187,670,150,644,106,610,64,589,46,567,31,528,14,494,8,461,14,423,31,398,50,376,72,343,125,321,178,309,220"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="616,374,783,399"/>
-<area shape="poly" title=" " alt="" coords="374,256,468,284,569,320,664,365,662,370,567,325,466,289,373,261"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="421,462,568,502"/>
-<area shape="poly" title=" " alt="" coords="314,259,365,361,396,414,423,449,428,453,425,457,419,452,392,417,360,363,309,261"/>
-<area shape="rect" href="namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="427,41,562,81"/>
-<area shape="poly" title=" " alt="" coords="312,218,355,157,385,122,420,91,427,86,430,90,423,95,389,126,359,160,316,221"/>
-<area shape="rect" href="namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="427,105,563,145"/>
-<area shape="poly" title=" " alt="" coords="331,217,420,161,441,149,444,154,423,166,334,222"/>
-<area shape="poly" title=" " alt="" coords="568,227,602,222,603,228,569,232"/>
-<area shape="poly" title=" " alt="" coords="538,257,569,276,628,321,676,362,672,366,625,325,567,281,535,262"/>
-<area shape="poly" title=" " alt="" coords="666,201,659,191,663,181,676,175,699,172,728,176,739,185,735,189,725,181,699,178,678,180,666,184,664,190,670,197"/>
-<area shape="poly" title=" " alt="" coords="541,460,567,448,659,403,662,408,569,453,543,465"/>
-<area shape="poly" title=" " alt="" coords="544,143,657,191,655,196,542,148"/>
-<area shape="poly" title=" " alt="" coords="517,144,570,206,634,290,684,361,679,364,630,294,566,209,513,147"/>
-<area shape="poly" title=" " alt="" coords="310,397,367,287,398,233,420,206,447,193,476,184,537,179,595,183,645,193,644,198,594,188,537,184,477,189,449,198,423,210,402,236,371,289,314,400"/>
-<area shape="poly" title=" " alt="" coords="308,438,320,483,341,540,356,569,375,596,397,620,423,640,461,659,495,665,529,659,567,640,595,618,620,591,640,560,656,527,679,463,691,412,696,413,684,465,661,529,644,563,624,594,599,622,569,645,530,664,495,670,459,664,420,645,393,624,370,599,352,571,336,542,315,484,303,439"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#aecd73c3541f591fb801540fa6e7e3883" title="QGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="421,398,568,438"/>
-<area shape="poly" title=" " alt="" coords="374,416,408,416,408,421,374,421"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#a2babbc60e4573bf86995dc3e7360db8b" title="QGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="421,526,568,566"/>
-<area shape="poly" title=" " alt="" coords="325,437,369,474,423,512,433,518,430,523,420,517,366,478,322,441"/>
-<area shape="rect" href="namespacela__blas__level1.html#af76ede87367ea347ac47024e17661e20" title="QSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="427,590,562,630"/>
-<area shape="poly" title=" " alt="" coords="315,437,357,504,388,542,423,576,429,581,426,585,420,580,384,546,353,507,310,440"/>
-<area shape="rect" href="namespacela__blas__level2__tri.html#aed47d68c3a12e463510120f614d5e3c4" title="QTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="427,334,563,374"/>
-<area shape="poly" title=" " alt="" coords="361,396,420,376,421,381,363,401"/>
-<area shape="poly" title=" " alt="" coords="548,396,566,384,604,348,637,308,683,235,687,238,641,311,608,352,570,388,551,400"/>
-<area shape="poly" title=" " alt="" coords="568,404,604,399,605,404,569,410"/>
-<area shape="poly" title=" " alt="" coords="546,524,567,512,599,487,630,459,677,408,681,411,633,463,603,491,569,517,549,528"/>
-<area shape="poly" title=" " alt="" coords="523,332,667,230,670,234,526,336"/>
-<area shape="poly" title=" " alt="" coords="563,362,605,369,604,374,562,368"/>
+<area shape="rect" title=" " alt="" coords="5,143,179,171"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="227,135,371,179"/>
+<area shape="poly" title=" " alt="" coords="178,154,214,156,209,158,180,159"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="419,35,564,79"/>
+<area shape="poly" title=" " alt="" coords="339,132,418,89,431,85,426,88,420,94,342,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="612,43,778,71"/>
+<area shape="poly" title=" " alt="" coords="310,132,327,105,351,73,382,43,418,20,447,10,478,5,541,6,600,18,651,37,645,37,598,23,540,11,479,10,449,15,420,25,385,47,355,76,332,108,314,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="612,142,778,169"/>
+<area shape="poly" title=" " alt="" coords="371,157,419,158,564,158,599,160,594,160,564,164,419,164,372,162"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="419,224,564,269"/>
+<area shape="poly" title=" " alt="" coords="349,177,431,217,426,217,348,182"/>
+<area shape="rect" href="namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="424,293,559,338"/>
+<area shape="poly" title=" " alt="" coords="319,177,363,227,421,279,427,285,422,284,417,283,359,231,317,182"/>
+<area shape="rect" href="namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="424,104,559,149"/>
+<area shape="poly" title=" " alt="" coords="371,143,411,139,406,140,372,148"/>
+<area shape="poly" title=" " alt="" coords="564,54,599,56,594,58,565,60"/>
+<area shape="poly" title=" " alt="" coords="540,77,566,89,654,134,649,135,563,94,540,82"/>
+<area shape="poly" title=" " alt="" coords="660,42,654,34,659,25,673,19,695,16,719,19,733,28,728,28,718,24,695,22,674,24,662,28,660,34,665,43"/>
+<area shape="poly" title=" " alt="" coords="543,221,645,177,650,175,545,226"/>
+<area shape="poly" title=" " alt="" coords="558,101,640,75,635,77,560,106"/>
+<area shape="poly" title=" " alt="" coords="560,133,599,141,594,142,560,139"/>
 </map>
 </div>
 
@@ -396,6 +383,34 @@ Here is the call graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::gbtrs::la_wgbtrs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af2396b84bf37d790436b744f69b5d487" name="af2396b84bf37d790436b744f69b5d487"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2396b84bf37d790436b744f69b5d487">&#9670;&#160;</a></span>la_xgbtrs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::gbtrs::la_xgbtrs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae929a52ff64fa4d151cb7677d29d4a11" name="ae929a52ff64fa4d151cb7677d29d4a11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae929a52ff64fa4d151cb7677d29d4a11">&#9670;&#160;</a></span>la_ygbtrs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::gbtrs::la_ygbtrs</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -484,29 +499,27 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interfacela__lapack_1_1gbtrs_aa2596ec6cfbb64e2365a4dcff33fbb3a_cgraph.png" border="0" usemap="#ainterfacela__lapack_1_1gbtrs_aa2596ec6cfbb64e2365a4dcff33fbb3a_cgraph" alt=""/></div>
 <map name="ainterfacela__lapack_1_1gbtrs_aa2596ec6cfbb64e2365a4dcff33fbb3a_cgraph" id="ainterfacela__lapack_1_1gbtrs_aa2596ec6cfbb64e2365a4dcff33fbb3a_cgraph">
-<area shape="rect" title=" " alt="" coords="5,167,179,192"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a114355c1262a34b861fa85622374756d" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="227,127,372,167"/>
-<area shape="poly" title=" " alt="" coords="174,164,212,158,213,163,175,169"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a4da82a8f7a791ab884b1df91d047f4a4" title="WGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="227,191,372,231"/>
-<area shape="poly" title=" " alt="" coords="175,189,213,195,212,200,174,195"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="615,41,781,67"/>
-<area shape="poly" title=" " alt="" coords="310,125,352,69,383,41,419,19,449,9,481,4,546,6,606,18,655,34,654,39,604,23,545,11,482,10,451,15,421,24,386,45,356,73,315,128"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="420,34,567,74"/>
-<area shape="poly" title=" " alt="" coords="337,125,419,83,432,77,435,82,421,88,340,129"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="615,133,781,159"/>
-<area shape="poly" title=" " alt="" coords="373,146,420,147,567,147,601,146,601,152,567,153,420,153,373,152"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="420,213,567,253"/>
-<area shape="poly" title=" " alt="" coords="347,165,436,204,433,209,344,170"/>
-<area shape="rect" href="namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="426,277,561,317"/>
-<area shape="poly" title=" " alt="" coords="357,165,374,177,391,200,398,221,406,242,422,263,427,267,424,271,418,266,401,244,393,223,386,202,370,181,354,169"/>
-<area shape="rect" href="namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="425,98,561,138"/>
-<area shape="poly" title=" " alt="" coords="372,134,411,128,412,133,373,139"/>
-<area shape="poly" title=" " alt="" coords="665,43,658,33,661,23,675,17,698,15,726,18,738,27,734,31,724,23,698,20,676,22,665,27,663,32,669,39"/>
-<area shape="poly" title=" " alt="" coords="567,51,601,51,601,57,567,57"/>
-<area shape="poly" title=" " alt="" coords="541,71,568,83,658,125,656,130,566,88,539,76"/>
-<area shape="poly" title=" " alt="" coords="540,210,654,161,656,166,543,215"/>
-<area shape="poly" title=" " alt="" coords="557,95,643,68,644,73,559,100"/>
-<area shape="poly" title=" " alt="" coords="562,124,602,130,601,135,561,130"/>
+<area shape="rect" title=" " alt="" coords="5,143,178,171"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a114355c1262a34b861fa85622374756d" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="226,135,370,179"/>
+<area shape="poly" title=" " alt="" coords="177,154,212,156,208,158,179,159"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="611,43,777,71"/>
+<area shape="poly" title=" " alt="" coords="309,132,326,105,350,73,381,43,417,20,446,10,477,5,540,6,599,18,650,37,644,37,597,23,539,11,478,10,448,15,419,25,384,47,354,76,331,108,313,136"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="418,35,563,79"/>
+<area shape="poly" title=" " alt="" coords="338,132,417,89,430,85,425,88,419,94,341,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="611,142,777,169"/>
+<area shape="poly" title=" " alt="" coords="370,157,418,158,563,158,598,160,593,160,563,164,418,164,371,162"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="418,224,563,269"/>
+<area shape="poly" title=" " alt="" coords="348,177,430,217,425,217,347,182"/>
+<area shape="rect" href="namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="424,293,558,338"/>
+<area shape="poly" title=" " alt="" coords="318,177,362,227,420,279,426,285,421,284,416,283,358,231,316,182"/>
+<area shape="rect" href="namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="423,104,558,149"/>
+<area shape="poly" title=" " alt="" coords="370,143,410,139,405,140,371,148"/>
+<area shape="poly" title=" " alt="" coords="659,42,653,34,658,25,672,19,694,16,718,19,732,28,727,28,717,24,694,22,673,24,661,28,659,34,664,43"/>
+<area shape="poly" title=" " alt="" coords="563,54,598,56,593,58,564,60"/>
+<area shape="poly" title=" " alt="" coords="539,77,565,89,653,134,648,135,562,94,539,82"/>
+<area shape="poly" title=" " alt="" coords="542,221,644,177,649,175,544,226"/>
+<area shape="poly" title=" " alt="" coords="557,101,639,75,634,77,559,106"/>
+<area shape="poly" title=" " alt="" coords="559,133,598,141,593,142,559,139"/>
 </map>
 </div>
 
@@ -580,9 +593,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interfacela__lapack_1_1gbtrs_ae7c67d4e2676130c9dfa5445b4d49643_cgraph.png" border="0" usemap="#ainterfacela__lapack_1_1gbtrs_ae7c67d4e2676130c9dfa5445b4d49643_cgraph" alt=""/></div>
 <map name="ainterfacela__lapack_1_1gbtrs_ae7c67d4e2676130c9dfa5445b4d49643_cgraph" id="ainterfacela__lapack_1_1gbtrs_ae7c67d4e2676130c9dfa5445b4d49643_cgraph">
-<area shape="rect" title=" " alt="" coords="5,13,179,38"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#abd09ee848e119d7b82ef2af8c91cd0b2" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="227,5,372,45"/>
-<area shape="poly" title=" " alt="" coords="179,23,213,23,213,28,179,28"/>
+<area shape="rect" title=" " alt="" coords="5,14,178,42"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#abd09ee848e119d7b82ef2af8c91cd0b2" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="226,5,370,50"/>
+<area shape="poly" title=" " alt="" coords="178,25,213,27,207,28,178,30"/>
 </map>
 </div>
 

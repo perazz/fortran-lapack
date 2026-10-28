@@ -1,42 +1,42 @@
 <map id="la_lapack_eigv_sym_comp::la_slatrd" name="la_lapack_eigv_sym_comp::la_slatrd">
-<area shape="rect" id="Node000001" title="SLATRD: reduces NB rows and columns of a real symmetric matrix A to symmetric tridiagonal form by an ..." alt="" coords="5,195,160,235"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="837,203,1004,228"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,194,105,159,130,116,163,75,184,57,207,42,254,23,303,10,353,4,404,3,455,8,505,17,604,45,696,82,777,123,844,161,892,193,889,197,841,166,774,127,694,87,602,50,504,22,454,13,403,9,353,9,304,15,256,28,209,47,187,61,167,78,134,119,110,161,94,196"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ae2b6448401fe13574104d59fe4c0615c" title="SAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="226,57,361,97"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="101,193,147,150,207,106,218,100,221,105,209,111,150,154,105,197"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="208,145,379,171"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="156,193,232,172,233,177,157,198"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="220,259,367,299"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="150,233,215,253,213,258,148,238"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__householder__reflectors.html#a498b4c51428aab284826c313ab93ed53" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="208,385,379,425"/>
-<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="108,234,262,373,258,377,104,238"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="443,530,577,570"/>
-<area shape="poly" id="edge23_Node000001_Node000013" title=" " alt="" coords="93,235,107,276,132,330,166,386,186,412,210,435,261,471,319,498,376,519,430,533,428,538,375,524,317,503,259,475,206,439,183,415,161,389,127,332,103,278,88,236"/>
-<area shape="rect" id="Node000014" href="$namespacela__blas__level2__sym.html#a5466f07826e2ab62c0d2e3b48923e11f" title="SSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="218,195,369,235"/>
-<area shape="poly" id="edge24_Node000001_Node000014" title=" " alt="" coords="160,213,204,213,204,218,160,218"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="887,204,880,194,883,184,897,178,921,176,949,180,961,189,957,193,947,185,921,181,899,183,887,188,885,194,891,201"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="259,147,251,137,255,127,270,121,293,119,323,122,334,131,331,136,321,127,293,124,271,126,259,131,257,136,263,144"/>
-<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="367,269,823,222,824,228,367,275"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="427,203,593,228"/>
-<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="361,257,452,229,454,235,363,262"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="641,381,789,421"/>
-<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="379,401,628,399,628,404,379,407"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="436,466,584,506"/>
-<area shape="poly" id="edge13_Node000007_Node000009" title=" " alt="" coords="349,422,444,459,442,464,347,427"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#afb67704426cd471890e50a68b075c580" title="!" alt="" coords="443,327,577,367"/>
-<area shape="poly" id="edge20_Node000007_Node000012" title=" " alt="" coords="369,382,428,366,430,371,370,387"/>
-<area shape="poly" id="edge22_Node000007_Node000013" title=" " alt="" coords="316,423,365,469,428,516,439,522,436,526,425,520,361,473,312,427"/>
-<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="737,378,893,236,897,239,741,382"/>
-<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="677,381,674,371,681,362,694,356,715,354,739,357,753,364,750,369,738,362,715,359,696,361,684,366,680,372,682,380"/>
-<area shape="poly" id="edge18_Node000009_Node000008" title=" " alt="" coords="558,464,653,424,655,428,560,468"/>
-<area shape="poly" id="edge19_Node000009_Node000009" title=" " alt="" coords="471,466,469,456,475,447,489,441,510,439,534,442,547,450,545,454,532,447,510,445,490,447,479,451,474,457,476,465"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="641,469,789,509"/>
-<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="585,484,628,485,628,490,584,490"/>
-<area shape="poly" id="edge15_Node000010_Node000010" title=" " alt="" coords="677,469,674,459,681,450,694,444,715,442,739,445,753,452,750,457,738,450,715,447,696,449,684,454,680,460,682,468"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="846,469,995,509"/>
-<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="790,486,832,486,832,491,790,491"/>
-<area shape="poly" id="edge17_Node000011_Node000011" title=" " alt="" coords="882,469,880,459,886,450,900,444,921,442,945,445,958,452,955,457,943,450,921,447,901,449,889,454,885,460,887,468"/>
-<area shape="poly" id="edge21_Node000012_Node000012" title=" " alt="" coords="471,328,469,318,475,308,489,303,510,301,534,304,547,311,545,316,532,309,510,306,490,308,479,313,474,319,476,326"/>
-<area shape="poly" id="edge25_Node000014_Node000002" title=" " alt="" coords="369,196,426,187,533,182,640,184,824,199,823,205,639,189,533,187,427,193,369,201"/>
-<area shape="poly" id="edge26_Node000014_Node000006" title=" " alt="" coords="369,213,413,213,413,218,369,218"/>
+<area shape="rect" id="Node000001" title="SLATRD: reduces NB rows and columns of a real symmetric matrix A to symmetric tridiagonal form by an ..." alt="" coords="5,201,159,246"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="834,210,999,238"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,200,104,163,128,119,162,76,182,58,205,43,252,23,300,10,349,4,399,3,450,8,500,17,597,46,688,84,769,126,836,166,886,201,881,201,833,170,767,130,686,89,595,51,499,22,449,13,399,9,350,9,301,15,254,28,208,47,186,62,166,80,133,122,109,165,94,202"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ae2b6448401fe13574104d59fe4c0615c" title="SAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="225,57,359,102"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="102,200,148,156,205,112,217,108,213,112,208,117,151,160,106,203"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="207,150,376,178"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="158,200,229,180,225,184,161,204"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="219,271,364,315"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="151,244,210,264,205,267,152,249"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__householder__reflectors.html#a498b4c51428aab284826c313ab93ed53" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="207,396,377,441"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="108,244,258,384,253,387,107,249"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="440,549,575,594"/>
+<area shape="poly" id="edge23_Node000001_Node000013" title=" " alt="" coords="90,244,107,289,131,344,165,401,185,428,208,451,259,488,316,517,373,538,428,556,423,556,372,543,314,522,257,493,205,455,181,431,160,404,126,346,102,291,90,249"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__level2__sym.html#a5466f07826e2ab62c0d2e3b48923e11f" title="SSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="217,201,366,246"/>
+<area shape="poly" id="edge24_Node000001_Node000014" title=" " alt="" coords="158,221,204,222,199,225,161,226"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="881,209,875,201,880,191,894,185,916,183,940,186,955,195,950,195,939,191,916,189,895,191,884,195,881,201,886,210"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="255,150,250,141,255,131,269,125,292,123,317,126,331,134,326,135,315,131,292,129,270,131,258,135,255,141,261,149"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="365,283,820,232,817,237,366,288"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="425,210,590,238"/>
+<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="362,268,450,241,446,244,365,273"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="638,391,786,435"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="377,415,625,413,620,415,378,420"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="434,480,581,525"/>
+<area shape="poly" id="edge13_Node000007_Node000009" title=" " alt="" coords="352,439,437,474,431,474,351,444"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#afb67704426cd471890e50a68b075c580" title="!" alt="" coords="440,336,575,381"/>
+<area shape="poly" id="edge20_Node000007_Node000012" title=" " alt="" coords="373,393,428,380,423,382,375,398"/>
+<area shape="poly" id="edge22_Node000007_Node000013" title=" " alt="" coords="315,438,364,486,427,535,435,542,430,541,423,539,360,490,313,444"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="736,388,886,250,891,247,739,393"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="673,389,671,381,678,372,692,366,712,364,734,367,748,375,743,375,732,372,712,369,693,371,681,376,677,382,678,392"/>
+<area shape="poly" id="edge18_Node000009_Node000008" title=" " alt="" coords="560,477,642,443,648,441,561,482"/>
+<area shape="poly" id="edge19_Node000009_Node000009" title=" " alt="" coords="469,478,467,470,474,461,487,455,508,453,529,456,544,465,539,464,528,461,508,459,489,461,477,465,472,471,473,481"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="638,484,786,529"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="582,501,625,505,620,505,582,507"/>
+<area shape="poly" id="edge15_Node000010_Node000010" title=" " alt="" coords="673,482,671,474,678,465,692,459,712,457,734,460,748,469,743,468,732,465,712,463,693,465,681,469,677,475,677,485"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="842,484,990,529"/>
+<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="786,504,829,506,824,507,786,509"/>
+<area shape="poly" id="edge17_Node000011_Node000011" title=" " alt="" coords="877,482,876,474,882,465,896,459,916,457,938,460,953,469,948,468,937,465,916,463,897,465,886,469,881,475,882,485"/>
+<area shape="poly" id="edge21_Node000012_Node000012" title=" " alt="" coords="469,334,467,326,474,317,487,311,508,309,529,312,544,320,539,321,528,317,508,315,489,317,477,321,472,327,473,337"/>
+<area shape="poly" id="edge25_Node000014_Node000002" title=" " alt="" coords="366,205,425,196,530,191,636,193,821,210,816,211,636,198,530,196,425,201,368,209"/>
+<area shape="poly" id="edge26_Node000014_Node000006" title=" " alt="" coords="366,221,412,223,407,225,368,226"/>
 </map>

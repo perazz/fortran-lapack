@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad9bf7d389735cb303e739ab4fd529bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af94e5b0824eda6cb0eef329237d41721" id="r_af94e5b0824eda6cb0eef329237d41721"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af94e5b0824eda6cb0eef329237d41721">la_srotmg</a></td></tr>
 <tr class="separator:af94e5b0824eda6cb0eef329237d41721"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9572f7ea2b4ebd904783f4d28ebc5288" id="r_a9572f7ea2b4ebd904783f4d28ebc5288"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9572f7ea2b4ebd904783f4d28ebc5288">la_xrotmg</a></td></tr>
+<tr class="separator:a9572f7ea2b4ebd904783f4d28ebc5288"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2-VECTOR (SQRT(DD1)*DX1,SQRT(DD2) DY2)**T. WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS.. DFLAG=-1._dp DFLAG=0._dp DFLAG=1._dp DFLAG=-2.D0 (DH11 DH12) (1._dp DH12) (DH11 1._dp) (1._dp 0._dp) H=( ) ( ) ( ) ( ) (DH21 DH22), (DH21 1._dp), (-1._dp DH22), (0._dp 1._dp). LOCATIONS 2-4 OF DPARAM CONTAIN DH11, DH21, DH12, AND DH22 RESPECTIVELY. (VALUES OF 1._dp, -1._dp, OR 0._dp IMPLIED BY THE VALUE OF DPARAM(1) ARE NOT STORED IN DPARAM.) THE VALUES OF GAMSQ AND RGAMSQ SET IN THE DATA STATEMENT MAY BE INEXACT. THIS IS OK AS THEY ARE ONLY USED FOR TESTING THE SIZE OF DD1 AND DD2. ALL ACTUAL SCALING OF DATA IS DONE USING GAM. </p>
@@ -173,11 +175,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interfacela__blas_1_1rotmg_a271e5de2e5493b1b3c8d5a153320ff99_cgraph.png" border="0" usemap="#ainterfacela__blas_1_1rotmg_a271e5de2e5493b1b3c8d5a153320ff99_cgraph" alt=""/></div>
 <map name="ainterfacela__blas_1_1rotmg_a271e5de2e5493b1b3c8d5a153320ff99_cgraph" id="ainterfacela__blas_1_1rotmg_a271e5de2e5493b1b3c8d5a153320ff99_cgraph">
-<area shape="rect" title=" " alt="" coords="5,45,176,70"/>
-<area shape="rect" href="namespacela__blas__level1.html#a348290a6a9c5af8259802510b08c462b" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="224,5,359,45"/>
-<area shape="poly" title=" " alt="" coords="170,42,210,36,211,41,171,47"/>
-<area shape="rect" href="namespacela__blas__level1.html#ada3caf0cf0bdacb947cdece4534b0c11" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="224,69,359,109"/>
-<area shape="poly" title=" " alt="" coords="171,67,211,74,210,79,170,73"/>
+<area shape="rect" title=" " alt="" coords="5,14,175,42"/>
+<area shape="rect" href="namespacela__blas__level1.html#a348290a6a9c5af8259802510b08c462b" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="223,5,357,50"/>
+<area shape="poly" title=" " alt="" coords="175,25,210,27,204,28,175,30"/>
 </map>
 </div>
 
@@ -225,6 +225,20 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a9572f7ea2b4ebd904783f4d28ebc5288" name="a9572f7ea2b4ebd904783f4d28ebc5288"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9572f7ea2b4ebd904783f4d28ebc5288">&#9670;&#160;</a></span>la_xrotmg()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_blas::rotmg::la_xrotmg</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad9bf7d389735cb303e739ab4fd529bb9" name="ad9bf7d389735cb303e739ab4fd529bb9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad9bf7d389735cb303e739ab4fd529bb9">&#9670;&#160;</a></span>srotmg()</h2>
 
@@ -263,9 +277,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interfacela__blas_1_1rotmg_ad9bf7d389735cb303e739ab4fd529bb9_cgraph.png" border="0" usemap="#ainterfacela__blas_1_1rotmg_ad9bf7d389735cb303e739ab4fd529bb9_cgraph" alt=""/></div>
 <map name="ainterfacela__blas_1_1rotmg_ad9bf7d389735cb303e739ab4fd529bb9_cgraph" id="ainterfacela__blas_1_1rotmg_ad9bf7d389735cb303e739ab4fd529bb9_cgraph">
-<area shape="rect" title=" " alt="" coords="5,13,175,38"/>
-<area shape="rect" href="namespacela__blas__level1.html#a9074217c3ea9811cb0cb6456a46bc7d4" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="223,5,357,45"/>
-<area shape="poly" title=" " alt="" coords="175,23,209,23,209,28,175,28"/>
+<area shape="rect" title=" " alt="" coords="5,14,174,42"/>
+<area shape="rect" href="namespacela__blas__level1.html#a9074217c3ea9811cb0cb6456a46bc7d4" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="222,5,356,50"/>
+<area shape="poly" title=" " alt="" coords="174,25,209,27,203,28,174,30"/>
 </map>
 </div>
 

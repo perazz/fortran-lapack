@@ -1,5 +1,5 @@
 <map id="la_lapack::gbequb::cgbequb" name="la_lapack::gbequb::cgbequb">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,153,45"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a9ab9ef4a30935b98c3b21d2fde91c4cd" title="CGBEQUB: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its c..." alt="" coords="201,5,348,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,23,187,23,187,28,154,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,153,50"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a9ab9ef4a30935b98c3b21d2fde91c4cd" title="CGBEQUB: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its c..." alt="" coords="201,5,347,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,25,188,27,183,28,153,30"/>
 </map>

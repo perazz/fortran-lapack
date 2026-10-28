@@ -1,19 +1,19 @@
 <map id="la_lapack_svd_comp::la_dgbbrd" name="la_lapack_svd_comp::la_dgbbrd">
-<area shape="rect" id="Node000001" title="DGBBRD: reduces a real general m&#45;by&#45;n band matrix A to upper bidiagonal form B by an orthogonal trans..." alt="" coords="5,197,163,237"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#a2027adfee2ef27b9d898d2fd615983d2" title="DLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="211,5,391,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,196,138,128,171,89,209,55,218,50,221,54,212,59,175,93,143,131,98,199"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="211,69,391,109"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="106,195,152,157,209,119,223,112,225,117,212,124,155,161,109,199"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#a96a0402b0c24db265daaba4b209d2a66" title="DLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="211,133,391,173"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="152,195,219,175,220,180,153,200"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__base.html#a9d8bc9b29dbe646f52c4b0a259bd4ed8" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="227,197,375,237"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="163,215,213,215,213,220,163,220"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,234,605,259"/>
-<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="152,235,211,247,321,254,424,251,425,257,321,259,210,252,151,240"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="217,313,385,338"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="116,235,161,263,212,291,247,306,245,311,210,296,158,268,113,240"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="217,362,384,387"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="101,236,146,291,177,321,212,347,227,355,225,359,209,352,174,326,142,295,97,239"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="375,224,425,231,425,236,374,230"/>
-<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="486,236,478,226,482,216,497,210,522,207,553,211,565,220,562,224,551,216,522,213,498,215,486,220,483,225,490,232"/>
+<area shape="rect" id="Node000001" title="DGBBRD: reduces a real general m&#45;by&#45;n band matrix A to upper bidiagonal form B by an orthogonal trans..." alt="" coords="5,213,162,258"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__givens__jacobi__rot.html#a2027adfee2ef27b9d898d2fd615983d2" title="DLARGV: generates a vector of real plane rotations, determined by elements of the real vectors x and ..." alt="" coords="210,5,389,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,211,137,138,170,97,208,60,217,56,213,60,211,64,174,100,142,141,98,214"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="210,75,389,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="105,211,151,170,208,129,221,125,217,128,211,134,155,174,110,215"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#a96a0402b0c24db265daaba4b209d2a66" title="DLARTV: applies a vector of real plane rotations to elements of the real vectors x and y...." alt="" coords="210,144,389,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="154,210,215,192,211,196,157,215"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__base.html#a9d8bc9b29dbe646f52c4b0a259bd4ed8" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="226,213,373,258"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="161,233,212,234,208,237,163,238"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="437,252,602,280"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="154,256,210,268,319,275,424,274,419,276,319,280,209,273,154,261"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="216,332,383,360"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="117,256,161,284,211,312,241,326,235,327,208,317,159,289,116,261"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="217,384,382,412"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="101,256,147,313,177,344,211,369,224,378,218,378,208,374,174,348,143,317,99,261"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="373,243,424,252,419,253,373,249"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="482,251,476,244,481,234,496,228,520,226,546,228,561,237,556,237,544,233,520,231,497,233,484,238,481,243,487,253"/>
 </map>

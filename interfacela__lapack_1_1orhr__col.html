@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:afcfc73fcee643228b4983dc6fbe38f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83b53953f7d3ced0e125a6ef7271ae3b" id="r_a83b53953f7d3ced0e125a6ef7271ae3b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83b53953f7d3ced0e125a6ef7271ae3b">la_sorhr_col</a></td></tr>
 <tr class="separator:a83b53953f7d3ced0e125a6ef7271ae3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd670ba4c158954d3ac3cec70ce025f7" id="r_acd670ba4c158954d3ac3cec70ce025f7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd670ba4c158954d3ac3cec70ce025f7">la_xorhr_col</a></td></tr>
+<tr class="separator:acd670ba4c158954d3ac3cec70ce025f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORHR_COL: takes an M-by-N real matrix Q_in with orthonormal columns as input, stored in A, and performs Householder Reconstruction (HR), i.e. reconstructs Householder vectors V(i) implicitly representing another M-by-N matrix Q_out, with the property that Q_in = Q_out*S, where S is an N-by-N diagonal matrix with diagonal entries equal to +1 or -1. The Householder vectors (columns V(i) of V) are stored in A on output, and the diagonal entries of S are stored in D. Block reflectors are also returned in T (same output format as DGEQRT). </p>
@@ -227,6 +229,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::orhr_col::la_sorhr_col</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acd670ba4c158954d3ac3cec70ce025f7" name="acd670ba4c158954d3ac3cec70ce025f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd670ba4c158954d3ac3cec70ce025f7">&#9670;&#160;</a></span>la_xorhr_col()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::orhr_col::la_xorhr_col</td>
         </tr>
       </table>
 </div><div class="memdoc">

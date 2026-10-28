@@ -1,7 +1,7 @@
 <map id="la_lapack_auxiliary::la_dlamch" name="la_lapack_auxiliary::la_dlamch">
-<area shape="rect" id="Node000001" title="DLAMCH: determines double precision machine parameters." alt="" coords="5,29,153,69"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="41,30,38,20,45,11,58,5,79,3,103,6,117,13,114,18,102,11,79,8,60,10,48,15,44,21,46,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,37,368,62"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="154,47,187,47,187,52,154,52"/>
-<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="251,38,244,28,247,18,261,12,285,10,313,14,325,23,321,27,311,19,285,15,263,17,251,22,249,28,255,35"/>
+<area shape="rect" id="Node000001" title="DLAMCH: determines double precision machine parameters." alt="" coords="5,29,153,74"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="40,28,38,19,45,10,59,5,79,3,101,5,115,13,110,14,99,10,79,8,60,10,48,15,44,21,45,29"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,38,366,66"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="153,49,188,51,182,52,153,54"/>
+<area shape="poly" id="edge3_Node000002_Node000002" title=" " alt="" coords="248,36,242,29,247,19,261,13,283,11,307,14,322,23,317,22,306,19,283,16,262,18,251,23,248,29,253,38"/>
 </map>

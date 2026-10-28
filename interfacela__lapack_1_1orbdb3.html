@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a79b11fa7659136337a0b1b9292fafcae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ed88042e1654668fdece22757f8fba7" id="r_a0ed88042e1654668fdece22757f8fba7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ed88042e1654668fdece22757f8fba7">la_sorbdb3</a></td></tr>
 <tr class="separator:a0ed88042e1654668fdece22757f8fba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3d01a8fe4f758de5d7cb59d41772143" id="r_ad3d01a8fe4f758de5d7cb59d41772143"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3d01a8fe4f758de5d7cb59d41772143">la_xorbdb3</a></td></tr>
+<tr class="separator:ad3d01a8fe4f758de5d7cb59d41772143"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny matrix X with orthonomal columns: [ B11 ] [ X11 ] [ P1 | ] [ 0 ] [--&mdash;] = [------&mdash;] [--&mdash;] Q1**T . [ X21 ] [ | P2 ] [ B21 ] [ 0 ] X11 is P-by-Q, and X21 is (M-P)-by-Q. M-P must be no larger than P, Q, or M-Q. Routines DORBDB1, DORBDB2, and DORBDB4 handle cases in which M-P is not the minimum dimension. The orthogonal matrices P1, P2, and Q1 are P-by-P, (M-P)-by-(M-P), and (M-Q)-by-(M-Q), respectively. They are represented implicitly by Householder vectors. B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented implicitly by angles THETA, PHI. </p>
@@ -257,6 +259,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::orbdb3::la_sorbdb3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad3d01a8fe4f758de5d7cb59d41772143" name="ad3d01a8fe4f758de5d7cb59d41772143"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3d01a8fe4f758de5d7cb59d41772143">&#9670;&#160;</a></span>la_xorbdb3()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::orbdb3::la_xorbdb3</td>
         </tr>
       </table>
 </div><div class="memdoc">

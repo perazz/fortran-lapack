@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a20aaa8e813a6a4012aa2bf99763d114c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc02f4df7451e250b0b8f77ddaaa9837" id="r_abc02f4df7451e250b0b8f77ddaaa9837"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abc02f4df7451e250b0b8f77ddaaa9837">la_sla_gercond</a></td></tr>
 <tr class="separator:abc02f4df7451e250b0b8f77ddaaa9837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeeae9744a5415b5e04d016bdd8af3320" id="r_aeeae9744a5415b5e04d016bdd8af3320"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeeae9744a5415b5e04d016bdd8af3320">la_xla_gercond</a></td></tr>
+<tr class="separator:aeeae9744a5415b5e04d016bdd8af3320"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LA_GERCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE as follows CMODE = 1 op2(C) = C CMODE = 0 op2(C) = I CMODE = -1 op2(C) = inv(C) The Skeel condition number cond(A) = norminf( |inv(A)||A| ) is computed by computing scaling factors R such that diag(R)*A*op2(C) is row equilibrated and computing the standard infinity-norm condition number. </p>
@@ -242,6 +244,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::la_gercond::la_sla_gercond</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeeae9744a5415b5e04d016bdd8af3320" name="aeeae9744a5415b5e04d016bdd8af3320"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeeae9744a5415b5e04d016bdd8af3320">&#9670;&#160;</a></span>la_xla_gercond()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::la_gercond::la_xla_gercond</td>
         </tr>
       </table>
 </div><div class="memdoc">

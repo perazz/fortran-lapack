@@ -1,24 +1,24 @@
 <map id="la_lapack_orthogonal_factors_qr::la_sorm2r" name="la_lapack_orthogonal_factors_qr::la_sorm2r">
-<area shape="rect" id="Node000001" title="SORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,170,172,210"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="663,29,829,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,168,178,135,255,95,344,58,438,30,493,22,549,19,652,25,652,30,549,25,493,27,439,35,346,63,257,100,180,139,123,172"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#a2ee79213a7a583b5aed9d93210a83a30" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="220,170,391,210"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="172,187,207,187,207,193,172,193"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="663,299,829,324"/>
-<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="124,208,182,240,258,278,347,314,439,341,488,349,526,350,614,341,690,325,691,330,615,346,526,356,487,354,438,346,345,319,256,283,179,245,122,212"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="710,31,703,21,707,11,721,5,746,3,776,6,788,15,785,20,774,11,746,8,723,10,710,15,708,20,714,28"/>
-<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="319,168,367,115,400,87,438,65,490,47,545,37,599,32,649,32,649,37,599,37,546,42,491,52,440,70,403,91,371,118,323,172"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="439,104,615,129"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="356,167,438,138,463,131,464,136,440,143,358,172"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="439,177,614,203"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="391,187,426,187,426,193,391,193"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="453,227,600,267"/>
-<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="384,207,441,222,439,228,382,213"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="453,291,600,331"/>
-<area shape="poly" id="edge12_Node000003_Node000008" title=" " alt="" coords="334,208,382,242,440,277,454,284,452,289,437,282,379,247,331,212"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="491,106,483,96,487,86,502,80,527,77,557,81,569,90,566,94,555,86,527,83,503,85,491,90,488,95,495,102"/>
-<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="491,179,483,169,487,159,502,153,527,151,557,154,569,163,566,168,555,159,527,156,503,158,491,163,488,168,495,176"/>
-<area shape="poly" id="edge10_Node000006_Node000002" title=" " alt="" coords="591,225,613,212,651,177,684,137,730,65,734,68,688,140,655,181,616,216,594,229"/>
-<area shape="poly" id="edge11_Node000006_Node000007" title=" " alt="" coords="597,265,689,292,688,297,595,270"/>
-<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="600,309,649,309,649,314,600,314"/>
+<area shape="rect" id="Node000001" title="SORM2R: overwrites the general real m by n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,172,172,216"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="661,29,827,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,169,182,135,258,96,346,59,437,31,491,23,545,20,648,27,643,29,545,26,491,28,439,36,347,64,260,101,184,140,127,173"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#a2ee79213a7a583b5aed9d93210a83a30" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="220,172,390,216"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="171,191,206,193,202,195,173,196"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="661,309,827,337"/>
+<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="125,214,183,249,259,289,347,327,439,355,487,364,525,365,613,355,683,342,689,342,614,360,525,371,486,369,437,360,345,332,257,294,181,253,124,219"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="706,28,700,20,705,11,720,5,744,3,770,5,785,14,780,14,768,10,744,8,721,10,709,15,706,20,711,29"/>
+<area shape="poly" id="edge8_Node000003_Node000002" title=" " alt="" coords="320,169,368,115,400,88,437,66,488,48,542,38,596,33,648,34,643,36,596,38,543,43,490,53,439,71,403,92,371,119,324,173"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="438,104,613,132"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="364,169,437,142,464,136,459,138,439,147,366,173"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="439,180,612,208"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="390,191,426,193,421,194,391,196"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="453,232,598,276"/>
+<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="389,214,441,230,435,230,389,219"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="453,301,598,346"/>
+<area shape="poly" id="edge12_Node000003_Node000008" title=" " alt="" coords="334,214,383,250,439,286,451,294,446,294,437,291,380,255,333,219"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="488,103,482,95,487,85,502,79,526,77,551,80,567,89,561,89,550,85,526,83,503,85,491,89,487,95,493,104"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="488,179,482,171,487,161,502,155,526,153,551,156,567,165,561,165,550,161,526,159,503,161,491,165,487,171,493,180"/>
+<area shape="poly" id="edge10_Node000006_Node000002" title=" " alt="" coords="594,228,612,217,649,182,681,142,726,73,731,70,685,146,653,186,615,221,596,233"/>
+<area shape="poly" id="edge11_Node000006_Node000007" title=" " alt="" coords="599,274,686,304,681,304,598,279"/>
+<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="599,321,648,323,643,323,599,326"/>
 </map>

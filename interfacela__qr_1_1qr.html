@@ -125,12 +125,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa45a503d468db73a747bbc8a223b3cb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50b2982ab3a86421602f9f50fe8d1fea" id="r_a50b2982ab3a86421602f9f50fe8d1fea"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50b2982ab3a86421602f9f50fe8d1fea">la_d_qr</a> (a, q, r, overwrite_a, storage, err)</td></tr>
 <tr class="separator:a50b2982ab3a86421602f9f50fe8d1fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72e549ba3a41af0b1adb292a7104a627" id="r_a72e549ba3a41af0b1adb292a7104a627"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a72e549ba3a41af0b1adb292a7104a627">la_x_qr</a> (a, q, r, overwrite_a, storage, err)</td></tr>
+<tr class="separator:a72e549ba3a41af0b1adb292a7104a627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ebf935cdaab0cb0c12a7e143ba00427" id="r_a9ebf935cdaab0cb0c12a7e143ba00427"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ebf935cdaab0cb0c12a7e143ba00427">la_q_qr</a> (a, q, r, overwrite_a, storage, err)</td></tr>
 <tr class="separator:a9ebf935cdaab0cb0c12a7e143ba00427"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a9a94510ffe6a671c275f1be89bac6a" id="r_a7a9a94510ffe6a671c275f1be89bac6a"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a9a94510ffe6a671c275f1be89bac6a">la_c_qr</a> (a, q, r, overwrite_a, storage, err)</td></tr>
 <tr class="separator:a7a9a94510ffe6a671c275f1be89bac6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39395b3cc05516700c6bb9b5623ceaa9" id="r_a39395b3cc05516700c6bb9b5623ceaa9"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a39395b3cc05516700c6bb9b5623ceaa9">la_z_qr</a> (a, q, r, overwrite_a, storage, err)</td></tr>
 <tr class="separator:a39395b3cc05516700c6bb9b5623ceaa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23dfc44b4ec0d14b7e73cc327868c9a4" id="r_a23dfc44b4ec0d14b7e73cc327868c9a4"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23dfc44b4ec0d14b7e73cc327868c9a4">la_y_qr</a> (a, q, r, overwrite_a, storage, err)</td></tr>
+<tr class="separator:a23dfc44b4ec0d14b7e73cc327868c9a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae39943467a53959f132b49894d7ce03f" id="r_ae39943467a53959f132b49894d7ce03f"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae39943467a53959f132b49894d7ce03f">la_w_qr</a> (a, q, r, overwrite_a, storage, err)</td></tr>
 <tr class="separator:ae39943467a53959f132b49894d7ce03f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -427,6 +431,110 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a72e549ba3a41af0b1adb292a7104a627" name="a72e549ba3a41af0b1adb292a7104a627"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72e549ba3a41af0b1adb292a7104a627">&#9670;&#160;</a></span>la_x_qr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pure subroutine la_qr::qr::la_x_qr </td>
+          <td>(</td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a>), dimension(:,:), intent(out), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>q</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a>), dimension(:,:), intent(out), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>storage</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">q</td><td>Orthogonal matrix Q ([m,m], or [m,k] if reduced)</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">r</td><td>Upper triangular matrix R ([m,n], or [k,n] if reduced)</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__qr_1_1qr__space.html">qr_space</a></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a23dfc44b4ec0d14b7e73cc327868c9a4" name="a23dfc44b4ec0d14b7e73cc327868c9a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a23dfc44b4ec0d14b7e73cc327868c9a4">&#9670;&#160;</a></span>la_y_qr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pure subroutine la_qr::qr::la_y_qr </td>
+          <td>(</td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a>), dimension(:,:), intent(out), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>q</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a>), dimension(:,:), intent(out), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>r</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a82d56bcb06249d58e9ed7409b230d3a2">xdp</a>), dimension(:), intent(inout), optional, target</td>          <td class="paramname"><span class="paramname"><em>storage</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">q</td><td>Orthogonal matrix Q ([m,m], or [m,k] if reduced)</td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">r</td><td>Upper triangular matrix R ([m,n], or [k,n] if reduced)</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">storage</td><td>[optional] Provide pre-allocated workspace, size to be checked with <a class="el" href="interfacela__qr_1_1qr__space.html">qr_space</a></td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="a39395b3cc05516700c6bb9b5623ceaa9" name="a39395b3cc05516700c6bb9b5623ceaa9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a39395b3cc05516700c6bb9b5623ceaa9">&#9670;&#160;</a></span>la_z_qr()</h2>
 
@@ -480,7 +588,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__qr_8f90.html">la_qr.f90</a></li>
+<li><a class="el" href="la__qr_8_f90.html">la_qr.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

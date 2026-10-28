@@ -126,54 +126,36 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a33e26fff77c231a40a3b7fd14a7d7231" id="r_a33e26fff77c231a40a3b7fd14a7d7231"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a33e26fff77c231a40a3b7fd14a7d7231">la_dsymm</a> (side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
 <tr class="memdesc:a33e26fff77c231a40a3b7fd14a7d7231"><td class="mdescLeft">&#160;</td><td class="mdescRight">DSYMM: performs one of the matrix-matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta*C, where alpha and beta are scalars, A is a symmetric matrix and B and C are m by n matrices.  <br /></td></tr>
 <tr class="separator:a33e26fff77c231a40a3b7fd14a7d7231"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac33672e86383d4014f77c2b4352976eb" id="r_ac33672e86383d4014f77c2b4352976eb"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac33672e86383d4014f77c2b4352976eb">la_qsymm</a> (side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
-<tr class="memdesc:ac33672e86383d4014f77c2b4352976eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">QSYMM: performs one of the matrix-matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta*C, where alpha and beta are scalars, A is a symmetric matrix and B and C are m by n matrices.  <br /></td></tr>
-<tr class="separator:ac33672e86383d4014f77c2b4352976eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a124845f580997f1083a8c4c088661c5e" id="r_a124845f580997f1083a8c4c088661c5e"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a124845f580997f1083a8c4c088661c5e">la_ssyr2k</a> (uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
 <tr class="memdesc:a124845f580997f1083a8c4c088661c5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">SSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C, or C := alpha*A**T*B + alpha*B**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A and B are n by k matrices in the first case and k by n matrices in the second case.  <br /></td></tr>
 <tr class="separator:a124845f580997f1083a8c4c088661c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1658499b1e50950306d28916c20e8cd9" id="r_a1658499b1e50950306d28916c20e8cd9"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1658499b1e50950306d28916c20e8cd9">la_dsyr2k</a> (uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
 <tr class="memdesc:a1658499b1e50950306d28916c20e8cd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">DSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C, or C := alpha*A**T*B + alpha*B**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A and B are n by k matrices in the first case and k by n matrices in the second case.  <br /></td></tr>
 <tr class="separator:a1658499b1e50950306d28916c20e8cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4477816ac52dde4c00f13e8c03aafc9b" id="r_a4477816ac52dde4c00f13e8c03aafc9b"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4477816ac52dde4c00f13e8c03aafc9b">la_qsyr2k</a> (uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
-<tr class="memdesc:a4477816ac52dde4c00f13e8c03aafc9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">QSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C, or C := alpha*A**T*B + alpha*B**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A and B are n by k matrices in the first case and k by n matrices in the second case.  <br /></td></tr>
-<tr class="separator:a4477816ac52dde4c00f13e8c03aafc9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a844ac8c8ba5332df18d566e700f7746f" id="r_a844ac8c8ba5332df18d566e700f7746f"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a844ac8c8ba5332df18d566e700f7746f">la_ssyrk</a> (uplo, trans, n, k, alpha, a, lda, beta, c, ldc)</td></tr>
 <tr class="memdesc:a844ac8c8ba5332df18d566e700f7746f"><td class="mdescLeft">&#160;</td><td class="mdescRight">SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C, or C := alpha*A**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A is an n by k matrix in the first case and a k by n matrix in the second case.  <br /></td></tr>
 <tr class="separator:a844ac8c8ba5332df18d566e700f7746f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30b5d37b2abdb2ac7e04b321f3a84d1b" id="r_a30b5d37b2abdb2ac7e04b321f3a84d1b"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30b5d37b2abdb2ac7e04b321f3a84d1b">la_dsyrk</a> (uplo, trans, n, k, alpha, a, lda, beta, c, ldc)</td></tr>
 <tr class="memdesc:a30b5d37b2abdb2ac7e04b321f3a84d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">DSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C, or C := alpha*A**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A is an n by k matrix in the first case and a k by n matrix in the second case.  <br /></td></tr>
 <tr class="separator:a30b5d37b2abdb2ac7e04b321f3a84d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a932a5f46f03c3ebc6374ffc5ec9f9958" id="r_a932a5f46f03c3ebc6374ffc5ec9f9958"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a932a5f46f03c3ebc6374ffc5ec9f9958">la_qsyrk</a> (uplo, trans, n, k, alpha, a, lda, beta, c, ldc)</td></tr>
-<tr class="memdesc:a932a5f46f03c3ebc6374ffc5ec9f9958"><td class="mdescLeft">&#160;</td><td class="mdescRight">QSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C, or C := alpha*A**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A is an n by k matrix in the first case and a k by n matrix in the second case.  <br /></td></tr>
-<tr class="separator:a932a5f46f03c3ebc6374ffc5ec9f9958"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6f792c8b9f8a0fcc16ad688f8146d1b" id="r_af6f792c8b9f8a0fcc16ad688f8146d1b"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6f792c8b9f8a0fcc16ad688f8146d1b">la_csymm</a> (side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
 <tr class="memdesc:af6f792c8b9f8a0fcc16ad688f8146d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSYMM: performs one of the matrix-matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta*C, where alpha and beta are scalars, A is a symmetric matrix and B and C are m by n matrices.  <br /></td></tr>
 <tr class="separator:af6f792c8b9f8a0fcc16ad688f8146d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42d27321d5b3005f81087f4353dbc462" id="r_a42d27321d5b3005f81087f4353dbc462"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42d27321d5b3005f81087f4353dbc462">la_zsymm</a> (side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
 <tr class="memdesc:a42d27321d5b3005f81087f4353dbc462"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZSYMM: performs one of the matrix-matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta*C, where alpha and beta are scalars, A is a symmetric matrix and B and C are m by n matrices.  <br /></td></tr>
 <tr class="separator:a42d27321d5b3005f81087f4353dbc462"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80d5153d10686f69b3b370d2b4015c25" id="r_a80d5153d10686f69b3b370d2b4015c25"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a80d5153d10686f69b3b370d2b4015c25">la_wsymm</a> (side, uplo, m, n, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
-<tr class="memdesc:a80d5153d10686f69b3b370d2b4015c25"><td class="mdescLeft">&#160;</td><td class="mdescRight">WSYMM: performs one of the matrix-matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta*C, where alpha and beta are scalars, A is a symmetric matrix and B and C are m by n matrices.  <br /></td></tr>
-<tr class="separator:a80d5153d10686f69b3b370d2b4015c25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaea0d47f5d5822de6ddb3b43dadd7618" id="r_aaea0d47f5d5822de6ddb3b43dadd7618"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaea0d47f5d5822de6ddb3b43dadd7618">la_csyr2k</a> (uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
 <tr class="memdesc:aaea0d47f5d5822de6ddb3b43dadd7618"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C, or C := alpha*A**T*B + alpha*B**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A and B are n by k matrices in the first case and k by n matrices in the second case.  <br /></td></tr>
 <tr class="separator:aaea0d47f5d5822de6ddb3b43dadd7618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3db915c86c376e61482d5f73dbe9508b" id="r_a3db915c86c376e61482d5f73dbe9508b"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3db915c86c376e61482d5f73dbe9508b">la_zsyr2k</a> (uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
 <tr class="memdesc:a3db915c86c376e61482d5f73dbe9508b"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C, or C := alpha*A**T*B + alpha*B**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A and B are n by k matrices in the first case and k by n matrices in the second case.  <br /></td></tr>
 <tr class="separator:a3db915c86c376e61482d5f73dbe9508b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe0834aaaa8515b32b187a7f73947093" id="r_abe0834aaaa8515b32b187a7f73947093"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abe0834aaaa8515b32b187a7f73947093">la_wsyr2k</a> (uplo, trans, n, k, alpha, a, lda, b, ldb, beta, c, ldc)</td></tr>
-<tr class="memdesc:abe0834aaaa8515b32b187a7f73947093"><td class="mdescLeft">&#160;</td><td class="mdescRight">WSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C, or C := alpha*A**T*B + alpha*B**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A and B are n by k matrices in the first case and k by n matrices in the second case.  <br /></td></tr>
-<tr class="separator:abe0834aaaa8515b32b187a7f73947093"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c5d3780e1a8689320df13b1507be3bf" id="r_a1c5d3780e1a8689320df13b1507be3bf"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c5d3780e1a8689320df13b1507be3bf">la_csyrk</a> (uplo, trans, n, k, alpha, a, lda, beta, c, ldc)</td></tr>
 <tr class="memdesc:a1c5d3780e1a8689320df13b1507be3bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C, or C := alpha*A**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A is an n by k matrix in the first case and a k by n matrix in the second case.  <br /></td></tr>
 <tr class="separator:a1c5d3780e1a8689320df13b1507be3bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a963f5db2c35b87c601f7521faba5dc4c" id="r_a963f5db2c35b87c601f7521faba5dc4c"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a963f5db2c35b87c601f7521faba5dc4c">la_zsyrk</a> (uplo, trans, n, k, alpha, a, lda, beta, c, ldc)</td></tr>
 <tr class="memdesc:a963f5db2c35b87c601f7521faba5dc4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C, or C := alpha*A**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A is an n by k matrix in the first case and a k by n matrix in the second case.  <br /></td></tr>
 <tr class="separator:a963f5db2c35b87c601f7521faba5dc4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32199f9d20391acc3d9f682fa03d7bd7" id="r_a32199f9d20391acc3d9f682fa03d7bd7"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32199f9d20391acc3d9f682fa03d7bd7">la_wsyrk</a> (uplo, trans, n, k, alpha, a, lda, beta, c, ldc)</td></tr>
-<tr class="memdesc:a32199f9d20391acc3d9f682fa03d7bd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">WSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C, or C := alpha*A**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A is an n by k matrix in the first case and a k by n matrix in the second case.  <br /></td></tr>
-<tr class="separator:a32199f9d20391acc3d9f682fa03d7bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>BLAS level 3: symmetric matrix-matrix operations. </p>
@@ -253,12 +235,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_af6f792c8b9f8a0fcc16ad688f8146d1b_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_af6f792c8b9f8a0fcc16ad688f8146d1b_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_af6f792c8b9f8a0fcc16ad688f8146d1b_cgraph" id="anamespacela__blas__level3__sym_af6f792c8b9f8a0fcc16ad688f8146d1b_cgraph">
-<area shape="rect" title="CSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="CSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -339,12 +321,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_aaea0d47f5d5822de6ddb3b43dadd7618_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_aaea0d47f5d5822de6ddb3b43dadd7618_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_aaea0d47f5d5822de6ddb3b43dadd7618_cgraph" id="anamespacela__blas__level3__sym_aaea0d47f5d5822de6ddb3b43dadd7618_cgraph">
-<area shape="rect" title="CSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="CSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -415,12 +397,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a1c5d3780e1a8689320df13b1507be3bf_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a1c5d3780e1a8689320df13b1507be3bf_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a1c5d3780e1a8689320df13b1507be3bf_cgraph" id="anamespacela__blas__level3__sym_a1c5d3780e1a8689320df13b1507be3bf_cgraph">
-<area shape="rect" title="CSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="CSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -501,12 +483,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a33e26fff77c231a40a3b7fd14a7d7231_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a33e26fff77c231a40a3b7fd14a7d7231_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a33e26fff77c231a40a3b7fd14a7d7231_cgraph" id="anamespacela__blas__level3__sym_a33e26fff77c231a40a3b7fd14a7d7231_cgraph">
-<area shape="rect" title="DSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="DSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -587,12 +569,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a1658499b1e50950306d28916c20e8cd9_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a1658499b1e50950306d28916c20e8cd9_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a1658499b1e50950306d28916c20e8cd9_cgraph" id="anamespacela__blas__level3__sym_a1658499b1e50950306d28916c20e8cd9_cgraph">
-<area shape="rect" title="DSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="DSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -663,260 +645,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a30b5d37b2abdb2ac7e04b321f3a84d1b_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a30b5d37b2abdb2ac7e04b321f3a84d1b_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a30b5d37b2abdb2ac7e04b321f3a84d1b_cgraph" id="anamespacela__blas__level3__sym_a30b5d37b2abdb2ac7e04b321f3a84d1b_cgraph">
-<area shape="rect" title="DSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ac33672e86383d4014f77c2b4352976eb" name="ac33672e86383d4014f77c2b4352976eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac33672e86383d4014f77c2b4352976eb">&#9670;&#160;</a></span>la_qsymm()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level3_sym::la_qsymm </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>side</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldb,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldc,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldc</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QSYMM: performs one of the matrix-matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta*C, where alpha and beta are scalars, A is a symmetric matrix and B and C are m by n matrices. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level3__sym_ac33672e86383d4014f77c2b4352976eb_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_ac33672e86383d4014f77c2b4352976eb_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level3__sym_ac33672e86383d4014f77c2b4352976eb_cgraph" id="anamespacela__blas__level3__sym_ac33672e86383d4014f77c2b4352976eb_cgraph">
-<area shape="rect" title="QSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a4477816ac52dde4c00f13e8c03aafc9b" name="a4477816ac52dde4c00f13e8c03aafc9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4477816ac52dde4c00f13e8c03aafc9b">&#9670;&#160;</a></span>la_qsyr2k()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level3_sym::la_qsyr2k </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldb,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldc,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldc</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C, or C := alpha*A**T*B + alpha*B**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A and B are n by k matrices in the first case and k by n matrices in the second case. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level3__sym_a4477816ac52dde4c00f13e8c03aafc9b_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a4477816ac52dde4c00f13e8c03aafc9b_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level3__sym_a4477816ac52dde4c00f13e8c03aafc9b_cgraph" id="anamespacela__blas__level3__sym_a4477816ac52dde4c00f13e8c03aafc9b_cgraph">
-<area shape="rect" title="QSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a932a5f46f03c3ebc6374ffc5ec9f9958" name="a932a5f46f03c3ebc6374ffc5ec9f9958"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a932a5f46f03c3ebc6374ffc5ec9f9958">&#9670;&#160;</a></span>la_qsyrk()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level3_sym::la_qsyrk </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldc,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldc</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C, or C := alpha*A**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A is an n by k matrix in the first case and a k by n matrix in the second case. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level3__sym_a932a5f46f03c3ebc6374ffc5ec9f9958_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a932a5f46f03c3ebc6374ffc5ec9f9958_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level3__sym_a932a5f46f03c3ebc6374ffc5ec9f9958_cgraph" id="anamespacela__blas__level3__sym_a932a5f46f03c3ebc6374ffc5ec9f9958_cgraph">
-<area shape="rect" title="QSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="DSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -997,12 +731,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a7b96a066999262b77b3cffb473a5b50f_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a7b96a066999262b77b3cffb473a5b50f_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a7b96a066999262b77b3cffb473a5b50f_cgraph" id="anamespacela__blas__level3__sym_a7b96a066999262b77b3cffb473a5b50f_cgraph">
-<area shape="rect" title="SSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="SSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -1083,12 +817,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a124845f580997f1083a8c4c088661c5e_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a124845f580997f1083a8c4c088661c5e_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a124845f580997f1083a8c4c088661c5e_cgraph" id="anamespacela__blas__level3__sym_a124845f580997f1083a8c4c088661c5e_cgraph">
-<area shape="rect" title="SSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="SSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -1159,260 +893,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a844ac8c8ba5332df18d566e700f7746f_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a844ac8c8ba5332df18d566e700f7746f_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a844ac8c8ba5332df18d566e700f7746f_cgraph" id="anamespacela__blas__level3__sym_a844ac8c8ba5332df18d566e700f7746f_cgraph">
-<area shape="rect" title="SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a80d5153d10686f69b3b370d2b4015c25" name="a80d5153d10686f69b3b370d2b4015c25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80d5153d10686f69b3b370d2b4015c25">&#9670;&#160;</a></span>la_wsymm()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level3_sym::la_wsymm </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>side</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldb,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldc,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldc</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WSYMM: performs one of the matrix-matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta*C, where alpha and beta are scalars, A is a symmetric matrix and B and C are m by n matrices. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level3__sym_a80d5153d10686f69b3b370d2b4015c25_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a80d5153d10686f69b3b370d2b4015c25_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level3__sym_a80d5153d10686f69b3b370d2b4015c25_cgraph" id="anamespacela__blas__level3__sym_a80d5153d10686f69b3b370d2b4015c25_cgraph">
-<area shape="rect" title="WSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="abe0834aaaa8515b32b187a7f73947093" name="abe0834aaaa8515b32b187a7f73947093"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe0834aaaa8515b32b187a7f73947093">&#9670;&#160;</a></span>la_wsyr2k()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level3_sym::la_wsyr2k </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldb,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldb</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldc,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldc</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C, or C := alpha*A**T*B + alpha*B**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A and B are n by k matrices in the first case and k by n matrices in the second case. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level3__sym_abe0834aaaa8515b32b187a7f73947093_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_abe0834aaaa8515b32b187a7f73947093_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level3__sym_abe0834aaaa8515b32b187a7f73947093_cgraph" id="anamespacela__blas__level3__sym_abe0834aaaa8515b32b187a7f73947093_cgraph">
-<area shape="rect" title="WSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a32199f9d20391acc3d9f682fa03d7bd7" name="a32199f9d20391acc3d9f682fa03d7bd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32199f9d20391acc3d9f682fa03d7bd7">&#9670;&#160;</a></span>la_wsyrk()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level3_sym::la_wsyrk </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldc,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldc</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C, or C := alpha*A**T*A + beta*C, where alpha and beta are scalars, C is an n by n symmetric matrix and A is an n by k matrix in the first case and a k by n matrix in the second case. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level3__sym_a32199f9d20391acc3d9f682fa03d7bd7_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a32199f9d20391acc3d9f682fa03d7bd7_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level3__sym_a32199f9d20391acc3d9f682fa03d7bd7_cgraph" id="anamespacela__blas__level3__sym_a32199f9d20391acc3d9f682fa03d7bd7_cgraph">
-<area shape="rect" title="WSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -1493,12 +979,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a42d27321d5b3005f81087f4353dbc462_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a42d27321d5b3005f81087f4353dbc462_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a42d27321d5b3005f81087f4353dbc462_cgraph" id="anamespacela__blas__level3__sym_a42d27321d5b3005f81087f4353dbc462_cgraph">
-<area shape="rect" title="ZSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="ZSYMM: performs one of the matrix&#45;matrix operations C := alpha*A*B + beta*C, or C := alpha*B*A + beta..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -1579,12 +1065,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a3db915c86c376e61482d5f73dbe9508b_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a3db915c86c376e61482d5f73dbe9508b_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a3db915c86c376e61482d5f73dbe9508b_cgraph" id="anamespacela__blas__level3__sym_a3db915c86c376e61482d5f73dbe9508b_cgraph">
-<area shape="rect" title="ZSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="ZSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 
@@ -1655,12 +1141,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level3__sym_a963f5db2c35b87c601f7521faba5dc4c_cgraph.png" border="0" usemap="#anamespacela__blas__level3__sym_a963f5db2c35b87c601f7521faba5dc4c_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level3__sym_a963f5db2c35b87c601f7521faba5dc4c_cgraph" id="anamespacela__blas__level3__sym_a963f5db2c35b87c601f7521faba5dc4c_cgraph">
-<area shape="rect" title="ZSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,47,156,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="204,29,371,55"/>
-<area shape="poly" title=" " alt="" coords="156,55,190,51,191,57,157,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="204,79,371,104"/>
-<area shape="poly" title=" " alt="" coords="157,73,191,77,190,83,156,79"/>
-<area shape="poly" title=" " alt="" coords="254,31,246,21,250,11,264,5,287,3,316,6,327,15,324,20,314,11,287,8,265,10,254,15,252,20,258,28"/>
+<area shape="rect" title="ZSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="5,48,155,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="203,29,368,57"/>
+<area shape="poly" title=" " alt="" coords="155,58,190,55,184,57,156,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="203,81,368,109"/>
+<area shape="poly" title=" " alt="" coords="155,76,190,83,184,83,155,82"/>
+<area shape="poly" title=" " alt="" coords="250,28,244,20,249,11,263,5,285,3,310,5,324,14,319,14,308,10,285,8,264,10,252,15,250,20,255,30"/>
 </map>
 </div>
 

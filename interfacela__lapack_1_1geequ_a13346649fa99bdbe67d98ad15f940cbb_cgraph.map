@@ -1,5 +1,5 @@
 <map id="la_lapack::geequ::cgeequ" name="la_lapack::geequ::cgeequ">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,192,38"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#af61c8e3a4331eab081f6a92126df7753" title="CGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="240,5,385,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,23,226,23,226,28,192,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,14,192,42"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#af61c8e3a4331eab081f6a92126df7753" title="CGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="240,5,384,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,25,227,27,221,28,192,30"/>
 </map>

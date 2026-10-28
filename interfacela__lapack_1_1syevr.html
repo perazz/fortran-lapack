@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa90f53df3f78478b642f3d2b3d4b0ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af285031b73203b596cb24b8dcf46266b" id="r_af285031b73203b596cb24b8dcf46266b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af285031b73203b596cb24b8dcf46266b">la_ssyevr</a></td></tr>
 <tr class="separator:af285031b73203b596cb24b8dcf46266b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6188bb8798f00f9cd0df5e74c9d3a532" id="r_a6188bb8798f00f9cd0df5e74c9d3a532"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6188bb8798f00f9cd0df5e74c9d3a532">la_xsyevr</a></td></tr>
+<tr class="separator:a6188bb8798f00f9cd0df5e74c9d3a532"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>SYEVR: computes selected eigenvalues and, optionally, eigenvectors of a real symmetric matrix A. Eigenvalues and eigenvectors can be selected by specifying either a range of values or a range of indices for the desired eigenvalues. SYEVR first reduces the matrix A to tridiagonal form T with a call to DSYTRD. Then, whenever possible, SYEVR calls DSTEMR to compute the eigenspectrum using Relatively Robust Representations. DSTEMR computes eigenvalues by the dqds algorithm, while orthogonal eigenvectors are computed from various "good" L D L^T representations (also known as Relatively Robust Representations). Gram-Schmidt orthogonalization is avoided as far as possible. More specifically, the various steps of the algorithm are as follows. For each unreduced block (submatrix) of T, (a) Compute T - sigma I = L D L^T, so that L and D define all the wanted eigenvalues to high relative accuracy. This means that small relative changes in the entries of D and L cause only small relative changes in the eigenvalues and eigenvectors. The standard (unfactored) representation of the tridiagonal matrix T does not have this property in general. (b) Compute the eigenvalues to suitable accuracy. If the eigenvectors are desired, the algorithm attains full accuracy of the computed eigenvalues only right before the corresponding vectors have to be computed, see steps c) and d). (c) For each cluster of close eigenvalues, select a new shift close to the cluster, find a new factorization, and refine the shifted eigenvalues to suitable accuracy. (d) For each eigenvalue with a large enough relative separation compute the corresponding eigenvector by forming a rank revealing twisted factorization. Go back to (c) for any clusters that remain. The desired accuracy of the output can be specified by the input parameter ABSTOL. For more details, see DSTEMR's documentation and: </p>
@@ -300,6 +302,20 @@ tridiagonal eigenvalue/eigenvector problem", Computer Science Division Technical
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::syevr::la_ssyevr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6188bb8798f00f9cd0df5e74c9d3a532" name="a6188bb8798f00f9cd0df5e74c9d3a532"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6188bb8798f00f9cd0df5e74c9d3a532">&#9670;&#160;</a></span>la_xsyevr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::syevr::la_xsyevr</td>
         </tr>
       </table>
 </div><div class="memdoc">

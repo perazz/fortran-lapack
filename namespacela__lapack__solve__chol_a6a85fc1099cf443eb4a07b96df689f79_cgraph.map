@@ -1,33 +1,33 @@
 <map id="la_lapack_solve_chol::la_cptsvx" name="la_lapack_solve_chol::la_cptsvx">
-<area shape="rect" id="Node000001" title="CPTSVX: uses the factorization A = L*D*L**H to compute the solution to a complex system of linear equ..." alt="" coords="5,360,165,400"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="229,5,364,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,359,98,303,121,224,137,181,157,139,182,99,211,62,225,51,228,55,215,66,186,102,162,142,142,184,126,226,103,304,92,360"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="223,360,371,400"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,377,209,377,209,383,166,383"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="428,151,595,177"/>
-<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="86,359,96,306,117,235,134,198,154,163,180,131,212,106,246,90,282,84,319,85,356,91,425,115,479,142,477,147,423,120,355,96,319,90,282,89,247,95,215,110,184,135,159,166,138,200,122,237,101,307,91,360"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__mnorm.html#a65c468aab7b6151629be6658e8411564" title="CLANHT: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="223,232,371,272"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="107,358,154,320,212,282,225,275,227,280,215,286,157,324,111,362"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__chol__comp.html#aefba4ad6b265d67dbc280f983c6c1ed1" title="CPTCON: computes the reciprocal of the condition number (in the 1&#45;norm) of a complex Hermitian positi..." alt="" coords="217,296,377,336"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="151,357,216,337,218,343,153,362"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#ad969bc7e8f814037b26a417dc3b77bae" title="CPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="217,424,377,464"/>
-<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="153,398,218,417,216,423,151,403"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#a1acba3557decbeb37ee09a12429fe7fb" title="CPTTRS: solves a tridiagonal system of the form A * X = B using the factorization A = U**H*D*U or A =..." alt="" coords="431,516,591,556"/>
-<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="94,400,106,444,130,501,146,530,165,558,188,582,215,602,246,615,279,620,314,619,348,612,414,589,467,561,470,566,416,594,350,618,315,624,279,626,245,620,212,606,184,586,161,561,141,533,125,504,101,446,88,401"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#ac1aa6f213b250287dd7453c51b67db3b" title="CPTTRF: computes the L*D*L**H factorization of a complex Hermitian positive definite tridiagonal matr..." alt="" coords="217,488,377,528"/>
-<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="111,398,157,436,215,474,227,480,225,485,212,478,154,440,107,402"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="229,552,364,592"/>
-<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="100,399,145,466,177,504,215,538,222,543,219,547,212,542,174,508,141,469,95,401"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="223,144,371,184"/>
-<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="93,359,111,324,137,280,171,234,212,194,219,189,222,193,215,198,175,238,141,283,115,326,98,361"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,667,380,693"/>
-<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="93,399,106,449,130,515,166,585,189,617,215,646,234,659,231,664,212,650,184,621,161,587,125,517,101,450,88,401"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="360,358,378,346,418,308,451,265,496,188,500,191,455,268,422,312,382,350,362,362"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="477,153,469,143,473,133,488,127,511,125,541,128,552,137,549,142,539,133,511,130,489,132,477,137,475,142,481,150"/>
-<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="257,232,255,222,261,213,275,207,297,205,321,208,335,216,332,220,320,213,297,211,276,213,264,217,260,223,262,231"/>
-<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="352,462,381,474,457,508,455,512,379,478,350,466"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#af846075e671ead6191fa55b61af5289d" title="CPTTS2: solves a tridiagonal system of the form A * X = B using the factorization A = U**H*D*U or A =..." alt="" coords="643,516,803,556"/>
-<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="592,533,629,533,629,539,592,539"/>
-<area shape="poly" id="edge16_Node000012_Node000004" title=" " alt="" coords="371,161,414,161,414,167,371,167"/>
-<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="257,144,255,134,261,125,275,119,297,117,321,120,335,128,332,132,320,125,297,123,276,125,264,129,260,135,262,143"/>
+<area shape="rect" id="Node000001" title="CPTSVX: uses the factorization A = L*D*L**H to compute the solution to a complex system of linear equ..." alt="" coords="5,381,165,426"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="228,5,362,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,380,97,320,120,238,136,193,156,148,181,106,211,67,224,57,222,62,215,71,185,109,161,151,141,195,125,239,103,321,92,381"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="222,381,369,426"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,401,208,402,204,405,166,406"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="426,158,591,186"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="86,381,94,323,115,248,131,209,152,171,179,138,211,111,244,95,279,89,316,89,352,96,420,119,475,149,470,150,418,124,351,101,315,95,280,94,246,100,214,115,182,142,156,174,136,211,120,250,99,324,91,381"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__mnorm.html#a65c468aab7b6151629be6658e8411564" title="CLANHT: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="222,243,369,287"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="108,379,154,338,211,297,223,293,220,297,214,302,157,343,112,382"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__chol__comp.html#aefba4ad6b265d67dbc280f983c6c1ed1" title="CPTCON: computes the reciprocal of the condition number (in the 1&#45;norm) of a complex Hermitian positi..." alt="" coords="216,312,375,357"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="153,379,213,360,209,364,157,383"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#ad969bc7e8f814037b26a417dc3b77bae" title="CPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="216,451,375,495"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="154,424,213,444,209,447,156,429"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#a1acba3557decbeb37ee09a12429fe7fb" title="CPTTRS: solves a tridiagonal system of the form A * X = B using the factorization A = U**H*D*U or A =..." alt="" coords="429,549,588,594"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="90,424,105,474,127,536,143,567,163,597,186,623,214,644,256,663,292,665,330,657,377,644,424,625,464,604,469,602,426,630,379,649,332,662,292,670,254,668,211,649,183,627,159,600,139,570,122,538,99,476,90,429"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#ac1aa6f213b250287dd7453c51b67db3b" title="CPTTRF: computes the L*D*L**H factorization of a complex Hermitian positive definite tridiagonal matr..." alt="" coords="216,520,375,565"/>
+<area shape="poly" id="edge11_Node000001_Node000010" title=" " alt="" coords="110,424,157,465,214,505,224,512,219,513,211,510,154,469,110,429"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="228,589,362,634"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="98,424,144,498,177,539,214,575,221,581,215,581,211,579,173,542,140,501,97,429"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,149,369,194"/>
+<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="93,380,110,343,136,296,170,247,211,204,219,201,216,205,214,208,174,251,141,299,115,345,98,382"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,708,378,736"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="91,424,105,479,128,549,164,623,187,658,214,688,229,701,224,700,211,692,183,661,159,626,123,551,100,480,90,429"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="359,379,376,367,416,327,449,281,475,236,494,202,497,198,479,239,453,284,420,330,380,371,362,383"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="472,157,467,149,471,139,486,133,509,131,533,134,548,142,543,143,532,139,509,136,487,138,475,143,472,149,477,157"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="255,242,254,233,261,224,275,218,295,216,318,219,333,227,328,228,317,224,295,221,276,223,264,228,259,234,260,243"/>
+<area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="351,493,379,505,452,542,447,542,377,510,352,499"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#af846075e671ead6191fa55b61af5289d" title="CPTTS2: solves a tridiagonal system of the form A * X = B using the factorization A = U**H*D*U or A =..." alt="" coords="639,549,799,594"/>
+<area shape="poly" id="edge10_Node000008_Node000009" title=" " alt="" coords="588,569,626,571,621,572,589,574"/>
+<area shape="poly" id="edge16_Node000012_Node000004" title=" " alt="" coords="368,169,413,170,408,173,370,174"/>
+<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="255,148,254,139,261,130,275,125,295,123,318,125,333,133,328,135,317,130,295,128,276,130,264,135,259,141,260,149"/>
 </map>

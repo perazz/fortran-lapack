@@ -7,6 +7,8 @@ var interfacela__blas_1_1tpsv =
     [ "la_qtpsv", "interfacela__blas_1_1tpsv.html#aa5dc812716d10a537a3faaf9c106e35d", null ],
     [ "la_stpsv", "interfacela__blas_1_1tpsv.html#a8fdea89e35b1f3d0cafa5830224b1640", null ],
     [ "la_wtpsv", "interfacela__blas_1_1tpsv.html#a7847e2285cbaf9c590856bddae19e2db", null ],
+    [ "la_xtpsv", "interfacela__blas_1_1tpsv.html#ae2528c3b8bcaedc203208db60bb6e32a", null ],
+    [ "la_ytpsv", "interfacela__blas_1_1tpsv.html#ad04968747eda269087abad0b7aa79863", null ],
     [ "la_ztpsv", "interfacela__blas_1_1tpsv.html#aa53efc9b8e6858a98db21ecfc0c4a2d1", null ],
     [ "stpsv", "interfacela__blas_1_1tpsv.html#a36e149b1e7b3424fb62c1197b4252333", null ],
     [ "ztpsv", "interfacela__blas_1_1tpsv.html#af0535232e1ac22ab21619a0d3c287d83", null ]

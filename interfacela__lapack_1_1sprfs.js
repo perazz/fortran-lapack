@@ -7,6 +7,8 @@ var interfacela__lapack_1_1sprfs =
     [ "la_qsprfs", "interfacela__lapack_1_1sprfs.html#a3f0f57046b76b83a9b1a70e0196a47a8", null ],
     [ "la_ssprfs", "interfacela__lapack_1_1sprfs.html#a82d13ed30ae33b7776273ddc1663d336", null ],
     [ "la_wsprfs", "interfacela__lapack_1_1sprfs.html#ab8714f3e3b3ba57e6a091eecf92c71b4", null ],
+    [ "la_xsprfs", "interfacela__lapack_1_1sprfs.html#ab9556ab5a050890a014efea4d59dca2c", null ],
+    [ "la_ysprfs", "interfacela__lapack_1_1sprfs.html#afb807014a880c8fe1cca121e11334028", null ],
     [ "la_zsprfs", "interfacela__lapack_1_1sprfs.html#a22417a99351e421f59667810181a4b95", null ],
     [ "ssprfs", "interfacela__lapack_1_1sprfs.html#ac6235846f5340b541cd04fc17ae50e07", null ],
     [ "zsprfs", "interfacela__lapack_1_1sprfs.html#a81db6dd3af658d3143c8293e860917a5", null ]

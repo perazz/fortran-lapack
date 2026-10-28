@@ -7,6 +7,8 @@ var interfacela__blas_1_1rotg =
     [ "la_qrotg", "interfacela__blas_1_1rotg.html#a01d153ed5ba12d5e9ede02e296f89dbf", null ],
     [ "la_srotg", "interfacela__blas_1_1rotg.html#aa6f2ae6463cbe0a75aecadd7e41f9436", null ],
     [ "la_wrotg", "interfacela__blas_1_1rotg.html#a99ba658a0b2edd169cb1d3b3248e825e", null ],
+    [ "la_xrotg", "interfacela__blas_1_1rotg.html#af6ada89a6e6c6d914aa776db2c8a73f1", null ],
+    [ "la_yrotg", "interfacela__blas_1_1rotg.html#ab8dd0ec4d00d6de1aac9df67f994cce2", null ],
     [ "la_zrotg", "interfacela__blas_1_1rotg.html#add775a732676fbc0d01505ec326c7a3a", null ],
     [ "srotg", "interfacela__blas_1_1rotg.html#ab538352f97f7a276895c43ef16e786f2", null ],
     [ "zrotg", "interfacela__blas_1_1rotg.html#ad4a99c1a08dc9dfed24ef26e4556817d", null ]

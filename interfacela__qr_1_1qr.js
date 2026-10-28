@@ -5,5 +5,7 @@ var interfacela__qr_1_1qr =
     [ "la_q_qr", "interfacela__qr_1_1qr.html#a9ebf935cdaab0cb0c12a7e143ba00427", null ],
     [ "la_s_qr", "interfacela__qr_1_1qr.html#aa45a503d468db73a747bbc8a223b3cb0", null ],
     [ "la_w_qr", "interfacela__qr_1_1qr.html#ae39943467a53959f132b49894d7ce03f", null ],
+    [ "la_x_qr", "interfacela__qr_1_1qr.html#a72e549ba3a41af0b1adb292a7104a627", null ],
+    [ "la_y_qr", "interfacela__qr_1_1qr.html#a23dfc44b4ec0d14b7e73cc327868c9a4", null ],
     [ "la_z_qr", "interfacela__qr_1_1qr.html#a39395b3cc05516700c6bb9b5623ceaa9", null ]
 ];

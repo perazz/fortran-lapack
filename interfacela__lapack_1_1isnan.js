@@ -4,5 +4,6 @@ var interfacela__lapack_1_1isnan =
     [ "la_disnan", "interfacela__lapack_1_1isnan.html#a4fe5c01b445f09f06e24c9a362067be6", null ],
     [ "la_qisnan", "interfacela__lapack_1_1isnan.html#a728b0f2615a714f4980b1f7e93ff644b", null ],
     [ "la_sisnan", "interfacela__lapack_1_1isnan.html#a637c624c6cf21e55b8dfc126c20f2e73", null ],
+    [ "la_xisnan", "interfacela__lapack_1_1isnan.html#a0b734416971592f08493a33d2a7791b1", null ],
     [ "sisnan", "interfacela__lapack_1_1isnan.html#a8d3aa0ade33594c63867ae17c3f2b820", null ]
 ];

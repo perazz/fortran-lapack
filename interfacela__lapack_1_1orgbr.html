@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ae6112734144cf51efc74cfa8793966ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18156fe70a755cd8acbbc3037cbfef52" id="r_a18156fe70a755cd8acbbc3037cbfef52"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a18156fe70a755cd8acbbc3037cbfef52">la_sorgbr</a></td></tr>
 <tr class="separator:a18156fe70a755cd8acbbc3037cbfef52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a721443f67307a958da98e3d5c47bf86f" id="r_a721443f67307a958da98e3d5c47bf86f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a721443f67307a958da98e3d5c47bf86f">la_xorgbr</a></td></tr>
+<tr class="separator:a721443f67307a958da98e3d5c47bf86f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORGBR: generates one of the real orthogonal matrices Q or P**T determined by DGEBRD when reducing a real matrix A to bidiagonal form: A = Q * B * P**T. Q and P**T are defined as products of elementary reflectors H(i) or G(i) respectively. If VECT = 'Q', A is assumed to have been an M-by-K matrix, and Q is of order M: if m &gt;= k, Q = H(1) H(2) . . . H(k) and ORGBR returns the first n columns of Q, where m &gt;= n &gt;= k; if m &lt; k, Q = H(1) H(2) . . . H(m-1) and ORGBR returns Q as an M-by-M matrix. If VECT = 'P', A is assumed to have been a K-by-N matrix, and P**T is of order N: if k &lt; n, P**T = G(k) . . . G(2) G(1) and ORGBR returns the first m rows of P**T, where n &gt;= m &gt;= k; if k &gt;= n, P**T = G(n-1) . . . G(2) G(1) and ORGBR returns P**T as an N-by-N matrix. </p>
@@ -232,6 +234,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::orgbr::la_sorgbr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a721443f67307a958da98e3d5c47bf86f" name="a721443f67307a958da98e3d5c47bf86f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a721443f67307a958da98e3d5c47bf86f">&#9670;&#160;</a></span>la_xorgbr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::orgbr::la_xorgbr</td>
         </tr>
       </table>
 </div><div class="memdoc">

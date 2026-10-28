@@ -126,108 +126,72 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a8eec3007752e40d25071dcf3eec0a4f3" id="r_a8eec3007752e40d25071dcf3eec0a4f3"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8eec3007752e40d25071dcf3eec0a4f3">la_dtbmv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a8eec3007752e40d25071dcf3eec0a4f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTBMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals.  <br /></td></tr>
 <tr class="separator:a8eec3007752e40d25071dcf3eec0a4f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac193792a7a712712092969a501eebcd4" id="r_ac193792a7a712712092969a501eebcd4"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac193792a7a712712092969a501eebcd4">la_qtbmv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
-<tr class="memdesc:ac193792a7a712712092969a501eebcd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">QTBMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals.  <br /></td></tr>
-<tr class="separator:ac193792a7a712712092969a501eebcd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a09e656e7e22e57a9b771916b6e78cf20" id="r_a09e656e7e22e57a9b771916b6e78cf20"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a09e656e7e22e57a9b771916b6e78cf20">la_stbsv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a09e656e7e22e57a9b771916b6e78cf20"><td class="mdescLeft">&#160;</td><td class="mdescRight">STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:a09e656e7e22e57a9b771916b6e78cf20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a636d94d3b73153396b3e16db4de5ce86" id="r_a636d94d3b73153396b3e16db4de5ce86"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a636d94d3b73153396b3e16db4de5ce86">la_dtbsv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a636d94d3b73153396b3e16db4de5ce86"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:a636d94d3b73153396b3e16db4de5ce86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed47d68c3a12e463510120f614d5e3c4" id="r_aed47d68c3a12e463510120f614d5e3c4"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aed47d68c3a12e463510120f614d5e3c4">la_qtbsv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
-<tr class="memdesc:aed47d68c3a12e463510120f614d5e3c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">QTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
-<tr class="separator:aed47d68c3a12e463510120f614d5e3c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a8cd649b79a6144da4f8e8f2c13300f" id="r_a7a8cd649b79a6144da4f8e8f2c13300f"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a8cd649b79a6144da4f8e8f2c13300f">la_stpmv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
 <tr class="memdesc:a7a8cd649b79a6144da4f8e8f2c13300f"><td class="mdescLeft">&#160;</td><td class="mdescRight">STPMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form.  <br /></td></tr>
 <tr class="separator:a7a8cd649b79a6144da4f8e8f2c13300f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa56ec2d8bbee5f71d139f82d03213344" id="r_aa56ec2d8bbee5f71d139f82d03213344"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa56ec2d8bbee5f71d139f82d03213344">la_dtpmv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
 <tr class="memdesc:aa56ec2d8bbee5f71d139f82d03213344"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTPMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form.  <br /></td></tr>
 <tr class="separator:aa56ec2d8bbee5f71d139f82d03213344"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8e7e869a86101f2a6db47e95704878f" id="r_ae8e7e869a86101f2a6db47e95704878f"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae8e7e869a86101f2a6db47e95704878f">la_qtpmv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
-<tr class="memdesc:ae8e7e869a86101f2a6db47e95704878f"><td class="mdescLeft">&#160;</td><td class="mdescRight">QTPMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form.  <br /></td></tr>
-<tr class="separator:ae8e7e869a86101f2a6db47e95704878f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a654eb4dc18e0016ed835068cb464ee20" id="r_a654eb4dc18e0016ed835068cb464ee20"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a654eb4dc18e0016ed835068cb464ee20">la_stpsv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
 <tr class="memdesc:a654eb4dc18e0016ed835068cb464ee20"><td class="mdescLeft">&#160;</td><td class="mdescRight">STPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:a654eb4dc18e0016ed835068cb464ee20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d29ea7d0445c1f584bfd4d6c854a685" id="r_a8d29ea7d0445c1f584bfd4d6c854a685"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8d29ea7d0445c1f584bfd4d6c854a685">la_dtpsv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
 <tr class="memdesc:a8d29ea7d0445c1f584bfd4d6c854a685"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:a8d29ea7d0445c1f584bfd4d6c854a685"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50a01ea309bc3a9a3d0a22bf186365dd" id="r_a50a01ea309bc3a9a3d0a22bf186365dd"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a50a01ea309bc3a9a3d0a22bf186365dd">la_qtpsv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
-<tr class="memdesc:a50a01ea309bc3a9a3d0a22bf186365dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">QTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
-<tr class="separator:a50a01ea309bc3a9a3d0a22bf186365dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fc318d24946d64d028a065543860cff" id="r_a2fc318d24946d64d028a065543860cff"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fc318d24946d64d028a065543860cff">la_strmv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a2fc318d24946d64d028a065543860cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">STRMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix.  <br /></td></tr>
 <tr class="separator:a2fc318d24946d64d028a065543860cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5dc999c70ce48df0f53922903ec69add" id="r_a5dc999c70ce48df0f53922903ec69add"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5dc999c70ce48df0f53922903ec69add">la_dtrmv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a5dc999c70ce48df0f53922903ec69add"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTRMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix.  <br /></td></tr>
 <tr class="separator:a5dc999c70ce48df0f53922903ec69add"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3603c92d5ce6ff9abd368043bc6f4b6c" id="r_a3603c92d5ce6ff9abd368043bc6f4b6c"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3603c92d5ce6ff9abd368043bc6f4b6c">la_qtrmv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
-<tr class="memdesc:a3603c92d5ce6ff9abd368043bc6f4b6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">QTRMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix.  <br /></td></tr>
-<tr class="separator:a3603c92d5ce6ff9abd368043bc6f4b6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c46c6eefb5d3aeba0254b0d7ca223dd" id="r_a3c46c6eefb5d3aeba0254b0d7ca223dd"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3c46c6eefb5d3aeba0254b0d7ca223dd">la_strsv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a3c46c6eefb5d3aeba0254b0d7ca223dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">STRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:a3c46c6eefb5d3aeba0254b0d7ca223dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a618b93ee1bc57f991ebd8325af4b6cea" id="r_a618b93ee1bc57f991ebd8325af4b6cea"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a618b93ee1bc57f991ebd8325af4b6cea">la_dtrsv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a618b93ee1bc57f991ebd8325af4b6cea"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:a618b93ee1bc57f991ebd8325af4b6cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a465889f988f6433e1700b5188ccb478b" id="r_a465889f988f6433e1700b5188ccb478b"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a465889f988f6433e1700b5188ccb478b">la_qtrsv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
-<tr class="memdesc:a465889f988f6433e1700b5188ccb478b"><td class="mdescLeft">&#160;</td><td class="mdescRight">QTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
-<tr class="separator:a465889f988f6433e1700b5188ccb478b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad07a4926b5166c08d98aaeff78b7eb9b" id="r_ad07a4926b5166c08d98aaeff78b7eb9b"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad07a4926b5166c08d98aaeff78b7eb9b">la_ctbmv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
 <tr class="memdesc:ad07a4926b5166c08d98aaeff78b7eb9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">CTBMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals.  <br /></td></tr>
 <tr class="separator:ad07a4926b5166c08d98aaeff78b7eb9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adab35830a7646c0893adb3a3a557a7d2" id="r_adab35830a7646c0893adb3a3a557a7d2"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adab35830a7646c0893adb3a3a557a7d2">la_ztbmv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
 <tr class="memdesc:adab35830a7646c0893adb3a3a557a7d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZTBMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals.  <br /></td></tr>
 <tr class="separator:adab35830a7646c0893adb3a3a557a7d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af33e1d82ffc4835ba8ed6bd493045e3d" id="r_af33e1d82ffc4835ba8ed6bd493045e3d"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af33e1d82ffc4835ba8ed6bd493045e3d">la_wtbmv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
-<tr class="memdesc:af33e1d82ffc4835ba8ed6bd493045e3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">WTBMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals.  <br /></td></tr>
-<tr class="separator:af33e1d82ffc4835ba8ed6bd493045e3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0e4b02eda46aeaac4d5a763bcc5db5f" id="r_ad0e4b02eda46aeaac4d5a763bcc5db5f"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad0e4b02eda46aeaac4d5a763bcc5db5f">la_ctbsv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
 <tr class="memdesc:ad0e4b02eda46aeaac4d5a763bcc5db5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">CTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:ad0e4b02eda46aeaac4d5a763bcc5db5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae046d0e046cf4f6c2c5743fda29b64de" id="r_ae046d0e046cf4f6c2c5743fda29b64de"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae046d0e046cf4f6c2c5743fda29b64de">la_ztbsv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
 <tr class="memdesc:ae046d0e046cf4f6c2c5743fda29b64de"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:ae046d0e046cf4f6c2c5743fda29b64de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a142a61d05072604ac8b0486206a3f202" id="r_a142a61d05072604ac8b0486206a3f202"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a142a61d05072604ac8b0486206a3f202">la_wtbsv</a> (uplo, trans, diag, n, k, a, lda, x, incx)</td></tr>
-<tr class="memdesc:a142a61d05072604ac8b0486206a3f202"><td class="mdescLeft">&#160;</td><td class="mdescRight">WTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
-<tr class="separator:a142a61d05072604ac8b0486206a3f202"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7dae0dc5ef7651b4d53d9d7f32f36305" id="r_a7dae0dc5ef7651b4d53d9d7f32f36305"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7dae0dc5ef7651b4d53d9d7f32f36305">la_ctpmv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
 <tr class="memdesc:a7dae0dc5ef7651b4d53d9d7f32f36305"><td class="mdescLeft">&#160;</td><td class="mdescRight">CTPMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form.  <br /></td></tr>
 <tr class="separator:a7dae0dc5ef7651b4d53d9d7f32f36305"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7bf2ec2e70219d0c9db959338e491a4a" id="r_a7bf2ec2e70219d0c9db959338e491a4a"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7bf2ec2e70219d0c9db959338e491a4a">la_ztpmv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
 <tr class="memdesc:a7bf2ec2e70219d0c9db959338e491a4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZTPMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form.  <br /></td></tr>
 <tr class="separator:a7bf2ec2e70219d0c9db959338e491a4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac8895ccb5735a53eefac2e166fb4219b" id="r_ac8895ccb5735a53eefac2e166fb4219b"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac8895ccb5735a53eefac2e166fb4219b">la_wtpmv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
-<tr class="memdesc:ac8895ccb5735a53eefac2e166fb4219b"><td class="mdescLeft">&#160;</td><td class="mdescRight">WTPMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form.  <br /></td></tr>
-<tr class="separator:ac8895ccb5735a53eefac2e166fb4219b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a044be051aaa87fd89e803cb3c2f8141b" id="r_a044be051aaa87fd89e803cb3c2f8141b"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a044be051aaa87fd89e803cb3c2f8141b">la_ctpsv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
 <tr class="memdesc:a044be051aaa87fd89e803cb3c2f8141b"><td class="mdescLeft">&#160;</td><td class="mdescRight">CTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:a044be051aaa87fd89e803cb3c2f8141b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aff9cf67361c0a11d0d9ce3c619931a02" id="r_aff9cf67361c0a11d0d9ce3c619931a02"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aff9cf67361c0a11d0d9ce3c619931a02">la_ztpsv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
 <tr class="memdesc:aff9cf67361c0a11d0d9ce3c619931a02"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:aff9cf67361c0a11d0d9ce3c619931a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ec5bc7afe7464dfebf9536eea0e4e27" id="r_a1ec5bc7afe7464dfebf9536eea0e4e27"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ec5bc7afe7464dfebf9536eea0e4e27">la_wtpsv</a> (uplo, trans, diag, n, ap, x, incx)</td></tr>
-<tr class="memdesc:a1ec5bc7afe7464dfebf9536eea0e4e27"><td class="mdescLeft">&#160;</td><td class="mdescRight">WTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
-<tr class="separator:a1ec5bc7afe7464dfebf9536eea0e4e27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae978a09d323c50e0c65155bdc106032" id="r_aae978a09d323c50e0c65155bdc106032"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aae978a09d323c50e0c65155bdc106032">la_ctrmv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
 <tr class="memdesc:aae978a09d323c50e0c65155bdc106032"><td class="mdescLeft">&#160;</td><td class="mdescRight">CTRMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix.  <br /></td></tr>
 <tr class="separator:aae978a09d323c50e0c65155bdc106032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96379930075f42e1df232b4eb5ad59b8" id="r_a96379930075f42e1df232b4eb5ad59b8"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96379930075f42e1df232b4eb5ad59b8">la_ztrmv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a96379930075f42e1df232b4eb5ad59b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZTRMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix.  <br /></td></tr>
 <tr class="separator:a96379930075f42e1df232b4eb5ad59b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a663add624489820fa011004bf11334bb" id="r_a663add624489820fa011004bf11334bb"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a663add624489820fa011004bf11334bb">la_wtrmv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
-<tr class="memdesc:a663add624489820fa011004bf11334bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">WTRMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix.  <br /></td></tr>
-<tr class="separator:a663add624489820fa011004bf11334bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad95f1901f4fee52f5ff07fc14b073b5a" id="r_ad95f1901f4fee52f5ff07fc14b073b5a"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad95f1901f4fee52f5ff07fc14b073b5a">la_ctrsv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
 <tr class="memdesc:ad95f1901f4fee52f5ff07fc14b073b5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">CTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:ad95f1901f4fee52f5ff07fc14b073b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57ed1db2c87dcf4e1b291eb47fefec02" id="r_a57ed1db2c87dcf4e1b291eb47fefec02"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a57ed1db2c87dcf4e1b291eb47fefec02">la_ztrsv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
 <tr class="memdesc:a57ed1db2c87dcf4e1b291eb47fefec02"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
 <tr class="separator:a57ed1db2c87dcf4e1b291eb47fefec02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf743f73c3b6df6ca408919e2ac97b1a" id="r_aaf743f73c3b6df6ca408919e2ac97b1a"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaf743f73c3b6df6ca408919e2ac97b1a">la_wtrsv</a> (uplo, trans, diag, n, a, lda, x, incx)</td></tr>
-<tr class="memdesc:aaf743f73c3b6df6ca408919e2ac97b1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">WTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine.  <br /></td></tr>
-<tr class="separator:aaf743f73c3b6df6ca408919e2ac97b1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>BLAS level 2: triangular matrix-vector operations. </p>
@@ -292,12 +256,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_ad07a4926b5166c08d98aaeff78b7eb9b_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_ad07a4926b5166c08d98aaeff78b7eb9b_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_ad07a4926b5166c08d98aaeff78b7eb9b_cgraph" id="anamespacela__blas__level2__tri_ad07a4926b5166c08d98aaeff78b7eb9b_cgraph">
-<area shape="rect" title="CTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="CTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -363,12 +327,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_ad0e4b02eda46aeaac4d5a763bcc5db5f_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_ad0e4b02eda46aeaac4d5a763bcc5db5f_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_ad0e4b02eda46aeaac4d5a763bcc5db5f_cgraph" id="anamespacela__blas__level2__tri_ad0e4b02eda46aeaac4d5a763bcc5db5f_cgraph">
-<area shape="rect" title="CTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="CTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -424,12 +388,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a7dae0dc5ef7651b4d53d9d7f32f36305_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a7dae0dc5ef7651b4d53d9d7f32f36305_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a7dae0dc5ef7651b4d53d9d7f32f36305_cgraph" id="anamespacela__blas__level2__tri_a7dae0dc5ef7651b4d53d9d7f32f36305_cgraph">
-<area shape="rect" title="CTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="CTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -485,12 +449,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a044be051aaa87fd89e803cb3c2f8141b_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a044be051aaa87fd89e803cb3c2f8141b_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a044be051aaa87fd89e803cb3c2f8141b_cgraph" id="anamespacela__blas__level2__tri_a044be051aaa87fd89e803cb3c2f8141b_cgraph">
-<area shape="rect" title="CTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="CTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -551,12 +515,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_aae978a09d323c50e0c65155bdc106032_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_aae978a09d323c50e0c65155bdc106032_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_aae978a09d323c50e0c65155bdc106032_cgraph" id="anamespacela__blas__level2__tri_aae978a09d323c50e0c65155bdc106032_cgraph">
-<area shape="rect" title="CTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="CTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -617,12 +581,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_ad95f1901f4fee52f5ff07fc14b073b5a_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_ad95f1901f4fee52f5ff07fc14b073b5a_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_ad95f1901f4fee52f5ff07fc14b073b5a_cgraph" id="anamespacela__blas__level2__tri_ad95f1901f4fee52f5ff07fc14b073b5a_cgraph">
-<area shape="rect" title="CTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="CTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -688,12 +652,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a8eec3007752e40d25071dcf3eec0a4f3_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a8eec3007752e40d25071dcf3eec0a4f3_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a8eec3007752e40d25071dcf3eec0a4f3_cgraph" id="anamespacela__blas__level2__tri_a8eec3007752e40d25071dcf3eec0a4f3_cgraph">
-<area shape="rect" title="DTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="DTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -759,12 +723,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a636d94d3b73153396b3e16db4de5ce86_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a636d94d3b73153396b3e16db4de5ce86_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a636d94d3b73153396b3e16db4de5ce86_cgraph" id="anamespacela__blas__level2__tri_a636d94d3b73153396b3e16db4de5ce86_cgraph">
-<area shape="rect" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -820,12 +784,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_aa56ec2d8bbee5f71d139f82d03213344_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_aa56ec2d8bbee5f71d139f82d03213344_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_aa56ec2d8bbee5f71d139f82d03213344_cgraph" id="anamespacela__blas__level2__tri_aa56ec2d8bbee5f71d139f82d03213344_cgraph">
-<area shape="rect" title="DTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="DTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -881,12 +845,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a8d29ea7d0445c1f584bfd4d6c854a685_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a8d29ea7d0445c1f584bfd4d6c854a685_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a8d29ea7d0445c1f584bfd4d6c854a685_cgraph" id="anamespacela__blas__level2__tri_a8d29ea7d0445c1f584bfd4d6c854a685_cgraph">
-<area shape="rect" title="DTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="DTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -947,12 +911,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a5dc999c70ce48df0f53922903ec69add_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a5dc999c70ce48df0f53922903ec69add_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a5dc999c70ce48df0f53922903ec69add_cgraph" id="anamespacela__blas__level2__tri_a5dc999c70ce48df0f53922903ec69add_cgraph">
-<area shape="rect" title="DTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="DTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -1013,408 +977,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a618b93ee1bc57f991ebd8325af4b6cea_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a618b93ee1bc57f991ebd8325af4b6cea_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a618b93ee1bc57f991ebd8325af4b6cea_cgraph" id="anamespacela__blas__level2__tri_a618b93ee1bc57f991ebd8325af4b6cea_cgraph">
-<area shape="rect" title="DTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ac193792a7a712712092969a501eebcd4" name="ac193792a7a712712092969a501eebcd4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac193792a7a712712092969a501eebcd4">&#9670;&#160;</a></span>la_qtbmv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_qtbmv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QTBMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_ac193792a7a712712092969a501eebcd4_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_ac193792a7a712712092969a501eebcd4_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_ac193792a7a712712092969a501eebcd4_cgraph" id="anamespacela__blas__level2__tri_ac193792a7a712712092969a501eebcd4_cgraph">
-<area shape="rect" title="QTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aed47d68c3a12e463510120f614d5e3c4" name="aed47d68c3a12e463510120f614d5e3c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed47d68c3a12e463510120f614d5e3c4">&#9670;&#160;</a></span>la_qtbsv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_qtbsv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_aed47d68c3a12e463510120f614d5e3c4_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_aed47d68c3a12e463510120f614d5e3c4_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_aed47d68c3a12e463510120f614d5e3c4_cgraph" id="anamespacela__blas__level2__tri_aed47d68c3a12e463510120f614d5e3c4_cgraph">
-<area shape="rect" title="QTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ae8e7e869a86101f2a6db47e95704878f" name="ae8e7e869a86101f2a6db47e95704878f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae8e7e869a86101f2a6db47e95704878f">&#9670;&#160;</a></span>la_qtpmv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_qtpmv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ap</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QTPMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_ae8e7e869a86101f2a6db47e95704878f_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_ae8e7e869a86101f2a6db47e95704878f_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_ae8e7e869a86101f2a6db47e95704878f_cgraph" id="anamespacela__blas__level2__tri_ae8e7e869a86101f2a6db47e95704878f_cgraph">
-<area shape="rect" title="QTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a50a01ea309bc3a9a3d0a22bf186365dd" name="a50a01ea309bc3a9a3d0a22bf186365dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50a01ea309bc3a9a3d0a22bf186365dd">&#9670;&#160;</a></span>la_qtpsv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_qtpsv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ap</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_a50a01ea309bc3a9a3d0a22bf186365dd_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a50a01ea309bc3a9a3d0a22bf186365dd_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_a50a01ea309bc3a9a3d0a22bf186365dd_cgraph" id="anamespacela__blas__level2__tri_a50a01ea309bc3a9a3d0a22bf186365dd_cgraph">
-<area shape="rect" title="QTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a3603c92d5ce6ff9abd368043bc6f4b6c" name="a3603c92d5ce6ff9abd368043bc6f4b6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3603c92d5ce6ff9abd368043bc6f4b6c">&#9670;&#160;</a></span>la_qtrmv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_qtrmv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QTRMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_a3603c92d5ce6ff9abd368043bc6f4b6c_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a3603c92d5ce6ff9abd368043bc6f4b6c_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_a3603c92d5ce6ff9abd368043bc6f4b6c_cgraph" id="anamespacela__blas__level2__tri_a3603c92d5ce6ff9abd368043bc6f4b6c_cgraph">
-<area shape="rect" title="QTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a465889f988f6433e1700b5188ccb478b" name="a465889f988f6433e1700b5188ccb478b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a465889f988f6433e1700b5188ccb478b">&#9670;&#160;</a></span>la_qtrsv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_qtrsv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_a465889f988f6433e1700b5188ccb478b_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a465889f988f6433e1700b5188ccb478b_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_a465889f988f6433e1700b5188ccb478b_cgraph" id="anamespacela__blas__level2__tri_a465889f988f6433e1700b5188ccb478b_cgraph">
-<area shape="rect" title="QTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="DTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -1480,12 +1048,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a45f785f51760fee3213a10e1a302c8b3_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a45f785f51760fee3213a10e1a302c8b3_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a45f785f51760fee3213a10e1a302c8b3_cgraph" id="anamespacela__blas__level2__tri_a45f785f51760fee3213a10e1a302c8b3_cgraph">
-<area shape="rect" title="STBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="STBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -1551,12 +1119,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a09e656e7e22e57a9b771916b6e78cf20_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a09e656e7e22e57a9b771916b6e78cf20_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a09e656e7e22e57a9b771916b6e78cf20_cgraph" id="anamespacela__blas__level2__tri_a09e656e7e22e57a9b771916b6e78cf20_cgraph">
-<area shape="rect" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -1612,12 +1180,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a7a8cd649b79a6144da4f8e8f2c13300f_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a7a8cd649b79a6144da4f8e8f2c13300f_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a7a8cd649b79a6144da4f8e8f2c13300f_cgraph" id="anamespacela__blas__level2__tri_a7a8cd649b79a6144da4f8e8f2c13300f_cgraph">
-<area shape="rect" title="STPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="STPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -1673,12 +1241,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a654eb4dc18e0016ed835068cb464ee20_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a654eb4dc18e0016ed835068cb464ee20_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a654eb4dc18e0016ed835068cb464ee20_cgraph" id="anamespacela__blas__level2__tri_a654eb4dc18e0016ed835068cb464ee20_cgraph">
-<area shape="rect" title="STPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="STPSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -1739,12 +1307,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a2fc318d24946d64d028a065543860cff_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a2fc318d24946d64d028a065543860cff_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a2fc318d24946d64d028a065543860cff_cgraph" id="anamespacela__blas__level2__tri_a2fc318d24946d64d028a065543860cff_cgraph">
-<area shape="rect" title="STRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="STRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -1805,408 +1373,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a3c46c6eefb5d3aeba0254b0d7ca223dd_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a3c46c6eefb5d3aeba0254b0d7ca223dd_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a3c46c6eefb5d3aeba0254b0d7ca223dd_cgraph" id="anamespacela__blas__level2__tri_a3c46c6eefb5d3aeba0254b0d7ca223dd_cgraph">
-<area shape="rect" title="STRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="af33e1d82ffc4835ba8ed6bd493045e3d" name="af33e1d82ffc4835ba8ed6bd493045e3d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af33e1d82ffc4835ba8ed6bd493045e3d">&#9670;&#160;</a></span>la_wtbmv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_wtbmv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WTBMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_af33e1d82ffc4835ba8ed6bd493045e3d_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_af33e1d82ffc4835ba8ed6bd493045e3d_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_af33e1d82ffc4835ba8ed6bd493045e3d_cgraph" id="anamespacela__blas__level2__tri_af33e1d82ffc4835ba8ed6bd493045e3d_cgraph">
-<area shape="rect" title="WTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a142a61d05072604ac8b0486206a3f202" name="a142a61d05072604ac8b0486206a3f202"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a142a61d05072604ac8b0486206a3f202">&#9670;&#160;</a></span>la_wtbsv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_wtbsv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>k</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular band matrix, with ( k + 1 ) diagonals. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_a142a61d05072604ac8b0486206a3f202_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a142a61d05072604ac8b0486206a3f202_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_a142a61d05072604ac8b0486206a3f202_cgraph" id="anamespacela__blas__level2__tri_a142a61d05072604ac8b0486206a3f202_cgraph">
-<area shape="rect" title="WTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ac8895ccb5735a53eefac2e166fb4219b" name="ac8895ccb5735a53eefac2e166fb4219b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac8895ccb5735a53eefac2e166fb4219b">&#9670;&#160;</a></span>la_wtpmv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_wtpmv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ap</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WTPMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_ac8895ccb5735a53eefac2e166fb4219b_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_ac8895ccb5735a53eefac2e166fb4219b_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_ac8895ccb5735a53eefac2e166fb4219b_cgraph" id="anamespacela__blas__level2__tri_ac8895ccb5735a53eefac2e166fb4219b_cgraph">
-<area shape="rect" title="WTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a1ec5bc7afe7464dfebf9536eea0e4e27" name="a1ec5bc7afe7464dfebf9536eea0e4e27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ec5bc7afe7464dfebf9536eea0e4e27">&#9670;&#160;</a></span>la_wtpsv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_wtpsv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ap</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix, supplied in packed form. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_a1ec5bc7afe7464dfebf9536eea0e4e27_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a1ec5bc7afe7464dfebf9536eea0e4e27_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_a1ec5bc7afe7464dfebf9536eea0e4e27_cgraph" id="anamespacela__blas__level2__tri_a1ec5bc7afe7464dfebf9536eea0e4e27_cgraph">
-<area shape="rect" title="WTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a663add624489820fa011004bf11334bb" name="a663add624489820fa011004bf11334bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a663add624489820fa011004bf11334bb">&#9670;&#160;</a></span>la_wtrmv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_wtrmv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WTRMV: performs one of the matrix-vector operations x := A*x, or x := A**T*x, or x := A**H*x, where x is an n element vector and A is an n by n unit, or non-unit, upper or lower triangular matrix. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_a663add624489820fa011004bf11334bb_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a663add624489820fa011004bf11334bb_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_a663add624489820fa011004bf11334bb_cgraph" id="anamespacela__blas__level2__tri_a663add624489820fa011004bf11334bb_cgraph">
-<area shape="rect" title="WTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aaf743f73c3b6df6ca408919e2ac97b1a" name="aaf743f73c3b6df6ca408919e2ac97b1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf743f73c3b6df6ca408919e2ac97b1a">&#9670;&#160;</a></span>la_wtrsv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_blas_level2_tri::la_wtrsv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>diag</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b, where b and x are n element vectors and A is an n by n unit, or non-unit, upper or lower triangular matrix. No test for singularity or near-singularity is included in this routine. Such tests must be performed before calling this routine. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__blas__level2__tri_aaf743f73c3b6df6ca408919e2ac97b1a_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_aaf743f73c3b6df6ca408919e2ac97b1a_cgraph" alt=""/></div>
-<map name="anamespacela__blas__level2__tri_aaf743f73c3b6df6ca408919e2ac97b1a_cgraph" id="anamespacela__blas__level2__tri_aaf743f73c3b6df6ca408919e2ac97b1a_cgraph">
-<area shape="rect" title="WTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="STRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -2272,12 +1444,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_adab35830a7646c0893adb3a3a557a7d2_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_adab35830a7646c0893adb3a3a557a7d2_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_adab35830a7646c0893adb3a3a557a7d2_cgraph" id="anamespacela__blas__level2__tri_adab35830a7646c0893adb3a3a557a7d2_cgraph">
-<area shape="rect" title="ZTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="ZTBMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -2343,12 +1515,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_ae046d0e046cf4f6c2c5743fda29b64de_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_ae046d0e046cf4f6c2c5743fda29b64de_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_ae046d0e046cf4f6c2c5743fda29b64de_cgraph" id="anamespacela__blas__level2__tri_ae046d0e046cf4f6c2c5743fda29b64de_cgraph">
-<area shape="rect" title="ZTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="ZTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -2404,12 +1576,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a7bf2ec2e70219d0c9db959338e491a4a_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a7bf2ec2e70219d0c9db959338e491a4a_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a7bf2ec2e70219d0c9db959338e491a4a_cgraph" id="anamespacela__blas__level2__tri_a7bf2ec2e70219d0c9db959338e491a4a_cgraph">
-<area shape="rect" title="ZTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="ZTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -2465,12 +1637,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_aff9cf67361c0a11d0d9ce3c619931a02_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_aff9cf67361c0a11d0d9ce3c619931a02_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_aff9cf67361c0a11d0d9ce3c619931a02_cgraph" id="anamespacela__blas__level2__tri_aff9cf67361c0a11d0d9ce3c619931a02_cgraph">
-<area shape="rect" title="ZTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="ZTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -2531,12 +1703,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a96379930075f42e1df232b4eb5ad59b8_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a96379930075f42e1df232b4eb5ad59b8_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a96379930075f42e1df232b4eb5ad59b8_cgraph" id="anamespacela__blas__level2__tri_a96379930075f42e1df232b4eb5ad59b8_cgraph">
-<area shape="rect" title="ZTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="ZTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 
@@ -2597,12 +1769,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__blas__level2__tri_a57ed1db2c87dcf4e1b291eb47fefec02_cgraph.png" border="0" usemap="#anamespacela__blas__level2__tri_a57ed1db2c87dcf4e1b291eb47fefec02_cgraph" alt=""/></div>
 <map name="anamespacela__blas__level2__tri_a57ed1db2c87dcf4e1b291eb47fefec02_cgraph" id="anamespacela__blas__level2__tri_a57ed1db2c87dcf4e1b291eb47fefec02_cgraph">
-<area shape="rect" title="ZTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,47,141,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,356,55"/>
-<area shape="poly" title=" " alt="" coords="141,56,175,52,176,57,142,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,79,356,104"/>
-<area shape="poly" title=" " alt="" coords="142,73,176,77,175,82,141,78"/>
-<area shape="poly" title=" " alt="" coords="240,31,233,21,237,11,250,5,273,3,300,6,311,15,308,19,298,11,273,8,252,10,241,15,238,20,244,28"/>
+<area shape="rect" title="ZTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="5,48,141,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="189,29,354,57"/>
+<area shape="poly" title=" " alt="" coords="141,58,176,56,171,57,142,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="189,81,354,109"/>
+<area shape="poly" title=" " alt="" coords="141,76,176,82,170,83,141,81"/>
+<area shape="poly" title=" " alt="" coords="237,28,232,20,236,11,249,5,271,3,295,5,309,14,304,14,293,10,271,8,251,10,240,15,237,20,242,30"/>
 </map>
 </div>
 

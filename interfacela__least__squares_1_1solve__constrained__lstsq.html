@@ -124,18 +124,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ade5e3d72850c89d8f63f02771edf341f" id="r_ade5e3d72850c89d8f63f02771edf341f"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade5e3d72850c89d8f63f02771edf341f">la_dsolve_constrained_lstsq</a> (a, b, c, d, x, storage, overwrite_matrices, err)</td></tr>
 <tr class="memdesc:ade5e3d72850c89d8f63f02771edf341f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the real(dp) equality-constrained least-squares problem into x.  <br /></td></tr>
 <tr class="separator:ade5e3d72850c89d8f63f02771edf341f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acac3d0f6a7bf7419e210c5db23530b21" id="r_acac3d0f6a7bf7419e210c5db23530b21"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acac3d0f6a7bf7419e210c5db23530b21">la_qsolve_constrained_lstsq</a> (a, b, c, d, x, storage, overwrite_matrices, err)</td></tr>
-<tr class="memdesc:acac3d0f6a7bf7419e210c5db23530b21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the real(qp) equality-constrained least-squares problem into x.  <br /></td></tr>
-<tr class="separator:acac3d0f6a7bf7419e210c5db23530b21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6d49253171bb95a0a5a7407d2ec5e19a" id="r_a6d49253171bb95a0a5a7407d2ec5e19a"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6d49253171bb95a0a5a7407d2ec5e19a">la_csolve_constrained_lstsq</a> (a, b, c, d, x, storage, overwrite_matrices, err)</td></tr>
 <tr class="memdesc:a6d49253171bb95a0a5a7407d2ec5e19a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the complex(sp) equality-constrained least-squares problem into x.  <br /></td></tr>
 <tr class="separator:a6d49253171bb95a0a5a7407d2ec5e19a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb9ce89b62d4fa06628ae7a726f72f4c" id="r_afb9ce89b62d4fa06628ae7a726f72f4c"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afb9ce89b62d4fa06628ae7a726f72f4c">la_zsolve_constrained_lstsq</a> (a, b, c, d, x, storage, overwrite_matrices, err)</td></tr>
 <tr class="memdesc:afb9ce89b62d4fa06628ae7a726f72f4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the complex(dp) equality-constrained least-squares problem into x.  <br /></td></tr>
 <tr class="separator:afb9ce89b62d4fa06628ae7a726f72f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d2e928f62dc6096f355ce0c7f0114f7" id="r_a3d2e928f62dc6096f355ce0c7f0114f7"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d2e928f62dc6096f355ce0c7f0114f7">la_wsolve_constrained_lstsq</a> (a, b, c, d, x, storage, overwrite_matrices, err)</td></tr>
-<tr class="memdesc:a3d2e928f62dc6096f355ce0c7f0114f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solve the complex(qp) equality-constrained least-squares problem into x.  <br /></td></tr>
-<tr class="separator:a3d2e928f62dc6096f355ce0c7f0114f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a6d49253171bb95a0a5a7407d2ec5e19a" name="a6d49253171bb95a0a5a7407d2ec5e19a"></a>
@@ -270,72 +264,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="acac3d0f6a7bf7419e210c5db23530b21" name="acac3d0f6a7bf7419e210c5db23530b21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acac3d0f6a7bf7419e210c5db23530b21">&#9670;&#160;</a></span>la_qsolve_constrained_lstsq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine la_least_squares::solve_constrained_lstsq::la_qsolve_constrained_lstsq </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>d</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(out)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(out), optional, target</td>          <td class="paramname"><span class="paramname"><em>storage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_matrices</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Solve the real(qp) equality-constrained least-squares problem into x. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Least-squares matrix a[m,n] and right hand side b[m] </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">b</td><td>Least-squares matrix a[m,n] and right hand side b[m] </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">c</td><td>Equality constraint matrix c[p,n] and right hand side d[p] </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">d</td><td>Equality constraint matrix c[p,n] and right hand side d[p] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">x</td><td>Solution vector x[n] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">storage</td><td>[optional] working storage space </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_matrices</td><td>[optional] Can A,b,C,d data be overwritten and destroyed? </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a1990ebe13c10774cd635b07ff7a00700" name="a1990ebe13c10774cd635b07ff7a00700"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1990ebe13c10774cd635b07ff7a00700">&#9670;&#160;</a></span>la_ssolve_constrained_lstsq()</h2>
 
@@ -386,72 +314,6 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Solve the real(sp) equality-constrained least-squares problem into x. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Least-squares matrix a[m,n] and right hand side b[m] </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">b</td><td>Least-squares matrix a[m,n] and right hand side b[m] </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">c</td><td>Equality constraint matrix c[p,n] and right hand side d[p] </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">d</td><td>Equality constraint matrix c[p,n] and right hand side d[p] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">x</td><td>Solution vector x[n] </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">storage</td><td>[optional] working storage space </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_matrices</td><td>[optional] Can A,b,C,d data be overwritten and destroyed? </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="a3d2e928f62dc6096f355ce0c7f0114f7" name="a3d2e928f62dc6096f355ce0c7f0114f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d2e928f62dc6096f355ce0c7f0114f7">&#9670;&#160;</a></span>la_wsolve_constrained_lstsq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine la_least_squares::solve_constrained_lstsq::la_wsolve_constrained_lstsq </td>
-          <td>(</td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>d</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(out)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(out), optional, target</td>          <td class="paramname"><span class="paramname"><em>storage</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_matrices</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Solve the complex(qp) equality-constrained least-squares problem into x. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Least-squares matrix a[m,n] and right hand side b[m] </td></tr>
@@ -535,7 +397,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__least__squares_8f90.html">la_least_squares.f90</a></li>
+<li><a class="el" href="la__least__squares_8_f90.html">la_least_squares.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

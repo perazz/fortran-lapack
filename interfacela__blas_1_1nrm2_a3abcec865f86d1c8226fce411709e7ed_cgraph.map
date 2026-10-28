@@ -1,6 +1,6 @@
 <map id="la_blas::nrm2::snrm2" name="la_blas::nrm2::snrm2">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,164,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#afb67704426cd471890e50a68b075c580" title="!" alt="" coords="212,29,347,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,47,198,47,198,52,164,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="243,30,240,20,246,11,259,5,279,3,302,6,315,13,312,17,301,11,279,8,261,10,250,15,246,21,248,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,38,164,66"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#afb67704426cd471890e50a68b075c580" title="!" alt="" coords="212,29,346,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,49,199,51,194,52,164,54"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="242,27,240,19,247,10,260,5,279,3,300,5,314,14,308,13,298,10,279,8,261,10,250,15,245,21,246,30"/>
 </map>

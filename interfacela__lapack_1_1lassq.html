@@ -137,6 +137,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6e60df726cf4deda9f1efc07630996b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0dab0bfd1c3ad656fff1cd8b35d0d57d" id="r_a0dab0bfd1c3ad656fff1cd8b35d0d57d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0dab0bfd1c3ad656fff1cd8b35d0d57d">la_wlassq</a></td></tr>
 <tr class="separator:a0dab0bfd1c3ad656fff1cd8b35d0d57d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4468168996061e8737ad72689773a0af" id="r_a4468168996061e8737ad72689773a0af"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4468168996061e8737ad72689773a0af">la_xlassq</a></td></tr>
+<tr class="separator:a4468168996061e8737ad72689773a0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af90139e38f221413cebc819b939fd194" id="r_af90139e38f221413cebc819b939fd194"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af90139e38f221413cebc819b939fd194">la_ylassq</a></td></tr>
+<tr class="separator:af90139e38f221413cebc819b939fd194"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf4bbf6ac34d4699f0374e7157da581c" id="r_abf4bbf6ac34d4699f0374e7157da581c"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf4bbf6ac34d4699f0374e7157da581c">zlassq</a> (n, x, incx, scl, sumsq)</td></tr>
 <tr class="separator:abf4bbf6ac34d4699f0374e7157da581c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2904207cd3f673987d9e21d4926eda82" id="r_a2904207cd3f673987d9e21d4926eda82"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2904207cd3f673987d9e21d4926eda82">la_zlassq</a></td></tr>
@@ -144,9 +148,9 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>! </p>
-<p>LASSQ: returns the values scl and smsq such that ( scl**2 )*smsq = x( 1 )**2 +...+ x( n )**2 + ( scale**2 )*sumsq, where x( i ) = X( 1 + ( i - 1 )*INCX ). The value of sumsq is assumed to be non-negative. scale and sumsq must be supplied in SCALE and SUMSQ and scl and smsq are overwritten on SCALE and SUMSQ respectively. If scale * sqrt( sumsq ) &gt; tbig then we require: scale &gt;= sqrt( TINY*EPS ) / sbig on entry, and if 0 &lt; scale * sqrt( sumsq ) &lt; tsml then we require: scale &lt;= sqrt( HUGE ) / ssml on entry, where tbig &ndash; upper threshold for values whose square is representable; sbig &ndash; scaling constant for big numbers; </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="la__constants_8f90.html">la_constants.f90</a> tsml &ndash; lower threshold for values whose square is representable; ssml &ndash; scaling constant for small numbers; </dd>
+<p>LASSQ: returns the values scl and smsq such that ( scl**2 )*smsq = x( 1 )**2 +...+ x( n )**2 + ( scale**2 )*sumsq, where x( i ) = X( 1 + ( i - 1 )*INCX ). The value of sumsq is assumed to be non-negative. scale and sumsq must be supplied in SCALE and SUMSQ and scl and smsq are overwritten on SCALE and SUMSQ respectively. If scale * sqrt( sumsq ) &gt; tbig then we require: scale &gt;= sqrt( TINY*EPS ) / sbig on entry, and if 0 &lt; scale * sqrt( sumsq ) &lt; tsml then we require: scale &lt;= sqrt( HUGE ) / ssml on entry, where tbig &ndash; upper threshold for values whose square is representable; sbig &ndash; scaling constant for big numbers; </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="la__constants_8_f90.html">la_constants.f90</a> tsml &ndash; lower threshold for values whose square is representable; ssml &ndash; scaling constant for small numbers; </dd>
 <dd>
-<a class="el" href="la__constants_8f90.html">la_constants.f90</a> and TINY*EPS &ndash; tiniest representable number; HUGE &ndash; biggest representable number. </dd></dl>
+<a class="el" href="la__constants_8_f90.html">la_constants.f90</a> and TINY*EPS &ndash; tiniest representable number; HUGE &ndash; biggest representable number. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="ac48880656fe2093af4f8f5a67206d197" name="ac48880656fe2093af4f8f5a67206d197"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac48880656fe2093af4f8f5a67206d197">&#9670;&#160;</a></span>classq()</h2>
@@ -284,6 +288,34 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::lassq::la_wlassq</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4468168996061e8737ad72689773a0af" name="a4468168996061e8737ad72689773a0af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4468168996061e8737ad72689773a0af">&#9670;&#160;</a></span>la_xlassq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::lassq::la_xlassq</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af90139e38f221413cebc819b939fd194" name="af90139e38f221413cebc819b939fd194"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af90139e38f221413cebc819b939fd194">&#9670;&#160;</a></span>la_ylassq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::lassq::la_ylassq</td>
         </tr>
       </table>
 </div><div class="memdoc">

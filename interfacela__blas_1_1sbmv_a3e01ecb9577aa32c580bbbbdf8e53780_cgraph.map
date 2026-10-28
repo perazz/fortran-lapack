@@ -1,10 +1,10 @@
 <map id="la_blas::sbmv::ssbmv" name="la_blas::sbmv::ssbmv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,168,80"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level2__pac.html#a86431d189306ae18d1443bdbf5300d71" title="SSBMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="216,47,361,87"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,65,202,65,202,70,169,70"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="409,29,576,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,56,395,51,396,57,362,61"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="409,79,576,104"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="362,73,396,77,395,83,361,79"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="459,31,452,21,456,11,470,5,493,3,521,6,532,16,529,20,519,11,493,8,471,10,460,15,457,20,464,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,167,84"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level2__pac.html#a86431d189306ae18d1443bdbf5300d71" title="SSBMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="215,48,359,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,67,202,69,197,70,167,72"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="407,29,572,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,58,394,56,389,56,360,63"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="407,81,572,109"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="359,76,394,83,389,83,359,82"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="455,28,449,20,454,11,467,5,490,3,514,5,528,14,523,14,512,10,490,8,469,10,457,15,454,20,459,30"/>
 </map>

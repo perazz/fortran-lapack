@@ -1,12 +1,12 @@
 <map id="la_lapack_svd_comp2::la_slartgs" name="la_lapack_svd_comp2::la_slartgs">
-<area shape="rect" id="Node000001" title="SLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="5,29,171,69"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="447,29,595,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,44,219,43,399,43,433,43,433,49,399,48,219,48,171,49"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#ae191925468045badd96cfde4207c08cd" title="SLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="219,57,399,97"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="171,57,206,62,205,67,171,62"/>
-<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="482,30,480,20,486,11,500,5,521,3,545,6,558,13,555,18,543,11,521,8,501,10,489,15,485,21,487,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="643,37,809,62"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="595,47,629,47,629,52,595,52"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="692,38,685,28,689,18,703,12,726,10,755,14,766,23,763,27,752,19,726,15,704,17,693,22,690,28,696,35"/>
-<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="398,63,432,58,433,64,399,68"/>
+<area shape="rect" id="Node000001" title="SLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="5,29,170,74"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="445,29,592,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,45,218,44,397,44,432,47,427,47,397,49,218,49,171,50"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#ae191925468045badd96cfde4207c08cd" title="SLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="218,59,397,103"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="170,60,205,67,199,67,170,65"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="480,27,478,19,485,10,498,5,519,3,540,5,555,14,550,13,539,10,519,8,500,10,488,15,483,21,484,30"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="640,38,806,66"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="593,49,627,52,622,52,593,54"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="688,36,682,29,687,19,701,13,723,11,747,14,762,23,756,22,746,19,723,16,702,18,690,23,687,29,692,38"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="397,66,427,64,432,64,397,71"/>
 </map>

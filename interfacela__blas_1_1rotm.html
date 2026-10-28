@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad5942d51c92d76f959cb26fbfb3de0e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3107bc4644a84fd47015d666c6f86762" id="r_a3107bc4644a84fd47015d666c6f86762"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3107bc4644a84fd47015d666c6f86762">la_srotm</a></td></tr>
 <tr class="separator:a3107bc4644a84fd47015d666c6f86762"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a2209661a849eb97270ec381c73c379" id="r_a3a2209661a849eb97270ec381c73c379"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3a2209661a849eb97270ec381c73c379">la_xrotm</a></td></tr>
+<tr class="separator:a3a2209661a849eb97270ec381c73c379"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (DX**T) , WHERE **T INDICATES TRANSPOSE. THE ELEMENTS OF DX ARE IN (DY**T) DX(LX+I*INCX), I = 0 TO N-1, WHERE LX = 1 IF INCX &gt;= 0, ELSE LX = (-INCX)*N, AND SIMILARLY FOR SY USING LY AND INCY. WITH DPARAM(1)=DFLAG, H HAS ONE OF THE FOLLOWING FORMS.. DFLAG=-1._dp DFLAG=0._dp DFLAG=1._dp DFLAG=-2.D0 (DH11 DH12) (1._dp DH12) (DH11 1._dp) (1._dp 0._dp) H=( ) ( ) ( ) ( ) (DH21 DH22), (DH21 1._dp), (-1._dp DH22), (0._dp 1._dp). SEE ROTMG FOR A DESCRIPTION OF DATA STORAGE IN DPARAM. </p>
@@ -178,11 +180,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interfacela__blas_1_1rotm_a100fc6b7b043dc3ff032329076973dc8_cgraph.png" border="0" usemap="#ainterfacela__blas_1_1rotm_a100fc6b7b043dc3ff032329076973dc8_cgraph" alt=""/></div>
 <map name="ainterfacela__blas_1_1rotm_a100fc6b7b043dc3ff032329076973dc8_cgraph" id="ainterfacela__blas_1_1rotm_a100fc6b7b043dc3ff032329076973dc8_cgraph">
-<area shape="rect" title=" " alt="" coords="5,45,160,70"/>
-<area shape="rect" href="namespacela__blas__level1.html#add865e4a3dcfb45245761d5aabd5718f" title="APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (DX**T) , WHERE **T INDICATES TRANS..." alt="" coords="208,5,343,45"/>
-<area shape="poly" title=" " alt="" coords="159,42,194,36,195,41,160,47"/>
-<area shape="rect" href="namespacela__blas__level1.html#a147ff1cdd99973747c53eda349ea555c" title="APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (DX**T) , WHERE **T INDICATES TRANS..." alt="" coords="208,69,343,109"/>
-<area shape="poly" title=" " alt="" coords="160,67,195,73,194,79,159,73"/>
+<area shape="rect" title=" " alt="" coords="5,14,159,42"/>
+<area shape="rect" href="namespacela__blas__level1.html#add865e4a3dcfb45245761d5aabd5718f" title="APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (DX**T) , WHERE **T INDICATES TRANS..." alt="" coords="207,5,341,50"/>
+<area shape="poly" title=" " alt="" coords="159,25,194,27,188,28,159,30"/>
 </map>
 </div>
 
@@ -224,6 +224,20 @@ Here is the call graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">la_blas::rotm::la_srotm</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a2209661a849eb97270ec381c73c379" name="a3a2209661a849eb97270ec381c73c379"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a2209661a849eb97270ec381c73c379">&#9670;&#160;</a></span>la_xrotm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_blas::rotm::la_xrotm</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -273,9 +287,9 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="interfacela__blas_1_1rotm_ad5942d51c92d76f959cb26fbfb3de0e8_cgraph.png" border="0" usemap="#ainterfacela__blas_1_1rotm_ad5942d51c92d76f959cb26fbfb3de0e8_cgraph" alt=""/></div>
 <map name="ainterfacela__blas_1_1rotm_ad5942d51c92d76f959cb26fbfb3de0e8_cgraph" id="ainterfacela__blas_1_1rotm_ad5942d51c92d76f959cb26fbfb3de0e8_cgraph">
-<area shape="rect" title=" " alt="" coords="5,13,159,38"/>
-<area shape="rect" href="namespacela__blas__level1.html#a8176d9309df2e34c17a64a68fab46a34" title="APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (SX**T) , WHERE **T INDICATES TRANS..." alt="" coords="207,5,341,45"/>
-<area shape="poly" title=" " alt="" coords="159,23,193,23,193,28,159,28"/>
+<area shape="rect" title=" " alt="" coords="5,14,158,42"/>
+<area shape="rect" href="namespacela__blas__level1.html#a8176d9309df2e34c17a64a68fab46a34" title="APPLY THE MODIFIED GIVENS TRANSFORMATION, H, TO THE 2 BY N MATRIX (SX**T) , WHERE **T INDICATES TRANS..." alt="" coords="206,5,340,50"/>
+<area shape="poly" title=" " alt="" coords="158,25,193,27,187,28,158,30"/>
 </map>
 </div>
 

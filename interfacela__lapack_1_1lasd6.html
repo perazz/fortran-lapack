@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a7245a815422cceda803d335c0ac5567d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08c4a06839c4b44e4cb6998c319de5fd" id="r_a08c4a06839c4b44e4cb6998c319de5fd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a08c4a06839c4b44e4cb6998c319de5fd">la_slasd6</a></td></tr>
 <tr class="separator:a08c4a06839c4b44e4cb6998c319de5fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ebcd41b5e8491cb74b446dea4a36c61" id="r_a2ebcd41b5e8491cb74b446dea4a36c61"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2ebcd41b5e8491cb74b446dea4a36c61">la_xlasd6</a></td></tr>
+<tr class="separator:a2ebcd41b5e8491cb74b446dea4a36c61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LASD6: computes the SVD of an updated upper bidiagonal matrix B obtained by merging two smaller ones by appending a row. This routine is used only for the problem which requires all singular values and optionally singular vector matrices in factored form. B is an N-by-M matrix with N = NL + NR + 1 and M = N + SQRE. A related subroutine, DLASD1, handles the case in which all singular values and singular vectors of the bidiagonal matrix are desired. LASD6 computes the SVD as follows: ( D1(in) 0 0 0 ) B = U(in) * ( Z1**T a Z2**T b ) * VT(in) ( 0 0 D2(in) 0 ) = U(out) * ( D(out) 0) * VT(out) where Z**T = (Z1**T a Z2**T b) = u**T VT**T, and u is a vector of dimension M with ALPHA and BETA in the NL+1 and NL+2 th entries and zeros elsewhere; and the entry b is empty if SQRE = 0. The singular values of B can be computed using D1, D2, the first components of all the right singular vectors of the lower block, and the last components of all the right singular vectors of the upper block. These components are stored and updated in VF and VL, respectively, in LASD6. Hence U and VT are not explicitly referenced. The singular values are stored in D. The algorithm consists of two stages: The first stage consists of deflating the size of the problem when there are multiple singular values or if there is a zero in the Z vector. For each such occurrence the dimension of the secular equation problem is reduced by one. This stage is performed by the routine DLASD7. The second stage consists of calculating the updated singular values. This is done by finding the roots of the secular equation via the routine DLASD4 (as called by DLASD8). This routine also updates VF and VL and computes the distances between the updated singular values and the old singular values. LASD6 is called from DLASDA. </p>
@@ -312,6 +314,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::lasd6::la_slasd6</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2ebcd41b5e8491cb74b446dea4a36c61" name="a2ebcd41b5e8491cb74b446dea4a36c61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ebcd41b5e8491cb74b446dea4a36c61">&#9670;&#160;</a></span>la_xlasd6()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::lasd6::la_xlasd6</td>
         </tr>
       </table>
 </div><div class="memdoc">

@@ -1,22 +1,22 @@
 <map id="la_lapack_orthogonal_factors_qr::la_claunhr_col_getrfnp2" name="la_lapack_orthogonal_factors_qr::la_claunhr_col_getrfnp2">
-<area shape="rect" id="Node000001" title="CLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="5,150,175,205"/>
-<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="50,150,50,140,57,131,71,125,90,123,113,126,127,134,124,139,112,131,90,129,72,131,60,135,55,142,55,150"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="223,157,370,197"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,175,210,175,210,180,175,180"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="419,165,585,190"/>
-<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="175,198,223,207,297,213,370,207,446,191,447,196,371,212,297,218,222,212,174,203"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="229,272,364,312"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="139,203,224,251,247,263,244,268,221,256,137,207"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="229,93,365,133"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="174,149,218,135,219,140,176,154"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="223,29,371,69"/>
-<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="123,148,169,113,221,79,232,73,235,78,224,84,172,118,126,152"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="419,101,585,126"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,155,447,128,448,133,362,160"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="370,175,405,175,405,180,370,180"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="468,102,461,92,465,82,479,76,502,74,531,78,542,87,539,91,528,83,502,79,480,81,469,86,466,92,472,99"/>
-<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="365,111,405,111,405,116,365,116"/>
-<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="362,131,448,158,447,163,361,136"/>
-<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="362,67,448,94,447,99,361,72"/>
-<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="258,30,256,20,262,11,276,5,297,3,321,6,334,13,331,18,319,11,297,8,277,10,265,15,261,21,263,28"/>
+<area shape="rect" id="Node000001" title="CLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="5,160,174,221"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="49,159,50,149,57,140,71,135,90,133,111,136,126,144,121,146,110,141,89,138,72,140,60,145,55,151,54,160"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="223,168,368,213"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,188,209,189,205,191,175,193"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="417,176,582,204"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="174,213,222,222,295,229,369,222,444,208,439,210,369,228,295,234,221,228,175,219"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="228,288,362,333"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="143,219,223,267,243,280,238,280,220,271,142,224"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="228,99,363,143"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="173,160,215,147,211,150,175,164"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,29,369,74"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="124,157,169,120,220,84,231,80,227,83,223,89,172,125,128,161"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="417,107,582,135"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="362,165,445,139,440,141,364,170"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="368,188,404,190,399,191,369,193"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="464,106,459,98,463,89,477,83,500,81,524,83,538,92,533,92,522,88,500,86,479,88,467,93,464,98,469,107"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="363,118,404,120,399,122,364,124"/>
+<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="363,141,445,171,440,171,363,147"/>
+<area shape="poly" id="edge11_Node000007_Node000003" title=" " alt="" coords="363,72,445,101,440,102,363,77"/>
+<area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="256,28,255,19,261,10,275,5,295,3,317,5,332,13,327,14,316,10,295,8,276,10,265,15,260,21,261,29"/>
 </map>

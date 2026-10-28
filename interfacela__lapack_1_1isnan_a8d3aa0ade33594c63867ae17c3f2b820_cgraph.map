@@ -1,9 +1,9 @@
 <map id="la_lapack::isnan::sisnan" name="la_lapack::isnan::sisnan">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,37,183,62"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="231,29,379,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,47,217,47,217,52,183,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="268,30,266,20,272,11,285,5,305,3,328,6,340,13,337,17,326,11,305,8,286,10,275,15,271,21,273,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="427,29,576,69"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="379,47,413,47,413,52,379,52"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="465,30,462,20,468,11,481,5,501,3,524,6,537,13,534,17,523,11,501,8,483,10,472,15,468,21,470,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,38,182,66"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="230,29,377,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,49,217,51,211,52,182,54"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="266,27,264,19,271,10,284,5,303,3,324,5,338,14,333,13,323,10,303,8,285,10,274,15,270,21,270,30"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="425,29,573,74"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="377,49,412,52,407,52,377,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="462,27,460,19,467,10,480,5,499,3,520,5,534,14,529,13,519,10,499,8,481,10,470,15,465,21,466,30"/>
 </map>

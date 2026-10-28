@@ -1,14 +1,10 @@
 <map id="la_blas::trsv::dtrsv" name="la_blas::trsv::dtrsv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,57,147,83"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level2__tri.html#a618b93ee1bc57f991ebd8325af4b6cea" title="DTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="195,18,331,58"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,55,180,49,181,55,147,61"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__tri.html#a465889f988f6433e1700b5188ccb478b" title="QTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="195,82,331,122"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="147,79,181,85,180,91,146,85"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="379,29,545,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="331,37,365,37,365,43,331,42"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="379,83,545,108"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="332,55,405,76,403,81,330,60"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="429,31,423,21,426,11,440,5,462,3,489,6,500,15,497,19,487,11,462,8,441,10,430,15,428,20,434,28"/>
-<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="329,79,405,56,407,61,331,84"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="331,97,365,96,365,101,331,102"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,146,84"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level2__tri.html#a618b93ee1bc57f991ebd8325af4b6cea" title="DTRSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="194,48,329,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,67,180,69,175,70,146,72"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="377,29,542,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,58,364,56,359,57,330,63"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="377,81,542,109"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="330,76,364,83,359,83,329,81"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="425,28,420,20,424,11,438,5,460,3,483,5,497,14,492,14,482,10,460,8,439,10,428,15,425,20,430,30"/>
 </map>

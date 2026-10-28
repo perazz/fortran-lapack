@@ -125,14 +125,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a2d214cfd9807213f03748375b60693fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d6131abc8a2997a8f854ab1f59de6e6" id="r_a9d6131abc8a2997a8f854ab1f59de6e6"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d6131abc8a2997a8f854ab1f59de6e6">la_ddeterminant</a> (a, overwrite_a, err)</td></tr>
 <tr class="separator:a9d6131abc8a2997a8f854ab1f59de6e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94fa7bc671d1e5b43832c4de8849f82c" id="r_a94fa7bc671d1e5b43832c4de8849f82c"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94fa7bc671d1e5b43832c4de8849f82c">la_qdeterminant</a> (a, overwrite_a, err)</td></tr>
-<tr class="separator:a94fa7bc671d1e5b43832c4de8849f82c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ee009203e4f18f171e19553c2f84b22" id="r_a4ee009203e4f18f171e19553c2f84b22"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4ee009203e4f18f171e19553c2f84b22">la_cdeterminant</a> (a, overwrite_a, err)</td></tr>
 <tr class="separator:a4ee009203e4f18f171e19553c2f84b22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ae09159caef2d547c2a3a1348ca25af" id="r_a3ae09159caef2d547c2a3a1348ca25af"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3ae09159caef2d547c2a3a1348ca25af">la_zdeterminant</a> (a, overwrite_a, err)</td></tr>
 <tr class="separator:a3ae09159caef2d547c2a3a1348ca25af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41b0a1b3496f5d970c6461ae08bd5c2b" id="r_a41b0a1b3496f5d970c6461ae08bd5c2b"><td class="memItemLeft" align="right" valign="top">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a41b0a1b3496f5d970c6461ae08bd5c2b">la_wdeterminant</a> (a, overwrite_a, err)</td></tr>
-<tr class="separator:a41b0a1b3496f5d970c6461ae08bd5c2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Compute the determinant of a rectangular matrix. </p>
@@ -219,41 +215,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a94fa7bc671d1e5b43832c4de8849f82c" name="a94fa7bc671d1e5b43832c4de8849f82c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94fa7bc671d1e5b43832c4de8849f82c">&#9670;&#160;</a></span>la_qdeterminant()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function la_determinant::det::la_qdeterminant </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Result: matrix determinant </dd></dl>
-
-</div>
-</div>
 <a id="a2d214cfd9807213f03748375b60693fa" name="a2d214cfd9807213f03748375b60693fa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2d214cfd9807213f03748375b60693fa">&#9670;&#160;</a></span>la_sdeterminant()</h2>
 
@@ -264,41 +225,6 @@ Public Member Functions</h2></td></tr>
           <td class="memname">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function la_determinant::det::la_sdeterminant </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed?</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Result: matrix determinant </dd></dl>
-
-</div>
-</div>
-<a id="a41b0a1b3496f5d970c6461ae08bd5c2b" name="a41b0a1b3496f5d970c6461ae08bd5c2b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41b0a1b3496f5d970c6461ae08bd5c2b">&#9670;&#160;</a></span>la_wdeterminant()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>) function la_determinant::det::la_wdeterminant </td>
-          <td>(</td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -360,7 +286,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__determinant_8f90.html">la_determinant.f90</a></li>
+<li><a class="el" href="la__determinant_8_f90.html">la_determinant.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

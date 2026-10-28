@@ -1,10 +1,10 @@
 <map id="la_lapack_eigv_tridiag2::la_slaneg" name="la_lapack_eigv_tridiag2::la_slaneg">
-<area shape="rect" id="Node000001" title="SLANEG: computes the Sturm count, the number of negative pivots encountered while factoring tridiagon..." alt="" coords="5,29,181,69"/>
-<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="54,30,52,20,58,10,72,5,93,3,118,6,131,13,128,18,116,11,93,8,73,10,61,15,57,21,59,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="229,29,377,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,47,215,47,215,52,181,52"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="267,30,264,20,270,11,283,5,303,3,326,6,339,13,336,17,325,11,303,8,285,10,274,15,270,21,272,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="425,29,575,69"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="377,47,411,47,411,52,377,52"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="463,30,461,20,467,11,480,5,500,3,523,6,535,13,533,17,521,11,500,8,481,10,470,15,466,21,468,28"/>
+<area shape="rect" id="Node000001" title="SLANEG: computes the Sturm count, the number of negative pivots encountered while factoring tridiagon..." alt="" coords="5,29,181,74"/>
+<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="53,28,52,19,58,10,72,5,93,3,116,5,131,14,125,14,114,10,93,8,74,10,62,15,57,21,58,29"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="229,29,376,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,49,215,51,210,52,181,54"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="265,27,263,19,270,10,283,5,302,3,323,5,337,14,332,13,322,10,302,8,284,10,273,15,269,21,269,30"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="424,29,572,74"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="376,49,411,52,406,52,376,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="461,27,459,19,466,10,479,5,498,3,519,5,533,14,528,13,518,10,498,8,480,10,469,15,464,21,465,30"/>
 </map>

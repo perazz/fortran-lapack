@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a032852ec55fc7473af85075765a96594"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2505c14b241077bf33a3a2062c45e8b5" id="r_a2505c14b241077bf33a3a2062c45e8b5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2505c14b241077bf33a3a2062c45e8b5">la_slartgp</a></td></tr>
 <tr class="separator:a2505c14b241077bf33a3a2062c45e8b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a903cc7d830d9620cea92b71d8c132b3c" id="r_a903cc7d830d9620cea92b71d8c132b3c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a903cc7d830d9620cea92b71d8c132b3c">la_xlartgp</a></td></tr>
+<tr class="separator:a903cc7d830d9620cea92b71d8c132b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1. [ -SN CS ] [ G ] [ 0 ] This is a slower, more accurate version of the Level 1 BLAS routine DROTG, with the following other differences: F and G are unchanged on return. If G=0, then CS=(+/-)1 and SN=0. If F=0 and (G .ne. 0), then CS=0 and SN=(+/-)1. The sign is chosen so that R &gt;= 0. </p>
@@ -207,6 +209,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::lartgp::la_slartgp</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a903cc7d830d9620cea92b71d8c132b3c" name="a903cc7d830d9620cea92b71d8c132b3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a903cc7d830d9620cea92b71d8c132b3c">&#9670;&#160;</a></span>la_xlartgp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::lartgp::la_xlartgp</td>
         </tr>
       </table>
 </div><div class="memdoc">

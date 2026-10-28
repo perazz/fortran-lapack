@@ -7,6 +7,8 @@ var interfacela__lapack_1_1stegr =
     [ "la_qstegr", "interfacela__lapack_1_1stegr.html#a83aae39a99c97a8232492e780998867d", null ],
     [ "la_sstegr", "interfacela__lapack_1_1stegr.html#a2535e3e3a197892d57a5506a71a057a3", null ],
     [ "la_wstegr", "interfacela__lapack_1_1stegr.html#a1f66ec44a7831137b98abe6e363e290f", null ],
+    [ "la_xstegr", "interfacela__lapack_1_1stegr.html#a6e7704a0d6a310b6bed772890112a362", null ],
+    [ "la_ystegr", "interfacela__lapack_1_1stegr.html#a3060c5e387d7f69e887da6f0e6d36a88", null ],
     [ "la_zstegr", "interfacela__lapack_1_1stegr.html#a1f8f78b4128dbf0e9b56d9cf033d0b7b", null ],
     [ "sstegr", "interfacela__lapack_1_1stegr.html#af520d450dd0b4e80e182cff8c79479e2", null ],
     [ "zstegr", "interfacela__lapack_1_1stegr.html#a584a56331eefdb58d611e01f12e5f07e", null ]

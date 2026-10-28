@@ -1,14 +1,10 @@
 <map id="la_blas::syrk::ssyrk" name="la_blas::syrk::ssyrk">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,57,152,83"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level3__sym.html#a844ac8c8ba5332df18d566e700f7746f" title="SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="200,18,351,58"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,55,186,50,187,55,153,61"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level3__sym.html#a32199f9d20391acc3d9f682fa03d7bd7" title="WSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="200,82,351,122"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="153,79,187,85,186,90,152,85"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="399,29,565,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="351,37,385,37,385,43,351,42"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="399,83,565,108"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="349,55,423,76,421,81,347,61"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="448,31,441,21,445,11,459,5,482,3,511,6,522,15,519,20,508,11,482,8,460,10,449,15,446,20,452,28"/>
-<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="344,79,424,56,425,61,346,84"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="351,97,385,96,385,101,351,102"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,152,84"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level3__sym.html#a844ac8c8ba5332df18d566e700f7746f" title="SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="200,48,349,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,67,187,69,182,70,153,72"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="397,29,562,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="349,57,384,56,379,56,350,63"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="397,81,562,109"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="350,76,384,83,379,83,349,82"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="444,28,439,20,443,11,457,5,480,3,504,5,518,14,513,14,502,10,480,8,458,10,447,15,444,20,449,30"/>
 </map>

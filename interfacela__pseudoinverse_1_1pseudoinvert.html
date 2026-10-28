@@ -125,14 +125,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9f0279b6cd0f713fc3705829544846d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a245892f1e84f3a306b63500fe4f8763b" id="r_a245892f1e84f3a306b63500fe4f8763b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a245892f1e84f3a306b63500fe4f8763b">la_pseudoinvert_d</a> (a, pinva, rtol, err)</td></tr>
 <tr class="separator:a245892f1e84f3a306b63500fe4f8763b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a273badd85c68c4e5d20be939417c7d9d" id="r_a273badd85c68c4e5d20be939417c7d9d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a273badd85c68c4e5d20be939417c7d9d">la_pseudoinvert_q</a> (a, pinva, rtol, err)</td></tr>
-<tr class="separator:a273badd85c68c4e5d20be939417c7d9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26de8f68534b8f7ec657ecaad2939c94" id="r_a26de8f68534b8f7ec657ecaad2939c94"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26de8f68534b8f7ec657ecaad2939c94">la_pseudoinvert_c</a> (a, pinva, rtol, err)</td></tr>
 <tr class="separator:a26de8f68534b8f7ec657ecaad2939c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1dab7bd0fe859d63224af03381bc06a6" id="r_a1dab7bd0fe859d63224af03381bc06a6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dab7bd0fe859d63224af03381bc06a6">la_pseudoinvert_z</a> (a, pinva, rtol, err)</td></tr>
 <tr class="separator:a1dab7bd0fe859d63224af03381bc06a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbb620c208583e905873c1dc9c39cef6" id="r_acbb620c208583e905873c1dc9c39cef6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbb620c208583e905873c1dc9c39cef6">la_pseudoinvert_w</a> (a, pinva, rtol, err)</td></tr>
-<tr class="separator:acbb620c208583e905873c1dc9c39cef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Compute the pseudo-inverse of a matrix (subroutine version). </p>
@@ -231,46 +227,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a273badd85c68c4e5d20be939417c7d9d" name="a273badd85c68c4e5d20be939417c7d9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a273badd85c68c4e5d20be939417c7d9d">&#9670;&#160;</a></span>la_pseudoinvert_q()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_q </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>pinva</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>rtol</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">pinva</td><td>Output pseudo-inverse matrix</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>[optional] ....</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a9f0279b6cd0f713fc3705829544846d0" name="a9f0279b6cd0f713fc3705829544846d0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9f0279b6cd0f713fc3705829544846d0">&#9670;&#160;</a></span>la_pseudoinvert_s()</h2>
 
@@ -291,46 +247,6 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>rtol</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">pinva</td><td>Output pseudo-inverse matrix</td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>[optional] ....</td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="acbb620c208583e905873c1dc9c39cef6" name="acbb620c208583e905873c1dc9c39cef6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbb620c208583e905873c1dc9c39cef6">&#9670;&#160;</a></span>la_pseudoinvert_w()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_w </td>
-          <td>(</td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>pinva</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>rtol</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -392,7 +308,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__pinv_8f90.html">la_pinv.f90</a></li>
+<li><a class="el" href="la__pinv_8_f90.html">la_pinv.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

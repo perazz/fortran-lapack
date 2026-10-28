@@ -132,6 +132,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3ca158c349842beaea45949a831ef7ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6ad6b200ee134d3761e5d250368f857" id="r_af6ad6b200ee134d3761e5d250368f857"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af6ad6b200ee134d3761e5d250368f857">la_slasdq</a></td></tr>
 <tr class="separator:af6ad6b200ee134d3761e5d250368f857"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcbabc347f778bdb9e172d115ff450d2" id="r_afcbabc347f778bdb9e172d115ff450d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afcbabc347f778bdb9e172d115ff450d2">la_xlasdq</a></td></tr>
+<tr class="separator:afcbabc347f778bdb9e172d115ff450d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LASDQ: computes the singular value decomposition (SVD) of a real (upper or lower) bidiagonal matrix with diagonal D and offdiagonal E, accumulating the transformations if desired. Letting B denote the input bidiagonal matrix, the algorithm computes orthogonal matrices Q and P such that B = Q * S * P**T (P**T denotes the transpose of P). The singular values S are overwritten on D. The input matrix U is changed to U * Q if desired. The input matrix VT is changed to P**T * VT if desired. The input matrix C is changed to Q**T * C if desired. See "Computing  Small Singular Values of Bidiagonal Matrices With
@@ -264,6 +266,20 @@ Guaranteed High Relative Accuracy," by J. Demmel and W. Kahan, LAPACK Working No
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::lasdq::la_slasdq</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afcbabc347f778bdb9e172d115ff450d2" name="afcbabc347f778bdb9e172d115ff450d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcbabc347f778bdb9e172d115ff450d2">&#9670;&#160;</a></span>la_xlasdq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::lasdq::la_xlasdq</td>
         </tr>
       </table>
 </div><div class="memdoc">

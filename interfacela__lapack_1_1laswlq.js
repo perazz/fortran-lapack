@@ -7,6 +7,8 @@ var interfacela__lapack_1_1laswlq =
     [ "la_qlaswlq", "interfacela__lapack_1_1laswlq.html#a248774e861bf96007e0fe67930cb2194", null ],
     [ "la_slaswlq", "interfacela__lapack_1_1laswlq.html#a3d5e00dc3250b8044b8127b79bdb4fc5", null ],
     [ "la_wlaswlq", "interfacela__lapack_1_1laswlq.html#a90e56c226d3650e4b2b3d6fed6cfdd3d", null ],
+    [ "la_xlaswlq", "interfacela__lapack_1_1laswlq.html#a78aad90b64b3737b3a334f70fb097f77", null ],
+    [ "la_ylaswlq", "interfacela__lapack_1_1laswlq.html#a3ef2f53d7bbfa4c077d83f96545da0fd", null ],
     [ "la_zlaswlq", "interfacela__lapack_1_1laswlq.html#a3e528d84e2c018a9b44dc295e03c04f8", null ],
     [ "slaswlq", "interfacela__lapack_1_1laswlq.html#a51f1a34ab8d18d2746cf2a9b3d434eb3", null ],
     [ "zlaswlq", "interfacela__lapack_1_1laswlq.html#abc965aa131a7041e929c8e1bc9322237", null ]

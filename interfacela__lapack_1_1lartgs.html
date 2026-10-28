@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af0469a0968333f44e268cce5f2adb3a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a506c1635bbd9647db8b167d5a91be6b7" id="r_a506c1635bbd9647db8b167d5a91be6b7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a506c1635bbd9647db8b167d5a91be6b7">la_slartgs</a></td></tr>
 <tr class="separator:a506c1635bbd9647db8b167d5a91be6b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53c66307025a002394e0d1549c3e12a6" id="r_a53c66307025a002394e0d1549c3e12a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53c66307025a002394e0d1549c3e12a6">la_xlartgs</a></td></tr>
+<tr class="separator:a53c66307025a002394e0d1549c3e12a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LARTGS: generates a plane rotation designed to introduce a bulge in Golub-Reinsch-style implicit QR iteration for the bidiagonal SVD problem. X and Y are the top-row entries, and SIGMA is the shift. The computed CS and SN define a plane rotation satisfying [ CS SN ] . [ X^2 - SIGMA ] = [ R ], [ -SN CS ] [ X * Y ] [ 0 ] with R nonnegative. If X^2 - SIGMA and X * Y are 0, then the rotation is by PI/2. </p>
@@ -207,6 +209,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::lartgs::la_slartgs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a53c66307025a002394e0d1549c3e12a6" name="a53c66307025a002394e0d1549c3e12a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53c66307025a002394e0d1549c3e12a6">&#9670;&#160;</a></span>la_xlartgs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::lartgs::la_xlartgs</td>
         </tr>
       </table>
 </div><div class="memdoc">

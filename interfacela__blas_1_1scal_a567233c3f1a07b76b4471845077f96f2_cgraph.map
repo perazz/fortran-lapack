@@ -1,5 +1,5 @@
 <map id="la_blas::scal::cscal" name="la_blas::scal::cscal">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,148,38"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="196,5,331,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,23,182,23,182,28,148,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,14,148,42"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="196,5,330,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,25,183,27,177,28,148,30"/>
 </map>

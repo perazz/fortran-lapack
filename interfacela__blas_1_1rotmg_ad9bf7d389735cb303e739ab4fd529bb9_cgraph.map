@@ -1,5 +1,5 @@
 <map id="la_blas::rotmg::srotmg" name="la_blas::rotmg::srotmg">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,175,38"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a9074217c3ea9811cb0cb6456a46bc7d4" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="223,5,357,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,23,209,23,209,28,175,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,14,174,42"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a9074217c3ea9811cb0cb6456a46bc7d4" title="CONSTRUCT THE MODIFIED GIVENS TRANSFORMATION MATRIX H WHICH ZEROS THE SECOND COMPONENT OF THE 2&#45;VECTO..." alt="" coords="222,5,356,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,25,209,27,203,28,174,30"/>
 </map>

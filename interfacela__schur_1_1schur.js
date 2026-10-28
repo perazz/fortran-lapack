@@ -8,8 +8,12 @@ var interfacela__schur_1_1schur =
     [ "la_real_eig_q_schur", "interfacela__schur_1_1schur.html#a1a7a92f24c3a57281c9b7d86444fc73e", null ],
     [ "la_real_eig_s_schur", "interfacela__schur_1_1schur.html#adfb173f4030b51713e485c026cf6ce28", null ],
     [ "la_real_eig_w_schur", "interfacela__schur_1_1schur.html#a47a7d71d5f6dcef32818df81cb40ad17", null ],
+    [ "la_real_eig_x_schur", "interfacela__schur_1_1schur.html#ac798323355d76177e79ef39312cad253", null ],
+    [ "la_real_eig_y_schur", "interfacela__schur_1_1schur.html#a6a539cdde48cefb886b23578157eae33", null ],
     [ "la_real_eig_z_schur", "interfacela__schur_1_1schur.html#ab5aab3448c2f9b2d784a311cc32b6624", null ],
     [ "la_s_schur", "interfacela__schur_1_1schur.html#a29cc90fe0eb3e78a208aae5f6b5a5326", null ],
     [ "la_w_schur", "interfacela__schur_1_1schur.html#a7475c6d2d2aea34097c8b7c893bbf82c", null ],
+    [ "la_x_schur", "interfacela__schur_1_1schur.html#a2686f355e704dda06d82593fd3b638ba", null ],
+    [ "la_y_schur", "interfacela__schur_1_1schur.html#ac67345cf11aaff9c2c4511f5a26611f4", null ],
     [ "la_z_schur", "interfacela__schur_1_1schur.html#a157e0dc60e7525671f7816a7a08fb25f", null ]
 ];

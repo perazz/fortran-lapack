@@ -4,5 +4,6 @@ var interfacela__blas_1_1rotmg =
     [ "la_drotmg", "interfacela__blas_1_1rotmg.html#a1c266ad7d5de37ece294ceabdee9407d", null ],
     [ "la_qrotmg", "interfacela__blas_1_1rotmg.html#a4598eecf77538619ef3fcef4d2878345", null ],
     [ "la_srotmg", "interfacela__blas_1_1rotmg.html#af94e5b0824eda6cb0eef329237d41721", null ],
+    [ "la_xrotmg", "interfacela__blas_1_1rotmg.html#a9572f7ea2b4ebd904783f4d28ebc5288", null ],
     [ "srotmg", "interfacela__blas_1_1rotmg.html#ad9bf7d389735cb303e739ab4fd529bb9", null ]
 ];

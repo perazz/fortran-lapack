@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a24f34e99c5cd0c01dd4740f305cb491a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e74c6c4696f13ece13ff73c4149e890" id="r_a6e74c6c4696f13ece13ff73c4149e890"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e74c6c4696f13ece13ff73c4149e890">la_sorcsd2by1</a></td></tr>
 <tr class="separator:a6e74c6c4696f13ece13ff73c4149e890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa501856091a5e1e28b72ae15b28447a9" id="r_aa501856091a5e1e28b72ae15b28447a9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa501856091a5e1e28b72ae15b28447a9">la_xorcsd2by1</a></td></tr>
+<tr class="separator:aa501856091a5e1e28b72ae15b28447a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORCSD2BY1: computes the CS decomposition of an M-by-Q matrix X with orthonormal columns that has been partitioned into a 2-by-1 block structure: [ I1 0 0 ] [ 0 C 0 ] [ X11 ] [ U1 | ] [ 0 0 0 ] X = [--&mdash;] = [------&mdash;] [-------&mdash;] V1**T . [ X21 ] [ | U2 ] [ 0 0 0 ] [ 0 S 0 ] [ 0 0 I2] X11 is P-by-Q. The orthogonal matrices U1, U2, and V1 are P-by-P, (M-P)-by-(M-P), and Q-by-Q, respectively. C and S are R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in which R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0). </p>
@@ -287,6 +289,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::orcsd2by1::la_sorcsd2by1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa501856091a5e1e28b72ae15b28447a9" name="aa501856091a5e1e28b72ae15b28447a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa501856091a5e1e28b72ae15b28447a9">&#9670;&#160;</a></span>la_xorcsd2by1()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::orcsd2by1::la_xorcsd2by1</td>
         </tr>
       </table>
 </div><div class="memdoc">

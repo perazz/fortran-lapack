@@ -4,5 +4,6 @@ var interfacela__lapack_1_1la__porcond =
     [ "la_dla_porcond", "interfacela__lapack_1_1la__porcond.html#a7e81d70621cc2a064e653861d8c4d97b", null ],
     [ "la_qla_porcond", "interfacela__lapack_1_1la__porcond.html#a973e2aa25773f4323d4b305969288621", null ],
     [ "la_sla_porcond", "interfacela__lapack_1_1la__porcond.html#ad617ef3fb98e8cdd4b73f4878a4441ad", null ],
+    [ "la_xla_porcond", "interfacela__lapack_1_1la__porcond.html#a97cad23633ecee757a6aa31e72dde856", null ],
     [ "sla_porcond", "interfacela__lapack_1_1la__porcond.html#a90d1ba514623c08810457d53c07c058a", null ]
 ];

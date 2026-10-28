@@ -1,11 +1,11 @@
 <map id="la_lapack_solve_aux::la_slacn2" name="la_lapack_solve_aux::la_slacn2">
-<area shape="rect" id="Node000001" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="5,103,163,143"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="211,29,385,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,101,210,65,235,56,237,61,212,70,128,106"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a54c02c2da4a131219e1d231424179d3e" title="SASUM: takes the sum of the absolute values. uses unrolled loops for increment equal to one." alt="" coords="231,103,365,143"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="163,121,217,121,217,126,163,126"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="231,167,365,207"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="152,141,218,161,217,166,151,146"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="263,31,256,21,259,11,274,5,298,3,328,6,339,15,336,20,326,11,298,8,275,10,263,15,261,20,267,28"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="258,104,256,94,262,84,276,79,298,77,323,80,337,87,334,92,321,85,298,82,278,84,265,89,261,95,263,102"/>
+<area shape="rect" id="Node000001" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="5,105,162,150"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="210,29,383,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,102,209,66,230,61,225,63,211,71,130,107"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a54c02c2da4a131219e1d231424179d3e" title="SASUM: takes the sum of the absolute values. uses unrolled loops for increment equal to one." alt="" coords="229,105,364,150"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="161,125,216,126,211,128,162,130"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="229,174,364,219"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="155,147,217,169,212,171,154,153"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,28,254,20,259,11,273,5,296,3,321,5,336,14,331,14,320,10,296,8,274,10,262,15,259,20,265,29"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="256,103,254,95,261,86,275,80,296,78,320,81,335,90,329,90,318,86,296,83,277,85,264,90,259,96,260,105"/>
 </map>

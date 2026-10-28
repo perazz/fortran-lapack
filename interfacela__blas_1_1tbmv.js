@@ -7,6 +7,8 @@ var interfacela__blas_1_1tbmv =
     [ "la_qtbmv", "interfacela__blas_1_1tbmv.html#af3e5eb8500ceeacdd15edec30813a1bd", null ],
     [ "la_stbmv", "interfacela__blas_1_1tbmv.html#aacf7a1dc4cb25479a016f92748b6095e", null ],
     [ "la_wtbmv", "interfacela__blas_1_1tbmv.html#aaad30120572069344b8d8c95c6a8458b", null ],
+    [ "la_xtbmv", "interfacela__blas_1_1tbmv.html#a810678b5af304346932b8a416a20b6d3", null ],
+    [ "la_ytbmv", "interfacela__blas_1_1tbmv.html#ad92fe6258ab1b00a7046b2f007a571cf", null ],
     [ "la_ztbmv", "interfacela__blas_1_1tbmv.html#a9657c2a5f7649073c94a70bfa8325db8", null ],
     [ "stbmv", "interfacela__blas_1_1tbmv.html#a2b8d58a7b65f44b3c5f1e591f3334c78", null ],
     [ "ztbmv", "interfacela__blas_1_1tbmv.html#a7ce1730ff614769088ffff6e939ac5b5", null ]

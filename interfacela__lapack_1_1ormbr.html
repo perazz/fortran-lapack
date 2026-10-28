@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3c42bb15ae190056cce976883f048c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6876f4d7a549ddee50883cc65a85b3e" id="r_ac6876f4d7a549ddee50883cc65a85b3e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac6876f4d7a549ddee50883cc65a85b3e">la_sormbr</a></td></tr>
 <tr class="separator:ac6876f4d7a549ddee50883cc65a85b3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42bf7ebfbffb32b282641e302635810b" id="r_a42bf7ebfbffb32b282641e302635810b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a42bf7ebfbffb32b282641e302635810b">la_xormbr</a></td></tr>
+<tr class="separator:a42bf7ebfbffb32b282641e302635810b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>If VECT = 'Q', ORMBR: overwrites the general real M-by-N matrix C with SIDE = 'L' SIDE = 'R' TRANS = 'N': Q * C C * Q TRANS = 'T': Q**T * C C * Q**T If VECT = 'P', ORMBR overwrites the general real M-by-N matrix C with SIDE = 'L' SIDE = 'R' TRANS = 'N': P * C C * P TRANS = 'T': P**T * C C * P**T Here Q and P**T are the orthogonal matrices determined by DGEBRD when reducing a real matrix A to bidiagonal form: A = Q * B * P**T. Q and P**T are defined as products of elementary reflectors H(i) and G(i) respectively. Let nq = m if SIDE = 'L' and nq = n if SIDE = 'R'. Thus nq is the order of the orthogonal matrix Q or P**T that is applied. If VECT = 'Q', A is assumed to have been an NQ-by-K matrix: if nq &gt;= k, Q = H(1) H(2) . . . H(k); if nq &lt; k, Q = H(1) H(2) . . . H(nq-1). If VECT = 'P', A is assumed to have been a K-by-NQ matrix: if k &lt; nq, P = G(1) G(2) . . . G(k); if k &gt;= nq, P = G(1) G(2) . . . G(nq-1). </p>
@@ -252,6 +254,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::ormbr::la_sormbr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a42bf7ebfbffb32b282641e302635810b" name="a42bf7ebfbffb32b282641e302635810b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42bf7ebfbffb32b282641e302635810b">&#9670;&#160;</a></span>la_xormbr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::ormbr::la_xormbr</td>
         </tr>
       </table>
 </div><div class="memdoc">

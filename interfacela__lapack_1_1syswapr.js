@@ -7,6 +7,8 @@ var interfacela__lapack_1_1syswapr =
     [ "la_qsyswapr", "interfacela__lapack_1_1syswapr.html#acf519019c89f924c5a9a887659cc990c", null ],
     [ "la_ssyswapr", "interfacela__lapack_1_1syswapr.html#adcc448981c93b79a9fba0fbce8a4cb59", null ],
     [ "la_wsyswapr", "interfacela__lapack_1_1syswapr.html#a824deb05f6d5fa5bc06dcdfedba3862e", null ],
+    [ "la_xsyswapr", "interfacela__lapack_1_1syswapr.html#acbca392b9e4cb9b85e762a99d86a148e", null ],
+    [ "la_ysyswapr", "interfacela__lapack_1_1syswapr.html#a7ec99f59eb46134040599f284041d8c8", null ],
     [ "la_zsyswapr", "interfacela__lapack_1_1syswapr.html#a85150b6c69eb0017eccc80803e042601", null ],
     [ "ssyswapr", "interfacela__lapack_1_1syswapr.html#a40fd15bed0dde13588653876edd741e7", null ],
     [ "zsyswapr", "interfacela__lapack_1_1syswapr.html#a4da19497d6ea25e695be4bb9ebc75bc4", null ]

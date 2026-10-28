@@ -4,5 +4,6 @@ var interfacela__lapack_1_1larre =
     [ "la_dlarre", "interfacela__lapack_1_1larre.html#ae3471164c1e044edd1366583593e82da", null ],
     [ "la_qlarre", "interfacela__lapack_1_1larre.html#adb36bbd91d2704705f83c3307350525e", null ],
     [ "la_slarre", "interfacela__lapack_1_1larre.html#a61206973aa0cf06aa345cfb47530d710", null ],
+    [ "la_xlarre", "interfacela__lapack_1_1larre.html#aa88bf3036e17e1ceaac93afa4a8156f4", null ],
     [ "slarre", "interfacela__lapack_1_1larre.html#a6b44399d5fcb2cf3080b0ab3a5106f83", null ]
 ];

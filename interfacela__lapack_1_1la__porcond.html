@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a90d1ba514623c08810457d53c07c058a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad617ef3fb98e8cdd4b73f4878a4441ad" id="r_ad617ef3fb98e8cdd4b73f4878a4441ad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad617ef3fb98e8cdd4b73f4878a4441ad">la_sla_porcond</a></td></tr>
 <tr class="separator:ad617ef3fb98e8cdd4b73f4878a4441ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97cad23633ecee757a6aa31e72dde856" id="r_a97cad23633ecee757a6aa31e72dde856"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a97cad23633ecee757a6aa31e72dde856">la_xla_porcond</a></td></tr>
+<tr class="separator:a97cad23633ecee757a6aa31e72dde856"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>LA_PORCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE as follows CMODE = 1 op2(C) = C CMODE = 0 op2(C) = I CMODE = -1 op2(C) = inv(C) The Skeel condition number cond(A) = norminf( |inv(A)||A| ) is computed by computing scaling factors R such that diag(R)*A*op2(C) is row equilibrated and computing the standard infinity-norm condition number. </p>
@@ -237,6 +239,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::la_porcond::la_sla_porcond</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a97cad23633ecee757a6aa31e72dde856" name="a97cad23633ecee757a6aa31e72dde856"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97cad23633ecee757a6aa31e72dde856">&#9670;&#160;</a></span>la_xla_porcond()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::la_porcond::la_xla_porcond</td>
         </tr>
       </table>
 </div><div class="memdoc">

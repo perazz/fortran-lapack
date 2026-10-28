@@ -7,6 +7,8 @@ var interfacela__lapack_1_1pbcon =
     [ "la_qpbcon", "interfacela__lapack_1_1pbcon.html#a57b7cf11d31b2d37b30344fd21daecdd", null ],
     [ "la_spbcon", "interfacela__lapack_1_1pbcon.html#acccc9ed7d0412e4365db4c93f0162a98", null ],
     [ "la_wpbcon", "interfacela__lapack_1_1pbcon.html#ad30bad5075ab12022c25fe54e8177416", null ],
+    [ "la_xpbcon", "interfacela__lapack_1_1pbcon.html#af3224a57d6207e458c1ad684a15f0871", null ],
+    [ "la_ypbcon", "interfacela__lapack_1_1pbcon.html#a169d9661895135e8b841bbfab47bda52", null ],
     [ "la_zpbcon", "interfacela__lapack_1_1pbcon.html#a99109ff00beceea565591a869c19d487", null ],
     [ "spbcon", "interfacela__lapack_1_1pbcon.html#aff32164cc79e5f3c2d33e365fc55da74", null ],
     [ "zpbcon", "interfacela__lapack_1_1pbcon.html#ab843a1aea1bbadb6c8775188b65a57c5", null ]

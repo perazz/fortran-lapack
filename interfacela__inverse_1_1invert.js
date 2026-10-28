@@ -9,7 +9,11 @@ var interfacela__inverse_1_1invert =
     [ "la_invert_split_q", "interfacela__inverse_1_1invert.html#a18d8150311e5c78bed97e379a5501f1e", null ],
     [ "la_invert_split_s", "interfacela__inverse_1_1invert.html#acdfed7a8d31fcdb07723aa243de4d49b", null ],
     [ "la_invert_split_w", "interfacela__inverse_1_1invert.html#a0e56d1eea3c4f66742e95b36ee9cb04a", null ],
+    [ "la_invert_split_x", "interfacela__inverse_1_1invert.html#a1ed384b4554ec9b1c7a88ad3717637d1", null ],
+    [ "la_invert_split_y", "interfacela__inverse_1_1invert.html#ae1f8763a6c8c89e4619c2a2ba655e982", null ],
     [ "la_invert_split_z", "interfacela__inverse_1_1invert.html#aea3ff09652acf3d6fd2bade4ba39a2bd", null ],
     [ "la_invert_w", "interfacela__inverse_1_1invert.html#a5152c039f47eef9d91b0ccf23797601d", null ],
+    [ "la_invert_x", "interfacela__inverse_1_1invert.html#ac312849c2418da23be17728ae1dc23f3", null ],
+    [ "la_invert_y", "interfacela__inverse_1_1invert.html#a387fab5498ce8b4750d13f42e9096f45", null ],
     [ "la_invert_z", "interfacela__inverse_1_1invert.html#a397f8c86e4f2d88e263b9316b2401bce", null ]
 ];

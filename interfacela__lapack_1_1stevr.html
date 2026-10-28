@@ -132,6 +132,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6b25524caa0d5dc786bac7874f904e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a817e4fa0533110dcb42c7dde8beb4aa7" id="r_a817e4fa0533110dcb42c7dde8beb4aa7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a817e4fa0533110dcb42c7dde8beb4aa7">la_sstevr</a></td></tr>
 <tr class="separator:a817e4fa0533110dcb42c7dde8beb4aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeed626035f0656c703ec1e2975e7d4d3" id="r_aeed626035f0656c703ec1e2975e7d4d3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeed626035f0656c703ec1e2975e7d4d3">la_xstevr</a></td></tr>
+<tr class="separator:aeed626035f0656c703ec1e2975e7d4d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>STEVR: computes selected eigenvalues and, optionally, eigenvectors of a real symmetric tridiagonal matrix T. Eigenvalues and eigenvectors can be selected by specifying either a range of values or a range of indices for the desired eigenvalues. Whenever possible, STEVR calls DSTEMR to compute the eigenspectrum using Relatively Robust Representations. DSTEMR computes eigenvalues by the dqds algorithm, while orthogonal eigenvectors are computed from various "good" L D L^T representations (also known as Relatively Robust Representations). Gram-Schmidt orthogonalization is avoided as far as possible. More specifically, the various steps of the algorithm are as follows. For the i-th unreduced block of T, (a) Compute T - sigma_i = L_i D_i L_i^T, such that L_i D_i L_i^T is a relatively robust representation, (b) Compute the eigenvalues, lambda_j, of L_i D_i L_i^T to high relative accuracy by the dqds algorithm, (c) If there is a cluster of close eigenvalues, "choose" sigma_i close to the cluster, and go to step (a), (d) Given the approximate eigenvalue lambda_j of L_i D_i L_i^T, compute the corresponding eigenvector by forming a rank-revealing twisted factorization. The desired accuracy of the output can be specified by the input parameter ABSTOL. For more details, see "A new O(n^2) algorithm for the symmetric
@@ -284,6 +286,20 @@ tridiagonal eigenvalue/eigenvector problem", by Inderjit Dhillon, Computer Scien
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::stevr::la_sstevr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeed626035f0656c703ec1e2975e7d4d3" name="aeed626035f0656c703ec1e2975e7d4d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeed626035f0656c703ec1e2975e7d4d3">&#9670;&#160;</a></span>la_xstevr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::stevr::la_xstevr</td>
         </tr>
       </table>
 </div><div class="memdoc">

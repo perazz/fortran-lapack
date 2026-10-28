@@ -4,5 +4,6 @@ var interfacela__lapack_1_1spev =
     [ "la_dspev", "interfacela__lapack_1_1spev.html#ac38df8657c8e697c17750f662414969f", null ],
     [ "la_qspev", "interfacela__lapack_1_1spev.html#a3605e89308b69d43b20a895a497cd5ca", null ],
     [ "la_sspev", "interfacela__lapack_1_1spev.html#a6794bc00584b15acbb38f663496fd043", null ],
+    [ "la_xspev", "interfacela__lapack_1_1spev.html#a8d4ba1dcabe388495c4bdf8d63022ddf", null ],
     [ "sspev", "interfacela__lapack_1_1spev.html#ab1f0e47cd73b04cb77dab5c6a3d21fd6", null ]
 ];

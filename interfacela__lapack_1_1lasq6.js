@@ -4,5 +4,6 @@ var interfacela__lapack_1_1lasq6 =
     [ "la_dlasq6", "interfacela__lapack_1_1lasq6.html#a90546c07375b8be9828595bce8cbaeca", null ],
     [ "la_qlasq6", "interfacela__lapack_1_1lasq6.html#a3f903e1c48577ae1fe52796bd7d8d2ac", null ],
     [ "la_slasq6", "interfacela__lapack_1_1lasq6.html#ad122a07c5f7214d334cdec7bdc9dfcef", null ],
+    [ "la_xlasq6", "interfacela__lapack_1_1lasq6.html#aaa02cc8ea96c822ea3ce1e56d8b28265", null ],
     [ "slasq6", "interfacela__lapack_1_1lasq6.html#a347ed7ad03255f77b7215c6658fe4cf2", null ]
 ];

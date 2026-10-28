@@ -4,5 +4,6 @@ var interfacela__lapack_1_1org2r =
     [ "la_dorg2r", "interfacela__lapack_1_1org2r.html#ae14a0e9983d98b528fbc1a85e90ddf73", null ],
     [ "la_qorg2r", "interfacela__lapack_1_1org2r.html#a8930033bf8eb9d8354c1a8bd3d3355ed", null ],
     [ "la_sorg2r", "interfacela__lapack_1_1org2r.html#a6d10cb174c5771bfbf1cd42ca9b69b52", null ],
+    [ "la_xorg2r", "interfacela__lapack_1_1org2r.html#ac9a8e70f6924abb76fc63d43d7272f0c", null ],
     [ "sorg2r", "interfacela__lapack_1_1org2r.html#a64f77c10106ee94fbb0edaceb22ade12", null ]
 ];

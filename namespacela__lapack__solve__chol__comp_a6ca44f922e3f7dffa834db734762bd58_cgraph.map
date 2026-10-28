@@ -1,14 +1,14 @@
 <map id="la_lapack_solve_chol_comp::la_spbtf2" name="la_lapack_solve_chol_comp::la_spbtf2">
-<area shape="rect" id="Node000001" title="SPBTF2: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="5,61,165,101"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="412,74,579,99"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,59,160,34,213,15,255,6,289,3,323,6,365,15,420,36,467,64,464,68,418,41,363,20,322,11,289,8,256,11,214,20,162,39,118,64"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="221,29,356,69"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="165,66,208,59,208,65,166,71"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level2__sym.html#a105f77a9f612eb787ca64df90ab0752e" title="SSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="213,93,364,133"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="166,91,200,97,199,102,165,96"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="412,127,579,153"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="118,99,162,124,214,143,260,151,308,154,398,151,398,156,308,159,260,156,213,148,160,128,115,104"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="462,75,454,66,458,56,472,49,495,47,524,51,535,60,532,64,522,56,495,53,473,55,462,59,460,65,466,72"/>
-<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="364,101,398,96,399,102,365,106"/>
-<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="365,120,399,125,398,130,364,126"/>
+<area shape="rect" id="Node000001" title="SPBTF2: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="5,65,165,110"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="410,80,575,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,63,160,36,212,16,254,6,287,3,321,6,363,16,418,39,464,71,459,70,415,44,361,21,320,11,287,8,255,11,213,21,162,41,119,67"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="220,30,354,75"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="164,71,207,66,202,68,166,76"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__sym.html#a105f77a9f612eb787ca64df90ab0752e" title="SSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="213,100,362,144"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="165,98,200,106,195,107,165,104"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="410,136,575,164"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="118,108,162,134,213,154,259,163,305,166,392,165,397,165,305,171,258,168,212,159,160,139,117,113"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="457,79,452,71,456,62,470,56,493,54,517,56,531,65,526,65,515,61,493,59,471,61,460,66,457,71,462,81"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="362,109,397,107,392,108,363,115"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="363,130,397,137,392,137,362,135"/>
 </map>

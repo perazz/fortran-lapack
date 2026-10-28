@@ -7,6 +7,8 @@ var interfacela__lapack_1_1lartv =
     [ "la_qlartv", "interfacela__lapack_1_1lartv.html#abce89e7525893e79cd65ccb49e1d8824", null ],
     [ "la_slartv", "interfacela__lapack_1_1lartv.html#a6bb31da206589f5b4f9fdf8b4538d096", null ],
     [ "la_wlartv", "interfacela__lapack_1_1lartv.html#ae0e84df0f0a9311180e8682d002d66ea", null ],
+    [ "la_xlartv", "interfacela__lapack_1_1lartv.html#a2f255679be8f7b52a244252ce839d10f", null ],
+    [ "la_ylartv", "interfacela__lapack_1_1lartv.html#aa29659f06d69dc04cd5231ec2ea2dd9b", null ],
     [ "la_zlartv", "interfacela__lapack_1_1lartv.html#a676900db4b824cb5f307c36ae586ef4a", null ],
     [ "slartv", "interfacela__lapack_1_1lartv.html#a206ced2a9c606745db9bc3aa04fb575e", null ],
     [ "zlartv", "interfacela__lapack_1_1lartv.html#a086b06dbb9c1700fd4eb7fec5ca59c21", null ]

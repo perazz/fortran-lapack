@@ -126,117 +126,78 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a92db67b3204d670154ab5b3c0888f091" id="r_a92db67b3204d670154ab5b3c0888f091"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92db67b3204d670154ab5b3c0888f091">la_dla_wwaddw</a> (n, x, y, w)</td></tr>
 <tr class="memdesc:a92db67b3204d670154ab5b3c0888f091"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal.  <br /></td></tr>
 <tr class="separator:a92db67b3204d670154ab5b3c0888f091"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31f31e5898ee348abf3d563fe10dbbc3" id="r_a31f31e5898ee348abf3d563fe10dbbc3"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a31f31e5898ee348abf3d563fe10dbbc3">la_qla_wwaddw</a> (n, x, y, w)</td></tr>
-<tr class="memdesc:a31f31e5898ee348abf3d563fe10dbbc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">QLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal.  <br /></td></tr>
-<tr class="separator:a31f31e5898ee348abf3d563fe10dbbc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2c24754482a967d8a1f21c8de0df656" id="r_ab2c24754482a967d8a1f21c8de0df656"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2c24754482a967d8a1f21c8de0df656">la_sla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:ab2c24754482a967d8a1f21c8de0df656"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:ab2c24754482a967d8a1f21c8de0df656"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4c28898e17267b6eab86b4a04619755" id="r_aa4c28898e17267b6eab86b4a04619755"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4c28898e17267b6eab86b4a04619755">la_dla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:aa4c28898e17267b6eab86b4a04619755"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:aa4c28898e17267b6eab86b4a04619755"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ccbb89c7f546875f3c782a557c7b8cb" id="r_a9ccbb89c7f546875f3c782a557c7b8cb"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ccbb89c7f546875f3c782a557c7b8cb">la_qla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:a9ccbb89c7f546875f3c782a557c7b8cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">QLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:a9ccbb89c7f546875f3c782a557c7b8cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abec52945da4a7716ec83559bdbb1cb48" id="r_abec52945da4a7716ec83559bdbb1cb48"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abec52945da4a7716ec83559bdbb1cb48">la_sla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:abec52945da4a7716ec83559bdbb1cb48"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:abec52945da4a7716ec83559bdbb1cb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4abbadfbe10f05f4b37f7664578fc271" id="r_a4abbadfbe10f05f4b37f7664578fc271"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4abbadfbe10f05f4b37f7664578fc271">la_dla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:a4abbadfbe10f05f4b37f7664578fc271"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:a4abbadfbe10f05f4b37f7664578fc271"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa27e7572aecbb212ee35f3b1e8e31613" id="r_aa27e7572aecbb212ee35f3b1e8e31613"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa27e7572aecbb212ee35f3b1e8e31613">la_qla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:aa27e7572aecbb212ee35f3b1e8e31613"><td class="mdescLeft">&#160;</td><td class="mdescRight">QLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:aa27e7572aecbb212ee35f3b1e8e31613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b3f36dadb18d8641ab84d367e33e66a" id="r_a2b3f36dadb18d8641ab84d367e33e66a"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b3f36dadb18d8641ab84d367e33e66a">la_slascl</a> (type, kl, ku, cfrom, cto, m, n, a, lda, info)</td></tr>
 <tr class="memdesc:a2b3f36dadb18d8641ab84d367e33e66a"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded.  <br /></td></tr>
 <tr class="separator:a2b3f36dadb18d8641ab84d367e33e66a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5191739bc8c0e9fa2df2f8d9527c8d7" id="r_ac5191739bc8c0e9fa2df2f8d9527c8d7"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5191739bc8c0e9fa2df2f8d9527c8d7">la_dlascl</a> (type, kl, ku, cfrom, cto, m, n, a, lda, info)</td></tr>
 <tr class="memdesc:ac5191739bc8c0e9fa2df2f8d9527c8d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded.  <br /></td></tr>
 <tr class="separator:ac5191739bc8c0e9fa2df2f8d9527c8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9732f700fa6769de47f6ed8e5ecf62d" id="r_ae9732f700fa6769de47f6ed8e5ecf62d"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae9732f700fa6769de47f6ed8e5ecf62d">la_qlascl</a> (type, kl, ku, cfrom, cto, m, n, a, lda, info)</td></tr>
-<tr class="memdesc:ae9732f700fa6769de47f6ed8e5ecf62d"><td class="mdescLeft">&#160;</td><td class="mdescRight">QLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded.  <br /></td></tr>
-<tr class="separator:ae9732f700fa6769de47f6ed8e5ecf62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98aa5d1d694706f0ee7a57dceb76df96" id="r_a98aa5d1d694706f0ee7a57dceb76df96"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98aa5d1d694706f0ee7a57dceb76df96">la_cla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:a98aa5d1d694706f0ee7a57dceb76df96"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:a98aa5d1d694706f0ee7a57dceb76df96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa919ba3bed03e8b82f7eedeb95e76bc4" id="r_aa919ba3bed03e8b82f7eedeb95e76bc4"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa919ba3bed03e8b82f7eedeb95e76bc4">la_zla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:aa919ba3bed03e8b82f7eedeb95e76bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:aa919ba3bed03e8b82f7eedeb95e76bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a736de0f80b535e9005f5323bdf16cbf7" id="r_a736de0f80b535e9005f5323bdf16cbf7"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a736de0f80b535e9005f5323bdf16cbf7">la_wla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:a736de0f80b535e9005f5323bdf16cbf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">WLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:a736de0f80b535e9005f5323bdf16cbf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b2d3e7e8647e740155803bb89b10a42" id="r_a9b2d3e7e8647e740155803bb89b10a42"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b2d3e7e8647e740155803bb89b10a42">la_cla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:a9b2d3e7e8647e740155803bb89b10a42"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:a9b2d3e7e8647e740155803bb89b10a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0adab2a30ed16aaa954c9c9f8e3b1d5d" id="r_a0adab2a30ed16aaa954c9c9f8e3b1d5d"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0adab2a30ed16aaa954c9c9f8e3b1d5d">la_zla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:a0adab2a30ed16aaa954c9c9f8e3b1d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:a0adab2a30ed16aaa954c9c9f8e3b1d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac65f6b7468daab1006b42ec5c389174e" id="r_ac65f6b7468daab1006b42ec5c389174e"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac65f6b7468daab1006b42ec5c389174e">la_wla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:ac65f6b7468daab1006b42ec5c389174e"><td class="mdescLeft">&#160;</td><td class="mdescRight">WLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:ac65f6b7468daab1006b42ec5c389174e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6a895c735585607d5d3c0cee0fb03b4" id="r_ae6a895c735585607d5d3c0cee0fb03b4"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6a895c735585607d5d3c0cee0fb03b4">la_cla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:ae6a895c735585607d5d3c0cee0fb03b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:ae6a895c735585607d5d3c0cee0fb03b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f9a5038326d128040eafe21a310214c" id="r_a3f9a5038326d128040eafe21a310214c"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f9a5038326d128040eafe21a310214c">la_zla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:a3f9a5038326d128040eafe21a310214c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
 <tr class="separator:a3f9a5038326d128040eafe21a310214c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d5a5386daf447d3642bcaaaf8bc6af8" id="r_a9d5a5386daf447d3642bcaaaf8bc6af8"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9d5a5386daf447d3642bcaaaf8bc6af8">la_wla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:a9d5a5386daf447d3642bcaaaf8bc6af8"><td class="mdescLeft">&#160;</td><td class="mdescRight">WLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:a9d5a5386daf447d3642bcaaaf8bc6af8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fd52b834dd218600048b82fec0c19a9" id="r_a3fd52b834dd218600048b82fec0c19a9"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fd52b834dd218600048b82fec0c19a9">la_cla_wwaddw</a> (n, x, y, w)</td></tr>
 <tr class="memdesc:a3fd52b834dd218600048b82fec0c19a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal.  <br /></td></tr>
 <tr class="separator:a3fd52b834dd218600048b82fec0c19a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96d821a017c5f19ac328442f8b3d39ca" id="r_a96d821a017c5f19ac328442f8b3d39ca"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96d821a017c5f19ac328442f8b3d39ca">la_zla_wwaddw</a> (n, x, y, w)</td></tr>
 <tr class="memdesc:a96d821a017c5f19ac328442f8b3d39ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal.  <br /></td></tr>
 <tr class="separator:a96d821a017c5f19ac328442f8b3d39ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0881a7544c1a9fc029f79d8896be42c4" id="r_a0881a7544c1a9fc029f79d8896be42c4"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0881a7544c1a9fc029f79d8896be42c4">la_wla_wwaddw</a> (n, x, y, w)</td></tr>
-<tr class="memdesc:a0881a7544c1a9fc029f79d8896be42c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">WLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal.  <br /></td></tr>
-<tr class="separator:a0881a7544c1a9fc029f79d8896be42c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7101016a0c0811322de71945d6c767df" id="r_a7101016a0c0811322de71945d6c767df"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7101016a0c0811322de71945d6c767df">la_clascl</a> (type, kl, ku, cfrom, cto, m, n, a, lda, info)</td></tr>
 <tr class="memdesc:a7101016a0c0811322de71945d6c767df"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded.  <br /></td></tr>
 <tr class="separator:a7101016a0c0811322de71945d6c767df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea3db5f24dd73a138e2f25fc4f41c04a" id="r_aea3db5f24dd73a138e2f25fc4f41c04a"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aea3db5f24dd73a138e2f25fc4f41c04a">la_zlascl</a> (type, kl, ku, cfrom, cto, m, n, a, lda, info)</td></tr>
 <tr class="memdesc:aea3db5f24dd73a138e2f25fc4f41c04a"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded.  <br /></td></tr>
 <tr class="separator:aea3db5f24dd73a138e2f25fc4f41c04a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ecd768b75589bd682e3c5873bb1344c" id="r_a8ecd768b75589bd682e3c5873bb1344c"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8ecd768b75589bd682e3c5873bb1344c">la_wlascl</a> (type, kl, ku, cfrom, cto, m, n, a, lda, info)</td></tr>
-<tr class="memdesc:a8ecd768b75589bd682e3c5873bb1344c"><td class="mdescLeft">&#160;</td><td class="mdescRight">WLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded.  <br /></td></tr>
-<tr class="separator:a8ecd768b75589bd682e3c5873bb1344c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb5dd6e2633290d2b22abbc1fdfdc303" id="r_adb5dd6e2633290d2b22abbc1fdfdc303"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb5dd6e2633290d2b22abbc1fdfdc303">la_cspmv</a> (uplo, n, alpha, ap, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:adb5dd6e2633290d2b22abbc1fdfdc303"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSPMV: performs the matrix-vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars, x and y are n element vectors and A is an n by n symmetric matrix, supplied in packed form.  <br /></td></tr>
 <tr class="separator:adb5dd6e2633290d2b22abbc1fdfdc303"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fbd1081e35b72675e99b538efc4397f" id="r_a6fbd1081e35b72675e99b538efc4397f"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6fbd1081e35b72675e99b538efc4397f">la_zspmv</a> (uplo, n, alpha, ap, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:a6fbd1081e35b72675e99b538efc4397f"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZSPMV: performs the matrix-vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars, x and y are n element vectors and A is an n by n symmetric matrix, supplied in packed form.  <br /></td></tr>
 <tr class="separator:a6fbd1081e35b72675e99b538efc4397f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbfa296a0a0a937eb08a047cb513e973" id="r_abbfa296a0a0a937eb08a047cb513e973"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abbfa296a0a0a937eb08a047cb513e973">la_wspmv</a> (uplo, n, alpha, ap, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:abbfa296a0a0a937eb08a047cb513e973"><td class="mdescLeft">&#160;</td><td class="mdescRight">WSPMV: performs the matrix-vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars, x and y are n element vectors and A is an n by n symmetric matrix, supplied in packed form.  <br /></td></tr>
-<tr class="separator:abbfa296a0a0a937eb08a047cb513e973"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a616c15c5e12873d19756d745c6674fe6" id="r_a616c15c5e12873d19756d745c6674fe6"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a616c15c5e12873d19756d745c6674fe6">la_cspr</a> (uplo, n, alpha, x, incx, ap)</td></tr>
 <tr class="memdesc:a616c15c5e12873d19756d745c6674fe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar, x is an n element vector and A is an n by n symmetric matrix, supplied in packed form.  <br /></td></tr>
 <tr class="separator:a616c15c5e12873d19756d745c6674fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32ec8d3485cbd2977cc9fb650023e8ad" id="r_a32ec8d3485cbd2977cc9fb650023e8ad"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32ec8d3485cbd2977cc9fb650023e8ad">la_zspr</a> (uplo, n, alpha, x, incx, ap)</td></tr>
 <tr class="memdesc:a32ec8d3485cbd2977cc9fb650023e8ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar, x is an n element vector and A is an n by n symmetric matrix, supplied in packed form.  <br /></td></tr>
 <tr class="separator:a32ec8d3485cbd2977cc9fb650023e8ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a60c023dab964cd2211a97830755e9d" id="r_a8a60c023dab964cd2211a97830755e9d"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a8a60c023dab964cd2211a97830755e9d">la_wspr</a> (uplo, n, alpha, x, incx, ap)</td></tr>
-<tr class="memdesc:a8a60c023dab964cd2211a97830755e9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">WSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar, x is an n element vector and A is an n by n symmetric matrix, supplied in packed form.  <br /></td></tr>
-<tr class="separator:a8a60c023dab964cd2211a97830755e9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab6f09a4f78b6b39405d93701a4a0262" id="r_aab6f09a4f78b6b39405d93701a4a0262"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab6f09a4f78b6b39405d93701a4a0262">la_csymv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:aab6f09a4f78b6b39405d93701a4a0262"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSYMV: performs the matrix-vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars, x and y are n element vectors and A is an n by n symmetric matrix.  <br /></td></tr>
 <tr class="separator:aab6f09a4f78b6b39405d93701a4a0262"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf438b00ad6d6c09b77582feeafba834" id="r_acf438b00ad6d6c09b77582feeafba834"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acf438b00ad6d6c09b77582feeafba834">la_zsymv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
 <tr class="memdesc:acf438b00ad6d6c09b77582feeafba834"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZSYMV: performs the matrix-vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars, x and y are n element vectors and A is an n by n symmetric matrix.  <br /></td></tr>
 <tr class="separator:acf438b00ad6d6c09b77582feeafba834"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3eeb3d09d8b63ba7e5e69652edd3134" id="r_ab3eeb3d09d8b63ba7e5e69652edd3134"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab3eeb3d09d8b63ba7e5e69652edd3134">la_wsymv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:ab3eeb3d09d8b63ba7e5e69652edd3134"><td class="mdescLeft">&#160;</td><td class="mdescRight">WSYMV: performs the matrix-vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars, x and y are n element vectors and A is an n by n symmetric matrix.  <br /></td></tr>
-<tr class="separator:ab3eeb3d09d8b63ba7e5e69652edd3134"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af833a02bfefc873f31f33b71c809a501" id="r_af833a02bfefc873f31f33b71c809a501"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af833a02bfefc873f31f33b71c809a501">la_csyr</a> (uplo, n, alpha, x, incx, a, lda)</td></tr>
 <tr class="memdesc:af833a02bfefc873f31f33b71c809a501"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar, x is an n element vector and A is an n by n symmetric matrix.  <br /></td></tr>
 <tr class="separator:af833a02bfefc873f31f33b71c809a501"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab99a2975d1de777cc82a457414f7f09" id="r_aab99a2975d1de777cc82a457414f7f09"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aab99a2975d1de777cc82a457414f7f09">la_zsyr</a> (uplo, n, alpha, x, incx, a, lda)</td></tr>
 <tr class="memdesc:aab99a2975d1de777cc82a457414f7f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar, x is an n element vector and A is an n by n symmetric matrix.  <br /></td></tr>
 <tr class="separator:aab99a2975d1de777cc82a457414f7f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ba65fbacaf8e6b396375fb5dd79bde7" id="r_a6ba65fbacaf8e6b396375fb5dd79bde7"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ba65fbacaf8e6b396375fb5dd79bde7">la_wsyr</a> (uplo, n, alpha, x, incx, a, lda)</td></tr>
-<tr class="memdesc:a6ba65fbacaf8e6b396375fb5dd79bde7"><td class="mdescLeft">&#160;</td><td class="mdescRight">WSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar, x is an n element vector and A is an n by n symmetric matrix.  <br /></td></tr>
-<tr class="separator:a6ba65fbacaf8e6b396375fb5dd79bde7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>BLAS-like level 2: matrix-vector products, scaling, rank updates. </p>
@@ -321,19 +282,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a98aa5d1d694706f0ee7a57dceb76df96_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a98aa5d1d694706f0ee7a57dceb76df96_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a98aa5d1d694706f0ee7a57dceb76df96_cgraph" id="anamespacela__lapack__blas__like__l2_a98aa5d1d694706f0ee7a57dceb76df96_cgraph">
-<area shape="rect" title="CLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,392,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,228,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="223,103,371,143"/>
-<area shape="poly" title=" " alt="" coords="153,121,209,121,209,126,153,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,168,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,140,235,162,234,167,153,145"/>
-<area shape="poly" title=" " alt="" coords="261,31,254,21,258,11,272,5,297,3,327,6,339,15,335,20,325,11,297,8,274,10,261,15,259,20,265,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,71,607,96"/>
-<area shape="poly" title=" " alt="" coords="368,52,440,66,439,71,367,57"/>
-<area shape="poly" title=" " alt="" coords="486,72,478,62,483,52,498,46,523,44,555,48,567,57,564,61,553,53,523,49,499,51,486,56,484,62,490,69"/>
-<area shape="poly" title=" " alt="" coords="370,108,437,96,438,101,371,113"/>
-<area shape="poly" title=" " alt="" coords="256,104,254,94,260,84,275,79,297,77,322,80,336,87,333,92,320,85,297,82,276,84,263,89,259,95,261,102"/>
+<area shape="rect" title="CLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
+<area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,218,63,202,71,124,107"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,105,370,150"/>
+<area shape="poly" title=" " alt="" coords="152,125,209,126,204,128,153,130"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,173,378,201"/>
+<area shape="poly" title=" " alt="" coords="153,146,201,159,229,169,223,169,200,164,153,151"/>
+<area shape="poly" title=" " alt="" coords="258,28,253,20,257,11,272,5,296,3,321,5,337,14,331,14,320,10,296,8,273,10,261,15,258,20,264,29"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,72,604,100"/>
+<area shape="poly" title=" " alt="" coords="373,55,433,68,427,69,373,60"/>
+<area shape="poly" title=" " alt="" coords="483,71,477,63,482,53,497,47,522,45,548,48,564,57,559,57,547,53,522,51,498,53,485,57,482,63,488,72"/>
+<area shape="poly" title=" " alt="" coords="369,111,430,102,425,104,370,116"/>
+<area shape="poly" title=" " alt="" coords="255,103,253,95,260,86,274,80,296,78,319,81,335,90,330,90,318,86,296,83,276,85,263,90,258,96,259,106"/>
 </map>
 </div>
 
@@ -409,19 +370,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a9b2d3e7e8647e740155803bb89b10a42_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a9b2d3e7e8647e740155803bb89b10a42_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a9b2d3e7e8647e740155803bb89b10a42_cgraph" id="anamespacela__lapack__blas__like__l2_a9b2d3e7e8647e740155803bb89b10a42_cgraph">
-<area shape="rect" title="CLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,392,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,228,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="223,103,371,143"/>
-<area shape="poly" title=" " alt="" coords="153,121,209,121,209,126,153,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,168,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,140,235,162,234,167,153,145"/>
-<area shape="poly" title=" " alt="" coords="261,31,254,21,258,11,272,5,297,3,327,6,339,15,335,20,325,11,297,8,274,10,261,15,259,20,265,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,71,607,96"/>
-<area shape="poly" title=" " alt="" coords="368,52,440,66,439,71,367,57"/>
-<area shape="poly" title=" " alt="" coords="486,72,478,62,483,52,498,46,523,44,555,48,567,57,564,61,553,53,523,49,499,51,486,56,484,62,490,69"/>
-<area shape="poly" title=" " alt="" coords="370,108,437,96,438,101,371,113"/>
-<area shape="poly" title=" " alt="" coords="256,104,254,94,260,84,275,79,297,77,322,80,336,87,333,92,320,85,297,82,276,84,263,89,259,95,261,102"/>
+<area shape="rect" title="CLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
+<area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,218,63,202,71,124,107"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,105,370,150"/>
+<area shape="poly" title=" " alt="" coords="152,125,209,126,204,128,153,130"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,173,378,201"/>
+<area shape="poly" title=" " alt="" coords="153,146,201,159,229,169,223,169,200,164,153,151"/>
+<area shape="poly" title=" " alt="" coords="258,28,253,20,257,11,272,5,296,3,321,5,337,14,331,14,320,10,296,8,273,10,261,15,258,20,264,29"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,72,604,100"/>
+<area shape="poly" title=" " alt="" coords="373,55,433,68,427,69,373,60"/>
+<area shape="poly" title=" " alt="" coords="483,71,477,63,482,53,497,47,522,45,548,48,564,57,559,57,547,53,522,51,498,53,485,57,482,63,488,72"/>
+<area shape="poly" title=" " alt="" coords="369,111,430,102,425,104,370,116"/>
+<area shape="poly" title=" " alt="" coords="255,103,253,95,260,86,274,80,296,78,319,81,335,90,330,90,318,86,296,83,276,85,263,90,258,96,259,106"/>
 </map>
 </div>
 
@@ -492,19 +453,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_ae6a895c735585607d5d3c0cee0fb03b4_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ae6a895c735585607d5d3c0cee0fb03b4_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_ae6a895c735585607d5d3c0cee0fb03b4_cgraph" id="anamespacela__lapack__blas__like__l2_ae6a895c735585607d5d3c0cee0fb03b4_cgraph">
-<area shape="rect" title="CLA_SYAMV performs the matrix&#45;vector operation y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#a55a8148ea78d07e689cd65ea0cb9dee0" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,29,388,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,227,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="221,103,369,143"/>
-<area shape="poly" title=" " alt="" coords="154,121,207,121,207,126,154,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="211,168,378,193"/>
-<area shape="poly" title=" " alt="" coords="155,140,234,162,232,167,153,146"/>
-<area shape="poly" title=" " alt="" coords="260,31,252,21,256,11,271,5,295,3,324,6,336,15,333,20,322,11,295,8,272,10,260,15,257,20,264,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="436,71,603,96"/>
-<area shape="poly" title=" " alt="" coords="365,52,437,65,436,71,364,57"/>
-<area shape="poly" title=" " alt="" coords="483,72,475,62,479,52,494,46,519,44,551,48,563,57,560,61,549,53,519,49,495,51,483,56,480,62,487,69"/>
-<area shape="poly" title=" " alt="" coords="368,108,434,96,435,101,369,113"/>
-<area shape="poly" title=" " alt="" coords="255,104,252,94,259,84,273,79,295,77,320,80,333,87,331,92,318,85,295,82,274,84,262,89,257,95,260,102"/>
+<area shape="rect" title="CLA_SYAMV performs the matrix&#45;vector operation y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a55a8148ea78d07e689cd65ea0cb9dee0" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,29,386,57"/>
+<area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,217,63,202,71,124,107"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="220,105,367,150"/>
+<area shape="poly" title=" " alt="" coords="153,125,206,126,201,128,154,130"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="211,173,376,201"/>
+<area shape="poly" title=" " alt="" coords="153,146,201,159,228,169,222,169,200,164,153,151"/>
+<area shape="poly" title=" " alt="" coords="256,28,251,20,255,11,270,5,293,3,319,5,334,14,328,14,317,10,293,8,271,10,259,15,256,20,261,29"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="434,72,599,100"/>
+<area shape="poly" title=" " alt="" coords="369,55,429,68,423,69,369,60"/>
+<area shape="poly" title=" " alt="" coords="478,71,472,63,477,53,492,47,517,45,543,48,559,57,553,57,542,53,517,51,493,53,481,57,477,63,483,72"/>
+<area shape="poly" title=" " alt="" coords="367,111,426,103,421,104,368,116"/>
+<area shape="poly" title=" " alt="" coords="252,103,251,95,258,86,272,80,293,78,317,81,332,90,327,90,315,86,293,83,273,85,261,90,256,96,257,106"/>
 </map>
 </div>
 
@@ -608,22 +569,22 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a7101016a0c0811322de71945d6c767df_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a7101016a0c0811322de71945d6c767df_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a7101016a0c0811322de71945d6c767df_cgraph" id="anamespacela__lapack__blas__like__l2_a7101016a0c0811322de71945d6c767df_cgraph">
-<area shape="rect" title="CLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="5,106,153,146"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="416,29,583,55"/>
-<area shape="poly" title=" " alt="" coords="95,104,139,61,168,39,200,23,263,9,328,7,389,13,442,23,441,29,389,19,328,13,264,15,202,29,171,44,142,65,99,108"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="211,150,359,190"/>
-<area shape="poly" title=" " alt="" coords="154,139,198,149,197,154,153,144"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="211,62,359,102"/>
-<area shape="poly" title=" " alt="" coords="153,108,197,98,198,103,154,113"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,215,368,240"/>
-<area shape="poly" title=" " alt="" coords="110,144,152,172,202,200,223,208,221,213,200,204,150,177,107,149"/>
-<area shape="poly" title=" " alt="" coords="464,31,457,21,461,11,475,5,499,3,529,6,541,15,538,20,527,11,499,8,477,10,465,15,462,20,469,28"/>
-<area shape="poly" title=" " alt="" coords="246,150,244,140,250,131,264,125,285,123,309,126,322,134,319,138,307,131,285,129,265,131,253,135,249,141,251,149"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="425,150,574,190"/>
-<area shape="poly" title=" " alt="" coords="359,167,411,167,411,173,359,173"/>
-<area shape="poly" title=" " alt="" coords="459,150,457,140,463,131,478,125,499,123,524,126,538,134,535,138,523,131,499,129,479,131,467,135,462,141,464,149"/>
-<area shape="poly" title=" " alt="" coords="358,66,416,55,417,60,359,71"/>
-<area shape="poly" title=" " alt="" coords="246,62,244,52,250,43,264,37,285,35,309,38,322,46,319,50,307,43,285,41,265,43,253,47,249,53,251,61"/>
+<area shape="rect" title="CLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="5,109,153,154"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="414,29,579,57"/>
+<area shape="poly" title=" " alt="" coords="96,106,139,62,168,40,200,23,260,9,322,7,382,12,435,25,430,26,381,18,322,12,261,14,202,28,171,44,143,66,100,110"/>
+<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="210,156,357,200"/>
+<area shape="poly" title=" " alt="" coords="153,145,197,157,192,158,153,151"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="210,62,357,107"/>
+<area shape="poly" title=" " alt="" coords="152,112,197,103,192,106,154,117"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,224,366,252"/>
+<area shape="poly" title=" " alt="" coords="110,152,153,182,202,210,216,218,211,218,199,215,150,186,108,157"/>
+<area shape="poly" title=" " alt="" coords="460,28,454,20,459,11,473,5,497,3,522,5,537,14,532,14,520,10,497,8,475,10,462,15,459,20,465,29"/>
+<area shape="poly" title=" " alt="" coords="244,154,243,145,249,137,263,131,283,129,305,131,320,140,314,140,304,136,283,134,264,136,253,141,248,147,249,156"/>
+<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="422,156,571,200"/>
+<area shape="poly" title=" " alt="" coords="357,175,410,178,404,178,357,180"/>
+<area shape="poly" title=" " alt="" coords="456,153,454,145,461,136,476,131,497,129,520,131,535,141,530,140,518,136,497,134,477,136,465,141,460,147,461,156"/>
+<area shape="poly" title=" " alt="" coords="356,68,409,60,404,61,358,73"/>
+<area shape="poly" title=" " alt="" coords="244,61,243,52,249,43,263,38,283,36,305,38,320,46,315,47,304,43,283,41,264,43,253,47,248,53,249,63"/>
 </map>
 </div>
 
@@ -689,12 +650,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_adb5dd6e2633290d2b22abbc1fdfdc303_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_adb5dd6e2633290d2b22abbc1fdfdc303_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_adb5dd6e2633290d2b22abbc1fdfdc303_cgraph" id="anamespacela__lapack__blas__like__l2_adb5dd6e2633290d2b22abbc1fdfdc303_cgraph">
-<area shape="rect" title="CSPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="CSPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,48,153,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,366,57"/>
+<area shape="poly" title=" " alt="" coords="153,58,188,55,182,57,154,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="153,76,188,83,182,83,153,82"/>
+<area shape="poly" title=" " alt="" coords="248,28,242,20,247,11,261,5,283,3,307,5,322,14,317,14,306,10,283,8,262,10,251,15,248,20,253,30"/>
 </map>
 </div>
 
@@ -745,12 +706,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a616c15c5e12873d19756d745c6674fe6_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a616c15c5e12873d19756d745c6674fe6_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a616c15c5e12873d19756d745c6674fe6_cgraph" id="anamespacela__lapack__blas__like__l2_a616c15c5e12873d19756d745c6674fe6_cgraph">
-<area shape="rect" title="CSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="CSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,48,153,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,366,57"/>
+<area shape="poly" title=" " alt="" coords="153,58,188,55,182,57,154,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="153,76,188,83,182,83,153,82"/>
+<area shape="poly" title=" " alt="" coords="248,28,242,20,247,11,261,5,283,3,307,5,322,14,317,14,306,10,283,8,262,10,251,15,248,20,253,30"/>
 </map>
 </div>
 
@@ -821,12 +782,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_aab6f09a4f78b6b39405d93701a4a0262_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_aab6f09a4f78b6b39405d93701a4a0262_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_aab6f09a4f78b6b39405d93701a4a0262_cgraph" id="anamespacela__lapack__blas__like__l2_aab6f09a4f78b6b39405d93701a4a0262_cgraph">
-<area shape="rect" title="CSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="CSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,48,153,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,366,57"/>
+<area shape="poly" title=" " alt="" coords="153,58,188,55,182,57,154,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="153,76,188,83,182,83,153,82"/>
+<area shape="poly" title=" " alt="" coords="248,28,242,20,247,11,261,5,283,3,307,5,322,14,317,14,306,10,283,8,262,10,251,15,248,20,253,30"/>
 </map>
 </div>
 
@@ -882,12 +843,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_af833a02bfefc873f31f33b71c809a501_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_af833a02bfefc873f31f33b71c809a501_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_af833a02bfefc873f31f33b71c809a501_cgraph" id="anamespacela__lapack__blas__like__l2_af833a02bfefc873f31f33b71c809a501_cgraph">
-<area shape="rect" title="CSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="CSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,48,153,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,366,57"/>
+<area shape="poly" title=" " alt="" coords="153,58,188,55,182,57,154,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="153,76,188,83,182,83,153,82"/>
+<area shape="poly" title=" " alt="" coords="248,28,242,20,247,11,261,5,283,3,307,5,322,14,317,14,306,10,283,8,262,10,251,15,248,20,253,30"/>
 </map>
 </div>
 
@@ -973,19 +934,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_aa4c28898e17267b6eab86b4a04619755_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_aa4c28898e17267b6eab86b4a04619755_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_aa4c28898e17267b6eab86b4a04619755_cgraph" id="anamespacela__lapack__blas__like__l2_aa4c28898e17267b6eab86b4a04619755_cgraph">
-<area shape="rect" title="DLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,111,153,151"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="223,29,371,69"/>
-<area shape="poly" title=" " alt="" coords="127,108,200,79,220,72,222,77,202,84,129,113"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,118,392,143"/>
-<area shape="poly" title=" " alt="" coords="153,128,187,128,187,133,153,133"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,167,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,145,227,162,226,167,153,150"/>
-<area shape="poly" title=" " alt="" coords="256,30,254,20,260,10,275,5,297,3,322,6,336,13,333,18,320,11,297,8,276,10,263,15,259,21,261,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,78,607,103"/>
-<area shape="poly" title=" " alt="" coords="371,60,440,73,439,78,370,65"/>
-<area shape="poly" title=" " alt="" coords="486,80,478,70,483,60,498,54,523,51,555,55,567,65,564,69,553,60,523,57,499,59,486,64,484,69,490,76"/>
-<area shape="poly" title=" " alt="" coords="369,115,437,103,438,108,370,121"/>
-<area shape="poly" title=" " alt="" coords="261,120,254,110,258,100,272,94,297,91,327,95,339,104,335,108,325,100,297,97,274,99,261,104,259,109,265,116"/>
+<area shape="rect" title="DLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,29,370,74"/>
+<area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
+<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
+<area shape="poly" title=" " alt="" coords="152,133,187,135,182,136,153,138"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,174,378,202"/>
+<area shape="poly" title=" " alt="" coords="153,151,223,169,218,170,153,156"/>
+<area shape="poly" title=" " alt="" coords="254,28,253,19,260,10,274,5,296,3,319,5,335,14,330,14,318,10,296,8,276,10,263,15,258,21,259,30"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,80,604,108"/>
+<area shape="poly" title=" " alt="" coords="370,63,432,77,427,77,370,68"/>
+<area shape="poly" title=" " alt="" coords="483,79,477,72,482,62,497,56,522,54,548,56,564,65,559,65,547,62,522,59,498,61,485,66,482,71,488,81"/>
+<area shape="poly" title=" " alt="" coords="375,119,430,111,425,112,376,124"/>
+<area shape="poly" title=" " alt="" coords="258,121,253,113,257,103,272,97,296,95,321,98,337,107,331,106,320,103,296,100,273,102,261,107,258,113,263,122"/>
 </map>
 </div>
 
@@ -1061,19 +1022,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a4abbadfbe10f05f4b37f7664578fc271_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a4abbadfbe10f05f4b37f7664578fc271_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a4abbadfbe10f05f4b37f7664578fc271_cgraph" id="anamespacela__lapack__blas__like__l2_a4abbadfbe10f05f4b37f7664578fc271_cgraph">
-<area shape="rect" title="DLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,111,153,151"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="223,29,371,69"/>
-<area shape="poly" title=" " alt="" coords="127,108,200,79,220,72,222,77,202,84,129,113"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,118,392,143"/>
-<area shape="poly" title=" " alt="" coords="153,128,187,128,187,133,153,133"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,167,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,145,227,162,226,167,153,150"/>
-<area shape="poly" title=" " alt="" coords="256,30,254,20,260,10,275,5,297,3,322,6,336,13,333,18,320,11,297,8,276,10,263,15,259,21,261,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,78,607,103"/>
-<area shape="poly" title=" " alt="" coords="371,60,440,73,439,78,370,65"/>
-<area shape="poly" title=" " alt="" coords="486,80,478,70,483,60,498,54,523,51,555,55,567,65,564,69,553,60,523,57,499,59,486,64,484,69,490,76"/>
-<area shape="poly" title=" " alt="" coords="369,115,437,103,438,108,370,121"/>
-<area shape="poly" title=" " alt="" coords="261,120,254,110,258,100,272,94,297,91,327,95,339,104,335,108,325,100,297,97,274,99,261,104,259,109,265,116"/>
+<area shape="rect" title="DLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,29,370,74"/>
+<area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
+<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
+<area shape="poly" title=" " alt="" coords="152,133,187,135,182,136,153,138"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,174,378,202"/>
+<area shape="poly" title=" " alt="" coords="153,151,223,169,218,170,153,156"/>
+<area shape="poly" title=" " alt="" coords="254,28,253,19,260,10,274,5,296,3,319,5,335,14,330,14,318,10,296,8,276,10,263,15,258,21,259,30"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,80,604,108"/>
+<area shape="poly" title=" " alt="" coords="370,63,432,77,427,77,370,68"/>
+<area shape="poly" title=" " alt="" coords="483,79,477,72,482,62,497,56,522,54,548,56,564,65,559,65,547,62,522,59,498,61,485,66,482,71,488,81"/>
+<area shape="poly" title=" " alt="" coords="375,119,430,111,425,112,376,124"/>
+<area shape="poly" title=" " alt="" coords="258,121,253,113,257,103,272,97,296,95,321,98,337,107,331,106,320,103,296,100,273,102,261,107,258,113,263,122"/>
 </map>
 </div>
 
@@ -1177,327 +1138,22 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_ac5191739bc8c0e9fa2df2f8d9527c8d7_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ac5191739bc8c0e9fa2df2f8d9527c8d7_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_ac5191739bc8c0e9fa2df2f8d9527c8d7_cgraph" id="anamespacela__lapack__blas__like__l2_ac5191739bc8c0e9fa2df2f8d9527c8d7_cgraph">
-<area shape="rect" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,147,153,187"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="211,29,359,69"/>
-<area shape="poly" title=" " alt="" coords="104,144,147,112,200,79,213,73,215,77,203,84,150,116,107,149"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="211,117,359,157"/>
-<area shape="poly" title=" " alt="" coords="153,153,197,147,197,152,154,159"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="416,153,583,178"/>
-<area shape="poly" title=" " alt="" coords="153,166,201,167,368,167,402,166,402,171,368,172,201,172,153,171"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,233,368,258"/>
-<area shape="poly" title=" " alt="" coords="133,184,238,225,236,230,131,189"/>
-<area shape="poly" title=" " alt="" coords="246,30,244,20,250,11,264,5,285,3,309,6,322,13,319,18,307,11,285,8,265,10,253,15,249,21,251,28"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="424,29,575,69"/>
-<area shape="poly" title=" " alt="" coords="359,47,410,47,410,52,359,52"/>
-<area shape="poly" title=" " alt="" coords="459,30,457,20,463,10,478,5,499,3,524,6,538,13,535,18,523,11,499,8,479,10,467,15,462,21,464,28"/>
-<area shape="poly" title=" " alt="" coords="246,118,244,108,250,99,264,93,285,91,309,94,322,101,319,106,307,99,285,96,265,98,253,103,249,109,251,116"/>
-<area shape="poly" title=" " alt="" coords="359,144,403,150,402,155,359,150"/>
-<area shape="poly" title=" " alt="" coords="464,154,457,144,461,134,475,128,499,126,529,130,541,139,538,143,527,135,499,131,477,133,465,138,462,144,469,151"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a9ccbb89c7f546875f3c782a557c7b8cb" name="a9ccbb89c7f546875f3c782a557c7b8cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ccbb89c7f546875f3c782a557c7b8cb">&#9670;&#160;</a></span>la_qla_gbamv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_qla_gbamv </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>kl</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ku</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldab,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ab</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldab</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incy</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a9ccbb89c7f546875f3c782a557c7b8cb_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a9ccbb89c7f546875f3c782a557c7b8cb_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a9ccbb89c7f546875f3c782a557c7b8cb_cgraph" id="anamespacela__lapack__blas__like__l2_a9ccbb89c7f546875f3c782a557c7b8cb_cgraph">
-<area shape="rect" title="QLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,392,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,228,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="223,103,371,143"/>
-<area shape="poly" title=" " alt="" coords="153,121,209,121,209,126,153,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,168,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,140,235,162,234,167,153,145"/>
-<area shape="poly" title=" " alt="" coords="261,31,254,21,258,11,272,5,297,3,327,6,339,15,335,20,325,11,297,8,274,10,261,15,259,20,265,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,71,607,96"/>
-<area shape="poly" title=" " alt="" coords="368,52,440,66,439,71,367,57"/>
-<area shape="poly" title=" " alt="" coords="486,72,478,62,483,52,498,46,523,44,555,48,567,57,564,61,553,53,523,49,499,51,486,56,484,62,490,69"/>
-<area shape="poly" title=" " alt="" coords="370,108,437,96,438,101,371,113"/>
-<area shape="poly" title=" " alt="" coords="256,104,254,94,260,84,275,79,297,77,322,80,336,87,333,92,320,85,297,82,276,84,263,89,259,95,261,102"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="aa27e7572aecbb212ee35f3b1e8e31613" name="aa27e7572aecbb212ee35f3b1e8e31613"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa27e7572aecbb212ee35f3b1e8e31613">&#9670;&#160;</a></span>la_qla_geamv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_qla_geamv </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incy</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_aa27e7572aecbb212ee35f3b1e8e31613_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_aa27e7572aecbb212ee35f3b1e8e31613_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_aa27e7572aecbb212ee35f3b1e8e31613_cgraph" id="anamespacela__lapack__blas__like__l2_aa27e7572aecbb212ee35f3b1e8e31613_cgraph">
-<area shape="rect" title="QLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,392,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,228,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="223,103,371,143"/>
-<area shape="poly" title=" " alt="" coords="153,121,209,121,209,126,153,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,168,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,140,235,162,234,167,153,145"/>
-<area shape="poly" title=" " alt="" coords="261,31,254,21,258,11,272,5,297,3,327,6,339,15,335,20,325,11,297,8,274,10,261,15,259,20,265,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,71,607,96"/>
-<area shape="poly" title=" " alt="" coords="368,52,440,66,439,71,367,57"/>
-<area shape="poly" title=" " alt="" coords="486,72,478,62,483,52,498,46,523,44,555,48,567,57,564,61,553,53,523,49,499,51,486,56,484,62,490,69"/>
-<area shape="poly" title=" " alt="" coords="370,108,437,96,438,101,371,113"/>
-<area shape="poly" title=" " alt="" coords="256,104,254,94,260,84,275,79,297,77,322,80,336,87,333,92,320,85,297,82,276,84,263,89,259,95,261,102"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a31f31e5898ee348abf3d563fe10dbbc3" name="a31f31e5898ee348abf3d563fe10dbbc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31f31e5898ee348abf3d563fe10dbbc3">&#9670;&#160;</a></span>la_qla_wwaddw()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_qla_wwaddw </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>w</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal. </p>
-
-</div>
-</div>
-<a id="ae9732f700fa6769de47f6ed8e5ecf62d" name="ae9732f700fa6769de47f6ed8e5ecf62d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9732f700fa6769de47f6ed8e5ecf62d">&#9670;&#160;</a></span>la_qlascl()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_qlascl </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>kl</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ku</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cfrom</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cto</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>QLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_ae9732f700fa6769de47f6ed8e5ecf62d_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ae9732f700fa6769de47f6ed8e5ecf62d_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_ae9732f700fa6769de47f6ed8e5ecf62d_cgraph" id="anamespacela__lapack__blas__like__l2_ae9732f700fa6769de47f6ed8e5ecf62d_cgraph">
-<area shape="rect" title="QLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,106,153,146"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="416,29,583,55"/>
-<area shape="poly" title=" " alt="" coords="95,104,139,61,168,39,200,23,263,9,328,7,389,13,442,23,441,29,389,19,328,13,264,15,202,29,171,44,142,65,99,108"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="211,150,359,190"/>
-<area shape="poly" title=" " alt="" coords="154,139,198,149,197,154,153,144"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="211,62,359,102"/>
-<area shape="poly" title=" " alt="" coords="153,108,197,98,198,103,154,113"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,215,368,240"/>
-<area shape="poly" title=" " alt="" coords="110,144,152,172,202,200,223,208,221,213,200,204,150,177,107,149"/>
-<area shape="poly" title=" " alt="" coords="464,31,457,21,461,11,475,5,499,3,529,6,541,15,538,20,527,11,499,8,477,10,465,15,462,20,469,28"/>
-<area shape="poly" title=" " alt="" coords="246,150,244,140,250,131,264,125,285,123,309,126,322,134,319,138,307,131,285,129,265,131,253,135,249,141,251,149"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="424,150,575,190"/>
-<area shape="poly" title=" " alt="" coords="359,167,410,167,410,173,359,173"/>
-<area shape="poly" title=" " alt="" coords="459,150,457,140,463,131,478,125,499,123,524,126,538,134,535,138,523,131,499,129,479,131,467,135,462,141,464,149"/>
-<area shape="poly" title=" " alt="" coords="358,66,416,55,417,60,359,71"/>
-<area shape="poly" title=" " alt="" coords="246,62,244,52,250,43,264,37,285,35,309,38,322,46,319,50,307,43,285,41,265,43,253,47,249,53,251,61"/>
+<area shape="rect" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,153,153,198"/>
+<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="210,29,357,74"/>
+<area shape="poly" title=" " alt="" coords="106,151,148,117,199,84,212,80,208,83,202,89,152,122,109,155"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="210,123,357,167"/>
+<area shape="poly" title=" " alt="" coords="152,162,197,157,192,159,154,167"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="414,160,579,188"/>
+<area shape="poly" title=" " alt="" coords="152,176,201,177,366,177,401,178,396,179,366,182,201,182,153,181"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,242,366,270"/>
+<area shape="poly" title=" " alt="" coords="138,196,202,221,234,236,228,236,200,226,137,201"/>
+<area shape="poly" title=" " alt="" coords="244,28,243,19,249,10,263,5,283,3,305,5,320,13,315,14,304,10,283,8,264,10,253,15,248,21,249,30"/>
+<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="422,29,571,74"/>
+<area shape="poly" title=" " alt="" coords="357,49,409,51,404,52,358,54"/>
+<area shape="poly" title=" " alt="" coords="456,28,454,19,461,10,476,5,497,3,520,5,535,14,530,14,518,10,497,8,477,10,465,15,460,21,461,30"/>
+<area shape="poly" title=" " alt="" coords="244,121,243,113,249,104,263,98,283,96,305,98,320,107,315,107,304,104,283,101,264,103,253,108,248,114,249,123"/>
+<area shape="poly" title=" " alt="" coords="357,152,401,161,396,161,357,158"/>
+<area shape="poly" title=" " alt="" coords="460,159,454,152,459,142,473,136,497,134,522,136,537,145,532,145,520,141,497,139,475,141,462,146,459,151,465,161"/>
 </map>
 </div>
 
@@ -1583,19 +1239,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_ab2c24754482a967d8a1f21c8de0df656_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ab2c24754482a967d8a1f21c8de0df656_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_ab2c24754482a967d8a1f21c8de0df656_cgraph" id="anamespacela__lapack__blas__like__l2_ab2c24754482a967d8a1f21c8de0df656_cgraph">
-<area shape="rect" title="SLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,392,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,228,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="223,103,371,143"/>
-<area shape="poly" title=" " alt="" coords="153,121,209,121,209,126,153,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,168,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,140,235,162,234,167,153,145"/>
-<area shape="poly" title=" " alt="" coords="261,31,254,21,258,11,272,5,297,3,327,6,339,15,335,20,325,11,297,8,274,10,261,15,259,20,265,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,71,607,96"/>
-<area shape="poly" title=" " alt="" coords="368,52,440,66,439,71,367,57"/>
-<area shape="poly" title=" " alt="" coords="486,72,478,62,483,52,498,46,523,44,555,48,567,57,564,61,553,53,523,49,499,51,486,56,484,62,490,69"/>
-<area shape="poly" title=" " alt="" coords="370,108,437,96,438,101,371,113"/>
-<area shape="poly" title=" " alt="" coords="256,104,254,94,260,84,275,79,297,77,322,80,336,87,333,92,320,85,297,82,276,84,263,89,259,95,261,102"/>
+<area shape="rect" title="SLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
+<area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,218,63,202,71,124,107"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,105,370,150"/>
+<area shape="poly" title=" " alt="" coords="152,125,209,126,204,128,153,130"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,173,378,201"/>
+<area shape="poly" title=" " alt="" coords="153,146,201,159,229,169,223,169,200,164,153,151"/>
+<area shape="poly" title=" " alt="" coords="258,28,253,20,257,11,272,5,296,3,321,5,337,14,331,14,320,10,296,8,273,10,261,15,258,20,264,29"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,72,604,100"/>
+<area shape="poly" title=" " alt="" coords="373,55,433,68,427,69,373,60"/>
+<area shape="poly" title=" " alt="" coords="483,71,477,63,482,53,497,47,522,45,548,48,564,57,559,57,547,53,522,51,498,53,485,57,482,63,488,72"/>
+<area shape="poly" title=" " alt="" coords="369,111,430,102,425,104,370,116"/>
+<area shape="poly" title=" " alt="" coords="255,103,253,95,260,86,274,80,296,78,319,81,335,90,330,90,318,86,296,83,276,85,263,90,258,96,259,106"/>
 </map>
 </div>
 
@@ -1671,19 +1327,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_abec52945da4a7716ec83559bdbb1cb48_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_abec52945da4a7716ec83559bdbb1cb48_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_abec52945da4a7716ec83559bdbb1cb48_cgraph" id="anamespacela__lapack__blas__like__l2_abec52945da4a7716ec83559bdbb1cb48_cgraph">
-<area shape="rect" title="SLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,392,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,228,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="223,103,371,143"/>
-<area shape="poly" title=" " alt="" coords="153,121,209,121,209,126,153,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,168,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,140,235,162,234,167,153,145"/>
-<area shape="poly" title=" " alt="" coords="261,31,254,21,258,11,272,5,297,3,327,6,339,15,335,20,325,11,297,8,274,10,261,15,259,20,265,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,71,607,96"/>
-<area shape="poly" title=" " alt="" coords="368,52,440,66,439,71,367,57"/>
-<area shape="poly" title=" " alt="" coords="486,72,478,62,483,52,498,46,523,44,555,48,567,57,564,61,553,53,523,49,499,51,486,56,484,62,490,69"/>
-<area shape="poly" title=" " alt="" coords="370,108,437,96,438,101,371,113"/>
-<area shape="poly" title=" " alt="" coords="256,104,254,94,260,84,275,79,297,77,322,80,336,87,333,92,320,85,297,82,276,84,263,89,259,95,261,102"/>
+<area shape="rect" title="SLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
+<area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,218,63,202,71,124,107"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,105,370,150"/>
+<area shape="poly" title=" " alt="" coords="152,125,209,126,204,128,153,130"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,173,378,201"/>
+<area shape="poly" title=" " alt="" coords="153,146,201,159,229,169,223,169,200,164,153,151"/>
+<area shape="poly" title=" " alt="" coords="258,28,253,20,257,11,272,5,296,3,321,5,337,14,331,14,320,10,296,8,273,10,261,15,258,20,264,29"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,72,604,100"/>
+<area shape="poly" title=" " alt="" coords="373,55,433,68,427,69,373,60"/>
+<area shape="poly" title=" " alt="" coords="483,71,477,63,482,53,497,47,522,45,548,48,564,57,559,57,547,53,522,51,498,53,485,57,482,63,488,72"/>
+<area shape="poly" title=" " alt="" coords="369,111,430,102,425,104,370,116"/>
+<area shape="poly" title=" " alt="" coords="255,103,253,95,260,86,274,80,296,78,319,81,335,90,330,90,318,86,296,83,276,85,263,90,258,96,259,106"/>
 </map>
 </div>
 
@@ -1787,674 +1443,22 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a2b3f36dadb18d8641ab84d367e33e66a_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a2b3f36dadb18d8641ab84d367e33e66a_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a2b3f36dadb18d8641ab84d367e33e66a_cgraph" id="anamespacela__lapack__blas__like__l2_a2b3f36dadb18d8641ab84d367e33e66a_cgraph">
-<area shape="rect" title="SLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,106,153,146"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="416,29,583,55"/>
-<area shape="poly" title=" " alt="" coords="95,104,139,61,168,39,200,23,263,9,328,7,389,13,442,23,441,29,389,19,328,13,264,15,202,29,171,44,142,65,99,108"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="211,150,359,190"/>
-<area shape="poly" title=" " alt="" coords="154,139,198,149,197,154,153,144"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="211,62,359,102"/>
-<area shape="poly" title=" " alt="" coords="153,108,197,98,198,103,154,113"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,215,368,240"/>
-<area shape="poly" title=" " alt="" coords="110,144,152,172,202,200,223,208,221,213,200,204,150,177,107,149"/>
-<area shape="poly" title=" " alt="" coords="464,31,457,21,461,11,475,5,499,3,529,6,541,15,538,20,527,11,499,8,477,10,465,15,462,20,469,28"/>
-<area shape="poly" title=" " alt="" coords="246,150,244,140,250,131,264,125,285,123,309,126,322,134,319,138,307,131,285,129,265,131,253,135,249,141,251,149"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="425,150,574,190"/>
-<area shape="poly" title=" " alt="" coords="359,167,411,167,411,173,359,173"/>
-<area shape="poly" title=" " alt="" coords="459,150,457,140,463,131,478,125,499,123,524,126,538,134,535,138,523,131,499,129,479,131,467,135,462,141,464,149"/>
-<area shape="poly" title=" " alt="" coords="358,66,416,55,417,60,359,71"/>
-<area shape="poly" title=" " alt="" coords="246,62,244,52,250,43,264,37,285,35,309,38,322,46,319,50,307,43,285,41,265,43,253,47,249,53,251,61"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a736de0f80b535e9005f5323bdf16cbf7" name="a736de0f80b535e9005f5323bdf16cbf7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a736de0f80b535e9005f5323bdf16cbf7">&#9670;&#160;</a></span>la_wla_gbamv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_wla_gbamv </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>kl</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ku</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(ldab,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ab</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldab</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incy</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a736de0f80b535e9005f5323bdf16cbf7_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a736de0f80b535e9005f5323bdf16cbf7_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a736de0f80b535e9005f5323bdf16cbf7_cgraph" id="anamespacela__lapack__blas__like__l2_a736de0f80b535e9005f5323bdf16cbf7_cgraph">
-<area shape="rect" title="WLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,392,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,228,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="223,103,371,143"/>
-<area shape="poly" title=" " alt="" coords="153,121,209,121,209,126,153,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,168,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,140,235,162,234,167,153,145"/>
-<area shape="poly" title=" " alt="" coords="261,31,254,21,258,11,272,5,297,3,327,6,339,15,335,20,325,11,297,8,274,10,261,15,259,20,265,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,71,607,96"/>
-<area shape="poly" title=" " alt="" coords="368,52,440,66,439,71,367,57"/>
-<area shape="poly" title=" " alt="" coords="486,72,478,62,483,52,498,46,523,44,555,48,567,57,564,61,553,53,523,49,499,51,486,56,484,62,490,69"/>
-<area shape="poly" title=" " alt="" coords="370,108,437,96,438,101,371,113"/>
-<area shape="poly" title=" " alt="" coords="256,104,254,94,260,84,275,79,297,77,322,80,336,87,333,92,320,85,297,82,276,84,263,89,259,95,261,102"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ac65f6b7468daab1006b42ec5c389174e" name="ac65f6b7468daab1006b42ec5c389174e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac65f6b7468daab1006b42ec5c389174e">&#9670;&#160;</a></span>la_wla_geamv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_wla_geamv </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incy</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_ac65f6b7468daab1006b42ec5c389174e_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ac65f6b7468daab1006b42ec5c389174e_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_ac65f6b7468daab1006b42ec5c389174e_cgraph" id="anamespacela__lapack__blas__like__l2_ac65f6b7468daab1006b42ec5c389174e_cgraph">
-<area shape="rect" title="WLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,392,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,228,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="223,103,371,143"/>
-<area shape="poly" title=" " alt="" coords="153,121,209,121,209,126,153,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,168,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,140,235,162,234,167,153,145"/>
-<area shape="poly" title=" " alt="" coords="261,31,254,21,258,11,272,5,297,3,327,6,339,15,335,20,325,11,297,8,274,10,261,15,259,20,265,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,71,607,96"/>
-<area shape="poly" title=" " alt="" coords="368,52,440,66,439,71,367,57"/>
-<area shape="poly" title=" " alt="" coords="486,72,478,62,483,52,498,46,523,44,555,48,567,57,564,61,553,53,523,49,499,51,486,56,484,62,490,69"/>
-<area shape="poly" title=" " alt="" coords="370,108,437,96,438,101,371,113"/>
-<area shape="poly" title=" " alt="" coords="256,104,254,94,260,84,275,79,297,77,322,80,336,87,333,92,320,85,297,82,276,84,263,89,259,95,261,102"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a9d5a5386daf447d3642bcaaaf8bc6af8" name="a9d5a5386daf447d3642bcaaaf8bc6af8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9d5a5386daf447d3642bcaaaf8bc6af8">&#9670;&#160;</a></span>la_wla_heamv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_wla_heamv </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incy</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a9d5a5386daf447d3642bcaaaf8bc6af8_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a9d5a5386daf447d3642bcaaaf8bc6af8_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a9d5a5386daf447d3642bcaaaf8bc6af8_cgraph" id="anamespacela__lapack__blas__like__l2_a9d5a5386daf447d3642bcaaaf8bc6af8_cgraph">
-<area shape="rect" title="WLA_SYAMV performs the matrix&#45;vector operation y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,103,153,143"/>
-<area shape="rect" href="namespacela__lapack__aux.html#a55a8148ea78d07e689cd65ea0cb9dee0" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,29,388,55"/>
-<area shape="poly" title=" " alt="" coords="119,101,200,65,227,56,229,61,202,70,121,106"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="221,103,369,143"/>
-<area shape="poly" title=" " alt="" coords="154,121,207,121,207,126,154,126"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="211,168,378,193"/>
-<area shape="poly" title=" " alt="" coords="155,140,234,162,232,167,153,146"/>
-<area shape="poly" title=" " alt="" coords="260,31,252,21,256,11,271,5,295,3,324,6,336,15,333,20,322,11,295,8,272,10,260,15,257,20,264,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="436,71,603,96"/>
-<area shape="poly" title=" " alt="" coords="365,52,437,65,436,71,364,57"/>
-<area shape="poly" title=" " alt="" coords="483,72,475,62,479,52,494,46,519,44,551,48,563,57,560,61,549,53,519,49,495,51,483,56,480,62,487,69"/>
-<area shape="poly" title=" " alt="" coords="368,108,434,96,435,101,369,113"/>
-<area shape="poly" title=" " alt="" coords="255,104,252,94,259,84,273,79,295,77,320,80,333,87,331,92,318,85,295,82,274,84,262,89,257,95,260,102"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a0881a7544c1a9fc029f79d8896be42c4" name="a0881a7544c1a9fc029f79d8896be42c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0881a7544c1a9fc029f79d8896be42c4">&#9670;&#160;</a></span>la_wla_wwaddw()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_wla_wwaddw </td>
-          <td>(</td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>w</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal. </p>
-
-</div>
-</div>
-<a id="a8ecd768b75589bd682e3c5873bb1344c" name="a8ecd768b75589bd682e3c5873bb1344c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ecd768b75589bd682e3c5873bb1344c">&#9670;&#160;</a></span>la_wlascl()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_wlascl </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>type</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>kl</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ku</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cfrom</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cto</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a8ecd768b75589bd682e3c5873bb1344c_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a8ecd768b75589bd682e3c5873bb1344c_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a8ecd768b75589bd682e3c5873bb1344c_cgraph" id="anamespacela__lapack__blas__like__l2_a8ecd768b75589bd682e3c5873bb1344c_cgraph">
-<area shape="rect" title="WLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="5,106,153,146"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="416,29,583,55"/>
-<area shape="poly" title=" " alt="" coords="95,104,139,61,168,39,200,23,263,9,328,7,389,13,442,23,441,29,389,19,328,13,264,15,202,29,171,44,142,65,99,108"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a0cb82d7f3b093ce99b3c7b3412dee71a" title="QISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="211,150,359,190"/>
-<area shape="poly" title=" " alt="" coords="154,139,198,149,197,154,153,144"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a422783a9c3975903ac0fc1dc06f4ec01" title="QLAMCH: determines quad precision machine parameters." alt="" coords="211,62,359,102"/>
-<area shape="poly" title=" " alt="" coords="153,108,197,98,198,103,154,113"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,215,368,240"/>
-<area shape="poly" title=" " alt="" coords="110,144,152,172,202,200,223,208,221,213,200,204,150,177,107,149"/>
-<area shape="poly" title=" " alt="" coords="464,31,457,21,461,11,475,5,499,3,529,6,541,15,538,20,527,11,499,8,477,10,465,15,462,20,469,28"/>
-<area shape="poly" title=" " alt="" coords="246,150,244,140,250,131,264,125,285,123,309,126,322,134,319,138,307,131,285,129,265,131,253,135,249,141,251,149"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#afb28a91ee1571cb773bdc95c40031177" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in QISNAN...." alt="" coords="424,150,575,190"/>
-<area shape="poly" title=" " alt="" coords="359,167,410,167,410,173,359,173"/>
-<area shape="poly" title=" " alt="" coords="459,150,457,140,463,131,478,125,499,123,524,126,538,134,535,138,523,131,499,129,479,131,467,135,462,141,464,149"/>
-<area shape="poly" title=" " alt="" coords="358,66,416,55,417,60,359,71"/>
-<area shape="poly" title=" " alt="" coords="246,62,244,52,250,43,264,37,285,35,309,38,322,46,319,50,307,43,285,41,265,43,253,47,249,53,251,61"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="abbfa296a0a0a937eb08a047cb513e973" name="abbfa296a0a0a937eb08a047cb513e973"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbfa296a0a0a937eb08a047cb513e973">&#9670;&#160;</a></span>la_wspmv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_wspmv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ap</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incy</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WSPMV: performs the matrix-vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars, x and y are n element vectors and A is an n by n symmetric matrix, supplied in packed form. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_abbfa296a0a0a937eb08a047cb513e973_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_abbfa296a0a0a937eb08a047cb513e973_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_abbfa296a0a0a937eb08a047cb513e973_cgraph" id="anamespacela__lapack__blas__like__l2_abbfa296a0a0a937eb08a047cb513e973_cgraph">
-<area shape="rect" title="WSPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a8a60c023dab964cd2211a97830755e9d" name="a8a60c023dab964cd2211a97830755e9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a60c023dab964cd2211a97830755e9d">&#9670;&#160;</a></span>la_wspr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_wspr </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>ap</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar, x is an n element vector and A is an n by n symmetric matrix, supplied in packed form. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a8a60c023dab964cd2211a97830755e9d_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a8a60c023dab964cd2211a97830755e9d_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a8a60c023dab964cd2211a97830755e9d_cgraph" id="anamespacela__lapack__blas__like__l2_a8a60c023dab964cd2211a97830755e9d_cgraph">
-<area shape="rect" title="WSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="ab3eeb3d09d8b63ba7e5e69652edd3134" name="ab3eeb3d09d8b63ba7e5e69652edd3134"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3eeb3d09d8b63ba7e5e69652edd3134">&#9670;&#160;</a></span>la_wsymv()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_wsymv </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>beta</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>y</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incy</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WSYMV: performs the matrix-vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars, x and y are n element vectors and A is an n by n symmetric matrix. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_ab3eeb3d09d8b63ba7e5e69652edd3134_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ab3eeb3d09d8b63ba7e5e69652edd3134_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_ab3eeb3d09d8b63ba7e5e69652edd3134_cgraph" id="anamespacela__lapack__blas__like__l2_ab3eeb3d09d8b63ba7e5e69652edd3134_cgraph">
-<area shape="rect" title="WSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
-</map>
-</div>
-
-</div>
-</div>
-<a id="a6ba65fbacaf8e6b396375fb5dd79bde7" name="a6ba65fbacaf8e6b396375fb5dd79bde7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ba65fbacaf8e6b396375fb5dd79bde7">&#9670;&#160;</a></span>la_wsyr()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_wsyr </td>
-          <td>(</td>
-          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>alpha</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>incx</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(lda,*), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>WSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar, x is an n element vector and A is an n by n symmetric matrix. </p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a6ba65fbacaf8e6b396375fb5dd79bde7_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a6ba65fbacaf8e6b396375fb5dd79bde7_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a6ba65fbacaf8e6b396375fb5dd79bde7_cgraph" id="anamespacela__lapack__blas__like__l2_a6ba65fbacaf8e6b396375fb5dd79bde7_cgraph">
-<area shape="rect" title="WSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="SLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,109,153,154"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="414,29,579,57"/>
+<area shape="poly" title=" " alt="" coords="96,106,139,62,168,40,200,23,260,9,322,7,382,12,435,25,430,26,381,18,322,12,261,14,202,28,171,44,143,66,100,110"/>
+<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="210,156,357,200"/>
+<area shape="poly" title=" " alt="" coords="153,145,197,157,192,158,153,151"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="210,62,357,107"/>
+<area shape="poly" title=" " alt="" coords="152,112,197,103,192,106,154,117"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,224,366,252"/>
+<area shape="poly" title=" " alt="" coords="110,152,153,182,202,210,216,218,211,218,199,215,150,186,108,157"/>
+<area shape="poly" title=" " alt="" coords="460,28,454,20,459,11,473,5,497,3,522,5,537,14,532,14,520,10,497,8,475,10,462,15,459,20,465,29"/>
+<area shape="poly" title=" " alt="" coords="244,154,243,145,249,137,263,131,283,129,305,131,320,140,314,140,304,136,283,134,264,136,253,141,248,147,249,156"/>
+<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="422,156,571,200"/>
+<area shape="poly" title=" " alt="" coords="357,175,410,178,404,178,357,180"/>
+<area shape="poly" title=" " alt="" coords="456,153,454,145,461,136,476,131,497,129,520,131,535,141,530,140,518,136,497,134,477,136,465,141,460,147,461,156"/>
+<area shape="poly" title=" " alt="" coords="356,68,409,60,404,61,358,73"/>
+<area shape="poly" title=" " alt="" coords="244,61,243,52,249,43,263,38,283,36,305,38,320,46,315,47,304,43,283,41,264,43,253,47,248,53,249,63"/>
 </map>
 </div>
 
@@ -2540,19 +1544,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_aa919ba3bed03e8b82f7eedeb95e76bc4_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_aa919ba3bed03e8b82f7eedeb95e76bc4_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_aa919ba3bed03e8b82f7eedeb95e76bc4_cgraph" id="anamespacela__lapack__blas__like__l2_aa919ba3bed03e8b82f7eedeb95e76bc4_cgraph">
-<area shape="rect" title="ZLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,111,153,151"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="223,29,371,69"/>
-<area shape="poly" title=" " alt="" coords="127,108,200,79,220,72,222,77,202,84,129,113"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,118,392,143"/>
-<area shape="poly" title=" " alt="" coords="153,128,187,128,187,133,153,133"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,167,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,145,227,162,226,167,153,150"/>
-<area shape="poly" title=" " alt="" coords="256,30,254,20,260,10,275,5,297,3,322,6,336,13,333,18,320,11,297,8,276,10,263,15,259,21,261,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,78,607,103"/>
-<area shape="poly" title=" " alt="" coords="371,60,440,73,439,78,370,65"/>
-<area shape="poly" title=" " alt="" coords="486,80,478,70,483,60,498,54,523,51,555,55,567,65,564,69,553,60,523,57,499,59,486,64,484,69,490,76"/>
-<area shape="poly" title=" " alt="" coords="369,115,437,103,438,108,370,121"/>
-<area shape="poly" title=" " alt="" coords="261,120,254,110,258,100,272,94,297,91,327,95,339,104,335,108,325,100,297,97,274,99,261,104,259,109,265,116"/>
+<area shape="rect" title="ZLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,29,370,74"/>
+<area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
+<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
+<area shape="poly" title=" " alt="" coords="152,133,187,135,182,136,153,138"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,174,378,202"/>
+<area shape="poly" title=" " alt="" coords="153,151,223,169,218,170,153,156"/>
+<area shape="poly" title=" " alt="" coords="254,28,253,19,260,10,274,5,296,3,319,5,335,14,330,14,318,10,296,8,276,10,263,15,258,21,259,30"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,80,604,108"/>
+<area shape="poly" title=" " alt="" coords="370,63,432,77,427,77,370,68"/>
+<area shape="poly" title=" " alt="" coords="483,79,477,72,482,62,497,56,522,54,548,56,564,65,559,65,547,62,522,59,498,61,485,66,482,71,488,81"/>
+<area shape="poly" title=" " alt="" coords="375,119,430,111,425,112,376,124"/>
+<area shape="poly" title=" " alt="" coords="258,121,253,113,257,103,272,97,296,95,321,98,337,107,331,106,320,103,296,100,273,102,261,107,258,113,263,122"/>
 </map>
 </div>
 
@@ -2628,19 +1632,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a0adab2a30ed16aaa954c9c9f8e3b1d5d_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a0adab2a30ed16aaa954c9c9f8e3b1d5d_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a0adab2a30ed16aaa954c9c9f8e3b1d5d_cgraph" id="anamespacela__lapack__blas__like__l2_a0adab2a30ed16aaa954c9c9f8e3b1d5d_cgraph">
-<area shape="rect" title="ZLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,111,153,151"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="223,29,371,69"/>
-<area shape="poly" title=" " alt="" coords="127,108,200,79,220,72,222,77,202,84,129,113"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,118,392,143"/>
-<area shape="poly" title=" " alt="" coords="153,128,187,128,187,133,153,133"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,167,380,193"/>
-<area shape="poly" title=" " alt="" coords="154,145,227,162,226,167,153,150"/>
-<area shape="poly" title=" " alt="" coords="256,30,254,20,260,10,275,5,297,3,322,6,336,13,333,18,320,11,297,8,276,10,263,15,259,21,261,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="440,78,607,103"/>
-<area shape="poly" title=" " alt="" coords="371,60,440,73,439,78,370,65"/>
-<area shape="poly" title=" " alt="" coords="486,80,478,70,483,60,498,54,523,51,555,55,567,65,564,69,553,60,523,57,499,59,486,64,484,69,490,76"/>
-<area shape="poly" title=" " alt="" coords="369,115,437,103,438,108,370,121"/>
-<area shape="poly" title=" " alt="" coords="261,120,254,110,258,100,272,94,297,91,327,95,339,104,335,108,325,100,297,97,274,99,261,104,259,109,265,116"/>
+<area shape="rect" title="ZLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,29,370,74"/>
+<area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
+<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
+<area shape="poly" title=" " alt="" coords="152,133,187,135,182,136,153,138"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,174,378,202"/>
+<area shape="poly" title=" " alt="" coords="153,151,223,169,218,170,153,156"/>
+<area shape="poly" title=" " alt="" coords="254,28,253,19,260,10,274,5,296,3,319,5,335,14,330,14,318,10,296,8,276,10,263,15,258,21,259,30"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="439,80,604,108"/>
+<area shape="poly" title=" " alt="" coords="370,63,432,77,427,77,370,68"/>
+<area shape="poly" title=" " alt="" coords="483,79,477,72,482,62,497,56,522,54,548,56,564,65,559,65,547,62,522,59,498,61,485,66,482,71,488,81"/>
+<area shape="poly" title=" " alt="" coords="375,119,430,111,425,112,376,124"/>
+<area shape="poly" title=" " alt="" coords="258,121,253,113,257,103,272,97,296,95,321,98,337,107,331,106,320,103,296,100,273,102,261,107,258,113,263,122"/>
 </map>
 </div>
 
@@ -2711,19 +1715,19 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a3f9a5038326d128040eafe21a310214c_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a3f9a5038326d128040eafe21a310214c_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a3f9a5038326d128040eafe21a310214c_cgraph" id="anamespacela__lapack__blas__like__l2_a3f9a5038326d128040eafe21a310214c_cgraph">
-<area shape="rect" title="ZLA_SYAMV performs the matrix&#45;vector operation y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,111,153,151"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="221,29,369,69"/>
-<area shape="poly" title=" " alt="" coords="127,108,200,79,220,71,222,76,202,84,129,113"/>
-<area shape="rect" href="namespacela__lapack__aux.html#a55a8148ea78d07e689cd65ea0cb9dee0" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,118,388,143"/>
-<area shape="poly" title=" " alt="" coords="154,128,188,128,188,133,154,133"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="211,167,378,193"/>
-<area shape="poly" title=" " alt="" coords="154,145,226,162,225,167,153,150"/>
-<area shape="poly" title=" " alt="" coords="255,30,252,20,259,10,273,5,295,3,320,6,333,13,331,18,318,11,295,8,274,10,262,15,257,21,260,28"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="436,78,603,103"/>
-<area shape="poly" title=" " alt="" coords="369,60,437,73,436,78,368,65"/>
-<area shape="poly" title=" " alt="" coords="483,80,475,70,479,60,494,54,519,51,551,55,563,65,560,69,549,60,519,57,495,59,483,64,480,69,487,76"/>
-<area shape="poly" title=" " alt="" coords="366,115,433,103,434,108,367,121"/>
-<area shape="poly" title=" " alt="" coords="260,120,252,110,256,100,271,94,295,91,324,95,336,104,333,108,322,100,295,97,272,99,260,104,257,109,264,116"/>
+<area shape="rect" title="ZLA_SYAMV performs the matrix&#45;vector operation y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="220,29,367,74"/>
+<area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a55a8148ea78d07e689cd65ea0cb9dee0" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,122,386,150"/>
+<area shape="poly" title=" " alt="" coords="153,133,188,135,183,136,154,138"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="211,174,376,202"/>
+<area shape="poly" title=" " alt="" coords="153,151,221,169,216,170,153,156"/>
+<area shape="poly" title=" " alt="" coords="252,28,251,19,258,10,272,5,293,3,317,5,332,14,327,14,315,10,293,8,273,10,261,15,256,21,257,30"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="434,80,599,108"/>
+<area shape="poly" title=" " alt="" coords="367,63,429,77,423,77,368,68"/>
+<area shape="poly" title=" " alt="" coords="478,79,472,72,477,62,492,56,517,54,543,56,559,65,553,65,542,61,517,59,493,61,481,66,477,71,483,81"/>
+<area shape="poly" title=" " alt="" coords="371,119,426,111,421,112,372,124"/>
+<area shape="poly" title=" " alt="" coords="256,121,251,113,255,103,270,97,293,95,319,98,334,107,328,106,317,103,293,100,271,102,259,107,256,113,261,122"/>
 </map>
 </div>
 
@@ -2827,22 +1831,22 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_aea3db5f24dd73a138e2f25fc4f41c04a_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_aea3db5f24dd73a138e2f25fc4f41c04a_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_aea3db5f24dd73a138e2f25fc4f41c04a_cgraph" id="anamespacela__lapack__blas__like__l2_aea3db5f24dd73a138e2f25fc4f41c04a_cgraph">
-<area shape="rect" title="ZLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="5,147,153,187"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="211,29,359,69"/>
-<area shape="poly" title=" " alt="" coords="104,144,147,112,200,79,213,73,215,77,203,84,150,116,107,149"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="211,117,359,157"/>
-<area shape="poly" title=" " alt="" coords="153,153,197,147,197,152,154,159"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="416,153,583,178"/>
-<area shape="poly" title=" " alt="" coords="153,166,201,167,368,167,402,166,402,171,368,172,201,172,153,171"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,233,368,258"/>
-<area shape="poly" title=" " alt="" coords="133,184,238,225,236,230,131,189"/>
-<area shape="poly" title=" " alt="" coords="246,30,244,20,250,11,264,5,285,3,309,6,322,13,319,18,307,11,285,8,265,10,253,15,249,21,251,28"/>
-<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="424,29,575,69"/>
-<area shape="poly" title=" " alt="" coords="359,47,410,47,410,52,359,52"/>
-<area shape="poly" title=" " alt="" coords="459,30,457,20,463,10,478,5,499,3,524,6,538,13,535,18,523,11,499,8,479,10,467,15,462,21,464,28"/>
-<area shape="poly" title=" " alt="" coords="246,118,244,108,250,99,264,93,285,91,309,94,322,101,319,106,307,99,285,96,265,98,253,103,249,109,251,116"/>
-<area shape="poly" title=" " alt="" coords="359,144,403,150,402,155,359,150"/>
-<area shape="poly" title=" " alt="" coords="464,154,457,144,461,134,475,128,499,126,529,130,541,139,538,143,527,135,499,131,477,133,465,138,462,144,469,151"/>
+<area shape="rect" title="ZLASCL: multiplies the M by N complex matrix A by the real scalar CTO/CFROM. This is done without ove..." alt="" coords="5,153,153,198"/>
+<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="210,29,357,74"/>
+<area shape="poly" title=" " alt="" coords="106,151,148,117,199,84,212,80,208,83,202,89,152,122,109,155"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="210,123,357,167"/>
+<area shape="poly" title=" " alt="" coords="152,162,197,157,192,159,154,167"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="414,160,579,188"/>
+<area shape="poly" title=" " alt="" coords="152,176,201,177,366,177,401,178,396,179,366,182,201,182,153,181"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,242,366,270"/>
+<area shape="poly" title=" " alt="" coords="138,196,202,221,234,236,228,236,200,226,137,201"/>
+<area shape="poly" title=" " alt="" coords="244,28,243,19,249,10,263,5,283,3,305,5,320,13,315,14,304,10,283,8,264,10,253,15,248,21,249,30"/>
+<area shape="rect" href="namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="422,29,571,74"/>
+<area shape="poly" title=" " alt="" coords="357,49,409,51,404,52,358,54"/>
+<area shape="poly" title=" " alt="" coords="456,28,454,19,461,10,476,5,497,3,520,5,535,14,530,14,518,10,497,8,477,10,465,15,460,21,461,30"/>
+<area shape="poly" title=" " alt="" coords="244,121,243,113,249,104,263,98,283,96,305,98,320,107,315,107,304,104,283,101,264,103,253,108,248,114,249,123"/>
+<area shape="poly" title=" " alt="" coords="357,152,401,161,396,161,357,158"/>
+<area shape="poly" title=" " alt="" coords="460,159,454,152,459,142,473,136,497,134,522,136,537,145,532,145,520,141,497,139,475,141,462,146,459,151,465,161"/>
 </map>
 </div>
 
@@ -2908,12 +1912,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a6fbd1081e35b72675e99b538efc4397f_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a6fbd1081e35b72675e99b538efc4397f_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a6fbd1081e35b72675e99b538efc4397f_cgraph" id="anamespacela__lapack__blas__like__l2_a6fbd1081e35b72675e99b538efc4397f_cgraph">
-<area shape="rect" title="ZSPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="ZSPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,48,153,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,366,57"/>
+<area shape="poly" title=" " alt="" coords="153,58,188,55,182,57,154,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="153,76,188,83,182,83,153,82"/>
+<area shape="poly" title=" " alt="" coords="248,28,242,20,247,11,261,5,283,3,307,5,322,14,317,14,306,10,283,8,262,10,251,15,248,20,253,30"/>
 </map>
 </div>
 
@@ -2964,12 +1968,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_a32ec8d3485cbd2977cc9fb650023e8ad_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a32ec8d3485cbd2977cc9fb650023e8ad_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_a32ec8d3485cbd2977cc9fb650023e8ad_cgraph" id="anamespacela__lapack__blas__like__l2_a32ec8d3485cbd2977cc9fb650023e8ad_cgraph">
-<area shape="rect" title="ZSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="ZSPR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,48,153,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,366,57"/>
+<area shape="poly" title=" " alt="" coords="153,58,188,55,182,57,154,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="153,76,188,83,182,83,153,82"/>
+<area shape="poly" title=" " alt="" coords="248,28,242,20,247,11,261,5,283,3,307,5,322,14,317,14,306,10,283,8,262,10,251,15,248,20,253,30"/>
 </map>
 </div>
 
@@ -3040,12 +2044,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_acf438b00ad6d6c09b77582feeafba834_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_acf438b00ad6d6c09b77582feeafba834_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_acf438b00ad6d6c09b77582feeafba834_cgraph" id="anamespacela__lapack__blas__like__l2_acf438b00ad6d6c09b77582feeafba834_cgraph">
-<area shape="rect" title="ZSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="ZSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="5,48,153,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,366,57"/>
+<area shape="poly" title=" " alt="" coords="153,58,188,55,182,57,154,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="153,76,188,83,182,83,153,82"/>
+<area shape="poly" title=" " alt="" coords="248,28,242,20,247,11,261,5,283,3,307,5,322,14,317,14,306,10,283,8,262,10,251,15,248,20,253,30"/>
 </map>
 </div>
 
@@ -3101,12 +2105,12 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__blas__like__l2_aab99a2975d1de777cc82a457414f7f09_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_aab99a2975d1de777cc82a457414f7f09_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__blas__like__l2_aab99a2975d1de777cc82a457414f7f09_cgraph" id="anamespacela__lapack__blas__like__l2_aab99a2975d1de777cc82a457414f7f09_cgraph">
-<area shape="rect" title="ZSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,47,153,87"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,368,55"/>
-<area shape="poly" title=" " alt="" coords="154,56,187,51,188,57,154,61"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,79,368,104"/>
-<area shape="poly" title=" " alt="" coords="154,73,188,77,187,83,154,79"/>
-<area shape="poly" title=" " alt="" coords="251,31,244,21,247,11,261,5,285,3,313,6,325,15,321,20,311,11,285,8,263,10,251,15,249,20,255,28"/>
+<area shape="rect" title="ZSYR: performs the symmetric rank 1 operation A := alpha*x*x**H + A, where alpha is a complex scalar,..." alt="" coords="5,48,153,92"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="201,29,366,57"/>
+<area shape="poly" title=" " alt="" coords="153,58,188,55,182,57,154,63"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,81,366,109"/>
+<area shape="poly" title=" " alt="" coords="153,76,188,83,182,83,153,82"/>
+<area shape="poly" title=" " alt="" coords="248,28,242,20,247,11,261,5,283,3,307,5,322,14,317,14,306,10,283,8,262,10,251,15,248,20,253,30"/>
 </map>
 </div>
 

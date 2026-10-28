@@ -124,18 +124,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a96283f3a655a6cd4c37d49b7b5e197af" id="r_a96283f3a655a6cd4c37d49b7b5e197af"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a96283f3a655a6cd4c37d49b7b5e197af">la_dsolve_weighted_lstsq</a> (w, a, b, x, cond, overwrite_a, rank, err)</td></tr>
 <tr class="memdesc:a96283f3a655a6cd4c37d49b7b5e197af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the real(dp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))  <br /></td></tr>
 <tr class="separator:a96283f3a655a6cd4c37d49b7b5e197af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af431705a664bbcdea2415f0556d9fc13" id="r_af431705a664bbcdea2415f0556d9fc13"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af431705a664bbcdea2415f0556d9fc13">la_qsolve_weighted_lstsq</a> (w, a, b, x, cond, overwrite_a, rank, err)</td></tr>
-<tr class="memdesc:af431705a664bbcdea2415f0556d9fc13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the real(qp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))  <br /></td></tr>
-<tr class="separator:af431705a664bbcdea2415f0556d9fc13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9276ea45d98414d970f61f719ee9548" id="r_ad9276ea45d98414d970f61f719ee9548"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad9276ea45d98414d970f61f719ee9548">la_csolve_weighted_lstsq</a> (w, a, b, x, cond, overwrite_a, rank, err)</td></tr>
 <tr class="memdesc:ad9276ea45d98414d970f61f719ee9548"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the complex(sp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))  <br /></td></tr>
 <tr class="separator:ad9276ea45d98414d970f61f719ee9548"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54b975bc429a601b362d67d176d7ec82" id="r_a54b975bc429a601b362d67d176d7ec82"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54b975bc429a601b362d67d176d7ec82">la_zsolve_weighted_lstsq</a> (w, a, b, x, cond, overwrite_a, rank, err)</td></tr>
 <tr class="memdesc:a54b975bc429a601b362d67d176d7ec82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the complex(dp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))  <br /></td></tr>
 <tr class="separator:a54b975bc429a601b362d67d176d7ec82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf5286fdb5af267dd1a8f310d8e0aa6b" id="r_abf5286fdb5af267dd1a8f310d8e0aa6b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abf5286fdb5af267dd1a8f310d8e0aa6b">la_wsolve_weighted_lstsq</a> (w, a, b, x, cond, overwrite_a, rank, err)</td></tr>
-<tr class="memdesc:abf5286fdb5af267dd1a8f310d8e0aa6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the complex(qp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))  <br /></td></tr>
-<tr class="separator:abf5286fdb5af267dd1a8f310d8e0aa6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="ad9276ea45d98414d970f61f719ee9548" name="ad9276ea45d98414d970f61f719ee9548"></a>
@@ -270,72 +264,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af431705a664bbcdea2415f0556d9fc13" name="af431705a664bbcdea2415f0556d9fc13"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af431705a664bbcdea2415f0556d9fc13">&#9670;&#160;</a></span>la_qsolve_weighted_lstsq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine la_least_squares::solve_weighted_lstsq::la_qsolve_weighted_lstsq </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(in)</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>cond</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>rank</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Compute the real(qp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w)) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">w</td><td>Weight vector w[m]. It is always real, and all its entries must be positive </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n] </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector b[m] </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array x[n] </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a id="a5bf57befe378934700de30ca3150ac29" name="a5bf57befe378934700de30ca3150ac29"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5bf57befe378934700de30ca3150ac29">&#9670;&#160;</a></span>la_ssolve_weighted_lstsq()</h2>
 
@@ -386,72 +314,6 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Compute the real(sp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w)) </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">w</td><td>Weight vector w[m]. It is always real, and all its entries must be positive </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n] </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">b</td><td>Right hand side vector b[m] </td></tr>
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">x</td><td>Result array x[n] </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">cond</td><td>[optional] cutoff for rank evaluation: singular values s(i)&lt;=cond*maxval(s) are considered 0. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">rank</td><td>[optional] Return rank of A </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="abf5286fdb5af267dd1a8f310d8e0aa6b" name="abf5286fdb5af267dd1a8f310d8e0aa6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abf5286fdb5af267dd1a8f310d8e0aa6b">&#9670;&#160;</a></span>la_wsolve_weighted_lstsq()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">subroutine la_least_squares::solve_weighted_lstsq::la_wsolve_weighted_lstsq </td>
-          <td>(</td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(in)</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:,:), intent(inout), target</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(in)</td>          <td class="paramname"><span class="paramname"><em>b</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), dimension(:), intent(inout), target, contiguous</td>          <td class="paramname"><span class="paramname"><em>x</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a76e2725ceb541bc0f62d7b28f6e2ca3b">qp</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>cond</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>rank</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Compute the complex(qp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w)) </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">w</td><td>Weight vector w[m]. It is always real, and all its entries must be positive </td></tr>
@@ -535,7 +397,7 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
-<li><a class="el" href="la__least__squares_8f90.html">la_least_squares.f90</a></li>
+<li><a class="el" href="la__least__squares_8_f90.html">la_least_squares.F90</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

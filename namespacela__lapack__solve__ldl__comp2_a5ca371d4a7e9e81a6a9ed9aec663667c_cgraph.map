@@ -1,19 +1,19 @@
 <map id="la_lapack_solve_ldl_comp2::la_csytri_rook" name="la_lapack_solve_ldl_comp2::la_csytri_rook">
-<area shape="rect" id="Node000001" title="CSYTRI_ROOK: computes the inverse of a complex symmetric matrix A using the factorization A = U*D*U**..." alt="" coords="5,187,177,227"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="232,5,367,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,185,153,122,186,87,224,55,231,50,234,54,227,59,190,91,157,126,108,188"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a6f2ff3001ab4ce106be2e2203d9f979a" title="CDOTU: forms the dot product of two complex vectors CDOTU = X^T * Y." alt="" coords="232,93,367,133"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,184,224,143,239,136,241,141,226,148,137,189"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="232,157,367,197"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="177,192,218,186,219,191,178,197"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__l2.html#aab6f09a4f78b6b39405d93701a4a0262" title="CSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="225,272,373,312"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="142,224,238,264,236,269,140,229"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="421,253,588,278"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="178,216,408,249,407,254,177,221"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="421,306,588,331"/>
-<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="109,225,157,277,190,302,226,322,279,335,334,339,387,337,435,331,435,336,388,343,334,345,278,340,224,326,187,307,154,281,106,229"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="261,94,258,84,265,75,278,69,299,67,323,70,337,77,334,82,322,75,299,72,280,74,268,79,264,85,266,92"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="373,280,407,275,408,281,374,285"/>
-<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="374,299,408,303,407,309,373,304"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="471,254,464,244,467,234,481,228,505,226,533,230,545,239,541,243,531,235,505,231,483,233,471,238,469,244,475,251"/>
+<area shape="rect" id="Node000001" title="CSYTRI_ROOK: computes the inverse of a complex symmetric matrix A using the factorization A = U*D*U**..." alt="" coords="5,199,177,243"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="231,5,366,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,197,153,131,186,94,223,60,232,57,228,60,226,64,190,98,157,134,109,200"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a6f2ff3001ab4ce106be2e2203d9f979a" title="CDOTU: forms the dot product of two complex vectors CDOTU = X^T * Y." alt="" coords="231,99,366,143"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="137,196,223,153,238,149,233,152,226,158,140,200"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="231,168,366,213"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="176,206,218,201,214,204,178,211"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__l2.html#aab6f09a4f78b6b39405d93701a4a0262" title="CSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="225,288,372,333"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="145,241,233,280,228,283,144,246"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="420,268,585,296"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="177,231,406,266,403,270,177,236"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="420,324,585,352"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="109,241,157,296,189,323,226,343,276,356,329,361,380,359,424,356,430,355,381,364,329,366,275,361,224,347,186,327,153,300,107,246"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="259,97,258,89,264,80,278,74,298,72,320,74,335,83,330,83,319,80,298,77,279,79,268,84,263,90,264,99"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="372,298,407,295,402,296,373,303"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="373,318,407,325,402,325,372,323"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="467,267,462,260,466,250,480,244,503,242,527,244,541,253,536,253,525,249,503,247,482,249,470,254,467,259,472,269"/>
 </map>

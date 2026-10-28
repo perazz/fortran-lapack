@@ -1,5 +1,5 @@
 <map id="la_blas::sscal::csscal" name="la_blas::sscal::csscal">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,163,38"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="211,5,345,45"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,23,197,23,197,28,163,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,14,162,42"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="210,5,344,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,25,197,27,191,28,162,30"/>
 </map>

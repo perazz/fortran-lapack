@@ -4,5 +4,6 @@ var interfacela__lapack_1_1la__gercond =
     [ "la_dla_gercond", "interfacela__lapack_1_1la__gercond.html#aac53ae5229cddebe2bfa09ccbbc9a218", null ],
     [ "la_qla_gercond", "interfacela__lapack_1_1la__gercond.html#a83bde4e55b3fdf5873441951423ad492", null ],
     [ "la_sla_gercond", "interfacela__lapack_1_1la__gercond.html#abc02f4df7451e250b0b8f77ddaaa9837", null ],
+    [ "la_xla_gercond", "interfacela__lapack_1_1la__gercond.html#aeeae9744a5415b5e04d016bdd8af3320", null ],
     [ "sla_gercond", "interfacela__lapack_1_1la__gercond.html#a20aaa8e813a6a4012aa2bf99763d114c", null ]
 ];

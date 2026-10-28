@@ -1,23 +1,23 @@
 <map id="la_lapack_householder_reflectors::la_clarfx" name="la_lapack_householder_reflectors::la_clarfx">
-<area shape="rect" id="Node000001" title="CLARFX: applies a complex elementary reflector H to a complex m by n matrix C, from either the left o..." alt="" coords="5,73,176,113"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#a17fa4453bfe36f615b4787e6f44878d6" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="224,136,395,176"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,111,227,130,225,135,160,116"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="667,115,833,141"/>
-<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="140,71,231,41,288,26,351,13,418,5,486,3,554,10,620,26,653,41,683,61,730,103,726,107,680,65,650,45,618,31,553,15,486,9,418,10,352,18,290,31,232,46,142,76"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#ac20eb127776577a093cdcdfcf3976edf" title="CGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="457,165,604,205"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="396,165,444,171,444,177,395,170"/>
-<area shape="poly" id="edge12_Node000002_Node000004" title=" " alt="" coords="395,148,653,132,653,137,395,153"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#a22ec663923c356759875dfacc7d74b4a" title="CGERC: performs the rank 1 operation A := alpha*x*y**H + A, where alpha is a scalar,..." alt="" coords="457,304,604,344"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="328,175,376,231,408,263,444,290,454,296,451,300,441,294,405,267,372,235,324,178"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#ab49220412a0c71ba72f6a064547c57b9" title="ILACLC: scans A for its last non&#45;zero column." alt="" coords="443,254,619,279"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="351,174,493,245,491,250,349,179"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#ab070383b8f791c7b77f51acc5928d45d" title="ILACLR: scans A for its last non&#45;zero row." alt="" coords="443,65,618,90"/>
-<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="366,134,480,92,482,97,367,139"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="603,164,687,142,688,147,605,169"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="667,242,833,267"/>
-<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="595,203,697,235,695,240,594,208"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="714,117,707,107,711,97,725,91,750,89,780,93,792,102,789,106,778,97,750,94,727,96,714,101,712,106,718,114"/>
-<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="594,302,695,269,697,274,595,307"/>
-<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="495,256,487,246,491,236,506,230,531,228,561,231,573,240,570,245,559,236,531,233,507,235,495,240,492,245,499,252"/>
-<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="495,66,487,57,491,47,506,40,531,38,561,42,573,51,570,55,559,47,531,43,507,46,495,50,492,56,499,63"/>
+<area shape="rect" id="Node000001" title="CLARFX: applies a complex elementary reflector H to a complex m by n matrix C, from either the left o..." alt="" coords="5,72,176,117"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#a17fa4453bfe36f615b4787e6f44878d6" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="224,135,394,180"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,115,216,129,211,131,171,120"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="665,114,831,142"/>
+<area shape="poly" id="edge13_Node000001_Node000004" title=" " alt="" coords="146,69,238,39,295,24,357,12,422,5,488,3,554,10,618,26,650,40,680,60,727,103,722,103,676,64,648,45,616,31,554,15,488,9,422,10,358,18,296,30,240,44,149,74"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#ac20eb127776577a093cdcdfcf3976edf" title="CGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="457,166,602,210"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="394,167,444,175,439,176,395,172"/>
+<area shape="poly" id="edge12_Node000002_Node000004" title=" " alt="" coords="394,149,652,133,648,136,395,154"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#a22ec663923c356759875dfacc7d74b4a" title="CGERC: performs the rank 1 operation A := alpha*x*y**H + A, where alpha is a scalar,..." alt="" coords="457,310,602,354"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="327,178,377,236,408,267,444,295,452,303,447,302,440,300,405,271,373,240,326,183"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#ab49220412a0c71ba72f6a064547c57b9" title="ILACLC: scans A for its last non&#45;zero column." alt="" coords="442,258,617,286"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="354,178,491,250,486,251,353,183"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#ab070383b8f791c7b77f51acc5928d45d" title="ILACLR: scans A for its last non&#45;zero row." alt="" coords="443,64,616,91"/>
+<area shape="poly" id="edge10_Node000002_Node000008" title=" " alt="" coords="372,132,478,96,473,98,374,137"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="602,166,682,146,677,147,604,171"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="665,246,831,274"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="600,208,692,241,687,241,600,214"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="710,113,704,105,709,96,724,90,748,88,774,90,789,99,784,99,772,95,748,93,725,95,713,100,710,105,715,115"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="599,306,687,280,692,279,600,312"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="492,257,486,249,491,240,506,234,530,232,555,234,571,243,565,243,554,239,530,237,507,239,495,244,491,249,497,259"/>
+<area shape="poly" id="edge11_Node000008_Node000008" title=" " alt="" coords="492,63,486,55,491,45,506,39,530,37,555,39,571,48,565,48,554,45,530,42,507,44,495,49,491,54,497,64"/>
 </map>

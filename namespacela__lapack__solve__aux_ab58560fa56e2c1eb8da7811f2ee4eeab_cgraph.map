@@ -1,17 +1,17 @@
 <map id="la_lapack_solve_aux::la_zlacon" name="la_lapack_solve_aux::la_zlacon">
-<area shape="rect" id="Node000001" title="ZLACON: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="5,159,163,199"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="232,29,380,69"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,156,151,118,209,79,223,72,225,77,212,84,154,122,109,160"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#afb909b8af822412fdf506d34b2f8ac8f" title="DZSUM1: takes the sum of the absolute values of a complex vector and returns a double precision resul..." alt="" coords="232,117,380,157"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="163,161,218,151,219,156,164,167"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a40b22eb3f7db2a2dbdf21f4ae7974556" title="IZMAX1: finds the index of the first vector element of maximum absolute value. Based on IZAMAX from L..." alt="" coords="211,206,401,231"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="164,190,222,201,221,206,163,196"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#ad0fc51f1e7fde2134b2c9176cca75580" title="ZCOPY: copies a vector, x, to a vector, y." alt="" coords="239,256,373,296"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="123,196,212,240,232,249,230,254,210,245,120,201"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="265,30,262,20,269,10,284,5,306,3,332,6,346,13,344,18,330,11,306,8,285,10,272,15,267,21,270,28"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="449,37,616,62"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="380,47,436,47,436,52,380,52"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="496,38,488,28,492,18,507,12,533,10,565,14,577,23,573,27,563,19,533,15,508,17,496,22,493,28,500,35"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="265,118,262,108,269,98,284,93,306,91,332,94,346,101,344,106,330,99,306,96,285,98,272,103,267,109,270,116"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="270,208,262,198,266,188,281,182,306,179,337,183,349,192,346,196,335,188,306,185,282,187,270,192,267,197,274,204"/>
+<area shape="rect" id="Node000001" title="ZLACON: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="5,165,162,210"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="231,29,378,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,163,152,123,208,84,222,79,218,83,211,89,155,128,110,167"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#afb909b8af822412fdf506d34b2f8ac8f" title="DZSUM1: takes the sum of the absolute values of a complex vector and returns a double precision resul..." alt="" coords="231,123,378,167"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="161,170,218,161,213,164,163,175"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#a40b22eb3f7db2a2dbdf21f4ae7974556" title="IZMAX1: finds the index of the first vector element of maximum absolute value. Based on IZAMAX from L..." alt="" coords="210,215,399,243"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="162,200,214,211,209,213,162,205"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#ad0fc51f1e7fde2134b2c9176cca75580" title="ZCOPY: copies a vector, x, to a vector, y." alt="" coords="237,267,372,311"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="125,208,211,252,227,261,221,260,209,257,123,213"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="262,28,261,19,268,10,283,5,304,3,328,5,344,14,339,15,327,10,304,8,284,10,271,15,266,21,267,30"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="447,38,612,66"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="378,49,434,51,429,53,379,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="491,37,485,29,490,19,505,13,530,11,556,14,572,22,567,23,555,19,530,16,506,18,493,23,490,29,496,38"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="262,121,261,113,268,104,283,98,304,96,328,99,344,107,339,108,327,104,304,101,284,103,271,108,266,114,267,123"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="266,214,260,206,265,197,280,191,304,189,330,191,346,200,341,200,329,196,304,194,281,196,269,201,266,206,271,215"/>
 </map>

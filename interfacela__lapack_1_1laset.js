@@ -7,6 +7,8 @@ var interfacela__lapack_1_1laset =
     [ "la_qlaset", "interfacela__lapack_1_1laset.html#a2253417b93f2862a40557ec3ff1ae85d", null ],
     [ "la_slaset", "interfacela__lapack_1_1laset.html#a5f697a142ef26abd2c245d4e23197d7c", null ],
     [ "la_wlaset", "interfacela__lapack_1_1laset.html#abe19fff57e188ef031aef583873f3b06", null ],
+    [ "la_xlaset", "interfacela__lapack_1_1laset.html#ad1cf23ff5089fdf6f54b2d4f01409492", null ],
+    [ "la_ylaset", "interfacela__lapack_1_1laset.html#a569b60abdedac2c861ebc765406969b5", null ],
     [ "la_zlaset", "interfacela__lapack_1_1laset.html#a5d2893e3d73ce6d33364900a9a2d58ba", null ],
     [ "slaset", "interfacela__lapack_1_1laset.html#a617d656eb94ed36320d77a2834537c53", null ],
     [ "zlaset", "interfacela__lapack_1_1laset.html#a27bb3562963d717e60b1c8ece6636c48", null ]

@@ -1,7 +1,7 @@
 <map id="la_blas_aux::la_izamax" name="la_blas_aux::la_izamax">
-<area shape="rect" id="Node000001" title="IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="5,29,180,55"/>
-<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="57,31,49,21,53,11,68,5,93,3,123,6,136,15,132,20,121,11,93,8,69,10,56,15,54,20,61,28"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc3c4ed9b8c6c0e19beb39f657485056" title="DCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="228,29,400,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,39,214,39,214,45,180,45"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="278,31,270,21,274,11,289,5,314,3,345,6,357,15,354,20,343,11,314,8,290,10,278,15,275,20,282,28"/>
+<area shape="rect" id="Node000001" title="IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="5,29,179,57"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="54,29,48,20,53,11,68,5,92,3,118,5,133,14,128,14,117,10,92,8,69,10,56,15,53,20,59,29"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc3c4ed9b8c6c0e19beb39f657485056" title="DCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="227,29,398,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,41,214,43,208,43,179,46"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="274,28,268,20,273,11,288,5,312,3,338,5,354,14,348,14,337,10,312,8,289,10,277,15,274,20,279,30"/>
 </map>

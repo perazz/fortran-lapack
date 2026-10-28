@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6b44399d5fcb2cf3080b0ab3a5106f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61206973aa0cf06aa345cfb47530d710" id="r_a61206973aa0cf06aa345cfb47530d710"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61206973aa0cf06aa345cfb47530d710">la_slarre</a></td></tr>
 <tr class="separator:a61206973aa0cf06aa345cfb47530d710"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa88bf3036e17e1ceaac93afa4a8156f4" id="r_aa88bf3036e17e1ceaac93afa4a8156f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa88bf3036e17e1ceaac93afa4a8156f4">la_xlarre</a></td></tr>
+<tr class="separator:aa88bf3036e17e1ceaac93afa4a8156f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>To find the desired eigenvalues of a given real symmetric tridiagonal matrix T, LARRE: sets any "small" off-diagonal elements to zero, and for each unreduced block T_i, it finds (a) a suitable shift at one end of the block's spectrum, (b) the base representation, T_i - sigma_i I = L_i D_i L_i^T, and (c) eigenvalues of each L_i D_i L_i^T. The representations and eigenvalues found are then used by DSTEMR to compute the eigenvectors of T. The accuracy varies depending on whether bisection is used to find a few eigenvalues or the dqds algorithm (subroutine DLASQ2) to conpute all and then discard any unwanted one. As an added benefit, LARRE also outputs the n Gerschgorin intervals for the matrices L_i D_i L_i^T. </p>
@@ -307,6 +309,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::larre::la_slarre</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa88bf3036e17e1ceaac93afa4a8156f4" name="aa88bf3036e17e1ceaac93afa4a8156f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa88bf3036e17e1ceaac93afa4a8156f4">&#9670;&#160;</a></span>la_xlarre()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::larre::la_xlarre</td>
         </tr>
       </table>
 </div><div class="memdoc">

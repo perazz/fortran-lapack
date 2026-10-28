@@ -7,6 +7,8 @@ var interfacela__blas_1_1swap =
     [ "la_qswap", "interfacela__blas_1_1swap.html#aa6d5f6fb54ea3cf561ce4bce9853e972", null ],
     [ "la_sswap", "interfacela__blas_1_1swap.html#ace620e8207f1a9952e93f945dab510cb", null ],
     [ "la_wswap", "interfacela__blas_1_1swap.html#ae72ff674cf74f0ae0ca654d07f746550", null ],
+    [ "la_xswap", "interfacela__blas_1_1swap.html#a0942345ddb398d122b90386a01cf16ec", null ],
+    [ "la_yswap", "interfacela__blas_1_1swap.html#a3ff7d9462d65c504c840247aeafcbe5f", null ],
     [ "la_zswap", "interfacela__blas_1_1swap.html#a9e5ebeb55d39b225575755b81c8b6c44", null ],
     [ "sswap", "interfacela__blas_1_1swap.html#a0127b512b5497900d87b017be915da55", null ],
     [ "zswap", "interfacela__blas_1_1swap.html#aa1934fd49539776e70c03466fdb93b18", null ]

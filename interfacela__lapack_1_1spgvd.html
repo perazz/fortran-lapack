@@ -131,6 +131,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:afe96d1a6bc24a649231fa03efb14a6f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46136c5d3227b504a8e00f7aaf6b34a6" id="r_a46136c5d3227b504a8e00f7aaf6b34a6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a46136c5d3227b504a8e00f7aaf6b34a6">la_sspgvd</a></td></tr>
 <tr class="separator:a46136c5d3227b504a8e00f7aaf6b34a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19e90b69be645fb58711e0745e0a5cc2" id="r_a19e90b69be645fb58711e0745e0a5cc2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a19e90b69be645fb58711e0745e0a5cc2">la_xspgvd</a></td></tr>
+<tr class="separator:a19e90b69be645fb58711e0745e0a5cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>SPGVD: computes all the eigenvalues, and optionally, the eigenvectors of a real generalized symmetric-definite eigenproblem, of the form A*x=(lambda)*B*x, A*Bx=(lambda)*x, or B*A*x=(lambda)*x. Here A and B are assumed to be symmetric, stored in packed format, and B is also positive definite. If eigenvectors are desired, it uses a divide and conquer algorithm. The divide and conquer algorithm makes very mild assumptions about floating point arithmetic. It will work on machines with a guard digit in add/subtract, or on those binary machines without guard digits which subtract like the Cray X-MP, Cray Y-MP, Cray C-90, or Cray-2. It could conceivably fail on hexadecimal or decimal machines without guard digits, but we know of none. </p>
@@ -252,6 +254,20 @@ Public Member Functions</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">la_lapack::spgvd::la_sspgvd</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a19e90b69be645fb58711e0745e0a5cc2" name="a19e90b69be645fb58711e0745e0a5cc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19e90b69be645fb58711e0745e0a5cc2">&#9670;&#160;</a></span>la_xspgvd()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">la_lapack::spgvd::la_xspgvd</td>
         </tr>
       </table>
 </div><div class="memdoc">

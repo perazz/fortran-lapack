@@ -1,14 +1,10 @@
 <map id="la_blas::trmv::dtrmv" name="la_blas::trmv::dtrmv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,57,159,83"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level2__tri.html#a5dc999c70ce48df0f53922903ec69add" title="DTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="207,18,343,58"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,55,193,49,194,54,159,60"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__tri.html#a3603c92d5ce6ff9abd368043bc6f4b6c" title="QTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="207,82,343,122"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="159,80,194,86,193,91,159,85"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="391,29,557,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="343,37,377,37,377,43,343,42"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="391,83,557,108"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="344,55,417,76,415,81,342,60"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="441,31,435,21,438,11,452,5,474,3,501,6,512,15,509,19,499,11,474,8,453,10,442,15,440,20,446,28"/>
-<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="341,79,417,56,419,61,343,84"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="343,97,377,96,377,101,343,102"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,158,84"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level2__tri.html#a5dc999c70ce48df0f53922903ec69add" title="DTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="206,48,341,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,67,193,69,188,70,158,72"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="389,29,554,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="341,58,376,56,371,57,342,63"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="389,81,554,109"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="342,76,376,83,371,83,341,81"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="437,28,432,20,436,11,450,5,472,3,495,5,509,14,504,14,494,10,472,8,451,10,440,15,437,20,442,30"/>
 </map>

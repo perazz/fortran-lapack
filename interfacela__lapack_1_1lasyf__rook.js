@@ -7,6 +7,8 @@ var interfacela__lapack_1_1lasyf__rook =
     [ "la_qlasyf_rook", "interfacela__lapack_1_1lasyf__rook.html#abef983eb4551699d3bc9d607d95e9221", null ],
     [ "la_slasyf_rook", "interfacela__lapack_1_1lasyf__rook.html#a95681fba0844558058eecec197606f7a", null ],
     [ "la_wlasyf_rook", "interfacela__lapack_1_1lasyf__rook.html#aeee28e34589c22fcd3515721726ad8db", null ],
+    [ "la_xlasyf_rook", "interfacela__lapack_1_1lasyf__rook.html#a210d32430f9a0e0dfb58db786bc9ffb9", null ],
+    [ "la_ylasyf_rook", "interfacela__lapack_1_1lasyf__rook.html#a7f38826c1abd549d79611ad201b76c9f", null ],
     [ "la_zlasyf_rook", "interfacela__lapack_1_1lasyf__rook.html#a7ec2096c0cf5df460e5a2f7918e5f983", null ],
     [ "slasyf_rook", "interfacela__lapack_1_1lasyf__rook.html#a0db122f8c280bb3ff2e5aa1a9780af53", null ],
     [ "zlasyf_rook", "interfacela__lapack_1_1lasyf__rook.html#a37321ae5ca37e888700857459eb95c19", null ]
