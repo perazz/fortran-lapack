@@ -59,6 +59,111 @@ jobs:
         with:
           fpm-version: ${{ env.FPM_VERSION }}
 
+      # TEMPORARY, remove before merging: checks whether this runner's libgfortran returns
+      # wrong complex MATMUL products, the suspected cause of the solve_lower_chol_multi_rhs
+      # failures of this cell.
+      - name: Diagnose the runtime MATMUL (temporary)
+        if: matrix.os == 'ubuntu-latest' && matrix.profile == 'release'
+        continue-on-error: true
+        run: |
+          grep -m1 'model name' /proc/cpuinfo
+          for f in avx avx2 fma avx512f avx512dq avx512vl; do
+            grep -q -w "$f" /proc/cpuinfo && echo "cpu flag $f: yes" || echo "cpu flag $f: no"
+          done
+          gfortran --version | head -1
+          dpkg -l 'libgfortran5*' | grep '^ii' || true
+          lib=$(gfortran -print-file-name=libgfortran.so.5)
+          echo "runtime: $(readlink -f "$lib"), AVX-512 strings: $(strings -a "$lib" | grep -c -i avx512)"
+          cat > /tmp/matmul_check.f90 <<'EOF'
+          ! Compare the runtime MATMUL with plain loops, for the kinds and shapes of the failing test
+          module checks
+              implicit none
+              integer, parameter :: sp = kind(1.0), dp = kind(1.0d0)
+          contains
+              subroutine check_c4(m, k, n)
+                  integer, intent(in) :: m, k, n
+                  complex(sp), allocatable :: a(:,:), x(:,:), b(:,:), r(:,:)
+                  integer :: i, j
+                  allocate(a(m,k), x(k,n), r(m,n))
+                  a = reshape([(cmplx(mod(3*i,7)-3, 0, sp), i=1,m*k)], [m,k])
+                  x = reshape([(cmplx(mod(5*i,11)-5, 0, sp), i=1,k*n)], [k,n])
+                  b = matmul(a, x)
+                  r = 0
+                  do j = 1, n
+                      do i = 1, k
+                          r(:,j) = r(:,j) + a(:,i)*x(i,j)
+                      end do
+                  end do
+                  print '(a,3(i0,1x),a,es9.2,a)', '  complex(sp) ', m, k, n, ' max error', maxval(abs(b-r)), &
+                        merge('  ok   ', '  WRONG', all(b == r))
+              end subroutine check_c4
+              subroutine check_c8(m, k, n)
+                  integer, intent(in) :: m, k, n
+                  complex(dp), allocatable :: a(:,:), x(:,:), b(:,:), r(:,:)
+                  integer :: i, j
+                  allocate(a(m,k), x(k,n), r(m,n))
+                  a = reshape([(cmplx(mod(3*i,7)-3, 0, dp), i=1,m*k)], [m,k])
+                  x = reshape([(cmplx(mod(5*i,11)-5, 0, dp), i=1,k*n)], [k,n])
+                  b = matmul(a, x)
+                  r = 0
+                  do j = 1, n
+                      do i = 1, k
+                          r(:,j) = r(:,j) + a(:,i)*x(i,j)
+                      end do
+                  end do
+                  print '(a,3(i0,1x),a,es9.2,a)', '  complex(dp) ', m, k, n, ' max error', maxval(abs(b-r)), &
+                        merge('  ok   ', '  WRONG', all(b == r))
+              end subroutine check_c8
+              subroutine check_r8(m, k, n)
+                  integer, intent(in) :: m, k, n
+                  real(dp), allocatable :: a(:,:), x(:,:), b(:,:), r(:,:)
+                  integer :: i, j
+                  allocate(a(m,k), x(k,n), r(m,n))
+                  a = reshape([(real(mod(3*i,7)-3, dp), i=1,m*k)], [m,k])
+                  x = reshape([(real(mod(5*i,11)-5, dp), i=1,k*n)], [k,n])
+                  b = matmul(a, x)
+                  r = 0
+                  do j = 1, n
+                      do i = 1, k
+                          r(:,j) = r(:,j) + a(:,i)*x(i,j)
+                      end do
+                  end do
+                  print '(a,3(i0,1x),a,es9.2,a)', '  real(dp)    ', m, k, n, ' max error', maxval(abs(b-r)), &
+                        merge('  ok   ', '  WRONG', all(b == r))
+              end subroutine check_r8
+          end module checks
+
+          program matmul_check
+              use checks
+              implicit none
+              integer :: s
+              integer, parameter :: shapes(3,6) = reshape([3,3,2, 3,3,1, 2,2,2, 4,4,3, 8,8,5, 33,17,9], [3,6])
+              complex(sp), allocatable :: a(:,:), x(:,:), b(:,:)
+
+              ! The matrices of test_solve_lower_chol_multi_rhs_c: b must be [14 15 22 38 39 49]
+              allocate(a(3,3), x(3,2))
+              a(1,:) = [4, 2, 2]
+              a(2,:) = [2, 5, 1]
+              a(3,:) = [2, 1, 6]
+              x(:,1) = [1, 2, 3]
+              x(:,2) = [4, 5, 6]
+              b = matmul(a, x)
+              print '(a,6f8.1)', '  test matrices, real(b):', real(b)
+              do s = 1, size(shapes, 2)
+                  call check_c4(shapes(1,s), shapes(2,s), shapes(3,s))
+                  call check_c8(shapes(1,s), shapes(2,s), shapes(3,s))
+                  call check_r8(shapes(1,s), shapes(2,s), shapes(3,s))
+              end do
+          end program matmul_check
+          EOF
+          cd /tmp
+          for opts in "-O3 -funroll-loops -finline-matmul-limit=0" "-O3 -funroll-loops" "-O0"; do
+            gfortran $opts -c matmul_check.f90 -o mc.o
+            gfortran mc.o -o mc
+            echo "== $opts, runtime MATMUL calls: $(nm -u mc.o | grep -c _gfortran_matmul)"
+            ./mc
+          done
+
       - name: Build
         run: fpm build --profile ${{ matrix.profile }}
 
