@@ -59,22 +59,22 @@ jobs:
         with:
           fpm-version: ${{ env.FPM_VERSION }}
 
-      # TEMPORARY, remove before merging: checks whether this runner's libgfortran returns
-      # wrong complex MATMUL products, the suspected cause of the solve_lower_chol_multi_rhs
-      # failures of this cell.
-      - name: Diagnose the runtime MATMUL (temporary)
+      # TEMPORARY, remove before merging: the complex solve_lower_chol_multi_rhs tests fail on
+      # this cell because gfortran's inlined complex MATMUL returns a wrong right-hand side. This
+      # step bisects the optimization flags, hashes the assembly of each build to compare with
+      # another machine, runs the failing build under valgrind, and keeps the builds as an artifact.
+      - name: Diagnose the inlined MATMUL (temporary)
         if: matrix.os == 'ubuntu-latest' && matrix.profile == 'release'
         continue-on-error: true
         run: |
           grep -m1 'model name' /proc/cpuinfo
-          for f in avx avx2 fma avx512f avx512dq avx512vl; do
-            grep -q -w "$f" /proc/cpuinfo && echo "cpu flag $f: yes" || echo "cpu flag $f: no"
-          done
+          grep -m1 '^flags' /proc/cpuinfo
+          uname -r
+          ldd --version | head -1
           gfortran --version | head -1
-          dpkg -l 'libgfortran5*' | grep '^ii' || true
-          lib=$(gfortran -print-file-name=libgfortran.so.5)
-          echo "runtime: $(readlink -f "$lib"), AVX-512 strings: $(strings -a "$lib" | grep -c -i avx512)"
-          cat > /tmp/matmul_check.f90 <<'EOF'
+          dpkg -l 'libgfortran5*' 'gfortran-15' 'binutils' | grep '^ii' || true
+          mkdir -p /tmp/diag && cd /tmp/diag
+          cat > /tmp/diag/matmul_check.f90 <<'EOF'
           ! Compare the runtime MATMUL with plain loops, for the kinds and shapes of the failing test
           module checks
               implicit none
@@ -156,13 +156,49 @@ jobs:
               end do
           end program matmul_check
           EOF
-          cd /tmp
-          for opts in "-O3 -funroll-loops -finline-matmul-limit=0" "-O3 -funroll-loops" "-O0"; do
-            gfortran $opts -c matmul_check.f90 -o mc.o
-            gfortran mc.o -o mc
-            echo "== $opts, runtime MATMUL calls: $(nm -u mc.o | grep -c _gfortran_matmul)"
-            ./mc
-          done
+          # One build per flag set: the hash of its assembly, to compare with another machine, and
+          # the product of the failing test's matrices, which must be 14 15 22 38 39 49.
+          while IFS= read -r opts; do
+            [ -z "$opts" ] && continue
+            name=$(echo "$opts" | tr -c 'A-Za-z0-9\n' '_')
+            gfortran $opts -S matmul_check.f90 -o "$name.s"
+            gfortran $opts matmul_check.f90 -o "$name.x"
+            out=$(./"$name.x")
+            printf '%-58s asm %s  b=%s  wrong=%s\n' "$opts" "$(md5sum < "$name.s" | cut -c1-12)" \
+              "$(echo "$out" | head -1 | sed 's/.*real(b)://' | tr -s ' ')" "$(echo "$out" | grep -c WRONG)"
+          done <<'FLAGS'
+          -O0
+          -O1
+          -O2
+          -O3
+          -O2 -funroll-loops
+          -O3 -funroll-loops
+          -O3 -funroll-loops -fPIC
+          -O3 -funroll-loops -fno-frontend-optimize
+          -O3 -funroll-loops -finline-matmul-limit=0
+          -O3 -funroll-loops -fno-tree-vectorize
+          -O3 -funroll-loops -fno-tree-loop-vectorize
+          -O3 -funroll-loops -fno-tree-slp-vectorize
+          -O3 -funroll-loops -fno-peel-loops
+          -O3 -funroll-loops -fno-split-loops
+          -O3 -funroll-loops -fno-unswitch-loops
+          -O3 -funroll-loops -ffp-contract=off
+          -O3 -funroll-loops -fno-schedule-insns2
+          -O3 -funroll-loops -fno-web -fno-rename-registers
+          FLAGS
+          # The same failing build under valgrind on this machine
+          sudo apt-get install -y -qq valgrind > /dev/null 2>&1 || true
+          gfortran -O3 -funroll-loops -g matmul_check.f90 -o vg.x
+          valgrind --track-origins=yes ./vg.x 2>&1 | grep -E 'test matrices|Invalid|uninitialised|ERROR SUMMARY' | head -12
+
+      - name: Keep the MATMUL diagnostic builds (temporary)
+        if: matrix.os == 'ubuntu-latest' && matrix.profile == 'release'
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: matmul-diagnostic
+          path: /tmp/diag
+          retention-days: 7
 
       - name: Build
         run: fpm build --profile ${{ matrix.profile }}
