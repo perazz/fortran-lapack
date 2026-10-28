@@ -1736,6 +1736,10 @@ python3 scripts/guard_kinds.py           # fence every kind loop, and mirror the
 python3 scripts/guard_kinds.py --check   # verify every template is fenced
 ```
 
+The script fences kind loops only. Code that names `qp` or `xdp` outside a loop, such as a test
+written out once per kind, goes inside `#ifdef LA_WITH_QP` or `#ifdef LA_WITH_XDP` by hand; the
+`lean` continuous-integration cell is what fails when one is missing.
+
 `--check` is what continuous integration runs; it prints the templates it does not own yet and the reason for each.
 `la_blas` and `la_lapack` are umbrella modules that re-export 57 topic modules, ten for BLAS and 47 for LAPACK; the
 generic interfaces they publish are data tables under `include/`, regenerated with `python3 scripts/templatize.py
