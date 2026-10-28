@@ -41,12 +41,10 @@ import la_kindmap as K
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# The high-level API sits above the generated tiers and is not part of this comparison.
-HIGH_LEVEL = {
-    "la_cholesky", "la_constants", "la_determinant", "la_eigs", "la_eye", "la_inverse",
-    "la_least_squares", "la_norms", "la_pinv", "la_qr", "la_schur", "la_solve", "la_state",
-    "la_svd", "linear_algebra",
-}
+# The BLAS and LAPACK tiers are what this comparison covers.  The high-level API sits above them,
+# grows a module at a time, and names its specifics with a trailing kind letter, so it is left out
+# by rule rather than by a list that every new module would have to join.
+TIERS = ("la_blas", "la_lapack")
 # Umbrella modules, as the baseline names them and as the working tree names them.
 UMBRELLAS = {"src/la_blas.F90": "src/la_blas.F90",
              "src/la_lapack.f90": "src/la_lapack.F90",
@@ -113,8 +111,7 @@ def git_files(ref):
 def is_generated(path):
     name = os.path.basename(path)
     stem = os.path.splitext(name)[0]
-    return (name.endswith((".f90", ".F90")) and stem.startswith("la_")
-            and stem not in HIGH_LEVEL)
+    return name.endswith((".f90", ".F90")) and stem.startswith(TIERS)
 
 
 def baseline_tree(ref):
