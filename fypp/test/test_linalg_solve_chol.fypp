@@ -303,8 +303,14 @@ module test_linalg_solve_chol
         x_expected(:,1) = [1, 2, 3]
         x_expected(:,2) = [4, 5, 6]
         
-        ! Compute RHS: B = A * X_expected
+        ! Compute RHS: B = A * X_expected. gfortran 15.1 and 15.2, and 16 snapshots before 16.1,
+        ! miscompile this complex matmul at -O3 with FMA (GCC PR 124802), so they get it written out
+#if defined(__GFORTRAN__) && ((__GNUC__ == 15 && __GNUC_MINOR__ < 3) || (__GNUC__ == 16 && __GNUC_MINOR__ == 0))
+        b(:,1) = [14, 15, 22]
+        b(:,2) = [38, 39, 49]
+#else
         b = matmul(a, x_expected)
+#endif
         
         ! Compute Cholesky factorization
         call cholesky(a, l, lower=.true., err=state)
