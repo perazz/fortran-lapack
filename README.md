@@ -1085,6 +1085,62 @@ where:
 - The singular values are returned as a vector, sorted in decreasing order.
 - The function uses LAPACK's [GESDD](@ref la_lapack::gesdd) routine for singular value computation.
 
+## [expm](@ref la_matrix_functions::expm) - Exponential of a square matrix (function).
+
+### Syntax
+
+`e = expm(a [, order])`  
+`e = expm(a [, order], err)`
+
+### Description
+
+This function computes the exponential \f$ e^{A} \f$ of a real or complex square matrix by scaling and squaring with a Padé approximant. Without `err` it is `pure`, so it can be called from `do concurrent` and from other `pure` procedures; with `err` it returns errors instead of stopping, and is not `pure`.
+
+### Arguments
+
+- `a`: A `real` or `complex` square matrix of size \f$ [n,n] \f$. It is not modified.
+- `order` (optional, default = 10): The order of the Padé approximant. It must not be negative.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that receives the error state.
+
+### Return value
+
+The matrix exponential, of the same kind and size as `a`. The exponential of an empty matrix is an empty matrix.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` is not square or `order` is negative.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the denominator of the Padé approximant is singular.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- The algorithm is the one of the Fortran standard library: the matrix is scaled by a power of two until its infinity norm is below one half, the Padé approximant is solved with LAPACK's [gesv](@ref la_lapack::gesv), and the result is squared back.
+- [matrix_exp](@ref la_matrix_functions::matrix_exp) is the subroutine form.
+
+## [matrix_exp](@ref la_matrix_functions::matrix_exp) - Exponential of a square matrix (subroutine).
+
+### Syntax
+
+`call matrix_exp(a [, order] [, err])`  
+`call matrix_exp(a, e [, order] [, err])`
+
+### Description
+
+The subroutine form of [expm](@ref la_matrix_functions::expm). The first form overwrites `a` with its exponential; the second writes the exponential into `e` and leaves `a` unchanged. Both forms are `pure`.
+
+### Arguments
+
+- `a`: A `real` or `complex` square matrix of size \f$ [n,n] \f$. In the first form it is an `intent(inout)` argument, overwritten with \f$ e^{A} \f$.
+- `e` (second form): A matrix of the same kind and size as `a`, which receives \f$ e^{A} \f$.
+- `order` (optional, default = 10): The order of the Padé approximant. It must not be negative.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` or `e` is not square, if their sizes differ, or if `order` is negative.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the denominator of the Padé approximant is singular.
+- If `err` is not present, exceptions trigger an `error stop`.
+
 ## [diag](@ref la_eye::diag) - Diagonal matrix.
 
 ### Syntax

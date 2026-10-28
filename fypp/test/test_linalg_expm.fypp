@@ -1,0 +1,296 @@
+#:include "common.fypp"
+#:set CMPLX_KINDS_TYPES = CMPL_KINDS_TYPES
+#:set RC_KINDS_TYPES = ALL_KINDS_TYPES
+! Test the matrix exponential
+module test_linalg_expm
+    use testdrive, only: error_type, check, new_unittest, unittest_type
+    use la_constants
+    use linear_algebra, only: expm, matrix_exp, eye, norm
+    use la_state_type, only: la_state
+
+    implicit none (type,external)
+    private
+
+    public :: test_expm_computation
+
+    contains
+
+    !> Matrix exponential tests
+    subroutine test_expm_computation(tests)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: tests(:)
+
+        allocate(tests(0))
+
+        #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
+        call add_test(tests,new_unittest("expm_${ri}$",test_expm_${ri}$))
+        call add_test(tests,new_unittest("error_handling_expm_${ri}$",test_error_handling_expm_${ri}$))
+        call add_test(tests,new_unittest("expm_rotation_${ri}$",test_expm_rotation_${ri}$))
+        call add_test(tests,new_unittest("expm_err_form_${ri}$",test_expm_err_form_${ri}$))
+        call add_test(tests,new_unittest("expm_pure_${ri}$",test_expm_pure_${ri}$))
+        call add_test(tests,new_unittest("expm_zero_and_empty_${ri}$",test_expm_zero_and_empty_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
+        #:endfor
+
+    end subroutine test_expm_computation
+
+    #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
+    !> Matrix exponential with analytic expression
+    subroutine test_expm_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 5, m = 6
+        integer(ilp) :: i, j
+        ${rt}$ :: A(n, n), E(n, n), Eref(n, n)
+        real(${rk}$) :: err
+
+        ! Nilpotent matrix with m on the first superdiagonal
+        A = 0.0_${rk}$
+        do i = 1, n-1
+            A(i, i+1) = m*1.0_${rk}$
+        enddo
+
+        ! Reference with analytical exponential
+        Eref = eye(n, mold=1.0_${rk}$)
+        do i = 1, n-1
+            do j = 1, n-i
+                Eref(i, i+j) = Eref(i, i+j-1)*m/j
+            enddo
+        enddo
+
+        ! Compute matrix exponential
+        E = expm(A)
+
+        ! Check result
+        err = norm(Eref - E, 'inf')
+        call check(error, err < (n**2)*epsilon(1.0_${rk}$), 'Analytical matrix exponential.')
+        if (allocated(error)) return
+
+    end subroutine test_expm_${ri}$
+
+    !> Test error handler
+    subroutine test_error_handling_expm_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 5, m = 6
+        type(la_state) :: err
+        integer(ilp) :: i
+        ${rt}$ :: A(n, n), E(n, n)
+
+        ! Initialize matrix
+        A = 0.0_${rk}$
+        do i = 1, n-1
+            A(i, i+1) = m*1.0_${rk}$
+        enddo
+
+        call matrix_exp(A, E, order=-1, err=err)
+        call check(error, err%error(), 'Negative Pade order')
+        if (allocated(error)) return
+
+        call matrix_exp(A, order=-1, err=err)
+        call check(error, err%error(), 'Negative Pade order')
+        if (allocated(error)) return
+
+        call matrix_exp(A, E(:n, :n-1), err=err)
+        call check(error, err%error(), 'Invalid matrix size')
+        if (allocated(error)) return
+
+        call matrix_exp(A(:n, :n-1), err=err)
+        call check(error, err%error(), 'Invalid matrix size')
+        if (allocated(error)) return
+
+    end subroutine test_error_handling_expm_${ri}$
+
+    !> exp of a rotation generator: large enough to need scaling and squaring
+    subroutine test_expm_rotation_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        real(${rk}$), parameter :: t = 3.0_${rk}$
+        real(${rk}$), parameter :: tol = 1000*epsilon(1.0_${rk}$)
+        ${rt}$ :: A(2, 2), E(2, 2), Eref(2, 2), Ein(2, 2)
+        type(la_state) :: state
+
+        A = reshape([0.0_${rk}$, t, -t, 0.0_${rk}$], [2, 2])
+        Eref = reshape([cos(t), sin(t), -sin(t), cos(t)], [2, 2])
+
+        E = expm(A)
+        call check(error, maxval(abs(E - Eref)) < tol, 'rotation: expm(A)')
+        if (allocated(error)) return
+
+        call matrix_exp(A, E, err=state)
+        call check(error, state%ok() .and. maxval(abs(E - Eref)) < tol, 'rotation: matrix_exp(A, E)')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein, err=state)
+        call check(error, state%ok() .and. maxval(abs(Ein - Eref)) < tol, 'rotation: matrix_exp(A) in place')
+        if (allocated(error)) return
+
+    end subroutine test_expm_rotation_${ri}$
+
+    !> The function form with a state flag
+    subroutine test_expm_err_form_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        real(${rk}$), parameter :: t = 3.0_${rk}$
+        real(${rk}$), parameter :: tol = 1000*epsilon(1.0_${rk}$)
+        ${rt}$ :: A(2, 2), Eref(2, 2), B(2, 3)
+        ${rt}$, allocatable :: E(:,:)
+        type(la_state) :: state
+
+        A = reshape([0.0_${rk}$, t, -t, 0.0_${rk}$], [2, 2])
+        Eref = reshape([cos(t), sin(t), -sin(t), cos(t)], [2, 2])
+
+        E = expm(A, err=state)
+        call check(error, state%ok(), 'expm(A, err): '//state%print())
+        if (allocated(error)) return
+        call check(error, maxval(abs(E - Eref)) < tol, 'expm(A, err): result')
+        if (allocated(error)) return
+
+        ! The order reaches the computation: same result as the pure form of that order
+        E = expm(A, order=6, err=state)
+        call check(error, state%ok() .and. maxval(abs(E - expm(A, order=6))) < tol, 'expm(A, order=6, err)')
+        if (allocated(error)) return
+
+        E = expm(A, order=-1, err=state)
+        call check(error, state%error(), 'expm(A, order=-1, err) returns an error')
+        if (allocated(error)) return
+
+        B = 1.0_${rk}$
+        E = expm(B, err=state)
+        call check(error, state%error(), 'expm(B, err) of a non-square matrix returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_err_form_${ri}$
+
+    !> expm without err is pure: it can be called from do concurrent and from a pure procedure
+    subroutine test_expm_pure_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        real(${rk}$), parameter :: tol = 1000*epsilon(1.0_${rk}$)
+        ${rt}$ :: A(2, 2), E(2, 2, 3)
+        integer :: k
+
+        A = reshape([0.0_${rk}$, 1.0_${rk}$, -1.0_${rk}$, 0.0_${rk}$], [2, 2])
+
+        ! exp(k*A) is a rotation by k radians
+        do concurrent (k = 1:3)
+            E(:, :, k) = expm(k*A)
+        end do
+        do k = 1, 3
+            call check(error, maxval(abs(E(:, :, k) - rotation_${ri}$(real(k, ${rk}$)))) < tol, &
+                       'expm in do concurrent')
+            if (allocated(error)) return
+        end do
+
+        ! exp(2A) = exp(A)**2
+        call check(error, maxval(abs(squared_exp_${ri}$(A) - E(:, :, 2))) < tol, 'expm in a pure function')
+        if (allocated(error)) return
+
+    end subroutine test_expm_pure_${ri}$
+
+    pure function squared_exp_${ri}$(A) result(E2)
+        ${rt}$, intent(in) :: A(:, :)
+        ${rt}$ :: E2(size(A, 1), size(A, 2)), E(size(A, 1), size(A, 2))
+        integer :: i, j
+
+        E = expm(A)
+        do concurrent (i = 1:size(A, 1), j = 1:size(A, 2))
+            E2(i, j) = sum(E(i, :)*E(:, j))
+        end do
+
+    end function squared_exp_${ri}$
+
+    pure function rotation_${ri}$(t) result(R)
+        real(${rk}$), intent(in) :: t
+        ${rt}$ :: R(2, 2)
+
+        R = reshape([cos(t), sin(t), -sin(t), cos(t)], [2, 2])
+
+    end function rotation_${ri}$
+
+    !> exp(0) is the identity, and the exponential of an empty matrix is empty
+    subroutine test_expm_zero_and_empty_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        real(${rk}$), parameter :: tol = 1000*epsilon(1.0_${rk}$)
+        ${rt}$ :: Z(3, 3), E(3, 3), A0(0, 0), E0(0, 0)
+        ${rt}$, allocatable :: F(:,:)
+        type(la_state) :: state
+
+        Z = 0.0_${rk}$
+        E = expm(Z)
+        call check(error, maxval(abs(E - eye(3, mold=1.0_${rk}$))) < tol, 'expm of the zero matrix is the identity')
+        if (allocated(error)) return
+
+        F = expm(A0)
+        call check(error, size(F, 1) == 0 .and. size(F, 2) == 0, 'expm of an empty matrix is empty')
+        if (allocated(error)) return
+
+        call matrix_exp(A0, E0, err=state)
+        call check(error, state%ok(), 'matrix_exp of an empty matrix: '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_expm_zero_and_empty_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
+
+    #:endfor
+
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type), allocatable, intent(inout) :: tests(:)
+        type(unittest_type), intent(in) :: new_test
+
+        integer :: n
+        type(unittest_type), allocatable :: new_tests(:)
+
+        if (allocated(tests)) then
+            n = size(tests)
+        else
+            n = 0
+        end if
+
+        allocate(new_tests(n+1))
+        if (n>0) new_tests(1:n) = tests(1:n)
+                 new_tests(1+n) = new_test
+        call move_alloc(from=new_tests,to=tests)
+
+    end subroutine add_test
+
+end module test_linalg_expm
+
+program test_expm
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    use testdrive, only : run_testsuite, new_testsuite, testsuite_type
+    use test_linalg_expm, only : test_expm_computation
+    implicit none
+    integer :: stat, is
+    type(testsuite_type), allocatable :: testsuites(:)
+    character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+    stat = 0
+
+    testsuites = [ &
+        new_testsuite("linalg_expm", test_expm_computation) &
+        ]
+
+    do is = 1, size(testsuites)
+        write(error_unit, fmt) "Testing:", testsuites(is)%name
+        call run_testsuite(testsuites(is)%collect, error_unit, stat)
+    end do
+
+    if (stat > 0) then
+        write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+        error stop
+    end if
+end program test_expm
