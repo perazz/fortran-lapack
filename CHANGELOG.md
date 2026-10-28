@@ -140,6 +140,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   out is `-1`, so code that imports the kind number still compiles.
 - `scripts/guard_kinds.py` writes the cpp fences into the templates and has a
   `--check` mode the `generated-sources` job runs.
+- `la_state` messages format array arguments of any rank from 2 to 14: the elements in
+  array element order, then the shape, as in `[1 2 3 4] (2x2)`. Only scalars and vectors
+  were formatted before.
 
 ### Changed
 
