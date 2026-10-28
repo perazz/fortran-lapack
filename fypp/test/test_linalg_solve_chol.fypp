@@ -78,7 +78,9 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
         ! Check solution
-        call check(error, all(abs(x - x_expected) < tol), 'solve_lower_chol: solution mismatch')
+        call check(error, all(abs(x - x_expected) < tol), 'solve_lower_chol: solution mismatch: '// &
+                   mismatch_${ri}$(a, reshape(b,[n,1_ilp]), reshape(x,[n,1_ilp]), reshape(x_expected,[n,1_ilp]), &
+                                   tol, state, factor=l, lower=.true.))
         if (allocated(error)) return
         
     end subroutine test_solve_lower_chol_${ri}$
@@ -125,7 +127,9 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
         ! Check solution
-        call check(error, all(abs(x - x_expected) < tol), 'solve_upper_chol: solution mismatch')
+        call check(error, all(abs(x - x_expected) < tol), 'solve_upper_chol: solution mismatch: '// &
+                   mismatch_${ri}$(a, reshape(b,[n,1_ilp]), reshape(x,[n,1_ilp]), reshape(x_expected,[n,1_ilp]), &
+                                   tol, state, factor=u, lower=.false.))
         if (allocated(error)) return
         
     end subroutine test_solve_upper_chol_${ri}$
@@ -167,7 +171,8 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
         ! Check solution
-        call check(error, all(abs(x - x_expected) < tol), 'solve_chol: solution mismatch')
+        call check(error, all(abs(x - x_expected) < tol), 'solve_chol: solution mismatch: '// &
+                   mismatch_${ri}$(a_copy, reshape(b,[n,1_ilp]), reshape(x,[n,1_ilp]), reshape(x_expected,[n,1_ilp]), tol, state))
         if (allocated(error)) return
         
         ! Check that A is preserved (default behavior)
@@ -213,7 +218,8 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
         ! Check solution
-        call check(error, all(abs(x - x_expected) < tol), 'solve_chol (upper): solution mismatch')
+        call check(error, all(abs(x - x_expected) < tol), 'solve_chol (upper): solution mismatch: '// &
+                   mismatch_${ri}$(a_copy, reshape(b,[n,1_ilp]), reshape(x,[n,1_ilp]), reshape(x_expected,[n,1_ilp]), tol, state))
         if (allocated(error)) return
         
         ! Check that A is preserved (default behavior)
@@ -259,7 +265,8 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
         ! Check solution
-        call check(error, all(abs(x - x_expected) < tol), 'solve_chol overwrite: solution mismatch')
+        call check(error, all(abs(x - x_expected) < tol), 'solve_chol overwrite: solution mismatch: '// &
+                   mismatch_${ri}$(a_copy, reshape(b,[n,1_ilp]), reshape(x,[n,1_ilp]), reshape(x_expected,[n,1_ilp]), tol, state))
         if (allocated(error)) return
         
         ! Check that A was overwritten (not equal to original)
@@ -312,7 +319,8 @@ module test_linalg_solve_chol
         if (allocated(error)) return
         
         ! Check solution
-        call check(error, all(abs(x - x_expected) < tol), 'solve_lower_chol multi-rhs: solution mismatch')
+        call check(error, all(abs(x - x_expected) < tol), 'solve_lower_chol multi-rhs: solution mismatch: '// &
+                   mismatch_${ri}$(a, b, x, x_expected, tol, state, factor=l, lower=.true.))
         if (allocated(error)) return
         
     end subroutine test_solve_lower_chol_multi_rhs_${ri}$
@@ -386,6 +394,76 @@ module test_linalg_solve_chol
 #endif
     #:endif
     
+    #:endfor
+
+    !> What a failed solution check saw: the largest error, where it sits and the tolerance, the
+    !> residual of the system, the state the solver returned, the computed and expected
+    !> solutions and, when the test factorized first, how far the factor is from the matrix
+    #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
+    function mismatch_${ri}$(a, b, x, x_expected, tol, state, factor, lower) result(msg)
+        !> Matrix of the system, as it was before the solve
+        ${rt}$, intent(in) :: a(:,:)
+        !> Right-hand sides, computed and expected solutions, one column each
+        ${rt}$, intent(in) :: b(:,:), x(:,:), x_expected(:,:)
+        !> Tolerance the check held each entry of the solution to
+        real(${rk}$), intent(in) :: tol
+        !> State the solver returned
+        type(la_state), intent(in) :: state
+        !> [optional] Cholesky factor the solve used, lower or upper as `lower` says (default lower)
+        ${rt}$, optional, intent(in) :: factor(:,:)
+        logical, optional, intent(in) :: lower
+        character(:), allocatable :: msg
+
+        #:if rt.startswith('complex')
+        character(*), parameter :: values = '(*("(",g0,",",g0,")",:,1x))'
+        #:else
+        character(*), parameter :: values = '(*(g0,:,1x))'
+        #:endif
+        character(len=2048) :: buffer
+        integer :: loc(2)
+        logical :: lower_
+        ${rt}$, allocatable :: rebuilt(:,:)
+
+        loc = maxloc(abs(x - x_expected))
+        write (buffer,'(a,es10.3,a,i0,a,i0,a,es10.3,a,es10.3)') 'max|x-x_expected|=', &
+            maxval(abs(x - x_expected)),' at (',loc(1),',',loc(2),'), tol=',tol, &
+            ', max|A*x-b|=',maxval(abs(matmul(a, x) - b))
+        msg = trim(buffer)
+
+        if (present(factor)) then
+            lower_ = .true.
+            if (present(lower)) lower_ = lower
+            #:if rt.startswith('complex')
+            if (lower_) then
+                rebuilt = matmul(factor, conjg(transpose(factor)))
+            else
+                rebuilt = matmul(conjg(transpose(factor)), factor)
+            end if
+            #:else
+            if (lower_) then
+                rebuilt = matmul(factor, transpose(factor))
+            else
+                rebuilt = matmul(transpose(factor), factor)
+            end if
+            #:endif
+            write (buffer,'(a,es10.3)') ', max|factor product - A|=',maxval(abs(rebuilt - a))
+            msg = msg//trim(buffer)
+        end if
+
+        msg = msg//', solver state: '//state%print()
+        write (buffer,values) x
+        msg = msg//', x=['//trim(buffer)//']'
+        write (buffer,values) x_expected
+        msg = msg//', x_expected=['//trim(buffer)//']'
+
+    end function mismatch_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
+
     #:endfor
 
     ! gcc-15 bugfix utility
