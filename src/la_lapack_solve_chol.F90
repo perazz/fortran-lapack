@@ -300,7 +300,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_sppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_sppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
                 berr,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -405,7 +405,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_slansp('I',uplo,n,ap,work)
+           call la_slansp_sub('I',uplo,n,ap,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_sppcon(uplo,n,afp,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -439,7 +439,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_dppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
                 berr,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -544,7 +544,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_dlansp('I',uplo,n,ap,work)
+           call la_dlansp_sub('I',uplo,n,ap,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_dppcon(uplo,n,afp,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -579,7 +579,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_xppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_xppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
                 berr,work,iwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -684,7 +684,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_xlansp('I',uplo,n,ap,work)
+           call la_xlansp_sub('I',uplo,n,ap,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_xppcon(uplo,n,afp,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -720,7 +720,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_qppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
                 berr,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -825,7 +825,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_qlansp('I',uplo,n,ap,work)
+           call la_qlansp_sub('I',uplo,n,ap,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_qppcon(uplo,n,afp,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -1348,7 +1348,7 @@ module la_lapack_solve_chol
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_dsposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_dsposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
         use la_constants_dp,only:negone,one
 
         ! -- lapack driver routine --
@@ -1404,7 +1404,7 @@ module la_lapack_solve_chol
               go to 40
            end if
            ! compute some constants.
-           anrm = la_dlansy('I',uplo,n,a,lda,work)
+           call la_dlansy_sub('I',uplo,n,a,lda,work,anrm)
            eps = la_dlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=dp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -1525,7 +1525,7 @@ module la_lapack_solve_chol
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_xdposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_xdposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
         use la_constants_xdp,only:negone,one
 
         ! -- lapack driver routine --
@@ -1581,7 +1581,7 @@ module la_lapack_solve_chol
               go to 40
            end if
            ! compute some constants.
-           anrm = la_xlansy('I',uplo,n,a,lda,work)
+           call la_xlansy_sub('I',uplo,n,a,lda,work,anrm)
            eps = la_xlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=xdp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -1703,7 +1703,7 @@ module la_lapack_solve_chol
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_qdposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_qdposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,iter,info)
         use la_constants_qp,only:negone,one
 
         ! -- lapack driver routine --
@@ -1759,7 +1759,7 @@ module la_lapack_solve_chol
               go to 40
            end if
            ! compute some constants.
-           anrm = la_qlansy('I',uplo,n,a,lda,work)
+           call la_qlansy_sub('I',uplo,n,a,lda,work,anrm)
            eps = la_qlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=qp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -2077,7 +2077,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_spbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+     pure subroutine la_spbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
                ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -2199,7 +2199,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_slansb('1',uplo,n,kd,ab,ldab,work)
+           call la_slansb_sub('1',uplo,n,kd,ab,ldab,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_spbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -2233,7 +2233,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+     pure subroutine la_dpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
                ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -2355,7 +2355,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_dlansb('1',uplo,n,kd,ab,ldab,work)
+           call la_dlansb_sub('1',uplo,n,kd,ab,ldab,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_dpbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -2390,7 +2390,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_xpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+     pure subroutine la_xpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
                ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -2512,7 +2512,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_xlansb('1',uplo,n,kd,ab,ldab,work)
+           call la_xlansb_sub('1',uplo,n,kd,ab,ldab,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_xpbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -2548,7 +2548,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+     pure subroutine la_qpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
                ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -2670,7 +2670,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_qlansb('1',uplo,n,kd,ab,ldab,work)
+           call la_qlansb_sub('1',uplo,n,kd,ab,ldab,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_qpbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -2911,7 +2911,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_sposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_sposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -3020,7 +3020,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_slansy('1',uplo,n,a,lda,work)
+           call la_slansy_sub('1',uplo,n,a,lda,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_spocon(uplo,n,af,ldaf,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -3054,7 +3054,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_dposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -3163,7 +3163,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_dlansy('1',uplo,n,a,lda,work)
+           call la_dlansy_sub('1',uplo,n,a,lda,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_dpocon(uplo,n,af,ldaf,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -3198,7 +3198,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_xposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_xposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,iwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -3307,7 +3307,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_xlansy('1',uplo,n,a,lda,work)
+           call la_xlansy_sub('1',uplo,n,a,lda,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_xpocon(uplo,n,af,ldaf,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -3343,7 +3343,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_qposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -3452,7 +3452,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_qlansy('1',uplo,n,a,lda,work)
+           call la_qlansy_sub('1',uplo,n,a,lda,work,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_qpocon(uplo,n,af,ldaf,anorm,rcond,work,iwork,info)
            ! compute the solution matrix x.
@@ -3685,7 +3685,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_cppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_cppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
                 berr,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -3791,7 +3791,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_clanhp('I',uplo,n,ap,rwork)
+           call la_clanhp_sub('I',uplo,n,ap,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_cppcon(uplo,n,afp,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -3825,7 +3825,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_zppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
                 berr,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -3931,7 +3931,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_zlanhp('I',uplo,n,ap,rwork)
+           call la_zlanhp_sub('I',uplo,n,ap,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_zppcon(uplo,n,afp,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -3966,7 +3966,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_yppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_yppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
                 berr,work,rwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -4072,7 +4072,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_ylanhp('I',uplo,n,ap,rwork)
+           call la_ylanhp_sub('I',uplo,n,ap,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_yppcon(uplo,n,afp,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -4108,7 +4108,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
+     pure subroutine la_wppsvx(fact,uplo,n,nrhs,ap,afp,equed,s,b,ldb,x,ldx,rcond,ferr, &
                 berr,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -4214,7 +4214,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_wlanhp('I',uplo,n,ap,rwork)
+           call la_wlanhp_sub('I',uplo,n,ap,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_wppcon(uplo,n,afp,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -4271,7 +4271,7 @@ module la_lapack_solve_chol
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_zcposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
+     pure subroutine la_zcposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
                info)
         use la_constants_dp,only:cone,cnegone
         ! -- lapack driver routine --
@@ -4333,7 +4333,7 @@ module la_lapack_solve_chol
               go to 40
            end if
            ! compute some constants.
-           anrm = la_zlanhe('I',uplo,n,a,lda,rwork)
+           call la_zlanhe_sub('I',uplo,n,a,lda,rwork,anrm)
            eps = la_dlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=dp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -4456,7 +4456,7 @@ module la_lapack_solve_chol
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_yzposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
+     pure subroutine la_yzposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
                info)
         use la_constants_xdp,only:cone,cnegone
         ! -- lapack driver routine --
@@ -4518,7 +4518,7 @@ module la_lapack_solve_chol
               go to 40
            end if
            ! compute some constants.
-           anrm = la_ylanhe('I',uplo,n,a,lda,rwork)
+           call la_ylanhe_sub('I',uplo,n,a,lda,rwork,anrm)
            eps = la_xlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=xdp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -4642,7 +4642,7 @@ module la_lapack_solve_chol
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_wzposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
+     pure subroutine la_wzposv(uplo,n,nrhs,a,lda,b,ldb,x,ldx,work,swork,rwork,iter, &
                info)
         use la_constants_qp,only:cone,cnegone
         ! -- lapack driver routine --
@@ -4704,7 +4704,7 @@ module la_lapack_solve_chol
               go to 40
            end if
            ! compute some constants.
-           anrm = la_wlanhe('I',uplo,n,a,lda,rwork)
+           call la_wlanhe_sub('I',uplo,n,a,lda,rwork,anrm)
            eps = la_qlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=qp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -5024,7 +5024,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_cpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+     pure subroutine la_cpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
                ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -5147,7 +5147,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_clanhb('1',uplo,n,kd,ab,ldab,rwork)
+           call la_clanhb_sub('1',uplo,n,kd,ab,ldab,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_cpbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -5181,7 +5181,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+     pure subroutine la_zpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
                ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -5304,7 +5304,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_zlanhb('1',uplo,n,kd,ab,ldab,rwork)
+           call la_zlanhb_sub('1',uplo,n,kd,ab,ldab,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_zpbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -5339,7 +5339,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_ypbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+     pure subroutine la_ypbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
                ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -5462,7 +5462,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_ylanhb('1',uplo,n,kd,ab,ldab,rwork)
+           call la_ylanhb_sub('1',uplo,n,kd,ab,ldab,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_ypbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -5498,7 +5498,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
+     pure subroutine la_wpbsvx(fact,uplo,n,kd,nrhs,ab,ldab,afb,ldafb,equed,s,b,ldb,x, &
                ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -5621,7 +5621,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_wlanhb('1',uplo,n,kd,ab,ldab,rwork)
+           call la_wlanhb_sub('1',uplo,n,kd,ab,ldab,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_wpbcon(uplo,n,kd,afb,ldafb,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -5862,7 +5862,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_cposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_cposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -5972,7 +5972,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_clanhe('1',uplo,n,a,lda,rwork)
+           call la_clanhe_sub('1',uplo,n,a,lda,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_cpocon(uplo,n,af,ldaf,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -6006,7 +6006,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_zposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -6116,7 +6116,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_zlanhe('1',uplo,n,a,lda,rwork)
+           call la_zlanhe_sub('1',uplo,n,a,lda,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_zpocon(uplo,n,af,ldaf,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -6151,7 +6151,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_yposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_yposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,rwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -6261,7 +6261,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_ylanhe('1',uplo,n,a,lda,rwork)
+           call la_ylanhe_sub('1',uplo,n,a,lda,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_ypocon(uplo,n,af,ldaf,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.
@@ -6297,7 +6297,7 @@ module la_lapack_solve_chol
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
+     pure subroutine la_wposvx(fact,uplo,n,nrhs,a,lda,af,ldaf,equed,s,b,ldb,x,ldx, &
                rcond,ferr,berr,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -6407,7 +6407,7 @@ module la_lapack_solve_chol
               end if
            end if
            ! compute the norm of the matrix a.
-           anorm = la_wlanhe('1',uplo,n,a,lda,rwork)
+           call la_wlanhe_sub('1',uplo,n,a,lda,rwork,anorm)
            ! compute the reciprocal of the condition number of a.
            call la_wpocon(uplo,n,af,ldaf,anorm,rcond,work,rwork,info)
            ! compute the solution matrix x.

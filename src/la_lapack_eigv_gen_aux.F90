@@ -2983,7 +2983,7 @@ module la_lapack_eigv_gen_aux
      !> has its diagonal elements equal and its off-diagonal elements of
      !> opposite sign.
 
-     subroutine la_slaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+     pure subroutine la_slaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
         use la_constants_sp,only:zero,one,ten
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3038,7 +3038,7 @@ module la_lapack_eigv_gen_aux
               ! and compute its norm.
               nd = n1 + n2
               call la_slacpy('FULL',nd,nd,t(j1,j1),ldt,d,ldd)
-              dnorm = la_slange('MAX',nd,nd,d,ldd,work)
+              call la_slange_sub('MAX',nd,nd,d,ldd,work,dnorm)
               ! compute machine-dependent threshold for test for accepting
               ! swap.
               eps = la_slamch('P')
@@ -3178,7 +3178,7 @@ module la_lapack_eigv_gen_aux
      !> has its diagonal elements equal and its off-diagonal elements of
      !> opposite sign.
 
-     subroutine la_dlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+     pure subroutine la_dlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
         use la_constants_dp,only:zero,one,ten
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3233,7 +3233,7 @@ module la_lapack_eigv_gen_aux
               ! and compute its norm.
               nd = n1 + n2
               call la_dlacpy('FULL',nd,nd,t(j1,j1),ldt,d,ldd)
-              dnorm = la_dlange('MAX',nd,nd,d,ldd,work)
+              call la_dlange_sub('MAX',nd,nd,d,ldd,work,dnorm)
               ! compute machine-dependent threshold for test for accepting
               ! swap.
               eps = la_dlamch('P')
@@ -3375,7 +3375,7 @@ module la_lapack_eigv_gen_aux
      !> has its diagonal elements equal and its off-diagonal elements of
      !> opposite sign.
 
-     subroutine la_xlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+     pure subroutine la_xlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
         use la_constants_xdp,only:zero,one,ten
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3430,7 +3430,7 @@ module la_lapack_eigv_gen_aux
               ! and compute its norm.
               nd = n1 + n2
               call la_xlacpy('FULL',nd,nd,t(j1,j1),ldt,d,ldd)
-              dnorm = la_xlange('MAX',nd,nd,d,ldd,work)
+              call la_xlange_sub('MAX',nd,nd,d,ldd,work,dnorm)
               ! compute machine-dependent threshold for test for accepting
               ! swap.
               eps = la_xlamch('P')
@@ -3573,7 +3573,7 @@ module la_lapack_eigv_gen_aux
      !> has its diagonal elements equal and its off-diagonal elements of
      !> opposite sign.
 
-     subroutine la_qlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+     pure subroutine la_qlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
         use la_constants_qp,only:zero,one,ten
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3628,7 +3628,7 @@ module la_lapack_eigv_gen_aux
               ! and compute its norm.
               nd = n1 + n2
               call la_qlacpy('FULL',nd,nd,t(j1,j1),ldt,d,ldd)
-              dnorm = la_qlange('MAX',nd,nd,d,ldd,work)
+              call la_qlange_sub('MAX',nd,nd,d,ldd,work,dnorm)
               ! compute machine-dependent threshold for test for accepting
               ! swap.
               eps = la_qlamch('P')
@@ -3774,7 +3774,7 @@ module la_lapack_eigv_gen_aux
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_strexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+     pure subroutine la_strexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3978,7 +3978,7 @@ module la_lapack_eigv_gen_aux
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_dtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+     pure subroutine la_dtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4183,7 +4183,7 @@ module la_lapack_eigv_gen_aux
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_xtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+     pure subroutine la_xtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4389,7 +4389,7 @@ module la_lapack_eigv_gen_aux
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_qtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+     pure subroutine la_qtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

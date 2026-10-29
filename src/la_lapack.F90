@@ -1437,7 +1437,7 @@ module la_lapack
           !> A complex matrix is in Schur form if it is upper triangular.
           interface gees
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
+               pure subroutine cgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
                          rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1454,7 +1454,7 @@ module la_lapack
                module procedure la_cgees
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work, &
+               pure subroutine dgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work, &
                          lwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1473,7 +1473,7 @@ module la_lapack
                module procedure la_qgees
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work, &
+               pure subroutine sgees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work, &
                          lwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1498,7 +1498,7 @@ module la_lapack
                module procedure la_ygees
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
+               pure subroutine zgees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
                          rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1537,7 +1537,7 @@ module la_lapack
           !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
           interface geesx
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
+               pure subroutine cgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
                          rcondv,work,lwork,rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1554,7 +1554,7 @@ module la_lapack
                module procedure la_cgeesx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
+               pure subroutine dgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
                          rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1573,7 +1573,7 @@ module la_lapack
                module procedure la_qgeesx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
+               pure subroutine sgeesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
                          rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1598,7 +1598,7 @@ module la_lapack
                module procedure la_ygeesx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
+               pure subroutine zgeesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
                          rcondv,work,lwork,rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1628,7 +1628,7 @@ module la_lapack
           !> equal to 1 and largest component real.
           interface geev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork, &
+               pure subroutine cgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1643,7 +1643,7 @@ module la_lapack
                module procedure la_cgeev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
+               pure subroutine dgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1660,7 +1660,7 @@ module la_lapack
                module procedure la_qgeev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
+               pure subroutine sgeev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1683,7 +1683,7 @@ module la_lapack
                module procedure la_ygeev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork, &
+               pure subroutine zgeev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1726,7 +1726,7 @@ module la_lapack
           !> Users' Guide.
           interface geevx
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
+               pure subroutine cgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
                          ihi,scale,abnrm,rconde,rcondv,work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1741,7 +1741,7 @@ module la_lapack
                module procedure la_cgeevx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
+               pure subroutine dgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
                          ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1759,7 +1759,7 @@ module la_lapack
                module procedure la_qgeevx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
+               pure subroutine sgeevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
                          ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -1783,7 +1783,7 @@ module la_lapack
                module procedure la_ygeevx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
+               pure subroutine zgeevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
                          ihi,scale,abnrm,rconde,rcondv,work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2237,7 +2237,7 @@ module la_lapack
           !> matrix X.
           interface gels
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine cgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2250,7 +2250,7 @@ module la_lapack
                module procedure la_cgels
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine dgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2266,7 +2266,7 @@ module la_lapack
                module procedure la_qgels
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine sgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2288,7 +2288,7 @@ module la_lapack
                module procedure la_ygels
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine zgels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -2329,7 +2329,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface gelsd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+               pure subroutine cgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                          iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2344,7 +2344,7 @@ module la_lapack
                module procedure la_cgelsd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
+               pure subroutine dgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2361,7 +2361,7 @@ module la_lapack
                module procedure la_qgelsd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
+               pure subroutine sgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2384,7 +2384,7 @@ module la_lapack
                module procedure la_ygelsd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+               pure subroutine zgelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                          iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2414,7 +2414,7 @@ module la_lapack
           !> value.
           interface gelss
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+               pure subroutine cgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2429,7 +2429,7 @@ module la_lapack
                module procedure la_cgelss
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
+               pure subroutine dgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2446,7 +2446,7 @@ module la_lapack
                module procedure la_qgelss
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
+               pure subroutine sgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2469,7 +2469,7 @@ module la_lapack
                module procedure la_ygelss
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+               pure subroutine zgelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2519,7 +2519,7 @@ module la_lapack
           !> o Matrix B (the right hand side) is updated with Blas-3.
           interface gelsy
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork, &
+               pure subroutine cgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2535,7 +2535,7 @@ module la_lapack
                module procedure la_cgelsy
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info &
+               pure subroutine dgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info &
                          )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2553,7 +2553,7 @@ module la_lapack
                module procedure la_qgelsy
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info &
+               pure subroutine sgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info &
                          )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -2577,7 +2577,7 @@ module la_lapack
                module procedure la_ygelsy
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork, &
+               pure subroutine zgelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3142,7 +3142,7 @@ module la_lapack
           !> 0 is a (m-n)-by-n zero matrix, if m > n.
           interface geqr2p
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgeqr2p(m,n,a,lda,tau,work,info)
+               pure subroutine cgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3154,7 +3154,7 @@ module la_lapack
                module procedure la_cgeqr2p
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgeqr2p(m,n,a,lda,tau,work,info)
+               pure subroutine dgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3169,7 +3169,7 @@ module la_lapack
                module procedure la_qgeqr2p
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgeqr2p(m,n,a,lda,tau,work,info)
+               pure subroutine sgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3190,7 +3190,7 @@ module la_lapack
                module procedure la_ygeqr2p
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgeqr2p(m,n,a,lda,tau,work,info)
+               pure subroutine zgeqr2p(m,n,a,lda,tau,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3283,7 +3283,7 @@ module la_lapack
           !> 0 is a (M-N)-by-N zero matrix, if M > N.
           interface geqrfp
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgeqrfp(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine cgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3295,7 +3295,7 @@ module la_lapack
                module procedure la_cgeqrfp
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgeqrfp(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine dgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3310,7 +3310,7 @@ module la_lapack
                module procedure la_qgeqrfp
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgeqrfp(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine sgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3331,7 +3331,7 @@ module la_lapack
                module procedure la_ygeqrfp
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgeqrfp(m,n,a,lda,tau,work,lwork,info)
+               pure subroutine zgeqrfp(m,n,a,lda,tau,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(out) :: info
@@ -3705,7 +3705,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface gesdd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+               pure subroutine cgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                          iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3720,7 +3720,7 @@ module la_lapack
                module procedure la_cgesdd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork, &
+               pure subroutine dgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3737,7 +3737,7 @@ module la_lapack
                module procedure la_qgesdd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork, &
+               pure subroutine sgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3760,7 +3760,7 @@ module la_lapack
                module procedure la_ygesdd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+               pure subroutine zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                          iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3857,7 +3857,7 @@ module la_lapack
           !> Note that the routine returns V**H, not V.
           interface gesvd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
+               pure subroutine cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3872,7 +3872,7 @@ module la_lapack
                module procedure la_cgesvd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
+               pure subroutine dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3889,7 +3889,7 @@ module la_lapack
                module procedure la_qgesvd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
+               pure subroutine sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3912,7 +3912,7 @@ module la_lapack
                module procedure la_ygesvd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
+               pure subroutine zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork, &
                          rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3939,7 +3939,7 @@ module la_lapack
           !> left and the right singular vectors of A, respectively.
           interface gesvdq
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+               pure subroutine cgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                          numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3955,7 +3955,7 @@ module la_lapack
                module procedure la_cgesvdq
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+               pure subroutine dgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                          numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3973,7 +3973,7 @@ module la_lapack
                module procedure la_qgesvdq
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+               pure subroutine sgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                          numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -3997,7 +3997,7 @@ module la_lapack
                module procedure la_ygesvdq
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+               pure subroutine zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                          numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4104,7 +4104,7 @@ module la_lapack
           !> provided.
           interface gesvx
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
+               pure subroutine cgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
                          ldx,rcond,ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4122,7 +4122,7 @@ module la_lapack
                module procedure la_cgesvx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
+               pure subroutine dgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
                          ldx,rcond,ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4141,7 +4141,7 @@ module la_lapack
                module procedure la_qgesvx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
+               pure subroutine sgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
                          ldx,rcond,ferr,berr,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4166,7 +4166,7 @@ module la_lapack
                module procedure la_ygesvx
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
+               pure subroutine zgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb,x, &
                          ldx,rcond,ferr,berr,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4488,7 +4488,7 @@ module la_lapack
           !> matrix X.
           interface getsls
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine cgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4501,7 +4501,7 @@ module la_lapack
                module procedure la_cgetsls
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine dgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4517,7 +4517,7 @@ module la_lapack
                module procedure la_qgetsls
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine sgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4539,7 +4539,7 @@ module la_lapack
                module procedure la_ygetsls
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+               pure subroutine zgetsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: trans
@@ -4809,7 +4809,7 @@ module la_lapack
           !> of T are non-negative real numbers.
           interface gges
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha, &
+               pure subroutine cgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha, &
                          beta,vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4827,7 +4827,7 @@ module la_lapack
                module procedure la_cgges
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+               pure subroutine dgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                          alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4847,7 +4847,7 @@ module la_lapack
                module procedure la_qgges
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+               pure subroutine sgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                          alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4873,7 +4873,7 @@ module la_lapack
                module procedure la_ygges
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha, &
+               pure subroutine zgges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha, &
                          beta,vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4920,7 +4920,7 @@ module la_lapack
           !> complex conjugate pair of generalized eigenvalues.
           interface gges3
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+               pure subroutine cgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                          vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4938,7 +4938,7 @@ module la_lapack
                module procedure la_cgges3
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+               pure subroutine dgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                          alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4958,7 +4958,7 @@ module la_lapack
                module procedure la_qgges3
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+               pure subroutine sgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                          alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -4984,7 +4984,7 @@ module la_lapack
                module procedure la_ygges3
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+               pure subroutine zgges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                          vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5020,7 +5020,7 @@ module la_lapack
           !> where u(j)**H is the conjugate-transpose of u(j).
           interface ggev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+               pure subroutine cggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                          work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5036,7 +5036,7 @@ module la_lapack
                module procedure la_cggev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl, &
+               pure subroutine dggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl, &
                          vr,ldvr,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5054,7 +5054,7 @@ module la_lapack
                module procedure la_qggev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl, &
+               pure subroutine sggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl, &
                          vr,ldvr,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5078,7 +5078,7 @@ module la_lapack
                module procedure la_yggev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+               pure subroutine zggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                          work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5112,7 +5112,7 @@ module la_lapack
           !> where u(j)**H is the conjugate-transpose of u(j).
           interface ggev3
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+               pure subroutine cggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                          work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5128,7 +5128,7 @@ module la_lapack
                module procedure la_cggev3
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+               pure subroutine dggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                          ldvr,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5146,7 +5146,7 @@ module la_lapack
                module procedure la_qggev3
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+               pure subroutine sggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                          ldvr,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -5170,7 +5170,7 @@ module la_lapack
                module procedure la_yggev3
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+               pure subroutine zggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                          work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6302,7 +6302,7 @@ module la_lapack
           !> a complex Hermitian band matrix A.
           interface hbev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+               pure subroutine chbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6323,7 +6323,7 @@ module la_lapack
                module procedure la_yhbev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+               pure subroutine zhbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6350,7 +6350,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface hbevd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork, &
+               pure subroutine chbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6371,7 +6371,7 @@ module la_lapack
                module procedure la_yhbevd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork, &
+               pure subroutine zhbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6708,7 +6708,7 @@ module la_lapack
           !> complex Hermitian matrix A.
           interface heev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+               pure subroutine cheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -6728,7 +6728,7 @@ module la_lapack
                module procedure la_yheev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+               pure subroutine zheev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -6754,7 +6754,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface heevd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork, &
+               pure subroutine cheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6775,7 +6775,7 @@ module la_lapack
                module procedure la_yheevd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork, &
+               pure subroutine zheevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6843,7 +6843,7 @@ module la_lapack
           !> manner.
           interface heevr
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
+               pure subroutine cheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
                          ldz,isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6865,7 +6865,7 @@ module la_lapack
                module procedure la_yheevr
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
+               pure subroutine zheevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
                          ldz,isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6929,7 +6929,7 @@ module la_lapack
           !> positive definite.
           interface hegv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info &
+               pure subroutine chegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info &
                          )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6950,7 +6950,7 @@ module la_lapack
                module procedure la_yhegv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info &
+               pure subroutine zhegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info &
                          )
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -6979,7 +6979,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface hegvd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork, &
+               pure subroutine chegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -7000,7 +7000,7 @@ module la_lapack
                module procedure la_yhegvd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork, &
+               pure subroutine zhegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8023,7 +8023,7 @@ module la_lapack
           !> pp. 241--256.
           interface hgeqz
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q, &
+               pure subroutine chgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q, &
                          ldq,z,ldz,work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8038,7 +8038,7 @@ module la_lapack
                module procedure la_chgeqz
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+               pure subroutine dhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                          beta,q,ldq,z,ldz,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8055,7 +8055,7 @@ module la_lapack
                module procedure la_qhgeqz
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine shgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+               pure subroutine shgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                          beta,q,ldq,z,ldz,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8078,7 +8078,7 @@ module la_lapack
                module procedure la_yhgeqz
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q, &
+               pure subroutine zhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q, &
                          ldq,z,ldz,work,lwork,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8142,7 +8142,7 @@ module la_lapack
           !> complex Hermitian matrix in packed storage.
           interface hpev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+               pure subroutine chpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -8162,7 +8162,7 @@ module la_lapack
                module procedure la_yhpev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+               pure subroutine zhpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -8188,7 +8188,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface hpevd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+               pure subroutine chpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8209,7 +8209,7 @@ module la_lapack
                module procedure la_yhpevd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+               pure subroutine zhpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8274,7 +8274,7 @@ module la_lapack
           !> and B is also positive definite.
           interface hpgv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+               pure subroutine chpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8295,7 +8295,7 @@ module la_lapack
                module procedure la_yhpgv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+               pure subroutine zhpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8325,7 +8325,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface hpgvd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork, &
+               pure subroutine chpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8346,7 +8346,7 @@ module la_lapack
                module procedure la_yhpgvd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork, &
+               pure subroutine zhpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork, &
                          lrwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8614,7 +8614,7 @@ module la_lapack
           !> where y**h denotes the conjugate transpose of the vector y.
           interface hsein
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine chsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr, &
+               pure subroutine chsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr, &
                          mm,m,work,rwork,ifaill,ifailr,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8631,7 +8631,7 @@ module la_lapack
                module procedure la_chsein
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr, &
+               pure subroutine dhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr, &
                          ldvr,mm,m,work,ifaill,ifailr,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8650,7 +8650,7 @@ module la_lapack
                module procedure la_qhsein
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine shsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr, &
+               pure subroutine shsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr, &
                          ldvr,mm,m,work,ifaill,ifailr,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8675,7 +8675,7 @@ module la_lapack
                module procedure la_yhsein
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr, &
+               pure subroutine zhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr, &
                          mm,m,work,rwork,ifaill,ifailr,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8717,7 +8717,7 @@ module la_lapack
                module procedure la_chseqr
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork, &
+               pure subroutine dhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8734,7 +8734,7 @@ module la_lapack
                module procedure la_qhseqr
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine shseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork, &
+               pure subroutine shseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork, &
                          info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8817,7 +8817,7 @@ module la_lapack
           !> in computing that entry have at least one zero multiplicand.
           interface la_gbamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+               pure subroutine cla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8830,7 +8830,7 @@ module la_lapack
                module procedure la_cla_gbamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+               pure subroutine dla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8845,7 +8845,7 @@ module la_lapack
                module procedure la_qla_gbamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+               pure subroutine sla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8866,7 +8866,7 @@ module la_lapack
                module procedure la_yla_gbamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+               pure subroutine zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -8926,6 +8926,20 @@ module la_lapack
 #endif
           end interface la_gbrcond
 
+          !> Pure subroutine form of LA_GBRCOND: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_gbrcond_sub
+               module procedure la_dla_gbrcond_sub
+#ifdef LA_WITH_QP
+               module procedure la_qla_gbrcond_sub
+#endif
+               module procedure la_sla_gbrcond_sub
+#ifdef LA_WITH_XDP
+               module procedure la_xla_gbrcond_sub
+#endif
+          end interface la_gbrcond_sub
+
           !> LA_GBRCOND_C: Computes the infinity norm condition number of
           !> op(A) * inv(diag(C)) where C is a REAL vector.
           interface la_gbrcond_c
@@ -8970,6 +8984,20 @@ module la_lapack
                module procedure la_zla_gbrcond_c
 #endif
           end interface la_gbrcond_c
+
+          !> Pure subroutine form of LA_GBRCOND_C: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_gbrcond_c_sub
+               module procedure la_cla_gbrcond_c_sub
+#ifdef LA_WITH_QP
+               module procedure la_wla_gbrcond_c_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_gbrcond_c_sub
+#endif
+               module procedure la_zla_gbrcond_c_sub
+          end interface la_gbrcond_c_sub
 
           !> LA_GBRPVGRW: computes the reciprocal pivot growth factor
           !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -9051,7 +9079,7 @@ module la_lapack
           !> in computing that entry have at least one zero multiplicand.
           interface la_geamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta
@@ -9063,7 +9091,7 @@ module la_lapack
                module procedure la_cla_geamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -9077,7 +9105,7 @@ module la_lapack
                module procedure la_qla_geamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine sla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -9097,7 +9125,7 @@ module la_lapack
                module procedure la_yla_geamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta
@@ -9156,6 +9184,20 @@ module la_lapack
 #endif
           end interface la_gercond
 
+          !> Pure subroutine form of LA_GERCOND: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_gercond_sub
+               module procedure la_dla_gercond_sub
+#ifdef LA_WITH_QP
+               module procedure la_qla_gercond_sub
+#endif
+               module procedure la_sla_gercond_sub
+#ifdef LA_WITH_XDP
+               module procedure la_xla_gercond_sub
+#endif
+          end interface la_gercond_sub
+
           !> LA_GERCOND_C: computes the infinity norm condition number of
           !> op(A) * inv(diag(C)) where C is a REAL vector.
           interface la_gercond_c
@@ -9200,6 +9242,20 @@ module la_lapack
                module procedure la_zla_gercond_c
 #endif
           end interface la_gercond_c
+
+          !> Pure subroutine form of LA_GERCOND_C: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_gercond_c_sub
+               module procedure la_cla_gercond_c_sub
+#ifdef LA_WITH_QP
+               module procedure la_wla_gercond_c_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_gercond_c_sub
+#endif
+               module procedure la_zla_gercond_c_sub
+          end interface la_gercond_c_sub
 
           !> LA_GERPVGRW: computes the reciprocal pivot growth factor
           !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -9276,7 +9332,7 @@ module la_lapack
           !> in computing that entry have at least one zero multiplicand.
           interface la_heamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta
@@ -9294,7 +9350,7 @@ module la_lapack
                module procedure la_yla_heamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta
@@ -9352,6 +9408,20 @@ module la_lapack
 #endif
           end interface la_hercond_c
 
+          !> Pure subroutine form of LA_HERCOND_C: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_hercond_c_sub
+               module procedure la_cla_hercond_c_sub
+#ifdef LA_WITH_QP
+               module procedure la_wla_hercond_c_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_hercond_c_sub
+#endif
+               module procedure la_zla_hercond_c_sub
+          end interface la_hercond_c_sub
+
           !> LA_HERPVGRW: computes the reciprocal pivot growth factor
           !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
           !> much less than 1, the stability of the LU factorization of the
@@ -9392,6 +9462,20 @@ module la_lapack
                module procedure la_zla_herpvgrw
 #endif
           end interface la_herpvgrw
+
+          !> Pure subroutine form of LA_HERPVGRW: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_herpvgrw_sub
+               module procedure la_cla_herpvgrw_sub
+#ifdef LA_WITH_QP
+               module procedure la_wla_herpvgrw_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_herpvgrw_sub
+#endif
+               module procedure la_zla_herpvgrw_sub
+          end interface la_herpvgrw_sub
 
           !> LA_LIN_BERR: computes componentwise relative backward error from
           !> the formula
@@ -9505,6 +9589,20 @@ module la_lapack
 #endif
           end interface la_porcond
 
+          !> Pure subroutine form of LA_PORCOND: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_porcond_sub
+               module procedure la_dla_porcond_sub
+#ifdef LA_WITH_QP
+               module procedure la_qla_porcond_sub
+#endif
+               module procedure la_sla_porcond_sub
+#ifdef LA_WITH_XDP
+               module procedure la_xla_porcond_sub
+#endif
+          end interface la_porcond_sub
+
           !> LA_PORCOND_C: Computes the infinity norm condition number of
           !> op(A) * inv(diag(C)) where C is a REAL vector
           interface la_porcond_c
@@ -9549,6 +9647,20 @@ module la_lapack
                module procedure la_zla_porcond_c
 #endif
           end interface la_porcond_c
+
+          !> Pure subroutine form of LA_PORCOND_C: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_porcond_c_sub
+               module procedure la_cla_porcond_c_sub
+#ifdef LA_WITH_QP
+               module procedure la_wla_porcond_c_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_porcond_c_sub
+#endif
+               module procedure la_zla_porcond_c_sub
+          end interface la_porcond_c_sub
 
           !> LA_PORPVGRW: computes the reciprocal pivot growth factor
           !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -9619,6 +9731,28 @@ module la_lapack
 #endif
           end interface la_porpvgrw
 
+          !> Pure subroutine form of LA_PORPVGRW: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_porpvgrw_sub
+               module procedure la_cla_porpvgrw_sub
+               module procedure la_dla_porpvgrw_sub
+#ifdef LA_WITH_QP
+               module procedure la_qla_porpvgrw_sub
+#endif
+               module procedure la_sla_porpvgrw_sub
+#ifdef LA_WITH_QP
+               module procedure la_wla_porpvgrw_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_porpvgrw_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_porpvgrw_sub
+#endif
+               module procedure la_zla_porpvgrw_sub
+          end interface la_porpvgrw_sub
+
           !> LA_SYAMV:  performs the matrix-vector operation
           !> y := alpha*abs(A)*abs(x) + beta*abs(y),
           !> where alpha and beta are scalars, x and y are vectors and A is an
@@ -9633,7 +9767,7 @@ module la_lapack
           !> in computing that entry have at least one zero multiplicand.
           interface la_syamv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta
@@ -9645,7 +9779,7 @@ module la_lapack
                module procedure la_cla_syamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -9659,7 +9793,7 @@ module la_lapack
                module procedure la_qla_syamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine sla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(sp),intent(in) :: alpha,beta,a(lda,*),x(*)
@@ -9679,7 +9813,7 @@ module la_lapack
                module procedure la_yla_syamv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+               pure subroutine zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     real(dp),intent(in) :: alpha,beta
@@ -9738,6 +9872,20 @@ module la_lapack
 #endif
           end interface la_syrcond
 
+          !> Pure subroutine form of LA_SYRCOND: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_syrcond_sub
+               module procedure la_dla_syrcond_sub
+#ifdef LA_WITH_QP
+               module procedure la_qla_syrcond_sub
+#endif
+               module procedure la_sla_syrcond_sub
+#ifdef LA_WITH_XDP
+               module procedure la_xla_syrcond_sub
+#endif
+          end interface la_syrcond_sub
+
           !> LA_SYRCOND_C: Computes the infinity norm condition number of
           !> op(A) * inv(diag(C)) where C is a REAL vector.
           interface la_syrcond_c
@@ -9782,6 +9930,20 @@ module la_lapack
                module procedure la_zla_syrcond_c
 #endif
           end interface la_syrcond_c
+
+          !> Pure subroutine form of LA_SYRCOND_C: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_syrcond_c_sub
+               module procedure la_cla_syrcond_c_sub
+#ifdef LA_WITH_QP
+               module procedure la_wla_syrcond_c_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_syrcond_c_sub
+#endif
+               module procedure la_zla_syrcond_c_sub
+          end interface la_syrcond_c_sub
 
           !> LA_SYRPVGRW: computes the reciprocal pivot growth factor
           !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -9855,6 +10017,28 @@ module la_lapack
                module procedure la_zla_syrpvgrw
 #endif
           end interface la_syrpvgrw
+
+          !> Pure subroutine form of LA_SYRPVGRW: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface la_syrpvgrw_sub
+               module procedure la_cla_syrpvgrw_sub
+               module procedure la_dla_syrpvgrw_sub
+#ifdef LA_WITH_QP
+               module procedure la_qla_syrpvgrw_sub
+#endif
+               module procedure la_sla_syrpvgrw_sub
+#ifdef LA_WITH_QP
+               module procedure la_wla_syrpvgrw_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xla_syrpvgrw_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_yla_syrpvgrw_sub
+#endif
+               module procedure la_zla_syrpvgrw_sub
+          end interface la_syrpvgrw_sub
 
           !> LA_WWADDW: adds a vector W into a doubled-single vector (X, Y).
           !> This works for all extant IBM's hex and binary floating point
@@ -11122,7 +11306,7 @@ module la_lapack
           !> opposite sign.
           interface laexc
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+               pure subroutine dlaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq
@@ -11138,7 +11322,7 @@ module la_lapack
                module procedure la_qlaexc
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine slaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+               pure subroutine slaexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: wantq
@@ -12298,6 +12482,28 @@ module la_lapack
 #endif
           end interface langb
 
+          !> Pure subroutine form of LANGB: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface langb_sub
+               module procedure la_clangb_sub
+               module procedure la_dlangb_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlangb_sub
+#endif
+               module procedure la_slangb_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlangb_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlangb_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylangb_sub
+#endif
+               module procedure la_zlangb_sub
+          end interface langb_sub
+
           !> LANGE:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
           !> complex matrix A.
@@ -12363,6 +12569,28 @@ module la_lapack
                module procedure la_zlange
 #endif
           end interface lange
+
+          !> Pure subroutine form of LANGE: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lange_sub
+               module procedure la_clange_sub
+               module procedure la_dlange_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlange_sub
+#endif
+               module procedure la_slange_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlange_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlange_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylange_sub
+#endif
+               module procedure la_zlange_sub
+          end interface lange_sub
 
           !> LANGT:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -12462,6 +12690,20 @@ module la_lapack
 #endif
           end interface lanhb
 
+          !> Pure subroutine form of LANHB: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lanhb_sub
+               module procedure la_clanhb_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlanhb_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhb_sub
+#endif
+               module procedure la_zlanhb_sub
+          end interface lanhb_sub
+
           !> LANHE:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
           !> complex hermitian matrix A.
@@ -12497,6 +12739,20 @@ module la_lapack
                module procedure la_zlanhe
 #endif
           end interface lanhe
+
+          !> Pure subroutine form of LANHE: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lanhe_sub
+               module procedure la_clanhe_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlanhe_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhe_sub
+#endif
+               module procedure la_zlanhe_sub
+          end interface lanhe_sub
 
           !> LANHF:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -12534,6 +12790,20 @@ module la_lapack
 #endif
           end interface lanhf
 
+          !> Pure subroutine form of LANHF: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lanhf_sub
+               module procedure la_clanhf_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlanhf_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhf_sub
+#endif
+               module procedure la_zlanhf_sub
+          end interface lanhf_sub
+
           !> LANHP:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
           !> complex hermitian matrix A,  supplied in packed form.
@@ -12569,6 +12839,20 @@ module la_lapack
                module procedure la_zlanhp
 #endif
           end interface lanhp
+
+          !> Pure subroutine form of LANHP: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lanhp_sub
+               module procedure la_clanhp_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlanhp_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhp_sub
+#endif
+               module procedure la_zlanhp_sub
+          end interface lanhp_sub
 
           !> LANHS:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -12635,6 +12919,28 @@ module la_lapack
                module procedure la_zlanhs
 #endif
           end interface lanhs
+
+          !> Pure subroutine form of LANHS: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lanhs_sub
+               module procedure la_clanhs_sub
+               module procedure la_dlanhs_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlanhs_sub
+#endif
+               module procedure la_slanhs_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlanhs_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlanhs_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylanhs_sub
+#endif
+               module procedure la_zlanhs_sub
+          end interface lanhs_sub
 
           !> LANHT:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -12738,6 +13044,28 @@ module la_lapack
 #endif
           end interface lansb
 
+          !> Pure subroutine form of LANSB: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lansb_sub
+               module procedure la_clansb_sub
+               module procedure la_dlansb_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlansb_sub
+#endif
+               module procedure la_slansb_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlansb_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlansb_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylansb_sub
+#endif
+               module procedure la_zlansb_sub
+          end interface lansb_sub
+
           !> LANSF: returns the value of the one norm, or the Frobenius norm, or
           !> the infinity norm, or the element of largest absolute value of a
           !> real symmetric matrix A in RFP format.
@@ -12773,6 +13101,20 @@ module la_lapack
                module procedure la_xlansf
 #endif
           end interface lansf
+
+          !> Pure subroutine form of LANSF: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lansf_sub
+               module procedure la_dlansf_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlansf_sub
+#endif
+               module procedure la_slansf_sub
+#ifdef LA_WITH_XDP
+               module procedure la_xlansf_sub
+#endif
+          end interface lansf_sub
 
           !> LANSP:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -12839,6 +13181,28 @@ module la_lapack
                module procedure la_zlansp
 #endif
           end interface lansp
+
+          !> Pure subroutine form of LANSP: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lansp_sub
+               module procedure la_clansp_sub
+               module procedure la_dlansp_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlansp_sub
+#endif
+               module procedure la_slansp_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlansp_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlansp_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylansp_sub
+#endif
+               module procedure la_zlansp_sub
+          end interface lansp_sub
 
           !> LANST:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
@@ -12940,6 +13304,28 @@ module la_lapack
 #endif
           end interface lansy
 
+          !> Pure subroutine form of LANSY: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lansy_sub
+               module procedure la_clansy_sub
+               module procedure la_dlansy_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlansy_sub
+#endif
+               module procedure la_slansy_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlansy_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlansy_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylansy_sub
+#endif
+               module procedure la_zlansy_sub
+          end interface lansy_sub
+
           !> LANTB:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the element of  largest absolute value  of an
           !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
@@ -13008,6 +13394,28 @@ module la_lapack
 #endif
           end interface lantb
 
+          !> Pure subroutine form of LANTB: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lantb_sub
+               module procedure la_clantb_sub
+               module procedure la_dlantb_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlantb_sub
+#endif
+               module procedure la_slantb_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlantb_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlantb_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylantb_sub
+#endif
+               module procedure la_zlantb_sub
+          end interface lantb_sub
+
           !> LANTP:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
           !> triangular matrix A, supplied in packed form.
@@ -13074,6 +13482,28 @@ module la_lapack
 #endif
           end interface lantp
 
+          !> Pure subroutine form of LANTP: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lantp_sub
+               module procedure la_clantp_sub
+               module procedure la_dlantp_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlantp_sub
+#endif
+               module procedure la_slantp_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlantp_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlantp_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylantp_sub
+#endif
+               module procedure la_zlantp_sub
+          end interface lantp_sub
+
           !> LANTR:  returns the value of the one norm,  or the Frobenius norm, or
           !> the  infinity norm,  or the  element of  largest absolute value  of a
           !> trapezoidal or triangular matrix A.
@@ -13139,6 +13569,28 @@ module la_lapack
                module procedure la_zlantr
 #endif
           end interface lantr
+
+          !> Pure subroutine form of LANTR: the same arguments, followed by RES, which
+          !> returns the value of the function.  Bound to the bundled implementation
+          !> in every build.
+          interface lantr_sub
+               module procedure la_clantr_sub
+               module procedure la_dlantr_sub
+#ifdef LA_WITH_QP
+               module procedure la_qlantr_sub
+#endif
+               module procedure la_slantr_sub
+#ifdef LA_WITH_QP
+               module procedure la_wlantr_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_xlantr_sub
+#endif
+#ifdef LA_WITH_XDP
+               module procedure la_ylantr_sub
+#endif
+               module procedure la_zlantr_sub
+          end interface lantr_sub
 
           !> LAORHR_COL_GETRFNP: computes the modified LU factorization without
           !> pivoting of a real general M-by-N matrix A. The factorization has
@@ -13843,7 +14295,7 @@ module la_lapack
                module procedure la_claqr0
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
+               pure subroutine dlaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
                          work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -13860,7 +14312,7 @@ module la_lapack
                module procedure la_qlaqr0
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine slaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
+               pure subroutine slaqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
                          work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -13993,7 +14445,7 @@ module la_lapack
                module procedure la_claqr4
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
+               pure subroutine dlaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
                          work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -14010,7 +14462,7 @@ module la_lapack
                module procedure la_qlaqr4
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine slaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
+               pure subroutine slaqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz, &
                          work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -14348,7 +14800,7 @@ module la_lapack
           !> in routine DTRSNA.
           interface laqtr
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dlaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
+               pure subroutine dlaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: lreal,ltran
@@ -14365,7 +14817,7 @@ module la_lapack
                module procedure la_qlaqtr
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine slaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
+               pure subroutine slaqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     logical(lk),intent(in) :: lreal,ltran
@@ -14425,7 +14877,7 @@ module la_lapack
           !> multipole rational QZ method with agressive early deflation"
           interface laqz0
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine claqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
+               pure recursive subroutine claqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
                          alpha,beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -14440,7 +14892,7 @@ module la_lapack
                module procedure la_claqz0
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine dlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
+               pure recursive subroutine dlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
                          alphar,alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -14457,7 +14909,7 @@ module la_lapack
                module procedure la_qlaqz0
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine slaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
+               pure recursive subroutine slaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
                          alphar,alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -14480,7 +14932,7 @@ module la_lapack
                module procedure la_ylaqz0
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine zlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
+               pure recursive subroutine zlaqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb, &
                          alpha,beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -15119,7 +15571,7 @@ module la_lapack
           !> and H is taken to be the unit matrix.
           interface larfgp
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine clarfgp(n,alpha,x,incx,tau)
+               pure subroutine clarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -15130,7 +15582,7 @@ module la_lapack
                module procedure la_clarfgp
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dlarfgp(n,alpha,x,incx,tau)
+               pure subroutine dlarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -15144,7 +15596,7 @@ module la_lapack
                module procedure la_qlarfgp
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine slarfgp(n,alpha,x,incx,tau)
+               pure subroutine slarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -15164,7 +15616,7 @@ module la_lapack
                module procedure la_ylarfgp
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zlarfgp(n,alpha,x,incx,tau)
+               pure subroutine zlarfgp(n,alpha,x,incx,tau)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     integer(ilp),intent(in) :: incx,n
@@ -18695,7 +19147,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface orbdb
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+               pure subroutine dorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18714,7 +19166,7 @@ module la_lapack
                module procedure la_qorbdb
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+               pure subroutine sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18751,7 +19203,7 @@ module la_lapack
           !> angles THETA, PHI.
           interface orbdb1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine dorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18768,7 +19220,7 @@ module la_lapack
                module procedure la_qorbdb1
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18803,7 +19255,7 @@ module la_lapack
           !> angles THETA, PHI.
           interface orbdb2
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine dorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18820,7 +19272,7 @@ module la_lapack
                module procedure la_qorbdb2
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18855,7 +19307,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface orbdb3
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine dorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18872,7 +19324,7 @@ module la_lapack
                module procedure la_qorbdb3
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18907,7 +19359,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface orbdb4
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine dorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -18924,7 +19376,7 @@ module la_lapack
                module procedure la_qorbdb4
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -19051,7 +19503,7 @@ module la_lapack
           !> which R = MIN(P,M-P,Q,M-Q).
           interface orcsd
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine dorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
+               pure recursive subroutine dorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
                          ldv1t,v2t,ldv2t,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -19072,7 +19524,7 @@ module la_lapack
                module procedure la_qorcsd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
+               pure recursive subroutine sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
                          ldv1t,v2t,ldv2t,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -19111,7 +19563,7 @@ module la_lapack
           !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
           interface orcsd2by1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+               pure subroutine dorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -19129,7 +19581,7 @@ module la_lapack
                module procedure la_qorcsd2by1
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+               pure subroutine sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -22682,7 +23134,7 @@ module la_lapack
           !> a real symmetric band matrix A.
           interface sbev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+               pure subroutine dsbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -22698,7 +23150,7 @@ module la_lapack
                module procedure la_qsbev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ssbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+               pure subroutine ssbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -22726,7 +23178,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface sbevd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork, &
+               pure subroutine dsbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -22743,7 +23195,7 @@ module la_lapack
                module procedure la_qsbevd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ssbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork, &
+               pure subroutine ssbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -23057,7 +23509,7 @@ module la_lapack
           !> real symmetric matrix A in packed storage.
           interface spev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+               pure subroutine dspev(jobz,uplo,n,ap,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -23073,7 +23525,7 @@ module la_lapack
                module procedure la_qspev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sspev(jobz,uplo,n,ap,w,z,ldz,work,info)
+               pure subroutine sspev(jobz,uplo,n,ap,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -23101,7 +23553,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface spevd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+               pure subroutine dspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -23118,7 +23570,7 @@ module la_lapack
                module procedure la_qspevd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+               pure subroutine sspevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -23185,7 +23637,7 @@ module la_lapack
           !> and B is also positive definite.
           interface spgv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+               pure subroutine dspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -23201,7 +23653,7 @@ module la_lapack
                module procedure la_qspgv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+               pure subroutine sspgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -23232,7 +23684,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface spgvd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork, &
+               pure subroutine dspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -23249,7 +23701,7 @@ module la_lapack
                module procedure la_qspgvd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine sspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork, &
+               pure subroutine sspgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -24924,7 +25376,7 @@ module la_lapack
           !> real symmetric matrix A.
           interface syev
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+               pure subroutine dsyev(jobz,uplo,n,a,lda,w,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -24940,7 +25392,7 @@ module la_lapack
                module procedure la_qsyev
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ssyev(jobz,uplo,n,a,lda,w,work,lwork,info)
+               pure subroutine ssyev(jobz,uplo,n,a,lda,w,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: jobz,uplo
@@ -24970,7 +25422,7 @@ module la_lapack
           !> workspace than DSYEVX.
           interface syevd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+               pure subroutine dsyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -24987,7 +25439,7 @@ module la_lapack
                module procedure la_qsyevd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ssyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+               pure subroutine ssyevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25057,7 +25509,7 @@ module la_lapack
           !> manner.
           interface syevr
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
+               pure subroutine dsyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
                          ldz,isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25075,7 +25527,7 @@ module la_lapack
                module procedure la_qsyevr
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ssyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
+               pure subroutine ssyevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z, &
                          ldz,isuppz,work,lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25143,7 +25595,7 @@ module la_lapack
           !> positive definite.
           interface sygv
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+               pure subroutine dsygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25160,7 +25612,7 @@ module la_lapack
                module procedure la_qsygv
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ssygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+               pure subroutine ssygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25191,7 +25643,7 @@ module la_lapack
           !> without guard digits, but we know of none.
           interface sygvd
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork, &
+               pure subroutine dsygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -25208,7 +25660,7 @@ module la_lapack
                module procedure la_qsygvd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ssygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork, &
+               pure subroutine ssygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork, &
                          liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -26851,7 +27303,7 @@ module la_lapack
           !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
           interface tbcon
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ctbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+               pure subroutine ctbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -26866,7 +27318,7 @@ module la_lapack
                module procedure la_ctbcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+               pure subroutine dtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -26883,7 +27335,7 @@ module la_lapack
                module procedure la_qtbcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine stbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+               pure subroutine stbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -26906,7 +27358,7 @@ module la_lapack
                module procedure la_ytbcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ztbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+               pure subroutine ztbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -27968,7 +28420,7 @@ module la_lapack
           !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
           interface tpcon
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ctpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+               pure subroutine ctpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,norm,uplo
@@ -27982,7 +28434,7 @@ module la_lapack
                module procedure la_ctpcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+               pure subroutine dtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,norm,uplo
@@ -27998,7 +28450,7 @@ module la_lapack
                module procedure la_qtpcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine stpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+               pure subroutine stpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,norm,uplo
@@ -28020,7 +28472,7 @@ module la_lapack
                module procedure la_ytpcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ztpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+               pure subroutine ztpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,norm,uplo
@@ -28893,7 +29345,7 @@ module la_lapack
           !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
           interface trcon
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ctrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+               pure subroutine ctrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,norm,uplo
@@ -28907,7 +29359,7 @@ module la_lapack
                module procedure la_ctrcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+               pure subroutine dtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,norm,uplo
@@ -28923,7 +29375,7 @@ module la_lapack
                module procedure la_qtrcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine strcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+               pure subroutine strcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,norm,uplo
@@ -28945,7 +29397,7 @@ module la_lapack
                module procedure la_ytrcon
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ztrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+               pure subroutine ztrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: diag,norm,uplo
@@ -29169,7 +29621,7 @@ module la_lapack
                module procedure la_ctrexc
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+               pure subroutine dtrexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq
@@ -29186,7 +29638,7 @@ module la_lapack
                module procedure la_qtrexc
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine strexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+               pure subroutine strexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
                     character,intent(in) :: compq
@@ -29310,7 +29762,7 @@ module la_lapack
           !> the cluster of eigenvalues and/or the invariant subspace.
           interface trsen
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ctrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+               pure subroutine ctrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                           info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29326,7 +29778,7 @@ module la_lapack
                module procedure la_ctrsen
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+               pure subroutine dtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                          lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29344,7 +29796,7 @@ module la_lapack
                module procedure la_qtrsen
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine strsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+               pure subroutine strsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                          lwork,iwork,liwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29368,7 +29820,7 @@ module la_lapack
                module procedure la_ytrsen
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ztrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+               pure subroutine ztrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                           info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29406,7 +29858,7 @@ module la_lapack
                module procedure la_ctrsna
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
+               pure subroutine dtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
                          m,work,ldwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29424,7 +29876,7 @@ module la_lapack
                module procedure la_qtrsna
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine strsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
+               pure subroutine strsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm, &
                          m,work,ldwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29474,7 +29926,7 @@ module la_lapack
           !> overflow in X.
           interface trsyl
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ctrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+               pure subroutine ctrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29489,7 +29941,7 @@ module la_lapack
                module procedure la_ctrsyl
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine dtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+               pure subroutine dtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29507,7 +29959,7 @@ module la_lapack
                module procedure la_qtrsyl
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine strsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+               pure subroutine strsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29531,7 +29983,7 @@ module la_lapack
                module procedure la_ytrsyl
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine ztrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+               pure subroutine ztrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
                          
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29909,7 +30361,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface unbdb
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+               pure subroutine cunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29932,7 +30384,7 @@ module la_lapack
                module procedure la_yunbdb
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+               pure subroutine zunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                          ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29967,7 +30419,7 @@ module la_lapack
           !> angles THETA, PHI.
           interface unbdb1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine cunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -29987,7 +30439,7 @@ module la_lapack
                module procedure la_yunbdb1
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine zunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -30019,7 +30471,7 @@ module la_lapack
           !> angles THETA, PHI.
           interface unbdb2
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine cunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -30039,7 +30491,7 @@ module la_lapack
                module procedure la_yunbdb2
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine zunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -30071,7 +30523,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface unbdb3
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine cunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -30091,7 +30543,7 @@ module la_lapack
                module procedure la_yunbdb3
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine zunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -30123,7 +30575,7 @@ module la_lapack
           !> implicitly by angles THETA, PHI.
           interface unbdb4
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine cunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -30144,7 +30596,7 @@ module la_lapack
                module procedure la_yunbdb4
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
+               pure subroutine zunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2, &
                          tauq1,phantom,work,lwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -30269,7 +30721,7 @@ module la_lapack
           !> which R = MIN(P,M-P,Q,M-Q).
           interface uncsd
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine cuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
+               pure recursive subroutine cuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
                          ldv1t,v2t,ldv2t,work,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -30294,7 +30746,7 @@ module la_lapack
                module procedure la_yuncsd
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               recursive subroutine zuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
+               pure recursive subroutine zuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q, &
                x11,ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t, &
                          ldv1t,v2t,ldv2t,work,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
@@ -30331,7 +30783,7 @@ module la_lapack
           !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
           interface uncsd2by1
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine cuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+               pure subroutine cuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)
@@ -30353,7 +30805,7 @@ module la_lapack
                module procedure la_yuncsd2by1
 #endif
 #ifdef LA_EXTERNAL_LAPACK
-               subroutine zuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+               pure subroutine zuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                           u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
                     import sp,dp,qp,ilp,lk
                     implicit none(type,external)

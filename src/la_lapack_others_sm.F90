@@ -16,58 +16,90 @@ module la_lapack_others_sm
      public :: la_sla_gerpvgrw
      public :: la_sla_syamv
      public :: la_sla_syrcond
+     public :: la_sla_syrcond_sub
      public :: la_sla_syrpvgrw
+     public :: la_sla_syrpvgrw_sub
      public :: la_dla_gerpvgrw
      public :: la_dla_syamv
      public :: la_dla_syrcond
+     public :: la_dla_syrcond_sub
      public :: la_dla_syrpvgrw
+     public :: la_dla_syrpvgrw_sub
 #ifdef LA_WITH_XDP
      public :: la_xla_gerpvgrw
      public :: la_xla_syamv
      public :: la_xla_syrcond
+     public :: la_xla_syrcond_sub
      public :: la_xla_syrpvgrw
+     public :: la_xla_syrpvgrw_sub
 #endif
 #ifdef LA_WITH_QP
      public :: la_qla_gerpvgrw
      public :: la_qla_syamv
      public :: la_qla_syrcond
+     public :: la_qla_syrcond_sub
      public :: la_qla_syrpvgrw
+     public :: la_qla_syrpvgrw_sub
 #endif
      public :: la_cla_gerpvgrw
      public :: la_cla_syamv
      public :: la_cla_gbrcond_c
+     public :: la_cla_gbrcond_c_sub
      public :: la_cla_gercond_c
+     public :: la_cla_gercond_c_sub
      public :: la_cla_hercond_c
+     public :: la_cla_hercond_c_sub
      public :: la_cla_porcond_c
+     public :: la_cla_porcond_c_sub
      public :: la_cla_syrcond_c
+     public :: la_cla_syrcond_c_sub
      public :: la_cla_syrpvgrw
+     public :: la_cla_syrpvgrw_sub
      public :: la_zla_gerpvgrw
      public :: la_zla_syamv
      public :: la_zla_gbrcond_c
+     public :: la_zla_gbrcond_c_sub
      public :: la_zla_gercond_c
+     public :: la_zla_gercond_c_sub
      public :: la_zla_hercond_c
+     public :: la_zla_hercond_c_sub
      public :: la_zla_porcond_c
+     public :: la_zla_porcond_c_sub
      public :: la_zla_syrcond_c
+     public :: la_zla_syrcond_c_sub
      public :: la_zla_syrpvgrw
+     public :: la_zla_syrpvgrw_sub
 #ifdef LA_WITH_XDP
      public :: la_yla_gerpvgrw
      public :: la_yla_syamv
      public :: la_yla_gbrcond_c
+     public :: la_yla_gbrcond_c_sub
      public :: la_yla_gercond_c
+     public :: la_yla_gercond_c_sub
      public :: la_yla_hercond_c
+     public :: la_yla_hercond_c_sub
      public :: la_yla_porcond_c
+     public :: la_yla_porcond_c_sub
      public :: la_yla_syrcond_c
+     public :: la_yla_syrcond_c_sub
      public :: la_yla_syrpvgrw
+     public :: la_yla_syrpvgrw_sub
 #endif
 #ifdef LA_WITH_QP
      public :: la_wla_gerpvgrw
      public :: la_wla_syamv
      public :: la_wla_gbrcond_c
+     public :: la_wla_gbrcond_c_sub
      public :: la_wla_gercond_c
+     public :: la_wla_gercond_c_sub
      public :: la_wla_hercond_c
+     public :: la_wla_hercond_c_sub
      public :: la_wla_porcond_c
+     public :: la_wla_porcond_c_sub
      public :: la_wla_syrcond_c
+     public :: la_wla_syrcond_c_sub
      public :: la_wla_syrpvgrw
+     public :: la_wla_syrpvgrw_sub
 #endif
 
      contains
@@ -246,7 +278,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_sla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_sla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -435,7 +467,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_dla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -625,7 +657,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_xla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_xla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -816,7 +848,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_qla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_qla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1006,6 +1038,23 @@ module la_lapack_others_sm
 
      real(sp) function la_sla_syrcond(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
                iwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(sp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(sp),intent(out) :: work(*)
+           call la_sla_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work,iwork, &
+                     la_sla_syrcond)
+     end function la_sla_syrcond
+
+     !> Pure subroutine form of SLA_SYRCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_sla_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
+               iwork,res)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1019,6 +1068,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(sp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            character :: normin
@@ -1030,7 +1081,7 @@ module la_lapack_others_sm
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_sla_syrcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -1044,7 +1095,7 @@ module la_lapack_others_sm
               return
            end if
            if (n == 0) then
-              la_sla_syrcond = one
+              res = one
               return
            end if
            up = .false.
@@ -1158,9 +1209,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= 0.0_sp) la_sla_syrcond = (1.0_sp/ainvnm)
+           if (ainvnm /= 0.0_sp) res = (1.0_sp/ainvnm)
            return
-     end function la_sla_syrcond
+     end subroutine la_sla_syrcond_sub
      !> DLA_SYRCOND: estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
      !> CMODE =  1    op2(C) = C
@@ -1173,6 +1224,23 @@ module la_lapack_others_sm
 
      real(dp) function la_dla_syrcond(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
                iwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(dp),intent(out) :: work(*)
+           call la_dla_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work,iwork, &
+                     la_dla_syrcond)
+     end function la_dla_syrcond
+
+     !> Pure subroutine form of DLA_SYRCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dla_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
+               iwork,res)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1186,6 +1254,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(dp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            character :: normin
@@ -1197,7 +1267,7 @@ module la_lapack_others_sm
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_dla_syrcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -1211,7 +1281,7 @@ module la_lapack_others_sm
               return
            end if
            if (n == 0) then
-              la_dla_syrcond = one
+              res = one
               return
            end if
            up = .false.
@@ -1325,9 +1395,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_dla_syrcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
            return
-     end function la_dla_syrcond
+     end subroutine la_dla_syrcond_sub
 #ifdef LA_WITH_XDP
      !> XLA_SYRCOND: estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
@@ -1341,6 +1411,23 @@ module la_lapack_others_sm
 
      real(xdp) function la_xla_syrcond(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
                iwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(xdp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(xdp),intent(out) :: work(*)
+           call la_xla_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work,iwork, &
+                     la_xla_syrcond)
+     end function la_xla_syrcond
+
+     !> Pure subroutine form of XLA_SYRCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xla_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
+               iwork,res)
         use la_constants_xdp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1354,6 +1441,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(xdp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            character :: normin
@@ -1365,7 +1454,7 @@ module la_lapack_others_sm
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_xla_syrcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -1379,7 +1468,7 @@ module la_lapack_others_sm
               return
            end if
            if (n == 0) then
-              la_xla_syrcond = one
+              res = one
               return
            end if
            up = .false.
@@ -1493,9 +1582,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_xla_syrcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
            return
-     end function la_xla_syrcond
+     end subroutine la_xla_syrcond_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLA_SYRCOND: estimates the Skeel condition number of  op(A) * op2(C)
@@ -1510,6 +1599,23 @@ module la_lapack_others_sm
 
      real(qp) function la_qla_syrcond(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
                iwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(qp),intent(out) :: work(*)
+           call la_qla_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work,iwork, &
+                     la_qla_syrcond)
+     end function la_qla_syrcond
+
+     !> Pure subroutine form of QLA_SYRCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qla_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
+               iwork,res)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1523,6 +1629,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(qp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            character :: normin
@@ -1534,7 +1642,7 @@ module la_lapack_others_sm
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_qla_syrcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -1548,7 +1656,7 @@ module la_lapack_others_sm
               return
            end if
            if (n == 0) then
-              la_qla_syrcond = one
+              res = one
               return
            end if
            up = .false.
@@ -1662,9 +1770,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_qla_syrcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
            return
-     end function la_qla_syrcond
+     end subroutine la_qla_syrcond_sub
 #endif
 
      !> SLA_SYRPVGRW: computes the reciprocal pivot growth factor
@@ -1675,6 +1783,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(sp) function la_sla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           real(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(sp),intent(out) :: work(*)
+           call la_sla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_sla_syrpvgrw)
+     end function la_sla_syrpvgrw
+
+     !> Pure subroutine form of SLA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_sla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1686,6 +1808,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(sp),intent(in) :: a(lda,*),af(ldaf,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -1849,8 +1973,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_sla_syrpvgrw = rpvgrw
-     end function la_sla_syrpvgrw
+           res = rpvgrw
+     end subroutine la_sla_syrpvgrw_sub
      !> DLA_SYRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -1859,6 +1983,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(dp) function la_dla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           real(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(dp),intent(out) :: work(*)
+           call la_dla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_dla_syrpvgrw)
+     end function la_dla_syrpvgrw
+
+     !> Pure subroutine form of DLA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1870,6 +2008,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(dp),intent(in) :: a(lda,*),af(ldaf,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -2033,8 +2173,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_dla_syrpvgrw = rpvgrw
-     end function la_dla_syrpvgrw
+           res = rpvgrw
+     end subroutine la_dla_syrpvgrw_sub
 #ifdef LA_WITH_XDP
      !> XLA_SYRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -2044,6 +2184,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(xdp) function la_xla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           real(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_xla_syrpvgrw)
+     end function la_xla_syrpvgrw
+
+     !> Pure subroutine form of XLA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2055,6 +2209,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(xdp),intent(in) :: a(lda,*),af(ldaf,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -2218,8 +2374,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_xla_syrpvgrw = rpvgrw
-     end function la_xla_syrpvgrw
+           res = rpvgrw
+     end subroutine la_xla_syrpvgrw_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLA_SYRPVGRW: computes the reciprocal pivot growth factor
@@ -2230,6 +2386,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(qp) function la_qla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           real(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(qp),intent(out) :: work(*)
+           call la_qla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_qla_syrpvgrw)
+     end function la_qla_syrpvgrw
+
+     !> Pure subroutine form of QLA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2241,6 +2411,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(qp),intent(in) :: a(lda,*),af(ldaf,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -2404,8 +2576,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_qla_syrpvgrw = rpvgrw
-     end function la_qla_syrpvgrw
+           res = rpvgrw
+     end subroutine la_qla_syrpvgrw_sub
 #endif
 
      !> CLA_GERPVGRW: computes the reciprocal pivot growth factor
@@ -2602,7 +2774,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_cla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2797,7 +2969,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2993,7 +3165,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_yla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_yla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3190,7 +3362,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_wla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_wla_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3379,6 +3551,26 @@ module la_lapack_others_sm
 
      real(sp) function la_cla_gbrcond_c(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
                capply,info,work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,kl,ku,ldab,ldafb
+           integer(ilp) :: kd,ke
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(sp),intent(in) :: ab(ldab,*),afb(ldafb,*)
+           complex(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: c(*)
+           real(sp),intent(out) :: rwork(*)
+           call la_cla_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c,capply, &
+                     info,work,rwork,la_cla_gbrcond_c)
+     end function la_cla_gbrcond_c
+
+     !> Pure subroutine form of CLA_GBRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_cla_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
+               capply,info,work,rwork,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3395,6 +3587,8 @@ module la_lapack_others_sm
            complex(sp),intent(out) :: work(*)
            real(sp),intent(in) :: c(*)
            real(sp),intent(out) :: rwork(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -3410,7 +3604,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=sp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_cla_gbrcond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -3468,7 +3662,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_cla_gbrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -3519,14 +3713,34 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_cla_gbrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_cla_gbrcond_c
+     end subroutine la_cla_gbrcond_c_sub
      !> ZLA_GBRCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
 
      real(dp) function la_zla_gbrcond_c(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
                capply,info,work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,kl,ku,ldab,ldafb
+           integer(ilp) :: kd,ke
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: ab(ldab,*),afb(ldafb,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
+           call la_zla_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c,capply, &
+                     info,work,rwork,la_zla_gbrcond_c)
+     end function la_zla_gbrcond_c
+
+     !> Pure subroutine form of ZLA_GBRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zla_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
+               capply,info,work,rwork,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3543,6 +3757,8 @@ module la_lapack_others_sm
            complex(dp),intent(out) :: work(*)
            real(dp),intent(in) :: c(*)
            real(dp),intent(out) :: rwork(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -3558,7 +3774,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=dp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_zla_gbrcond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -3616,7 +3832,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_zla_gbrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -3667,15 +3883,35 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_zla_gbrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_zla_gbrcond_c
+     end subroutine la_zla_gbrcond_c_sub
 #ifdef LA_WITH_XDP
      !> YLA_GBRCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a EXTENDED PRECISION vector.
 
      real(xdp) function la_yla_gbrcond_c(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
                capply,info,work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,kl,ku,ldab,ldafb
+           integer(ilp) :: kd,ke
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(xdp),intent(in) :: ab(ldab,*),afb(ldafb,*)
+           complex(xdp),intent(out) :: work(*)
+           real(xdp),intent(in) :: c(*)
+           real(xdp),intent(out) :: rwork(*)
+           call la_yla_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c,capply, &
+                     info,work,rwork,la_yla_gbrcond_c)
+     end function la_yla_gbrcond_c
+
+     !> Pure subroutine form of YLA_GBRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_yla_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
+               capply,info,work,rwork,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3692,6 +3928,8 @@ module la_lapack_others_sm
            complex(xdp),intent(out) :: work(*)
            real(xdp),intent(in) :: c(*)
            real(xdp),intent(out) :: rwork(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -3707,7 +3945,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=xdp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_yla_gbrcond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -3765,7 +4003,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_yla_gbrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -3816,9 +4054,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_yla_gbrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_yla_gbrcond_c
+     end subroutine la_yla_gbrcond_c_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLA_GBRCOND_C: Computes the infinity norm condition number of
@@ -3826,6 +4064,26 @@ module la_lapack_others_sm
 
      real(qp) function la_wla_gbrcond_c(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
                capply,info,work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,kl,ku,ldab,ldafb
+           integer(ilp) :: kd,ke
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: ab(ldab,*),afb(ldafb,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
+           call la_wla_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c,capply, &
+                     info,work,rwork,la_wla_gbrcond_c)
+     end function la_wla_gbrcond_c
+
+     !> Pure subroutine form of WLA_GBRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wla_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
+               capply,info,work,rwork,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3842,6 +4100,8 @@ module la_lapack_others_sm
            complex(qp),intent(out) :: work(*)
            real(qp),intent(in) :: c(*)
            real(qp),intent(out) :: rwork(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -3857,7 +4117,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_wla_gbrcond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -3915,7 +4175,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_wla_gbrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -3966,9 +4226,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_wla_gbrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_wla_gbrcond_c
+     end subroutine la_wla_gbrcond_c_sub
 #endif
 
      !> CLA_GERCOND_C: computes the infinity norm condition number of
@@ -3976,6 +4236,25 @@ module la_lapack_others_sm
 
      real(sp) function la_cla_gercond_c(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: c(*)
+           real(sp),intent(out) :: rwork(*)
+           call la_cla_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_cla_gercond_c)
+     end function la_cla_gercond_c
+
+     !> Pure subroutine form of CLA_GERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_cla_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
+               work,rwork,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3991,6 +4270,8 @@ module la_lapack_others_sm
            complex(sp),intent(out) :: work(*)
            real(sp),intent(in) :: c(*)
            real(sp),intent(out) :: rwork(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -4006,7 +4287,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=sp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_cla_gercond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -4058,7 +4339,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_cla_gercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -4109,14 +4390,33 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_cla_gercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_cla_gercond_c
+     end subroutine la_cla_gercond_c_sub
      !> ZLA_GERCOND_C: computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
 
      real(dp) function la_zla_gercond_c(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
+           call la_zla_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_zla_gercond_c)
+     end function la_zla_gercond_c
+
+     !> Pure subroutine form of ZLA_GERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zla_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
+               work,rwork,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4132,6 +4432,8 @@ module la_lapack_others_sm
            complex(dp),intent(out) :: work(*)
            real(dp),intent(in) :: c(*)
            real(dp),intent(out) :: rwork(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -4147,7 +4449,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=dp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_zla_gercond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -4199,7 +4501,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_zla_gercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -4250,15 +4552,34 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_zla_gercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_zla_gercond_c
+     end subroutine la_zla_gercond_c_sub
 #ifdef LA_WITH_XDP
      !> YLA_GERCOND_C: computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a EXTENDED PRECISION vector.
 
      real(xdp) function la_yla_gercond_c(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(xdp),intent(out) :: work(*)
+           real(xdp),intent(in) :: c(*)
+           real(xdp),intent(out) :: rwork(*)
+           call la_yla_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_yla_gercond_c)
+     end function la_yla_gercond_c
+
+     !> Pure subroutine form of YLA_GERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_yla_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
+               work,rwork,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4274,6 +4595,8 @@ module la_lapack_others_sm
            complex(xdp),intent(out) :: work(*)
            real(xdp),intent(in) :: c(*)
            real(xdp),intent(out) :: rwork(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -4289,7 +4612,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=xdp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_yla_gercond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -4341,7 +4664,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_yla_gercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -4392,9 +4715,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_yla_gercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_yla_gercond_c
+     end subroutine la_yla_gercond_c_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLA_GERCOND_C: computes the infinity norm condition number of
@@ -4402,6 +4725,25 @@ module la_lapack_others_sm
 
      real(qp) function la_wla_gercond_c(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
+           call la_wla_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_wla_gercond_c)
+     end function la_wla_gercond_c
+
+     !> Pure subroutine form of WLA_GERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wla_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
+               work,rwork,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4417,6 +4759,8 @@ module la_lapack_others_sm
            complex(qp),intent(out) :: work(*)
            real(qp),intent(in) :: c(*)
            real(qp),intent(out) :: rwork(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -4432,7 +4776,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_wla_gercond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -4484,7 +4828,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_wla_gercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -4535,9 +4879,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_wla_gercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_wla_gercond_c
+     end subroutine la_wla_gercond_c_sub
 #endif
 
      !> CLA_HERCOND_C: computes the infinity norm condition number of
@@ -4545,6 +4889,25 @@ module la_lapack_others_sm
 
      real(sp) function la_cla_hercond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: c(*)
+           real(sp),intent(out) :: rwork(*)
+           call la_cla_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_cla_hercond_c)
+     end function la_cla_hercond_c
+
+     !> Pure subroutine form of CLA_HERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_cla_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4560,6 +4923,8 @@ module la_lapack_others_sm
            complex(sp),intent(out) :: work(*)
            real(sp),intent(in) :: c(*)
            real(sp),intent(out) :: rwork(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -4575,7 +4940,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=sp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_cla_hercond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -4640,7 +5005,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_cla_hercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -4687,14 +5052,33 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_cla_hercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_cla_hercond_c
+     end subroutine la_cla_hercond_c_sub
      !> ZLA_HERCOND_C: computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
 
      real(dp) function la_zla_hercond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
                 rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
+           call la_zla_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_zla_hercond_c)
+     end function la_zla_hercond_c
+
+     !> Pure subroutine form of ZLA_HERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zla_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4710,6 +5094,8 @@ module la_lapack_others_sm
            complex(dp),intent(out) :: work(*)
            real(dp),intent(in) :: c(*)
            real(dp),intent(out) :: rwork(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -4725,7 +5111,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=dp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_zla_hercond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -4790,7 +5176,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_zla_hercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -4837,15 +5223,34 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_zla_hercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_zla_hercond_c
+     end subroutine la_zla_hercond_c_sub
 #ifdef LA_WITH_XDP
      !> YLA_HERCOND_C: computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a EXTENDED PRECISION vector.
 
      real(xdp) function la_yla_hercond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
                 rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(xdp),intent(out) :: work(*)
+           real(xdp),intent(in) :: c(*)
+           real(xdp),intent(out) :: rwork(*)
+           call la_yla_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_yla_hercond_c)
+     end function la_yla_hercond_c
+
+     !> Pure subroutine form of YLA_HERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_yla_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4861,6 +5266,8 @@ module la_lapack_others_sm
            complex(xdp),intent(out) :: work(*)
            real(xdp),intent(in) :: c(*)
            real(xdp),intent(out) :: rwork(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -4876,7 +5283,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=xdp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_yla_hercond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -4941,7 +5348,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_yla_hercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -4988,9 +5395,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_yla_hercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_yla_hercond_c
+     end subroutine la_yla_hercond_c_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLA_HERCOND_C: computes the infinity norm condition number of
@@ -4998,6 +5405,25 @@ module la_lapack_others_sm
 
      real(qp) function la_wla_hercond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
                 rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
+           call la_wla_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_wla_hercond_c)
+     end function la_wla_hercond_c
+
+     !> Pure subroutine form of WLA_HERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wla_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5013,6 +5439,8 @@ module la_lapack_others_sm
            complex(qp),intent(out) :: work(*)
            real(qp),intent(in) :: c(*)
            real(qp),intent(out) :: rwork(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -5028,7 +5456,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_wla_hercond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -5093,7 +5521,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_wla_hercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -5140,9 +5568,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_wla_hercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_wla_hercond_c
+     end subroutine la_wla_hercond_c_sub
 #endif
 
      !> CLA_PORCOND_C: Computes the infinity norm condition number of
@@ -5150,6 +5578,24 @@ module la_lapack_others_sm
 
      real(sp) function la_cla_porcond_c(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
                rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: c(*)
+           real(sp),intent(out) :: rwork(*)
+           call la_cla_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work,rwork, &
+                     la_cla_porcond_c)
+     end function la_cla_porcond_c
+
+     !> Pure subroutine form of CLA_PORCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_cla_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
+               rwork,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5164,6 +5610,8 @@ module la_lapack_others_sm
            complex(sp),intent(out) :: work(*)
            real(sp),intent(in) :: c(*)
            real(sp),intent(out) :: rwork(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -5180,7 +5628,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=sp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_cla_porcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -5245,7 +5693,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_cla_porcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -5292,14 +5740,32 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_cla_porcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_cla_porcond_c
+     end subroutine la_cla_porcond_c_sub
      !> ZLA_PORCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector
 
      real(dp) function la_zla_porcond_c(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
                rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
+           call la_zla_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work,rwork, &
+                     la_zla_porcond_c)
+     end function la_zla_porcond_c
+
+     !> Pure subroutine form of ZLA_PORCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zla_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
+               rwork,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5314,6 +5780,8 @@ module la_lapack_others_sm
            complex(dp),intent(out) :: work(*)
            real(dp),intent(in) :: c(*)
            real(dp),intent(out) :: rwork(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -5330,7 +5798,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=dp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_zla_porcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -5395,7 +5863,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_zla_porcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -5442,15 +5910,33 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_zla_porcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_zla_porcond_c
+     end subroutine la_zla_porcond_c_sub
 #ifdef LA_WITH_XDP
      !> YLA_PORCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a EXTENDED PRECISION vector
 
      real(xdp) function la_yla_porcond_c(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
                rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(xdp),intent(out) :: work(*)
+           real(xdp),intent(in) :: c(*)
+           real(xdp),intent(out) :: rwork(*)
+           call la_yla_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work,rwork, &
+                     la_yla_porcond_c)
+     end function la_yla_porcond_c
+
+     !> Pure subroutine form of YLA_PORCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_yla_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
+               rwork,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5465,6 +5951,8 @@ module la_lapack_others_sm
            complex(xdp),intent(out) :: work(*)
            real(xdp),intent(in) :: c(*)
            real(xdp),intent(out) :: rwork(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -5481,7 +5969,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=xdp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_yla_porcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -5546,7 +6034,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_yla_porcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -5593,9 +6081,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_yla_porcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_yla_porcond_c
+     end subroutine la_yla_porcond_c_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLA_PORCOND_C: Computes the infinity norm condition number of
@@ -5603,6 +6091,24 @@ module la_lapack_others_sm
 
      real(qp) function la_wla_porcond_c(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
                rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
+           call la_wla_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work,rwork, &
+                     la_wla_porcond_c)
+     end function la_wla_porcond_c
+
+     !> Pure subroutine form of WLA_PORCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wla_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
+               rwork,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5617,6 +6123,8 @@ module la_lapack_others_sm
            complex(qp),intent(out) :: work(*)
            real(qp),intent(in) :: c(*)
            real(qp),intent(out) :: rwork(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -5633,7 +6141,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_wla_porcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -5698,7 +6206,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_wla_porcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -5745,9 +6253,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_wla_porcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_wla_porcond_c
+     end subroutine la_wla_porcond_c_sub
 #endif
 
      !> CLA_SYRCOND_C: Computes the infinity norm condition number of
@@ -5755,6 +6263,25 @@ module la_lapack_others_sm
 
      real(sp) function la_cla_syrcond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(sp),intent(out) :: work(*)
+           real(sp),intent(in) :: c(*)
+           real(sp),intent(out) :: rwork(*)
+           call la_cla_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_cla_syrcond_c)
+     end function la_cla_syrcond_c
+
+     !> Pure subroutine form of CLA_SYRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_cla_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5770,6 +6297,8 @@ module la_lapack_others_sm
            complex(sp),intent(out) :: work(*)
            real(sp),intent(in) :: c(*)
            real(sp),intent(out) :: rwork(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -5786,7 +6315,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=sp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_cla_syrcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -5851,7 +6380,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_cla_syrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -5898,14 +6427,33 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_cla_syrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_cla_syrcond_c
+     end subroutine la_cla_syrcond_c_sub
      !> ZLA_SYRCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a DOUBLE PRECISION vector.
 
      real(dp) function la_zla_syrcond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
                 rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(dp),intent(out) :: work(*)
+           real(dp),intent(in) :: c(*)
+           real(dp),intent(out) :: rwork(*)
+           call la_zla_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_zla_syrcond_c)
+     end function la_zla_syrcond_c
+
+     !> Pure subroutine form of ZLA_SYRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zla_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5921,6 +6469,8 @@ module la_lapack_others_sm
            complex(dp),intent(out) :: work(*)
            real(dp),intent(in) :: c(*)
            real(dp),intent(out) :: rwork(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -5937,7 +6487,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=dp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_zla_syrcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -6002,7 +6552,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_zla_syrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -6049,15 +6599,34 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_zla_syrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_zla_syrcond_c
+     end subroutine la_zla_syrcond_c_sub
 #ifdef LA_WITH_XDP
      !> YLA_SYRCOND_C: Computes the infinity norm condition number of
      !> op(A) * inv(diag(C)) where C is a EXTENDED PRECISION vector.
 
      real(xdp) function la_yla_syrcond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
                 rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(xdp),intent(out) :: work(*)
+           real(xdp),intent(in) :: c(*)
+           real(xdp),intent(out) :: rwork(*)
+           call la_yla_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_yla_syrcond_c)
+     end function la_yla_syrcond_c
+
+     !> Pure subroutine form of YLA_SYRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_yla_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6073,6 +6642,8 @@ module la_lapack_others_sm
            complex(xdp),intent(out) :: work(*)
            real(xdp),intent(in) :: c(*)
            real(xdp),intent(out) :: rwork(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -6089,7 +6660,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=xdp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_yla_syrcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -6154,7 +6725,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_yla_syrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -6201,9 +6772,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_yla_syrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_yla_syrcond_c
+     end subroutine la_yla_syrcond_c_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLA_SYRCOND_C: Computes the infinity norm condition number of
@@ -6211,6 +6782,25 @@ module la_lapack_others_sm
 
      real(qp) function la_wla_syrcond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
                 rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(qp),intent(out) :: work(*)
+           real(qp),intent(in) :: c(*)
+           real(qp),intent(out) :: rwork(*)
+           call la_wla_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_wla_syrcond_c)
+     end function la_wla_syrcond_c
+
+     !> Pure subroutine form of WLA_SYRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wla_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6226,6 +6816,8 @@ module la_lapack_others_sm
            complex(qp),intent(out) :: work(*)
            real(qp),intent(in) :: c(*)
            real(qp),intent(out) :: rwork(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -6242,7 +6834,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=qp)) + abs(aimag(zdum))
            ! Executable Statements
-           la_wla_syrcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -6307,7 +6899,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_wla_syrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -6354,9 +6946,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_wla_syrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_wla_syrcond_c
+     end subroutine la_wla_syrcond_c_sub
 #endif
 
      !> CLA_SYRPVGRW: computes the reciprocal pivot growth factor
@@ -6367,6 +6959,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(sp) function la_cla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(sp),intent(out) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           call la_cla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_cla_syrpvgrw)
+     end function la_cla_syrpvgrw
+
+     !> Pure subroutine form of CLA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_cla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6378,6 +6984,8 @@ module la_lapack_others_sm
            complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
            real(sp),intent(out) :: work(*)
            integer(ilp),intent(in) :: ipiv(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -6546,8 +7154,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_cla_syrpvgrw = rpvgrw
-     end function la_cla_syrpvgrw
+           res = rpvgrw
+     end subroutine la_cla_syrpvgrw_sub
      !> ZLA_SYRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -6556,6 +7164,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(dp) function la_zla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(dp),intent(out) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           call la_zla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_zla_syrpvgrw)
+     end function la_zla_syrpvgrw
+
+     !> Pure subroutine form of ZLA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6567,6 +7189,8 @@ module la_lapack_others_sm
            complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
            real(dp),intent(out) :: work(*)
            integer(ilp),intent(in) :: ipiv(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -6735,8 +7359,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_zla_syrpvgrw = rpvgrw
-     end function la_zla_syrpvgrw
+           res = rpvgrw
+     end subroutine la_zla_syrpvgrw_sub
 #ifdef LA_WITH_XDP
      !> YLA_SYRPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -6746,6 +7370,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(xdp) function la_yla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(xdp),intent(out) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           call la_yla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_yla_syrpvgrw)
+     end function la_yla_syrpvgrw
+
+     !> Pure subroutine form of YLA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_yla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6757,6 +7395,8 @@ module la_lapack_others_sm
            complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
            real(xdp),intent(out) :: work(*)
            integer(ilp),intent(in) :: ipiv(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -6925,8 +7565,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_yla_syrpvgrw = rpvgrw
-     end function la_yla_syrpvgrw
+           res = rpvgrw
+     end subroutine la_yla_syrpvgrw_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLA_SYRPVGRW: computes the reciprocal pivot growth factor
@@ -6937,6 +7577,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(qp) function la_wla_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(qp),intent(out) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           call la_wla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_wla_syrpvgrw)
+     end function la_wla_syrpvgrw
+
+     !> Pure subroutine form of WLA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wla_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6948,6 +7602,8 @@ module la_lapack_others_sm
            complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
            real(qp),intent(out) :: work(*)
            integer(ilp),intent(in) :: ipiv(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -7116,8 +7772,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_wla_syrpvgrw = rpvgrw
-     end function la_wla_syrpvgrw
+           res = rpvgrw
+     end subroutine la_wla_syrpvgrw_sub
 #endif
 
 end module la_lapack_others_sm

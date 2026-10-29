@@ -195,7 +195,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_sla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_sla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_sp
 
         ! -- lapack computational routine --
@@ -381,7 +381,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_dla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_dla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_dp
 
         ! -- lapack computational routine --
@@ -568,7 +568,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_xla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_xla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_xdp
 
         ! -- lapack computational routine --
@@ -756,7 +756,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_qla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_qla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_qp
 
         ! -- lapack computational routine --
@@ -944,7 +944,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_sla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_sla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1123,7 +1123,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_dla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1303,7 +1303,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_xla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_xla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1484,7 +1484,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_qla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_qla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2350,7 +2350,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_cla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_cla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_sp
 
         ! -- lapack computational routine --
@@ -2545,7 +2545,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_zla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_dp
 
         ! -- lapack computational routine --
@@ -2741,7 +2741,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_yla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_yla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_xdp
 
         ! -- lapack computational routine --
@@ -2938,7 +2938,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_wla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_wla_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_qp
 
         ! -- lapack computational routine --
@@ -3135,7 +3135,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_cla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3324,7 +3324,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3514,7 +3514,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_yla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_yla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3705,7 +3705,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_wla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_wla_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3895,7 +3895,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_cla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4089,7 +4089,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_zla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4284,7 +4284,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_yla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_yla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4480,7 +4480,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_wla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_wla_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

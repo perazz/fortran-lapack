@@ -1265,7 +1265,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero, then tau = 0 and H is taken to be
      !> the unit matrix.
 
-     subroutine la_${ri}$larfgp(n,alpha,x,incx,tau)
+     pure subroutine la_${ri}$larfgp(n,alpha,x,incx,tau)
         use la_constants_${rk}$,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1907,7 +1907,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero and alpha is real, then tau = 0
      !> and H is taken to be the unit matrix.
 
-     subroutine la_${ri}$larfgp(n,alpha,x,incx,tau)
+     pure subroutine la_${ri}$larfgp(n,alpha,x,incx,tau)
         use la_constants_${rk}$,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

@@ -3624,7 +3624,7 @@ module la_lapack_cosine_sine
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_sorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -3952,7 +3952,7 @@ module la_lapack_cosine_sine
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_dorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_dorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -4280,7 +4280,7 @@ module la_lapack_cosine_sine
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_xorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_xorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -4609,7 +4609,7 @@ module la_lapack_cosine_sine
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_qorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_qorbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -5336,7 +5336,7 @@ module la_lapack_cosine_sine
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_sorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,iwork,info)
         use la_constants_sp
@@ -5611,7 +5611,7 @@ module la_lapack_cosine_sine
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_dorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_dorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,iwork,info)
         use la_constants_dp
@@ -5887,7 +5887,7 @@ module la_lapack_cosine_sine
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_xorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_xorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,iwork,info)
         use la_constants_xdp
@@ -6164,7 +6164,7 @@ module la_lapack_cosine_sine
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_qorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_qorcsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,iwork,info)
         use la_constants_qp
@@ -6443,7 +6443,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_sorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -6546,7 +6546,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_dorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_dorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -6650,7 +6650,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_xorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_xorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -6755,7 +6755,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_qorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_qorbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -6860,7 +6860,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_sorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -6973,7 +6973,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_dorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_dorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -7087,7 +7087,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_xorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_xorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -7202,7 +7202,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_qorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_qorbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -7317,7 +7317,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_sorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -7429,7 +7429,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_dorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_dorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -7542,7 +7542,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_xorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_xorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -7656,7 +7656,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_qorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_qorbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -7770,7 +7770,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_sorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -7912,7 +7912,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_dorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_dorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -8055,7 +8055,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_xorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_xorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -8199,7 +8199,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_qorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_qorbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -8343,7 +8343,7 @@ module la_lapack_cosine_sine
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_sorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -8758,7 +8758,7 @@ module la_lapack_cosine_sine
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_dorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_dorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
         use la_constants_dp
         ! -- lapack computational routine (3.5.0_dp) --
@@ -9174,7 +9174,7 @@ module la_lapack_cosine_sine
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_xorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_xorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
         use la_constants_xdp
         ! -- lapack computational routine (3.5.0_xdp) --
@@ -9591,7 +9591,7 @@ module la_lapack_cosine_sine
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_qorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_qorcsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,iwork,info)
         use la_constants_qp
         ! -- lapack computational routine (3.5.0_qp) --
@@ -10555,7 +10555,7 @@ module la_lapack_cosine_sine
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_cunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_cunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -10877,7 +10877,7 @@ module la_lapack_cosine_sine
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_zunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_zunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -11200,7 +11200,7 @@ module la_lapack_cosine_sine
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_yunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_yunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -11524,7 +11524,7 @@ module la_lapack_cosine_sine
      !> B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_wunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
+     pure subroutine la_wunbdb(trans,signs,m,p,q,x11,ldx11,x12,ldx12,x21,ldx21,x22, &
                ldx22,theta,phi,taup1,taup2,tauq1,tauq2,work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -15204,7 +15204,7 @@ module la_lapack_cosine_sine
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_cuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_cuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,rwork,lrwork,iwork,info)
         use la_constants_sp
@@ -15494,7 +15494,7 @@ module la_lapack_cosine_sine
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_zuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_zuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,rwork,lrwork,iwork,info)
         use la_constants_dp
@@ -15785,7 +15785,7 @@ module la_lapack_cosine_sine
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_yuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_yuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,rwork,lrwork,iwork,info)
         use la_constants_xdp
@@ -16077,7 +16077,7 @@ module la_lapack_cosine_sine
      !> R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in
      !> which R = MIN(P,M-P,Q,M-Q).
 
-     recursive subroutine la_wuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
+     pure recursive subroutine la_wuncsd(jobu1,jobu2,jobv1t,jobv2t,trans,signs,m,p,q,x11, &
      ldx11,x12,ldx12,x21,ldx21,x22,ldx22,theta,u1,ldu1,u2,ldu2,v1t,ldv1t,v2t,ldv2t, &
                work,lwork,rwork,lrwork,iwork,info)
         use la_constants_qp
@@ -16371,7 +16371,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_cunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_cunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -16476,7 +16476,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_zunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_zunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -16582,7 +16582,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_yunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_yunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -16689,7 +16689,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are Q-by-Q bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_wunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_wunbdb1(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -16796,7 +16796,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_cunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_cunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -16911,7 +16911,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_zunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_zunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -17027,7 +17027,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_yunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_yunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -17144,7 +17144,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are P-by-P bidiagonal matrices represented implicitly by
      !> angles THETA, PHI.
 
-     subroutine la_wunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_wunbdb2(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -17261,7 +17261,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_cunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_cunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -17375,7 +17375,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_zunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_zunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -17490,7 +17490,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_yunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_yunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -17606,7 +17606,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_wunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_wunbdb3(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -17722,7 +17722,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_cunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_cunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -17871,7 +17871,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_zunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_zunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -18021,7 +18021,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_yunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_yunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -18172,7 +18172,7 @@ module la_lapack_cosine_sine
      !> B11 and B12 are (M-Q)-by-(M-Q) bidiagonal matrices represented
      !> implicitly by angles THETA, PHI.
 
-     subroutine la_wunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
+     pure subroutine la_wunbdb4(m,p,q,x11,ldx11,x21,ldx21,theta,phi,taup1,taup2,tauq1, &
                phantom,work,lwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -18323,7 +18323,7 @@ module la_lapack_cosine_sine
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_cuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_cuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -18760,7 +18760,7 @@ module la_lapack_cosine_sine
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_zuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_zuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -19198,7 +19198,7 @@ module la_lapack_cosine_sine
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_yuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_yuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -19637,7 +19637,7 @@ module la_lapack_cosine_sine
      !> R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a
      !> K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0).
 
-     subroutine la_wuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
+     pure subroutine la_wuncsd2by1(jobu1,jobu2,jobv1t,m,p,q,x11,ldx11,x21,ldx21,theta, &
                u1,ldu1,u2,ldu2,v1t,ldv1t,work,lwork,rwork,lrwork,iwork,info)
         use la_constants_qp
         ! -- lapack computational routine --

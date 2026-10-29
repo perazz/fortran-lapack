@@ -810,7 +810,7 @@ module la_lapack_eigv_gen_aux
      !> has its diagonal elements equal and its off-diagonal elements of
      !> opposite sign.
 
-     subroutine la_${ri}$laexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
+     pure subroutine la_${ri}$laexc(wantq,n,t,ldt,q,ldq,j1,n1,n2,work,info)
         use la_constants_${rk}$,only:zero,one,ten
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -865,7 +865,7 @@ module la_lapack_eigv_gen_aux
               ! and compute its norm.
               nd = n1 + n2
               call la_${ri}$lacpy('FULL',nd,nd,t(j1,j1),ldt,d,ldd)
-              dnorm = la_${ri}$lange('MAX',nd,nd,d,ldd,work)
+              call la_${ri}$lange_sub('MAX',nd,nd,d,ldd,work,dnorm)
               ! compute machine-dependent threshold for test for accepting
               ! swap.
               eps = la_${ri}$lamch('P')
@@ -1022,7 +1022,7 @@ module la_lapack_eigv_gen_aux
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_${ri}$trexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
+     pure subroutine la_${ri}$trexc(compq,n,t,ldt,q,ldq,ifst,ilst,work,info)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

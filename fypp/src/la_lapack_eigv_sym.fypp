@@ -1000,7 +1000,7 @@ module la_lapack_eigv_sym
      !> ${ri.upper()}$SBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a real symmetric band matrix A.
 
-     subroutine la_${ri}$sbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
+     pure subroutine la_${ri}$sbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1061,7 +1061,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lansb('M',uplo,n,kd,ab,ldab,work)
+           call la_${ri}$lansb_sub('M',uplo,n,kd,ab,ldab,work,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -1117,7 +1117,7 @@ module la_lapack_eigv_sym
      !> be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_${ri}$sbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+     pure subroutine la_${ri}$sbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
                m,w,z,ldz,work,iwork,ifail,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -1219,7 +1219,7 @@ module la_lapack_eigv_sym
               vll = zero
               vuu = zero
            end if
-           anrm = la_${ri}$lansb('M',uplo,n,kd,ab,ldab,work)
+           call la_${ri}$lansb_sub('M',uplo,n,kd,ab,ldab,work,anrm)
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
@@ -1646,7 +1646,7 @@ module la_lapack_eigv_sym
      !> ${ri.upper()}$SPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A in packed storage.
 
-     subroutine la_${ri}$spev(jobz,uplo,n,ap,w,z,ldz,work,info)
+     pure subroutine la_${ri}$spev(jobz,uplo,n,ap,w,z,ldz,work,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1699,7 +1699,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lansp('M',uplo,n,ap,work)
+           call la_${ri}$lansp_sub('M',uplo,n,ap,work,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -1750,7 +1750,7 @@ module la_lapack_eigv_sym
      !> can be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_${ri}$spevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_${ri}$spevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,iwork,ifail,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -1843,7 +1843,7 @@ module la_lapack_eigv_sym
               vll = zero
               vuu = zero
            end if
-           anrm = la_${ri}$lansp('M',uplo,n,ap,work)
+           call la_${ri}$lansp_sub('M',uplo,n,ap,work,anrm)
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
@@ -1981,7 +1981,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be symmetric, stored in packed format,
      !> and B is also positive definite.
 
-     subroutine la_${ri}$spgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
+     pure subroutine la_${ri}$spgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -2075,7 +2075,7 @@ module la_lapack_eigv_sym
      !> selected by specifying either a range of values or a range of indices
      !> for the desired eigenvalues.
 
-     subroutine la_${ri}$spgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+     pure subroutine la_${ri}$spgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
                z,ldz,work,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2190,7 +2190,7 @@ module la_lapack_eigv_sym
      !> ${ri.upper()}$SYEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> real symmetric matrix A.
 
-     subroutine la_${ri}$syev(jobz,uplo,n,a,lda,w,work,lwork,info)
+     pure subroutine la_${ri}$syev(jobz,uplo,n,a,lda,w,work,lwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2255,7 +2255,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lansy('M',uplo,n,a,lda,work)
+           call la_${ri}$lansy_sub('M',uplo,n,a,lda,work,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -2308,7 +2308,7 @@ module la_lapack_eigv_sym
      !> selected by specifying either a range of values or a range of indices
      !> for the desired eigenvalues.
 
-     subroutine la_${ri}$syevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_${ri}$syevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,lwork,iwork,ifail,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -2421,7 +2421,7 @@ module la_lapack_eigv_sym
               vll = vl
               vuu = vu
            end if
-           anrm = la_${ri}$lansy('M',uplo,n,a,lda,work)
+           call la_${ri}$lansy_sub('M',uplo,n,a,lda,work,anrm)
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
@@ -2573,7 +2573,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be symmetric and B is also
      !> positive definite.
 
-     subroutine la_${ri}$sygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
+     pure subroutine la_${ri}$sygv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,info)
         use la_constants_${rk}$
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2683,7 +2683,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues and eigenvectors can be selected by specifying either a
      !> range of values or a range of indices for the desired eigenvalues.
 
-     subroutine la_${ri}$sygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+     pure subroutine la_${ri}$sygvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
                 m,w,z,ldz,work,lwork,iwork,ifail,info)
         use la_constants_${rk}$
         ! -- lapack driver routine --
@@ -3009,7 +3009,7 @@ module la_lapack_eigv_sym
      !> Because of large use of BLAS of level 3, ${ri.upper()}$SYEVD needs N**2 more
      !> workspace than ${ri.upper()}$SYEVX.
 
-     subroutine la_${ri}$syevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
+     pure subroutine la_${ri}$syevd(jobz,uplo,n,a,lda,w,work,lwork,iwork,liwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3093,7 +3093,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lansy('M',uplo,n,a,lda,work)
+           call la_${ri}$lansy_sub('M',uplo,n,a,lda,work,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -3152,7 +3152,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$sygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
+     pure subroutine la_${ri}$sygvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,iwork,liwork, &
                 info)
         use la_constants_${rk}$
         ! -- lapack driver routine --
@@ -3284,7 +3284,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$sbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
+     pure subroutine la_${ri}$sbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,iwork,liwork, &
                info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -3367,7 +3367,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lansb('M',uplo,n,kd,ab,ldab,work)
+           call la_${ri}$lansb_sub('M',uplo,n,kd,ab,ldab,work,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -3559,7 +3559,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$spevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
+     pure subroutine la_${ri}$spevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,iwork,liwork,info)
         use la_constants_${rk}$,only:zero,one
 
         ! -- lapack driver routine --
@@ -3638,7 +3638,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lansp('M',uplo,n,ap,work)
+           call la_${ri}$lansp_sub('M',uplo,n,ap,work,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -3696,7 +3696,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$spgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
+     pure subroutine la_${ri}$spgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,iwork,liwork, &
                 info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3870,7 +3870,7 @@ module la_lapack_eigv_sym
      !> which do not handle NaNs and infinities in the ieee standard default
      !> manner.
 
-     subroutine la_${ri}$syevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_${ri}$syevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                isuppz,work,lwork,iwork,liwork,info)
         use la_constants_${rk}$,only:zero,one,two
         ! -- lapack driver routine --
@@ -4007,7 +4007,7 @@ module la_lapack_eigv_sym
               vll = vl
               vuu = vu
            end if
-           anrm = la_${ri}$lansy('M',uplo,n,a,lda,work)
+           call la_${ri}$lansy_sub('M',uplo,n,a,lda,work,anrm)
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
@@ -5298,7 +5298,7 @@ module la_lapack_eigv_sym
      !> ${ri.upper()}$HEEV: computes all eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix A.
 
-     subroutine la_${ri}$heev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
+     pure subroutine la_${ri}$heev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
         use la_constants_${rk}$,only:zero,one,cone
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5364,7 +5364,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lanhe('M',uplo,n,a,lda,rwork)
+           call la_${ri}$lanhe_sub('M',uplo,n,a,lda,rwork,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -5469,7 +5469,7 @@ module la_lapack_eigv_sym
      !> which do not handle NaNs and infinities in the ieee standard default
      !> manner.
 
-     subroutine la_${ri}$heevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_${ri}$heevr(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                isuppz,work,lwork,rwork,lrwork,iwork,liwork,info)
         use la_constants_${rk}$,only:zero,one,two
         ! -- lapack driver routine --
@@ -5599,7 +5599,7 @@ module la_lapack_eigv_sym
               vll = vl
               vuu = vu
            end if
-           anrm = la_${ri}$lansy('M',uplo,n,a,lda,rwork)
+           call la_${ri}$lansy_sub('M',uplo,n,a,lda,rwork,anrm)
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
@@ -5775,7 +5775,7 @@ module la_lapack_eigv_sym
      !> be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_${ri}$heevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_${ri}$heevx(jobz,range,uplo,n,a,lda,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,lwork,rwork,iwork,ifail,info)
         use la_constants_${rk}$,only:zero,one,cone
         ! -- lapack driver routine --
@@ -5888,7 +5888,7 @@ module la_lapack_eigv_sym
               vll = vl
               vuu = vu
            end if
-           anrm = la_${ri}$lanhe('M',uplo,n,a,lda,rwork)
+           call la_${ri}$lanhe_sub('M',uplo,n,a,lda,rwork,anrm)
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
@@ -6031,7 +6031,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be Hermitian and B is also
      !> positive definite.
 
-     subroutine la_${ri}$hegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
+     pure subroutine la_${ri}$hegv(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,info)
         use la_constants_${rk}$
 
         ! -- lapack driver routine --
@@ -6150,7 +6150,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues and eigenvectors can be selected by specifying either a
      !> range of values or a range of indices for the desired eigenvalues.
 
-     subroutine la_${ri}$hegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
+     pure subroutine la_${ri}$hegvx(itype,jobz,range,uplo,n,a,lda,b,ldb,vl,vu,il,iu,abstol, &
                 m,w,z,ldz,work,lwork,rwork,iwork,ifail,info)
         use la_constants_${rk}$
         ! -- lapack driver routine --
@@ -6291,7 +6291,7 @@ module la_lapack_eigv_sym
      !> ${ri.upper()}$HPEV: computes all the eigenvalues and, optionally, eigenvectors of a
      !> complex Hermitian matrix in packed storage.
 
-     subroutine la_${ri}$hpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
+     pure subroutine la_${ri}$hpev(jobz,uplo,n,ap,w,z,ldz,work,rwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6346,7 +6346,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lanhp('M',uplo,n,ap,rwork)
+           call la_${ri}$lanhp_sub('M',uplo,n,ap,rwork,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -6399,7 +6399,7 @@ module la_lapack_eigv_sym
      !> Eigenvalues/vectors can be selected by specifying either a range of
      !> values or a range of indices for the desired eigenvalues.
 
-     subroutine la_${ri}$hpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
+     pure subroutine la_${ri}$hpevx(jobz,range,uplo,n,ap,vl,vu,il,iu,abstol,m,w,z,ldz, &
                work,rwork,iwork,ifail,info)
         use la_constants_${rk}$,only:zero,one,cone
         ! -- lapack driver routine --
@@ -6497,7 +6497,7 @@ module la_lapack_eigv_sym
               vll = zero
               vuu = zero
            end if
-           anrm = la_${ri}$lanhp('M',uplo,n,ap,rwork)
+           call la_${ri}$lanhp_sub('M',uplo,n,ap,rwork,anrm)
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
@@ -6629,7 +6629,7 @@ module la_lapack_eigv_sym
      !> Here A and B are assumed to be Hermitian, stored in packed format,
      !> and B is also positive definite.
 
-     subroutine la_${ri}$hpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
+     pure subroutine la_${ri}$hpgv(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,rwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -6732,7 +6732,7 @@ module la_lapack_eigv_sym
      !> specifying either a range of values or a range of indices for the
      !> desired eigenvalues.
 
-     subroutine la_${ri}$hpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
+     pure subroutine la_${ri}$hpgvx(itype,jobz,range,uplo,n,ap,bp,vl,vu,il,iu,abstol,m,w, &
                z,ldz,work,rwork,iwork,ifail,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6855,7 +6855,7 @@ module la_lapack_eigv_sym
      !> ${ri.upper()}$HBEV: computes all the eigenvalues and, optionally, eigenvectors of
      !> a complex Hermitian band matrix A.
 
-     subroutine la_${ri}$hbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
+     pure subroutine la_${ri}$hbev(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,rwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6917,7 +6917,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lanhb('M',uplo,n,kd,ab,ldab,rwork)
+           call la_${ri}$lanhb_sub('M',uplo,n,kd,ab,ldab,rwork,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -6975,7 +6975,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$hbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
+     pure subroutine la_${ri}$hbevd(jobz,uplo,n,kd,ab,ldab,w,z,ldz,work,lwork,rwork,lrwork, &
                iwork,liwork,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -7066,7 +7066,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lanhb('M',uplo,n,kd,ab,ldab,rwork)
+           call la_${ri}$lanhb_sub('M',uplo,n,kd,ab,ldab,rwork,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -7128,7 +7128,7 @@ module la_lapack_eigv_sym
      !> can be selected by specifying either a range of values or a range of
      !> indices for the desired eigenvalues.
 
-     subroutine la_${ri}$hbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
+     pure subroutine la_${ri}$hbevx(jobz,range,uplo,n,kd,ab,ldab,q,ldq,vl,vu,il,iu,abstol, &
                m,w,z,ldz,work,rwork,iwork,ifail,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -7237,7 +7237,7 @@ module la_lapack_eigv_sym
               vll = zero
               vuu = zero
            end if
-           anrm = la_${ri}$lanhb('M',uplo,n,kd,ab,ldab,rwork)
+           call la_${ri}$lanhb_sub('M',uplo,n,kd,ab,ldab,rwork,anrm)
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
               sigma = rmin/anrm
@@ -7797,7 +7797,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$heevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
+     pure subroutine la_${ri}$heevd(jobz,uplo,n,a,lda,w,work,lwork,rwork,lrwork,iwork,liwork, &
                 info)
         use la_constants_${rk}$,only:zero,one,cone
         ! -- lapack driver routine --
@@ -7890,7 +7890,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lanhe('M',uplo,n,a,lda,rwork)
+           call la_${ri}$lanhe_sub('M',uplo,n,a,lda,rwork,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -7960,7 +7960,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$hegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
+     pure subroutine la_${ri}$hegvd(itype,jobz,uplo,n,a,lda,b,ldb,w,work,lwork,rwork,lrwork, &
                 iwork,liwork,info)
         use la_constants_${rk}$
         ! -- lapack driver routine --
@@ -8103,7 +8103,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$hpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
+     pure subroutine la_${ri}$hpevd(jobz,uplo,n,ap,w,z,ldz,work,lwork,rwork,lrwork,iwork, &
                liwork,info)
         use la_constants_${rk}$,only:zero,one,cone
         ! -- lapack driver routine --
@@ -8190,7 +8190,7 @@ module la_lapack_eigv_sym
            rmin = sqrt(smlnum)
            rmax = sqrt(bignum)
            ! scale matrix to allowable range, if necessary.
-           anrm = la_${ri}$lanhp('M',uplo,n,ap,rwork)
+           call la_${ri}$lanhp_sub('M',uplo,n,ap,rwork,anrm)
            iscale = 0
            if (anrm > zero .and. anrm < rmin) then
               iscale = 1
@@ -8256,7 +8256,7 @@ module la_lapack_eigv_sym
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$hpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
+     pure subroutine la_${ri}$hpgvd(itype,jobz,uplo,n,ap,bp,w,z,ldz,work,lwork,rwork,lrwork, &
                 iwork,liwork,info)
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

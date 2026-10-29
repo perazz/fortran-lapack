@@ -95,7 +95,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_${ri}$la_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_${ri}$la_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_${rk}$
 
         ! -- lapack computational routine --
@@ -290,7 +290,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_${ri}$la_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_${ri}$la_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -657,7 +657,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_${ri}$la_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
+     pure subroutine la_${ri}$la_gbamv(trans,m,n,kl,ku,alpha,ab,ldab,x,incx,beta,y,incy)
         use la_constants_${rk}$
 
         ! -- lapack computational routine --
@@ -909,7 +909,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_${ri}$la_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_${ri}$la_geamv(trans,m,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1154,7 +1154,7 @@ module la_lapack_blas_like_l2
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_${ri}$la_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_${ri}$la_heamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

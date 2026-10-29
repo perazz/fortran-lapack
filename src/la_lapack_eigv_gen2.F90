@@ -7241,7 +7241,7 @@ module la_lapack_eigv_gen2
      !> each 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_strsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_strsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack computational routine --
@@ -7258,6 +7258,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(sp) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: ierr,j,k,k1,k2,knext,l,l1,l2,lnext
            real(sp) :: a11,bignum,da11,db,eps,scaloc,sgn,smin,smlnum,suml,sumr, &
@@ -7304,8 +7305,9 @@ module la_lapack_eigv_gen2
            call la_slabad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=sp)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_slange('M',m,m,a,lda,dum),eps*la_slange('M', &
-                      n,n,b,ldb,dum))
+           call la_slange_sub('M',m,m,a,lda,dum,anrm)
+           call la_slange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -7902,7 +7904,7 @@ module la_lapack_eigv_gen2
      !> each 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_dtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_dtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_dp,only:zero,one
 
         ! -- lapack computational routine --
@@ -7919,6 +7921,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(dp) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: ierr,j,k,k1,k2,knext,l,l1,l2,lnext
            real(dp) :: a11,bignum,da11,db,eps,scaloc,sgn,smin,smlnum,suml,sumr, &
@@ -7965,8 +7968,9 @@ module la_lapack_eigv_gen2
            call la_dlabad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=dp)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_dlange('M',m,m,a,lda,dum),eps*la_dlange('M', &
-                      n,n,b,ldb,dum))
+           call la_dlange_sub('M',m,m,a,lda,dum,anrm)
+           call la_dlange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -8564,7 +8568,7 @@ module la_lapack_eigv_gen2
      !> each 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_xtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_xtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_xdp,only:zero,one
 
         ! -- lapack computational routine --
@@ -8581,6 +8585,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(xdp) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: ierr,j,k,k1,k2,knext,l,l1,l2,lnext
            real(xdp) :: a11,bignum,da11,db,eps,scaloc,sgn,smin,smlnum,suml,sumr, &
@@ -8627,8 +8632,9 @@ module la_lapack_eigv_gen2
            call la_xlabad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=xdp)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_xlange('M',m,m,a,lda,dum),eps*la_xlange('M', &
-                      n,n,b,ldb,dum))
+           call la_xlange_sub('M',m,m,a,lda,dum,anrm)
+           call la_xlange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -9227,7 +9233,7 @@ module la_lapack_eigv_gen2
      !> each 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_qtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_qtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack computational routine --
@@ -9244,6 +9250,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(qp) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: ierr,j,k,k1,k2,knext,l,l1,l2,lnext
            real(qp) :: a11,bignum,da11,db,eps,scaloc,sgn,smin,smlnum,suml,sumr, &
@@ -9290,8 +9297,9 @@ module la_lapack_eigv_gen2
            call la_qlabad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=qp)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_qlange('M',m,m,a,lda,dum),eps*la_qlange('M', &
-                      n,n,b,ldb,dum))
+           call la_qlange_sub('M',m,m,a,lda,dum,anrm)
+           call la_qlange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -9885,7 +9893,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_shsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_shsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
                mm,m,work,ifaill,ifailr,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
@@ -10003,7 +10011,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_slanhs('I',kr - kl + 1,h(kl,kl),ldh,work)
+                    call la_slanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,work,hnorm)
                     if (la_sisnan(hnorm)) then
                        info = -6
                        return
@@ -10100,7 +10108,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_dhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_dhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
                mm,m,work,ifaill,ifailr,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
@@ -10218,7 +10226,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_dlanhs('I',kr - kl + 1,h(kl,kl),ldh,work)
+                    call la_dlanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,work,hnorm)
                     if (la_disnan(hnorm)) then
                        info = -6
                        return
@@ -10316,7 +10324,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_xhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_xhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
                mm,m,work,ifaill,ifailr,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack computational routine --
@@ -10434,7 +10442,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_xlanhs('I',kr - kl + 1,h(kl,kl),ldh,work)
+                    call la_xlanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,work,hnorm)
                     if (la_xisnan(hnorm)) then
                        info = -6
                        return
@@ -10533,7 +10541,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_qhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_qhsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
                mm,m,work,ifaill,ifailr,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
@@ -10651,7 +10659,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_qlanhs('I',kr - kl + 1,h(kl,kl),ldh,work)
+                    call la_qlanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,work,hnorm)
                     if (la_qisnan(hnorm)) then
                        info = -6
                        return
@@ -10755,7 +10763,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_strsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+     pure subroutine la_strsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                lwork,iwork,liwork,info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -10852,7 +10860,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible.
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_slange('1',n,n,t,ldt,work)
+              if (wantsp) call la_slange_sub('1',n,n,t,ldt,work,sep)
               go to 40
            end if
            ! collect the selected blocks at the top-left corner of t.
@@ -10895,7 +10903,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_slange('F',n1,n2,work,n1,work)
+              call la_slange_sub('F',n1,n2,work,n1,work,rnorm)
               if (rnorm == zero) then
                  s = one
               else
@@ -10950,7 +10958,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_dtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+     pure subroutine la_dtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                lwork,iwork,liwork,info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -11047,7 +11055,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible.
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_dlange('1',n,n,t,ldt,work)
+              if (wantsp) call la_dlange_sub('1',n,n,t,ldt,work,sep)
               go to 40
            end if
            ! collect the selected blocks at the top-left corner of t.
@@ -11090,7 +11098,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_dlange('F',n1,n2,work,n1,work)
+              call la_dlange_sub('F',n1,n2,work,n1,work,rnorm)
               if (rnorm == zero) then
                  s = one
               else
@@ -11146,7 +11154,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_xtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+     pure subroutine la_xtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                lwork,iwork,liwork,info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -11243,7 +11251,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible.
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_xlange('1',n,n,t,ldt,work)
+              if (wantsp) call la_xlange_sub('1',n,n,t,ldt,work,sep)
               go to 40
            end if
            ! collect the selected blocks at the top-left corner of t.
@@ -11286,7 +11294,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_xlange('F',n1,n2,work,n1,work)
+              call la_xlange_sub('F',n1,n2,work,n1,work,rnorm)
               if (rnorm == zero) then
                  s = one
               else
@@ -11343,7 +11351,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_qtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+     pure subroutine la_qtrsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                lwork,iwork,liwork,info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -11440,7 +11448,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible.
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_qlange('1',n,n,t,ldt,work)
+              if (wantsp) call la_qlange_sub('1',n,n,t,ldt,work,sep)
               go to 40
            end if
            ! collect the selected blocks at the top-left corner of t.
@@ -11483,7 +11491,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_qlange('F',n1,n2,work,n1,work)
+              call la_qlange_sub('F',n1,n2,work,n1,work,rnorm)
               if (rnorm == zero) then
                  s = one
               else
@@ -11537,7 +11545,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_strsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
+     pure subroutine la_strsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
                work,ldwork,iwork,info)
         use la_constants_sp,only:zero,one,two
         ! -- lapack computational routine --
@@ -11782,7 +11790,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_dtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
+     pure subroutine la_dtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
                work,ldwork,iwork,info)
         use la_constants_dp,only:zero,one,two
         ! -- lapack computational routine --
@@ -12028,7 +12036,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_xtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
+     pure subroutine la_xtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
                work,ldwork,iwork,info)
         use la_constants_xdp,only:zero,one,two
         ! -- lapack computational routine --
@@ -12275,7 +12283,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_qtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
+     pure subroutine la_qtrsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
                work,ldwork,iwork,info)
         use la_constants_qp,only:zero,one,two
         ! -- lapack computational routine --
@@ -12522,7 +12530,7 @@ module la_lapack_eigv_gen2
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_shseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
+     pure subroutine la_shseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
         use la_constants_sp
 
         ! -- lapack computational routine --
@@ -12668,7 +12676,7 @@ module la_lapack_eigv_gen2
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_dhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
+     pure subroutine la_dhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
         use la_constants_dp
 
         ! -- lapack computational routine --
@@ -12815,7 +12823,7 @@ module la_lapack_eigv_gen2
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_xhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
+     pure subroutine la_xhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
         use la_constants_xdp
 
         ! -- lapack computational routine --
@@ -12963,7 +12971,7 @@ module la_lapack_eigv_gen2
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_qhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
+     pure subroutine la_qhseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
         use la_constants_qp
 
         ! -- lapack computational routine --
@@ -16274,7 +16282,7 @@ module la_lapack_eigv_gen2
      !> M-by-N; and scale is an output scale factor, set <= 1 to avoid
      !> overflow in X.
 
-     subroutine la_ctrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_ctrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_sp,only:one
 
         ! -- lapack computational routine --
@@ -16291,6 +16299,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(sp) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: j,k,l
            real(sp) :: bignum,da11,db,eps,scaloc,sgn,smin,smlnum
@@ -16335,8 +16344,9 @@ module la_lapack_eigv_gen2
            call la_slabad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=sp)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_clange('M',m,m,a,lda,dum),eps*la_clange('M', &
-                      n,n,b,ldb,dum))
+           call la_clange_sub('M',m,m,a,lda,dum,anrm)
+           call la_clange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -16500,7 +16510,7 @@ module la_lapack_eigv_gen2
      !> M-by-N; and scale is an output scale factor, set <= 1 to avoid
      !> overflow in X.
 
-     subroutine la_ztrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_ztrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_dp,only:one
 
         ! -- lapack computational routine --
@@ -16517,6 +16527,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(dp) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: j,k,l
            real(dp) :: bignum,da11,db,eps,scaloc,sgn,smin,smlnum
@@ -16561,8 +16572,9 @@ module la_lapack_eigv_gen2
            call la_dlabad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=dp)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_zlange('M',m,m,a,lda,dum),eps*la_zlange('M', &
-                      n,n,b,ldb,dum))
+           call la_zlange_sub('M',m,m,a,lda,dum,anrm)
+           call la_zlange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -16727,7 +16739,7 @@ module la_lapack_eigv_gen2
      !> M-by-N; and scale is an output scale factor, set <= 1 to avoid
      !> overflow in X.
 
-     subroutine la_ytrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_ytrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_xdp,only:one
 
         ! -- lapack computational routine --
@@ -16744,6 +16756,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(xdp) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: j,k,l
            real(xdp) :: bignum,da11,db,eps,scaloc,sgn,smin,smlnum
@@ -16788,8 +16801,9 @@ module la_lapack_eigv_gen2
            call la_xlabad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=xdp)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_ylange('M',m,m,a,lda,dum),eps*la_ylange('M', &
-                      n,n,b,ldb,dum))
+           call la_ylange_sub('M',m,m,a,lda,dum,anrm)
+           call la_ylange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -16955,7 +16969,7 @@ module la_lapack_eigv_gen2
      !> M-by-N; and scale is an output scale factor, set <= 1 to avoid
      !> overflow in X.
 
-     subroutine la_wtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_wtrsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_qp,only:one
 
         ! -- lapack computational routine --
@@ -16972,6 +16986,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(qp) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: j,k,l
            real(qp) :: bignum,da11,db,eps,scaloc,sgn,smin,smlnum
@@ -17016,8 +17031,9 @@ module la_lapack_eigv_gen2
            call la_qlabad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=qp)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_wlange('M',m,m,a,lda,dum),eps*la_wlange('M', &
-                      n,n,b,ldb,dum))
+           call la_wlange_sub('M',m,m,a,lda,dum,anrm)
+           call la_wlange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -17182,7 +17198,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_chsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
+     pure subroutine la_chsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
                m,work,rwork,ifaill,ifailr,info)
         use la_constants_sp,only:czero
         ! -- lapack computational routine --
@@ -17293,7 +17309,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_clanhs('I',kr - kl + 1,h(kl,kl),ldh,rwork)
+                    call la_clanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,rwork,hnorm)
                     if (la_sisnan(hnorm)) then
                        info = -6
                        return
@@ -17355,7 +17371,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_zhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
+     pure subroutine la_zhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
                m,work,rwork,ifaill,ifailr,info)
         use la_constants_dp,only:czero
         ! -- lapack computational routine --
@@ -17466,7 +17482,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_zlanhs('I',kr - kl + 1,h(kl,kl),ldh,rwork)
+                    call la_zlanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,rwork,hnorm)
                     if (la_disnan(hnorm)) then
                        info = -6
                        return
@@ -17529,7 +17545,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_yhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
+     pure subroutine la_yhsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
                m,work,rwork,ifaill,ifailr,info)
         use la_constants_xdp,only:czero
         ! -- lapack computational routine --
@@ -17640,7 +17656,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_ylanhs('I',kr - kl + 1,h(kl,kl),ldh,rwork)
+                    call la_ylanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,rwork,hnorm)
                     if (la_xisnan(hnorm)) then
                        info = -6
                        return
@@ -17704,7 +17720,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_whsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
+     pure subroutine la_whsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
                m,work,rwork,ifaill,ifailr,info)
         use la_constants_qp,only:czero
         ! -- lapack computational routine --
@@ -17815,7 +17831,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_wlanhs('I',kr - kl + 1,h(kl,kl),ldh,rwork)
+                    call la_wlanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,rwork,hnorm)
                     if (la_qisnan(hnorm)) then
                        info = -6
                        return
@@ -17880,7 +17896,7 @@ module la_lapack_eigv_gen2
      !> Optionally the routine computes the reciprocal condition numbers of
      !> the cluster of eigenvalues and/or the invariant subspace.
 
-     subroutine la_ctrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+     pure subroutine la_ctrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                info)
         use la_constants_sp
         ! -- lapack computational routine --
@@ -17954,7 +17970,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_clange('1',n,n,t,ldt,rwork)
+              if (wantsp) call la_clange_sub('1',n,n,t,ldt,rwork,sep)
               go to 40
            end if
            ! collect the selected eigenvalues at the top left corner of t.
@@ -17974,7 +17990,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_clange('F',n1,n2,work,n1,rwork)
+              call la_clange_sub('F',n1,n2,work,n1,rwork,rnorm)
               if (rnorm == zero) then
                  s = one
               else
@@ -18017,7 +18033,7 @@ module la_lapack_eigv_gen2
      !> Optionally the routine computes the reciprocal condition numbers of
      !> the cluster of eigenvalues and/or the invariant subspace.
 
-     subroutine la_ztrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+     pure subroutine la_ztrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                info)
         use la_constants_dp
         ! -- lapack computational routine --
@@ -18091,7 +18107,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_zlange('1',n,n,t,ldt,rwork)
+              if (wantsp) call la_zlange_sub('1',n,n,t,ldt,rwork,sep)
               go to 40
            end if
            ! collect the selected eigenvalues at the top left corner of t.
@@ -18111,7 +18127,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_zlange('F',n1,n2,work,n1,rwork)
+              call la_zlange_sub('F',n1,n2,work,n1,rwork,rnorm)
               if (rnorm == zero) then
                  s = one
               else
@@ -18155,7 +18171,7 @@ module la_lapack_eigv_gen2
      !> Optionally the routine computes the reciprocal condition numbers of
      !> the cluster of eigenvalues and/or the invariant subspace.
 
-     subroutine la_ytrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+     pure subroutine la_ytrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                info)
         use la_constants_xdp
         ! -- lapack computational routine --
@@ -18229,7 +18245,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_ylange('1',n,n,t,ldt,rwork)
+              if (wantsp) call la_ylange_sub('1',n,n,t,ldt,rwork,sep)
               go to 40
            end if
            ! collect the selected eigenvalues at the top left corner of t.
@@ -18249,7 +18265,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_ylange('F',n1,n2,work,n1,rwork)
+              call la_ylange_sub('F',n1,n2,work,n1,rwork,rnorm)
               if (rnorm == zero) then
                  s = one
               else
@@ -18294,7 +18310,7 @@ module la_lapack_eigv_gen2
      !> Optionally the routine computes the reciprocal condition numbers of
      !> the cluster of eigenvalues and/or the invariant subspace.
 
-     subroutine la_wtrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+     pure subroutine la_wtrsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                info)
         use la_constants_qp
         ! -- lapack computational routine --
@@ -18368,7 +18384,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_wlange('1',n,n,t,ldt,rwork)
+              if (wantsp) call la_wlange_sub('1',n,n,t,ldt,rwork,sep)
               go to 40
            end if
            ! collect the selected eigenvalues at the top left corner of t.
@@ -18388,7 +18404,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_wlange('F',n1,n2,work,n1,rwork)
+              call la_wlange_sub('F',n1,n2,work,n1,rwork,rnorm)
               if (rnorm == zero) then
                  s = one
               else

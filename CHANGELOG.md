@@ -67,9 +67,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The `generated-sources` continuous-integration job runs
   `scripts/fypp_deploy.py --check` and fails on any drift between a template
   and its committed output.
+- The BLAS and LAPACK backend is `pure`, apart from the 26 LAPACK functions
+  that take an `intent(out)` argument, which a pure function cannot have, and
+  `?lacon`, which keeps its state in `save` variables and has no callers
+  (LAPACK replaced it with `?lacn2`). The 26 functions keep their interface;
+  every caller inside the library uses their pure subroutine twins instead.
+  With `LA_EXTERNAL_LAPACK`, the external interfaces of the routines that
+  became pure are declared `pure` as well.
   
 ### Added
 
+- A `pure` subroutine twin for each LAPACK function with an `intent(out)`
+  argument: the matrix norms `?langb`, `?lange`, `?lanhb`, `?lanhe`, `?lanhf`,
+  `?lanhp`, `?lanhs`, `?lansb`, `?lansf`, `?lansp`, `?lansy`, `?lantb`,
+  `?lantp` and `?lantr`, and the extra-precise refinement helpers
+  `?la_gbrcond`, `?la_gercond`, `?la_porcond`, `?la_syrcond`, their `_c`
+  variants, `?la_hercond_c`, `?la_herpvgrw`, `?la_porpvgrw` and
+  `?la_syrpvgrw`. `la_?lange_sub(norm, m, n, a, lda, work, res)` takes the
+  arguments of `la_?lange` and returns its value in `res`. `la_lapack` exposes
+  them as the generics `lange_sub` and so on, bound to the bundled code in
+  every build, `LA_EXTERNAL_LAPACK` included.
 - Linear-algebra test suite ported from the Fortran standard library
   (test-drive dev-dependency).
 - `solve_lu(a, b, x [, pivot] [, overwrite_a] [, err])`, a `pure` subroutine form

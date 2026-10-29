@@ -9470,7 +9470,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_sgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_sgeqr2p(m,n,a,lda,tau,work,info)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9526,7 +9526,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_dgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_dgeqr2p(m,n,a,lda,tau,work,info)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9583,7 +9583,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_xgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_xgeqr2p(m,n,a,lda,tau,work,info)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9641,7 +9641,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_qgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_qgeqr2p(m,n,a,lda,tau,work,info)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -10108,7 +10108,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_sgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_sgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10206,7 +10206,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_dgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_dgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10305,7 +10305,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_xgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_xgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -10405,7 +10405,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_qgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_qgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -24892,7 +24892,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_cgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_cgeqr2p(m,n,a,lda,tau,work,info)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -24948,7 +24948,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_zgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_zgeqr2p(m,n,a,lda,tau,work,info)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -25005,7 +25005,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_ygeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_ygeqr2p(m,n,a,lda,tau,work,info)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -25063,7 +25063,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (m-n)-by-n zero matrix, if m > n.
 
-     subroutine la_wgeqr2p(m,n,a,lda,tau,work,info)
+     pure subroutine la_wgeqr2p(m,n,a,lda,tau,work,info)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -25530,7 +25530,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_cgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_cgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25628,7 +25628,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_zgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_zgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25727,7 +25727,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_ygeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_ygeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
@@ -25827,7 +25827,7 @@ module la_lapack_orthogonal_factors_qr
      !> entries;
      !> 0 is a (M-N)-by-N zero matrix, if M > N.
 
-     subroutine la_wgeqrfp(m,n,a,lda,tau,work,lwork,info)
+     pure subroutine la_wgeqrfp(m,n,a,lda,tau,work,lwork,info)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--

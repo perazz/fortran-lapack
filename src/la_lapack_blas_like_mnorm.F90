@@ -9,120 +9,212 @@ module la_lapack_blas_like_mnorm
 
      public :: sp,dp,qp,lk,ilp
      public :: la_slangb
+     public :: la_slangb_sub
      public :: la_slange
+     public :: la_slange_sub
      public :: la_slangt
      public :: la_slanhs
+     public :: la_slanhs_sub
      public :: la_slansb
+     public :: la_slansb_sub
      public :: la_slansf
+     public :: la_slansf_sub
      public :: la_slansp
+     public :: la_slansp_sub
      public :: la_slanst
      public :: la_slansy
+     public :: la_slansy_sub
      public :: la_slantb
+     public :: la_slantb_sub
      public :: la_slantp
+     public :: la_slantp_sub
      public :: la_slantr
+     public :: la_slantr_sub
      public :: la_dlangb
+     public :: la_dlangb_sub
      public :: la_dlange
+     public :: la_dlange_sub
      public :: la_dlangt
      public :: la_dlanhs
+     public :: la_dlanhs_sub
      public :: la_dlansb
+     public :: la_dlansb_sub
      public :: la_dlansf
+     public :: la_dlansf_sub
      public :: la_dlansp
+     public :: la_dlansp_sub
      public :: la_dlanst
      public :: la_dlansy
+     public :: la_dlansy_sub
      public :: la_dlantb
+     public :: la_dlantb_sub
      public :: la_dlantp
+     public :: la_dlantp_sub
      public :: la_dlantr
+     public :: la_dlantr_sub
 #ifdef LA_WITH_XDP
      public :: la_xlangb
+     public :: la_xlangb_sub
      public :: la_xlange
+     public :: la_xlange_sub
      public :: la_xlangt
      public :: la_xlanhs
+     public :: la_xlanhs_sub
      public :: la_xlansb
+     public :: la_xlansb_sub
      public :: la_xlansf
+     public :: la_xlansf_sub
      public :: la_xlansp
+     public :: la_xlansp_sub
      public :: la_xlanst
      public :: la_xlansy
+     public :: la_xlansy_sub
      public :: la_xlantb
+     public :: la_xlantb_sub
      public :: la_xlantp
+     public :: la_xlantp_sub
      public :: la_xlantr
+     public :: la_xlantr_sub
 #endif
 #ifdef LA_WITH_QP
      public :: la_qlangb
+     public :: la_qlangb_sub
      public :: la_qlange
+     public :: la_qlange_sub
      public :: la_qlangt
      public :: la_qlanhs
+     public :: la_qlanhs_sub
      public :: la_qlansb
+     public :: la_qlansb_sub
      public :: la_qlansf
+     public :: la_qlansf_sub
      public :: la_qlansp
+     public :: la_qlansp_sub
      public :: la_qlanst
      public :: la_qlansy
+     public :: la_qlansy_sub
      public :: la_qlantb
+     public :: la_qlantb_sub
      public :: la_qlantp
+     public :: la_qlantp_sub
      public :: la_qlantr
+     public :: la_qlantr_sub
 #endif
      public :: la_clangb
+     public :: la_clangb_sub
      public :: la_clange
+     public :: la_clange_sub
      public :: la_clangt
      public :: la_clanhb
+     public :: la_clanhb_sub
      public :: la_clanhe
+     public :: la_clanhe_sub
      public :: la_clanhf
+     public :: la_clanhf_sub
      public :: la_clanhp
+     public :: la_clanhp_sub
      public :: la_clanhs
+     public :: la_clanhs_sub
      public :: la_clanht
      public :: la_clansb
+     public :: la_clansb_sub
      public :: la_clansp
+     public :: la_clansp_sub
      public :: la_clansy
+     public :: la_clansy_sub
      public :: la_clantb
+     public :: la_clantb_sub
      public :: la_clantp
+     public :: la_clantp_sub
      public :: la_clantr
+     public :: la_clantr_sub
      public :: la_zlangb
+     public :: la_zlangb_sub
      public :: la_zlange
+     public :: la_zlange_sub
      public :: la_zlangt
      public :: la_zlanhb
+     public :: la_zlanhb_sub
      public :: la_zlanhe
+     public :: la_zlanhe_sub
      public :: la_zlanhf
+     public :: la_zlanhf_sub
      public :: la_zlanhp
+     public :: la_zlanhp_sub
      public :: la_zlanhs
+     public :: la_zlanhs_sub
      public :: la_zlanht
      public :: la_zlansb
+     public :: la_zlansb_sub
      public :: la_zlansp
+     public :: la_zlansp_sub
      public :: la_zlansy
+     public :: la_zlansy_sub
      public :: la_zlantb
+     public :: la_zlantb_sub
      public :: la_zlantp
+     public :: la_zlantp_sub
      public :: la_zlantr
+     public :: la_zlantr_sub
 #ifdef LA_WITH_XDP
      public :: la_ylangb
+     public :: la_ylangb_sub
      public :: la_ylange
+     public :: la_ylange_sub
      public :: la_ylangt
      public :: la_ylanhb
+     public :: la_ylanhb_sub
      public :: la_ylanhe
+     public :: la_ylanhe_sub
      public :: la_ylanhf
+     public :: la_ylanhf_sub
      public :: la_ylanhp
+     public :: la_ylanhp_sub
      public :: la_ylanhs
+     public :: la_ylanhs_sub
      public :: la_ylanht
      public :: la_ylansb
+     public :: la_ylansb_sub
      public :: la_ylansp
+     public :: la_ylansp_sub
      public :: la_ylansy
+     public :: la_ylansy_sub
      public :: la_ylantb
+     public :: la_ylantb_sub
      public :: la_ylantp
+     public :: la_ylantp_sub
      public :: la_ylantr
+     public :: la_ylantr_sub
 #endif
 #ifdef LA_WITH_QP
      public :: la_wlangb
+     public :: la_wlangb_sub
      public :: la_wlange
+     public :: la_wlange_sub
      public :: la_wlangt
      public :: la_wlanhb
+     public :: la_wlanhb_sub
      public :: la_wlanhe
+     public :: la_wlanhe_sub
      public :: la_wlanhf
+     public :: la_wlanhf_sub
      public :: la_wlanhp
+     public :: la_wlanhp_sub
      public :: la_wlanhs
+     public :: la_wlanhs_sub
      public :: la_wlanht
      public :: la_wlansb
+     public :: la_wlansb_sub
      public :: la_wlansp
+     public :: la_wlansp_sub
      public :: la_wlansy
+     public :: la_wlansy_sub
      public :: la_wlantb
+     public :: la_wlantb_sub
      public :: la_wlantp
+     public :: la_wlantp_sub
      public :: la_wlantr
+     public :: la_wlantr_sub
 #endif
 
      contains
@@ -132,6 +224,18 @@ module la_lapack_blas_like_mnorm
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(sp) function la_slangb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(sp),intent(in) :: ab(ldab,*)
+           real(sp),intent(out) :: work(*)
+           call la_slangb_sub(norm,n,kl,ku,ab,ldab,work,la_slangb)
+     end function la_slangb
+
+     !> Pure subroutine form of SLANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slangb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -142,6 +246,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: ab(ldab,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -199,14 +305,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_slangb = value
+           res = value
            return
-     end function la_slangb
+     end subroutine la_slangb_sub
      !> DLANGB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(dp) function la_dlangb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(dp),intent(in) :: ab(ldab,*)
+           real(dp),intent(out) :: work(*)
+           call la_dlangb_sub(norm,n,kl,ku,ab,ldab,work,la_dlangb)
+     end function la_dlangb
+
+     !> Pure subroutine form of DLANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlangb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -217,6 +335,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: ab(ldab,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -274,15 +394,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_dlangb = value
+           res = value
            return
-     end function la_dlangb
+     end subroutine la_dlangb_sub
 #ifdef LA_WITH_XDP
      !> XLANGB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(xdp) function la_xlangb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(xdp),intent(in) :: ab(ldab,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlangb_sub(norm,n,kl,ku,ab,ldab,work,la_xlangb)
+     end function la_xlangb
+
+     !> Pure subroutine form of XLANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlangb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -293,6 +425,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: ab(ldab,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -350,9 +484,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_xlangb = value
+           res = value
            return
-     end function la_xlangb
+     end subroutine la_xlangb_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANGB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -360,6 +494,18 @@ module la_lapack_blas_like_mnorm
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(qp) function la_qlangb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(qp),intent(in) :: ab(ldab,*)
+           real(qp),intent(out) :: work(*)
+           call la_qlangb_sub(norm,n,kl,ku,ab,ldab,work,la_qlangb)
+     end function la_qlangb
+
+     !> Pure subroutine form of QLANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlangb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -370,6 +516,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: ab(ldab,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -427,9 +575,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_qlangb = value
+           res = value
            return
-     end function la_qlangb
+     end subroutine la_qlangb_sub
 #endif
 
      !> SLANGE:  returns the value of the one norm,  or the Frobenius norm, or
@@ -437,6 +585,18 @@ module la_lapack_blas_like_mnorm
      !> real matrix A.
 
      real(sp) function la_slange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(out) :: work(*)
+           call la_slange_sub(norm,m,n,a,lda,work,la_slange)
+     end function la_slange
+
+     !> Pure subroutine form of SLANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slange_sub(norm,m,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -447,6 +607,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -501,14 +663,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_slange = value
+           res = value
            return
-     end function la_slange
+     end subroutine la_slange_sub
      !> DLANGE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real matrix A.
 
      real(dp) function la_dlange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(dp),intent(in) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           call la_dlange_sub(norm,m,n,a,lda,work,la_dlange)
+     end function la_dlange
+
+     !> Pure subroutine form of DLANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlange_sub(norm,m,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -519,6 +693,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -573,15 +749,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_dlange = value
+           res = value
            return
-     end function la_dlange
+     end subroutine la_dlange_sub
 #ifdef LA_WITH_XDP
      !> XLANGE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real matrix A.
 
      real(xdp) function la_xlange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(xdp),intent(in) :: a(lda,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlange_sub(norm,m,n,a,lda,work,la_xlange)
+     end function la_xlange
+
+     !> Pure subroutine form of XLANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlange_sub(norm,m,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -592,6 +780,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: a(lda,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -646,9 +836,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_xlange = value
+           res = value
            return
-     end function la_xlange
+     end subroutine la_xlange_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANGE:  returns the value of the one norm,  or the Frobenius norm, or
@@ -656,6 +846,18 @@ module la_lapack_blas_like_mnorm
      !> real matrix A.
 
      real(qp) function la_qlange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           call la_qlange_sub(norm,m,n,a,lda,work,la_qlange)
+     end function la_qlange
+
+     !> Pure subroutine form of QLANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlange_sub(norm,m,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -666,6 +868,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -720,9 +924,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_qlange = value
+           res = value
            return
-     end function la_qlange
+     end subroutine la_qlange_sub
 #endif
 
      !> SLANGT:  returns the value of the one norm,  or the Frobenius norm, or
@@ -1039,6 +1243,18 @@ module la_lapack_blas_like_mnorm
      !> Hessenberg matrix A.
 
      real(sp) function la_slanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(out) :: work(*)
+           call la_slanhs_sub(norm,n,a,lda,work,la_slanhs)
+     end function la_slanhs
+
+     !> Pure subroutine form of SLANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slanhs_sub(norm,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1049,6 +1265,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1103,14 +1321,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_slanhs = value
+           res = value
            return
-     end function la_slanhs
+     end subroutine la_slanhs_sub
      !> DLANHS:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
      real(dp) function la_dlanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(dp),intent(in) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           call la_dlanhs_sub(norm,n,a,lda,work,la_dlanhs)
+     end function la_dlanhs
+
+     !> Pure subroutine form of DLANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlanhs_sub(norm,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1121,6 +1351,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1175,15 +1407,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_dlanhs = value
+           res = value
            return
-     end function la_dlanhs
+     end subroutine la_dlanhs_sub
 #ifdef LA_WITH_XDP
      !> XLANHS:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
      real(xdp) function la_xlanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(xdp),intent(in) :: a(lda,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlanhs_sub(norm,n,a,lda,work,la_xlanhs)
+     end function la_xlanhs
+
+     !> Pure subroutine form of XLANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlanhs_sub(norm,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1194,6 +1438,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: a(lda,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1248,9 +1494,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_xlanhs = value
+           res = value
            return
-     end function la_xlanhs
+     end subroutine la_xlanhs_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANHS:  returns the value of the one norm,  or the Frobenius norm, or
@@ -1258,6 +1504,18 @@ module la_lapack_blas_like_mnorm
      !> Hessenberg matrix A.
 
      real(qp) function la_qlanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           call la_qlanhs_sub(norm,n,a,lda,work,la_qlanhs)
+     end function la_qlanhs
+
+     !> Pure subroutine form of QLANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlanhs_sub(norm,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1268,6 +1526,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1322,9 +1582,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_qlanhs = value
+           res = value
            return
-     end function la_qlanhs
+     end subroutine la_qlanhs_sub
 #endif
 
      !> SLANSB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -1332,6 +1592,18 @@ module la_lapack_blas_like_mnorm
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(sp) function la_slansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(sp),intent(in) :: ab(ldab,*)
+           real(sp),intent(out) :: work(*)
+           call la_slansb_sub(norm,uplo,n,k,ab,ldab,work,la_slansb)
+     end function la_slansb
+
+     !> Pure subroutine form of SLANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1342,6 +1614,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: ab(ldab,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1429,14 +1703,26 @@ module la_lapack_blas_like_mnorm
               call la_slassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_slansb = value
+           res = value
            return
-     end function la_slansb
+     end subroutine la_slansb_sub
      !> DLANSB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(dp) function la_dlansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(dp),intent(in) :: ab(ldab,*)
+           real(dp),intent(out) :: work(*)
+           call la_dlansb_sub(norm,uplo,n,k,ab,ldab,work,la_dlansb)
+     end function la_dlansb
+
+     !> Pure subroutine form of DLANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1447,6 +1733,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: ab(ldab,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1534,15 +1822,27 @@ module la_lapack_blas_like_mnorm
               call la_dlassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_dlansb = value
+           res = value
            return
-     end function la_dlansb
+     end subroutine la_dlansb_sub
 #ifdef LA_WITH_XDP
      !> XLANSB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(xdp) function la_xlansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(xdp),intent(in) :: ab(ldab,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlansb_sub(norm,uplo,n,k,ab,ldab,work,la_xlansb)
+     end function la_xlansb
+
+     !> Pure subroutine form of XLANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1553,6 +1853,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: ab(ldab,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1640,9 +1942,9 @@ module la_lapack_blas_like_mnorm
               call la_xlassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_xlansb = value
+           res = value
            return
-     end function la_xlansb
+     end subroutine la_xlansb_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANSB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -1650,6 +1952,18 @@ module la_lapack_blas_like_mnorm
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(qp) function la_qlansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(qp),intent(in) :: ab(ldab,*)
+           real(qp),intent(out) :: work(*)
+           call la_qlansb_sub(norm,uplo,n,k,ab,ldab,work,la_qlansb)
+     end function la_qlansb
+
+     !> Pure subroutine form of QLANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1660,6 +1974,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: ab(ldab,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1747,9 +2063,9 @@ module la_lapack_blas_like_mnorm
               call la_qlassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_qlansb = value
+           res = value
            return
-     end function la_qlansb
+     end subroutine la_qlansb_sub
 #endif
 
      !> SLANSF: returns the value of the one norm, or the Frobenius norm, or
@@ -1757,6 +2073,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A in RFP format.
 
      real(sp) function la_slansf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(sp),intent(in) :: a(0:*)
+           real(sp),intent(out) :: work(0:*)
+           call la_slansf_sub(norm,transr,uplo,n,a,work,la_slansf)
+     end function la_slansf
+
+     !> Pure subroutine form of SLANSF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slansf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1767,6 +2095,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: a(0:*)
            real(sp),intent(out) :: work(0:*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -1776,10 +2106,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_slansf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_slansf = abs(a(0))
+              res = abs(a(0))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -2453,14 +2783,26 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_slansf = value
+           res = value
            return
-     end function la_slansf
+     end subroutine la_slansf_sub
      !> DLANSF: returns the value of the one norm, or the Frobenius norm, or
      !> the infinity norm, or the element of largest absolute value of a
      !> real symmetric matrix A in RFP format.
 
      real(dp) function la_dlansf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(dp),intent(in) :: a(0:*)
+           real(dp),intent(out) :: work(0:*)
+           call la_dlansf_sub(norm,transr,uplo,n,a,work,la_dlansf)
+     end function la_dlansf
+
+     !> Pure subroutine form of DLANSF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlansf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2471,6 +2813,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: a(0:*)
            real(dp),intent(out) :: work(0:*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -2480,10 +2824,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,max,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_dlansf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_dlansf = abs(a(0))
+              res = abs(a(0))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -3157,15 +3501,27 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_dlansf = value
+           res = value
            return
-     end function la_dlansf
+     end subroutine la_dlansf_sub
 #ifdef LA_WITH_XDP
      !> XLANSF: returns the value of the one norm, or the Frobenius norm, or
      !> the infinity norm, or the element of largest absolute value of a
      !> real symmetric matrix A in RFP format.
 
      real(xdp) function la_xlansf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(xdp),intent(in) :: a(0:*)
+           real(xdp),intent(out) :: work(0:*)
+           call la_xlansf_sub(norm,transr,uplo,n,a,work,la_xlansf)
+     end function la_xlansf
+
+     !> Pure subroutine form of XLANSF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlansf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3176,6 +3532,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: a(0:*)
            real(xdp),intent(out) :: work(0:*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -3185,10 +3543,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,max,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_xlansf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_xlansf = abs(a(0))
+              res = abs(a(0))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -3862,9 +4220,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_xlansf = value
+           res = value
            return
-     end function la_xlansf
+     end subroutine la_xlansf_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANSF: returns the value of the one norm, or the Frobenius norm, or
@@ -3872,6 +4230,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A in RFP format.
 
      real(qp) function la_qlansf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(qp),intent(in) :: a(0:*)
+           real(qp),intent(out) :: work(0:*)
+           call la_qlansf_sub(norm,transr,uplo,n,a,work,la_qlansf)
+     end function la_qlansf
+
+     !> Pure subroutine form of QLANSF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlansf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3882,6 +4252,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: a(0:*)
            real(qp),intent(out) :: work(0:*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -3891,10 +4263,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,max,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_qlansf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_qlansf = abs(a(0))
+              res = abs(a(0))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -4568,9 +4940,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_qlansf = value
+           res = value
            return
-     end function la_qlansf
+     end subroutine la_qlansf_sub
 #endif
 
      !> SLANSP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -4578,6 +4950,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A,  supplied in packed form.
 
      real(sp) function la_slansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(sp),intent(in) :: ap(*)
+           real(sp),intent(out) :: work(*)
+           call la_slansp_sub(norm,uplo,n,ap,work,la_slansp)
+     end function la_slansp
+
+     !> Pure subroutine form of SLANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4588,6 +4972,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: ap(*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4694,14 +5080,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_slansp = value
+           res = value
            return
-     end function la_slansp
+     end subroutine la_slansp_sub
      !> DLANSP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A,  supplied in packed form.
 
      real(dp) function la_dlansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(dp),intent(in) :: ap(*)
+           real(dp),intent(out) :: work(*)
+           call la_dlansp_sub(norm,uplo,n,ap,work,la_dlansp)
+     end function la_dlansp
+
+     !> Pure subroutine form of DLANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4712,6 +5110,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: ap(*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4818,15 +5218,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_dlansp = value
+           res = value
            return
-     end function la_dlansp
+     end subroutine la_dlansp_sub
 #ifdef LA_WITH_XDP
      !> XLANSP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A,  supplied in packed form.
 
      real(xdp) function la_xlansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(xdp),intent(in) :: ap(*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlansp_sub(norm,uplo,n,ap,work,la_xlansp)
+     end function la_xlansp
+
+     !> Pure subroutine form of XLANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4837,6 +5249,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: ap(*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4943,9 +5357,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_xlansp = value
+           res = value
            return
-     end function la_xlansp
+     end subroutine la_xlansp_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANSP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -4953,6 +5367,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A,  supplied in packed form.
 
      real(qp) function la_qlansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(qp),intent(in) :: ap(*)
+           real(qp),intent(out) :: work(*)
+           call la_qlansp_sub(norm,uplo,n,ap,work,la_qlansp)
+     end function la_qlansp
+
+     !> Pure subroutine form of QLANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4963,6 +5389,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: ap(*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -5069,9 +5497,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_qlansp = value
+           res = value
            return
-     end function la_qlansp
+     end subroutine la_qlansp_sub
 #endif
 
      !> SLANST:  returns the value of the one norm,  or the Frobenius norm, or
@@ -5332,6 +5760,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A.
 
      real(sp) function la_slansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(out) :: work(*)
+           call la_slansy_sub(norm,uplo,n,a,lda,work,la_slansy)
+     end function la_slansy
+
+     !> Pure subroutine form of SLANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5342,6 +5782,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -5420,14 +5862,26 @@ module la_lapack_blas_like_mnorm
               call la_slassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_slansy = value
+           res = value
            return
-     end function la_slansy
+     end subroutine la_slansy_sub
      !> DLANSY:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A.
 
      real(dp) function la_dlansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(dp),intent(in) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           call la_dlansy_sub(norm,uplo,n,a,lda,work,la_dlansy)
+     end function la_dlansy
+
+     !> Pure subroutine form of DLANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5438,6 +5892,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -5516,15 +5972,27 @@ module la_lapack_blas_like_mnorm
               call la_dlassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_dlansy = value
+           res = value
            return
-     end function la_dlansy
+     end subroutine la_dlansy_sub
 #ifdef LA_WITH_XDP
      !> XLANSY:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> real symmetric matrix A.
 
      real(xdp) function la_xlansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(xdp),intent(in) :: a(lda,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlansy_sub(norm,uplo,n,a,lda,work,la_xlansy)
+     end function la_xlansy
+
+     !> Pure subroutine form of XLANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5535,6 +6003,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: a(lda,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -5613,9 +6083,9 @@ module la_lapack_blas_like_mnorm
               call la_xlassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_xlansy = value
+           res = value
            return
-     end function la_xlansy
+     end subroutine la_xlansy_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANSY:  returns the value of the one norm,  or the Frobenius norm, or
@@ -5623,6 +6093,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A.
 
      real(qp) function la_qlansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           call la_qlansy_sub(norm,uplo,n,a,lda,work,la_qlansy)
+     end function la_qlansy
+
+     !> Pure subroutine form of QLANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5633,6 +6115,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -5711,9 +6195,9 @@ module la_lapack_blas_like_mnorm
               call la_qlassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_qlansy = value
+           res = value
            return
-     end function la_qlansy
+     end subroutine la_qlansy_sub
 #endif
 
      !> SLANTB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -5721,6 +6205,18 @@ module la_lapack_blas_like_mnorm
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(sp) function la_slantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(sp),intent(in) :: ab(ldab,*)
+           real(sp),intent(out) :: work(*)
+           call la_slantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_slantb)
+     end function la_slantb
+
+     !> Pure subroutine form of SLANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5731,6 +6227,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: ab(ldab,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -5906,14 +6404,26 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_slantb = value
+           res = value
            return
-     end function la_slantb
+     end subroutine la_slantb_sub
      !> DLANTB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(dp) function la_dlantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(dp),intent(in) :: ab(ldab,*)
+           real(dp),intent(out) :: work(*)
+           call la_dlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_dlantb)
+     end function la_dlantb
+
+     !> Pure subroutine form of DLANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5924,6 +6434,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: ab(ldab,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -6099,15 +6611,27 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_dlantb = value
+           res = value
            return
-     end function la_dlantb
+     end subroutine la_dlantb_sub
 #ifdef LA_WITH_XDP
      !> XLANTB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(xdp) function la_xlantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(xdp),intent(in) :: ab(ldab,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_xlantb)
+     end function la_xlantb
+
+     !> Pure subroutine form of XLANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6118,6 +6642,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: ab(ldab,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -6293,9 +6819,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_xlantb = value
+           res = value
            return
-     end function la_xlantb
+     end subroutine la_xlantb_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANTB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -6303,6 +6829,18 @@ module la_lapack_blas_like_mnorm
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(qp) function la_qlantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(qp),intent(in) :: ab(ldab,*)
+           real(qp),intent(out) :: work(*)
+           call la_qlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_qlantb)
+     end function la_qlantb
+
+     !> Pure subroutine form of QLANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6313,6 +6851,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: ab(ldab,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -6488,9 +7028,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_qlantb = value
+           res = value
            return
-     end function la_qlantb
+     end subroutine la_qlantb_sub
 #endif
 
      !> SLANTP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -6498,6 +7038,18 @@ module la_lapack_blas_like_mnorm
      !> triangular matrix A, supplied in packed form.
 
      real(sp) function la_slantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(sp),intent(in) :: ap(*)
+           real(sp),intent(out) :: work(*)
+           call la_slantp_sub(norm,uplo,diag,n,ap,work,la_slantp)
+     end function la_slantp
+
+     !> Pure subroutine form of SLANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6508,6 +7060,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: ap(*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -6696,14 +7250,26 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_slantp = value
+           res = value
            return
-     end function la_slantp
+     end subroutine la_slantp_sub
      !> DLANTP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
      real(dp) function la_dlantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(dp),intent(in) :: ap(*)
+           real(dp),intent(out) :: work(*)
+           call la_dlantp_sub(norm,uplo,diag,n,ap,work,la_dlantp)
+     end function la_dlantp
+
+     !> Pure subroutine form of DLANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6714,6 +7280,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: ap(*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -6902,15 +7470,27 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_dlantp = value
+           res = value
            return
-     end function la_dlantp
+     end subroutine la_dlantp_sub
 #ifdef LA_WITH_XDP
      !> XLANTP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
      real(xdp) function la_xlantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(xdp),intent(in) :: ap(*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlantp_sub(norm,uplo,diag,n,ap,work,la_xlantp)
+     end function la_xlantp
+
+     !> Pure subroutine form of XLANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -6921,6 +7501,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: ap(*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -7109,9 +7691,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_xlantp = value
+           res = value
            return
-     end function la_xlantp
+     end subroutine la_xlantp_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANTP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -7119,6 +7701,18 @@ module la_lapack_blas_like_mnorm
      !> triangular matrix A, supplied in packed form.
 
      real(qp) function la_qlantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(qp),intent(in) :: ap(*)
+           real(qp),intent(out) :: work(*)
+           call la_qlantp_sub(norm,uplo,diag,n,ap,work,la_qlantp)
+     end function la_qlantp
+
+     !> Pure subroutine form of QLANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7129,6 +7723,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: ap(*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -7317,9 +7913,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_qlantp = value
+           res = value
            return
-     end function la_qlantp
+     end subroutine la_qlantp_sub
 #endif
 
      !> SLANTR:  returns the value of the one norm,  or the Frobenius norm, or
@@ -7327,6 +7923,18 @@ module la_lapack_blas_like_mnorm
      !> trapezoidal or triangular matrix A.
 
      real(sp) function la_slantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(sp),intent(in) :: a(lda,*)
+           real(sp),intent(out) :: work(*)
+           call la_slantr_sub(norm,uplo,diag,m,n,a,lda,work,la_slantr)
+     end function la_slantr
+
+     !> Pure subroutine form of SLANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_slantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7337,6 +7945,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(in) :: a(lda,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -7505,14 +8115,26 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_slantr = value
+           res = value
            return
-     end function la_slantr
+     end subroutine la_slantr_sub
      !> DLANTR:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
      real(dp) function la_dlantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(dp),intent(in) :: a(lda,*)
+           real(dp),intent(out) :: work(*)
+           call la_dlantr_sub(norm,uplo,diag,m,n,a,lda,work,la_dlantr)
+     end function la_dlantr
+
+     !> Pure subroutine form of DLANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dlantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7523,6 +8145,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -7691,15 +8315,27 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_dlantr = value
+           res = value
            return
-     end function la_dlantr
+     end subroutine la_dlantr_sub
 #ifdef LA_WITH_XDP
      !> XLANTR:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
      real(xdp) function la_xlantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(xdp),intent(in) :: a(lda,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xlantr_sub(norm,uplo,diag,m,n,a,lda,work,la_xlantr)
+     end function la_xlantr
+
+     !> Pure subroutine form of XLANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xlantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7710,6 +8346,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(in) :: a(lda,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -7878,9 +8516,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_xlantr = value
+           res = value
            return
-     end function la_xlantr
+     end subroutine la_xlantr_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLANTR:  returns the value of the one norm,  or the Frobenius norm, or
@@ -7888,6 +8526,18 @@ module la_lapack_blas_like_mnorm
      !> trapezoidal or triangular matrix A.
 
      real(qp) function la_qlantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(qp),intent(in) :: a(lda,*)
+           real(qp),intent(out) :: work(*)
+           call la_qlantr_sub(norm,uplo,diag,m,n,a,lda,work,la_qlantr)
+     end function la_qlantr
+
+     !> Pure subroutine form of QLANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qlantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7898,6 +8548,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(in) :: a(lda,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8066,9 +8718,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_qlantr = value
+           res = value
            return
-     end function la_qlantr
+     end subroutine la_qlantr_sub
 #endif
 
      !> CLANGB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -8076,6 +8728,18 @@ module la_lapack_blas_like_mnorm
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(sp) function la_clangb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: ab(ldab,*)
+           call la_clangb_sub(norm,n,kl,ku,ab,ldab,work,la_clangb)
+     end function la_clangb
+
+     !> Pure subroutine form of CLANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clangb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8086,6 +8750,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8143,14 +8809,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_clangb = value
+           res = value
            return
-     end function la_clangb
+     end subroutine la_clangb_sub
      !> ZLANGB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(dp) function la_zlangb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           call la_zlangb_sub(norm,n,kl,ku,ab,ldab,work,la_zlangb)
+     end function la_zlangb
+
+     !> Pure subroutine form of ZLANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlangb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8161,6 +8839,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8218,15 +8898,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_zlangb = value
+           res = value
            return
-     end function la_zlangb
+     end subroutine la_zlangb_sub
 #ifdef LA_WITH_XDP
      !> YLANGB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(xdp) function la_ylangb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: ab(ldab,*)
+           call la_ylangb_sub(norm,n,kl,ku,ab,ldab,work,la_ylangb)
+     end function la_ylangb
+
+     !> Pure subroutine form of YLANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylangb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8237,6 +8929,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8294,9 +8988,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_ylangb = value
+           res = value
            return
-     end function la_ylangb
+     end subroutine la_ylangb_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANGB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -8304,6 +8998,18 @@ module la_lapack_blas_like_mnorm
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(qp) function la_wlangb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           call la_wlangb_sub(norm,n,kl,ku,ab,ldab,work,la_wlangb)
+     end function la_wlangb
+
+     !> Pure subroutine form of WLANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlangb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8314,6 +9020,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8371,9 +9079,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_wlangb = value
+           res = value
            return
-     end function la_wlangb
+     end subroutine la_wlangb_sub
 #endif
 
      !> CLANGE:  returns the value of the one norm,  or the Frobenius norm, or
@@ -8381,6 +9089,18 @@ module la_lapack_blas_like_mnorm
      !> complex matrix A.
 
      real(sp) function la_clange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: a(lda,*)
+           call la_clange_sub(norm,m,n,a,lda,work,la_clange)
+     end function la_clange
+
+     !> Pure subroutine form of CLANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clange_sub(norm,m,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8391,6 +9111,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8445,14 +9167,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_clange = value
+           res = value
            return
-     end function la_clange
+     end subroutine la_clange_sub
      !> ZLANGE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex matrix A.
 
      real(dp) function la_zlange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
+           call la_zlange_sub(norm,m,n,a,lda,work,la_zlange)
+     end function la_zlange
+
+     !> Pure subroutine form of ZLANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlange_sub(norm,m,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8463,6 +9197,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8517,15 +9253,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_zlange = value
+           res = value
            return
-     end function la_zlange
+     end subroutine la_zlange_sub
 #ifdef LA_WITH_XDP
      !> YLANGE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex matrix A.
 
      real(xdp) function la_ylange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: a(lda,*)
+           call la_ylange_sub(norm,m,n,a,lda,work,la_ylange)
+     end function la_ylange
+
+     !> Pure subroutine form of YLANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylange_sub(norm,m,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8536,6 +9284,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8590,9 +9340,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_ylange = value
+           res = value
            return
-     end function la_ylange
+     end subroutine la_ylange_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANGE:  returns the value of the one norm,  or the Frobenius norm, or
@@ -8600,6 +9350,18 @@ module la_lapack_blas_like_mnorm
      !> complex matrix A.
 
      real(qp) function la_wlange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
+           call la_wlange_sub(norm,m,n,a,lda,work,la_wlange)
+     end function la_wlange
+
+     !> Pure subroutine form of WLANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlange_sub(norm,m,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8610,6 +9372,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -8664,9 +9428,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_wlange = value
+           res = value
            return
-     end function la_wlange
+     end subroutine la_wlange_sub
 #endif
 
      !> CLANGT:  returns the value of the one norm,  or the Frobenius norm, or
@@ -8983,6 +9747,18 @@ module la_lapack_blas_like_mnorm
      !> n by n hermitian band matrix A,  with k super-diagonals.
 
      real(sp) function la_clanhb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: ab(ldab,*)
+           call la_clanhb_sub(norm,uplo,n,k,ab,ldab,work,la_clanhb)
+     end function la_clanhb
+
+     !> Pure subroutine form of CLANHB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clanhb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -8993,6 +9769,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -9094,14 +9872,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_clanhb = value
+           res = value
            return
-     end function la_clanhb
+     end subroutine la_clanhb_sub
      !> ZLANHB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n hermitian band matrix A,  with k super-diagonals.
 
      real(dp) function la_zlanhb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           call la_zlanhb_sub(norm,uplo,n,k,ab,ldab,work,la_zlanhb)
+     end function la_zlanhb
+
+     !> Pure subroutine form of ZLANHB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlanhb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9112,6 +9902,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -9213,15 +10005,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_zlanhb = value
+           res = value
            return
-     end function la_zlanhb
+     end subroutine la_zlanhb_sub
 #ifdef LA_WITH_XDP
      !> YLANHB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n hermitian band matrix A,  with k super-diagonals.
 
      real(xdp) function la_ylanhb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: ab(ldab,*)
+           call la_ylanhb_sub(norm,uplo,n,k,ab,ldab,work,la_ylanhb)
+     end function la_ylanhb
+
+     !> Pure subroutine form of YLANHB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylanhb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9232,6 +10036,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -9333,9 +10139,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_ylanhb = value
+           res = value
            return
-     end function la_ylanhb
+     end subroutine la_ylanhb_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANHB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -9343,6 +10149,18 @@ module la_lapack_blas_like_mnorm
      !> n by n hermitian band matrix A,  with k super-diagonals.
 
      real(qp) function la_wlanhb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           call la_wlanhb_sub(norm,uplo,n,k,ab,ldab,work,la_wlanhb)
+     end function la_wlanhb
+
+     !> Pure subroutine form of WLANHB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlanhb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9353,6 +10171,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -9454,9 +10274,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_wlanhb = value
+           res = value
            return
-     end function la_wlanhb
+     end subroutine la_wlanhb_sub
 #endif
 
      !> CLANHE:  returns the value of the one norm,  or the Frobenius norm, or
@@ -9464,6 +10284,18 @@ module la_lapack_blas_like_mnorm
      !> complex hermitian matrix A.
 
      real(sp) function la_clanhe(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: a(lda,*)
+           call la_clanhe_sub(norm,uplo,n,a,lda,work,la_clanhe)
+     end function la_clanhe
+
+     !> Pure subroutine form of CLANHE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clanhe_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9474,6 +10306,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -9566,14 +10400,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_clanhe = value
+           res = value
            return
-     end function la_clanhe
+     end subroutine la_clanhe_sub
      !> ZLANHE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A.
 
      real(dp) function la_zlanhe(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
+           call la_zlanhe_sub(norm,uplo,n,a,lda,work,la_zlanhe)
+     end function la_zlanhe
+
+     !> Pure subroutine form of ZLANHE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlanhe_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9584,6 +10430,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -9676,15 +10524,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_zlanhe = value
+           res = value
            return
-     end function la_zlanhe
+     end subroutine la_zlanhe_sub
 #ifdef LA_WITH_XDP
      !> YLANHE:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A.
 
      real(xdp) function la_ylanhe(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: a(lda,*)
+           call la_ylanhe_sub(norm,uplo,n,a,lda,work,la_ylanhe)
+     end function la_ylanhe
+
+     !> Pure subroutine form of YLANHE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylanhe_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9695,6 +10555,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -9787,9 +10649,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_ylanhe = value
+           res = value
            return
-     end function la_ylanhe
+     end subroutine la_ylanhe_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANHE:  returns the value of the one norm,  or the Frobenius norm, or
@@ -9797,6 +10659,18 @@ module la_lapack_blas_like_mnorm
      !> complex hermitian matrix A.
 
      real(qp) function la_wlanhe(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
+           call la_wlanhe_sub(norm,uplo,n,a,lda,work,la_wlanhe)
+     end function la_wlanhe
+
+     !> Pure subroutine form of WLANHE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlanhe_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9807,6 +10681,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -9899,9 +10775,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_wlanhe = value
+           res = value
            return
-     end function la_wlanhe
+     end subroutine la_wlanhe_sub
 #endif
 
      !> CLANHF:  returns the value of the one norm,  or the Frobenius norm, or
@@ -9909,6 +10785,18 @@ module la_lapack_blas_like_mnorm
      !> complex Hermitian matrix A in RFP format.
 
      real(sp) function la_clanhf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(sp),intent(out) :: work(0:*)
+           complex(sp),intent(in) :: a(0:*)
+           call la_clanhf_sub(norm,transr,uplo,n,a,work,la_clanhf)
+     end function la_clanhf
+
+     !> Pure subroutine form of CLANHF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clanhf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -9919,6 +10807,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(0:*)
            complex(sp),intent(in) :: a(0:*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -9928,10 +10818,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,real,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_clanhf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_clanhf = abs(real(a(0),KIND=sp))
+              res = abs(real(a(0),KIND=sp))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -11121,14 +12011,26 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_clanhf = value
+           res = value
            return
-     end function la_clanhf
+     end subroutine la_clanhf_sub
      !> ZLANHF:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex Hermitian matrix A in RFP format.
 
      real(dp) function la_zlanhf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(dp),intent(out) :: work(0:*)
+           complex(dp),intent(in) :: a(0:*)
+           call la_zlanhf_sub(norm,transr,uplo,n,a,work,la_zlanhf)
+     end function la_zlanhf
+
+     !> Pure subroutine form of ZLANHF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlanhf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11139,6 +12041,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(0:*)
            complex(dp),intent(in) :: a(0:*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -11148,10 +12052,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,real,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_zlanhf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_zlanhf = abs(real(a(0),KIND=dp))
+              res = abs(real(a(0),KIND=dp))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -12341,15 +13245,27 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_zlanhf = value
+           res = value
            return
-     end function la_zlanhf
+     end subroutine la_zlanhf_sub
 #ifdef LA_WITH_XDP
      !> YLANHF:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex Hermitian matrix A in RFP format.
 
      real(xdp) function la_ylanhf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(0:*)
+           complex(xdp),intent(in) :: a(0:*)
+           call la_ylanhf_sub(norm,transr,uplo,n,a,work,la_ylanhf)
+     end function la_ylanhf
+
+     !> Pure subroutine form of YLANHF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylanhf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12360,6 +13276,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(0:*)
            complex(xdp),intent(in) :: a(0:*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -12369,10 +13287,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,real,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_ylanhf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_ylanhf = abs(real(a(0),KIND=xdp))
+              res = abs(real(a(0),KIND=xdp))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -13562,9 +14480,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_ylanhf = value
+           res = value
            return
-     end function la_ylanhf
+     end subroutine la_ylanhf_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANHF:  returns the value of the one norm,  or the Frobenius norm, or
@@ -13572,6 +14490,18 @@ module la_lapack_blas_like_mnorm
      !> complex Hermitian matrix A in RFP format.
 
      real(qp) function la_wlanhf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(qp),intent(out) :: work(0:*)
+           complex(qp),intent(in) :: a(0:*)
+           call la_wlanhf_sub(norm,transr,uplo,n,a,work,la_wlanhf)
+     end function la_wlanhf
+
+     !> Pure subroutine form of WLANHF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlanhf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -13582,6 +14512,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(0:*)
            complex(qp),intent(in) :: a(0:*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -13591,10 +14523,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,real,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_wlanhf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_wlanhf = abs(real(a(0),KIND=qp))
+              res = abs(real(a(0),KIND=qp))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -14784,9 +15716,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_wlanhf = value
+           res = value
            return
-     end function la_wlanhf
+     end subroutine la_wlanhf_sub
 #endif
 
      !> CLANHP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -14794,6 +15726,18 @@ module la_lapack_blas_like_mnorm
      !> complex hermitian matrix A,  supplied in packed form.
 
      real(sp) function la_clanhp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: ap(*)
+           call la_clanhp_sub(norm,uplo,n,ap,work,la_clanhp)
+     end function la_clanhp
+
+     !> Pure subroutine form of CLANHP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clanhp_sub(norm,uplo,n,ap,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14804,6 +15748,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: ap(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -14914,14 +15860,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_clanhp = value
+           res = value
            return
-     end function la_clanhp
+     end subroutine la_clanhp_sub
      !> ZLANHP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A,  supplied in packed form.
 
      real(dp) function la_zlanhp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ap(*)
+           call la_zlanhp_sub(norm,uplo,n,ap,work,la_zlanhp)
+     end function la_zlanhp
+
+     !> Pure subroutine form of ZLANHP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlanhp_sub(norm,uplo,n,ap,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14932,6 +15890,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: ap(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -15042,15 +16002,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_zlanhp = value
+           res = value
            return
-     end function la_zlanhp
+     end subroutine la_zlanhp_sub
 #ifdef LA_WITH_XDP
      !> YLANHP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex hermitian matrix A,  supplied in packed form.
 
      real(xdp) function la_ylanhp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: ap(*)
+           call la_ylanhp_sub(norm,uplo,n,ap,work,la_ylanhp)
+     end function la_ylanhp
+
+     !> Pure subroutine form of YLANHP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylanhp_sub(norm,uplo,n,ap,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15061,6 +16033,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: ap(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -15171,9 +16145,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_ylanhp = value
+           res = value
            return
-     end function la_ylanhp
+     end subroutine la_ylanhp_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANHP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -15181,6 +16155,18 @@ module la_lapack_blas_like_mnorm
      !> complex hermitian matrix A,  supplied in packed form.
 
      real(qp) function la_wlanhp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ap(*)
+           call la_wlanhp_sub(norm,uplo,n,ap,work,la_wlanhp)
+     end function la_wlanhp
+
+     !> Pure subroutine form of WLANHP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlanhp_sub(norm,uplo,n,ap,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15191,6 +16177,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ap(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -15301,9 +16289,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_wlanhp = value
+           res = value
            return
-     end function la_wlanhp
+     end subroutine la_wlanhp_sub
 #endif
 
      !> CLANHS:  returns the value of the one norm,  or the Frobenius norm, or
@@ -15311,6 +16299,18 @@ module la_lapack_blas_like_mnorm
      !> Hessenberg matrix A.
 
      real(sp) function la_clanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: a(lda,*)
+           call la_clanhs_sub(norm,n,a,lda,work,la_clanhs)
+     end function la_clanhs
+
+     !> Pure subroutine form of CLANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clanhs_sub(norm,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15321,6 +16321,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -15375,14 +16377,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_clanhs = value
+           res = value
            return
-     end function la_clanhs
+     end subroutine la_clanhs_sub
      !> ZLANHS:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
      real(dp) function la_zlanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
+           call la_zlanhs_sub(norm,n,a,lda,work,la_zlanhs)
+     end function la_zlanhs
+
+     !> Pure subroutine form of ZLANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlanhs_sub(norm,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15393,6 +16407,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -15447,15 +16463,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_zlanhs = value
+           res = value
            return
-     end function la_zlanhs
+     end subroutine la_zlanhs_sub
 #ifdef LA_WITH_XDP
      !> YLANHS:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> Hessenberg matrix A.
 
      real(xdp) function la_ylanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: a(lda,*)
+           call la_ylanhs_sub(norm,n,a,lda,work,la_ylanhs)
+     end function la_ylanhs
+
+     !> Pure subroutine form of YLANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylanhs_sub(norm,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15466,6 +16494,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -15520,9 +16550,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_ylanhs = value
+           res = value
            return
-     end function la_ylanhs
+     end subroutine la_ylanhs_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANHS:  returns the value of the one norm,  or the Frobenius norm, or
@@ -15530,6 +16560,18 @@ module la_lapack_blas_like_mnorm
      !> Hessenberg matrix A.
 
      real(qp) function la_wlanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
+           call la_wlanhs_sub(norm,n,a,lda,work,la_wlanhs)
+     end function la_wlanhs
+
+     !> Pure subroutine form of WLANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlanhs_sub(norm,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15540,6 +16582,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -15594,9 +16638,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_wlanhs = value
+           res = value
            return
-     end function la_wlanhs
+     end subroutine la_wlanhs_sub
 #endif
 
      !> CLANHT:  returns the value of the one norm,  or the Frobenius norm, or
@@ -15861,6 +16905,18 @@ module la_lapack_blas_like_mnorm
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(sp) function la_clansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: ab(ldab,*)
+           call la_clansb_sub(norm,uplo,n,k,ab,ldab,work,la_clansb)
+     end function la_clansb
+
+     !> Pure subroutine form of CLANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15871,6 +16927,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -15958,14 +17016,26 @@ module la_lapack_blas_like_mnorm
               call la_classq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_clansb = value
+           res = value
            return
-     end function la_clansb
+     end subroutine la_clansb_sub
      !> ZLANSB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(dp) function la_zlansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           call la_zlansb_sub(norm,uplo,n,k,ab,ldab,work,la_zlansb)
+     end function la_zlansb
+
+     !> Pure subroutine form of ZLANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15976,6 +17046,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -16063,15 +17135,27 @@ module la_lapack_blas_like_mnorm
               call la_zlassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_zlansb = value
+           res = value
            return
-     end function la_zlansb
+     end subroutine la_zlansb_sub
 #ifdef LA_WITH_XDP
      !> YLANSB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(xdp) function la_ylansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: ab(ldab,*)
+           call la_ylansb_sub(norm,uplo,n,k,ab,ldab,work,la_ylansb)
+     end function la_ylansb
+
+     !> Pure subroutine form of YLANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16082,6 +17166,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -16169,9 +17255,9 @@ module la_lapack_blas_like_mnorm
               call la_ylassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_ylansb = value
+           res = value
            return
-     end function la_ylansb
+     end subroutine la_ylansb_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANSB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -16179,6 +17265,18 @@ module la_lapack_blas_like_mnorm
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(qp) function la_wlansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           call la_wlansb_sub(norm,uplo,n,k,ab,ldab,work,la_wlansb)
+     end function la_wlansb
+
+     !> Pure subroutine form of WLANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16189,6 +17287,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -16276,9 +17376,9 @@ module la_lapack_blas_like_mnorm
               call la_wlassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_wlansb = value
+           res = value
            return
-     end function la_wlansb
+     end subroutine la_wlansb_sub
 #endif
 
      !> CLANSP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -16286,6 +17386,18 @@ module la_lapack_blas_like_mnorm
      !> complex symmetric matrix A,  supplied in packed form.
 
      real(sp) function la_clansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: ap(*)
+           call la_clansp_sub(norm,uplo,n,ap,work,la_clansp)
+     end function la_clansp
+
+     !> Pure subroutine form of CLANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16296,6 +17408,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: ap(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -16411,14 +17525,26 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_clansp = value
+           res = value
            return
-     end function la_clansp
+     end subroutine la_clansp_sub
      !> ZLANSP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A,  supplied in packed form.
 
      real(dp) function la_zlansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ap(*)
+           call la_zlansp_sub(norm,uplo,n,ap,work,la_zlansp)
+     end function la_zlansp
+
+     !> Pure subroutine form of ZLANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16429,6 +17555,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: ap(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -16544,15 +17672,27 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_zlansp = value
+           res = value
            return
-     end function la_zlansp
+     end subroutine la_zlansp_sub
 #ifdef LA_WITH_XDP
      !> YLANSP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A,  supplied in packed form.
 
      real(xdp) function la_ylansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: ap(*)
+           call la_ylansp_sub(norm,uplo,n,ap,work,la_ylansp)
+     end function la_ylansp
+
+     !> Pure subroutine form of YLANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16563,6 +17703,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: ap(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -16678,9 +17820,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_ylansp = value
+           res = value
            return
-     end function la_ylansp
+     end subroutine la_ylansp_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANSP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -16688,6 +17830,18 @@ module la_lapack_blas_like_mnorm
      !> complex symmetric matrix A,  supplied in packed form.
 
      real(qp) function la_wlansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ap(*)
+           call la_wlansp_sub(norm,uplo,n,ap,work,la_wlansp)
+     end function la_wlansp
+
+     !> Pure subroutine form of WLANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16698,6 +17852,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ap(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -16813,9 +17969,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_wlansp = value
+           res = value
            return
-     end function la_wlansp
+     end subroutine la_wlansp_sub
 #endif
 
      !> CLANSY:  returns the value of the one norm,  or the Frobenius norm, or
@@ -16823,6 +17979,18 @@ module la_lapack_blas_like_mnorm
      !> complex symmetric matrix A.
 
      real(sp) function la_clansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: a(lda,*)
+           call la_clansy_sub(norm,uplo,n,a,lda,work,la_clansy)
+     end function la_clansy
+
+     !> Pure subroutine form of CLANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16833,6 +18001,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -16911,14 +18081,26 @@ module la_lapack_blas_like_mnorm
               call la_classq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_clansy = value
+           res = value
            return
-     end function la_clansy
+     end subroutine la_clansy_sub
      !> ZLANSY:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A.
 
      real(dp) function la_zlansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
+           call la_zlansy_sub(norm,uplo,n,a,lda,work,la_zlansy)
+     end function la_zlansy
+
+     !> Pure subroutine form of ZLANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -16929,6 +18111,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -17007,15 +18191,27 @@ module la_lapack_blas_like_mnorm
               call la_zlassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_zlansy = value
+           res = value
            return
-     end function la_zlansy
+     end subroutine la_zlansy_sub
 #ifdef LA_WITH_XDP
      !> YLANSY:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> complex symmetric matrix A.
 
      real(xdp) function la_ylansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: a(lda,*)
+           call la_ylansy_sub(norm,uplo,n,a,lda,work,la_ylansy)
+     end function la_ylansy
+
+     !> Pure subroutine form of YLANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17026,6 +18222,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -17104,9 +18302,9 @@ module la_lapack_blas_like_mnorm
               call la_ylassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_ylansy = value
+           res = value
            return
-     end function la_ylansy
+     end subroutine la_ylansy_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANSY:  returns the value of the one norm,  or the Frobenius norm, or
@@ -17114,6 +18312,18 @@ module la_lapack_blas_like_mnorm
      !> complex symmetric matrix A.
 
      real(qp) function la_wlansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
+           call la_wlansy_sub(norm,uplo,n,a,lda,work,la_wlansy)
+     end function la_wlansy
+
+     !> Pure subroutine form of WLANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17124,6 +18334,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -17202,9 +18414,9 @@ module la_lapack_blas_like_mnorm
               call la_wlassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_wlansy = value
+           res = value
            return
-     end function la_wlansy
+     end subroutine la_wlansy_sub
 #endif
 
      !> CLANTB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -17212,6 +18424,18 @@ module la_lapack_blas_like_mnorm
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(sp) function la_clantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: ab(ldab,*)
+           call la_clantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_clantb)
+     end function la_clantb
+
+     !> Pure subroutine form of CLANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17222,6 +18446,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -17397,14 +18623,26 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_clantb = value
+           res = value
            return
-     end function la_clantb
+     end subroutine la_clantb_sub
      !> ZLANTB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(dp) function la_zlantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ab(ldab,*)
+           call la_zlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_zlantb)
+     end function la_zlantb
+
+     !> Pure subroutine form of ZLANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17415,6 +18653,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -17590,15 +18830,27 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_zlantb = value
+           res = value
            return
-     end function la_zlantb
+     end subroutine la_zlantb_sub
 #ifdef LA_WITH_XDP
      !> YLANTB:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the element of  largest absolute value  of an
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(xdp) function la_ylantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: ab(ldab,*)
+           call la_ylantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_ylantb)
+     end function la_ylantb
+
+     !> Pure subroutine form of YLANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17609,6 +18861,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -17784,9 +19038,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_ylantb = value
+           res = value
            return
-     end function la_ylantb
+     end subroutine la_ylantb_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANTB:  returns the value of the one norm,  or the Frobenius norm, or
@@ -17794,6 +19048,18 @@ module la_lapack_blas_like_mnorm
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(qp) function la_wlantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ab(ldab,*)
+           call la_wlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_wlantb)
+     end function la_wlantb
+
+     !> Pure subroutine form of WLANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17804,6 +19070,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -17979,9 +19247,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_wlantb = value
+           res = value
            return
-     end function la_wlantb
+     end subroutine la_wlantb_sub
 #endif
 
      !> CLANTP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -17989,6 +19257,18 @@ module la_lapack_blas_like_mnorm
      !> triangular matrix A, supplied in packed form.
 
      real(sp) function la_clantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: ap(*)
+           call la_clantp_sub(norm,uplo,diag,n,ap,work,la_clantp)
+     end function la_clantp
+
+     !> Pure subroutine form of CLANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -17999,6 +19279,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: ap(*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -18187,14 +19469,26 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_clantp = value
+           res = value
            return
-     end function la_clantp
+     end subroutine la_clantp_sub
      !> ZLANTP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
      real(dp) function la_zlantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: ap(*)
+           call la_zlantp_sub(norm,uplo,diag,n,ap,work,la_zlantp)
+     end function la_zlantp
+
+     !> Pure subroutine form of ZLANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -18205,6 +19499,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: ap(*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -18393,15 +19689,27 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_zlantp = value
+           res = value
            return
-     end function la_zlantp
+     end subroutine la_zlantp_sub
 #ifdef LA_WITH_XDP
      !> YLANTP:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> triangular matrix A, supplied in packed form.
 
      real(xdp) function la_ylantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: ap(*)
+           call la_ylantp_sub(norm,uplo,diag,n,ap,work,la_ylantp)
+     end function la_ylantp
+
+     !> Pure subroutine form of YLANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -18412,6 +19720,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: ap(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -18600,9 +19910,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_ylantp = value
+           res = value
            return
-     end function la_ylantp
+     end subroutine la_ylantp_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANTP:  returns the value of the one norm,  or the Frobenius norm, or
@@ -18610,6 +19920,18 @@ module la_lapack_blas_like_mnorm
      !> triangular matrix A, supplied in packed form.
 
      real(qp) function la_wlantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: ap(*)
+           call la_wlantp_sub(norm,uplo,diag,n,ap,work,la_wlantp)
+     end function la_wlantp
+
+     !> Pure subroutine form of WLANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -18620,6 +19942,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: ap(*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -18808,9 +20132,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_wlantp = value
+           res = value
            return
-     end function la_wlantp
+     end subroutine la_wlantp_sub
 #endif
 
      !> CLANTR:  returns the value of the one norm,  or the Frobenius norm, or
@@ -18818,6 +20142,18 @@ module la_lapack_blas_like_mnorm
      !> trapezoidal or triangular matrix A.
 
      real(sp) function la_clantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(sp),intent(out) :: work(*)
+           complex(sp),intent(in) :: a(lda,*)
+           call la_clantr_sub(norm,uplo,diag,m,n,a,lda,work,la_clantr)
+     end function la_clantr
+
+     !> Pure subroutine form of CLANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_clantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_sp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -18828,6 +20164,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(sp),intent(out) :: work(*)
            complex(sp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(sp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -18996,14 +20334,26 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_clantr = value
+           res = value
            return
-     end function la_clantr
+     end subroutine la_clantr_sub
      !> ZLANTR:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
      real(dp) function la_zlantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(dp),intent(out) :: work(*)
+           complex(dp),intent(in) :: a(lda,*)
+           call la_zlantr_sub(norm,uplo,diag,m,n,a,lda,work,la_zlantr)
+     end function la_zlantr
+
+     !> Pure subroutine form of ZLANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zlantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_dp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19014,6 +20364,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(dp),intent(out) :: work(*)
            complex(dp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(dp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -19182,15 +20534,27 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_zlantr = value
+           res = value
            return
-     end function la_zlantr
+     end subroutine la_zlantr_sub
 #ifdef LA_WITH_XDP
      !> YLANTR:  returns the value of the one norm,  or the Frobenius norm, or
      !> the  infinity norm,  or the  element of  largest absolute value  of a
      !> trapezoidal or triangular matrix A.
 
      real(xdp) function la_ylantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(xdp),intent(out) :: work(*)
+           complex(xdp),intent(in) :: a(lda,*)
+           call la_ylantr_sub(norm,uplo,diag,m,n,a,lda,work,la_ylantr)
+     end function la_ylantr
+
+     !> Pure subroutine form of YLANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_ylantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_xdp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19201,6 +20565,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(xdp),intent(out) :: work(*)
            complex(xdp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(xdp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -19369,9 +20735,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_ylantr = value
+           res = value
            return
-     end function la_ylantr
+     end subroutine la_ylantr_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLANTR:  returns the value of the one norm,  or the Frobenius norm, or
@@ -19379,6 +20745,18 @@ module la_lapack_blas_like_mnorm
      !> trapezoidal or triangular matrix A.
 
      real(qp) function la_wlantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(qp),intent(out) :: work(*)
+           complex(qp),intent(in) :: a(lda,*)
+           call la_wlantr_sub(norm,uplo,diag,m,n,a,lda,work,la_wlantr)
+     end function la_wlantr
+
+     !> Pure subroutine form of WLANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wlantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_qp
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -19389,6 +20767,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(qp),intent(out) :: work(*)
            complex(qp),intent(in) :: a(lda,*)
+           ! Function Value
+           real(qp),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -19557,9 +20937,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_wlantr = value
+           res = value
            return
-     end function la_wlantr
+     end subroutine la_wlantr_sub
 #endif
 
 end module la_lapack_blas_like_mnorm

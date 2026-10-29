@@ -58,6 +58,7 @@ module la_lapack_solve_ldl_comp
      public :: la_${ri}$sytrs2
      public :: la_${ri}$sytrs_3
      public :: la_${ri}$la_herpvgrw
+     public :: la_${ri}$la_herpvgrw_sub
      public :: la_${ri}$spcon
      public :: la_${ri}$sycon
      public :: la_${ri}$syrfs
@@ -5438,6 +5439,20 @@ module la_lapack_solve_ldl_comp
      !> unreliable.
 
      real(${rk}$) function la_${ri}$la_herpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$la_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_${ri}$la_herpvgrw)
+     end function la_${ri}$la_herpvgrw
+
+     !> Pure subroutine form of ${ri.upper()}$LA_HERPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -5449,6 +5464,8 @@ module la_lapack_solve_ldl_comp
            integer(ilp),intent(in) :: ipiv(*)
            complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -5629,8 +5646,8 @@ module la_lapack_solve_ldl_comp
                  end if
               end do
            end if
-           la_${ri}$la_herpvgrw = rpvgrw
-     end function la_${ri}$la_herpvgrw
+           res = rpvgrw
+     end subroutine la_${ri}$la_herpvgrw_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif

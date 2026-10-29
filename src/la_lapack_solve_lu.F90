@@ -1014,7 +1014,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_sgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_sgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -1037,6 +1037,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(sp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j,j1,j2
@@ -1169,8 +1170,8 @@ module la_lapack_solve_lu
                        anorm = max(anorm,abs(ab(i,j)))
                     end do
                  end do
-                 rpvgrw = la_slantb('M','U','N',info,min(info - 1,kl + ku),afb(max(1, &
-                           kl + ku + 2 - info),1),ldafb,work)
+                 call la_slantb_sub('M','U','N',info,min(info - 1,kl + ku), &
+                           afb(max(1,kl + ku + 2 - info),1),ldafb,work,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
@@ -1188,12 +1189,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_slangb(norm,n,kl,ku,ab,ldab,work)
-           rpvgrw = la_slantb('M','U','N',n,kl + ku,afb,ldafb,work)
+           call la_slangb_sub(norm,n,kl,ku,ab,ldab,work,anorm)
+           call la_slantb_sub('M','U','N',n,kl + ku,afb,ldafb,work,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_slangb('M',n,kl,ku,ab,ldab,work)/rpvgrw
+              call la_slangb_sub('M',n,kl,ku,ab,ldab,work,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_sgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,iwork,info)
@@ -1240,7 +1242,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_dgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -1260,6 +1262,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(dp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j,j1,j2
@@ -1392,8 +1395,8 @@ module la_lapack_solve_lu
                        anorm = max(anorm,abs(ab(i,j)))
                     end do
                  end do
-                 rpvgrw = la_dlantb('M','U','N',info,min(info - 1,kl + ku),afb(max(1, &
-                           kl + ku + 2 - info),1),ldafb,work)
+                 call la_dlantb_sub('M','U','N',info,min(info - 1,kl + ku), &
+                           afb(max(1,kl + ku + 2 - info),1),ldafb,work,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
@@ -1411,12 +1414,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_dlangb(norm,n,kl,ku,ab,ldab,work)
-           rpvgrw = la_dlantb('M','U','N',n,kl + ku,afb,ldafb,work)
+           call la_dlangb_sub(norm,n,kl,ku,ab,ldab,work,anorm)
+           call la_dlantb_sub('M','U','N',n,kl + ku,afb,ldafb,work,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_dlangb('M',n,kl,ku,ab,ldab,work)/rpvgrw
+              call la_dlangb_sub('M',n,kl,ku,ab,ldab,work,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_dgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,iwork,info)
@@ -1464,7 +1468,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_xgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_xgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -1484,6 +1488,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(xdp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j,j1,j2
@@ -1616,8 +1621,8 @@ module la_lapack_solve_lu
                        anorm = max(anorm,abs(ab(i,j)))
                     end do
                  end do
-                 rpvgrw = la_xlantb('M','U','N',info,min(info - 1,kl + ku),afb(max(1, &
-                           kl + ku + 2 - info),1),ldafb,work)
+                 call la_xlantb_sub('M','U','N',info,min(info - 1,kl + ku), &
+                           afb(max(1,kl + ku + 2 - info),1),ldafb,work,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
@@ -1635,12 +1640,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_xlangb(norm,n,kl,ku,ab,ldab,work)
-           rpvgrw = la_xlantb('M','U','N',n,kl + ku,afb,ldafb,work)
+           call la_xlangb_sub(norm,n,kl,ku,ab,ldab,work,anorm)
+           call la_xlantb_sub('M','U','N',n,kl + ku,afb,ldafb,work,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_xlangb('M',n,kl,ku,ab,ldab,work)/rpvgrw
+              call la_xlangb_sub('M',n,kl,ku,ab,ldab,work,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_xgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,iwork,info)
@@ -1689,7 +1695,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_qgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -1709,6 +1715,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(qp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j,j1,j2
@@ -1841,8 +1848,8 @@ module la_lapack_solve_lu
                        anorm = max(anorm,abs(ab(i,j)))
                     end do
                  end do
-                 rpvgrw = la_qlantb('M','U','N',info,min(info - 1,kl + ku),afb(max(1, &
-                           kl + ku + 2 - info),1),ldafb,work)
+                 call la_qlantb_sub('M','U','N',info,min(info - 1,kl + ku), &
+                           afb(max(1,kl + ku + 2 - info),1),ldafb,work,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
@@ -1860,12 +1867,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_qlangb(norm,n,kl,ku,ab,ldab,work)
-           rpvgrw = la_qlantb('M','U','N',n,kl + ku,afb,ldafb,work)
+           call la_qlangb_sub(norm,n,kl,ku,ab,ldab,work,anorm)
+           call la_qlantb_sub('M','U','N',n,kl + ku,afb,ldafb,work,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_qlangb('M',n,kl,ku,ab,ldab,work)/rpvgrw
+              call la_qlangb_sub('M',n,kl,ku,ab,ldab,work,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_qgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,iwork,info)
@@ -2296,7 +2304,7 @@ module la_lapack_solve_lu
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_dsgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_dsgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
         use la_constants_dp,only:negone,one
 
         ! -- lapack driver routine --
@@ -2350,7 +2358,7 @@ module la_lapack_solve_lu
               go to 40
            end if
            ! compute some constants.
-           anrm = la_dlange('I',n,n,a,lda,work)
+           call la_dlange_sub('I',n,n,a,lda,work,anrm)
            eps = la_dlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=dp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -2474,7 +2482,7 @@ module la_lapack_solve_lu
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_xdgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_xdgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
         use la_constants_xdp,only:negone,one
 
         ! -- lapack driver routine --
@@ -2528,7 +2536,7 @@ module la_lapack_solve_lu
               go to 40
            end if
            ! compute some constants.
-           anrm = la_xlange('I',n,n,a,lda,work)
+           call la_xlange_sub('I',n,n,a,lda,work,anrm)
            eps = la_xlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=xdp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -2653,7 +2661,7 @@ module la_lapack_solve_lu
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_qdgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
+     pure subroutine la_qdgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,iter,info)
         use la_constants_qp,only:negone,one
 
         ! -- lapack driver routine --
@@ -2707,7 +2715,7 @@ module la_lapack_solve_lu
               go to 40
            end if
            ! compute some constants.
-           anrm = la_qlange('I',n,n,a,lda,work)
+           call la_qlange_sub('I',n,n,a,lda,work,anrm)
            eps = la_qlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=qp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -3004,7 +3012,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_sgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_sgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -3024,6 +3032,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(sp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j
@@ -3139,11 +3148,12 @@ module la_lapack_solve_lu
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 rpvgrw = la_slantr('M','U','N',info,info,af,ldaf,work)
+                 call la_slantr_sub('M','U','N',info,info,af,ldaf,work,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
-                    rpvgrw = la_slange('M',n,info,a,lda,work)/rpvgrw
+                    call la_slange_sub('M',n,info,a,lda,work,anrmax)
+                    rpvgrw = anrmax/rpvgrw
                  end if
                  work(1) = rpvgrw
                  rcond = zero
@@ -3157,12 +3167,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_slange(norm,n,n,a,lda,work)
-           rpvgrw = la_slantr('M','U','N',n,n,af,ldaf,work)
+           call la_slange_sub(norm,n,n,a,lda,work,anorm)
+           call la_slantr_sub('M','U','N',n,n,af,ldaf,work,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_slange('M',n,n,a,lda,work)/rpvgrw
+              call la_slange_sub('M',n,n,a,lda,work,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_sgecon(norm,n,af,ldaf,anorm,rcond,work,iwork,info)
@@ -3208,7 +3219,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_dgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_dgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -3228,6 +3239,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(dp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j
@@ -3343,11 +3355,12 @@ module la_lapack_solve_lu
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 rpvgrw = la_dlantr('M','U','N',info,info,af,ldaf,work)
+                 call la_dlantr_sub('M','U','N',info,info,af,ldaf,work,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
-                    rpvgrw = la_dlange('M',n,info,a,lda,work)/rpvgrw
+                    call la_dlange_sub('M',n,info,a,lda,work,anrmax)
+                    rpvgrw = anrmax/rpvgrw
                  end if
                  work(1) = rpvgrw
                  rcond = zero
@@ -3361,12 +3374,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_dlange(norm,n,n,a,lda,work)
-           rpvgrw = la_dlantr('M','U','N',n,n,af,ldaf,work)
+           call la_dlange_sub(norm,n,n,a,lda,work,anorm)
+           call la_dlantr_sub('M','U','N',n,n,af,ldaf,work,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_dlange('M',n,n,a,lda,work)/rpvgrw
+              call la_dlange_sub('M',n,n,a,lda,work,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_dgecon(norm,n,af,ldaf,anorm,rcond,work,iwork,info)
@@ -3413,7 +3427,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_xgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_xgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -3433,6 +3447,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(xdp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j
@@ -3548,11 +3563,12 @@ module la_lapack_solve_lu
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 rpvgrw = la_xlantr('M','U','N',info,info,af,ldaf,work)
+                 call la_xlantr_sub('M','U','N',info,info,af,ldaf,work,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
-                    rpvgrw = la_xlange('M',n,info,a,lda,work)/rpvgrw
+                    call la_xlange_sub('M',n,info,a,lda,work,anrmax)
+                    rpvgrw = anrmax/rpvgrw
                  end if
                  work(1) = rpvgrw
                  rcond = zero
@@ -3566,12 +3582,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_xlange(norm,n,n,a,lda,work)
-           rpvgrw = la_xlantr('M','U','N',n,n,af,ldaf,work)
+           call la_xlange_sub(norm,n,n,a,lda,work,anorm)
+           call la_xlantr_sub('M','U','N',n,n,af,ldaf,work,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_xlange('M',n,n,a,lda,work)/rpvgrw
+              call la_xlange_sub('M',n,n,a,lda,work,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_xgecon(norm,n,af,ldaf,anorm,rcond,work,iwork,info)
@@ -3619,7 +3636,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_qgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_qgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -3639,6 +3656,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(qp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j
@@ -3754,11 +3772,12 @@ module la_lapack_solve_lu
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 rpvgrw = la_qlantr('M','U','N',info,info,af,ldaf,work)
+                 call la_qlantr_sub('M','U','N',info,info,af,ldaf,work,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
-                    rpvgrw = la_qlange('M',n,info,a,lda,work)/rpvgrw
+                    call la_qlange_sub('M',n,info,a,lda,work,anrmax)
+                    rpvgrw = anrmax/rpvgrw
                  end if
                  work(1) = rpvgrw
                  rcond = zero
@@ -3772,12 +3791,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_qlange(norm,n,n,a,lda,work)
-           rpvgrw = la_qlantr('M','U','N',n,n,af,ldaf,work)
+           call la_qlange_sub(norm,n,n,a,lda,work,anorm)
+           call la_qlantr_sub('M','U','N',n,n,af,ldaf,work,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_qlange('M',n,n,a,lda,work)/rpvgrw
+              call la_qlange_sub('M',n,n,a,lda,work,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_qgecon(norm,n,af,ldaf,anorm,rcond,work,iwork,info)
@@ -4407,7 +4427,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_cgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_cgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -4431,6 +4451,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(sp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j,j1,j2
@@ -4563,8 +4584,8 @@ module la_lapack_solve_lu
                        anorm = max(anorm,abs(ab(i,j)))
                     end do
                  end do
-                 rpvgrw = la_clantb('M','U','N',info,min(info - 1,kl + ku),afb(max(1, &
-                           kl + ku + 2 - info),1),ldafb,rwork)
+                 call la_clantb_sub('M','U','N',info,min(info - 1,kl + ku), &
+                           afb(max(1,kl + ku + 2 - info),1),ldafb,rwork,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
@@ -4582,12 +4603,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_clangb(norm,n,kl,ku,ab,ldab,rwork)
-           rpvgrw = la_clantb('M','U','N',n,kl + ku,afb,ldafb,rwork)
+           call la_clangb_sub(norm,n,kl,ku,ab,ldab,rwork,anorm)
+           call la_clantb_sub('M','U','N',n,kl + ku,afb,ldafb,rwork,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_clangb('M',n,kl,ku,ab,ldab,rwork)/rpvgrw
+              call la_clangb_sub('M',n,kl,ku,ab,ldab,rwork,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_cgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,rwork,info)
@@ -4634,7 +4656,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_zgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -4658,6 +4680,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(dp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j,j1,j2
@@ -4790,8 +4813,8 @@ module la_lapack_solve_lu
                        anorm = max(anorm,abs(ab(i,j)))
                     end do
                  end do
-                 rpvgrw = la_zlantb('M','U','N',info,min(info - 1,kl + ku),afb(max(1, &
-                           kl + ku + 2 - info),1),ldafb,rwork)
+                 call la_zlantb_sub('M','U','N',info,min(info - 1,kl + ku), &
+                           afb(max(1,kl + ku + 2 - info),1),ldafb,rwork,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
@@ -4809,12 +4832,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_zlangb(norm,n,kl,ku,ab,ldab,rwork)
-           rpvgrw = la_zlantb('M','U','N',n,kl + ku,afb,ldafb,rwork)
+           call la_zlangb_sub(norm,n,kl,ku,ab,ldab,rwork,anorm)
+           call la_zlantb_sub('M','U','N',n,kl + ku,afb,ldafb,rwork,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_zlangb('M',n,kl,ku,ab,ldab,rwork)/rpvgrw
+              call la_zlangb_sub('M',n,kl,ku,ab,ldab,rwork,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_zgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,rwork,info)
@@ -4862,7 +4886,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_ygbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_ygbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -4886,6 +4910,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(xdp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j,j1,j2
@@ -5018,8 +5043,8 @@ module la_lapack_solve_lu
                        anorm = max(anorm,abs(ab(i,j)))
                     end do
                  end do
-                 rpvgrw = la_ylantb('M','U','N',info,min(info - 1,kl + ku),afb(max(1, &
-                           kl + ku + 2 - info),1),ldafb,rwork)
+                 call la_ylantb_sub('M','U','N',info,min(info - 1,kl + ku), &
+                           afb(max(1,kl + ku + 2 - info),1),ldafb,rwork,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
@@ -5037,12 +5062,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_ylangb(norm,n,kl,ku,ab,ldab,rwork)
-           rpvgrw = la_ylantb('M','U','N',n,kl + ku,afb,ldafb,rwork)
+           call la_ylangb_sub(norm,n,kl,ku,ab,ldab,rwork,anorm)
+           call la_ylantb_sub('M','U','N',n,kl + ku,afb,ldafb,rwork,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_ylangb('M',n,kl,ku,ab,ldab,rwork)/rpvgrw
+              call la_ylangb_sub('M',n,kl,ku,ab,ldab,rwork,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_ygbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,rwork,info)
@@ -5091,7 +5117,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
+     pure subroutine la_wgbsvx(fact,trans,n,kl,ku,nrhs,ab,ldab,afb,ldafb,ipiv,equed,r, &
                c,b,ldb,x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -5115,6 +5141,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(qp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j,j1,j2
@@ -5247,8 +5274,8 @@ module la_lapack_solve_lu
                        anorm = max(anorm,abs(ab(i,j)))
                     end do
                  end do
-                 rpvgrw = la_wlantb('M','U','N',info,min(info - 1,kl + ku),afb(max(1, &
-                           kl + ku + 2 - info),1),ldafb,rwork)
+                 call la_wlantb_sub('M','U','N',info,min(info - 1,kl + ku), &
+                           afb(max(1,kl + ku + 2 - info),1),ldafb,rwork,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
@@ -5266,12 +5293,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_wlangb(norm,n,kl,ku,ab,ldab,rwork)
-           rpvgrw = la_wlantb('M','U','N',n,kl + ku,afb,ldafb,rwork)
+           call la_wlangb_sub(norm,n,kl,ku,ab,ldab,rwork,anorm)
+           call la_wlantb_sub('M','U','N',n,kl + ku,afb,ldafb,rwork,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_wlangb('M',n,kl,ku,ab,ldab,rwork)/rpvgrw
+              call la_wlangb_sub('M',n,kl,ku,ab,ldab,rwork,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_wgbcon(norm,n,kl,ku,afb,ldafb,ipiv,anorm,rcond,work,rwork,info)
@@ -5698,7 +5726,7 @@ module la_lapack_solve_lu
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_zcgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
+     pure subroutine la_zcgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
                info)
         use la_constants_dp,only:cone,cnegone
         ! -- lapack driver routine --
@@ -5758,7 +5786,7 @@ module la_lapack_solve_lu
               go to 40
            end if
            ! compute some constants.
-           anrm = la_zlange('I',n,n,a,lda,rwork)
+           call la_zlange_sub('I',n,n,a,lda,rwork,anrm)
            eps = la_dlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=dp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -5882,7 +5910,7 @@ module la_lapack_solve_lu
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_yzgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
+     pure subroutine la_yzgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
                info)
         use la_constants_xdp,only:cone,cnegone
         ! -- lapack driver routine --
@@ -5942,7 +5970,7 @@ module la_lapack_solve_lu
               go to 40
            end if
            ! compute some constants.
-           anrm = la_ylange('I',n,n,a,lda,rwork)
+           call la_ylange_sub('I',n,n,a,lda,rwork,anrm)
            eps = la_xlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=xdp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -6067,7 +6095,7 @@ module la_lapack_solve_lu
      !> The value ITERMAX and BWDMAX are fixed to 30 and 1.0D+00
      !> respectively.
 
-     subroutine la_wzgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
+     pure subroutine la_wzgesv(n,nrhs,a,lda,ipiv,b,ldb,x,ldx,work,swork,rwork,iter, &
                info)
         use la_constants_qp,only:cone,cnegone
         ! -- lapack driver routine --
@@ -6127,7 +6155,7 @@ module la_lapack_solve_lu
               go to 40
            end if
            ! compute some constants.
-           anrm = la_wlange('I',n,n,a,lda,rwork)
+           call la_wlange_sub('I',n,n,a,lda,rwork,anrm)
            eps = la_qlamch('EPSILON')
            cte = anrm*eps*sqrt(real(n,KIND=qp))*bwdmax
            ! set the indices ptsa, ptsx for referencing sa and sx in swork.
@@ -6424,7 +6452,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_cgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_cgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack driver routine --
@@ -6445,6 +6473,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(sp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j
@@ -6560,11 +6589,12 @@ module la_lapack_solve_lu
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 rpvgrw = la_clantr('M','U','N',info,info,af,ldaf,rwork)
+                 call la_clantr_sub('M','U','N',info,info,af,ldaf,rwork,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
-                    rpvgrw = la_clange('M',n,info,a,lda,rwork)/rpvgrw
+                    call la_clange_sub('M',n,info,a,lda,rwork,anrmax)
+                    rpvgrw = anrmax/rpvgrw
                  end if
                  rwork(1) = rpvgrw
                  rcond = zero
@@ -6578,12 +6608,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_clange(norm,n,n,a,lda,rwork)
-           rpvgrw = la_clantr('M','U','N',n,n,af,ldaf,rwork)
+           call la_clange_sub(norm,n,n,a,lda,rwork,anorm)
+           call la_clantr_sub('M','U','N',n,n,af,ldaf,rwork,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_clange('M',n,n,a,lda,rwork)/rpvgrw
+              call la_clange_sub('M',n,n,a,lda,rwork,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_cgecon(norm,n,af,ldaf,anorm,rcond,work,rwork,info)
@@ -6629,7 +6660,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_zgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_zgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack driver routine --
@@ -6650,6 +6681,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(dp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j
@@ -6765,11 +6797,12 @@ module la_lapack_solve_lu
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 rpvgrw = la_zlantr('M','U','N',info,info,af,ldaf,rwork)
+                 call la_zlantr_sub('M','U','N',info,info,af,ldaf,rwork,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
-                    rpvgrw = la_zlange('M',n,info,a,lda,rwork)/rpvgrw
+                    call la_zlange_sub('M',n,info,a,lda,rwork,anrmax)
+                    rpvgrw = anrmax/rpvgrw
                  end if
                  rwork(1) = rpvgrw
                  rcond = zero
@@ -6783,12 +6816,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_zlange(norm,n,n,a,lda,rwork)
-           rpvgrw = la_zlantr('M','U','N',n,n,af,ldaf,rwork)
+           call la_zlange_sub(norm,n,n,a,lda,rwork,anorm)
+           call la_zlantr_sub('M','U','N',n,n,af,ldaf,rwork,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_zlange('M',n,n,a,lda,rwork)/rpvgrw
+              call la_zlange_sub('M',n,n,a,lda,rwork,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_zgecon(norm,n,af,ldaf,anorm,rcond,work,rwork,info)
@@ -6835,7 +6869,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_ygesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_ygesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack driver routine --
@@ -6856,6 +6890,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(xdp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j
@@ -6971,11 +7006,12 @@ module la_lapack_solve_lu
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 rpvgrw = la_ylantr('M','U','N',info,info,af,ldaf,rwork)
+                 call la_ylantr_sub('M','U','N',info,info,af,ldaf,rwork,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
-                    rpvgrw = la_ylange('M',n,info,a,lda,rwork)/rpvgrw
+                    call la_ylange_sub('M',n,info,a,lda,rwork,anrmax)
+                    rpvgrw = anrmax/rpvgrw
                  end if
                  rwork(1) = rpvgrw
                  rcond = zero
@@ -6989,12 +7025,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_ylange(norm,n,n,a,lda,rwork)
-           rpvgrw = la_ylantr('M','U','N',n,n,af,ldaf,rwork)
+           call la_ylange_sub(norm,n,n,a,lda,rwork,anorm)
+           call la_ylantr_sub('M','U','N',n,n,af,ldaf,rwork,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_ylange('M',n,n,a,lda,rwork)/rpvgrw
+              call la_ylange_sub('M',n,n,a,lda,rwork,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_ygecon(norm,n,af,ldaf,anorm,rcond,work,rwork,info)
@@ -7042,7 +7079,7 @@ module la_lapack_solve_lu
      !> Error bounds on the solution and a condition estimate are also
      !> provided.
 
-     subroutine la_wgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
+     pure subroutine la_wgesvx(fact,trans,n,nrhs,a,lda,af,ldaf,ipiv,equed,r,c,b,ldb, &
                x,ldx,rcond,ferr,berr,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack driver routine --
@@ -7063,6 +7100,7 @@ module la_lapack_solve_lu
         ! =====================================================================
 
            ! Local Scalars
+           real(qp) :: anrmax
            logical(lk) :: colequ,equil,nofact,notran,rowequ
            character :: norm
            integer(ilp) :: i,infequ,j
@@ -7178,11 +7216,12 @@ module la_lapack_solve_lu
               if (info > 0) then
                  ! compute the reciprocal pivot growth factor of the
                  ! leading rank-deficient info columns of a.
-                 rpvgrw = la_wlantr('M','U','N',info,info,af,ldaf,rwork)
+                 call la_wlantr_sub('M','U','N',info,info,af,ldaf,rwork,rpvgrw)
                  if (rpvgrw == zero) then
                     rpvgrw = one
                  else
-                    rpvgrw = la_wlange('M',n,info,a,lda,rwork)/rpvgrw
+                    call la_wlange_sub('M',n,info,a,lda,rwork,anrmax)
+                    rpvgrw = anrmax/rpvgrw
                  end if
                  rwork(1) = rpvgrw
                  rcond = zero
@@ -7196,12 +7235,13 @@ module la_lapack_solve_lu
            else
               norm = 'I'
            end if
-           anorm = la_wlange(norm,n,n,a,lda,rwork)
-           rpvgrw = la_wlantr('M','U','N',n,n,af,ldaf,rwork)
+           call la_wlange_sub(norm,n,n,a,lda,rwork,anorm)
+           call la_wlantr_sub('M','U','N',n,n,af,ldaf,rwork,rpvgrw)
            if (rpvgrw == zero) then
               rpvgrw = one
            else
-              rpvgrw = la_wlange('M',n,n,a,lda,rwork)/rpvgrw
+              call la_wlange_sub('M',n,n,a,lda,rwork,anrmax)
+              rpvgrw = anrmax/rpvgrw
            end if
            ! compute the reciprocal of the condition number of a.
            call la_wgecon(norm,n,af,ldaf,anorm,rcond,work,rwork,info)

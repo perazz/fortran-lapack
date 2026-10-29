@@ -1030,7 +1030,7 @@ module la_lapack_eigv_gen3
      !> This subroutine is designed for the condition number estimation
      !> in routine ${ri.upper()}$TRSNA.
 
-     subroutine la_${ri}$laqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
+     pure subroutine la_${ri}$laqtr(ltran,lreal,n,t,ldt,b,w,scale,x,work,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1048,6 +1048,7 @@ module la_lapack_eigv_gen3
        ! =====================================================================
 
            ! Local Scalars
+           real(${rk}$) :: bnorm
            logical(lk) :: notran
            integer(ilp) :: i,ierr,j,j1,j2,jnext,k,n1,n2
            real(${rk}$) :: bignum,eps,rec,scaloc,si,smin,sminw,smlnum,sr,tjj,tmp,xj,xmax, &
@@ -1066,8 +1067,11 @@ module la_lapack_eigv_gen3
            eps = la_${ri}$lamch('P')
            smlnum = la_${ri}$lamch('S')/eps
            bignum = one/smlnum
-           xnorm = la_${ri}$lange('M',n,n,t,ldt,d)
-           if (.not. lreal) xnorm = max(xnorm,abs(w),la_${ri}$lange('M',n,1,b,n,d))
+           call la_${ri}$lange_sub('M',n,n,t,ldt,d,xnorm)
+           if (.not. lreal) then
+              call la_${ri}$lange_sub('M',n,1,b,n,d,bnorm)
+              xnorm = max(xnorm,abs(w),bnorm)
+           end if
 
            smin = max(smlnum,eps*xnorm)
            ! compute 1-norm of each column of strictly upper triangular
@@ -1798,7 +1802,7 @@ module la_lapack_eigv_gen3
      !> hoped that the final version of H has many zero subdiagonal
      !> entries.
 
-     subroutine la_${ri}$laqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
+     pure subroutine la_${ri}$laqr2(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
                 sr,si,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack auxiliary routine --
@@ -2111,7 +2115,7 @@ module la_lapack_eigv_gen3
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_${ri}$laqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
+     pure subroutine la_${ri}$laqr0(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
                 lwork,info)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
@@ -2494,7 +2498,7 @@ module la_lapack_eigv_gen3
      !> hoped that the final version of H has many zero subdiagonal
      !> entries.
 
-     subroutine la_${ri}$laqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
+     pure subroutine la_${ri}$laqr3(wantt,wantz,n,ktop,kbot,nw,h,ldh,iloz,ihiz,z,ldz,ns,nd, &
                 sr,si,v,ldv,nh,t,ldt,nv,wv,ldwv,work,lwork)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack auxiliary routine --
@@ -2823,7 +2827,7 @@ module la_lapack_eigv_gen3
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_${ri}$laqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
+     pure subroutine la_${ri}$laqr4(wantt,wantz,n,ilo,ihi,h,ldh,wr,wi,iloz,ihiz,z,ldz,work, &
                 lwork,info)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
@@ -3240,7 +3244,7 @@ module la_lapack_eigv_gen3
      !> Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril "A multishift,
      !> multipole rational QZ method with agressive early deflation"
 
-     recursive subroutine la_${ri}$laqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alphar, &
+     pure recursive subroutine la_${ri}$laqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alphar, &
                alphai,beta,q,ldq,z,ldz,work,lwork,rec,info)
         use la_constants_${rk}$,only:zero,one
            ! arguments
@@ -3598,7 +3602,7 @@ module la_lapack_eigv_gen3
 #:endif
      !> ${ri.upper()}$LAQZ3: performs AED
 
-     recursive subroutine la_${ri}$laqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
+     pure recursive subroutine la_${ri}$laqz3(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
                ldq,z,ldz,ns,nd,alphar,alphai,beta,qc,ldqc,zc,ldzc,work,lwork,rec,info)
         use la_constants_${rk}$,only:zero,one
            ! arguments
@@ -6207,7 +6211,7 @@ module la_lapack_eigv_gen3
      !> Ref: T. Steel, D. Camps, K. Meerbergen, R. Vandebril "A multishift,
      !> multipole rational QZ method with agressive early deflation"
 
-     recursive subroutine la_${ri}$laqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alpha, &
+     pure recursive subroutine la_${ri}$laqz0(wants,wantq,wantz,n,ilo,ihi,a,lda,b,ldb,alpha, &
                beta,q,ldq,z,ldz,work,lwork,rwork,rec,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
            ! arguments
@@ -6533,7 +6537,7 @@ module la_lapack_eigv_gen3
 #:endif
      !> ${ri.upper()}$LAQZ2: performs AED
 
-     recursive subroutine la_${ri}$laqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
+     pure recursive subroutine la_${ri}$laqz2(ilschur,ilq,ilz,n,ilo,ihi,nw,a,lda,b,ldb,q, &
                ldq,z,ldz,ns,nd,alpha,beta,qc,ldqc,zc,ldzc,work,lwork,rwork,rec,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
            ! arguments

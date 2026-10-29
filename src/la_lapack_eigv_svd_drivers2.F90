@@ -8361,7 +8361,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_sgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
+     pure subroutine la_sgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack driver routine --
@@ -8654,7 +8654,7 @@ module la_lapack_eigv_svd_drivers2
            smlnum = sqrt(la_slamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_slange('M',m,n,a,lda,dum)
+           call la_slange_sub('M',m,n,a,lda,dum,anrm)
            if (la_sisnan(anrm)) then
                info = -4
                return
@@ -9332,7 +9332,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_dgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
+     pure subroutine la_dgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
         use la_constants_dp,only:zero,one
 
         ! -- lapack driver routine --
@@ -9625,7 +9625,7 @@ module la_lapack_eigv_svd_drivers2
            smlnum = sqrt(la_dlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_dlange('M',m,n,a,lda,dum)
+           call la_dlange_sub('M',m,n,a,lda,dum,anrm)
            if (la_disnan(anrm)) then
                info = -4
                return
@@ -10304,7 +10304,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_xgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
+     pure subroutine la_xgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
         use la_constants_xdp,only:zero,one
 
         ! -- lapack driver routine --
@@ -10597,7 +10597,7 @@ module la_lapack_eigv_svd_drivers2
            smlnum = sqrt(la_xlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_xlange('M',m,n,a,lda,dum)
+           call la_xlange_sub('M',m,n,a,lda,dum,anrm)
            if (la_xisnan(anrm)) then
                info = -4
                return
@@ -11277,7 +11277,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_qgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
+     pure subroutine la_qgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,iwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack driver routine --
@@ -11570,7 +11570,7 @@ module la_lapack_eigv_svd_drivers2
            smlnum = sqrt(la_qlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_qlange('M',m,n,a,lda,dum)
+           call la_qlange_sub('M',m,n,a,lda,dum,anrm)
            if (la_qisnan(anrm)) then
                info = -4
                return
@@ -12248,7 +12248,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_cgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
+     pure subroutine la_cgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
                info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -12565,7 +12565,7 @@ module la_lapack_eigv_svd_drivers2
            smlnum = sqrt(la_slamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_clange('M',m,n,a,lda,dum)
+           call la_clange_sub('M',m,n,a,lda,dum,anrm)
            if (la_sisnan(anrm)) then
                info = -4
                return
@@ -13742,7 +13742,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
+     pure subroutine la_zgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
                info)
         use la_constants_dp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -14059,7 +14059,7 @@ module la_lapack_eigv_svd_drivers2
            smlnum = sqrt(la_dlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_zlange('M',m,n,a,lda,dum)
+           call la_zlange_sub('M',m,n,a,lda,dum,anrm)
            if (la_disnan(anrm)) then
                info = -4
                return
@@ -15237,7 +15237,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_ygesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
+     pure subroutine la_ygesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
                info)
         use la_constants_xdp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -15554,7 +15554,7 @@ module la_lapack_eigv_svd_drivers2
            smlnum = sqrt(la_xlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_ylange('M',m,n,a,lda,dum)
+           call la_ylange_sub('M',m,n,a,lda,dum,anrm)
            if (la_xisnan(anrm)) then
                info = -4
                return
@@ -16733,7 +16733,7 @@ module la_lapack_eigv_svd_drivers2
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_wgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
+     pure subroutine la_wgesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork,iwork, &
                info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -17050,7 +17050,7 @@ module la_lapack_eigv_svd_drivers2
            smlnum = sqrt(la_qlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_wlange('M',m,n,a,lda,dum)
+           call la_wlange_sub('M',m,n,a,lda,dum,anrm)
            if (la_qisnan(anrm)) then
                info = -4
                return
