@@ -501,7 +501,7 @@ module la_eig
          #:if rt.startswith('complex')
          real(${rk}$), allocatable :: rwork(:)
          #:else
-         ${rt}$, pointer :: lreal(:),limag(:)
+         ${rt}$, allocatable :: lreal(:),limag(:)
          #:endif
          #:if ei=='ggev'
          ${rt}$, allocatable :: beta(:)

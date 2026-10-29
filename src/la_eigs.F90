@@ -554,7 +554,7 @@ module la_eig
          real(sp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(sp),allocatable :: work(:)
          real(sp),dimension(:,:),pointer :: amat,umat,vmat
-         real(sp),pointer :: lreal(:),limag(:)
+         real(sp),allocatable :: lreal(:),limag(:)
          
          !> Matrix size
          m = size(a,1,kind=ilp)
@@ -764,7 +764,7 @@ module la_eig
          real(sp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(sp),allocatable :: work(:)
          real(sp),dimension(:,:),pointer :: amat,umat,vmat,bmat
-         real(sp),pointer :: lreal(:),limag(:)
+         real(sp),allocatable :: lreal(:),limag(:)
          real(sp),allocatable :: beta(:)
          
          !> Matrix size
@@ -1164,7 +1164,7 @@ module la_eig
          real(dp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(dp),allocatable :: work(:)
          real(dp),dimension(:,:),pointer :: amat,umat,vmat
-         real(dp),pointer :: lreal(:),limag(:)
+         real(dp),allocatable :: lreal(:),limag(:)
          
          !> Matrix size
          m = size(a,1,kind=ilp)
@@ -1374,7 +1374,7 @@ module la_eig
          real(dp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(dp),allocatable :: work(:)
          real(dp),dimension(:,:),pointer :: amat,umat,vmat,bmat
-         real(dp),pointer :: lreal(:),limag(:)
+         real(dp),allocatable :: lreal(:),limag(:)
          real(dp),allocatable :: beta(:)
          
          !> Matrix size
@@ -1776,7 +1776,7 @@ module la_eig
          real(xdp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(xdp),allocatable :: work(:)
          real(xdp),dimension(:,:),pointer :: amat,umat,vmat
-         real(xdp),pointer :: lreal(:),limag(:)
+         real(xdp),allocatable :: lreal(:),limag(:)
          
          !> Matrix size
          m = size(a,1,kind=ilp)
@@ -1986,7 +1986,7 @@ module la_eig
          real(xdp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(xdp),allocatable :: work(:)
          real(xdp),dimension(:,:),pointer :: amat,umat,vmat,bmat
-         real(xdp),pointer :: lreal(:),limag(:)
+         real(xdp),allocatable :: lreal(:),limag(:)
          real(xdp),allocatable :: beta(:)
          
          !> Matrix size
@@ -2389,7 +2389,7 @@ module la_eig
          real(qp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(qp),allocatable :: work(:)
          real(qp),dimension(:,:),pointer :: amat,umat,vmat
-         real(qp),pointer :: lreal(:),limag(:)
+         real(qp),allocatable :: lreal(:),limag(:)
          
          !> Matrix size
          m = size(a,1,kind=ilp)
@@ -2599,7 +2599,7 @@ module la_eig
          real(qp),target :: work_dummy(1),u_dummy(1,1),v_dummy(1,1)
          real(qp),allocatable :: work(:)
          real(qp),dimension(:,:),pointer :: amat,umat,vmat,bmat
-         real(qp),pointer :: lreal(:),limag(:)
+         real(qp),allocatable :: lreal(:),limag(:)
          real(qp),allocatable :: beta(:)
          
          !> Matrix size
