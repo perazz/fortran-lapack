@@ -195,6 +195,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `eig` and `eigvals` no longer leak memory on a real matrix: the real and
+  imaginary parts of the eigenvalues were allocated as pointers and never
+  freed, 2n values per call.
 - `la_dgesdd` no longer writes `path 5t` to standard output on one of its
   execution paths.
 - `la_claunhr_col_getrfnp2` declares its `cabs1` statement function
