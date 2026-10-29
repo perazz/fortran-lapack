@@ -1,0 +1,184 @@
+#:include "common.fypp"
+#:set RC_KINDS_TYPES = ALL_KINDS_TYPES
+! The high-level procedures that are pure, called from a pure procedure: a change that makes
+! one of them impure fails to compile this test
+module test_linalg_pure
+    use testdrive, only: error_type, check, new_unittest, unittest_type
+    use la_constants
+    use linear_algebra, only: eigvals, eigvalsh, eig, svd, invert, schur, solve_lstsq, &
+                              operator(.inv.), operator(.pinv.)
+    use la_state_type, only: la_state
+
+    implicit none (type,external)
+    private
+
+    public :: test_pure_procedures
+
+    contains
+
+    !> Pure procedure tests
+    subroutine test_pure_procedures(tests)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: tests(:)
+
+        allocate(tests(0))
+
+        #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
+        call add_test(tests,new_unittest("pure_calls_${ri}$",test_pure_calls_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
+        #:endfor
+
+    end subroutine test_pure_procedures
+
+    #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
+    !> Run every pure procedure on A = diag(1,2,4), whose results are known
+    subroutine test_pure_calls_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer, parameter :: n = 3
+        real(${rk}$), parameter :: tol = 1000*epsilon(1.0_${rk}$)
+        real(${rk}$), parameter :: d(n) = [1.0_${rk}$, 2.0_${rk}$, 4.0_${rk}$]
+        ${rt}$ :: a(n,n), inva(n,n), pinva(n,n), inverted(n,n), t(n,n), x(n), ainv(n,n)
+        complex(${rk}$) :: lambda(n), lambda_eig(n)
+        real(${rk}$) :: lambdah(n), s(n)
+        logical(lk) :: ok
+        integer :: i
+
+        a = 0
+        ainv = 0
+        do i = 1, n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+        end do
+
+        call pure_calls_${ri}$(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,ok)
+
+        call check(error, ok, 'no error state from the pure subroutines')
+        if (allocated(error)) return
+
+        call check(error, all([(any(abs(lambda-d(i))<tol), i=1,n)]), 'eigvals')
+        if (allocated(error)) return
+
+        call check(error, all([(any(abs(lambda_eig-d(i))<tol), i=1,n)]), 'eig')
+        if (allocated(error)) return
+
+        call check(error, all(abs(lambdah-d)<tol), 'eigvalsh')
+        if (allocated(error)) return
+
+        call check(error, all(abs(s-d(n:1:-1))<tol), 'svd')
+        if (allocated(error)) return
+
+        call check(error, all(abs(inva-ainv)<tol), '.inv.')
+        if (allocated(error)) return
+
+        call check(error, all(abs(pinva-ainv)<tol), '.pinv.')
+        if (allocated(error)) return
+
+        call check(error, all(abs(inverted-ainv)<tol), 'invert')
+        if (allocated(error)) return
+
+        call check(error, abs(t(1,1)+t(2,2)+t(3,3)-sum(d))<tol .and. &
+                          abs(t(2,1))+abs(t(3,1))+abs(t(3,2))<tol, 'schur')
+        if (allocated(error)) return
+
+        call check(error, all(abs(x-1)<tol), 'solve_lstsq')
+        if (allocated(error)) return
+
+    end subroutine test_pure_calls_${ri}$
+
+    pure subroutine pure_calls_${ri}$(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,ok)
+        ${rt}$, intent(in) :: a(:,:)
+        complex(${rk}$), intent(out) :: lambda(:), lambda_eig(:)
+        real(${rk}$), intent(out) :: lambdah(:), s(:)
+        ${rt}$, intent(out) :: inva(:,:), pinva(:,:), inverted(:,:), t(:,:), x(:)
+        logical(lk), intent(out) :: ok
+
+        ${rt}$ :: work(size(a,1),size(a,2))
+        type(la_state) :: err(5)
+        integer :: i
+
+        lambda = eigvals(a)
+        lambdah = eigvalsh(a)
+        inva = .inv. a
+        pinva = .pinv. a
+
+        work = a
+        call eig(work,lambda_eig,err=err(1))
+
+        work = a
+        call svd(work,s,err=err(2))
+
+        inverted = a
+        call invert(inverted,err=err(3))
+
+        work = a
+        call schur(work,t,err=err(4))
+
+        work = a
+        call solve_lstsq(work,[(a(i,i), i=1,size(a,1))],x,err=err(5))
+
+        ok = all(err%ok())
+
+    end subroutine pure_calls_${ri}$
+
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
+    #:endfor
+
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type), allocatable, intent(inout) :: tests(:)
+        type(unittest_type), intent(in) :: new_test
+
+        integer :: n
+        type(unittest_type), allocatable :: new_tests(:)
+
+        if (allocated(tests)) then
+            n = size(tests)
+        else
+            n = 0
+        end if
+
+        allocate(new_tests(n+1))
+        if (n>0) new_tests(1:n) = tests(1:n)
+                 new_tests(1+n) = new_test
+        call move_alloc(from=new_tests,to=tests)
+
+    end subroutine add_test
+
+end module test_linalg_pure
+
+program test_pure
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    use testdrive, only : run_testsuite, new_testsuite, testsuite_type
+    use test_linalg_pure, only : test_pure_procedures
+    implicit none
+    integer :: stat, is
+    type(testsuite_type), allocatable :: testsuites(:)
+    character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+    stat = 0
+
+    testsuites = [ &
+        new_testsuite("linalg_pure", test_pure_procedures) &
+        ]
+
+    do is = 1, size(testsuites)
+        write(error_unit, fmt) "Testing:", testsuites(is)%name
+        call run_testsuite(testsuites(is)%collect, error_unit, stat)
+    end do
+
+    if (stat > 0) then
+        write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+        error stop
+    end if
+end program test_pure

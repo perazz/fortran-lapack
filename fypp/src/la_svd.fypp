@@ -154,7 +154,7 @@ module la_svd
      end function la_svdvals_${ri}$
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_${ri}$(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_${ri}$(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> Array of singular values

@@ -74,9 +74,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   every caller inside the library uses their pure subroutine twins instead.
   With `LA_EXTERNAL_LAPACK`, the external interfaces of the routines that
   became pure are declared `pure` as well.
+- The high-level procedures that waited for a pure backend are `pure`: the
+  subroutines `eig`, `eigh`, `svd`, `pseudoinvert`, `invert`, `schur`,
+  `schur_space`, `solve_lstsq`, `solve_weighted_lstsq`,
+  `solve_constrained_lstsq` and `constrained_lstsq_space`, the forms of
+  `eigvals` and `eigvalsh` without `err`, and the operators `.inv.` and
+  `.pinv.`. `mnorm` calls the pure `lange_sub`. A function that takes an `err`
+  argument stays impure, since a pure function cannot.
+- The generalized `eigvals(a, b)` takes `b` as `intent(in)`. It was declared
+  `intent(inout)` but never modified, so a constant or an expression can now
+  be passed.
   
 ### Added
 
+- `pseudoinvert(a, pinva [, rtol] [, overwrite_a] [, err])`: with
+  `overwrite_a=.true.` the SVD works on `a` itself instead of a copy, as in
+  `svd`, `eig` and `eigh`. `a` is left unchanged by default, as it always was.
+  `.pinv.` uses it on its own copy of the operand, so it copies once. A call
+  that passed `err` by position now needs `err=`.
 - A `pure` subroutine twin for each LAPACK function with an `intent(out)`
   argument: the matrix norms `?langb`, `?lange`, `?lanhb`, `?lanhe`, `?lanhf`,
   `?lanhp`, `?lanhs`, `?lansb`, `?lansf`, `?lansp`, `?lansy`, `?lantb`,
@@ -185,6 +200,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `eig` and `eigvals` no longer leak memory on a real matrix: the real and
+  imaginary parts of the eigenvalues were allocated as pointers and never
+  freed, 2n values per call.
 - `la_dgesdd` no longer writes `path 5t` to standard output on one of its
   execution paths.
 - `la_claunhr_col_getrfnp2` declares its `cabs1` statement function

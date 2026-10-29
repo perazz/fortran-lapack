@@ -184,6 +184,7 @@ The computation supports both `real` and `complex` matrices. If requested, eigen
 - If computing real eigenvalues, an error is returned if eigenvalues have nonzero imaginary parts.
 - This routine is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
 - Overwriting `A` or `B` can improve performance but destroys the original matrix data.
+- This subroutine is `pure`.
 
 ## [eigh](@ref la_eig::eigh) - Eigendecomposition of a real symmetric or complex Hermitian matrix.
 
@@ -228,6 +229,7 @@ The computation supports both real and complex matrices, and the eigenvectors, i
 - Eigenvalues are real for symmetric or Hermitian matrices.
 - This routine is based on LAPACK's [SYEVD](@ref la_lapack::syevd) and [HEEVD](@ref la_lapack::heevd) routines.
 - Overwriting the matrix `A` can improve performance but destroys the original matrix data.
+- This subroutine is `pure`.
 
 ## [eigvals](@ref la_eig::eigvals) - Eigenvalues of a square matrix (interface).
 
@@ -279,8 +281,9 @@ The function returns an array of eigenvalues computed for the input matrix \f$A\
 ### Notes
 
 - The eigenvalues are returned in a complex array, even for real matrices.
-- For the generalized eigenvalue problem, matrix \f$B\f$ must be provided and will be modified in-place.
+- For the generalized eigenvalue problem, matrix \f$B\f$ must be provided. Neither \f$A\f$ nor \f$B\f$ is modified.
 - This routine is based on LAPACK's [GEEV](@ref la_lapack::geev) and [GGEV](@ref la_lapack::ggev) routines.
+- The form without `err` is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks.
 
 ## [eigvalsh](@ref la_eig::eigvalsh) - Eigenvalues of a real symmetric or complex Hermitian matrix.
 
@@ -328,6 +331,7 @@ The user can specify whether to use the upper or lower half of the matrix \f$A\f
 
 - The eigenvalues are returned in a `real` array, with the same kind as the input matrix `a`.
 - This routine is based on LAPACK's [SYEV](@ref la_lapack::syev) and [HEEV](@ref la_lapack::heev) routines.
+- The form without `err` is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks.
 
 ## [solve](@ref la_solve::solve) - Solve a linear matrix equation or a linear system of equations.
 
@@ -550,6 +554,7 @@ The solution is written into `x`.
 ### Notes
 
 - [`lstsq`](@ref la_least_squares::lstsq) is this subroutine with the solution allocated for the caller.
+- This subroutine is `pure`.
 
 
 ## [weighted_lstsq](@ref la_least_squares::weighted_lstsq) - Weighted least squares solution (function).
@@ -619,6 +624,7 @@ The solution is written into `x`.
 ### Notes
 
 - The weights are applied to a copy of `a` unless `overwrite_a` is set, so `a` is unchanged by default.
+- This subroutine is `pure`.
 
 
 ## [constrained_lstsq](@ref la_least_squares::constrained_lstsq) - Equality-constrained least squares solution (function).
@@ -689,6 +695,7 @@ The solution is written into `x`.
 ### Notes
 
 - Without `overwrite_matrices`, all four inputs are copied, so none of them is changed.
+- This subroutine is `pure`.
 
 
 ## [constrained_lstsq_space](@ref la_least_squares::constrained_lstsq_space) - Workspace size for the constrained least squares solver.
@@ -716,6 +723,7 @@ This subroutine asks LAPACK for the optimal size of the workspace array that [`s
 ### Notes
 
 - The size returned is the optimal one, not the minimum one.
+- This subroutine is `pure`.
 
 
 ## [det](@ref la_determinant::det) - Determinant of a scalar or rectangular matrix.
@@ -861,6 +869,7 @@ The inverse is then obtained by solving \\( A X = I \\) using the LU factors.
 - The determinant of `a` can be computed before inversion using [det](@ref la_determinant::det) to check for singularity.
 - The computational complexity is \\( O(n^3) \\), making it expensive for large matrices.
 - It is recommended to use matrix factorizations (e.g., LU or QR) for solving linear systems instead of computing the inverse explicitly, as it is numerically more stable and efficient.
+- Both forms are `pure`.
 
 
 ## [operator(.inv.)](@ref la_inverse::operator(.inv.)) - Compute the inverse of a square matrix.
@@ -903,6 +912,7 @@ This operator is functionally equivalent to [inv](@ref la_inverse::inv) but prov
 - This operator internally calls LAPACK's LU decomposition routine [GETRF](@ref la_lapack::getrf) followed by [GETRI](@ref la_lapack::getri).
 - The chaining property allows for concise expressions but requires caution: if any intermediate inversion fails, subsequent operations may propagate errors due to empty matrix results.
 - If strict error handling is required, use [inv](@ref la_inverse::inv) instead.
+- The operator is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks.
 
 ## [pinv](@ref la_pseudoinverse::pinv) - Moore-Penrose pseudo-inverse of a matrix (function).
 
@@ -993,6 +1003,7 @@ where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sig
 - This operator internally calls [pinv](@ref la_pseudoinverse::pinv) and behaves identically.
 - The pseudo-inverse is computed using LAPACK's SVD decomposition routine [GESVD](@ref la_lapack::gesvd).
 - This operator is a convenient shorthand for calling the functional interface `pinv(a)`.
+- The operator is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks.
 
 ## [svd](@ref la_svd::svd) - Singular Value Decomposition (SVD) of a matrix
 
@@ -1040,6 +1051,7 @@ The SVD of matrix \f$ A \f$ is returned in the corresponding output arguments, w
 
 - This subroutine computes the Singular Value Decomposition using LAPACK's [GESDD](@ref la_lapack::gesdd) algorithm.
 - If `overwrite_a` is enabled, the input matrix `a` may be overwritten during computation.
+- This subroutine is `pure`.
 
 ## [svdvals](@ref la_svd::svdvals) - Singular Values Computation (function).
 
@@ -1689,6 +1701,7 @@ The Schur decomposition matrices \f$ T \f$ and optionally \f$ Z \f$ are returned
 - This subroutine computes the Schur decomposition using LAPACK's Schur decomposition routines ([GEES](@ref la_lapack::gees)).
 - Sorting options for eigenvalues can be requested, utilizing LAPACK's eigenvalue sorting mechanism.
 - If `overwrite_a` is enabled, the input matrix `a` will be modified during computation.
+- This subroutine is `pure`.
 
 
 ## [schur_space](@ref la_schur::schur_space) - Workspace size for Schur decomposition.
@@ -1722,6 +1735,7 @@ The workspace size \f$ lwork \f$ that should be allocated before calling the Sch
 
 - This subroutine is useful for preallocating memory for Schur decomposition in large systems.
 - It is important to ensure that the workspace size is correctly allocated before proceeding with Schur decomposition to avoid memory issues.
+- This subroutine is `pure`.
 
 
 

@@ -163,9 +163,9 @@ module la_schur
         
     end subroutine handle_gees_info
     
-    subroutine get_schur_s_workspace(a,lwork,err)
+    pure subroutine get_schur_s_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        real(sp),intent(in),target :: a(:,:)
+        real(sp),intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -174,9 +174,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        real(sp),pointer :: amat(:,:)
         real(sp) :: rwork_dummy(1)
-        real(sp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        real(sp) :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -184,16 +183,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
         !> Get Schur workspace
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=sp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -210,7 +207,7 @@ module la_schur
     end subroutine get_schur_s_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_s_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_s_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -374,7 +371,7 @@ module la_schur
     end subroutine la_s_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_s_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_s_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -415,9 +412,9 @@ module la_schur
         
     end subroutine la_real_eig_s_schur
 
-    subroutine get_schur_d_workspace(a,lwork,err)
+    pure subroutine get_schur_d_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        real(dp),intent(in),target :: a(:,:)
+        real(dp),intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -426,9 +423,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        real(dp),pointer :: amat(:,:)
         real(dp) :: rwork_dummy(1)
-        real(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        real(dp) :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -436,16 +432,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
         !> Get Schur workspace
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=dp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -462,7 +456,7 @@ module la_schur
     end subroutine get_schur_d_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -626,7 +620,7 @@ module la_schur
     end subroutine la_d_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_d_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -668,9 +662,9 @@ module la_schur
     end subroutine la_real_eig_d_schur
 
 #ifdef LA_WITH_XDP
-    subroutine get_schur_x_workspace(a,lwork,err)
+    pure subroutine get_schur_x_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        real(xdp),intent(in),target :: a(:,:)
+        real(xdp),intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -679,9 +673,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        real(xdp),pointer :: amat(:,:)
         real(xdp) :: rwork_dummy(1)
-        real(xdp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        real(xdp) :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -689,16 +682,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
         !> Get Schur workspace
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=xdp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -715,7 +706,7 @@ module la_schur
     end subroutine get_schur_x_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_x_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_x_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(xdp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -879,7 +870,7 @@ module la_schur
     end subroutine la_x_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_x_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_x_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(xdp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -922,9 +913,9 @@ module la_schur
 #endif
 
 #ifdef LA_WITH_QP
-    subroutine get_schur_q_workspace(a,lwork,err)
+    pure subroutine get_schur_q_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        real(qp),intent(in),target :: a(:,:)
+        real(qp),intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -933,9 +924,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        real(qp),pointer :: amat(:,:)
         real(qp) :: rwork_dummy(1)
-        real(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        real(qp) :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -943,16 +933,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
         !> Get Schur workspace
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,wi_dummy, &
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=qp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -969,7 +957,7 @@ module la_schur
     end subroutine get_schur_q_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_q_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_q_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1133,7 +1121,7 @@ module la_schur
     end subroutine la_q_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_q_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_q_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         real(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1175,9 +1163,9 @@ module la_schur
     end subroutine la_real_eig_q_schur
 #endif
 
-    subroutine get_schur_c_workspace(a,lwork,err)
+    pure subroutine get_schur_c_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        complex(sp),intent(in),target :: a(:,:)
+        complex(sp),intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -1186,9 +1174,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        complex(sp),pointer :: amat(:,:)
         real(sp) :: rwork_dummy(1)
-        complex(sp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        complex(sp) :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -1196,16 +1183,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
         !> Get Schur workspace
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=sp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -1222,7 +1207,7 @@ module la_schur
     end subroutine get_schur_c_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_c_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_c_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1384,7 +1369,7 @@ module la_schur
     end subroutine la_c_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_c_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_c_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(sp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1425,9 +1410,9 @@ module la_schur
         
     end subroutine la_real_eig_c_schur
 
-    subroutine get_schur_z_workspace(a,lwork,err)
+    pure subroutine get_schur_z_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        complex(dp),intent(in),target :: a(:,:)
+        complex(dp),intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -1436,9 +1421,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        complex(dp),pointer :: amat(:,:)
         real(dp) :: rwork_dummy(1)
-        complex(dp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        complex(dp) :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -1446,16 +1430,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
         !> Get Schur workspace
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=dp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -1472,7 +1454,7 @@ module la_schur
     end subroutine get_schur_z_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1634,7 +1616,7 @@ module la_schur
     end subroutine la_z_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_z_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(dp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1676,9 +1658,9 @@ module la_schur
     end subroutine la_real_eig_z_schur
 
 #ifdef LA_WITH_XDP
-    subroutine get_schur_y_workspace(a,lwork,err)
+    pure subroutine get_schur_y_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        complex(xdp),intent(in),target :: a(:,:)
+        complex(xdp),intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -1687,9 +1669,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        complex(xdp),pointer :: amat(:,:)
         real(xdp) :: rwork_dummy(1)
-        complex(xdp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        complex(xdp) :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -1697,16 +1678,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
         !> Get Schur workspace
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=xdp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -1723,7 +1702,7 @@ module la_schur
     end subroutine get_schur_y_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_y_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_y_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(xdp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1885,7 +1864,7 @@ module la_schur
     end subroutine la_y_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_y_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_y_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(xdp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -1928,9 +1907,9 @@ module la_schur
 #endif
 
 #ifdef LA_WITH_QP
-    subroutine get_schur_w_workspace(a,lwork,err)
+    pure subroutine get_schur_w_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        complex(qp),intent(in),target :: a(:,:)
+        complex(qp),intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp),intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -1939,9 +1918,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        complex(qp),pointer :: amat(:,:)
         real(qp) :: rwork_dummy(1)
-        complex(qp) :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        complex(qp) :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -1949,16 +1927,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort = gees_sort_eigs(.false.)
         sdim = 0_ilp
         
         !> Get Schur workspace
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy, &
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=qp),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -1975,7 +1951,7 @@ module la_schur
     end subroutine get_schur_w_workspace
     
     ! Schur decomposition subroutine
-    subroutine la_w_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_w_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -2137,7 +2113,7 @@ module la_schur
     end subroutine la_w_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_w_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_w_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         complex(qp),intent(inout),target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T

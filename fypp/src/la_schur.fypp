@@ -149,9 +149,9 @@ module la_schur
     #:if LA_GUARD[rk]
 #ifdef ${LA_GUARD[rk]}$
     #:endif
-    subroutine get_schur_${ri}$_workspace(a,lwork,err)
+    pure subroutine get_schur_${ri}$_workspace(a,lwork,err)
         !> Input matrix a[m,m]
-        ${rt}$, intent(in), target :: a(:,:)
+        ${rt}$, intent(in) :: a(:,:)
         !> Minimum workspace size for the decomposition operation
         integer(ilp), intent(out) :: lwork
         !> State return flag. Returns an error if the query failed
@@ -160,9 +160,8 @@ module la_schur
         integer(ilp) :: m,n,sdim,info
         character :: jobvs,sort
         logical(lk) :: bwork_dummy(1)
-        ${rt}$, pointer :: amat(:,:)
         real(${rk}$) :: rwork_dummy(1)
-        ${rt}$ :: wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
+        ${rt}$ :: a_dummy(1,1),wr_dummy(1),wi_dummy(1),vs_dummy(1,1),work_dummy(1)
         type(la_state) :: err0
         
         !> Initialize problem
@@ -170,16 +169,14 @@ module la_schur
         m = size(a,1,kind=ilp)
         n = size(a,2,kind=ilp)         
         
-        !> Create a dummy intent(inout) argument
-        amat => a
-        
         !> Select dummy task
         jobvs = gees_vectors(.true.)
         sort  = gees_sort_eigs(.false.)
         sdim  = 0_ilp
         
         !> Get Schur workspace 
-        call gees(jobvs,sort,do_not_select,n,amat,m,sdim,wr_dummy,#{if rt.startswith('r')}#wi_dummy, #{endif}#&
+        !> A workspace query does not reference the matrix: pass a dummy in its place
+        call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,#{if rt.startswith('r')}#wi_dummy, #{endif}#&
                   vs_dummy,m,work_dummy,lwork,#{if rt.startswith('c')}#rwork_dummy,#{endif}#bwork_dummy,info)
         if (info==0) lwork = nint(real(work_dummy(1),kind=${rk}$),kind=ilp)
         call handle_gees_info(info,m,n,m,err0)
@@ -196,7 +193,7 @@ module la_schur
     end subroutine get_schur_${ri}$_workspace    
     
     ! Schur decomposition subroutine
-    subroutine la_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         ${rt}$, intent(inout), target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T
@@ -378,7 +375,7 @@ module la_schur
     end subroutine la_${ri}$_schur
 
     ! Schur decomposition subroutine: real eigenvalue interface
-    subroutine la_real_eig_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
+    pure subroutine la_real_eig_${ri}$_schur(a,t,z,eigvals,overwrite_a,storage,err)
         !> Input matrix a[m,m]
         ${rt}$, intent(inout), target :: a(:,:)
         !> Schur form of A: upper-triangular or quasi-upper-triangular matrix T

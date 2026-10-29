@@ -112,7 +112,7 @@ module la_inverse
 #ifdef ${LA_GUARD[rk]}$
      #:endif
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_${ri}$(a,pivot,err)
+     pure subroutine la_invert_${ri}$(a,pivot,err)
          !> Input matrix a[n,n]
          ${rt}$,                     intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -183,7 +183,7 @@ module la_inverse
      end subroutine la_invert_${ri}$
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_${ri}$(a,inva,pivot,err)
+     pure subroutine la_invert_split_${ri}$(a,inva,pivot,err)
          !> Input matrix a[n,n]
          ${rt}$,                     intent(in)    :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -239,7 +239,7 @@ module la_inverse
      end function la_inverse_${ri}$
 
      ! Inverse matrix operator
-     function la_inverse_${ri}$_operator(a) result(inva)
+     pure function la_inverse_${ri}$_operator(a) result(inva)
          !> Input matrix a[n,n]
          ${rt}$, intent(in) :: a(:,:)
          !> Result matrix
@@ -247,11 +247,12 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_${ri}$(a,err)
+         allocate(inva,source=a)
+         call la_invert_${ri}$(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate(inva)
+            deallocate(inva)
             allocate(inva(0,0))
          endif
 

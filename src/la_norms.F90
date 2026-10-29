@@ -2,7 +2,7 @@
 module la_norms
      use la_constants
      use la_blas,only:nrm2
-     use la_lapack,only:lange
+     use la_lapack,only:lange_sub
      use la_state_type
      implicit none(type,external)
      private
@@ -2158,7 +2158,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -2251,8 +2251,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -2348,8 +2348,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -2446,8 +2446,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -2545,8 +2545,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -2645,8 +2645,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -3883,7 +3883,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -3976,8 +3976,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -4073,8 +4073,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -4171,8 +4171,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -4270,8 +4270,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -4370,8 +4370,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -5608,7 +5608,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -5701,8 +5701,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -5798,8 +5798,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -5896,8 +5896,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -5995,8 +5995,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -6095,8 +6095,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -7333,7 +7333,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -7426,8 +7426,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -7523,8 +7523,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -7621,8 +7621,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -7720,8 +7720,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -7820,8 +7820,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -9060,7 +9060,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -9153,8 +9153,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -9250,8 +9250,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -9348,8 +9348,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -9447,8 +9447,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -9547,8 +9547,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -10785,7 +10785,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -10878,8 +10878,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -10975,8 +10975,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -11073,8 +11073,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -11172,8 +11172,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -11272,8 +11272,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -12513,7 +12513,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -12606,8 +12606,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -12703,8 +12703,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -12801,8 +12801,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -12900,8 +12900,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -13000,8 +13000,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -14238,7 +14238,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -14331,8 +14331,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -14428,8 +14428,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -14526,8 +14526,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -14625,8 +14625,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -14725,8 +14725,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -15965,7 +15965,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -16058,8 +16058,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -16155,8 +16155,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -16253,8 +16253,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -16352,8 +16352,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -16452,8 +16452,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -17690,7 +17690,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -17783,8 +17783,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -17880,8 +17880,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -17978,8 +17978,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -18077,8 +18077,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -18177,8 +18177,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -19415,7 +19415,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -19508,8 +19508,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -19605,8 +19605,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -19703,8 +19703,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -19802,8 +19802,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -19902,8 +19902,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -21140,7 +21140,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -21233,8 +21233,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -21330,8 +21330,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -21428,8 +21428,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -21527,8 +21527,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -21627,8 +21627,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -22867,7 +22867,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -22960,8 +22960,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -23057,8 +23057,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -23155,8 +23155,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -23254,8 +23254,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -23354,8 +23354,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -24592,7 +24592,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -24685,8 +24685,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -24782,8 +24782,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -24880,8 +24880,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -24979,8 +24979,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -25079,8 +25079,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -26320,7 +26320,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -26413,8 +26413,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -26510,8 +26510,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -26608,8 +26608,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -26707,8 +26707,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -26807,8 +26807,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -28045,7 +28045,7 @@ module la_norms
         end if
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
@@ -28138,8 +28138,8 @@ module la_norms
         
         ! LAPACK interface
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3) = &
-        lange(lange_task,m,n,apack(:,:,j3),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
+                       nrm(j3))
         end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -28235,8 +28235,8 @@ module la_norms
         ! LAPACK interface
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
+                       nrm(j3,j4))
         end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -28333,8 +28333,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
+                       nrm(j3,j4,j5))
         end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -28432,8 +28432,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
+                       nrm(j3,j4,j5,j6))
         end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
@@ -28532,8 +28532,8 @@ module la_norms
         do j5 = lbound(apack,5),ubound(apack,5)
         do j4 = lbound(apack,4),ubound(apack,4)
         do j3 = lbound(apack,3),ubound(apack,3)
-        nrm(j3,j4,j5,j6,j7) = &
-        lange(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
+                       nrm(j3,j4,j5,j6,j7))
         end do; end do; end do; end do; end do
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)

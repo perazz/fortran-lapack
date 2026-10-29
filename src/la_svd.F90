@@ -158,7 +158,7 @@ module la_svd
      end function la_svdvals_s
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_s(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_s(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -345,7 +345,7 @@ module la_svd
      end function la_svdvals_d
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_d(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_d(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -533,7 +533,7 @@ module la_svd
      end function la_svdvals_x
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_x(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_x(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          real(xdp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -722,7 +722,7 @@ module la_svd
      end function la_svdvals_q
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_q(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_q(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -910,7 +910,7 @@ module la_svd
      end function la_svdvals_c
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_c(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_c(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -1103,7 +1103,7 @@ module la_svd
      end function la_svdvals_z
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_z(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_z(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -1297,7 +1297,7 @@ module la_svd
      end function la_svdvals_y
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_y(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_y(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          complex(xdp),intent(inout),target :: a(:,:)
          !> Array of singular values
@@ -1492,7 +1492,7 @@ module la_svd
      end function la_svdvals_w
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
-     subroutine la_svd_w(a,s,u,vt,overwrite_a,full_matrices,err)
+     pure subroutine la_svd_w(a,s,u,vt,overwrite_a,full_matrices,err)
          !> Input matrix A[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Array of singular values

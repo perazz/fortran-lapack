@@ -79,7 +79,7 @@ module test_linalg_pseudoinverse
         integer(ilp),parameter :: n = 15_ilp
         real(sp),parameter :: tol = 1000*sqrt(epsilon(0.0_sp))
 
-        real(sp) :: a(n,n),inva(n,n)
+        real(sp) :: a(n,n),inva(n,n),acopy(n,n)
 
         do concurrent(i=1:n,j=1:n)
           a(i,j) = merge(1.0_sp,0.0_sp,i == j)
@@ -100,6 +100,15 @@ module test_linalg_pseudoinverse
         if (allocated(error)) return
         call check(error,all(abs(a - inva) < tol),'s pseudoinverse (eye, subroutine): data convergence')
         if (allocated(error)) return
+
+        !> Inverse subroutine, A may be destroyed
+        acopy = a
+        call pseudoinvert(acopy,inva,overwrite_a=.true.,err=state)
+
+        call check(error,state%ok(),'s pseudoinverse (eye, overwrite_a): '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(a - inva) < tol),'s pseudoinverse (eye, overwrite_a): data convergence')
+        if (allocated(error)) return
         
         !> Operator
         inva = .pinv.a
@@ -118,7 +127,7 @@ module test_linalg_pseudoinverse
         integer(ilp),parameter :: n = 15_ilp
         real(dp),parameter :: tol = 1000*sqrt(epsilon(0.0_dp))
 
-        real(dp) :: a(n,n),inva(n,n)
+        real(dp) :: a(n,n),inva(n,n),acopy(n,n)
 
         do concurrent(i=1:n,j=1:n)
           a(i,j) = merge(1.0_dp,0.0_dp,i == j)
@@ -139,6 +148,15 @@ module test_linalg_pseudoinverse
         if (allocated(error)) return
         call check(error,all(abs(a - inva) < tol),'d pseudoinverse (eye, subroutine): data convergence')
         if (allocated(error)) return
+
+        !> Inverse subroutine, A may be destroyed
+        acopy = a
+        call pseudoinvert(acopy,inva,overwrite_a=.true.,err=state)
+
+        call check(error,state%ok(),'d pseudoinverse (eye, overwrite_a): '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(a - inva) < tol),'d pseudoinverse (eye, overwrite_a): data convergence')
+        if (allocated(error)) return
         
         !> Operator
         inva = .pinv.a
@@ -158,7 +176,7 @@ module test_linalg_pseudoinverse
         integer(ilp),parameter :: n = 15_ilp
         real(xdp),parameter :: tol = 1000*sqrt(epsilon(0.0_xdp))
 
-        real(xdp) :: a(n,n),inva(n,n)
+        real(xdp) :: a(n,n),inva(n,n),acopy(n,n)
 
         do concurrent(i=1:n,j=1:n)
           a(i,j) = merge(1.0_xdp,0.0_xdp,i == j)
@@ -178,6 +196,15 @@ module test_linalg_pseudoinverse
         call check(error,state%ok(),'x pseudoinverse (eye, subroutine): '//state%print())
         if (allocated(error)) return
         call check(error,all(abs(a - inva) < tol),'x pseudoinverse (eye, subroutine): data convergence')
+        if (allocated(error)) return
+
+        !> Inverse subroutine, A may be destroyed
+        acopy = a
+        call pseudoinvert(acopy,inva,overwrite_a=.true.,err=state)
+
+        call check(error,state%ok(),'x pseudoinverse (eye, overwrite_a): '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(a - inva) < tol),'x pseudoinverse (eye, overwrite_a): data convergence')
         if (allocated(error)) return
         
         !> Operator
@@ -199,7 +226,7 @@ module test_linalg_pseudoinverse
         integer(ilp),parameter :: n = 15_ilp
         real(qp),parameter :: tol = 1000*sqrt(epsilon(0.0_qp))
 
-        real(qp) :: a(n,n),inva(n,n)
+        real(qp) :: a(n,n),inva(n,n),acopy(n,n)
 
         do concurrent(i=1:n,j=1:n)
           a(i,j) = merge(1.0_qp,0.0_qp,i == j)
@@ -219,6 +246,15 @@ module test_linalg_pseudoinverse
         call check(error,state%ok(),'q pseudoinverse (eye, subroutine): '//state%print())
         if (allocated(error)) return
         call check(error,all(abs(a - inva) < tol),'q pseudoinverse (eye, subroutine): data convergence')
+        if (allocated(error)) return
+
+        !> Inverse subroutine, A may be destroyed
+        acopy = a
+        call pseudoinvert(acopy,inva,overwrite_a=.true.,err=state)
+
+        call check(error,state%ok(),'q pseudoinverse (eye, overwrite_a): '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(a - inva) < tol),'q pseudoinverse (eye, overwrite_a): data convergence')
         if (allocated(error)) return
         
         !> Operator
