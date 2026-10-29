@@ -606,6 +606,11 @@ var annotated_dup =
       [ "solve_weighted_lstsq", "interfacela__least__squares_1_1solve__weighted__lstsq.html", "interfacela__least__squares_1_1solve__weighted__lstsq" ],
       [ "weighted_lstsq", "interfacela__least__squares_1_1weighted__lstsq.html", "interfacela__least__squares_1_1weighted__lstsq" ]
     ] ],
+    [ "la_matrix_functions", "namespacela__matrix__functions.html", [
+      [ "expm", "interfacela__matrix__functions_1_1expm.html", "interfacela__matrix__functions_1_1expm" ],
+      [ "expm_space", "interfacela__matrix__functions_1_1expm__space.html", "interfacela__matrix__functions_1_1expm__space" ],
+      [ "matrix_exp", "interfacela__matrix__functions_1_1matrix__exp.html", "interfacela__matrix__functions_1_1matrix__exp" ]
+    ] ],
     [ "la_matrix_property_checks", "namespacela__matrix__property__checks.html", [
       [ "is_diagonal", "interfacela__matrix__property__checks_1_1is__diagonal.html", "interfacela__matrix__property__checks_1_1is__diagonal" ],
       [ "is_hermitian", "interfacela__matrix__property__checks_1_1is__hermitian.html", "interfacela__matrix__property__checks_1_1is__hermitian" ],

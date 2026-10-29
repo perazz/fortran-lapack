@@ -67,13 +67,14 @@ var searchData=
   ['la_5flapack_5fsvd_5fcomp_64',['la_lapack_svd_comp',['../namespacela__lapack__svd__comp.html',1,'']]],
   ['la_5flapack_5fsvd_5fcomp2_65',['la_lapack_svd_comp2',['../namespacela__lapack__svd__comp2.html',1,'']]],
   ['la_5fleast_5fsquares_66',['la_least_squares',['../namespacela__least__squares.html',1,'']]],
-  ['la_5fmatrix_5fproperty_5fchecks_67',['la_matrix_property_checks',['../namespacela__matrix__property__checks.html',1,'']]],
-  ['la_5fnorms_68',['la_norms',['../namespacela__norms.html',1,'']]],
-  ['la_5fpseudoinverse_69',['la_pseudoinverse',['../namespacela__pseudoinverse.html',1,'']]],
-  ['la_5fqr_70',['la_qr',['../namespacela__qr.html',1,'']]],
-  ['la_5fschur_71',['la_schur',['../namespacela__schur.html',1,'']]],
-  ['la_5fsolve_72',['la_solve',['../namespacela__solve.html',1,'']]],
-  ['la_5fstate_5ftype_73',['la_state_type',['../namespacela__state__type.html',1,'']]],
-  ['la_5fsvd_74',['la_svd',['../namespacela__svd.html',1,'']]],
-  ['linear_5falgebra_75',['linear_algebra',['../namespacelinear__algebra.html',1,'']]]
+  ['la_5fmatrix_5ffunctions_67',['la_matrix_functions',['../namespacela__matrix__functions.html',1,'']]],
+  ['la_5fmatrix_5fproperty_5fchecks_68',['la_matrix_property_checks',['../namespacela__matrix__property__checks.html',1,'']]],
+  ['la_5fnorms_69',['la_norms',['../namespacela__norms.html',1,'']]],
+  ['la_5fpseudoinverse_70',['la_pseudoinverse',['../namespacela__pseudoinverse.html',1,'']]],
+  ['la_5fqr_71',['la_qr',['../namespacela__qr.html',1,'']]],
+  ['la_5fschur_72',['la_schur',['../namespacela__schur.html',1,'']]],
+  ['la_5fsolve_73',['la_solve',['../namespacela__solve.html',1,'']]],
+  ['la_5fstate_5ftype_74',['la_state_type',['../namespacela__state__type.html',1,'']]],
+  ['la_5fsvd_75',['la_svd',['../namespacela__svd.html',1,'']]],
+  ['linear_5falgebra_76',['linear_algebra',['../namespacelinear__algebra.html',1,'']]]
 ];

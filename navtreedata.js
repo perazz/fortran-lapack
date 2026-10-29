@@ -234,7 +234,7 @@ var NAVTREE =
         [ "Errors", "index.html#autotoc_md216", null ],
         [ "Notes", "index.html#autotoc_md217", null ]
       ] ],
-      [ "diag - Diagonal matrix.", "index.html#autotoc_md218", [
+      [ "expm - Exponential of a square matrix (function).", "index.html#autotoc_md218", [
         [ "Syntax", "index.html#autotoc_md219", null ],
         [ "Description", "index.html#autotoc_md220", null ],
         [ "Arguments", "index.html#autotoc_md221", null ],
@@ -242,149 +242,169 @@ var NAVTREE =
         [ "Errors", "index.html#autotoc_md223", null ],
         [ "Notes", "index.html#autotoc_md224", null ]
       ] ],
-      [ "eye - Identity matrix.", "index.html#autotoc_md225", [
+      [ "matrix_exp - Exponential of a square matrix (subroutine).", "index.html#autotoc_md225", [
         [ "Syntax", "index.html#autotoc_md226", null ],
         [ "Description", "index.html#autotoc_md227", null ],
         [ "Arguments", "index.html#autotoc_md228", null ],
-        [ "Return value", "index.html#autotoc_md229", null ],
-        [ "Errors", "index.html#autotoc_md230", null ],
-        [ "Notes", "index.html#autotoc_md231", null ]
+        [ "Errors", "index.html#autotoc_md229", null ]
       ] ],
-      [ "trace - Trace of a matrix.", "index.html#autotoc_md232", [
-        [ "Syntax", "index.html#autotoc_md233", null ],
-        [ "Description", "index.html#autotoc_md234", null ],
-        [ "Arguments", "index.html#autotoc_md235", null ],
-        [ "Return value", "index.html#autotoc_md236", null ],
-        [ "Errors", "index.html#autotoc_md237", null ],
-        [ "Notes", "index.html#autotoc_md238", null ]
+      [ "expm_space - Workspace size for the matrix exponential.", "index.html#autotoc_md230", [
+        [ "Syntax", "index.html#autotoc_md231", null ],
+        [ "Description", "index.html#autotoc_md232", null ],
+        [ "Arguments", "index.html#autotoc_md233", null ],
+        [ "Errors", "index.html#autotoc_md234", null ]
       ] ],
-      [ "outer_product - Outer product of two vectors.", "index.html#autotoc_md239", [
-        [ "Syntax", "index.html#autotoc_md240", null ],
-        [ "Description", "index.html#autotoc_md241", null ],
-        [ "Arguments", "index.html#autotoc_md242", null ],
-        [ "Return value", "index.html#autotoc_md243", null ],
-        [ "Errors", "index.html#autotoc_md244", null ],
-        [ "Notes", "index.html#autotoc_md245", null ]
+      [ "diag - Diagonal matrix.", "index.html#autotoc_md235", [
+        [ "Syntax", "index.html#autotoc_md236", null ],
+        [ "Description", "index.html#autotoc_md237", null ],
+        [ "Arguments", "index.html#autotoc_md238", null ],
+        [ "Return value", "index.html#autotoc_md239", null ],
+        [ "Errors", "index.html#autotoc_md240", null ],
+        [ "Notes", "index.html#autotoc_md241", null ]
       ] ],
-      [ "cross_product - Cross product of two 3-dimensional vectors.", "index.html#autotoc_md246", [
-        [ "Syntax", "index.html#autotoc_md247", null ],
-        [ "Description", "index.html#autotoc_md248", null ],
-        [ "Arguments", "index.html#autotoc_md249", null ],
-        [ "Return value", "index.html#autotoc_md250", null ],
-        [ "Errors", "index.html#autotoc_md251", null ],
-        [ "Notes", "index.html#autotoc_md252", null ]
+      [ "eye - Identity matrix.", "index.html#autotoc_md242", [
+        [ "Syntax", "index.html#autotoc_md243", null ],
+        [ "Description", "index.html#autotoc_md244", null ],
+        [ "Arguments", "index.html#autotoc_md245", null ],
+        [ "Return value", "index.html#autotoc_md246", null ],
+        [ "Errors", "index.html#autotoc_md247", null ],
+        [ "Notes", "index.html#autotoc_md248", null ]
       ] ],
-      [ "kronecker_product - Kronecker product of two matrices.", "index.html#autotoc_md253", [
-        [ "Syntax", "index.html#autotoc_md254", null ],
-        [ "Description", "index.html#autotoc_md255", null ],
-        [ "Arguments", "index.html#autotoc_md256", null ],
-        [ "Return value", "index.html#autotoc_md257", null ],
-        [ "Errors", "index.html#autotoc_md258", null ],
-        [ "Notes", "index.html#autotoc_md259", null ]
+      [ "trace - Trace of a matrix.", "index.html#autotoc_md249", [
+        [ "Syntax", "index.html#autotoc_md250", null ],
+        [ "Description", "index.html#autotoc_md251", null ],
+        [ "Arguments", "index.html#autotoc_md252", null ],
+        [ "Return value", "index.html#autotoc_md253", null ],
+        [ "Errors", "index.html#autotoc_md254", null ],
+        [ "Notes", "index.html#autotoc_md255", null ]
       ] ],
-      [ "hermitian - Hermitian transpose of a matrix.", "index.html#autotoc_md260", [
-        [ "Syntax", "index.html#autotoc_md261", null ],
-        [ "Description", "index.html#autotoc_md262", null ],
-        [ "Arguments", "index.html#autotoc_md263", null ],
-        [ "Return value", "index.html#autotoc_md264", null ],
-        [ "Errors", "index.html#autotoc_md265", null ],
-        [ "Notes", "index.html#autotoc_md266", null ]
+      [ "outer_product - Outer product of two vectors.", "index.html#autotoc_md256", [
+        [ "Syntax", "index.html#autotoc_md257", null ],
+        [ "Description", "index.html#autotoc_md258", null ],
+        [ "Arguments", "index.html#autotoc_md259", null ],
+        [ "Return value", "index.html#autotoc_md260", null ],
+        [ "Errors", "index.html#autotoc_md261", null ],
+        [ "Notes", "index.html#autotoc_md262", null ]
       ] ],
-      [ "is_square - Check whether a matrix is square.", "index.html#autotoc_md267", [
-        [ "Syntax", "index.html#autotoc_md268", null ],
-        [ "Description", "index.html#autotoc_md269", null ],
-        [ "Arguments", "index.html#autotoc_md270", null ],
-        [ "Return value", "index.html#autotoc_md271", null ],
-        [ "Errors", "index.html#autotoc_md272", null ],
-        [ "Notes", "index.html#autotoc_md273", null ]
+      [ "cross_product - Cross product of two 3-dimensional vectors.", "index.html#autotoc_md263", [
+        [ "Syntax", "index.html#autotoc_md264", null ],
+        [ "Description", "index.html#autotoc_md265", null ],
+        [ "Arguments", "index.html#autotoc_md266", null ],
+        [ "Return value", "index.html#autotoc_md267", null ],
+        [ "Errors", "index.html#autotoc_md268", null ],
+        [ "Notes", "index.html#autotoc_md269", null ]
       ] ],
-      [ "is_diagonal - Check whether a matrix is diagonal.", "index.html#autotoc_md274", [
-        [ "Syntax", "index.html#autotoc_md275", null ],
-        [ "Description", "index.html#autotoc_md276", null ],
-        [ "Arguments", "index.html#autotoc_md277", null ],
-        [ "Return value", "index.html#autotoc_md278", null ],
-        [ "Errors", "index.html#autotoc_md279", null ],
-        [ "Notes", "index.html#autotoc_md280", null ]
+      [ "kronecker_product - Kronecker product of two matrices.", "index.html#autotoc_md270", [
+        [ "Syntax", "index.html#autotoc_md271", null ],
+        [ "Description", "index.html#autotoc_md272", null ],
+        [ "Arguments", "index.html#autotoc_md273", null ],
+        [ "Return value", "index.html#autotoc_md274", null ],
+        [ "Errors", "index.html#autotoc_md275", null ],
+        [ "Notes", "index.html#autotoc_md276", null ]
       ] ],
-      [ "is_symmetric - Check whether a matrix is symmetric.", "index.html#autotoc_md281", [
-        [ "Syntax", "index.html#autotoc_md282", null ],
-        [ "Description", "index.html#autotoc_md283", null ],
-        [ "Arguments", "index.html#autotoc_md284", null ],
-        [ "Return value", "index.html#autotoc_md285", null ],
-        [ "Errors", "index.html#autotoc_md286", null ],
-        [ "Notes", "index.html#autotoc_md287", null ]
+      [ "hermitian - Hermitian transpose of a matrix.", "index.html#autotoc_md277", [
+        [ "Syntax", "index.html#autotoc_md278", null ],
+        [ "Description", "index.html#autotoc_md279", null ],
+        [ "Arguments", "index.html#autotoc_md280", null ],
+        [ "Return value", "index.html#autotoc_md281", null ],
+        [ "Errors", "index.html#autotoc_md282", null ],
+        [ "Notes", "index.html#autotoc_md283", null ]
       ] ],
-      [ "is_skew_symmetric - Check whether a matrix is skew-symmetric.", "index.html#autotoc_md288", [
-        [ "Syntax", "index.html#autotoc_md289", null ],
-        [ "Description", "index.html#autotoc_md290", null ],
-        [ "Arguments", "index.html#autotoc_md291", null ],
-        [ "Return value", "index.html#autotoc_md292", null ],
-        [ "Errors", "index.html#autotoc_md293", null ],
-        [ "Notes", "index.html#autotoc_md294", null ]
+      [ "is_square - Check whether a matrix is square.", "index.html#autotoc_md284", [
+        [ "Syntax", "index.html#autotoc_md285", null ],
+        [ "Description", "index.html#autotoc_md286", null ],
+        [ "Arguments", "index.html#autotoc_md287", null ],
+        [ "Return value", "index.html#autotoc_md288", null ],
+        [ "Errors", "index.html#autotoc_md289", null ],
+        [ "Notes", "index.html#autotoc_md290", null ]
       ] ],
-      [ "is_hermitian - Check whether a matrix is Hermitian.", "index.html#autotoc_md295", [
-        [ "Syntax", "index.html#autotoc_md296", null ],
-        [ "Description", "index.html#autotoc_md297", null ],
-        [ "Arguments", "index.html#autotoc_md298", null ],
-        [ "Return value", "index.html#autotoc_md299", null ],
-        [ "Errors", "index.html#autotoc_md300", null ],
-        [ "Notes", "index.html#autotoc_md301", null ]
+      [ "is_diagonal - Check whether a matrix is diagonal.", "index.html#autotoc_md291", [
+        [ "Syntax", "index.html#autotoc_md292", null ],
+        [ "Description", "index.html#autotoc_md293", null ],
+        [ "Arguments", "index.html#autotoc_md294", null ],
+        [ "Return value", "index.html#autotoc_md295", null ],
+        [ "Errors", "index.html#autotoc_md296", null ],
+        [ "Notes", "index.html#autotoc_md297", null ]
       ] ],
-      [ "is_triangular - Check whether a matrix is triangular.", "index.html#autotoc_md302", [
-        [ "Syntax", "index.html#autotoc_md303", null ],
-        [ "Description", "index.html#autotoc_md304", null ],
-        [ "Arguments", "index.html#autotoc_md305", null ],
-        [ "Return value", "index.html#autotoc_md306", null ],
-        [ "Errors", "index.html#autotoc_md307", null ],
-        [ "Notes", "index.html#autotoc_md308", null ]
+      [ "is_symmetric - Check whether a matrix is symmetric.", "index.html#autotoc_md298", [
+        [ "Syntax", "index.html#autotoc_md299", null ],
+        [ "Description", "index.html#autotoc_md300", null ],
+        [ "Arguments", "index.html#autotoc_md301", null ],
+        [ "Return value", "index.html#autotoc_md302", null ],
+        [ "Errors", "index.html#autotoc_md303", null ],
+        [ "Notes", "index.html#autotoc_md304", null ]
       ] ],
-      [ "is_hessenberg - Check whether a matrix is Hessenberg.", "index.html#autotoc_md309", [
-        [ "Syntax", "index.html#autotoc_md310", null ],
-        [ "Description", "index.html#autotoc_md311", null ],
-        [ "Arguments", "index.html#autotoc_md312", null ],
-        [ "Return value", "index.html#autotoc_md313", null ],
-        [ "Errors", "index.html#autotoc_md314", null ],
-        [ "Notes", "index.html#autotoc_md315", null ]
+      [ "is_skew_symmetric - Check whether a matrix is skew-symmetric.", "index.html#autotoc_md305", [
+        [ "Syntax", "index.html#autotoc_md306", null ],
+        [ "Description", "index.html#autotoc_md307", null ],
+        [ "Arguments", "index.html#autotoc_md308", null ],
+        [ "Return value", "index.html#autotoc_md309", null ],
+        [ "Errors", "index.html#autotoc_md310", null ],
+        [ "Notes", "index.html#autotoc_md311", null ]
       ] ],
-      [ "qr - QR factorization of a matrix.", "index.html#autotoc_md316", [
-        [ "Syntax", "index.html#autotoc_md317", null ],
-        [ "Description", "index.html#autotoc_md318", null ],
-        [ "Arguments", "index.html#autotoc_md319", null ],
-        [ "Return value", "index.html#autotoc_md320", null ],
-        [ "Errors", "index.html#autotoc_md321", null ],
-        [ "Notes", "index.html#autotoc_md322", null ]
+      [ "is_hermitian - Check whether a matrix is Hermitian.", "index.html#autotoc_md312", [
+        [ "Syntax", "index.html#autotoc_md313", null ],
+        [ "Description", "index.html#autotoc_md314", null ],
+        [ "Arguments", "index.html#autotoc_md315", null ],
+        [ "Return value", "index.html#autotoc_md316", null ],
+        [ "Errors", "index.html#autotoc_md317", null ],
+        [ "Notes", "index.html#autotoc_md318", null ]
       ] ],
-      [ "qr_space - Workspace size for QR operations.", "index.html#autotoc_md323", [
-        [ "Syntax", "index.html#autotoc_md324", null ],
-        [ "Description", "index.html#autotoc_md325", null ],
-        [ "Arguments", "index.html#autotoc_md326", null ],
-        [ "Return value", "index.html#autotoc_md327", null ],
-        [ "Errors", "index.html#autotoc_md328", null ],
-        [ "Notes", "index.html#autotoc_md329", null ]
+      [ "is_triangular - Check whether a matrix is triangular.", "index.html#autotoc_md319", [
+        [ "Syntax", "index.html#autotoc_md320", null ],
+        [ "Description", "index.html#autotoc_md321", null ],
+        [ "Arguments", "index.html#autotoc_md322", null ],
+        [ "Return value", "index.html#autotoc_md323", null ],
+        [ "Errors", "index.html#autotoc_md324", null ],
+        [ "Notes", "index.html#autotoc_md325", null ]
       ] ],
-      [ "schur - Schur decomposition of a matrix.", "index.html#autotoc_md330", [
-        [ "Syntax", "index.html#autotoc_md331", null ],
-        [ "Description", "index.html#autotoc_md332", null ],
-        [ "Arguments", "index.html#autotoc_md333", null ],
-        [ "Return value", "index.html#autotoc_md334", null ],
-        [ "Errors", "index.html#autotoc_md335", null ],
-        [ "Notes", "index.html#autotoc_md336", null ]
+      [ "is_hessenberg - Check whether a matrix is Hessenberg.", "index.html#autotoc_md326", [
+        [ "Syntax", "index.html#autotoc_md327", null ],
+        [ "Description", "index.html#autotoc_md328", null ],
+        [ "Arguments", "index.html#autotoc_md329", null ],
+        [ "Return value", "index.html#autotoc_md330", null ],
+        [ "Errors", "index.html#autotoc_md331", null ],
+        [ "Notes", "index.html#autotoc_md332", null ]
       ] ],
-      [ "schur_space - Workspace size for Schur decomposition.", "index.html#autotoc_md337", [
-        [ "Syntax", "index.html#autotoc_md338", null ],
-        [ "Description", "index.html#autotoc_md339", null ],
-        [ "Arguments", "index.html#autotoc_md340", null ],
-        [ "Return value", "index.html#autotoc_md341", null ],
-        [ "Errors", "index.html#autotoc_md342", null ],
-        [ "Notes", "index.html#autotoc_md343", null ]
+      [ "qr - QR factorization of a matrix.", "index.html#autotoc_md333", [
+        [ "Syntax", "index.html#autotoc_md334", null ],
+        [ "Description", "index.html#autotoc_md335", null ],
+        [ "Arguments", "index.html#autotoc_md336", null ],
+        [ "Return value", "index.html#autotoc_md337", null ],
+        [ "Errors", "index.html#autotoc_md338", null ],
+        [ "Notes", "index.html#autotoc_md339", null ]
+      ] ],
+      [ "qr_space - Workspace size for QR operations.", "index.html#autotoc_md340", [
+        [ "Syntax", "index.html#autotoc_md341", null ],
+        [ "Description", "index.html#autotoc_md342", null ],
+        [ "Arguments", "index.html#autotoc_md343", null ],
+        [ "Return value", "index.html#autotoc_md344", null ],
+        [ "Errors", "index.html#autotoc_md345", null ],
+        [ "Notes", "index.html#autotoc_md346", null ]
+      ] ],
+      [ "schur - Schur decomposition of a matrix.", "index.html#autotoc_md347", [
+        [ "Syntax", "index.html#autotoc_md348", null ],
+        [ "Description", "index.html#autotoc_md349", null ],
+        [ "Arguments", "index.html#autotoc_md350", null ],
+        [ "Return value", "index.html#autotoc_md351", null ],
+        [ "Errors", "index.html#autotoc_md352", null ],
+        [ "Notes", "index.html#autotoc_md353", null ]
+      ] ],
+      [ "schur_space - Workspace size for Schur decomposition.", "index.html#autotoc_md354", [
+        [ "Syntax", "index.html#autotoc_md355", null ],
+        [ "Description", "index.html#autotoc_md356", null ],
+        [ "Arguments", "index.html#autotoc_md357", null ],
+        [ "Return value", "index.html#autotoc_md358", null ],
+        [ "Errors", "index.html#autotoc_md359", null ],
+        [ "Notes", "index.html#autotoc_md360", null ]
       ] ]
     ] ],
-    [ "BLAS, LAPACK", "index.html#autotoc_md344", null ],
-    [ "Building", "index.html#autotoc_md345", null ],
-    [ "Extension to external BLAS/LAPACK libraries", "index.html#autotoc_md346", null ],
-    [ "Regenerating sources", "index.html#autotoc_md347", null ],
-    [ "Licensing", "index.html#autotoc_md348", null ],
-    [ "Acknowledgments", "index.html#autotoc_md349", null ],
+    [ "BLAS, LAPACK", "index.html#autotoc_md361", null ],
+    [ "Building", "index.html#autotoc_md362", null ],
+    [ "Extension to external BLAS/LAPACK libraries", "index.html#autotoc_md363", null ],
+    [ "Regenerating sources", "index.html#autotoc_md364", null ],
+    [ "Licensing", "index.html#autotoc_md365", null ],
+    [ "Acknowledgments", "index.html#autotoc_md366", null ],
     [ "Modules", "namespaces.html", [
       [ "Modules List", "namespaces.html", "namespaces_dup" ],
       [ "Module Members", "namespacemembers.html", [
@@ -412,57 +432,57 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "index.html#autotoc_md315",
-"interfacela__blas_1_1nrm2.html#a9f4a3b3e4b50632b0b95f291f706be89",
-"interfacela__blas_1_1syr.html#a41270a8c17701459099fec010a9ac469",
-"interfacela__blas_1_1trsm.html#aa0cd97efbb560122cd95221670d0cfd8",
-"interfacela__eye_1_1diag.html#aecb869618271e0c7a63a9c5d9c8b8942",
-"interfacela__lapack_1_1gbsv.html#a40c2429ae0ef81e7befbf6ac8d52b5a1",
-"interfacela__lapack_1_1geev.html",
-"interfacela__lapack_1_1geqrt2.html#a6df734deb1df957af00b10f4b321b0b3",
-"interfacela__lapack_1_1gglse.html#aca1b90161a7fe45742a41d9aae03dc46",
-"interfacela__lapack_1_1hegv.html#a63e1f8a3b1d90098eb05b1ca1e6ac213",
-"interfacela__lapack_1_1hfrk.html",
-"interfacela__lapack_1_1hseqr.html#a84f3835ced5a494fd0f25cfca17672fd",
-"interfacela__lapack_1_1la__lin__berr.html#afe9cfa18b9ba9f6f658ec220afe90c0d",
-"interfacela__lapack_1_1laed4.html#a80dafc6181270b58bbb8cd7426b4b896",
-"interfacela__lapack_1_1lanhp.html",
-"interfacela__lapack_1_1laqsy.html#a245bb1cd404b9ae46dccb93c3cc8ca83",
-"interfacela__lapack_1_1larfgp.html#a4b3eb06c7be5b46e976c7d9f44f12473",
-"interfacela__lapack_1_1larrr.html#ad330c59272f399a208a63a0d0b61800b",
-"interfacela__lapack_1_1lasd1.html#acc9ef5dae63c7e3ba781f99657e183cc",
-"interfacela__lapack_1_1laswlq.html",
-"interfacela__lapack_1_1latrd.html#a7ba0ad4f02b7adf1fa19c668240ec96b",
-"interfacela__lapack_1_1orbdb5.html#ae0f5bda070f701a71d493118f74056d8",
-"interfacela__lapack_1_1ormbr.html#a52cb1262aed5b0946269372a990e26da",
-"interfacela__lapack_1_1pbtrf.html#ab7cea9a26ed578cb5795b6a74d29f797",
-"interfacela__lapack_1_1potrf.html#a610e090ac21374967ac08cdb9cc10f79",
-"interfacela__lapack_1_1pptri.html#ab2a2e770d6811330d05e8d948386d44d",
-"interfacela__lapack_1_1sb2st__kernels.html#adfb620ca91a67cc4358b5a0edd2d0380",
-"interfacela__lapack_1_1sprfs.html#affc5e47d6266b311bc0bb3d892130c7b",
-"interfacela__lapack_1_1steqr.html#a71293b1b98aae2b09ee568a757e52bef",
-"interfacela__lapack_1_1syevd.html#a926d2c5b62ce3660bea5f65d56de644b",
-"interfacela__lapack_1_1sytf2__rk.html#a3d08b93b532d0c312334407686d32718",
-"interfacela__lapack_1_1sytrs.html#a386730a46cb1b9b7e658b83495e17a46",
-"interfacela__lapack_1_1tftri.html#adc6553a0c779e3412bc27202ff86050b",
-"interfacela__lapack_1_1tplqt.html#a7b1b708b4e9a9ab312e6ac524025a779",
-"interfacela__lapack_1_1tpttf.html#a0a004b10b36f21800ef130a2f8ef4df8",
-"interfacela__lapack_1_1trsyl.html#a6b3d267398e3c8378da7f764a041b979",
-"interfacela__lapack_1_1uncsd2by1.html",
-"interfacela__lapack_1_1unmlq.html#a73bc09ef6098b6950a6dc71b06726ef4",
-"interfacela__matrix__property__checks_1_1is__hermitian.html#a26e2685e33692794eac150994098142b",
-"interfacela__norms_1_1get__norm.html#ae1cc7460ed1eae5263b58cd59e5814de",
-"interfacela__norms_1_1norm.html#a56df9f6cf8dec561d04fb47743dee74c",
-"interfacela__norms_1_1norm.html#aeedfff3831a998a475afcc57e4b0ffe6",
-"interfacela__solve_1_1solve__upper__chol.html#aa8ae20e7f53e10e8d55dc6c5bb407279",
-"namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86",
-"namespacela__lapack__blas__like__l2.html#aea3db5f24dd73a138e2f25fc4f41c04a",
-"namespacela__lapack__eigv__gen2.html#aa2aad8192318f4726ef23d58376727c3",
-"namespacela__lapack__eigv__sym__comp.html#a98c5d58020304cb0040d6f06ea023e9f",
-"namespacela__lapack__orthogonal__factors__ql.html#a5b1557ad2c4fd6bf38b558f98c21b2e9",
-"namespacela__lapack__others__sm.html#a5e16efe813aa9aa4c2a413c4262edae1",
-"namespacela__lapack__solve__ldl__comp.html#a03b2fbaa272af96d92438c10bc8def4e",
-"namespacela__lapack__solve__lu__comp.html#a490ef283d1ddd15f3b5dc76a5e92223c",
-"namespacemembers_o.html"
+"interfacela__blas_1_1hpr.html",
+"interfacela__blas_1_1symv.html#a3a585dd65c36c13f639382dc36dfd8ef",
+"interfacela__blas_1_1trsm.html#a09889b917e53e3232ab35129e5095418",
+"interfacela__eye_1_1diag.html#a952171ce5bb95b846c5774e3b34cc258",
+"interfacela__lapack_1_1gbrfs.html#a7ccc06a0bbf626bc60bdbffe41b840f6",
+"interfacela__lapack_1_1geesx.html#a59cfe5a2ff03752828536c1a91aca9cd",
+"interfacela__lapack_1_1geqrfp.html#accbfa2ebdc586e00edccd96de2b90472",
+"interfacela__lapack_1_1gghd3.html#aa348b0ec54433f895ad5f6c0fb19a181",
+"interfacela__lapack_1_1hegst.html#a5e1021354e5c9f0d3820b5ecb4b0c7e8",
+"interfacela__lapack_1_1hetrs__aa.html#ae11819fc1148faa5217431c012c08959",
+"interfacela__lapack_1_1hseqr.html",
+"interfacela__lapack_1_1la__lin__berr.html#ab23a5c61d513778857342a5e47da2e00",
+"interfacela__lapack_1_1laed0.html#a74217a400020605469d67856d4e24347",
+"interfacela__lapack_1_1lanhb.html#a900b982dac8b6db4be9cce35429be76d",
+"interfacela__lapack_1_1laqsp.html",
+"interfacela__lapack_1_1larfg.html#a8026e7e999e782554bbba409a1455d6f",
+"interfacela__lapack_1_1larrk.html#aba46f9d4f4ea1a555a6ba2a670d5fa52",
+"interfacela__lapack_1_1lasd0.html#aaac5642b8f03b0295692e1ab60dbd307",
+"interfacela__lapack_1_1lassq.html#a37bff9144aff9647868efbde3b55f855",
+"interfacela__lapack_1_1latrd.html",
+"interfacela__lapack_1_1orbdb4.html#a7833e7f3a3d8a55ac553c322d03a6728",
+"interfacela__lapack_1_1orm2r.html#a9bde4d244f993ba8620de3d702a8e84c",
+"interfacela__lapack_1_1pbtrf.html",
+"interfacela__lapack_1_1posv.html#abf56c151d84fd1bf49a8e4f8b24a070c",
+"interfacela__lapack_1_1pptri.html#a24794078dd72e4a29648097406334a5d",
+"interfacela__lapack_1_1rscl.html#a8aeccaeac85669b0d2c235a70a0cacd6",
+"interfacela__lapack_1_1sprfs.html#a81db6dd3af658d3143c8293e860917a5",
+"interfacela__lapack_1_1stemr.html#ae41401f37ee173ed11aa9c4f80b1c528",
+"interfacela__lapack_1_1syev.html#ae464a9722ce53fc27886eee94eb4794f",
+"interfacela__lapack_1_1syswapr.html#ab21dfce8ab3d8de870a2d2037921d368",
+"interfacela__lapack_1_1sytri__rook.html#a5cce4f10be5436e228a47e40bcb61b20",
+"interfacela__lapack_1_1tftri.html#a3689515bfed01d4943b301cff47577c0",
+"interfacela__lapack_1_1tpcon.html#aedbbb776a16a0e25fd3f1954dc0c8fcb",
+"interfacela__lapack_1_1tptrs.html#a8053dd9fde72b00b63ca64fc11142024",
+"interfacela__lapack_1_1trsyl.html#a0e1c223adae5e609c068ba65b574afcc",
+"interfacela__lapack_1_1unbdb6.html#af8a994673cdc0d814c859343b66cc8ca",
+"interfacela__lapack_1_1unmhr.html#af233a7531ec1a2ba7c445c5f4630933f",
+"interfacela__least__squares_1_1weighted__lstsq.html#ad0e70f2e479cc1ef921cce6fb4bdc4e0",
+"interfacela__norms_1_1get__norm.html#a8f2c03a74120f4502c6b3b2b3c378454",
+"interfacela__norms_1_1norm.html#a24a698b698ea4831ce98f97b1065f8ee",
+"interfacela__norms_1_1norm.html#acad1bb7c5dcd5b2aeed965f9a26fbed9",
+"interfacela__solve_1_1solve__chol.html#a16f82a0c81d25c649071e70b36d0685b",
+"namespacela__blas__level1.html#ade1fdf3fe5383466db0f45c14f4a2999",
+"namespacela__lapack__blas__like__base.html#a77662c14d819682d50b7cbf77a4dbc25",
+"namespacela__lapack__eigv__comp2.html#af91bdd12fc55b15e343c67f91353d0b1",
+"namespacela__lapack__eigv__sym.html#ac53989d0f8e43b2fe65a84f6e6798557",
+"namespacela__lapack__lsq.html#abda15e50b17fa7eb0abb7723c109d752",
+"namespacela__lapack__orthogonal__factors__qr.html#ae2d1cc866e79b619540ba2a06850ee04",
+"namespacela__lapack__solve__chol__comp.html#ae9fa7c4a6a5796888eb7897214c55aa1",
+"namespacela__lapack__solve__ldl__comp4.html#af6b0e28481758948790d8dd11e5f6ba8",
+"namespacela__lapack__svd__comp.html#a71238f48bfe2af04fa599186b6c0c759"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
