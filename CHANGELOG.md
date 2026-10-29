@@ -87,6 +87,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   
 ### Added
 
+- `pseudoinvert(a, pinva [, rtol] [, overwrite_a] [, err])`: with
+  `overwrite_a=.true.` the SVD works on `a` itself instead of a copy, as in
+  `svd`, `eig` and `eigh`. `a` is left unchanged by default, as it always was.
+  `.pinv.` uses it on its own copy of the operand, so it copies once. A call
+  that passed `err` by position now needs `err=`.
 - A `pure` subroutine twin for each LAPACK function with an `intent(out)`
   argument: the matrix norms `?langb`, `?lange`, `?lanhb`, `?lanhe`, `?lanhf`,
   `?lanhp`, `?lanhs`, `?lansb`, `?lansf`, `?lansp`, `?lansy`, `?lantb`,

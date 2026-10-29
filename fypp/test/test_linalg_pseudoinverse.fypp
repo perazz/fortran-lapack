@@ -59,7 +59,7 @@ module test_linalg_pseudoinverse
         integer(ilp), parameter :: n = 15_ilp
         real(${rk}$), parameter :: tol = 1000*sqrt(epsilon(0.0_${rk}$))
 
-        ${rt}$ :: a(n,n),inva(n,n)
+        ${rt}$ :: a(n,n),inva(n,n),acopy(n,n)
 
         do concurrent (i=1:n,j=1:n)
           a(i,j) = merge(1.0_${rk}$,0.0_${rk}$,i==j)
@@ -80,6 +80,15 @@ module test_linalg_pseudoinverse
         if (allocated(error)) return        
         call check(error,all(abs(a-inva)<tol),'${ri}$ pseudoinverse (eye, subroutine): data convergence')
         if (allocated(error)) return                  
+
+        !> Inverse subroutine, A may be destroyed
+        acopy = a
+        call pseudoinvert(acopy,inva,overwrite_a=.true.,err=state)
+
+        call check(error,state%ok(),'${ri}$ pseudoinverse (eye, overwrite_a): '//state%print())
+        if (allocated(error)) return
+        call check(error,all(abs(a-inva)<tol),'${ri}$ pseudoinverse (eye, overwrite_a): data convergence')
+        if (allocated(error)) return
         
         !> Operator 
         inva = .pinv.a
