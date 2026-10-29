@@ -2,7 +2,7 @@
 module test_linalg_expm
     use testdrive,only:error_type,check,new_unittest,unittest_type
     use la_constants
-    use linear_algebra,only:expm,matrix_exp,eye,norm
+    use linear_algebra,only:expm,matrix_exp,expm_space,eye,norm
     use la_state_type,only:la_state
 
     implicit none(type,external)
@@ -25,12 +25,14 @@ module test_linalg_expm
         call add_test(tests,new_unittest("expm_err_form_s",test_expm_err_form_s))
         call add_test(tests,new_unittest("expm_pure_s",test_expm_pure_s))
         call add_test(tests,new_unittest("expm_zero_and_empty_s",test_expm_zero_and_empty_s))
+        call add_test(tests,new_unittest("expm_workspace_s",test_expm_workspace_s))
         call add_test(tests,new_unittest("expm_d",test_expm_d))
         call add_test(tests,new_unittest("error_handling_expm_d",test_error_handling_expm_d))
         call add_test(tests,new_unittest("expm_rotation_d",test_expm_rotation_d))
         call add_test(tests,new_unittest("expm_err_form_d",test_expm_err_form_d))
         call add_test(tests,new_unittest("expm_pure_d",test_expm_pure_d))
         call add_test(tests,new_unittest("expm_zero_and_empty_d",test_expm_zero_and_empty_d))
+        call add_test(tests,new_unittest("expm_workspace_d",test_expm_workspace_d))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("expm_x",test_expm_x))
         call add_test(tests,new_unittest("error_handling_expm_x",test_error_handling_expm_x))
@@ -38,6 +40,7 @@ module test_linalg_expm
         call add_test(tests,new_unittest("expm_err_form_x",test_expm_err_form_x))
         call add_test(tests,new_unittest("expm_pure_x",test_expm_pure_x))
         call add_test(tests,new_unittest("expm_zero_and_empty_x",test_expm_zero_and_empty_x))
+        call add_test(tests,new_unittest("expm_workspace_x",test_expm_workspace_x))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("expm_q",test_expm_q))
@@ -46,6 +49,7 @@ module test_linalg_expm
         call add_test(tests,new_unittest("expm_err_form_q",test_expm_err_form_q))
         call add_test(tests,new_unittest("expm_pure_q",test_expm_pure_q))
         call add_test(tests,new_unittest("expm_zero_and_empty_q",test_expm_zero_and_empty_q))
+        call add_test(tests,new_unittest("expm_workspace_q",test_expm_workspace_q))
 #endif
         call add_test(tests,new_unittest("expm_c",test_expm_c))
         call add_test(tests,new_unittest("error_handling_expm_c",test_error_handling_expm_c))
@@ -53,12 +57,14 @@ module test_linalg_expm
         call add_test(tests,new_unittest("expm_err_form_c",test_expm_err_form_c))
         call add_test(tests,new_unittest("expm_pure_c",test_expm_pure_c))
         call add_test(tests,new_unittest("expm_zero_and_empty_c",test_expm_zero_and_empty_c))
+        call add_test(tests,new_unittest("expm_workspace_c",test_expm_workspace_c))
         call add_test(tests,new_unittest("expm_z",test_expm_z))
         call add_test(tests,new_unittest("error_handling_expm_z",test_error_handling_expm_z))
         call add_test(tests,new_unittest("expm_rotation_z",test_expm_rotation_z))
         call add_test(tests,new_unittest("expm_err_form_z",test_expm_err_form_z))
         call add_test(tests,new_unittest("expm_pure_z",test_expm_pure_z))
         call add_test(tests,new_unittest("expm_zero_and_empty_z",test_expm_zero_and_empty_z))
+        call add_test(tests,new_unittest("expm_workspace_z",test_expm_workspace_z))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("expm_y",test_expm_y))
         call add_test(tests,new_unittest("error_handling_expm_y",test_error_handling_expm_y))
@@ -66,6 +72,7 @@ module test_linalg_expm
         call add_test(tests,new_unittest("expm_err_form_y",test_expm_err_form_y))
         call add_test(tests,new_unittest("expm_pure_y",test_expm_pure_y))
         call add_test(tests,new_unittest("expm_zero_and_empty_y",test_expm_zero_and_empty_y))
+        call add_test(tests,new_unittest("expm_workspace_y",test_expm_workspace_y))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("expm_w",test_expm_w))
@@ -74,6 +81,7 @@ module test_linalg_expm
         call add_test(tests,new_unittest("expm_err_form_w",test_expm_err_form_w))
         call add_test(tests,new_unittest("expm_pure_w",test_expm_pure_w))
         call add_test(tests,new_unittest("expm_zero_and_empty_w",test_expm_zero_and_empty_w))
+        call add_test(tests,new_unittest("expm_workspace_w",test_expm_workspace_w))
 #endif
 
     end subroutine test_expm_computation
@@ -276,6 +284,69 @@ module test_linalg_expm
 
     end subroutine test_expm_zero_and_empty_s
 
+    !> matrix_exp on caller-provided workspace, and an error when it is too small
+    subroutine test_expm_workspace_s(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(sp),parameter :: t = 3.0_sp
+        real(sp),parameter :: tol = 1000*epsilon(1.0_sp)
+        real(sp) :: A(2,2),E(2,2),Eref(2,2),Ein(2,2)
+        real(sp),allocatable :: work(:)
+        integer(ilp),allocatable :: iwork(:)
+        integer(ilp) :: lwork,liwork
+        type(la_state) :: state
+
+        A = reshape([0.0_sp,t,-t,0.0_sp], [2,2])
+        Eref = reshape([cos(t),sin(t),-sin(t),cos(t)], [2,2])
+
+        call expm_space(A,lwork,liwork)
+        call check(error,lwork == 4*size(A,1)**2 .and. liwork == size(A,1),'expm_space sizes')
+        if (allocated(error)) return
+
+        allocate (work(lwork),iwork(liwork))
+        work = 0.0_sp
+
+        call matrix_exp(A,E,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp(A, E) on caller workspace')
+        if (allocated(error)) return
+
+        ! The computation ran in the array that was passed in
+        call check(error,maxval(abs(work)) > 0.0_sp,'matrix_exp wrote to work')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(Ein - Eref)) < tol,'matrix_exp(A) in place on caller workspace')
+        if (allocated(error)) return
+
+        ! One of the two arrays only, and a work array larger than needed
+        deallocate (work)
+        allocate (work(lwork + 3))
+
+        call matrix_exp(A,E,work=work,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with a larger work only')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with iwork only')
+        if (allocated(error)) return
+
+        ! Arrays too small
+        call matrix_exp(A,E,work=work(:lwork - 1),iwork=iwork,err=state)
+        call check(error,state%error(),'matrix_exp with a short work returns an error')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,work=work,iwork=iwork(:liwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp with a short iwork returns an error')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work(:lwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp in place with a short work returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_workspace_s
+
     !> Matrix exponential with analytic expression
     subroutine test_expm_d(error)
         type(error_type),allocatable,intent(out) :: error
@@ -473,6 +544,69 @@ module test_linalg_expm
         if (allocated(error)) return
 
     end subroutine test_expm_zero_and_empty_d
+
+    !> matrix_exp on caller-provided workspace, and an error when it is too small
+    subroutine test_expm_workspace_d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(dp),parameter :: t = 3.0_dp
+        real(dp),parameter :: tol = 1000*epsilon(1.0_dp)
+        real(dp) :: A(2,2),E(2,2),Eref(2,2),Ein(2,2)
+        real(dp),allocatable :: work(:)
+        integer(ilp),allocatable :: iwork(:)
+        integer(ilp) :: lwork,liwork
+        type(la_state) :: state
+
+        A = reshape([0.0_dp,t,-t,0.0_dp], [2,2])
+        Eref = reshape([cos(t),sin(t),-sin(t),cos(t)], [2,2])
+
+        call expm_space(A,lwork,liwork)
+        call check(error,lwork == 4*size(A,1)**2 .and. liwork == size(A,1),'expm_space sizes')
+        if (allocated(error)) return
+
+        allocate (work(lwork),iwork(liwork))
+        work = 0.0_dp
+
+        call matrix_exp(A,E,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp(A, E) on caller workspace')
+        if (allocated(error)) return
+
+        ! The computation ran in the array that was passed in
+        call check(error,maxval(abs(work)) > 0.0_dp,'matrix_exp wrote to work')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(Ein - Eref)) < tol,'matrix_exp(A) in place on caller workspace')
+        if (allocated(error)) return
+
+        ! One of the two arrays only, and a work array larger than needed
+        deallocate (work)
+        allocate (work(lwork + 3))
+
+        call matrix_exp(A,E,work=work,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with a larger work only')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with iwork only')
+        if (allocated(error)) return
+
+        ! Arrays too small
+        call matrix_exp(A,E,work=work(:lwork - 1),iwork=iwork,err=state)
+        call check(error,state%error(),'matrix_exp with a short work returns an error')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,work=work,iwork=iwork(:liwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp with a short iwork returns an error')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work(:lwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp in place with a short work returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_workspace_d
 
 #ifdef LA_WITH_XDP
     !> Matrix exponential with analytic expression
@@ -672,6 +806,69 @@ module test_linalg_expm
         if (allocated(error)) return
 
     end subroutine test_expm_zero_and_empty_x
+
+    !> matrix_exp on caller-provided workspace, and an error when it is too small
+    subroutine test_expm_workspace_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(xdp),parameter :: t = 3.0_xdp
+        real(xdp),parameter :: tol = 1000*epsilon(1.0_xdp)
+        real(xdp) :: A(2,2),E(2,2),Eref(2,2),Ein(2,2)
+        real(xdp),allocatable :: work(:)
+        integer(ilp),allocatable :: iwork(:)
+        integer(ilp) :: lwork,liwork
+        type(la_state) :: state
+
+        A = reshape([0.0_xdp,t,-t,0.0_xdp], [2,2])
+        Eref = reshape([cos(t),sin(t),-sin(t),cos(t)], [2,2])
+
+        call expm_space(A,lwork,liwork)
+        call check(error,lwork == 4*size(A,1)**2 .and. liwork == size(A,1),'expm_space sizes')
+        if (allocated(error)) return
+
+        allocate (work(lwork),iwork(liwork))
+        work = 0.0_xdp
+
+        call matrix_exp(A,E,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp(A, E) on caller workspace')
+        if (allocated(error)) return
+
+        ! The computation ran in the array that was passed in
+        call check(error,maxval(abs(work)) > 0.0_xdp,'matrix_exp wrote to work')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(Ein - Eref)) < tol,'matrix_exp(A) in place on caller workspace')
+        if (allocated(error)) return
+
+        ! One of the two arrays only, and a work array larger than needed
+        deallocate (work)
+        allocate (work(lwork + 3))
+
+        call matrix_exp(A,E,work=work,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with a larger work only')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with iwork only')
+        if (allocated(error)) return
+
+        ! Arrays too small
+        call matrix_exp(A,E,work=work(:lwork - 1),iwork=iwork,err=state)
+        call check(error,state%error(),'matrix_exp with a short work returns an error')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,work=work,iwork=iwork(:liwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp with a short iwork returns an error')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work(:lwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp in place with a short work returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_workspace_x
 #endif
 
 #ifdef LA_WITH_QP
@@ -872,6 +1069,69 @@ module test_linalg_expm
         if (allocated(error)) return
 
     end subroutine test_expm_zero_and_empty_q
+
+    !> matrix_exp on caller-provided workspace, and an error when it is too small
+    subroutine test_expm_workspace_q(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(qp),parameter :: t = 3.0_qp
+        real(qp),parameter :: tol = 1000*epsilon(1.0_qp)
+        real(qp) :: A(2,2),E(2,2),Eref(2,2),Ein(2,2)
+        real(qp),allocatable :: work(:)
+        integer(ilp),allocatable :: iwork(:)
+        integer(ilp) :: lwork,liwork
+        type(la_state) :: state
+
+        A = reshape([0.0_qp,t,-t,0.0_qp], [2,2])
+        Eref = reshape([cos(t),sin(t),-sin(t),cos(t)], [2,2])
+
+        call expm_space(A,lwork,liwork)
+        call check(error,lwork == 4*size(A,1)**2 .and. liwork == size(A,1),'expm_space sizes')
+        if (allocated(error)) return
+
+        allocate (work(lwork),iwork(liwork))
+        work = 0.0_qp
+
+        call matrix_exp(A,E,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp(A, E) on caller workspace')
+        if (allocated(error)) return
+
+        ! The computation ran in the array that was passed in
+        call check(error,maxval(abs(work)) > 0.0_qp,'matrix_exp wrote to work')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(Ein - Eref)) < tol,'matrix_exp(A) in place on caller workspace')
+        if (allocated(error)) return
+
+        ! One of the two arrays only, and a work array larger than needed
+        deallocate (work)
+        allocate (work(lwork + 3))
+
+        call matrix_exp(A,E,work=work,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with a larger work only')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with iwork only')
+        if (allocated(error)) return
+
+        ! Arrays too small
+        call matrix_exp(A,E,work=work(:lwork - 1),iwork=iwork,err=state)
+        call check(error,state%error(),'matrix_exp with a short work returns an error')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,work=work,iwork=iwork(:liwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp with a short iwork returns an error')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work(:lwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp in place with a short work returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_workspace_q
 #endif
 
     !> Matrix exponential with analytic expression
@@ -1072,6 +1332,69 @@ module test_linalg_expm
 
     end subroutine test_expm_zero_and_empty_c
 
+    !> matrix_exp on caller-provided workspace, and an error when it is too small
+    subroutine test_expm_workspace_c(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(sp),parameter :: t = 3.0_sp
+        real(sp),parameter :: tol = 1000*epsilon(1.0_sp)
+        complex(sp) :: A(2,2),E(2,2),Eref(2,2),Ein(2,2)
+        complex(sp),allocatable :: work(:)
+        integer(ilp),allocatable :: iwork(:)
+        integer(ilp) :: lwork,liwork
+        type(la_state) :: state
+
+        A = reshape([0.0_sp,t,-t,0.0_sp], [2,2])
+        Eref = reshape([cos(t),sin(t),-sin(t),cos(t)], [2,2])
+
+        call expm_space(A,lwork,liwork)
+        call check(error,lwork == 4*size(A,1)**2 .and. liwork == size(A,1),'expm_space sizes')
+        if (allocated(error)) return
+
+        allocate (work(lwork),iwork(liwork))
+        work = 0.0_sp
+
+        call matrix_exp(A,E,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp(A, E) on caller workspace')
+        if (allocated(error)) return
+
+        ! The computation ran in the array that was passed in
+        call check(error,maxval(abs(work)) > 0.0_sp,'matrix_exp wrote to work')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(Ein - Eref)) < tol,'matrix_exp(A) in place on caller workspace')
+        if (allocated(error)) return
+
+        ! One of the two arrays only, and a work array larger than needed
+        deallocate (work)
+        allocate (work(lwork + 3))
+
+        call matrix_exp(A,E,work=work,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with a larger work only')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with iwork only')
+        if (allocated(error)) return
+
+        ! Arrays too small
+        call matrix_exp(A,E,work=work(:lwork - 1),iwork=iwork,err=state)
+        call check(error,state%error(),'matrix_exp with a short work returns an error')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,work=work,iwork=iwork(:liwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp with a short iwork returns an error')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work(:lwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp in place with a short work returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_workspace_c
+
     !> Matrix exponential with analytic expression
     subroutine test_expm_z(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1269,6 +1592,69 @@ module test_linalg_expm
         if (allocated(error)) return
 
     end subroutine test_expm_zero_and_empty_z
+
+    !> matrix_exp on caller-provided workspace, and an error when it is too small
+    subroutine test_expm_workspace_z(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(dp),parameter :: t = 3.0_dp
+        real(dp),parameter :: tol = 1000*epsilon(1.0_dp)
+        complex(dp) :: A(2,2),E(2,2),Eref(2,2),Ein(2,2)
+        complex(dp),allocatable :: work(:)
+        integer(ilp),allocatable :: iwork(:)
+        integer(ilp) :: lwork,liwork
+        type(la_state) :: state
+
+        A = reshape([0.0_dp,t,-t,0.0_dp], [2,2])
+        Eref = reshape([cos(t),sin(t),-sin(t),cos(t)], [2,2])
+
+        call expm_space(A,lwork,liwork)
+        call check(error,lwork == 4*size(A,1)**2 .and. liwork == size(A,1),'expm_space sizes')
+        if (allocated(error)) return
+
+        allocate (work(lwork),iwork(liwork))
+        work = 0.0_dp
+
+        call matrix_exp(A,E,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp(A, E) on caller workspace')
+        if (allocated(error)) return
+
+        ! The computation ran in the array that was passed in
+        call check(error,maxval(abs(work)) > 0.0_dp,'matrix_exp wrote to work')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(Ein - Eref)) < tol,'matrix_exp(A) in place on caller workspace')
+        if (allocated(error)) return
+
+        ! One of the two arrays only, and a work array larger than needed
+        deallocate (work)
+        allocate (work(lwork + 3))
+
+        call matrix_exp(A,E,work=work,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with a larger work only')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with iwork only')
+        if (allocated(error)) return
+
+        ! Arrays too small
+        call matrix_exp(A,E,work=work(:lwork - 1),iwork=iwork,err=state)
+        call check(error,state%error(),'matrix_exp with a short work returns an error')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,work=work,iwork=iwork(:liwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp with a short iwork returns an error')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work(:lwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp in place with a short work returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_workspace_z
 
 #ifdef LA_WITH_XDP
     !> Matrix exponential with analytic expression
@@ -1468,6 +1854,69 @@ module test_linalg_expm
         if (allocated(error)) return
 
     end subroutine test_expm_zero_and_empty_y
+
+    !> matrix_exp on caller-provided workspace, and an error when it is too small
+    subroutine test_expm_workspace_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(xdp),parameter :: t = 3.0_xdp
+        real(xdp),parameter :: tol = 1000*epsilon(1.0_xdp)
+        complex(xdp) :: A(2,2),E(2,2),Eref(2,2),Ein(2,2)
+        complex(xdp),allocatable :: work(:)
+        integer(ilp),allocatable :: iwork(:)
+        integer(ilp) :: lwork,liwork
+        type(la_state) :: state
+
+        A = reshape([0.0_xdp,t,-t,0.0_xdp], [2,2])
+        Eref = reshape([cos(t),sin(t),-sin(t),cos(t)], [2,2])
+
+        call expm_space(A,lwork,liwork)
+        call check(error,lwork == 4*size(A,1)**2 .and. liwork == size(A,1),'expm_space sizes')
+        if (allocated(error)) return
+
+        allocate (work(lwork),iwork(liwork))
+        work = 0.0_xdp
+
+        call matrix_exp(A,E,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp(A, E) on caller workspace')
+        if (allocated(error)) return
+
+        ! The computation ran in the array that was passed in
+        call check(error,maxval(abs(work)) > 0.0_xdp,'matrix_exp wrote to work')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(Ein - Eref)) < tol,'matrix_exp(A) in place on caller workspace')
+        if (allocated(error)) return
+
+        ! One of the two arrays only, and a work array larger than needed
+        deallocate (work)
+        allocate (work(lwork + 3))
+
+        call matrix_exp(A,E,work=work,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with a larger work only')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with iwork only')
+        if (allocated(error)) return
+
+        ! Arrays too small
+        call matrix_exp(A,E,work=work(:lwork - 1),iwork=iwork,err=state)
+        call check(error,state%error(),'matrix_exp with a short work returns an error')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,work=work,iwork=iwork(:liwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp with a short iwork returns an error')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work(:lwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp in place with a short work returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_workspace_y
 #endif
 
 #ifdef LA_WITH_QP
@@ -1668,6 +2117,69 @@ module test_linalg_expm
         if (allocated(error)) return
 
     end subroutine test_expm_zero_and_empty_w
+
+    !> matrix_exp on caller-provided workspace, and an error when it is too small
+    subroutine test_expm_workspace_w(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(qp),parameter :: t = 3.0_qp
+        real(qp),parameter :: tol = 1000*epsilon(1.0_qp)
+        complex(qp) :: A(2,2),E(2,2),Eref(2,2),Ein(2,2)
+        complex(qp),allocatable :: work(:)
+        integer(ilp),allocatable :: iwork(:)
+        integer(ilp) :: lwork,liwork
+        type(la_state) :: state
+
+        A = reshape([0.0_qp,t,-t,0.0_qp], [2,2])
+        Eref = reshape([cos(t),sin(t),-sin(t),cos(t)], [2,2])
+
+        call expm_space(A,lwork,liwork)
+        call check(error,lwork == 4*size(A,1)**2 .and. liwork == size(A,1),'expm_space sizes')
+        if (allocated(error)) return
+
+        allocate (work(lwork),iwork(liwork))
+        work = 0.0_qp
+
+        call matrix_exp(A,E,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp(A, E) on caller workspace')
+        if (allocated(error)) return
+
+        ! The computation ran in the array that was passed in
+        call check(error,maxval(abs(work)) > 0.0_qp,'matrix_exp wrote to work')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(Ein - Eref)) < tol,'matrix_exp(A) in place on caller workspace')
+        if (allocated(error)) return
+
+        ! One of the two arrays only, and a work array larger than needed
+        deallocate (work)
+        allocate (work(lwork + 3))
+
+        call matrix_exp(A,E,work=work,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with a larger work only')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,iwork=iwork,err=state)
+        call check(error,state%ok() .and. maxval(abs(E - Eref)) < tol,'matrix_exp with iwork only')
+        if (allocated(error)) return
+
+        ! Arrays too small
+        call matrix_exp(A,E,work=work(:lwork - 1),iwork=iwork,err=state)
+        call check(error,state%error(),'matrix_exp with a short work returns an error')
+        if (allocated(error)) return
+
+        call matrix_exp(A,E,work=work,iwork=iwork(:liwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp with a short iwork returns an error')
+        if (allocated(error)) return
+
+        Ein = A
+        call matrix_exp(Ein,work=work(:lwork - 1),err=state)
+        call check(error,state%error(),'matrix_exp in place with a short work returns an error')
+        if (allocated(error)) return
+
+    end subroutine test_expm_workspace_w
 #endif
 
     ! gcc-15 bugfix utility

@@ -10,6 +10,7 @@ module la_matrix_functions
 
      public :: expm
      public :: matrix_exp
+     public :: expm_space
 
      character(*),parameter :: this = 'matrix_exponential'
 
@@ -51,10 +52,15 @@ module la_matrix_functions
      !!                  overwritten with \f$ e^{A} \f$.
      !! @param[out] E (Optional) The output matrix of size \f$ [n, n] \f$.
      !! @param[in] order (Optional) Order of the Pade approximant. Default is 10.
+     !! @param[in,out] work (Optional) Workspace of the same type and kind as \f$ A \f$, of size at
+     !!                     least the `lwork` returned by [expm_space](@ref la_matrix_functions::expm_space).
+     !! @param[in,out] iwork (Optional) Integer workspace of size at least the `liwork` returned by
+     !!                      [expm_space](@ref la_matrix_functions::expm_space).
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not
      !!                 provided, the subroutine will stop execution.
      !!
-     !! @note The subroutine is `pure`.
+     !! @note The subroutine is `pure`. With both `work` and `iwork` present it allocates no work
+     !!       arrays of its own.
      !!
      interface matrix_exp
         #:for rk,rt,ri in ALL_KINDS_TYPES
@@ -68,6 +74,28 @@ module la_matrix_functions
         #:endif
         #:endfor
      end interface matrix_exp
+
+     !> @brief Workspace sizes for the matrix exponential.
+     !!
+     !! This subroutine returns the sizes of the working arrays that
+     !! [matrix_exp](@ref la_matrix_functions::matrix_exp) needs for a matrix of the size of \f$ A \f$,
+     !! so that repeated calls perform no internal allocation.
+     !!
+     !! @param[in] A The input square matrix of size \f$ [n, n] \f$. Only its size is read.
+     !! @param[out] lwork The minimum size of `work`, \f$ 4 n^2 \f$.
+     !! @param[out] liwork The minimum size of `iwork`, \f$ n \f$.
+     !!
+     interface expm_space
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
+        module procedure la_${ri}$_expm_space
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
+        #:endfor
+     end interface expm_space
 
      contains
 
@@ -88,6 +116,16 @@ module la_matrix_functions
          end select
 
      end subroutine handle_gesv_info
+
+     !> Work array sizes for a matrix of size n: four n*n matrices and n pivots
+     pure subroutine expm_workspace(n,lwork,liwork)
+         integer(ilp),intent(in) :: n
+         integer(ilp),intent(out) :: lwork,liwork
+
+         lwork = 4*n*n
+         liwork = n
+
+     end subroutine expm_workspace
 
      #:for rk,rt,ri in ALL_KINDS_TYPES
      #:if LA_GUARD[rk]
@@ -119,18 +157,35 @@ module la_matrix_functions
          ${rt}$,allocatable :: e(:,:)
 
          e = a
-         call la_${ri}$_expm_inplace(e,order,err)
+         call la_${ri}$_expm_inplace(e,order,err=err)
 
      end function la_${ri}$_expm_fun_err
 
+     !> Workspace sizes for the matrix exponential of a[n,n]
+     pure subroutine la_${ri}$_expm_space(a,lwork,liwork)
+         !> Input matrix a[n,n]; only its size is read
+         ${rt}$,intent(in) :: a(:,:)
+         !> Minimum size of the work array
+         integer(ilp),intent(out) :: lwork
+         !> Minimum size of the integer work array
+         integer(ilp),intent(out) :: liwork
+
+         call expm_workspace(size(a,2,kind=ilp),lwork,liwork)
+
+     end subroutine la_${ri}$_expm_space
+
      !> Matrix exponential written into a second matrix
-     pure subroutine la_${ri}$_expm(a,e,order,err)
+     pure subroutine la_${ri}$_expm(a,e,order,work,iwork,err)
          !> Input matrix a[n,n]
          ${rt}$,intent(in) :: a(:,:)
          !> Output matrix exponential e[n,n]
          ${rt}$,intent(out) :: e(:,:)
          !> [optional] Order of the Pade approximant
          integer(ilp),optional,intent(in) :: order
+         !> [optional] Workspace, size to be checked with expm_space
+         ${rt}$,optional,intent(inout),contiguous,target :: work(:)
+         !> [optional] Integer workspace, size to be checked with expm_space
+         integer(ilp),optional,intent(inout),contiguous,target :: iwork(:)
          !> [optional] State return flag. On error if not requested, the code will stop
          type(la_state),optional,intent(out) :: err
 
@@ -146,7 +201,7 @@ module la_matrix_functions
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix sizes: a=',[lda,n],', e=',[lde,ne])
          else
             e = a
-            call la_${ri}$_expm_inplace(e,order,err0)
+            call la_${ri}$_expm_inplace(e,order,work,iwork,err0)
          end if
 
          call err0%handle(err)
@@ -154,22 +209,22 @@ module la_matrix_functions
      end subroutine la_${ri}$_expm
 
      !> Matrix exponential in place: a is overwritten with exp(a)
-     pure subroutine la_${ri}$_expm_inplace(a,order,err)
+     pure subroutine la_${ri}$_expm_inplace(a,order,work,iwork,err)
          !> Input matrix a[n,n]; on output, its exponential
          ${rt}$,intent(inout) :: a(:,:)
          !> [optional] Order of the Pade approximant
          integer(ilp),optional,intent(in) :: order
+         !> [optional] Workspace, size to be checked with expm_space
+         ${rt}$,optional,intent(inout),contiguous,target :: work(:)
+         !> [optional] Integer workspace, size to be checked with expm_space
+         integer(ilp),optional,intent(inout),contiguous,target :: iwork(:)
          !> [optional] State return flag. On error if not requested, the code will stop
          type(la_state),optional,intent(out) :: err
 
-         ${rt}$,parameter :: zero = 0.0_${rk}$
-         ${rt}$,parameter :: one = 1.0_${rk}$
          type(la_state) :: err0
-         integer(ilp) :: m,n,ee,k,s,order_,i,j,info
-         integer(ilp),allocatable :: ipiv(:)
-         real(${rk}$) :: a_norm,c
-         logical(lk) :: p
-         ${rt}$,allocatable :: a2(:,:),q(:,:),x(:,:),x_tmp(:,:)
+         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp),pointer,contiguous :: ipiv(:)
+         ${rt}$,pointer,contiguous :: wk(:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -182,60 +237,108 @@ module la_matrix_functions
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else if (n > 0) then
-            ! Infinity norm, computed here because the LAPACK lange is not pure
-            a_norm = maxval(sum(abs(a),dim=2))
-
-            ! Scaling factor: the scaled matrix has a norm below one half. A zero, empty or
-            ! non-finite matrix is not scaled.
-            if (a_norm > 0.0_${rk}$ .and. a_norm <= huge(a_norm)) then
-               ee = int(log(a_norm)/log(2.0_${rk}$),kind=ilp) + 1
-               s = max(0_ilp,ee + 1)
+         else
+            ! User or self-allocated workspace
+            call expm_workspace(n,lwork,liwork)
+            if (present(work)) then
+               wk => work
             else
-               s = 0
+               allocate (wk(lwork))
+            end if
+            if (present(iwork)) then
+               ipiv => iwork
+            else
+               allocate (ipiv(liwork))
             end if
 
-            ! Scale the input matrix and initialize the polynomials
-            allocate (a2(n,n),q(n,n),x(n,n),x_tmp(n,n),ipiv(n))
-            a2 = a/2.0_${rk}$**s
-            x = a2
-
-            ! First step of the Pade approximant
-            c = 0.5_${rk}$
-            do concurrent(i=1:n,j=1:n)
-               a(i,j) = merge(1.0_${rk}$ + c*a2(i,j),c*a2(i,j),i == j)
-               q(i,j) = merge(1.0_${rk}$ - c*a2(i,j),-c*a2(i,j),i == j)
-            end do
-
-            ! Remaining terms of numerator (a) and denominator (q)
-            p = .true.
-            do k = 2,order_
-               c = c*(order_ - k + 1)/(k*(2*order_ - k + 1))
-               x_tmp = x
-               call gemm('N','N',n,n,n,one,a2,n,x_tmp,n,zero,x,n)
-               do concurrent(i=1:n,j=1:n)
-                  a(i,j) = a(i,j) + c*x(i,j)
-                  q(i,j) = merge(q(i,j) + c*x(i,j),q(i,j) - c*x(i,j),p)
-               end do
-               p = .not. p
-            end do
-
-            ! exp(a2) = inv(q) * a
-            call gesv(n,n,q,n,ipiv,a,n,info)
-            call handle_gesv_info(info,n,err0)
-
-            ! Undo the scaling by repeated squaring
-            if (err0%ok()) then
-               do k = 1,s
-                  x = a
-                  call gemm('N','N',n,n,n,one,x,n,x,n,zero,a,n)
-               end do
+            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
+               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
+                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
+            else if (n > 0) then
+               n2 = n*n
+               call la_${ri}$_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
+                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
+               call handle_gesv_info(info,n,err0)
             end if
+
+            if (.not. present(work)) deallocate (wk)
+            if (.not. present(iwork)) deallocate (ipiv)
          end if
 
          call err0%handle(err)
 
      end subroutine la_${ri}$_expm_inplace
+
+     !> Scaling and squaring with a Pade approximant, on explicit-shape work arrays
+     pure subroutine la_${ri}$_expm_kernel(n,order,a,a2,q,x,x_tmp,ipiv,info)
+         !> Matrix size and order of the Pade approximant
+         integer(ilp),intent(in) :: n,order
+         !> Input matrix a[n,n]; on output, its exponential
+         ${rt}$,intent(inout) :: a(n,n)
+         !> Work arrays: the scaled matrix, the denominator, and the powers of the scaled matrix
+         ${rt}$,intent(out) :: a2(n,n),q(n,n),x(n,n),x_tmp(n,n)
+         !> Pivots of the Pade solve
+         integer(ilp),intent(out) :: ipiv(n)
+         !> gesv exit code
+         integer(ilp),intent(out) :: info
+
+         ${rt}$,parameter :: zero = 0.0_${rk}$
+         ${rt}$,parameter :: one = 1.0_${rk}$
+         integer(ilp) :: ee,k,s,i,j
+         real(${rk}$) :: a_norm,c
+         logical(lk) :: p
+
+         ! Infinity norm, computed here because the LAPACK lange is not pure
+         a_norm = 0.0_${rk}$
+         do i = 1,n
+            a_norm = max(a_norm,sum(abs(a(i,:))))
+         end do
+
+         ! Scaling factor: the scaled matrix has a norm below one half. A zero or non-finite
+         ! matrix is not scaled.
+         if (a_norm > 0.0_${rk}$ .and. a_norm <= huge(a_norm)) then
+            ee = int(log(a_norm)/log(2.0_${rk}$),kind=ilp) + 1
+            s = max(0_ilp,ee + 1)
+         else
+            s = 0
+         end if
+
+         ! Scale the input matrix and initialize the polynomials
+         a2 = a/2.0_${rk}$**s
+         x = a2
+
+         ! First step of the Pade approximant
+         c = 0.5_${rk}$
+         do concurrent(i=1:n,j=1:n)
+            a(i,j) = merge(1.0_${rk}$ + c*a2(i,j),c*a2(i,j),i == j)
+            q(i,j) = merge(1.0_${rk}$ - c*a2(i,j),-c*a2(i,j),i == j)
+         end do
+
+         ! Remaining terms of numerator (a) and denominator (q)
+         p = .true.
+         do k = 2,order
+            c = c*(order - k + 1)/(k*(2*order - k + 1))
+            x_tmp = x
+            call gemm('N','N',n,n,n,one,a2,n,x_tmp,n,zero,x,n)
+            do concurrent(i=1:n,j=1:n)
+               a(i,j) = a(i,j) + c*x(i,j)
+               q(i,j) = merge(q(i,j) + c*x(i,j),q(i,j) - c*x(i,j),p)
+            end do
+            p = .not. p
+         end do
+
+         ! exp(a2) = inv(q) * a
+         call gesv(n,n,q,n,ipiv,a,n,info)
+
+         ! Undo the scaling by repeated squaring
+         if (info == 0) then
+            do k = 1,s
+               x = a
+               call gemm('N','N',n,n,n,one,x,n,x,n,zero,a,n)
+            end do
+         end if
+
+     end subroutine la_${ri}$_expm_kernel
      #:if LA_GUARD[rk]
 #endif
      #:endif

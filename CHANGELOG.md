@@ -145,9 +145,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   were formatted before.
 - The matrix exponential, ported from the Fortran standard library, in the new
   `la_matrix_functions` module: `expm(a [, order])` is `pure`, `expm(a [, order], err)`
-  returns the error state instead, and `matrix_exp(a [, order] [, err])` /
-  `matrix_exp(a, e [, order] [, err])` are `pure` subroutines that overwrite `a` or write
-  into `e`. Every real and complex kind; `order` is the Padé order, 10 by default.
+  returns the error state instead, and `matrix_exp(a [, order] [, work] [, iwork] [, err])` /
+  `matrix_exp(a, e [, order] [, work] [, iwork] [, err])` are `pure` subroutines that
+  overwrite `a` or write into `e`. Given `work` and `iwork`, sized with
+  `expm_space(a, lwork, liwork)`, they allocate no work arrays. Every real and complex
+  kind; `order` is the Padé order, 10 by default.
 
 ### Changed
 
