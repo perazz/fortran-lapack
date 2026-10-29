@@ -252,9 +252,9 @@ module la_matrix_functions
          type(la_state),optional,intent(out) :: err
 
          type(la_state) :: err0
-         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp) :: m,n,order_,lwork,liwork,nwork,niwork,info
          integer(ilp),pointer,contiguous :: ipiv(:)
-         real(sp),pointer,contiguous :: wk(:)
+         real(sp),pointer,contiguous :: wk(:,:,:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -262,18 +262,27 @@ module la_matrix_functions
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
+         ! Sizes needed, and sizes of the caller's arrays if any
+         call expm_workspace(n,lwork,liwork)
+         nwork = lwork
+         niwork = liwork
+         if (present(work)) nwork = size(work,kind=ilp)
+         if (present(iwork)) niwork = size(iwork,kind=ilp)
+
          if (m /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else
-            ! User or self-allocated workspace
-            call expm_workspace(n,lwork,liwork)
+         else if (nwork < lwork .or. niwork < liwork) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',nwork, &
+                            ' should be >=',lwork,', iwork=',niwork,' should be >=',liwork)
+         else if (n > 0) then
+            ! User or self-allocated workspace: four n*n matrices and n pivots
             if (present(work)) then
-               wk => work
+               wk(1:n,1:n,1:4) => work(1:lwork)
             else
-               allocate (wk(lwork))
+               allocate (wk(n,n,4))
             end if
             if (present(iwork)) then
                ipiv => iwork
@@ -281,15 +290,8 @@ module la_matrix_functions
                allocate (ipiv(liwork))
             end if
 
-            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
-               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
-                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
-            else if (n > 0) then
-               n2 = n*n
-               call la_s_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
-                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
-               call handle_gesv_info(info,n,err0)
-            end if
+            call la_s_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
+            call handle_gesv_info(info,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -461,9 +463,9 @@ module la_matrix_functions
          type(la_state),optional,intent(out) :: err
 
          type(la_state) :: err0
-         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp) :: m,n,order_,lwork,liwork,nwork,niwork,info
          integer(ilp),pointer,contiguous :: ipiv(:)
-         real(dp),pointer,contiguous :: wk(:)
+         real(dp),pointer,contiguous :: wk(:,:,:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -471,18 +473,27 @@ module la_matrix_functions
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
+         ! Sizes needed, and sizes of the caller's arrays if any
+         call expm_workspace(n,lwork,liwork)
+         nwork = lwork
+         niwork = liwork
+         if (present(work)) nwork = size(work,kind=ilp)
+         if (present(iwork)) niwork = size(iwork,kind=ilp)
+
          if (m /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else
-            ! User or self-allocated workspace
-            call expm_workspace(n,lwork,liwork)
+         else if (nwork < lwork .or. niwork < liwork) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',nwork, &
+                            ' should be >=',lwork,', iwork=',niwork,' should be >=',liwork)
+         else if (n > 0) then
+            ! User or self-allocated workspace: four n*n matrices and n pivots
             if (present(work)) then
-               wk => work
+               wk(1:n,1:n,1:4) => work(1:lwork)
             else
-               allocate (wk(lwork))
+               allocate (wk(n,n,4))
             end if
             if (present(iwork)) then
                ipiv => iwork
@@ -490,15 +501,8 @@ module la_matrix_functions
                allocate (ipiv(liwork))
             end if
 
-            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
-               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
-                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
-            else if (n > 0) then
-               n2 = n*n
-               call la_d_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
-                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
-               call handle_gesv_info(info,n,err0)
-            end if
+            call la_d_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
+            call handle_gesv_info(info,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -671,9 +675,9 @@ module la_matrix_functions
          type(la_state),optional,intent(out) :: err
 
          type(la_state) :: err0
-         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp) :: m,n,order_,lwork,liwork,nwork,niwork,info
          integer(ilp),pointer,contiguous :: ipiv(:)
-         real(xdp),pointer,contiguous :: wk(:)
+         real(xdp),pointer,contiguous :: wk(:,:,:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -681,18 +685,27 @@ module la_matrix_functions
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
+         ! Sizes needed, and sizes of the caller's arrays if any
+         call expm_workspace(n,lwork,liwork)
+         nwork = lwork
+         niwork = liwork
+         if (present(work)) nwork = size(work,kind=ilp)
+         if (present(iwork)) niwork = size(iwork,kind=ilp)
+
          if (m /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else
-            ! User or self-allocated workspace
-            call expm_workspace(n,lwork,liwork)
+         else if (nwork < lwork .or. niwork < liwork) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',nwork, &
+                            ' should be >=',lwork,', iwork=',niwork,' should be >=',liwork)
+         else if (n > 0) then
+            ! User or self-allocated workspace: four n*n matrices and n pivots
             if (present(work)) then
-               wk => work
+               wk(1:n,1:n,1:4) => work(1:lwork)
             else
-               allocate (wk(lwork))
+               allocate (wk(n,n,4))
             end if
             if (present(iwork)) then
                ipiv => iwork
@@ -700,15 +713,8 @@ module la_matrix_functions
                allocate (ipiv(liwork))
             end if
 
-            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
-               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
-                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
-            else if (n > 0) then
-               n2 = n*n
-               call la_x_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
-                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
-               call handle_gesv_info(info,n,err0)
-            end if
+            call la_x_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
+            call handle_gesv_info(info,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -882,9 +888,9 @@ module la_matrix_functions
          type(la_state),optional,intent(out) :: err
 
          type(la_state) :: err0
-         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp) :: m,n,order_,lwork,liwork,nwork,niwork,info
          integer(ilp),pointer,contiguous :: ipiv(:)
-         real(qp),pointer,contiguous :: wk(:)
+         real(qp),pointer,contiguous :: wk(:,:,:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -892,18 +898,27 @@ module la_matrix_functions
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
+         ! Sizes needed, and sizes of the caller's arrays if any
+         call expm_workspace(n,lwork,liwork)
+         nwork = lwork
+         niwork = liwork
+         if (present(work)) nwork = size(work,kind=ilp)
+         if (present(iwork)) niwork = size(iwork,kind=ilp)
+
          if (m /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else
-            ! User or self-allocated workspace
-            call expm_workspace(n,lwork,liwork)
+         else if (nwork < lwork .or. niwork < liwork) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',nwork, &
+                            ' should be >=',lwork,', iwork=',niwork,' should be >=',liwork)
+         else if (n > 0) then
+            ! User or self-allocated workspace: four n*n matrices and n pivots
             if (present(work)) then
-               wk => work
+               wk(1:n,1:n,1:4) => work(1:lwork)
             else
-               allocate (wk(lwork))
+               allocate (wk(n,n,4))
             end if
             if (present(iwork)) then
                ipiv => iwork
@@ -911,15 +926,8 @@ module la_matrix_functions
                allocate (ipiv(liwork))
             end if
 
-            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
-               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
-                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
-            else if (n > 0) then
-               n2 = n*n
-               call la_q_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
-                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
-               call handle_gesv_info(info,n,err0)
-            end if
+            call la_q_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
+            call handle_gesv_info(info,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1092,9 +1100,9 @@ module la_matrix_functions
          type(la_state),optional,intent(out) :: err
 
          type(la_state) :: err0
-         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp) :: m,n,order_,lwork,liwork,nwork,niwork,info
          integer(ilp),pointer,contiguous :: ipiv(:)
-         complex(sp),pointer,contiguous :: wk(:)
+         complex(sp),pointer,contiguous :: wk(:,:,:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -1102,18 +1110,27 @@ module la_matrix_functions
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
+         ! Sizes needed, and sizes of the caller's arrays if any
+         call expm_workspace(n,lwork,liwork)
+         nwork = lwork
+         niwork = liwork
+         if (present(work)) nwork = size(work,kind=ilp)
+         if (present(iwork)) niwork = size(iwork,kind=ilp)
+
          if (m /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else
-            ! User or self-allocated workspace
-            call expm_workspace(n,lwork,liwork)
+         else if (nwork < lwork .or. niwork < liwork) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',nwork, &
+                            ' should be >=',lwork,', iwork=',niwork,' should be >=',liwork)
+         else if (n > 0) then
+            ! User or self-allocated workspace: four n*n matrices and n pivots
             if (present(work)) then
-               wk => work
+               wk(1:n,1:n,1:4) => work(1:lwork)
             else
-               allocate (wk(lwork))
+               allocate (wk(n,n,4))
             end if
             if (present(iwork)) then
                ipiv => iwork
@@ -1121,15 +1138,8 @@ module la_matrix_functions
                allocate (ipiv(liwork))
             end if
 
-            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
-               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
-                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
-            else if (n > 0) then
-               n2 = n*n
-               call la_c_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
-                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
-               call handle_gesv_info(info,n,err0)
-            end if
+            call la_c_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
+            call handle_gesv_info(info,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1301,9 +1311,9 @@ module la_matrix_functions
          type(la_state),optional,intent(out) :: err
 
          type(la_state) :: err0
-         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp) :: m,n,order_,lwork,liwork,nwork,niwork,info
          integer(ilp),pointer,contiguous :: ipiv(:)
-         complex(dp),pointer,contiguous :: wk(:)
+         complex(dp),pointer,contiguous :: wk(:,:,:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -1311,18 +1321,27 @@ module la_matrix_functions
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
+         ! Sizes needed, and sizes of the caller's arrays if any
+         call expm_workspace(n,lwork,liwork)
+         nwork = lwork
+         niwork = liwork
+         if (present(work)) nwork = size(work,kind=ilp)
+         if (present(iwork)) niwork = size(iwork,kind=ilp)
+
          if (m /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else
-            ! User or self-allocated workspace
-            call expm_workspace(n,lwork,liwork)
+         else if (nwork < lwork .or. niwork < liwork) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',nwork, &
+                            ' should be >=',lwork,', iwork=',niwork,' should be >=',liwork)
+         else if (n > 0) then
+            ! User or self-allocated workspace: four n*n matrices and n pivots
             if (present(work)) then
-               wk => work
+               wk(1:n,1:n,1:4) => work(1:lwork)
             else
-               allocate (wk(lwork))
+               allocate (wk(n,n,4))
             end if
             if (present(iwork)) then
                ipiv => iwork
@@ -1330,15 +1349,8 @@ module la_matrix_functions
                allocate (ipiv(liwork))
             end if
 
-            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
-               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
-                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
-            else if (n > 0) then
-               n2 = n*n
-               call la_z_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
-                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
-               call handle_gesv_info(info,n,err0)
-            end if
+            call la_z_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
+            call handle_gesv_info(info,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1511,9 +1523,9 @@ module la_matrix_functions
          type(la_state),optional,intent(out) :: err
 
          type(la_state) :: err0
-         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp) :: m,n,order_,lwork,liwork,nwork,niwork,info
          integer(ilp),pointer,contiguous :: ipiv(:)
-         complex(xdp),pointer,contiguous :: wk(:)
+         complex(xdp),pointer,contiguous :: wk(:,:,:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -1521,18 +1533,27 @@ module la_matrix_functions
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
+         ! Sizes needed, and sizes of the caller's arrays if any
+         call expm_workspace(n,lwork,liwork)
+         nwork = lwork
+         niwork = liwork
+         if (present(work)) nwork = size(work,kind=ilp)
+         if (present(iwork)) niwork = size(iwork,kind=ilp)
+
          if (m /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else
-            ! User or self-allocated workspace
-            call expm_workspace(n,lwork,liwork)
+         else if (nwork < lwork .or. niwork < liwork) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',nwork, &
+                            ' should be >=',lwork,', iwork=',niwork,' should be >=',liwork)
+         else if (n > 0) then
+            ! User or self-allocated workspace: four n*n matrices and n pivots
             if (present(work)) then
-               wk => work
+               wk(1:n,1:n,1:4) => work(1:lwork)
             else
-               allocate (wk(lwork))
+               allocate (wk(n,n,4))
             end if
             if (present(iwork)) then
                ipiv => iwork
@@ -1540,15 +1561,8 @@ module la_matrix_functions
                allocate (ipiv(liwork))
             end if
 
-            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
-               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
-                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
-            else if (n > 0) then
-               n2 = n*n
-               call la_y_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
-                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
-               call handle_gesv_info(info,n,err0)
-            end if
+            call la_y_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
+            call handle_gesv_info(info,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1722,9 +1736,9 @@ module la_matrix_functions
          type(la_state),optional,intent(out) :: err
 
          type(la_state) :: err0
-         integer(ilp) :: m,n,n2,order_,lwork,liwork,info
+         integer(ilp) :: m,n,order_,lwork,liwork,nwork,niwork,info
          integer(ilp),pointer,contiguous :: ipiv(:)
-         complex(qp),pointer,contiguous :: wk(:)
+         complex(qp),pointer,contiguous :: wk(:,:,:)
 
          order_ = 10
          if (present(order)) order_ = order
@@ -1732,18 +1746,27 @@ module la_matrix_functions
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
 
+         ! Sizes needed, and sizes of the caller's arrays if any
+         call expm_workspace(n,lwork,liwork)
+         nwork = lwork
+         niwork = liwork
+         if (present(work)) nwork = size(work,kind=ilp)
+         if (present(iwork)) niwork = size(iwork,kind=ilp)
+
          if (m /= n) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
          else if (order_ < 0) then
             err0 = la_state(this,LINALG_VALUE_ERROR, &
                             'the order of the Pade approximant cannot be negative, order=',order_)
-         else
-            ! User or self-allocated workspace
-            call expm_workspace(n,lwork,liwork)
+         else if (nwork < lwork .or. niwork < liwork) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',nwork, &
+                            ' should be >=',lwork,', iwork=',niwork,' should be >=',liwork)
+         else if (n > 0) then
+            ! User or self-allocated workspace: four n*n matrices and n pivots
             if (present(work)) then
-               wk => work
+               wk(1:n,1:n,1:4) => work(1:lwork)
             else
-               allocate (wk(lwork))
+               allocate (wk(n,n,4))
             end if
             if (present(iwork)) then
                ipiv => iwork
@@ -1751,15 +1774,8 @@ module la_matrix_functions
                allocate (ipiv(liwork))
             end if
 
-            if (size(wk,kind=ilp) < lwork .or. size(ipiv,kind=ilp) < liwork) then
-               err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient workspace: work=',size(wk,kind=ilp), &
-                               ' should be >=',lwork,', iwork=',size(ipiv,kind=ilp),' should be >=',liwork)
-            else if (n > 0) then
-               n2 = n*n
-               call la_w_expm_kernel(n,order_,a,wk(1:n2),wk(n2 + 1:2*n2),wk(2*n2 + 1:3*n2), &
-                                         wk(3*n2 + 1:4*n2),ipiv(1:n),info)
-               call handle_gesv_info(info,n,err0)
-            end if
+            call la_w_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
+            call handle_gesv_info(info,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
