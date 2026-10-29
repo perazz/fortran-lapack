@@ -152,15 +152,16 @@ Public Member Functions</h2></td></tr>
 <p>where \( U \) and \( V \) are unitary matrices, and \( \Sigma^+ \) is the pseudo-inverse of the singular values.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \). Its contents may be modified. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \). Unchanged unless <code>overwrite_a</code> is true. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">pinva</td><td>The output pseudo-inverse matrix of size \( [n, m] \). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>(Optional) Relative tolerance for singular value truncation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) Can the SVD destroy A instead of working on a copy? Default: false. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This subroutine is useful when the output matrix <code>pinva</code> is already allocated and avoids memory allocation inside the routine. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The input matrix <code>A</code> may be modified during computation.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>With <code>overwrite_a=.true.</code>, the contents of <code>A</code> are destroyed.</dd></dl>
 <p>Compute the pseudo-inverse of a matrix using the <code>.pinv.</code> operator.</p>
 <p>This operator computes the Moore-Penrose pseudo-inverse of a real or complex matrix \( A \) using Singular Value Decomposition (SVD):</p>
 <p>\( A^+ = V \Sigma^+ U^T \)</p>

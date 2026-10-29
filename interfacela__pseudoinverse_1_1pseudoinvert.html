@@ -121,14 +121,14 @@ $(function(){initNavTree('interfacela__pseudoinverse_1_1pseudoinvert.html',''); 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9f0279b6cd0f713fc3705829544846d0" id="r_a9f0279b6cd0f713fc3705829544846d0"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9f0279b6cd0f713fc3705829544846d0">la_pseudoinvert_s</a> (a, pinva, rtol, err)</td></tr>
-<tr class="separator:a9f0279b6cd0f713fc3705829544846d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a245892f1e84f3a306b63500fe4f8763b" id="r_a245892f1e84f3a306b63500fe4f8763b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a245892f1e84f3a306b63500fe4f8763b">la_pseudoinvert_d</a> (a, pinva, rtol, err)</td></tr>
-<tr class="separator:a245892f1e84f3a306b63500fe4f8763b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26de8f68534b8f7ec657ecaad2939c94" id="r_a26de8f68534b8f7ec657ecaad2939c94"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a26de8f68534b8f7ec657ecaad2939c94">la_pseudoinvert_c</a> (a, pinva, rtol, err)</td></tr>
-<tr class="separator:a26de8f68534b8f7ec657ecaad2939c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1dab7bd0fe859d63224af03381bc06a6" id="r_a1dab7bd0fe859d63224af03381bc06a6"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1dab7bd0fe859d63224af03381bc06a6">la_pseudoinvert_z</a> (a, pinva, rtol, err)</td></tr>
-<tr class="separator:a1dab7bd0fe859d63224af03381bc06a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53eb22a8dae30843ed94bf44968c2a5f" id="r_a53eb22a8dae30843ed94bf44968c2a5f"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a53eb22a8dae30843ed94bf44968c2a5f">la_pseudoinvert_s</a> (a, pinva, rtol, overwrite_a, err)</td></tr>
+<tr class="separator:a53eb22a8dae30843ed94bf44968c2a5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab912622b4a737f895da258a712153519" id="r_ab912622b4a737f895da258a712153519"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab912622b4a737f895da258a712153519">la_pseudoinvert_d</a> (a, pinva, rtol, overwrite_a, err)</td></tr>
+<tr class="separator:ab912622b4a737f895da258a712153519"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01b452fb300e63611563e993cdfeac54" id="r_a01b452fb300e63611563e993cdfeac54"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a01b452fb300e63611563e993cdfeac54">la_pseudoinvert_c</a> (a, pinva, rtol, overwrite_a, err)</td></tr>
+<tr class="separator:a01b452fb300e63611563e993cdfeac54"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad9e894ddba563ccbcbbf0549e6aed0e" id="r_aad9e894ddba563ccbcbbf0549e6aed0e"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aad9e894ddba563ccbcbbf0549e6aed0e">la_pseudoinvert_z</a> (a, pinva, rtol, overwrite_a, err)</td></tr>
+<tr class="separator:aad9e894ddba563ccbcbbf0549e6aed0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Compute the pseudo-inverse of a matrix (subroutine version). </p>
@@ -137,24 +137,25 @@ Public Member Functions</h2></td></tr>
 <p>where \( U \) and \( V \) are unitary matrices, and \( \Sigma^+ \) is the pseudo-inverse of the singular values.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \). Its contents may be modified. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">A</td><td>The input matrix of size \( [m, n] \). Unchanged unless <code>overwrite_a</code> is true. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">pinva</td><td>The output pseudo-inverse matrix of size \( [n, m] \). </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>(Optional) Relative tolerance for singular value truncation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>(Optional) Can the SVD destroy A instead of working on a copy? Default: false. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. If an error occurs and <code>err</code> is not provided, the function will stop execution.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This subroutine is useful when the output matrix <code>pinva</code> is already allocated and avoids memory allocation inside the routine. </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The input matrix <code>A</code> may be modified during computation. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>With <code>overwrite_a=.true.</code>, the contents of <code>A</code> are destroyed. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a26de8f68534b8f7ec657ecaad2939c94" name="a26de8f68534b8f7ec657ecaad2939c94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26de8f68534b8f7ec657ecaad2939c94">&#9670;&#160;</a></span>la_pseudoinvert_c()</h2>
+<a id="a01b452fb300e63611563e993cdfeac54" name="a01b452fb300e63611563e993cdfeac54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01b452fb300e63611563e993cdfeac54">&#9670;&#160;</a></span>la_pseudoinvert_c()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_c </td>
+          <td class="memname">pure subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_c </td>
           <td>(</td>
           <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -171,6 +172,11 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
         </tr>
       </table>
@@ -180,6 +186,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">pinva</td><td>Output pseudo-inverse matrix</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>[optional] ....</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? (default: no)</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
@@ -187,14 +194,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a245892f1e84f3a306b63500fe4f8763b" name="a245892f1e84f3a306b63500fe4f8763b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a245892f1e84f3a306b63500fe4f8763b">&#9670;&#160;</a></span>la_pseudoinvert_d()</h2>
+<a id="ab912622b4a737f895da258a712153519" name="ab912622b4a737f895da258a712153519"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab912622b4a737f895da258a712153519">&#9670;&#160;</a></span>la_pseudoinvert_d()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_d </td>
+          <td class="memname">pure subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_d </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -211,6 +218,11 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
         </tr>
       </table>
@@ -220,6 +232,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">pinva</td><td>Output pseudo-inverse matrix</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>[optional] ....</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? (default: no)</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
@@ -227,14 +240,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9f0279b6cd0f713fc3705829544846d0" name="a9f0279b6cd0f713fc3705829544846d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f0279b6cd0f713fc3705829544846d0">&#9670;&#160;</a></span>la_pseudoinvert_s()</h2>
+<a id="a53eb22a8dae30843ed94bf44968c2a5f" name="a53eb22a8dae30843ed94bf44968c2a5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53eb22a8dae30843ed94bf44968c2a5f">&#9670;&#160;</a></span>la_pseudoinvert_s()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_s </td>
+          <td class="memname">pure subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_s </td>
           <td>(</td>
           <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(:,:), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -251,6 +264,11 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
         </tr>
       </table>
@@ -260,6 +278,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">pinva</td><td>Output pseudo-inverse matrix</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>[optional] ....</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? (default: no)</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
@@ -267,14 +286,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a1dab7bd0fe859d63224af03381bc06a6" name="a1dab7bd0fe859d63224af03381bc06a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1dab7bd0fe859d63224af03381bc06a6">&#9670;&#160;</a></span>la_pseudoinvert_z()</h2>
+<a id="aad9e894ddba563ccbcbbf0549e6aed0e" name="aad9e894ddba563ccbcbbf0549e6aed0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad9e894ddba563ccbcbbf0549e6aed0e">&#9670;&#160;</a></span>la_pseudoinvert_z()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_z </td>
+          <td class="memname">pure subroutine la_pseudoinverse::pseudoinvert::la_pseudoinvert_z </td>
           <td>(</td>
           <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(:,:), intent(inout)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
         </tr>
@@ -291,6 +310,11 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in), optional</td>          <td class="paramname"><span class="paramname"><em>overwrite_a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">type(<a class="el" href="structla__state__type_1_1la__state.html">la_state</a>), intent(out), optional</td>          <td class="paramname"><span class="paramname"><em>err</em></span>&#160;)</td>
         </tr>
       </table>
@@ -300,6 +324,7 @@ Public Member Functions</h2></td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">a</td><td>Input matrix a[m,n]</td></tr>
     <tr><td class="paramdir">[in,out]</td><td class="paramname">pinva</td><td>Output pseudo-inverse matrix</td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>[optional] ....</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">overwrite_a</td><td>[optional] Can A data be overwritten and destroyed? (default: no)</td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
   </table>
   </dd>
