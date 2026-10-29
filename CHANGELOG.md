@@ -74,6 +74,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   every caller inside the library uses their pure subroutine twins instead.
   With `LA_EXTERNAL_LAPACK`, the external interfaces of the routines that
   became pure are declared `pure` as well.
+- The high-level procedures that waited for a pure backend are `pure`: the
+  subroutines `eig`, `eigh`, `svd`, `pseudoinvert`, `invert`, `schur`,
+  `schur_space`, `solve_lstsq`, `solve_weighted_lstsq`,
+  `solve_constrained_lstsq` and `constrained_lstsq_space`, the forms of
+  `eigvals` and `eigvalsh` without `err`, and the operators `.inv.` and
+  `.pinv.`. `mnorm` calls the pure `lange_sub`. A function that takes an `err`
+  argument stays impure, since a pure function cannot.
+- The generalized `eigvals(a, b)` takes `b` as `intent(in)`. It was declared
+  `intent(inout)` but never modified, so a constant or an expression can now
+  be passed.
   
 ### Added
 

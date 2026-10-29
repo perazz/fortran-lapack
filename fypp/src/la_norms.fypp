@@ -110,7 +110,7 @@ ${indent}$do ${varname}$${n+1+dim_offset-i}$ = lbound(${matname}$, ${n+1+dim_off
 module la_norms
      use la_constants
      use la_blas, only: nrm2
-     use la_lapack, only: lange
+     use la_lapack, only: lange_sub
      use la_state_type
      implicit none(type,external)
      private
@@ -568,7 +568,7 @@ module la_norms
         endif
         
         ! LAPACK interface
-        nrm = lange(lange_task,m,n,a,m,work)
+        call lange_sub(lange_task,m,n,a,m,work,nrm)
         
         if (lange_task==LANGE_NORM_INF) deallocate(work)
         
@@ -663,8 +663,8 @@ module la_norms
         
         ! LAPACK interface
 ${loop_variables_start('j', 'apack', rank-2, 2)}$
-        nrm(${loop_variables('j',rank-2,2)}$) = &
-        lange(lange_task,m,n,apack(:,:,${loop_variables('j',rank-2,2)}$),lda,work)
+        call lange_sub(lange_task,m,n,apack(:,:,${loop_variables('j',rank-2,2)}$),lda,work, &
+                       nrm(${loop_variables('j',rank-2,2)}$))
 ${loop_variables_end(rank-2)}$
         
         if (lange_task==LANGE_NORM_INF) deallocate(work)

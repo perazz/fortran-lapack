@@ -404,23 +404,22 @@ module la_eig
      function la_eigvals_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,err) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
-         ${rt}$, intent(in), dimension(:,:), target :: a 
+         ${rt}$, intent(in), dimension(:,:) :: a 
          #:if ei=='ggev'
          !> Generalized problem matrix B[n,n]
-         ${rt}$, intent(inout), dimension(:,:), target :: b         
+         ${rt}$, intent(in), dimension(:,:) :: b         
          #:endif                  
          !> [optional] state return flag. On error if not requested, the code will stop
          type(la_state), intent(out) :: err
          !> Array of eigenvalues
          complex(${rk}$), allocatable :: lambda(:)
 
-         !> Create
-         ${rt}$, pointer, dimension(:,:) :: amat#{if ei=='ggev'}#, bmat #{endif}#
+         !> Working copies, which the eigensolver may overwrite
+         ${rt}$, allocatable, dimension(:,:) :: amat#{if ei=='ggev'}#, bmat #{endif}#
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         #{if ei=='ggev'}#bmat => b#{endif}#
+         amat = a
+         #{if ei=='ggev'}#bmat = b#{endif}#
 
          m   = size(a,1,kind=ilp)
          n   = size(a,2,kind=ilp)
@@ -430,28 +429,28 @@ module la_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_${ep}$_${ri}$(amat#{if ei=='ggev'}#,bmat#{endif}#,lambda,err=err)
+         call la_eig_${ep}$_${ri}$(amat#{if ei=='ggev'}#,bmat#{endif}#,lambda,overwrite_a=.true.,&
+                                   #{if ei=='ggev'}#overwrite_b=.true.,#{endif}#err=err)
 
      end function la_eigvals_${ep}$_${ri}$
 
-     function la_eigvals_noerr_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#) result(lambda)
+     pure function la_eigvals_noerr_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#) result(lambda)
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
-         ${rt}$, intent(in), dimension(:,:), target :: a
+         ${rt}$, intent(in), dimension(:,:) :: a
          #:if ei=='ggev'
          !> Generalized problem matrix B[n,n]
-         ${rt}$, intent(inout), dimension(:,:), target :: b         
+         ${rt}$, intent(in), dimension(:,:) :: b         
          #:endif         
          !> Array of eigenvalues
          complex(${rk}$), allocatable :: lambda(:)
 
-         !> Create
-         ${rt}$, pointer, dimension(:,:) :: amat#{if ei=='ggev'}#, bmat #{endif}#
+         !> Working copies, which the eigensolver may overwrite
+         ${rt}$, allocatable, dimension(:,:) :: amat#{if ei=='ggev'}#, bmat #{endif}#
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-         #{if ei=='ggev'}#bmat => b#{endif}#
+         amat = a
+         #{if ei=='ggev'}#bmat = b#{endif}#
 
          m   = size(a,1,kind=ilp)
          n   = size(a,2,kind=ilp)
@@ -461,11 +460,12 @@ module la_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call la_eig_${ep}$_${ri}$(amat#{if ei=='ggev'}#,bmat#{endif}#,lambda,overwrite_a=.false.)
+         call la_eig_${ep}$_${ri}$(amat#{if ei=='ggev'}#,bmat#{endif}#,lambda,overwrite_a=.true.&
+                                   #{if ei=='ggev'}#,overwrite_b=.true.#{endif}#)
 
      end function la_eigvals_noerr_${ep}$_${ri}$
 
-     subroutine la_eig_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,lambda,right,left,&
+     pure subroutine la_eig_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,lambda,right,left,&
                                                        overwrite_a#{if ei=='ggev'}#,overwrite_b#{endif}#,err)
      !! Eigendecomposition of matrix A returning an array `lambda` of eigenvalues, 
      !! and optionally right or left eigenvectors.        
@@ -699,7 +699,7 @@ module la_eig
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
      function la_eigvalsh_${ri}$(a,upper_a,err) result(lambda)
          !> Input matrix A[m,n]
-         ${rt}$, intent(in), target :: a(:,:)
+         ${rt}$, intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk), optional, intent(in) :: upper_a         
          !> [optional] state return flag. On error if not requested, the code will stop
@@ -707,11 +707,11 @@ module la_eig
          !> Array of singular values
          real(${rk}$), allocatable :: lambda(:)
          
-         ${rt}$, pointer :: amat(:,:)
+         !> Working copy, which the eigensolver may overwrite
+         ${rt}$, allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         amat = a
 
          m   = size(a,1,kind=ilp)
          n   = size(a,2,kind=ilp)
@@ -721,24 +721,24 @@ module la_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.,err=err)
+         call la_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.true.,err=err)
          
      end function la_eigvalsh_${ri}$
      
      !> Return an array of eigenvalues of real symmetric / complex hermitian A
-     function la_eigvalsh_noerr_${ri}$(a,upper_a) result(lambda)
+     pure function la_eigvalsh_noerr_${ri}$(a,upper_a) result(lambda)
          !> Input matrix A[m,n]
-         ${rt}$, intent(in), target :: a(:,:)
+         ${rt}$, intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk), optional, intent(in) :: upper_a         
          !> Array of singular values
          real(${rk}$), allocatable :: lambda(:)
 
-         ${rt}$, pointer :: amat(:,:)
+         !> Working copy, which the eigensolver may overwrite
+         ${rt}$, allocatable :: amat(:,:)
          integer(ilp) :: m,n,k
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
+         amat = a
 
          m   = size(a,1,kind=ilp)
          n   = size(a,2,kind=ilp)
@@ -748,13 +748,13 @@ module la_eig
          allocate(lambda(k))
 
          !> Compute eigenvalues only
-         call la_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.false.)
+         call la_eigh_${ri}$(amat,lambda,upper_a=upper_a,overwrite_a=.true.)
 
      end function la_eigvalsh_noerr_${ri}$     
 
      !> Eigendecomposition of a real symmetric or complex Hermitian matrix A returning an array `lambda` 
      !> of eigenvalues, and optionally right or left eigenvectors.
-     subroutine la_eigh_${ri}$(a,lambda,vectors,upper_a,overwrite_a,err)
+     pure subroutine la_eigh_${ri}$(a,lambda,vectors,upper_a,overwrite_a,err)
          !> Input matrix A[m,n]
          ${rt}$, intent(inout), target :: a(:,:)
          !> Array of eigenvalues
@@ -919,7 +919,7 @@ module la_eig
      end subroutine assign_real_eigenvectors_${rk}$
      
      #:for ep,ei in EIG_PROBLEM_LIST
-     subroutine la_real_eig_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,lambda,right,left, &
+     pure subroutine la_real_eig_${ep}$_${ri}$(a#{if ei=='ggev'}#,b#{endif}#,lambda,right,left, &
                                                             overwrite_a#{if ei=='ggev'}#,overwrite_b#{endif}#,err)
       !! Eigendecomposition of matrix A returning an array `lambda` of real eigenvalues, 
       !! and optionally right or left eigenvectors. Returns an error if the eigenvalues had

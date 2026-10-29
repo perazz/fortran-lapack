@@ -199,7 +199,7 @@ module la_pseudoinverse
      contains
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_s(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_s(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(sp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -283,22 +283,22 @@ module la_pseudoinverse
      end function la_pseudoinverse_s
 
      ! Inverse matrix operator
-     function la_pinv_s_operator(a) result(pinva)
+     pure function la_pinv_s_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         real(sp),intent(in),target :: a(:,:)
+         real(sp),intent(in) :: a(:,:)
          !> Result matrix
          real(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(sp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy: pseudoinvert takes A as intent(inout)
+         real(sp),allocatable :: amat(:,:)
 
-         call la_pseudoinvert_s(ap,pinva)
+         amat = a
+         call la_pseudoinvert_s(amat,pinva)
 
      end function la_pinv_s_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_d(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_d(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(dp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -382,23 +382,23 @@ module la_pseudoinverse
      end function la_pseudoinverse_d
 
      ! Inverse matrix operator
-     function la_pinv_d_operator(a) result(pinva)
+     pure function la_pinv_d_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         real(dp),intent(in),target :: a(:,:)
+         real(dp),intent(in) :: a(:,:)
          !> Result matrix
          real(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(dp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy: pseudoinvert takes A as intent(inout)
+         real(dp),allocatable :: amat(:,:)
 
-         call la_pseudoinvert_d(ap,pinva)
+         amat = a
+         call la_pseudoinvert_d(amat,pinva)
 
      end function la_pinv_d_operator
 
 #ifdef LA_WITH_XDP
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_x(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_x(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(xdp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -482,24 +482,24 @@ module la_pseudoinverse
      end function la_pseudoinverse_x
 
      ! Inverse matrix operator
-     function la_pinv_x_operator(a) result(pinva)
+     pure function la_pinv_x_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         real(xdp),intent(in),target :: a(:,:)
+         real(xdp),intent(in) :: a(:,:)
          !> Result matrix
          real(xdp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(xdp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy: pseudoinvert takes A as intent(inout)
+         real(xdp),allocatable :: amat(:,:)
 
-         call la_pseudoinvert_x(ap,pinva)
+         amat = a
+         call la_pseudoinvert_x(amat,pinva)
 
      end function la_pinv_x_operator
 #endif
 
 #ifdef LA_WITH_QP
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_q(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_q(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          real(qp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -583,23 +583,23 @@ module la_pseudoinverse
      end function la_pseudoinverse_q
 
      ! Inverse matrix operator
-     function la_pinv_q_operator(a) result(pinva)
+     pure function la_pinv_q_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         real(qp),intent(in),target :: a(:,:)
+         real(qp),intent(in) :: a(:,:)
          !> Result matrix
          real(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(qp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy: pseudoinvert takes A as intent(inout)
+         real(qp),allocatable :: amat(:,:)
 
-         call la_pseudoinvert_q(ap,pinva)
+         amat = a
+         call la_pseudoinvert_q(amat,pinva)
 
      end function la_pinv_q_operator
 #endif
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_c(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_c(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(sp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -683,22 +683,22 @@ module la_pseudoinverse
      end function la_pseudoinverse_c
 
      ! Inverse matrix operator
-     function la_pinv_c_operator(a) result(pinva)
+     pure function la_pinv_c_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         complex(sp),intent(in),target :: a(:,:)
+         complex(sp),intent(in) :: a(:,:)
          !> Result matrix
          complex(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(sp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy: pseudoinvert takes A as intent(inout)
+         complex(sp),allocatable :: amat(:,:)
 
-         call la_pseudoinvert_c(ap,pinva)
+         amat = a
+         call la_pseudoinvert_c(amat,pinva)
 
      end function la_pinv_c_operator
 
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_z(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_z(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(dp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -782,23 +782,23 @@ module la_pseudoinverse
      end function la_pseudoinverse_z
 
      ! Inverse matrix operator
-     function la_pinv_z_operator(a) result(pinva)
+     pure function la_pinv_z_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         complex(dp),intent(in),target :: a(:,:)
+         complex(dp),intent(in) :: a(:,:)
          !> Result matrix
          complex(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(dp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy: pseudoinvert takes A as intent(inout)
+         complex(dp),allocatable :: amat(:,:)
 
-         call la_pseudoinvert_z(ap,pinva)
+         amat = a
+         call la_pseudoinvert_z(amat,pinva)
 
      end function la_pinv_z_operator
 
 #ifdef LA_WITH_XDP
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_y(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_y(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(xdp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -882,24 +882,24 @@ module la_pseudoinverse
      end function la_pseudoinverse_y
 
      ! Inverse matrix operator
-     function la_pinv_y_operator(a) result(pinva)
+     pure function la_pinv_y_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         complex(xdp),intent(in),target :: a(:,:)
+         complex(xdp),intent(in) :: a(:,:)
          !> Result matrix
          complex(xdp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(xdp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy: pseudoinvert takes A as intent(inout)
+         complex(xdp),allocatable :: amat(:,:)
 
-         call la_pseudoinvert_y(ap,pinva)
+         amat = a
+         call la_pseudoinvert_y(amat,pinva)
 
      end function la_pinv_y_operator
 #endif
 
 #ifdef LA_WITH_QP
      ! Compute the in-place pseudo-inverse of matrix a
-     subroutine la_pseudoinvert_w(a,pinva,rtol,err)
+     pure subroutine la_pseudoinvert_w(a,pinva,rtol,err)
          !> Input matrix a[m,n]
          complex(qp),intent(inout) :: a(:,:)
          !> Output pseudo-inverse matrix
@@ -983,17 +983,17 @@ module la_pseudoinverse
      end function la_pseudoinverse_w
 
      ! Inverse matrix operator
-     function la_pinv_w_operator(a) result(pinva)
+     pure function la_pinv_w_operator(a) result(pinva)
          !> Input matrix a[m,n]
-         complex(qp),intent(in),target :: a(:,:)
+         complex(qp),intent(in) :: a(:,:)
          !> Result matrix
          complex(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
 
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(qp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy: pseudoinvert takes A as intent(inout)
+         complex(qp),allocatable :: amat(:,:)
 
-         call la_pseudoinvert_w(ap,pinva)
+         amat = a
+         call la_pseudoinvert_w(amat,pinva)
 
      end function la_pinv_w_operator
 #endif

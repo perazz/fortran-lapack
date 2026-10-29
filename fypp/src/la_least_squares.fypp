@@ -394,7 +394,7 @@ module la_least_squares
      end function la_${ri}$lstsq${ndsuf}$
 
      !> Compute the least-squares solution to a ${rt}$ system of linear equations Ax = B into x
-     subroutine la_${ri}$solve_lstsq${ndsuf}$(a,b,x,real_storage,int_storage, &
+     pure subroutine la_${ri}$solve_lstsq${ndsuf}$(a,b,x,real_storage,int_storage, &
                 #{if rt.startswith('complex')}#cmpl_storage, #{endif}#cond,singvals,overwrite_a,rank,err)
          !> Input matrix a[n,n]
          ${rt}$,                     intent(inout), target :: a(:,:)
@@ -671,7 +671,7 @@ module la_least_squares
 #ifdef ${LA_GUARD[rk]}$
      #:endif
      !> Working space needed by the ${rt}$ equality-constrained least-squares solver
-     subroutine la_${ri}$constrained_lstsq_space(A,C,lwork,err)
+     pure subroutine la_${ri}$constrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
          ${rt}$, intent(in) :: A(:,:)
          !> Equality constraint matrix c[p,n]
@@ -703,7 +703,7 @@ module la_least_squares
      end subroutine la_${ri}$constrained_lstsq_space
 
      !> Solve the ${rt}$ equality-constrained least-squares problem into x
-     subroutine la_${ri}$solve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
+     pure subroutine la_${ri}$solve_constrained_lstsq(A,b,C,d,x,storage,overwrite_matrices,err)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          ${rt}$, intent(inout), target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
@@ -839,7 +839,7 @@ module la_least_squares
      end function la_${ri}$weighted_lstsq
 
      !> Compute the ${rt}$ weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
-     subroutine la_${ri}$solve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
+     pure subroutine la_${ri}$solve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(${rk}$), intent(in) :: w(:)
          !> Input matrix a[m,n]

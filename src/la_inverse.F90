@@ -134,7 +134,7 @@ module la_inverse
      contains
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_s(a,pivot,err)
+     pure subroutine la_invert_s(a,pivot,err)
          !> Input matrix a[n,n]
          real(sp),intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -205,7 +205,7 @@ module la_inverse
      end subroutine la_invert_s
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_s(a,inva,pivot,err)
+     pure subroutine la_invert_split_s(a,inva,pivot,err)
          !> Input matrix a[n,n]
          real(sp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -261,7 +261,7 @@ module la_inverse
      end function la_inverse_s
 
      ! Inverse matrix operator
-     function la_inverse_s_operator(a) result(inva)
+     pure function la_inverse_s_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(sp),intent(in) :: a(:,:)
          !> Result matrix
@@ -269,18 +269,19 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_s(a,err)
+         allocate (inva,source=a)
+         call la_invert_s(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate (inva)
+            deallocate (inva)
             allocate (inva(0,0))
          end if
 
      end function la_inverse_s_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_d(a,pivot,err)
+     pure subroutine la_invert_d(a,pivot,err)
          !> Input matrix a[n,n]
          real(dp),intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -351,7 +352,7 @@ module la_inverse
      end subroutine la_invert_d
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_d(a,inva,pivot,err)
+     pure subroutine la_invert_split_d(a,inva,pivot,err)
          !> Input matrix a[n,n]
          real(dp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -407,7 +408,7 @@ module la_inverse
      end function la_inverse_d
 
      ! Inverse matrix operator
-     function la_inverse_d_operator(a) result(inva)
+     pure function la_inverse_d_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(dp),intent(in) :: a(:,:)
          !> Result matrix
@@ -415,11 +416,12 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_d(a,err)
+         allocate (inva,source=a)
+         call la_invert_d(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate (inva)
+            deallocate (inva)
             allocate (inva(0,0))
          end if
 
@@ -427,7 +429,7 @@ module la_inverse
 
 #ifdef LA_WITH_XDP
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_x(a,pivot,err)
+     pure subroutine la_invert_x(a,pivot,err)
          !> Input matrix a[n,n]
          real(xdp),intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -498,7 +500,7 @@ module la_inverse
      end subroutine la_invert_x
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_x(a,inva,pivot,err)
+     pure subroutine la_invert_split_x(a,inva,pivot,err)
          !> Input matrix a[n,n]
          real(xdp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -554,7 +556,7 @@ module la_inverse
      end function la_inverse_x
 
      ! Inverse matrix operator
-     function la_inverse_x_operator(a) result(inva)
+     pure function la_inverse_x_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(xdp),intent(in) :: a(:,:)
          !> Result matrix
@@ -562,11 +564,12 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_x(a,err)
+         allocate (inva,source=a)
+         call la_invert_x(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate (inva)
+            deallocate (inva)
             allocate (inva(0,0))
          end if
 
@@ -575,7 +578,7 @@ module la_inverse
 
 #ifdef LA_WITH_QP
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_q(a,pivot,err)
+     pure subroutine la_invert_q(a,pivot,err)
          !> Input matrix a[n,n]
          real(qp),intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -646,7 +649,7 @@ module la_inverse
      end subroutine la_invert_q
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_q(a,inva,pivot,err)
+     pure subroutine la_invert_split_q(a,inva,pivot,err)
          !> Input matrix a[n,n]
          real(qp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -702,7 +705,7 @@ module la_inverse
      end function la_inverse_q
 
      ! Inverse matrix operator
-     function la_inverse_q_operator(a) result(inva)
+     pure function la_inverse_q_operator(a) result(inva)
          !> Input matrix a[n,n]
          real(qp),intent(in) :: a(:,:)
          !> Result matrix
@@ -710,11 +713,12 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_q(a,err)
+         allocate (inva,source=a)
+         call la_invert_q(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate (inva)
+            deallocate (inva)
             allocate (inva(0,0))
          end if
 
@@ -722,7 +726,7 @@ module la_inverse
 #endif
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_c(a,pivot,err)
+     pure subroutine la_invert_c(a,pivot,err)
          !> Input matrix a[n,n]
          complex(sp),intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -793,7 +797,7 @@ module la_inverse
      end subroutine la_invert_c
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_c(a,inva,pivot,err)
+     pure subroutine la_invert_split_c(a,inva,pivot,err)
          !> Input matrix a[n,n]
          complex(sp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -849,7 +853,7 @@ module la_inverse
      end function la_inverse_c
 
      ! Inverse matrix operator
-     function la_inverse_c_operator(a) result(inva)
+     pure function la_inverse_c_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(sp),intent(in) :: a(:,:)
          !> Result matrix
@@ -857,18 +861,19 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_c(a,err)
+         allocate (inva,source=a)
+         call la_invert_c(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate (inva)
+            deallocate (inva)
             allocate (inva(0,0))
          end if
 
      end function la_inverse_c_operator
 
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_z(a,pivot,err)
+     pure subroutine la_invert_z(a,pivot,err)
          !> Input matrix a[n,n]
          complex(dp),intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -939,7 +944,7 @@ module la_inverse
      end subroutine la_invert_z
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_z(a,inva,pivot,err)
+     pure subroutine la_invert_split_z(a,inva,pivot,err)
          !> Input matrix a[n,n]
          complex(dp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -995,7 +1000,7 @@ module la_inverse
      end function la_inverse_z
 
      ! Inverse matrix operator
-     function la_inverse_z_operator(a) result(inva)
+     pure function la_inverse_z_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(dp),intent(in) :: a(:,:)
          !> Result matrix
@@ -1003,11 +1008,12 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_z(a,err)
+         allocate (inva,source=a)
+         call la_invert_z(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate (inva)
+            deallocate (inva)
             allocate (inva(0,0))
          end if
 
@@ -1015,7 +1021,7 @@ module la_inverse
 
 #ifdef LA_WITH_XDP
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_y(a,pivot,err)
+     pure subroutine la_invert_y(a,pivot,err)
          !> Input matrix a[n,n]
          complex(xdp),intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -1086,7 +1092,7 @@ module la_inverse
      end subroutine la_invert_y
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_y(a,inva,pivot,err)
+     pure subroutine la_invert_split_y(a,inva,pivot,err)
          !> Input matrix a[n,n]
          complex(xdp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -1142,7 +1148,7 @@ module la_inverse
      end function la_inverse_y
 
      ! Inverse matrix operator
-     function la_inverse_y_operator(a) result(inva)
+     pure function la_inverse_y_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(xdp),intent(in) :: a(:,:)
          !> Result matrix
@@ -1150,11 +1156,12 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_y(a,err)
+         allocate (inva,source=a)
+         call la_invert_y(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate (inva)
+            deallocate (inva)
             allocate (inva(0,0))
          end if
 
@@ -1163,7 +1170,7 @@ module la_inverse
 
 #ifdef LA_WITH_QP
      ! Compute the in-place square matrix inverse of a
-     subroutine la_invert_w(a,pivot,err)
+     pure subroutine la_invert_w(a,pivot,err)
          !> Input matrix a[n,n]
          complex(qp),intent(inout) :: a(:,:)
          !> [optional] Storage array for the diagonal pivot indices
@@ -1234,7 +1241,7 @@ module la_inverse
      end subroutine la_invert_w
 
      ! Compute the square matrix inverse of a into a second matrix
-     subroutine la_invert_split_w(a,inva,pivot,err)
+     pure subroutine la_invert_split_w(a,inva,pivot,err)
          !> Input matrix a[n,n]
          complex(qp),intent(in) :: a(:,:)
          !> Inverse matrix inva[n,n]
@@ -1290,7 +1297,7 @@ module la_inverse
      end function la_inverse_w
 
      ! Inverse matrix operator
-     function la_inverse_w_operator(a) result(inva)
+     pure function la_inverse_w_operator(a) result(inva)
          !> Input matrix a[n,n]
          complex(qp),intent(in) :: a(:,:)
          !> Result matrix
@@ -1298,11 +1305,12 @@ module la_inverse
 
          type(la_state) :: err
 
-         inva = la_inverse_w(a,err)
+         allocate (inva,source=a)
+         call la_invert_w(inva,err=err)
 
          ! On error, return an empty matrix
          if (err%error()) then
-            if (allocated(inva)) deallocate (inva)
+            deallocate (inva)
             allocate (inva(0,0))
          end if
 
