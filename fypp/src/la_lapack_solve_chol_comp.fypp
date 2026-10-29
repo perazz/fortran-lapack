@@ -41,6 +41,7 @@ module la_lapack_solve_chol_comp
      public :: la_${ri}$pttrf
      public :: la_${ri}$ptts2
      public :: la_${ri}$la_porcond
+     public :: la_${ri}$la_porcond_sub
      public :: la_${ri}$pbcon
      public :: la_${ri}$pbrfs
      public :: la_${ri}$pftrs
@@ -60,6 +61,7 @@ module la_lapack_solve_chol_comp
      public :: la_${ri}$potrf
      public :: la_${ri}$ptrfs
      public :: la_${ri}$la_porpvgrw
+     public :: la_${ri}$la_porpvgrw_sub
      public :: la_${ri}$pftrf
 #:if LA_GUARD[rk]
 #endif
@@ -70,6 +72,7 @@ module la_lapack_solve_chol_comp
 #ifdef ${LA_GUARD[rk]}$
 #:endif
      public :: la_${ri}$la_porpvgrw
+     public :: la_${ri}$la_porpvgrw_sub
      public :: la_${ri}$laqhb
      public :: la_${ri}$laqhe
      public :: la_${ri}$laqhp
@@ -1208,6 +1211,26 @@ module la_lapack_solve_chol_comp
      !> infinity-norm condition number.
 
      real(${rk}$) function la_${ri}$la_porcond(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork)
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(${rk}$),intent(out) :: work(*)
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           call la_${ri}$la_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+                     la_${ri}$la_porcond)
+     end function la_${ri}$la_porcond
+
+     !> Pure subroutine form of ${ri.upper()}$LA_PORCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+               res)
         use la_constants_${rk}$
 
         ! -- lapack computational routine --
@@ -1221,6 +1244,8 @@ module la_lapack_solve_chol_comp
            real(${rk}$),intent(out) :: work(*)
            ! Array Arguments
            integer(ilp),intent(out) :: iwork(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -1231,7 +1256,7 @@ module la_lapack_solve_chol_comp
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_${ri}$la_porcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -1241,7 +1266,7 @@ module la_lapack_solve_chol_comp
               return
            end if
            if (n == 0) then
-              la_${ri}$la_porcond = one
+              res = one
               return
            end if
            up = .false.
@@ -1354,12 +1379,12 @@ module la_lapack_solve_chol_comp
            end if
            ! compute the estimate of the reciprocal condition number.
 #:if rk == "sp"
-           if (ainvnm /= 0.0_${rk}$) la_${ri}$la_porcond = (1.0_${rk}$/ainvnm)
+           if (ainvnm /= 0.0_${rk}$) res = (1.0_${rk}$/ainvnm)
 #:else
-           if (ainvnm /= zero) la_${ri}$la_porcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
 #:endif
            return
-     end function la_${ri}$la_porcond
+     end subroutine la_${ri}$la_porcond_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -3800,6 +3825,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(${rk}$) function la_${ri}$la_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$la_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_${ri}$la_porpvgrw)
+     end function la_${ri}$la_porpvgrw
+
+     !> Pure subroutine form of ${ri.upper()}$LA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3810,6 +3847,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -3886,8 +3925,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_${ri}$la_porpvgrw = rpvgrw
-     end function la_${ri}$la_porpvgrw
+           res = rpvgrw
+     end subroutine la_${ri}$la_porpvgrw_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -4089,6 +4128,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(${rk}$) function la_${ri}$la_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$la_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_${ri}$la_porpvgrw)
+     end function la_${ri}$la_porpvgrw
+
+     !> Pure subroutine form of ${ri.upper()}$LA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4099,6 +4150,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -4180,8 +4233,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_${ri}$la_porpvgrw = rpvgrw
-     end function la_${ri}$la_porpvgrw
+           res = rpvgrw
+     end subroutine la_${ri}$la_porpvgrw_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif

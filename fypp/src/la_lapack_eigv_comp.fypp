@@ -1228,7 +1228,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_${ri}$hgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+     pure subroutine la_${ri}$hgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                beta,q,ldq,z,ldz,work,lwork,info)
         use la_constants_${rk}$,only:zero,half,one
         ! -- lapack computational routine --
@@ -1345,8 +1345,8 @@ module la_lapack_eigv_comp
            safmin = la_${ri}$lamch('S')
            safmax = one/safmin
            ulp = la_${ri}$lamch('E')*la_${ri}$lamch('B')
-           anorm = la_${ri}$lanhs('F',in,h(ilo,ilo),ldh,work)
-           bnorm = la_${ri}$lanhs('F',in,t(ilo,ilo),ldt,work)
+           call la_${ri}$lanhs_sub('F',in,h(ilo,ilo),ldh,work,anorm)
+           call la_${ri}$lanhs_sub('F',in,t(ilo,ilo),ldt,work,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)
@@ -3264,7 +3264,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_${ri}$hgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
+     pure subroutine la_${ri}$hgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
                 z,ldz,work,lwork,rwork,info)
         use la_constants_${rk}$,only:zero,half,one,czero,cone
         ! -- lapack computational routine --
@@ -3382,8 +3382,8 @@ module la_lapack_eigv_comp
            in = ihi + 1 - ilo
            safmin = la_${ci}$lamch('S')
            ulp = la_${ci}$lamch('E')*la_${ci}$lamch('B')
-           anorm = la_${ri}$lanhs('F',in,h(ilo,ilo),ldh,rwork)
-           bnorm = la_${ri}$lanhs('F',in,t(ilo,ilo),ldt,rwork)
+           call la_${ri}$lanhs_sub('F',in,h(ilo,ilo),ldh,rwork,anorm)
+           call la_${ri}$lanhs_sub('F',in,t(ilo,ilo),ldt,rwork,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)

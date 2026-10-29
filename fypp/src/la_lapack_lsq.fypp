@@ -76,7 +76,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_${ri}$gels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_${ri}$gels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -160,7 +160,7 @@ module la_lapack_lsq
            bignum = one/smlnum
            call la_${ri}$labad(smlnum,bignum)
            ! scale a, b if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',m,n,a,lda,rwork,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -177,7 +177,7 @@ module la_lapack_lsq
            end if
            brow = m
            if (tpsd) brow = n
-           bnrm = la_${ri}$lange('M',brow,nrhs,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',brow,nrhs,b,ldb,rwork,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -320,7 +320,7 @@ module la_lapack_lsq
      !> o The permutation of matrix B (the right hand side) is faster and
      !> more simple.
 
-     subroutine la_${ri}$gelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
+     pure subroutine la_${ri}$gelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,info)
         use la_constants_${rk}$,only:zero,one
 
         ! -- lapack driver routine --
@@ -400,7 +400,7 @@ module la_lapack_lsq
            bignum = one/smlnum
            call la_${ri}$labad(smlnum,bignum)
            ! scale a, b if max entries outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',m,n,a,lda,work)
+           call la_${ri}$lange_sub('M',m,n,a,lda,work,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -416,7 +416,7 @@ module la_lapack_lsq
               rank = 0
               go to 70
            end if
-           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,work)
+           call la_${ri}$lange_sub('M',m,nrhs,b,ldb,work,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -547,7 +547,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_${ri}$getsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_${ri}$getsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -650,7 +650,7 @@ module la_lapack_lsq
             bignum = one/smlnum
             call la_${ri}$labad(smlnum,bignum)
            ! scale a, b if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',m,n,a,lda,work)
+           call la_${ri}$lange_sub('M',m,n,a,lda,work,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -669,7 +669,7 @@ module la_lapack_lsq
            if (tran) then
              brow = n
            end if
-           bnrm = la_${ri}$lange('M',brow,nrhs,b,ldb,work)
+           call la_${ri}$lange_sub('M',brow,nrhs,b,ldb,work,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -799,7 +799,7 @@ module la_lapack_lsq
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$gelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
+     pure subroutine la_${ri}$gelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,iwork, &
                info)
         use la_constants_${rk}$,only:zero,one,two
         ! -- lapack driver routine --
@@ -1006,7 +1006,7 @@ module la_lapack_lsq
            bignum = one/smlnum
            call la_${ri}$labad(smlnum,bignum)
            ! scale a if max entry outside range [smlnum,bignum].
-           anrm = la_${ri}$lange('M',m,n,a,lda,work)
+           call la_${ri}$lange_sub('M',m,n,a,lda,work,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum.
@@ -1024,7 +1024,7 @@ module la_lapack_lsq
               go to 10
            end if
            ! scale b if max entry outside range [smlnum,bignum].
-           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,work)
+           call la_${ri}$lange_sub('M',m,nrhs,b,ldb,work,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum.
@@ -1189,7 +1189,7 @@ module la_lapack_lsq
      !> singular values which are less than RCOND times the largest singular
      !> value.
 
-     subroutine la_${ri}$gelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
+     pure subroutine la_${ri}$gelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,info)
         use la_constants_${rk}$,only:zero,one
 
         ! -- lapack driver routine --
@@ -1372,7 +1372,7 @@ module la_lapack_lsq
            bignum = one/smlnum
            call la_${ri}$labad(smlnum,bignum)
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',m,n,a,lda,work)
+           call la_${ri}$lange_sub('M',m,n,a,lda,work,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -1390,7 +1390,7 @@ module la_lapack_lsq
               go to 70
            end if
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,work)
+           call la_${ri}$lange_sub('M',m,nrhs,b,ldb,work,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -1656,7 +1656,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_${ri}$gels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_${ri}$gels(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_${rk}$,only:zero,one,czero
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1740,7 +1740,7 @@ module la_lapack_lsq
            bignum = one/smlnum
            call la_${ci}$labad(smlnum,bignum)
            ! scale a, b if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',m,n,a,lda,rwork,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -1757,7 +1757,7 @@ module la_lapack_lsq
            end if
            brow = m
            if (tpsd) brow = n
-           bnrm = la_${ri}$lange('M',brow,nrhs,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',brow,nrhs,b,ldb,rwork,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -1893,7 +1893,7 @@ module la_lapack_lsq
      !> Cray-2. It could conceivably fail on hexadecimal or decimal machines
      !> without guard digits, but we know of none.
 
-     subroutine la_${ri}$gelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_${ri}$gelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                iwork,info)
         use la_constants_${rk}$,only:zero,one,two,czero
         ! -- lapack driver routine --
@@ -2035,7 +2035,7 @@ module la_lapack_lsq
            bignum = one/smlnum
            call la_${ci}$labad(smlnum,bignum)
            ! scale a if max entry outside range [smlnum,bignum].
-           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',m,n,a,lda,rwork,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -2053,7 +2053,7 @@ module la_lapack_lsq
               go to 10
            end if
            ! scale b if max entry outside range [smlnum,bignum].
-           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',m,nrhs,b,ldb,rwork,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum.
@@ -2226,7 +2226,7 @@ module la_lapack_lsq
      !> singular values which are less than RCOND times the largest singular
      !> value.
 
-     subroutine la_${ri}$gelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_${ri}$gelss(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,rwork, &
                info)
         use la_constants_${rk}$,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -2395,7 +2395,7 @@ module la_lapack_lsq
            bignum = one/smlnum
            call la_${ci}$labad(smlnum,bignum)
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',m,n,a,lda,rwork,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -2413,7 +2413,7 @@ module la_lapack_lsq
               go to 70
            end if
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',m,nrhs,b,ldb,rwork,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -2712,7 +2712,7 @@ module la_lapack_lsq
      !> version of the QR factorization with column pivoting.
      !> o Matrix B (the right hand side) is updated with Blas-3.
 
-     subroutine la_${ri}$gelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
+     pure subroutine la_${ri}$gelsy(m,n,nrhs,a,lda,b,ldb,jpvt,rcond,rank,work,lwork,rwork, &
                info)
         use la_constants_${rk}$,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -2787,7 +2787,7 @@ module la_lapack_lsq
            bignum = one/smlnum
            call la_${ci}$labad(smlnum,bignum)
            ! scale a, b if max entries outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',m,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',m,n,a,lda,rwork,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -2803,7 +2803,7 @@ module la_lapack_lsq
               rank = 0
               go to 70
            end if
-           bnrm = la_${ri}$lange('M',m,nrhs,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',m,nrhs,b,ldb,rwork,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -2934,7 +2934,7 @@ module la_lapack_lsq
      !> M-by-NRHS right hand side matrix B and the N-by-NRHS solution
      !> matrix X.
 
-     subroutine la_${ri}$getsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
+     pure subroutine la_${ri}$getsls(trans,m,n,nrhs,a,lda,b,ldb,work,lwork,info)
         use la_constants_${rk}$,only:zero,one,czero
         ! -- lapack driver routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3038,7 +3038,7 @@ module la_lapack_lsq
             bignum = one/smlnum
             call la_${ci}$labad(smlnum,bignum)
            ! scale a, b if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',m,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',m,n,a,lda,dum,anrm)
            iascl = 0
            if (anrm > zero .and. anrm < smlnum) then
               ! scale matrix norm up to smlnum
@@ -3057,7 +3057,7 @@ module la_lapack_lsq
            if (tran) then
              brow = n
            end if
-           bnrm = la_${ri}$lange('M',brow,nrhs,b,ldb,dum)
+           call la_${ri}$lange_sub('M',brow,nrhs,b,ldb,dum,bnrm)
            ibscl = 0
            if (bnrm > zero .and. bnrm < smlnum) then
               ! scale matrix norm up to smlnum

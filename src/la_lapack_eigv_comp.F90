@@ -4383,7 +4383,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_shgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+     pure subroutine la_shgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                beta,q,ldq,z,ldz,work,lwork,info)
         use la_constants_sp,only:zero,half,one
         ! -- lapack computational routine --
@@ -4496,8 +4496,8 @@ module la_lapack_eigv_comp
            safmin = la_slamch('S')
            safmax = one/safmin
            ulp = la_slamch('E')*la_slamch('B')
-           anorm = la_slanhs('F',in,h(ilo,ilo),ldh,work)
-           bnorm = la_slanhs('F',in,t(ilo,ilo),ldt,work)
+           call la_slanhs_sub('F',in,h(ilo,ilo),ldh,work,anorm)
+           call la_slanhs_sub('F',in,t(ilo,ilo),ldt,work,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)
@@ -5258,7 +5258,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_dhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+     pure subroutine la_dhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                beta,q,ldq,z,ldz,work,lwork,info)
         use la_constants_dp,only:zero,half,one
         ! -- lapack computational routine --
@@ -5371,8 +5371,8 @@ module la_lapack_eigv_comp
            safmin = la_dlamch('S')
            safmax = one/safmin
            ulp = la_dlamch('E')*la_dlamch('B')
-           anorm = la_dlanhs('F',in,h(ilo,ilo),ldh,work)
-           bnorm = la_dlanhs('F',in,t(ilo,ilo),ldt,work)
+           call la_dlanhs_sub('F',in,h(ilo,ilo),ldh,work,anorm)
+           call la_dlanhs_sub('F',in,t(ilo,ilo),ldt,work,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)
@@ -6134,7 +6134,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_xhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+     pure subroutine la_xhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                beta,q,ldq,z,ldz,work,lwork,info)
         use la_constants_xdp,only:zero,half,one
         ! -- lapack computational routine --
@@ -6247,8 +6247,8 @@ module la_lapack_eigv_comp
            safmin = la_xlamch('S')
            safmax = one/safmin
            ulp = la_xlamch('E')*la_xlamch('B')
-           anorm = la_xlanhs('F',in,h(ilo,ilo),ldh,work)
-           bnorm = la_xlanhs('F',in,t(ilo,ilo),ldt,work)
+           call la_xlanhs_sub('F',in,h(ilo,ilo),ldh,work,anorm)
+           call la_xlanhs_sub('F',in,t(ilo,ilo),ldt,work,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)
@@ -7011,7 +7011,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_qhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
+     pure subroutine la_qhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alphar,alphai, &
                beta,q,ldq,z,ldz,work,lwork,info)
         use la_constants_qp,only:zero,half,one
         ! -- lapack computational routine --
@@ -7124,8 +7124,8 @@ module la_lapack_eigv_comp
            safmin = la_qlamch('S')
            safmax = one/safmin
            ulp = la_qlamch('E')*la_qlamch('B')
-           anorm = la_qlanhs('F',in,h(ilo,ilo),ldh,work)
-           bnorm = la_qlanhs('F',in,t(ilo,ilo),ldt,work)
+           call la_qlanhs_sub('F',in,h(ilo,ilo),ldh,work,anorm)
+           call la_qlanhs_sub('F',in,t(ilo,ilo),ldt,work,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)
@@ -12202,7 +12202,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_chgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
+     pure subroutine la_chgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
                 z,ldz,work,lwork,rwork,info)
         use la_constants_sp,only:zero,half,one,czero,cone
         ! -- lapack computational routine --
@@ -12316,8 +12316,8 @@ module la_lapack_eigv_comp
            in = ihi + 1 - ilo
            safmin = la_slamch('S')
            ulp = la_slamch('E')*la_slamch('B')
-           anorm = la_clanhs('F',in,h(ilo,ilo),ldh,rwork)
-           bnorm = la_clanhs('F',in,t(ilo,ilo),ldt,rwork)
+           call la_clanhs_sub('F',in,h(ilo,ilo),ldh,rwork,anorm)
+           call la_clanhs_sub('F',in,t(ilo,ilo),ldt,rwork,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)
@@ -12700,7 +12700,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_zhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
+     pure subroutine la_zhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
                 z,ldz,work,lwork,rwork,info)
         use la_constants_dp,only:zero,half,one,czero,cone
         ! -- lapack computational routine --
@@ -12814,8 +12814,8 @@ module la_lapack_eigv_comp
            in = ihi + 1 - ilo
            safmin = la_dlamch('S')
            ulp = la_dlamch('E')*la_dlamch('B')
-           anorm = la_zlanhs('F',in,h(ilo,ilo),ldh,rwork)
-           bnorm = la_zlanhs('F',in,t(ilo,ilo),ldt,rwork)
+           call la_zlanhs_sub('F',in,h(ilo,ilo),ldh,rwork,anorm)
+           call la_zlanhs_sub('F',in,t(ilo,ilo),ldt,rwork,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)
@@ -13199,7 +13199,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_yhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
+     pure subroutine la_yhgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
                 z,ldz,work,lwork,rwork,info)
         use la_constants_xdp,only:zero,half,one,czero,cone
         ! -- lapack computational routine --
@@ -13313,8 +13313,8 @@ module la_lapack_eigv_comp
            in = ihi + 1 - ilo
            safmin = la_xlamch('S')
            ulp = la_xlamch('E')*la_xlamch('B')
-           anorm = la_ylanhs('F',in,h(ilo,ilo),ldh,rwork)
-           bnorm = la_ylanhs('F',in,t(ilo,ilo),ldt,rwork)
+           call la_ylanhs_sub('F',in,h(ilo,ilo),ldh,rwork,anorm)
+           call la_ylanhs_sub('F',in,t(ilo,ilo),ldt,rwork,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)
@@ -13699,7 +13699,7 @@ module la_lapack_eigv_comp
      !> Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973),
      !> pp. 241--256.
 
-     subroutine la_whgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
+     pure subroutine la_whgeqz(job,compq,compz,n,ilo,ihi,h,ldh,t,ldt,alpha,beta,q,ldq, &
                 z,ldz,work,lwork,rwork,info)
         use la_constants_qp,only:zero,half,one,czero,cone
         ! -- lapack computational routine --
@@ -13813,8 +13813,8 @@ module la_lapack_eigv_comp
            in = ihi + 1 - ilo
            safmin = la_qlamch('S')
            ulp = la_qlamch('E')*la_qlamch('B')
-           anorm = la_wlanhs('F',in,h(ilo,ilo),ldh,rwork)
-           bnorm = la_wlanhs('F',in,t(ilo,ilo),ldt,rwork)
+           call la_wlanhs_sub('F',in,h(ilo,ilo),ldh,rwork,anorm)
+           call la_wlanhs_sub('F',in,t(ilo,ilo),ldt,rwork,bnorm)
            atol = max(safmin,ulp*anorm)
            btol = max(safmin,ulp*bnorm)
            ascale = one/max(safmin,anorm)

@@ -1887,7 +1887,7 @@ module la_lapack_eigv_gen2
      !> each 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_${ri}$trsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_${ri}$trsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_${rk}$,only:zero,one
 
         ! -- lapack computational routine --
@@ -1904,6 +1904,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(${rk}$) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: ierr,j,k,k1,k2,knext,l,l1,l2,lnext
            real(${rk}$) :: a11,bignum,da11,db,eps,scaloc,sgn,smin,smlnum,suml,sumr, &
@@ -1954,8 +1955,9 @@ module la_lapack_eigv_gen2
            call la_${ri}$labad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=${rk}$)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_${ri}$lange('M',m,m,a,lda,dum),eps*la_${ri}$lange('M', &
-                      n,n,b,ldb,dum))
+           call la_${ri}$lange_sub('M',m,m,a,lda,dum,anrm)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -2625,7 +2627,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_${ri}$hsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_${ri}$hsein(side,eigsrc,initv,select,n,h,ldh,wr,wi,vl,ldvl,vr,ldvr, &
                mm,m,work,ifaill,ifailr,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack computational routine --
@@ -2743,7 +2745,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_${ri}$lanhs('I',kr - kl + 1,h(kl,kl),ldh,work)
+                    call la_${ri}$lanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,work,hnorm)
                     if (la_${ri}$isnan(hnorm)) then
                        info = -6
                        return
@@ -2854,7 +2856,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_${ri}$trsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
+     pure subroutine la_${ri}$trsen(job,compq,select,n,t,ldt,q,ldq,wr,wi,m,s,sep,work, &
                lwork,iwork,liwork,info)
         use la_constants_${rk}$
         ! -- lapack computational routine --
@@ -2951,7 +2953,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible.
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_${ri}$lange('1',n,n,t,ldt,work)
+              if (wantsp) call la_${ri}$lange_sub('1',n,n,t,ldt,work,sep)
               go to 40
            end if
            ! collect the selected blocks at the top-left corner of t.
@@ -2994,7 +2996,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_${ri}$lange('F',n1,n2,work,n1,work)
+              call la_${ri}$lange_sub('F',n1,n2,work,n1,work,rnorm)
               if (rnorm == zero) then
                  s = one
               else
@@ -3055,7 +3057,7 @@ module la_lapack_eigv_gen2
      !> 2-by-2 diagonal block has its diagonal elements equal and its
      !> off-diagonal elements of opposite sign.
 
-     subroutine la_${ri}$trsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
+     pure subroutine la_${ri}$trsna(job,howmny,select,n,t,ldt,vl,ldvl,vr,ldvr,s,sep,mm,m, &
                work,ldwork,iwork,info)
         use la_constants_${rk}$,only:zero,one,two
         ! -- lapack computational routine --
@@ -3309,7 +3311,7 @@ module la_lapack_eigv_gen2
      !> of a matrix A which has been reduced to the Hessenberg form H
      !> by the orthogonal matrix Q:  A = Q*H*Q**T = (QZ)*T*(QZ)**T.
 
-     subroutine la_${ri}$hseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
+     pure subroutine la_${ri}$hseqr(job,compz,n,ilo,ihi,h,ldh,wr,wi,z,ldz,work,lwork,info)
         use la_constants_${rk}$
 
         ! -- lapack computational routine --
@@ -4305,7 +4307,7 @@ module la_lapack_eigv_gen2
      !> M-by-N; and scale is an output scale factor, set <= 1 to avoid
      !> overflow in X.
 
-     subroutine la_${ri}$trsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
+     pure subroutine la_${ri}$trsyl(trana,tranb,isgn,m,n,a,lda,b,ldb,c,ldc,scale,info)
         use la_constants_${rk}$,only:one
 
         ! -- lapack computational routine --
@@ -4322,6 +4324,7 @@ module la_lapack_eigv_gen2
         ! =====================================================================
 
            ! Local Scalars
+           real(${rk}$) :: anrm,bnrm
            logical(lk) :: notrna,notrnb
            integer(ilp) :: j,k,l
            real(${rk}$) :: bignum,da11,db,eps,scaloc,sgn,smin,smlnum
@@ -4370,8 +4373,9 @@ module la_lapack_eigv_gen2
            call la_${ci}$labad(smlnum,bignum)
            smlnum = smlnum*real(m*n,KIND=${rk}$)/eps
            bignum = one/smlnum
-           smin = max(smlnum,eps*la_${ri}$lange('M',m,m,a,lda,dum),eps*la_${ri}$lange('M', &
-                      n,n,b,ldb,dum))
+           call la_${ri}$lange_sub('M',m,m,a,lda,dum,anrm)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,dum,bnrm)
+           smin = max(smlnum,eps*anrm,eps*bnrm)
            sgn = isgn
            if (notrna .and. notrnb) then
               ! solve    a*x + isgn*x*b = scale*c.
@@ -4543,7 +4547,7 @@ module la_lapack_eigv_gen2
      !> H * x = w * x,     y**h * H = w * y**h
      !> where y**h denotes the conjugate transpose of the vector y.
 
-     subroutine la_${ri}$hsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
+     pure subroutine la_${ri}$hsein(side,eigsrc,initv,select,n,h,ldh,w,vl,ldvl,vr,ldvr,mm, &
                m,work,rwork,ifaill,ifailr,info)
         use la_constants_${rk}$,only:czero
         ! -- lapack computational routine --
@@ -4658,7 +4662,7 @@ module la_lapack_eigv_gen2
                     kln = kl
                     ! compute infinity-norm of submatrix h(kl:kr,kl:kr) if it
                     ! has not ben computed before.
-                    hnorm = la_${ri}$lanhs('I',kr - kl + 1,h(kl,kl),ldh,rwork)
+                    call la_${ri}$lanhs_sub('I',kr - kl + 1,h(kl,kl),ldh,rwork,hnorm)
                     if (la_${ci}$isnan(hnorm)) then
                        info = -6
                        return
@@ -4734,7 +4738,7 @@ module la_lapack_eigv_gen2
      !> Optionally the routine computes the reciprocal condition numbers of
      !> the cluster of eigenvalues and/or the invariant subspace.
 
-     subroutine la_${ri}$trsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
+     pure subroutine la_${ri}$trsen(job,compq,select,n,t,ldt,q,ldq,w,m,s,sep,work,lwork, &
                info)
         use la_constants_${rk}$
         ! -- lapack computational routine --
@@ -4808,7 +4812,7 @@ module la_lapack_eigv_gen2
            ! quick return if possible
            if (m == n .or. m == 0) then
               if (wants) s = one
-              if (wantsp) sep = la_${ri}$lange('1',n,n,t,ldt,rwork)
+              if (wantsp) call la_${ri}$lange_sub('1',n,n,t,ldt,rwork,sep)
               go to 40
            end if
            ! collect the selected eigenvalues at the top left corner of t.
@@ -4828,7 +4832,7 @@ module la_lapack_eigv_gen2
                         scale,ierr)
               ! estimate the reciprocal of the condition number of the cluster
               ! of eigenvalues.
-              rnorm = la_${ri}$lange('F',n1,n2,work,n1,rwork)
+              call la_${ri}$lange_sub('F',n1,n2,work,n1,rwork,rnorm)
               if (rnorm == zero) then
                  s = one
               else

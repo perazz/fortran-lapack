@@ -36,6 +36,7 @@ module la_lapack_solve_chol_comp
      public :: la_spttrf
      public :: la_sptts2
      public :: la_sla_porcond
+     public :: la_sla_porcond_sub
      public :: la_spbcon
      public :: la_spbrfs
      public :: la_spftrs
@@ -55,6 +56,7 @@ module la_lapack_solve_chol_comp
      public :: la_spotrf
      public :: la_sptrfs
      public :: la_sla_porpvgrw
+     public :: la_sla_porpvgrw_sub
      public :: la_spftrf
      public :: la_dlaqsp
      public :: la_dpbequ
@@ -70,6 +72,7 @@ module la_lapack_solve_chol_comp
      public :: la_dpttrf
      public :: la_dptts2
      public :: la_dla_porcond
+     public :: la_dla_porcond_sub
      public :: la_dpbcon
      public :: la_dpbrfs
      public :: la_dpftrs
@@ -89,6 +92,7 @@ module la_lapack_solve_chol_comp
      public :: la_dpotrf
      public :: la_dptrfs
      public :: la_dla_porpvgrw
+     public :: la_dla_porpvgrw_sub
      public :: la_dpftrf
 #ifdef LA_WITH_XDP
      public :: la_xlaqsp
@@ -105,6 +109,7 @@ module la_lapack_solve_chol_comp
      public :: la_xpttrf
      public :: la_xptts2
      public :: la_xla_porcond
+     public :: la_xla_porcond_sub
      public :: la_xpbcon
      public :: la_xpbrfs
      public :: la_xpftrs
@@ -124,6 +129,7 @@ module la_lapack_solve_chol_comp
      public :: la_xpotrf
      public :: la_xptrfs
      public :: la_xla_porpvgrw
+     public :: la_xla_porpvgrw_sub
      public :: la_xpftrf
 #endif
 #ifdef LA_WITH_QP
@@ -141,6 +147,7 @@ module la_lapack_solve_chol_comp
      public :: la_qpttrf
      public :: la_qptts2
      public :: la_qla_porcond
+     public :: la_qla_porcond_sub
      public :: la_qpbcon
      public :: la_qpbrfs
      public :: la_qpftrs
@@ -160,9 +167,11 @@ module la_lapack_solve_chol_comp
      public :: la_qpotrf
      public :: la_qptrfs
      public :: la_qla_porpvgrw
+     public :: la_qla_porpvgrw_sub
      public :: la_qpftrf
 #endif
      public :: la_cla_porpvgrw
+     public :: la_cla_porpvgrw_sub
      public :: la_claqhb
      public :: la_claqhe
      public :: la_claqhp
@@ -199,6 +208,7 @@ module la_lapack_solve_chol_comp
      public :: la_cpftri
      public :: la_cptrfs
      public :: la_zla_porpvgrw
+     public :: la_zla_porpvgrw_sub
      public :: la_zlaqhb
      public :: la_zlaqhe
      public :: la_zlaqhp
@@ -236,6 +246,7 @@ module la_lapack_solve_chol_comp
      public :: la_zptrfs
 #ifdef LA_WITH_XDP
      public :: la_yla_porpvgrw
+     public :: la_yla_porpvgrw_sub
      public :: la_ylaqhb
      public :: la_ylaqhe
      public :: la_ylaqhp
@@ -274,6 +285,7 @@ module la_lapack_solve_chol_comp
 #endif
 #ifdef LA_WITH_QP
      public :: la_wla_porpvgrw
+     public :: la_wla_porpvgrw_sub
      public :: la_wlaqhb
      public :: la_wlaqhe
      public :: la_wlaqhp
@@ -4213,6 +4225,26 @@ module la_lapack_solve_chol_comp
      !> infinity-norm condition number.
 
      real(sp) function la_sla_porcond(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork)
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           real(sp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(sp),intent(out) :: work(*)
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           call la_sla_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+                     la_sla_porcond)
+     end function la_sla_porcond
+
+     !> Pure subroutine form of SLA_PORCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_sla_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+               res)
         use la_constants_sp
 
         ! -- lapack computational routine --
@@ -4226,6 +4258,8 @@ module la_lapack_solve_chol_comp
            real(sp),intent(out) :: work(*)
            ! Array Arguments
            integer(ilp),intent(out) :: iwork(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -4236,7 +4270,7 @@ module la_lapack_solve_chol_comp
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_sla_porcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -4246,7 +4280,7 @@ module la_lapack_solve_chol_comp
               return
            end if
            if (n == 0) then
-              la_sla_porcond = one
+              res = one
               return
            end if
            up = .false.
@@ -4358,9 +4392,9 @@ module la_lapack_solve_chol_comp
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= 0.0_sp) la_sla_porcond = (1.0_sp/ainvnm)
+           if (ainvnm /= 0.0_sp) res = (1.0_sp/ainvnm)
            return
-     end function la_sla_porcond
+     end subroutine la_sla_porcond_sub
      !> DLA_PORCOND: Estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
      !> CMODE =  1    op2(C) = C
@@ -4372,6 +4406,26 @@ module la_lapack_solve_chol_comp
      !> infinity-norm condition number.
 
      real(dp) function la_dla_porcond(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork)
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           real(dp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(dp),intent(out) :: work(*)
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           call la_dla_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+                     la_dla_porcond)
+     end function la_dla_porcond
+
+     !> Pure subroutine form of DLA_PORCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dla_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+               res)
         use la_constants_dp
 
         ! -- lapack computational routine --
@@ -4385,6 +4439,8 @@ module la_lapack_solve_chol_comp
            real(dp),intent(out) :: work(*)
            ! Array Arguments
            integer(ilp),intent(out) :: iwork(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -4395,7 +4451,7 @@ module la_lapack_solve_chol_comp
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_dla_porcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -4405,7 +4461,7 @@ module la_lapack_solve_chol_comp
               return
            end if
            if (n == 0) then
-              la_dla_porcond = one
+              res = one
               return
            end if
            up = .false.
@@ -4517,9 +4573,9 @@ module la_lapack_solve_chol_comp
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_dla_porcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
            return
-     end function la_dla_porcond
+     end subroutine la_dla_porcond_sub
 #ifdef LA_WITH_XDP
      !> XLA_PORCOND: Estimates the Skeel condition number of  op(A) * op2(C)
      !> where op2 is determined by CMODE as follows
@@ -4532,6 +4588,26 @@ module la_lapack_solve_chol_comp
      !> infinity-norm condition number.
 
      real(xdp) function la_xla_porcond(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork)
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           real(xdp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(xdp),intent(out) :: work(*)
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           call la_xla_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+                     la_xla_porcond)
+     end function la_xla_porcond
+
+     !> Pure subroutine form of XLA_PORCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xla_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+               res)
         use la_constants_xdp
 
         ! -- lapack computational routine --
@@ -4545,6 +4621,8 @@ module la_lapack_solve_chol_comp
            real(xdp),intent(out) :: work(*)
            ! Array Arguments
            integer(ilp),intent(out) :: iwork(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -4555,7 +4633,7 @@ module la_lapack_solve_chol_comp
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_xla_porcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -4565,7 +4643,7 @@ module la_lapack_solve_chol_comp
               return
            end if
            if (n == 0) then
-              la_xla_porcond = one
+              res = one
               return
            end if
            up = .false.
@@ -4677,9 +4755,9 @@ module la_lapack_solve_chol_comp
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_xla_porcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
            return
-     end function la_xla_porcond
+     end subroutine la_xla_porcond_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLA_PORCOND: Estimates the Skeel condition number of  op(A) * op2(C)
@@ -4693,6 +4771,26 @@ module la_lapack_solve_chol_comp
      !> infinity-norm condition number.
 
      real(qp) function la_qla_porcond(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork)
+
+        ! -- lapack computational routine --
+        ! -- lapack is a software package provided by univ. of tennessee,    --
+        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           real(qp),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(qp),intent(out) :: work(*)
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           call la_qla_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+                     la_qla_porcond)
+     end function la_qla_porcond
+
+     !> Pure subroutine form of QLA_PORCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qla_porcond_sub(uplo,n,a,lda,af,ldaf,cmode,c,info,work,iwork, &
+               res)
         use la_constants_qp
 
         ! -- lapack computational routine --
@@ -4706,6 +4804,8 @@ module la_lapack_solve_chol_comp
            real(qp),intent(out) :: work(*)
            ! Array Arguments
            integer(ilp),intent(out) :: iwork(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -4716,7 +4816,7 @@ module la_lapack_solve_chol_comp
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_qla_porcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -4726,7 +4826,7 @@ module la_lapack_solve_chol_comp
               return
            end if
            if (n == 0) then
-              la_qla_porcond = one
+              res = one
               return
            end if
            up = .false.
@@ -4838,9 +4938,9 @@ module la_lapack_solve_chol_comp
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_qla_porcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
            return
-     end function la_qla_porcond
+     end subroutine la_qla_porcond_sub
 #endif
 
      !> SPBCON: estimates the reciprocal of the condition number (in the
@@ -13953,6 +14053,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(sp) function la_sla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           real(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(sp),intent(out) :: work(*)
+           call la_sla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_sla_porpvgrw)
+     end function la_sla_porpvgrw
+
+     !> Pure subroutine form of SLA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_sla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -13963,6 +14075,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            real(sp),intent(in) :: a(lda,*),af(ldaf,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -14031,8 +14145,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_sla_porpvgrw = rpvgrw
-     end function la_sla_porpvgrw
+           res = rpvgrw
+     end subroutine la_sla_porpvgrw_sub
      !> DLA_PORPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -14041,6 +14155,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(dp) function la_dla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           real(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(dp),intent(out) :: work(*)
+           call la_dla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_dla_porpvgrw)
+     end function la_dla_porpvgrw
+
+     !> Pure subroutine form of DLA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_dla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14051,6 +14177,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            real(dp),intent(in) :: a(lda,*),af(ldaf,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -14119,8 +14247,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_dla_porpvgrw = rpvgrw
-     end function la_dla_porpvgrw
+           res = rpvgrw
+     end subroutine la_dla_porpvgrw_sub
 #ifdef LA_WITH_XDP
      !> XLA_PORPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -14130,6 +14258,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(xdp) function la_xla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           real(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(xdp),intent(out) :: work(*)
+           call la_xla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_xla_porpvgrw)
+     end function la_xla_porpvgrw
+
+     !> Pure subroutine form of XLA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_xla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14140,6 +14280,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            real(xdp),intent(in) :: a(lda,*),af(ldaf,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -14208,8 +14350,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_xla_porpvgrw = rpvgrw
-     end function la_xla_porpvgrw
+           res = rpvgrw
+     end subroutine la_xla_porpvgrw_sub
 #endif
 #ifdef LA_WITH_QP
      !> QLA_PORPVGRW: computes the reciprocal pivot growth factor
@@ -14220,6 +14362,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(qp) function la_qla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           real(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(qp),intent(out) :: work(*)
+           call la_qla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_qla_porpvgrw)
+     end function la_qla_porpvgrw
+
+     !> Pure subroutine form of QLA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_qla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -14230,6 +14384,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            real(qp),intent(in) :: a(lda,*),af(ldaf,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -14298,8 +14454,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_qla_porpvgrw = rpvgrw
-     end function la_qla_porpvgrw
+           res = rpvgrw
+     end subroutine la_qla_porpvgrw_sub
 #endif
 
      !> SPFTRF: computes the Cholesky factorization of a real symmetric
@@ -15015,6 +15171,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(sp) function la_cla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(sp),intent(out) :: work(*)
+           call la_cla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_cla_porpvgrw)
+     end function la_cla_porpvgrw
+
+     !> Pure subroutine form of CLA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_cla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15025,6 +15193,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -15098,8 +15268,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_cla_porpvgrw = rpvgrw
-     end function la_cla_porpvgrw
+           res = rpvgrw
+     end subroutine la_cla_porpvgrw_sub
      !> ZLA_PORPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -15108,6 +15278,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(dp) function la_zla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(dp),intent(out) :: work(*)
+           call la_zla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_zla_porpvgrw)
+     end function la_zla_porpvgrw
+
+     !> Pure subroutine form of ZLA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15118,6 +15300,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -15191,8 +15375,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_zla_porpvgrw = rpvgrw
-     end function la_zla_porpvgrw
+           res = rpvgrw
+     end subroutine la_zla_porpvgrw_sub
 #ifdef LA_WITH_XDP
      !> YLA_PORPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -15202,6 +15386,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(xdp) function la_yla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(xdp),intent(out) :: work(*)
+           call la_yla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_yla_porpvgrw)
+     end function la_yla_porpvgrw
+
+     !> Pure subroutine form of YLA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_yla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15212,6 +15408,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -15285,8 +15483,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_yla_porpvgrw = rpvgrw
-     end function la_yla_porpvgrw
+           res = rpvgrw
+     end subroutine la_yla_porpvgrw_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLA_PORPVGRW: computes the reciprocal pivot growth factor
@@ -15297,6 +15495,18 @@ module la_lapack_solve_chol_comp
      !> unreliable.
 
      real(qp) function la_wla_porpvgrw(uplo,ncols,a,lda,af,ldaf,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: ncols,lda,ldaf
+           ! Array Arguments
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(qp),intent(out) :: work(*)
+           call la_wla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,la_wla_porpvgrw)
+     end function la_wla_porpvgrw
+
+     !> Pure subroutine form of WLA_PORPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wla_porpvgrw_sub(uplo,ncols,a,lda,af,ldaf,work,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -15307,6 +15517,8 @@ module la_lapack_solve_chol_comp
            ! Array Arguments
            complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: i,j
@@ -15380,8 +15592,8 @@ module la_lapack_solve_chol_comp
                  end if
               end do
            end if
-           la_wla_porpvgrw = rpvgrw
-     end function la_wla_porpvgrw
+           res = rpvgrw
+     end subroutine la_wla_porpvgrw_sub
 #endif
 
      !> CLAQHB: equilibrates an Hermitian band matrix A using the scaling

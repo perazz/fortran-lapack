@@ -4653,7 +4653,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero, then tau = 0 and H is taken to be
      !> the unit matrix.
 
-     subroutine la_slarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_slarfgp(n,alpha,x,incx,tau)
         use la_constants_sp,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4761,7 +4761,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero, then tau = 0 and H is taken to be
      !> the unit matrix.
 
-     subroutine la_dlarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_dlarfgp(n,alpha,x,incx,tau)
         use la_constants_dp,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4870,7 +4870,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero, then tau = 0 and H is taken to be
      !> the unit matrix.
 
-     subroutine la_xlarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_xlarfgp(n,alpha,x,incx,tau)
         use la_constants_xdp,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4980,7 +4980,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero, then tau = 0 and H is taken to be
      !> the unit matrix.
 
-     subroutine la_qlarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_qlarfgp(n,alpha,x,incx,tau)
         use la_constants_qp,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7033,7 +7033,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero and alpha is real, then tau = 0
      !> and H is taken to be the unit matrix.
 
-     subroutine la_clarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_clarfgp(n,alpha,x,incx,tau)
         use la_constants_sp,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7169,7 +7169,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero and alpha is real, then tau = 0
      !> and H is taken to be the unit matrix.
 
-     subroutine la_zlarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_zlarfgp(n,alpha,x,incx,tau)
         use la_constants_dp,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7306,7 +7306,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero and alpha is real, then tau = 0
      !> and H is taken to be the unit matrix.
 
-     subroutine la_ylarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_ylarfgp(n,alpha,x,incx,tau)
         use la_constants_xdp,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -7444,7 +7444,7 @@ module la_lapack_householder_reflectors
      !> If the elements of x are all zero and alpha is real, then tau = 0
      !> and H is taken to be the unit matrix.
 
-     subroutine la_wlarfgp(n,alpha,x,incx,tau)
+     pure subroutine la_wlarfgp(n,alpha,x,incx,tau)
         use la_constants_qp,only:zero,one,two
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --

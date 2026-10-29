@@ -47,7 +47,9 @@ module la_lapack_solve_lu_comp
      public :: la_${ri}$getrs
      public :: la_${ri}$gttrs
      public :: la_${ri}$la_gbrcond
+     public :: la_${ri}$la_gbrcond_sub
      public :: la_${ri}$la_gercond
+     public :: la_${ri}$la_gercond_sub
      public :: la_${ri}$latdf
      public :: la_${ri}$gerfs
      public :: la_${ri}$getrf
@@ -2726,6 +2728,23 @@ module la_lapack_solve_lu_comp
 
      real(${rk}$) function la_${ri}$la_gbrcond(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,cmode,c, &
                info,work,iwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           integer(ilp),intent(in) :: n,ldab,ldafb,kl,ku,cmode
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(${rk}$),intent(in) :: ab(ldab,*),afb(ldafb,*),c(*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$la_gbrcond_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,cmode,c,info, &
+                     work,iwork,la_${ri}$la_gbrcond)
+     end function la_${ri}$la_gbrcond
+
+     !> Pure subroutine form of ${ri.upper()}$LA_GBRCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_gbrcond_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,cmode,c, &
+               info,work,iwork,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2739,6 +2758,8 @@ module la_lapack_solve_lu_comp
            integer(ilp),intent(in) :: ipiv(*)
            real(${rk}$),intent(in) :: ab(ldab,*),afb(ldafb,*),c(*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -2749,7 +2770,7 @@ module la_lapack_solve_lu_comp
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_${ri}$la_gbrcond = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame(trans, &
@@ -2771,7 +2792,7 @@ module la_lapack_solve_lu_comp
               return
            end if
            if (n == 0) then
-              la_${ri}$la_gbrcond = one
+              res = one
               return
            end if
            ! compute the equilibration matrix r such that
@@ -2870,12 +2891,12 @@ module la_lapack_solve_lu_comp
            end if
            ! compute the estimate of the reciprocal condition number.
 #:if rk == "sp"
-           if (ainvnm /= 0.0_${rk}$) la_${ri}$la_gbrcond = (1.0_${rk}$/ainvnm)
+           if (ainvnm /= 0.0_${rk}$) res = (1.0_${rk}$/ainvnm)
 #:else
-           if (ainvnm /= zero) la_${ri}$la_gbrcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
 #:endif
            return
-     end function la_${ri}$la_gbrcond
+     end subroutine la_${ri}$la_gbrcond_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -2897,6 +2918,23 @@ module la_lapack_solve_lu_comp
 
      real(${rk}$) function la_${ri}$la_gercond(trans,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
                iwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           integer(ilp),intent(out) :: iwork(*)
+           real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$la_gercond_sub(trans,n,a,lda,af,ldaf,ipiv,cmode,c,info,work,iwork, &
+                     la_${ri}$la_gercond)
+     end function la_${ri}$la_gercond
+
+     !> Pure subroutine form of ${ri.upper()}$LA_GERCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_gercond_sub(trans,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
+               iwork,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2910,6 +2948,8 @@ module la_lapack_solve_lu_comp
            integer(ilp),intent(out) :: iwork(*)
            real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*),c(*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -2920,7 +2960,7 @@ module la_lapack_solve_lu_comp
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_${ri}$la_gercond = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame(trans, &
@@ -2938,7 +2978,7 @@ module la_lapack_solve_lu_comp
               return
            end if
            if (n == 0) then
-              la_${ri}$la_gercond = one
+              res = one
               return
            end if
            ! compute the equilibration matrix r such that
@@ -3033,12 +3073,12 @@ module la_lapack_solve_lu_comp
            end if
            ! compute the estimate of the reciprocal condition number.
 #:if rk == "sp"
-           if (ainvnm /= 0.0_${rk}$) la_${ri}$la_gercond = (1.0_${rk}$/ainvnm)
+           if (ainvnm /= 0.0_${rk}$) res = (1.0_${rk}$/ainvnm)
 #:else
-           if (ainvnm /= zero) la_${ri}$la_gercond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
 #:endif
            return
-     end function la_${ri}$la_gercond
+     end subroutine la_${ri}$la_gercond_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif

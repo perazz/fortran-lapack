@@ -10514,7 +10514,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_stbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+     pure subroutine la_stbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack computational routine --
@@ -10571,7 +10571,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_slamch('SAFE MINIMUM')*real(max(1,n),KIND=sp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_slantb(norm,uplo,diag,n,kd,ab,ldab,work)
+           call la_slantb_sub(norm,uplo,diag,n,kd,ab,ldab,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -10618,7 +10618,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_dtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+     pure subroutine la_dtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
         use la_constants_dp,only:zero,one
 
         ! -- lapack computational routine --
@@ -10675,7 +10675,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_dlamch('SAFE MINIMUM')*real(max(1,n),KIND=dp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_dlantb(norm,uplo,diag,n,kd,ab,ldab,work)
+           call la_dlantb_sub(norm,uplo,diag,n,kd,ab,ldab,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -10723,7 +10723,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_xtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+     pure subroutine la_xtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
         use la_constants_xdp,only:zero,one
 
         ! -- lapack computational routine --
@@ -10780,7 +10780,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_xlamch('SAFE MINIMUM')*real(max(1,n),KIND=xdp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_xlantb(norm,uplo,diag,n,kd,ab,ldab,work)
+           call la_xlantb_sub(norm,uplo,diag,n,kd,ab,ldab,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -10829,7 +10829,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_qtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
+     pure subroutine la_qtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,iwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack computational routine --
@@ -10886,7 +10886,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_qlamch('SAFE MINIMUM')*real(max(1,n),KIND=qp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_qlantb(norm,uplo,diag,n,kd,ab,ldab,work)
+           call la_qlantb_sub(norm,uplo,diag,n,kd,ab,ldab,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -11672,7 +11672,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_stpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+     pure subroutine la_stpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11724,7 +11724,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_slamch('SAFE MINIMUM')*real(max(1,n),KIND=sp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_slantp(norm,uplo,diag,n,ap,work)
+           call la_slantp_sub(norm,uplo,diag,n,ap,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -11771,7 +11771,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_dtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+     pure subroutine la_dtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11823,7 +11823,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_dlamch('SAFE MINIMUM')*real(max(1,n),KIND=dp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_dlantp(norm,uplo,diag,n,ap,work)
+           call la_dlantp_sub(norm,uplo,diag,n,ap,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -11871,7 +11871,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_xtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+     pure subroutine la_xtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -11923,7 +11923,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_xlamch('SAFE MINIMUM')*real(max(1,n),KIND=xdp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_xlantp(norm,uplo,diag,n,ap,work)
+           call la_xlantp_sub(norm,uplo,diag,n,ap,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -11972,7 +11972,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_qtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
+     pure subroutine la_qtpcon(norm,uplo,diag,n,ap,rcond,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12024,7 +12024,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_qlamch('SAFE MINIMUM')*real(max(1,n),KIND=qp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_qlantp(norm,uplo,diag,n,ap,work)
+           call la_qlantp_sub(norm,uplo,diag,n,ap,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -12073,7 +12073,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_strcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+     pure subroutine la_strcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12127,7 +12127,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_slamch('SAFE MINIMUM')*real(max(1,n),KIND=sp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_slantr(norm,uplo,diag,n,n,a,lda,work)
+           call la_slantr_sub(norm,uplo,diag,n,n,a,lda,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -12174,7 +12174,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_dtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+     pure subroutine la_dtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12228,7 +12228,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_dlamch('SAFE MINIMUM')*real(max(1,n),KIND=dp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_dlantr(norm,uplo,diag,n,n,a,lda,work)
+           call la_dlantr_sub(norm,uplo,diag,n,n,a,lda,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -12276,7 +12276,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_xtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+     pure subroutine la_xtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12330,7 +12330,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_xlamch('SAFE MINIMUM')*real(max(1,n),KIND=xdp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_xlantr(norm,uplo,diag,n,n,a,lda,work)
+           call la_xlantr_sub(norm,uplo,diag,n,n,a,lda,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -12379,7 +12379,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_qtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
+     pure subroutine la_qtrcon(norm,uplo,diag,n,a,lda,rcond,work,iwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -12433,7 +12433,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_qlamch('SAFE MINIMUM')*real(max(1,n),KIND=qp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_qlantr(norm,uplo,diag,n,n,a,lda,work)
+           call la_qlantr_sub(norm,uplo,diag,n,n,a,lda,work,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -24493,7 +24493,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ctbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+     pure subroutine la_ctbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack computational routine --
@@ -24555,7 +24555,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_slamch('SAFE MINIMUM')*real(max(n,1),KIND=sp)
            ! compute the 1-norm of the triangular matrix a or a**h.
-           anorm = la_clantb(norm,uplo,diag,n,kd,ab,ldab,rwork)
+           call la_clantb_sub(norm,uplo,diag,n,kd,ab,ldab,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the 1-norm of the inverse of a.
@@ -24602,7 +24602,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ztbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+     pure subroutine la_ztbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
         use la_constants_dp,only:zero,one
 
         ! -- lapack computational routine --
@@ -24664,7 +24664,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_dlamch('SAFE MINIMUM')*real(max(n,1),KIND=dp)
            ! compute the 1-norm of the triangular matrix a or a**h.
-           anorm = la_zlantb(norm,uplo,diag,n,kd,ab,ldab,rwork)
+           call la_zlantb_sub(norm,uplo,diag,n,kd,ab,ldab,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the 1-norm of the inverse of a.
@@ -24712,7 +24712,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ytbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+     pure subroutine la_ytbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
         use la_constants_xdp,only:zero,one
 
         ! -- lapack computational routine --
@@ -24774,7 +24774,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_xlamch('SAFE MINIMUM')*real(max(n,1),KIND=xdp)
            ! compute the 1-norm of the triangular matrix a or a**h.
-           anorm = la_ylantb(norm,uplo,diag,n,kd,ab,ldab,rwork)
+           call la_ylantb_sub(norm,uplo,diag,n,kd,ab,ldab,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the 1-norm of the inverse of a.
@@ -24823,7 +24823,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_wtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
+     pure subroutine la_wtbcon(norm,uplo,diag,n,kd,ab,ldab,rcond,work,rwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack computational routine --
@@ -24885,7 +24885,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_qlamch('SAFE MINIMUM')*real(max(n,1),KIND=qp)
            ! compute the 1-norm of the triangular matrix a or a**h.
-           anorm = la_wlantb(norm,uplo,diag,n,kd,ab,ldab,rwork)
+           call la_wlantb_sub(norm,uplo,diag,n,kd,ab,ldab,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the 1-norm of the inverse of a.
@@ -25671,7 +25671,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ctpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+     pure subroutine la_ctpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -25728,7 +25728,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_slamch('SAFE MINIMUM')*real(max(1,n),KIND=sp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_clantp(norm,uplo,diag,n,ap,rwork)
+           call la_clantp_sub(norm,uplo,diag,n,ap,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -25775,7 +25775,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ztpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+     pure subroutine la_ztpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -25832,7 +25832,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_dlamch('SAFE MINIMUM')*real(max(1,n),KIND=dp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_zlantp(norm,uplo,diag,n,ap,rwork)
+           call la_zlantp_sub(norm,uplo,diag,n,ap,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -25880,7 +25880,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ytpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+     pure subroutine la_ytpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -25937,7 +25937,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_xlamch('SAFE MINIMUM')*real(max(1,n),KIND=xdp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_ylantp(norm,uplo,diag,n,ap,rwork)
+           call la_ylantp_sub(norm,uplo,diag,n,ap,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -25986,7 +25986,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_wtpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
+     pure subroutine la_wtpcon(norm,uplo,diag,n,ap,rcond,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -26043,7 +26043,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_qlamch('SAFE MINIMUM')*real(max(1,n),KIND=qp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_wlantp(norm,uplo,diag,n,ap,rwork)
+           call la_wlantp_sub(norm,uplo,diag,n,ap,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -26092,7 +26092,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ctrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+     pure subroutine la_ctrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
         use la_constants_sp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -26151,7 +26151,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_slamch('SAFE MINIMUM')*real(max(1,n),KIND=sp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_clantr(norm,uplo,diag,n,n,a,lda,rwork)
+           call la_clantr_sub(norm,uplo,diag,n,n,a,lda,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -26198,7 +26198,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ztrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+     pure subroutine la_ztrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
         use la_constants_dp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -26257,7 +26257,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_dlamch('SAFE MINIMUM')*real(max(1,n),KIND=dp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_zlantr(norm,uplo,diag,n,n,a,lda,rwork)
+           call la_zlantr_sub(norm,uplo,diag,n,n,a,lda,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -26305,7 +26305,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_ytrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+     pure subroutine la_ytrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
         use la_constants_xdp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -26364,7 +26364,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_xlamch('SAFE MINIMUM')*real(max(1,n),KIND=xdp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_ylantr(norm,uplo,diag,n,n,a,lda,rwork)
+           call la_ylantr_sub(norm,uplo,diag,n,n,a,lda,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.
@@ -26413,7 +26413,7 @@ module la_lapack_solve_tri_comp
      !> computed as
      !> RCOND = 1 / ( norm(A) * norm(inv(A)) ).
 
-     subroutine la_wtrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
+     pure subroutine la_wtrcon(norm,uplo,diag,n,a,lda,rcond,work,rwork,info)
         use la_constants_qp,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -26472,7 +26472,7 @@ module la_lapack_solve_tri_comp
            rcond = zero
            smlnum = la_qlamch('SAFE MINIMUM')*real(max(1,n),KIND=qp)
            ! compute the norm of the triangular matrix a.
-           anorm = la_wlantr(norm,uplo,diag,n,n,a,lda,rwork)
+           call la_wlantr_sub(norm,uplo,diag,n,n,a,lda,rwork,anorm)
            ! continue only if anorm > 0.
            if (anorm > zero) then
               ! estimate the norm of the inverse of a.

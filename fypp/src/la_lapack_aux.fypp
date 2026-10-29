@@ -463,12 +463,12 @@ module la_lapack_aux
      !> character indicating a unit or non-unit diagonal.  Otherwise ILADIAG
      !> returns the constant value corresponding to DIAG.
 
-     integer(ilp) function la_iladiag(diag)
+     pure integer(ilp) function la_iladiag(diag)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! Scalar Arguments
-           character :: diag
+           character,intent(in) :: diag
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: blas_non_unit_diag = 131
@@ -492,12 +492,12 @@ module la_lapack_aux
      !> character indicating a supported intermediate precision.  Otherwise
      !> ILAPREC returns the constant value corresponding to PREC.
 
-     integer(ilp) function la_ilaprec(prec)
+     pure integer(ilp) function la_ilaprec(prec)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! Scalar Arguments
-           character :: prec
+           character,intent(in) :: prec
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: blas_prec_single = 211
@@ -527,12 +527,12 @@ module la_lapack_aux
      !> a character indicating a transposition operator.  Otherwise ILATRANS
      !> returns the constant value corresponding to TRANS.
 
-     integer(ilp) function la_ilatrans(trans)
+     pure integer(ilp) function la_ilatrans(trans)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! Scalar Arguments
-           character :: trans
+           character,intent(in) :: trans
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: blas_no_trans = 111
@@ -559,12 +559,12 @@ module la_lapack_aux
      !> a character indicating an upper- or lower-triangular matrix.
      !> Otherwise ILAUPLO returns the constant value corresponding to UPLO.
 
-     integer(ilp) function la_ilauplo(uplo)
+     pure integer(ilp) function la_ilauplo(uplo)
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
         ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
            ! Scalar Arguments
-           character :: uplo
+           character,intent(in) :: uplo
         ! =====================================================================
            ! Parameters
            integer(ilp),parameter :: blas_upper = 121

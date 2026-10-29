@@ -14,17 +14,27 @@ module la_lapack_blas_like_mnorm
 #ifdef ${LA_GUARD[rk]}$
 #:endif
      public :: la_${ri}$langb
+     public :: la_${ri}$langb_sub
      public :: la_${ri}$lange
+     public :: la_${ri}$lange_sub
      public :: la_${ri}$langt
      public :: la_${ri}$lanhs
+     public :: la_${ri}$lanhs_sub
      public :: la_${ri}$lansb
+     public :: la_${ri}$lansb_sub
      public :: la_${ri}$lansf
+     public :: la_${ri}$lansf_sub
      public :: la_${ri}$lansp
+     public :: la_${ri}$lansp_sub
      public :: la_${ri}$lanst
      public :: la_${ri}$lansy
+     public :: la_${ri}$lansy_sub
      public :: la_${ri}$lantb
+     public :: la_${ri}$lantb_sub
      public :: la_${ri}$lantp
+     public :: la_${ri}$lantp_sub
      public :: la_${ri}$lantr
+     public :: la_${ri}$lantr_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -34,20 +44,33 @@ module la_lapack_blas_like_mnorm
 #ifdef ${LA_GUARD[rk]}$
 #:endif
      public :: la_${ri}$langb
+     public :: la_${ri}$langb_sub
      public :: la_${ri}$lange
+     public :: la_${ri}$lange_sub
      public :: la_${ri}$langt
      public :: la_${ri}$lanhb
+     public :: la_${ri}$lanhb_sub
      public :: la_${ri}$lanhe
+     public :: la_${ri}$lanhe_sub
      public :: la_${ri}$lanhf
+     public :: la_${ri}$lanhf_sub
      public :: la_${ri}$lanhp
+     public :: la_${ri}$lanhp_sub
      public :: la_${ri}$lanhs
+     public :: la_${ri}$lanhs_sub
      public :: la_${ri}$lanht
      public :: la_${ri}$lansb
+     public :: la_${ri}$lansb_sub
      public :: la_${ri}$lansp
+     public :: la_${ri}$lansp_sub
      public :: la_${ri}$lansy
+     public :: la_${ri}$lansy_sub
      public :: la_${ri}$lantb
+     public :: la_${ri}$lantb_sub
      public :: la_${ri}$lantp
+     public :: la_${ri}$lantp_sub
      public :: la_${ri}$lantr
+     public :: la_${ri}$lantr_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -64,6 +87,18 @@ module la_lapack_blas_like_mnorm
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(${rk}$) function la_${ri}$langb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ab(ldab,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$langb_sub(norm,n,kl,ku,ab,ldab,work,la_${ri}$langb)
+     end function la_${ri}$langb
+
+     !> Pure subroutine form of ${ri.upper()}$LANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$langb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -74,6 +109,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: ab(ldab,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -131,9 +168,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$langb = value
+           res = value
            return
-     end function la_${ri}$langb
+     end subroutine la_${ri}$langb_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -148,6 +185,18 @@ module la_lapack_blas_like_mnorm
      !> real matrix A.
 
      real(${rk}$) function la_${ri}$lange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: a(lda,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$lange_sub(norm,m,n,a,lda,work,la_${ri}$lange)
+     end function la_${ri}$lange
+
+     !> Pure subroutine form of ${ri.upper()}$LANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lange_sub(norm,m,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -158,6 +207,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: a(lda,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -212,9 +263,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lange = value
+           res = value
            return
-     end function la_${ri}$lange
+     end subroutine la_${ri}$lange_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -314,6 +365,18 @@ module la_lapack_blas_like_mnorm
      !> Hessenberg matrix A.
 
      real(${rk}$) function la_${ri}$lanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: a(lda,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$lanhs_sub(norm,n,a,lda,work,la_${ri}$lanhs)
+     end function la_${ri}$lanhs
+
+     !> Pure subroutine form of ${ri.upper()}$LANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lanhs_sub(norm,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -324,6 +387,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: a(lda,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -378,9 +443,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lanhs = value
+           res = value
            return
-     end function la_${ri}$lanhs
+     end subroutine la_${ri}$lanhs_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -395,6 +460,18 @@ module la_lapack_blas_like_mnorm
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(${rk}$) function la_${ri}$lansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ab(ldab,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$lansb_sub(norm,uplo,n,k,ab,ldab,work,la_${ri}$lansb)
+     end function la_${ri}$lansb
+
+     !> Pure subroutine form of ${ri.upper()}$LANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -405,6 +482,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: ab(ldab,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -492,9 +571,9 @@ module la_lapack_blas_like_mnorm
               call la_${ri}$lassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lansb = value
+           res = value
            return
-     end function la_${ri}$lansb
+     end subroutine la_${ri}$lansb_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -509,6 +588,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A in RFP format.
 
      real(${rk}$) function la_${ri}$lansf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: a(0:*)
+           real(${rk}$),intent(out) :: work(0:*)
+           call la_${ri}$lansf_sub(norm,transr,uplo,n,a,work,la_${ri}$lansf)
+     end function la_${ri}$lansf
+
+     !> Pure subroutine form of ${ri.upper()}$LANSF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lansf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -519,6 +610,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: a(0:*)
            real(${rk}$),intent(out) :: work(0:*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -532,10 +625,10 @@ module la_lapack_blas_like_mnorm
 #:endif
            ! Executable Statements
            if (n == 0) then
-              la_${ri}$lansf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_${ri}$lansf = abs(a(0))
+              res = abs(a(0))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -1209,9 +1302,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_${ri}$lansf = value
+           res = value
            return
-     end function la_${ri}$lansf
+     end subroutine la_${ri}$lansf_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1226,6 +1319,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A,  supplied in packed form.
 
      real(${rk}$) function la_${ri}$lansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ap(*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$lansp_sub(norm,uplo,n,ap,work,la_${ri}$lansp)
+     end function la_${ri}$lansp
+
+     !> Pure subroutine form of ${ri.upper()}$LANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1236,6 +1341,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: ap(*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1342,9 +1449,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lansp = value
+           res = value
            return
-     end function la_${ri}$lansp
+     end subroutine la_${ri}$lansp_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1430,6 +1537,18 @@ module la_lapack_blas_like_mnorm
      !> real symmetric matrix A.
 
      real(${rk}$) function la_${ri}$lansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: a(lda,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$lansy_sub(norm,uplo,n,a,lda,work,la_${ri}$lansy)
+     end function la_${ri}$lansy
+
+     !> Pure subroutine form of ${ri.upper()}$LANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1440,6 +1559,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: a(lda,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1518,9 +1639,9 @@ module la_lapack_blas_like_mnorm
               call la_${ri}$lassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lansy = value
+           res = value
            return
-     end function la_${ri}$lansy
+     end subroutine la_${ri}$lansy_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1535,6 +1656,18 @@ module la_lapack_blas_like_mnorm
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(${rk}$) function la_${ri}$lantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ab(ldab,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$lantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_${ri}$lantb)
+     end function la_${ri}$lantb
+
+     !> Pure subroutine form of ${ri.upper()}$LANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1545,6 +1678,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: ab(ldab,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1720,9 +1855,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lantb = value
+           res = value
            return
-     end function la_${ri}$lantb
+     end subroutine la_${ri}$lantb_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1737,6 +1872,18 @@ module la_lapack_blas_like_mnorm
      !> triangular matrix A, supplied in packed form.
 
      real(${rk}$) function la_${ri}$lantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: ap(*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$lantp_sub(norm,uplo,diag,n,ap,work,la_${ri}$lantp)
+     end function la_${ri}$lantp
+
+     !> Pure subroutine form of ${ri.upper()}$LANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1747,6 +1894,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: ap(*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -1935,9 +2084,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lantp = value
+           res = value
            return
-     end function la_${ri}$lantp
+     end subroutine la_${ri}$lantp_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1952,6 +2101,18 @@ module la_lapack_blas_like_mnorm
      !> trapezoidal or triangular matrix A.
 
      real(${rk}$) function la_${ri}$lantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(${rk}$),intent(in) :: a(lda,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$lantr_sub(norm,uplo,diag,m,n,a,lda,work,la_${ri}$lantr)
+     end function la_${ri}$lantr
+
+     !> Pure subroutine form of ${ri.upper()}$LANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1962,6 +2123,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(in) :: a(lda,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -2130,9 +2293,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lantr = value
+           res = value
            return
-     end function la_${ri}$lantr
+     end subroutine la_${ri}$lantr_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -2147,6 +2310,18 @@ module la_lapack_blas_like_mnorm
      !> n by n band matrix  A,  with kl sub-diagonals and ku super-diagonals.
 
      real(${rk}$) function la_${ri}$langb(norm,n,kl,ku,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: kl,ku,ldab,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: ab(ldab,*)
+           call la_${ri}$langb_sub(norm,n,kl,ku,ab,ldab,work,la_${ri}$langb)
+     end function la_${ri}$langb
+
+     !> Pure subroutine form of ${ri.upper()}$LANGB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$langb_sub(norm,n,kl,ku,ab,ldab,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2157,6 +2332,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -2214,9 +2391,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$langb = value
+           res = value
            return
-     end function la_${ri}$langb
+     end subroutine la_${ri}$langb_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -2231,6 +2408,18 @@ module la_lapack_blas_like_mnorm
      !> complex matrix A.
 
      real(${rk}$) function la_${ri}$lange(norm,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: a(lda,*)
+           call la_${ri}$lange_sub(norm,m,n,a,lda,work,la_${ri}$lange)
+     end function la_${ri}$lange
+
+     !> Pure subroutine form of ${ri.upper()}$LANGE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lange_sub(norm,m,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2241,6 +2430,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -2295,9 +2486,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lange = value
+           res = value
            return
-     end function la_${ri}$lange
+     end subroutine la_${ri}$lange_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -2397,6 +2588,18 @@ module la_lapack_blas_like_mnorm
      !> n by n hermitian band matrix A,  with k super-diagonals.
 
      real(${rk}$) function la_${ri}$lanhb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: ab(ldab,*)
+           call la_${ri}$lanhb_sub(norm,uplo,n,k,ab,ldab,work,la_${ri}$lanhb)
+     end function la_${ri}$lanhb
+
+     !> Pure subroutine form of ${ri.upper()}$LANHB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lanhb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2407,6 +2610,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -2512,9 +2717,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lanhb = value
+           res = value
            return
-     end function la_${ri}$lanhb
+     end subroutine la_${ri}$lanhb_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -2529,6 +2734,18 @@ module la_lapack_blas_like_mnorm
      !> complex hermitian matrix A.
 
      real(${rk}$) function la_${ri}$lanhe(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: a(lda,*)
+           call la_${ri}$lanhe_sub(norm,uplo,n,a,lda,work,la_${ri}$lanhe)
+     end function la_${ri}$lanhe
+
+     !> Pure subroutine form of ${ri.upper()}$LANHE: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lanhe_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2539,6 +2756,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -2631,9 +2850,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lanhe = value
+           res = value
            return
-     end function la_${ri}$lanhe
+     end subroutine la_${ri}$lanhe_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -2648,6 +2867,18 @@ module la_lapack_blas_like_mnorm
      !> complex Hermitian matrix A in RFP format.
 
      real(${rk}$) function la_${ri}$lanhf(norm,transr,uplo,n,a,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,transr,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(0:*)
+           complex(${rk}$),intent(in) :: a(0:*)
+           call la_${ri}$lanhf_sub(norm,transr,uplo,n,a,work,la_${ri}$lanhf)
+     end function la_${ri}$lanhf
+
+     !> Pure subroutine form of ${ri.upper()}$LANHF: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lanhf_sub(norm,transr,uplo,n,a,work,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -2658,6 +2889,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(0:*)
            complex(${rk}$),intent(in) :: a(0:*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
 
            ! Local Scalars
@@ -2667,10 +2900,10 @@ module la_lapack_blas_like_mnorm
            intrinsic :: abs,real,sqrt
            ! Executable Statements
            if (n == 0) then
-              la_${ri}$lanhf = zero
+              res = zero
               return
            else if (n == 1) then
-              la_${ri}$lanhf = abs(real(a(0),KIND=${rk}$))
+              res = abs(real(a(0),KIND=${rk}$))
               return
            end if
            ! set noe = 1 if n is odd. if n is even set noe=0
@@ -3860,9 +4093,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(s)
            end if
-           la_${ri}$lanhf = value
+           res = value
            return
-     end function la_${ri}$lanhf
+     end subroutine la_${ri}$lanhf_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -3877,6 +4110,18 @@ module la_lapack_blas_like_mnorm
      !> complex hermitian matrix A,  supplied in packed form.
 
      real(${rk}$) function la_${ri}$lanhp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: ap(*)
+           call la_${ri}$lanhp_sub(norm,uplo,n,ap,work,la_${ri}$lanhp)
+     end function la_${ri}$lanhp
+
+     !> Pure subroutine form of ${ri.upper()}$LANHP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lanhp_sub(norm,uplo,n,ap,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -3887,6 +4132,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: ap(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -3997,9 +4244,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lanhp = value
+           res = value
            return
-     end function la_${ri}$lanhp
+     end subroutine la_${ri}$lanhp_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -4014,6 +4261,18 @@ module la_lapack_blas_like_mnorm
      !> Hessenberg matrix A.
 
      real(${rk}$) function la_${ri}$lanhs(norm,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: a(lda,*)
+           call la_${ri}$lanhs_sub(norm,n,a,lda,work,la_${ri}$lanhs)
+     end function la_${ri}$lanhs
+
+     !> Pure subroutine form of ${ri.upper()}$LANHS: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lanhs_sub(norm,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4024,6 +4283,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4078,9 +4339,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lanhs = value
+           res = value
            return
-     end function la_${ri}$lanhs
+     end subroutine la_${ri}$lanhs_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -4171,6 +4432,18 @@ module la_lapack_blas_like_mnorm
      !> n by n symmetric band matrix A,  with k super-diagonals.
 
      real(${rk}$) function la_${ri}$lansb(norm,uplo,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: ab(ldab,*)
+           call la_${ri}$lansb_sub(norm,uplo,n,k,ab,ldab,work,la_${ri}$lansb)
+     end function la_${ri}$lansb
+
+     !> Pure subroutine form of ${ri.upper()}$LANSB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lansb_sub(norm,uplo,n,k,ab,ldab,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4181,6 +4454,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4268,9 +4543,9 @@ module la_lapack_blas_like_mnorm
               call la_${ri}$lassq(n,ab(l,1),ldab,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lansb = value
+           res = value
            return
-     end function la_${ri}$lansb
+     end subroutine la_${ri}$lansb_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -4285,6 +4560,18 @@ module la_lapack_blas_like_mnorm
      !> complex symmetric matrix A,  supplied in packed form.
 
      real(${rk}$) function la_${ri}$lansp(norm,uplo,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: ap(*)
+           call la_${ri}$lansp_sub(norm,uplo,n,ap,work,la_${ri}$lansp)
+     end function la_${ri}$lansp
+
+     !> Pure subroutine form of ${ri.upper()}$LANSP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lansp_sub(norm,uplo,n,ap,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4295,6 +4582,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: ap(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4414,9 +4703,9 @@ module la_lapack_blas_like_mnorm
               end do
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lansp = value
+           res = value
            return
-     end function la_${ri}$lansp
+     end subroutine la_${ri}$lansp_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -4431,6 +4720,18 @@ module la_lapack_blas_like_mnorm
      !> complex symmetric matrix A.
 
      real(${rk}$) function la_${ri}$lansy(norm,uplo,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: norm,uplo
+           integer(ilp),intent(in) :: lda,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: a(lda,*)
+           call la_${ri}$lansy_sub(norm,uplo,n,a,lda,work,la_${ri}$lansy)
+     end function la_${ri}$lansy
+
+     !> Pure subroutine form of ${ri.upper()}$LANSY: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lansy_sub(norm,uplo,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4441,6 +4742,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4519,9 +4822,9 @@ module la_lapack_blas_like_mnorm
               call la_${ri}$lassq(n,a,lda + 1,scale,sum)
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lansy = value
+           res = value
            return
-     end function la_${ri}$lansy
+     end subroutine la_${ri}$lansy_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -4536,6 +4839,18 @@ module la_lapack_blas_like_mnorm
      !> n by n triangular band matrix A,  with ( k + 1 ) diagonals.
 
      real(${rk}$) function la_${ri}$lantb(norm,uplo,diag,n,k,ab,ldab,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: k,ldab,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: ab(ldab,*)
+           call la_${ri}$lantb_sub(norm,uplo,diag,n,k,ab,ldab,work,la_${ri}$lantb)
+     end function la_${ri}$lantb
+
+     !> Pure subroutine form of ${ri.upper()}$LANTB: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lantb_sub(norm,uplo,diag,n,k,ab,ldab,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4546,6 +4861,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: ab(ldab,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4721,9 +5038,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lantb = value
+           res = value
            return
-     end function la_${ri}$lantb
+     end subroutine la_${ri}$lantb_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -4738,6 +5055,18 @@ module la_lapack_blas_like_mnorm
      !> triangular matrix A, supplied in packed form.
 
      real(${rk}$) function la_${ri}$lantp(norm,uplo,diag,n,ap,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: ap(*)
+           call la_${ri}$lantp_sub(norm,uplo,diag,n,ap,work,la_${ri}$lantp)
+     end function la_${ri}$lantp
+
+     !> Pure subroutine form of ${ri.upper()}$LANTP: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lantp_sub(norm,uplo,diag,n,ap,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4748,6 +5077,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: ap(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -4936,9 +5267,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lantp = value
+           res = value
            return
-     end function la_${ri}$lantp
+     end subroutine la_${ri}$lantp_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -4953,6 +5284,18 @@ module la_lapack_blas_like_mnorm
      !> trapezoidal or triangular matrix A.
 
      real(${rk}$) function la_${ri}$lantr(norm,uplo,diag,m,n,a,lda,work)
+           ! Scalar Arguments
+           character,intent(in) :: diag,norm,uplo
+           integer(ilp),intent(in) :: lda,m,n
+           ! Array Arguments
+           real(${rk}$),intent(out) :: work(*)
+           complex(${rk}$),intent(in) :: a(lda,*)
+           call la_${ri}$lantr_sub(norm,uplo,diag,m,n,a,lda,work,la_${ri}$lantr)
+     end function la_${ri}$lantr
+
+     !> Pure subroutine form of ${ri.upper()}$LANTR: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$lantr_sub(norm,uplo,diag,m,n,a,lda,work,res)
         use la_constants_${rk}$
         ! -- lapack auxiliary routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -4963,6 +5306,8 @@ module la_lapack_blas_like_mnorm
            ! Array Arguments
            real(${rk}$),intent(out) :: work(*)
            complex(${rk}$),intent(in) :: a(lda,*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
        ! =====================================================================
 
            ! Local Scalars
@@ -5131,9 +5476,9 @@ module la_lapack_blas_like_mnorm
               end if
               value = scale*sqrt(sum)
            end if
-           la_${ri}$lantr = value
+           res = value
            return
-     end function la_${ri}$lantr
+     end subroutine la_${ri}$lantr_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif

@@ -21,7 +21,9 @@ module la_lapack_others_sm
      public :: la_${ri}$la_gerpvgrw
      public :: la_${ri}$la_syamv
      public :: la_${ri}$la_syrcond
+     public :: la_${ri}$la_syrcond_sub
      public :: la_${ri}$la_syrpvgrw
+     public :: la_${ri}$la_syrpvgrw_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -33,11 +35,17 @@ module la_lapack_others_sm
      public :: la_${ri}$la_gerpvgrw
      public :: la_${ri}$la_syamv
      public :: la_${ri}$la_gbrcond_c
+     public :: la_${ri}$la_gbrcond_c_sub
      public :: la_${ri}$la_gercond_c
+     public :: la_${ri}$la_gercond_c_sub
      public :: la_${ri}$la_hercond_c
+     public :: la_${ri}$la_hercond_c_sub
      public :: la_${ri}$la_porcond_c
+     public :: la_${ri}$la_porcond_c_sub
      public :: la_${ri}$la_syrcond_c
+     public :: la_${ri}$la_syrcond_c_sub
      public :: la_${ri}$la_syrpvgrw
+     public :: la_${ri}$la_syrpvgrw_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -114,7 +122,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_${ri}$la_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_${ri}$la_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -311,6 +319,23 @@ module la_lapack_others_sm
 
      real(${rk}$) function la_${ri}$la_syrcond(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
                iwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,lda,ldaf,cmode
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(out) :: iwork(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*),c(*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$la_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work,iwork, &
+                     la_${ri}$la_syrcond)
+     end function la_${ri}$la_syrcond
+
+     !> Pure subroutine form of ${ri.upper()}$LA_SYRCOND: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_syrcond_sub(uplo,n,a,lda,af,ldaf,ipiv,cmode,c,info,work, &
+               iwork,res)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -324,6 +349,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*),c(*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            character :: normin
@@ -335,7 +362,7 @@ module la_lapack_others_sm
            ! Intrinsic Functions
            intrinsic :: abs,max
            ! Executable Statements
-           la_${ri}$la_syrcond = zero
+           res = zero
            info = 0
            if (n < 0) then
               info = -2
@@ -349,7 +376,7 @@ module la_lapack_others_sm
               return
            end if
            if (n == 0) then
-              la_${ri}$la_syrcond = one
+              res = one
               return
            end if
            up = .false.
@@ -464,12 +491,12 @@ module la_lapack_others_sm
            end if
            ! compute the estimate of the reciprocal condition number.
 #:if rk == "sp"
-           if (ainvnm /= 0.0_${rk}$) la_${ri}$la_syrcond = (1.0_${rk}$/ainvnm)
+           if (ainvnm /= 0.0_${rk}$) res = (1.0_${rk}$/ainvnm)
 #:else
-           if (ainvnm /= zero) la_${ri}$la_syrcond = (one/ainvnm)
+           if (ainvnm /= zero) res = (one/ainvnm)
 #:endif
            return
-     end function la_${ri}$la_syrcond
+     end subroutine la_${ri}$la_syrcond_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -487,6 +514,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(${rk}$) function la_${ri}$la_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           real(${rk}$),intent(out) :: work(*)
+           call la_${ri}$la_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_${ri}$la_syrpvgrw)
+     end function la_${ri}$la_syrpvgrw
+
+     !> Pure subroutine form of ${ri.upper()}$LA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -498,6 +539,8 @@ module la_lapack_others_sm
            integer(ilp),intent(in) :: ipiv(*)
            real(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
            real(${rk}$),intent(out) :: work(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -673,8 +716,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_${ri}$la_syrpvgrw = rpvgrw
-     end function la_${ri}$la_syrpvgrw
+           res = rpvgrw
+     end subroutine la_${ri}$la_syrpvgrw_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -754,7 +797,7 @@ module la_lapack_others_sm
      !> entry is considered "symbolic" if all multiplications involved
      !> in computing that entry have at least one zero multiplicand.
 
-     subroutine la_${ri}$la_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
+     pure subroutine la_${ri}$la_syamv(uplo,n,alpha,a,lda,x,incx,beta,y,incy)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -954,6 +997,26 @@ module la_lapack_others_sm
 
      real(${rk}$) function la_${ri}$la_gbrcond_c(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
                capply,info,work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,kl,ku,ldab,ldafb
+           integer(ilp) :: kd,ke
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: ab(ldab,*),afb(ldafb,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+           call la_${ri}$la_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c,capply, &
+                     info,work,rwork,la_${ri}$la_gbrcond_c)
+     end function la_${ri}$la_gbrcond_c
+
+     !> Pure subroutine form of ${ri.upper()}$LA_GBRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_gbrcond_c_sub(trans,n,kl,ku,ab,ldab,afb,ldafb,ipiv,c, &
+               capply,info,work,rwork,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -970,6 +1033,8 @@ module la_lapack_others_sm
            complex(${rk}$),intent(out) :: work(*)
            real(${rk}$),intent(in) :: c(*)
            real(${rk}$),intent(out) :: rwork(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -985,7 +1050,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
            ! Executable Statements
-           la_${ri}$la_gbrcond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -1043,7 +1108,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_${ri}$la_gbrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -1094,9 +1159,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_${ri}$la_gbrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_${ri}$la_gbrcond_c
+     end subroutine la_${ri}$la_gbrcond_c_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1115,6 +1180,25 @@ module la_lapack_others_sm
 
      real(${rk}$) function la_${ri}$la_gercond_c(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
                work,rwork)
+           ! Scalar Arguments
+           character,intent(in) :: trans
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+           call la_${ri}$la_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_${ri}$la_gercond_c)
+     end function la_${ri}$la_gercond_c
+
+     !> Pure subroutine form of ${ri.upper()}$LA_GERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_gercond_c_sub(trans,n,a,lda,af,ldaf,ipiv,c,capply,info, &
+               work,rwork,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1130,6 +1214,8 @@ module la_lapack_others_sm
            complex(${rk}$),intent(out) :: work(*)
            real(${rk}$),intent(in) :: c(*)
            real(${rk}$),intent(out) :: rwork(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            logical(lk) :: notrans
@@ -1145,7 +1231,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
            ! Executable Statements
-           la_${ri}$la_gercond_c = zero
+           res = zero
            info = 0
            notrans = la_lsame(trans,'N')
            if (.not. notrans .and. .not. la_lsame(trans,'T') .and. .not. la_lsame( &
@@ -1197,7 +1283,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_${ri}$la_gercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -1248,9 +1334,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_${ri}$la_gercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_${ri}$la_gercond_c
+     end subroutine la_${ri}$la_gercond_c_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1274,6 +1360,25 @@ module la_lapack_others_sm
      real(${rk}$) function la_${ri}$la_hercond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
                 rwork)
 #:endif
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+           call la_${ri}$la_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_${ri}$la_hercond_c)
+     end function la_${ri}$la_hercond_c
+
+     !> Pure subroutine form of ${ri.upper()}$LA_HERCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_hercond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1289,6 +1394,8 @@ module la_lapack_others_sm
            complex(${rk}$),intent(out) :: work(*)
            real(${rk}$),intent(in) :: c(*)
            real(${rk}$),intent(out) :: rwork(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase,i,j
@@ -1304,7 +1411,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
            ! Executable Statements
-           la_${ri}$la_hercond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -1369,7 +1476,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_${ri}$la_hercond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -1416,9 +1523,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_${ri}$la_hercond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_${ri}$la_hercond_c
+     end subroutine la_${ri}$la_hercond_c_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1437,6 +1544,24 @@ module la_lapack_others_sm
 
      real(${rk}$) function la_${ri}$la_porcond_c(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
                rwork)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+           call la_${ri}$la_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work,rwork, &
+                     la_${ri}$la_porcond_c)
+     end function la_${ri}$la_porcond_c
+
+     !> Pure subroutine form of ${ri.upper()}$LA_PORCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_porcond_c_sub(uplo,n,a,lda,af,ldaf,c,capply,info,work, &
+               rwork,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1451,6 +1576,8 @@ module la_lapack_others_sm
            complex(${rk}$),intent(out) :: work(*)
            real(${rk}$),intent(in) :: c(*)
            real(${rk}$),intent(out) :: rwork(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -1467,7 +1594,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
            ! Executable Statements
-           la_${ri}$la_porcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -1532,7 +1659,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_${ri}$la_porcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -1579,9 +1706,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_${ri}$la_porcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_${ri}$la_porcond_c
+     end subroutine la_${ri}$la_porcond_c_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1605,6 +1732,25 @@ module la_lapack_others_sm
      real(${rk}$) function la_${ri}$la_syrcond_c(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
                 rwork)
 #:endif
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           logical(lk),intent(in) :: capply
+           integer(ilp),intent(in) :: n,lda,ldaf
+           integer(ilp),intent(out) :: info
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           complex(${rk}$),intent(out) :: work(*)
+           real(${rk}$),intent(in) :: c(*)
+           real(${rk}$),intent(out) :: rwork(*)
+           call la_${ri}$la_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+                     rwork,la_${ri}$la_syrcond_c)
+     end function la_${ri}$la_syrcond_c
+
+     !> Pure subroutine form of ${ri.upper()}$LA_SYRCOND_C: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_syrcond_c_sub(uplo,n,a,lda,af,ldaf,ipiv,c,capply,info,work, &
+               rwork,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1620,6 +1766,8 @@ module la_lapack_others_sm
            complex(${rk}$),intent(out) :: work(*)
            real(${rk}$),intent(in) :: c(*)
            real(${rk}$),intent(out) :: rwork(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: kase
@@ -1636,7 +1784,7 @@ module la_lapack_others_sm
            ! Statement Function Definitions
            cabs1(zdum) = abs(real(zdum,KIND=${rk}$)) + abs(aimag(zdum))
            ! Executable Statements
-           la_${ri}$la_syrcond_c = zero
+           res = zero
            info = 0
            upper = la_lsame(uplo,'U')
            if (.not. upper .and. .not. la_lsame(uplo,'L')) then
@@ -1701,7 +1849,7 @@ module la_lapack_others_sm
            end if
            ! quick return if possible.
            if (n == 0) then
-              la_${ri}$la_syrcond_c = one
+              res = one
               return
            else if (anorm == zero) then
               return
@@ -1748,9 +1896,9 @@ module la_lapack_others_sm
               go to 10
            end if
            ! compute the estimate of the reciprocal condition number.
-           if (ainvnm /= zero) la_${ri}$la_syrcond_c = one/ainvnm
+           if (ainvnm /= zero) res = one/ainvnm
            return
-     end function la_${ri}$la_syrcond_c
+     end subroutine la_${ri}$la_syrcond_c_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif
@@ -1768,6 +1916,20 @@ module la_lapack_others_sm
      !> unreliable.
 
      real(${rk}$) function la_${ri}$la_syrpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
+           real(${rk}$),intent(out) :: work(*)
+           integer(ilp),intent(in) :: ipiv(*)
+           call la_${ri}$la_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_${ri}$la_syrpvgrw)
+     end function la_${ri}$la_syrpvgrw
+
+     !> Pure subroutine form of ${ri.upper()}$LA_SYRPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_${ri}$la_syrpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_${rk}$
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -1779,6 +1941,8 @@ module la_lapack_others_sm
            complex(${rk}$),intent(in) :: a(lda,*),af(ldaf,*)
            real(${rk}$),intent(out) :: work(*)
            integer(ilp),intent(in) :: ipiv(*)
+           ! Function Value
+           real(${rk}$),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -1959,8 +2123,8 @@ module la_lapack_others_sm
                  end if
               end do
            end if
-           la_${ri}$la_syrpvgrw = rpvgrw
-     end function la_${ri}$la_syrpvgrw
+           res = rpvgrw
+     end subroutine la_${ri}$la_syrpvgrw_sub
 #:if LA_GUARD[rk]
 #endif
 #:endif

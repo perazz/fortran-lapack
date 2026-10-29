@@ -59,7 +59,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**T, not V.
 
-     subroutine la_sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+     pure subroutine la_sgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
         use la_constants_sp,only:zero,one
 
         ! -- lapack driver routine --
@@ -418,7 +418,7 @@ module la_lapack_eigv_svd_drivers
            smlnum = sqrt(la_slamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_slange('M',m,n,a,lda,dum)
+           call la_slange_sub('M',m,n,a,lda,dum,anrm)
            iscl = 0
            if (anrm > zero .and. anrm < smlnum) then
               iscl = 1
@@ -2319,7 +2319,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**T, not V.
 
-     subroutine la_dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+     pure subroutine la_dgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
         use la_constants_dp,only:zero,one
 
         ! -- lapack driver routine --
@@ -2677,7 +2677,7 @@ module la_lapack_eigv_svd_drivers
            smlnum = sqrt(la_dlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_dlange('M',m,n,a,lda,dum)
+           call la_dlange_sub('M',m,n,a,lda,dum,anrm)
            iscl = 0
            if (anrm > zero .and. anrm < smlnum) then
               iscl = 1
@@ -4579,7 +4579,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**T, not V.
 
-     subroutine la_xgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+     pure subroutine la_xgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
         use la_constants_xdp,only:zero,one
 
         ! -- lapack driver routine --
@@ -4937,7 +4937,7 @@ module la_lapack_eigv_svd_drivers
            smlnum = sqrt(la_xlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_xlange('M',m,n,a,lda,dum)
+           call la_xlange_sub('M',m,n,a,lda,dum,anrm)
            iscl = 0
            if (anrm > zero .and. anrm < smlnum) then
               iscl = 1
@@ -6840,7 +6840,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**T, not V.
 
-     subroutine la_qgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
+     pure subroutine la_qgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,info)
         use la_constants_qp,only:zero,one
 
         ! -- lapack driver routine --
@@ -7198,7 +7198,7 @@ module la_lapack_eigv_svd_drivers
            smlnum = sqrt(la_qlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_qlange('M',m,n,a,lda,dum)
+           call la_qlange_sub('M',m,n,a,lda,dum,anrm)
            iscl = 0
            if (anrm > zero .and. anrm < smlnum) then
               iscl = 1
@@ -9099,7 +9099,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_sgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_sgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
         use la_constants_sp
            ! Scalar Arguments
@@ -9401,7 +9401,7 @@ module la_lapack_eigv_svd_drivers
                  do p = 1,m
                      ! rwork(p) = abs( a(p,la_icamax(n,a(p,1),lda)) )
                      ! [[la_slange will return nan if an entry of the p-th row is nan]]
-                     rwork(p) = la_slange('M',1,n,a(p,1),lda,rdummy)
+                     call la_slange_sub('M',1,n,a(p,1),lda,rdummy,rwork(p))
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
@@ -9455,7 +9455,7 @@ module la_lapack_eigv_svd_drivers
           ! have its own scaling to save the singular values from overflows and
           ! underflows. that depends on the svd procedure.
            if (.not. rowprm) then
-               rtmp = la_slange('M',m,n,a,lda,rdummy)
+               call la_slange_sub('M',m,n,a,lda,rdummy,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
                     call la_xerbla('SGESVDQ',-info)
@@ -9965,7 +9965,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_dgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_dgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
         use la_constants_dp
            ! Scalar Arguments
@@ -10266,7 +10266,7 @@ module la_lapack_eigv_svd_drivers
                  do p = 1,m
                      ! rwork(p) = abs( a(p,la_icamax(n,a(p,1),lda)) )
                      ! [[la_dlange will return nan if an entry of the p-th row is nan]]
-                     rwork(p) = la_dlange('M',1,n,a(p,1),lda,rdummy)
+                     call la_dlange_sub('M',1,n,a(p,1),lda,rdummy,rwork(p))
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
@@ -10320,7 +10320,7 @@ module la_lapack_eigv_svd_drivers
           ! have its own scaling to save the singular values from overflows and
           ! underflows. that depends on the svd procedure.
            if (.not. rowprm) then
-               rtmp = la_dlange('M',m,n,a,lda,rdummy)
+               call la_dlange_sub('M',m,n,a,lda,rdummy,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
                     call la_xerbla('DGESVDQ',-info)
@@ -10831,7 +10831,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_xgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_xgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
         use la_constants_xdp
            ! Scalar Arguments
@@ -11132,7 +11132,7 @@ module la_lapack_eigv_svd_drivers
                  do p = 1,m
                      ! rwork(p) = abs( a(p,la_izamax(n,a(p,1),lda)) )
                      ! [[la_xlange will return nan if an entry of the p-th row is nan]]
-                     rwork(p) = la_xlange('M',1,n,a(p,1),lda,rdummy)
+                     call la_xlange_sub('M',1,n,a(p,1),lda,rdummy,rwork(p))
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
@@ -11186,7 +11186,7 @@ module la_lapack_eigv_svd_drivers
           ! have its own scaling to save the singular values from overflows and
           ! underflows. that depends on the svd procedure.
            if (.not. rowprm) then
-               rtmp = la_xlange('M',m,n,a,lda,rdummy)
+               call la_xlange_sub('M',m,n,a,lda,rdummy,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
                     call la_xerbla('XGESVDQ',-info)
@@ -11698,7 +11698,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_qgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_qgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,work,lwork,rwork,lrwork,info)
         use la_constants_qp
            ! Scalar Arguments
@@ -11999,7 +11999,7 @@ module la_lapack_eigv_svd_drivers
                  do p = 1,m
                      ! rwork(p) = abs( a(p,la_izamax(n,a(p,1),lda)) )
                      ! [[la_qlange will return nan if an entry of the p-th row is nan]]
-                     rwork(p) = la_qlange('M',1,n,a(p,1),lda,rdummy)
+                     call la_qlange_sub('M',1,n,a(p,1),lda,rdummy,rwork(p))
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
@@ -12053,7 +12053,7 @@ module la_lapack_eigv_svd_drivers
           ! have its own scaling to save the singular values from overflows and
           ! underflows. that depends on the svd procedure.
            if (.not. rowprm) then
-               rtmp = la_qlange('M',m,n,a,lda,rdummy)
+               call la_qlange_sub('M',m,n,a,lda,rdummy,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
                     call la_xerbla('QGESVDQ',-info)
@@ -12567,7 +12567,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**H, not V.
 
-     subroutine la_cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+     pure subroutine la_cgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                info)
         use la_constants_sp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -12908,7 +12908,7 @@ module la_lapack_eigv_svd_drivers
            smlnum = sqrt(la_slamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_clange('M',m,n,a,lda,dum)
+           call la_clange_sub('M',m,n,a,lda,dum,anrm)
            iscl = 0
            if (anrm > zero .and. anrm < smlnum) then
               iscl = 1
@@ -15013,7 +15013,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**H, not V.
 
-     subroutine la_zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+     pure subroutine la_zgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                info)
         use la_constants_dp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -15353,7 +15353,7 @@ module la_lapack_eigv_svd_drivers
            smlnum = sqrt(la_dlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_zlange('M',m,n,a,lda,dum)
+           call la_zlange_sub('M',m,n,a,lda,dum,anrm)
            iscl = 0
            if (anrm > zero .and. anrm < smlnum) then
               iscl = 1
@@ -17459,7 +17459,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**H, not V.
 
-     subroutine la_ygesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+     pure subroutine la_ygesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                info)
         use la_constants_xdp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -17799,7 +17799,7 @@ module la_lapack_eigv_svd_drivers
            smlnum = sqrt(la_xlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_ylange('M',m,n,a,lda,dum)
+           call la_ylange_sub('M',m,n,a,lda,dum,anrm)
            iscl = 0
            if (anrm > zero .and. anrm < smlnum) then
               iscl = 1
@@ -19906,7 +19906,7 @@ module la_lapack_eigv_svd_drivers
      !> U and V are the left and right singular vectors of A.
      !> Note that the routine returns V**H, not V.
 
-     subroutine la_wgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
+     pure subroutine la_wgesvd(jobu,jobvt,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,rwork, &
                info)
         use la_constants_qp,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -20246,7 +20246,7 @@ module la_lapack_eigv_svd_drivers
            smlnum = sqrt(la_qlamch('S'))/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_wlange('M',m,n,a,lda,dum)
+           call la_wlange_sub('M',m,n,a,lda,dum,anrm)
            iscl = 0
            if (anrm > zero .and. anrm < smlnum) then
               iscl = 1
@@ -22351,7 +22351,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_cgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_cgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
         use la_constants_sp
            ! Scalar Arguments
@@ -22647,7 +22647,7 @@ module la_lapack_eigv_svd_drivers
                  do p = 1,m
                      ! rwork(p) = abs( a(p,la_icamax(n,a(p,1),lda)) )
                      ! [[la_clange will return nan if an entry of the p-th row is nan]]
-                     rwork(p) = la_clange('M',1,n,a(p,1),lda,rdummy)
+                     call la_clange_sub('M',1,n,a(p,1),lda,rdummy,rwork(p))
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
@@ -22701,7 +22701,7 @@ module la_lapack_eigv_svd_drivers
           ! have its own scaling to save the singular values from overflows and
           ! underflows. that depends on the svd procedure.
            if (.not. rowprm) then
-               rtmp = la_clange('M',m,n,a,lda,rwork)
+               call la_clange_sub('M',m,n,a,lda,rwork,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
                     call la_xerbla('CGESVDQ',-info)
@@ -23229,7 +23229,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_zgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
         use la_constants_dp
            ! Scalar Arguments
@@ -23524,7 +23524,7 @@ module la_lapack_eigv_svd_drivers
                  do p = 1,m
                      ! rwork(p) = abs( a(p,la_izamax(n,a(p,1),lda)) )
                      ! [[la_zlange will return nan if an entry of the p-th row is nan]]
-                     rwork(p) = la_zlange('M',1,n,a(p,1),lda,rdummy)
+                     call la_zlange_sub('M',1,n,a(p,1),lda,rdummy,rwork(p))
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
@@ -23578,7 +23578,7 @@ module la_lapack_eigv_svd_drivers
           ! have its own scaling to save the singular values from overflows and
           ! underflows. that depends on the svd procedure.
            if (.not. rowprm) then
-               rtmp = la_zlange('M',m,n,a,lda,rwork)
+               call la_zlange_sub('M',m,n,a,lda,rwork,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
                     call la_xerbla('ZGESVDQ',-info)
@@ -24107,7 +24107,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_ygesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_ygesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
         use la_constants_xdp
            ! Scalar Arguments
@@ -24402,7 +24402,7 @@ module la_lapack_eigv_svd_drivers
                  do p = 1,m
                      ! rwork(p) = abs( a(p,la_iyamax(n,a(p,1),lda)) )
                      ! [[la_ylange will return nan if an entry of the p-th row is nan]]
-                     rwork(p) = la_ylange('M',1,n,a(p,1),lda,rdummy)
+                     call la_ylange_sub('M',1,n,a(p,1),lda,rdummy,rwork(p))
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
@@ -24456,7 +24456,7 @@ module la_lapack_eigv_svd_drivers
           ! have its own scaling to save the singular values from overflows and
           ! underflows. that depends on the svd procedure.
            if (.not. rowprm) then
-               rtmp = la_ylange('M',m,n,a,lda,rwork)
+               call la_ylange_sub('M',m,n,a,lda,rwork,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
                     call la_xerbla('YGESVDQ',-info)
@@ -24986,7 +24986,7 @@ module la_lapack_eigv_svd_drivers
      !> of SIGMA are the singular values of A. The columns of U and V are the
      !> left and the right singular vectors of A, respectively.
 
-     subroutine la_wgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
+     pure subroutine la_wgesvdq(joba,jobp,jobr,jobu,jobv,m,n,a,lda,s,u,ldu,v,ldv, &
                numrank,iwork,liwork,cwork,lcwork,rwork,lrwork,info)
         use la_constants_qp
            ! Scalar Arguments
@@ -25281,7 +25281,7 @@ module la_lapack_eigv_svd_drivers
                  do p = 1,m
                      ! rwork(p) = abs( a(p,la_iwamax(n,a(p,1),lda)) )
                      ! [[la_wlange will return nan if an entry of the p-th row is nan]]
-                     rwork(p) = la_wlange('M',1,n,a(p,1),lda,rdummy)
+                     call la_wlange_sub('M',1,n,a(p,1),lda,rdummy,rwork(p))
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
@@ -25335,7 +25335,7 @@ module la_lapack_eigv_svd_drivers
           ! have its own scaling to save the singular values from overflows and
           ! underflows. that depends on the svd procedure.
            if (.not. rowprm) then
-               rtmp = la_wlange('M',m,n,a,lda,rwork)
+               call la_wlange_sub('M',m,n,a,lda,rwork,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
                     call la_xerbla('WGESVDQ',-info)

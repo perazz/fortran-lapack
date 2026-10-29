@@ -91,7 +91,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_${ri}$gges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+     pure subroutine la_${ri}$gges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -207,7 +207,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(safmin)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,work)
+           call la_${ri}$lange_sub('M',n,n,a,lda,work,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -218,7 +218,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,work)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,work,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -434,7 +434,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_${ri}$ggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim, &
+     pure subroutine la_${ri}$ggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim, &
      alphar,alphai,beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,iwork,liwork, &
                bwork,info)
         use la_constants_${rk}$,only:zero,one
@@ -580,7 +580,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(safmin)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,work)
+           call la_${ri}$lange_sub('M',n,n,a,lda,work,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -591,7 +591,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,work)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,work,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -808,7 +808,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B .
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_${ri}$ggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+     pure subroutine la_${ri}$ggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                ldvr,work,lwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -910,7 +910,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,work)
+           call la_${ri}$lange_sub('M',n,n,a,lda,work,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -921,7 +921,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,work)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,work,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -1120,7 +1120,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B.
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_${ri}$ggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alphar,alphai, &
+     pure subroutine la_${ri}$ggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alphar,alphai, &
      beta,vl,ldvl,vr,ldvr,ilo,ihi,lscale,rscale,abnrm,bbnrm,rconde,rcondv,work,lwork, &
                iwork,bwork,info)
         use la_constants_${rk}$,only:zero,one
@@ -1270,7 +1270,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,work)
+           call la_${ri}$lange_sub('M',n,n,a,lda,work,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -1281,7 +1281,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,work)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,work,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -1296,13 +1296,13 @@ module la_lapack_eigv_gen
            call la_${ri}$ggbal(balanc,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,work,ierr)
 
            ! compute abnrm and bbnrm
-           abnrm = la_${ri}$lange('1',n,n,a,lda,work(1))
+           call la_${ri}$lange_sub('1',n,n,a,lda,work(1),abnrm)
            if (ilascl) then
               work(1) = abnrm
               call la_${ri}$lascl('G',0,0,anrmto,anrm,1,1,work(1),1,ierr)
               abnrm = work(1)
            end if
-           bbnrm = la_${ri}$lange('1',n,n,b,ldb,work(1))
+           call la_${ri}$lange_sub('1',n,n,b,ldb,work(1),bbnrm)
            if (ilbscl) then
               work(1) = bbnrm
               call la_${ri}$lascl('G',0,0,bnrmto,bnrm,1,1,work(1),1,ierr)
@@ -1531,7 +1531,7 @@ module la_lapack_eigv_gen
      !> [  c  a  ]
      !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
 
-     subroutine la_${ri}$gees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,lwork, &
+     pure subroutine la_${ri}$gees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,lwork, &
                bwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -1627,7 +1627,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',n,n,a,lda,dum,anrm)
            scalea = .false.
            if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
@@ -1792,7 +1792,7 @@ module la_lapack_eigv_gen
      !> [  c  a  ]
      !> where b*c < 0. The eigenvalues of such a block are a +- sqrt(bc).
 
-     subroutine la_${ri}$geesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
+     pure subroutine la_${ri}$geesx(jobvs,sort,select,sense,n,a,lda,sdim,wr,wi,vs,ldvs, &
                rconde,rcondv,work,lwork,iwork,liwork,bwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -1912,7 +1912,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',n,n,a,lda,dum,anrm)
            scalea = .false.
            if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
@@ -2094,7 +2094,7 @@ module la_lapack_eigv_gen
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_${ri}$geev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
+     pure subroutine la_${ri}$geev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork, &
                info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -2210,7 +2210,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',n,n,a,lda,dum,anrm)
            scalea = .false.
            if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
@@ -2377,7 +2377,7 @@ module la_lapack_eigv_gen
      !> explanation of balancing, see section 4.10.2_${rk}$ of the LAPACK
      !> Users' Guide.
 
-     subroutine la_${ri}$geevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
+     pure subroutine la_${ri}$geevx(balanc,jobvl,jobvr,sense,n,a,lda,wr,wi,vl,ldvl,vr,ldvr, &
                ilo,ihi,scale,abnrm,rconde,rcondv,work,lwork,iwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -2514,7 +2514,7 @@ module la_lapack_eigv_gen
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
            icond = 0
-           anrm = la_${ri}$lange('M',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',n,n,a,lda,dum,anrm)
            scalea = .false.
            if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
@@ -2526,7 +2526,7 @@ module la_lapack_eigv_gen
            if (scalea) call la_${ri}$lascl('G',0,0,anrm,cscale,n,n,a,lda,ierr)
            ! balance the matrix and compute abnrm
            call la_${ri}$gebal(balanc,n,a,lda,ilo,ihi,scale,ierr)
-           abnrm = la_${ri}$lange('1',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('1',n,n,a,lda,dum,abnrm)
            if (scalea) then
               dum(1) = abnrm
               call la_${ri}$lascl('G',0,0,cscale,anrm,1,1,dum,1,ierr)
@@ -2699,7 +2699,7 @@ module la_lapack_eigv_gen
      !> and the pair of corresponding 2-by-2 blocks in S and T will have a
      !> complex conjugate pair of generalized eigenvalues.
 
-     subroutine la_${ri}$gges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
+     pure subroutine la_${ri}$gges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alphar, &
                alphai,beta,vsl,ldvsl,vsr,ldvsr,work,lwork,bwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -2818,7 +2818,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(safmin)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,work)
+           call la_${ri}$lange_sub('M',n,n,a,lda,work,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -2829,7 +2829,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,work)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,work,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -3024,7 +3024,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B .
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_${ri}$ggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
+     pure subroutine la_${ri}$ggev3(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,vr, &
                 ldvr,work,lwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -3149,7 +3149,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,work)
+           call la_${ri}$lange_sub('M',n,n,a,lda,work,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -3160,7 +3160,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,work)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,work,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -3355,7 +3355,7 @@ module la_lapack_eigv_gen
      !> and T are upper triangular and, in addition, the diagonal elements
      !> of T are non-negative real numbers.
 
-     subroutine la_${ri}$gges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+     pure subroutine la_${ri}$gges(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -3464,7 +3464,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',n,n,a,lda,rwork,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -3475,7 +3475,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,rwork,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -3617,7 +3617,7 @@ module la_lapack_eigv_gen
      !> upper triangular with non-negative diagonal and S is upper
      !> triangular.
 
-     subroutine la_${ri}$ggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
+     pure subroutine la_${ri}$ggesx(jobvsl,jobvsr,sort,selctg,sense,n,a,lda,b,ldb,sdim,alpha, &
       beta,vsl,ldvsl,vsr,ldvsr,rconde,rcondv,work,lwork,rwork,iwork,liwork,bwork,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
 
@@ -3763,7 +3763,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',n,n,a,lda,rwork,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -3774,7 +3774,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,rwork,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -3928,7 +3928,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A = lambda(j) * u(j)**H * B
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_${ri}$ggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+     pure subroutine la_${ri}$ggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                work,lwork,rwork,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -4038,7 +4038,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',n,n,a,lda,rwork,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -4049,7 +4049,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,rwork,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -4215,7 +4215,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A  = lambda(j) * u(j)**H * B.
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_${ri}$ggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alpha,beta,vl, &
+     pure subroutine la_${ri}$ggevx(balanc,jobvl,jobvr,sense,n,a,lda,b,ldb,alpha,beta,vl, &
      ldvl,vr,ldvr,ilo,ihi,lscale,rscale,abnrm,bbnrm,rconde,rcondv,work,lwork,rwork, &
                iwork,bwork,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
@@ -4355,7 +4355,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',n,n,a,lda,rwork,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -4366,7 +4366,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,rwork,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -4381,13 +4381,13 @@ module la_lapack_eigv_gen
            call la_${ri}$ggbal(balanc,n,a,lda,b,ldb,ilo,ihi,lscale,rscale,rwork,ierr)
 
            ! compute abnrm and bbnrm
-           abnrm = la_${ri}$lange('1',n,n,a,lda,rwork(1))
+           call la_${ri}$lange_sub('1',n,n,a,lda,rwork(1),abnrm)
            if (ilascl) then
               rwork(1) = abnrm
               call la_${ci}$lascl('G',0,0,anrmto,anrm,1,1,rwork(1),1,ierr)
               abnrm = rwork(1)
            end if
-           bbnrm = la_${ri}$lange('1',n,n,b,ldb,rwork(1))
+           call la_${ri}$lange_sub('1',n,n,b,ldb,rwork(1),bbnrm)
            if (ilbscl) then
               rwork(1) = bbnrm
               call la_${ci}$lascl('G',0,0,bnrmto,bnrm,1,1,rwork(1),1,ierr)
@@ -4563,7 +4563,7 @@ module la_lapack_eigv_gen
      !> invariant subspace corresponding to the selected eigenvalues.
      !> A complex matrix is in Schur form if it is upper triangular.
 
-     subroutine la_${ri}$gees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
+     pure subroutine la_${ri}$gees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork, &
                rwork,bwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -4660,7 +4660,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',n,n,a,lda,dum,anrm)
            scalea = .false.
            if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
@@ -4749,7 +4749,7 @@ module la_lapack_eigv_gen
      !> these quantities are called s and sep respectively).
      !> A complex matrix is in Schur form if it is upper triangular.
 
-     subroutine la_${ri}$geesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
+     pure subroutine la_${ri}$geesx(jobvs,sort,select,sense,n,a,lda,sdim,w,vs,ldvs,rconde, &
                rcondv,work,lwork,rwork,bwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -4859,7 +4859,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',n,n,a,lda,dum,anrm)
            scalea = .false.
            if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
@@ -4956,7 +4956,7 @@ module la_lapack_eigv_gen
      !> The computed eigenvectors are normalized to have Euclidean norm
      !> equal to 1 and largest component real.
 
-     subroutine la_${ri}$geev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork, &
+     pure subroutine la_${ri}$geev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork, &
                info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -5066,7 +5066,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',n,n,a,lda,dum,anrm)
            scalea = .false.
            if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
@@ -5229,7 +5229,7 @@ module la_lapack_eigv_gen
      !> explanation of balancing, see section 4.10.2_${rk}$ of the LAPACK
      !> Users' Guide.
 
-     subroutine la_${ri}$geevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
+     pure subroutine la_${ri}$geevx(balanc,jobvl,jobvr,sense,n,a,lda,w,vl,ldvl,vr,ldvr,ilo, &
                ihi,scale,abnrm,rconde,rcondv,work,lwork,rwork,info)
         use la_constants_${rk}$,only:zero,one
         ! -- lapack driver routine --
@@ -5365,7 +5365,7 @@ module la_lapack_eigv_gen
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
            icond = 0
-           anrm = la_${ri}$lange('M',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('M',n,n,a,lda,dum,anrm)
            scalea = .false.
            if (anrm > zero .and. anrm < smlnum) then
               scalea = .true.
@@ -5377,7 +5377,7 @@ module la_lapack_eigv_gen
            if (scalea) call la_${ri}$lascl('G',0,0,anrm,cscale,n,n,a,lda,ierr)
            ! balance the matrix and compute abnrm
            call la_${ri}$gebal(balanc,n,a,lda,ilo,ihi,scale,ierr)
-           abnrm = la_${ri}$lange('1',n,n,a,lda,dum)
+           call la_${ri}$lange_sub('1',n,n,a,lda,dum,abnrm)
            if (scalea) then
               dum(1) = abnrm
               call la_${ci}$lascl('G',0,0,cscale,anrm,1,1,dum,1,ierr)
@@ -5535,7 +5535,7 @@ module la_lapack_eigv_gen
      !> and T are upper triangular and, in addition, the diagonal elements
      !> of T are non-negative real numbers.
 
-     subroutine la_${ri}$gges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
+     pure subroutine la_${ri}$gges3(jobvsl,jobvsr,sort,selctg,n,a,lda,b,ldb,sdim,alpha,beta, &
                vsl,ldvsl,vsr,ldvsr,work,lwork,rwork,bwork,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -5652,7 +5652,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',n,n,a,lda,rwork,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -5663,7 +5663,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,rwork,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum
@@ -5789,7 +5789,7 @@ module la_lapack_eigv_gen
      !> u(j)**H * A = lambda(j) * u(j)**H * B
      !> where u(j)**H is the conjugate-transpose of u(j).
 
-     subroutine la_${ri}$ggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
+     pure subroutine la_${ri}$ggev3(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr, &
                work,lwork,rwork,info)
         use la_constants_${rk}$,only:zero,one,czero,cone
         ! -- lapack driver routine --
@@ -5919,7 +5919,7 @@ module la_lapack_eigv_gen
            smlnum = sqrt(smlnum)/eps
            bignum = one/smlnum
            ! scale a if max element outside range [smlnum,bignum]
-           anrm = la_${ri}$lange('M',n,n,a,lda,rwork)
+           call la_${ri}$lange_sub('M',n,n,a,lda,rwork,anrm)
            ilascl = .false.
            if (anrm > zero .and. anrm < smlnum) then
               anrmto = smlnum
@@ -5930,7 +5930,7 @@ module la_lapack_eigv_gen
            end if
            if (ilascl) call la_${ri}$lascl('G',0,0,anrm,anrmto,n,n,a,lda,ierr)
            ! scale b if max element outside range [smlnum,bignum]
-           bnrm = la_${ri}$lange('M',n,n,b,ldb,rwork)
+           call la_${ri}$lange_sub('M',n,n,b,ldb,rwork,bnrm)
            ilbscl = .false.
            if (bnrm > zero .and. bnrm < smlnum) then
               bnrmto = smlnum

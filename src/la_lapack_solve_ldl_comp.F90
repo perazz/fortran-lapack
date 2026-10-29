@@ -91,6 +91,7 @@ module la_lapack_solve_ldl_comp
      public :: la_csytrs2
      public :: la_csytrs_3
      public :: la_cla_herpvgrw
+     public :: la_cla_herpvgrw_sub
      public :: la_cspcon
      public :: la_csycon
      public :: la_csyrfs
@@ -106,6 +107,7 @@ module la_lapack_solve_ldl_comp
      public :: la_zsytrs2
      public :: la_zsytrs_3
      public :: la_zla_herpvgrw
+     public :: la_zla_herpvgrw_sub
      public :: la_zspcon
      public :: la_zsycon
      public :: la_zsyrfs
@@ -122,6 +124,7 @@ module la_lapack_solve_ldl_comp
      public :: la_ysytrs2
      public :: la_ysytrs_3
      public :: la_yla_herpvgrw
+     public :: la_yla_herpvgrw_sub
      public :: la_yspcon
      public :: la_ysycon
      public :: la_ysyrfs
@@ -139,6 +142,7 @@ module la_lapack_solve_ldl_comp
      public :: la_wsytrs2
      public :: la_wsytrs_3
      public :: la_wla_herpvgrw
+     public :: la_wla_herpvgrw_sub
      public :: la_wspcon
      public :: la_wsycon
      public :: la_wsyrfs
@@ -20531,6 +20535,20 @@ module la_lapack_solve_ldl_comp
      !> unreliable.
 
      real(sp) function la_cla_herpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(sp),intent(out) :: work(*)
+           call la_cla_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_cla_herpvgrw)
+     end function la_cla_herpvgrw
+
+     !> Pure subroutine form of CLA_HERPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_cla_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_sp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -20542,6 +20560,8 @@ module la_lapack_solve_ldl_comp
            integer(ilp),intent(in) :: ipiv(*)
            complex(sp),intent(in) :: a(lda,*),af(ldaf,*)
            real(sp),intent(out) :: work(*)
+           ! Function Value
+           real(sp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -20710,8 +20730,8 @@ module la_lapack_solve_ldl_comp
                  end if
               end do
            end if
-           la_cla_herpvgrw = rpvgrw
-     end function la_cla_herpvgrw
+           res = rpvgrw
+     end subroutine la_cla_herpvgrw_sub
      !> ZLA_HERPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
      !> much less than 1, the stability of the LU factorization of the
@@ -20720,6 +20740,20 @@ module la_lapack_solve_ldl_comp
      !> unreliable.
 
      real(dp) function la_zla_herpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(dp),intent(out) :: work(*)
+           call la_zla_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_zla_herpvgrw)
+     end function la_zla_herpvgrw
+
+     !> Pure subroutine form of ZLA_HERPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_zla_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_dp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -20731,6 +20765,8 @@ module la_lapack_solve_ldl_comp
            integer(ilp),intent(in) :: ipiv(*)
            complex(dp),intent(in) :: a(lda,*),af(ldaf,*)
            real(dp),intent(out) :: work(*)
+           ! Function Value
+           real(dp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -20899,8 +20935,8 @@ module la_lapack_solve_ldl_comp
                  end if
               end do
            end if
-           la_zla_herpvgrw = rpvgrw
-     end function la_zla_herpvgrw
+           res = rpvgrw
+     end subroutine la_zla_herpvgrw_sub
 #ifdef LA_WITH_XDP
      !> YLA_HERPVGRW: computes the reciprocal pivot growth factor
      !> norm(A)/norm(U). The "max absolute element" norm is used. If this is
@@ -20910,6 +20946,20 @@ module la_lapack_solve_ldl_comp
      !> unreliable.
 
      real(xdp) function la_yla_herpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(xdp),intent(out) :: work(*)
+           call la_yla_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_yla_herpvgrw)
+     end function la_yla_herpvgrw
+
+     !> Pure subroutine form of YLA_HERPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_yla_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_xdp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -20921,6 +20971,8 @@ module la_lapack_solve_ldl_comp
            integer(ilp),intent(in) :: ipiv(*)
            complex(xdp),intent(in) :: a(lda,*),af(ldaf,*)
            real(xdp),intent(out) :: work(*)
+           ! Function Value
+           real(xdp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -21089,8 +21141,8 @@ module la_lapack_solve_ldl_comp
                  end if
               end do
            end if
-           la_yla_herpvgrw = rpvgrw
-     end function la_yla_herpvgrw
+           res = rpvgrw
+     end subroutine la_yla_herpvgrw_sub
 #endif
 #ifdef LA_WITH_QP
      !> WLA_HERPVGRW: computes the reciprocal pivot growth factor
@@ -21101,6 +21153,20 @@ module la_lapack_solve_ldl_comp
      !> unreliable.
 
      real(qp) function la_wla_herpvgrw(uplo,n,info,a,lda,af,ldaf,ipiv,work)
+           ! Scalar Arguments
+           character,intent(in) :: uplo
+           integer(ilp),intent(in) :: n,info,lda,ldaf
+           ! Array Arguments
+           integer(ilp),intent(in) :: ipiv(*)
+           complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
+           real(qp),intent(out) :: work(*)
+           call la_wla_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work, &
+                     la_wla_herpvgrw)
+     end function la_wla_herpvgrw
+
+     !> Pure subroutine form of WLA_HERPVGRW: the same arguments, followed by RES,
+     !> which returns the value of the function.
+     pure subroutine la_wla_herpvgrw_sub(uplo,n,info,a,lda,af,ldaf,ipiv,work,res)
         use la_constants_qp
         ! -- lapack computational routine --
         ! -- lapack is a software package provided by univ. of tennessee,    --
@@ -21112,6 +21178,8 @@ module la_lapack_solve_ldl_comp
            integer(ilp),intent(in) :: ipiv(*)
            complex(qp),intent(in) :: a(lda,*),af(ldaf,*)
            real(qp),intent(out) :: work(*)
+           ! Function Value
+           real(qp),intent(out) :: res
         ! =====================================================================
            ! Local Scalars
            integer(ilp) :: ncols,i,j,k,kp
@@ -21280,8 +21348,8 @@ module la_lapack_solve_ldl_comp
                  end if
               end do
            end if
-           la_wla_herpvgrw = rpvgrw
-     end function la_wla_herpvgrw
+           res = rpvgrw
+     end subroutine la_wla_herpvgrw_sub
 #endif
 
      !> CSPCON: estimates the reciprocal of the condition number (in the
