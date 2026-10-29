@@ -143,6 +143,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `la_state` messages format array arguments of any rank from 2 to 14: the elements in
   array element order, then the shape, as in `[1 2 3 4] (2x2)`. Only scalars and vectors
   were formatted before.
+- The matrix exponential, ported from the Fortran standard library, in the new
+  `la_matrix_functions` module: `expm(a [, order])` is `pure`, `expm(a [, order], err)`
+  returns the error state instead, and `matrix_exp(a [, order] [, work] [, iwork] [, err])` /
+  `matrix_exp(a, e [, order] [, work] [, iwork] [, err])` are `pure` subroutines that
+  overwrite `a` or write into `e`. Given `work` and `iwork`, sized with
+  `expm_space(a, lwork, liwork)`, they allocate no work arrays. Every real and complex
+  kind; `order` is the Padé order, 10 by default.
 
 ### Changed
 

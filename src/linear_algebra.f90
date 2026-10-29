@@ -7,6 +7,7 @@ module linear_algebra
      use la_inverse
      use la_lapack
      use la_least_squares
+     use la_matrix_functions
      use la_matrix_property_checks
      use la_solve
      use la_state_type
