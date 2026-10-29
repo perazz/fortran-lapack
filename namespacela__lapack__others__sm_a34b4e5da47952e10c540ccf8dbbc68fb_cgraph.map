@@ -1,4 +1,6 @@
 <map id="la_lapack_others_sm::la_cla_syrcond_c" name="la_lapack_others_sm::la_cla_syrcond_c">
 <area shape="rect" id="Node000001" title="CLA_SYRCOND_C: Computes the infinity norm condition number of op(A) * inv(diag(C)) where C is a REAL ..." alt="" coords="5,29,164,74"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="53,28,52,19,58,11,69,5,85,3,102,5,113,14,108,14,100,10,84,8,70,10,61,14,58,21,59,30"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="44,28,43,19,49,10,64,5,85,3,108,5,123,14,117,14,106,10,84,8,65,10,53,15,48,21,49,29"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__others__sm.html#acbff8134aa331d33296586a03bfcdd86" title="Pure subroutine form of CLA_SYRCOND_C: the same arguments, followed by RES, which returns the value o..." alt="" coords="212,29,381,74"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="164,49,199,51,194,52,164,54"/>
 </map>

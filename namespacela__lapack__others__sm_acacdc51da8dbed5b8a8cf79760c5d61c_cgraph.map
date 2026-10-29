@@ -1,4 +1,6 @@
 <map id="la_lapack_others_sm::la_dla_syrcond" name="la_lapack_others_sm::la_dla_syrcond">
 <area shape="rect" id="Node000001" title="DLA_SYRCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,29,164,74"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="53,28,52,19,58,11,69,5,85,3,102,5,113,14,108,14,100,10,84,8,70,10,61,14,58,21,59,30"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="45,28,44,19,50,10,64,5,85,3,106,5,121,13,116,14,105,10,84,8,65,10,54,15,49,21,50,29"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__others__sm.html#a76615a0ee523cf5efaf3306139289d15" title="Pure subroutine form of DLA_SYRCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="212,29,370,74"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="164,49,199,51,193,52,164,54"/>
 </map>

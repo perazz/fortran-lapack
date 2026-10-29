@@ -126,42 +126,42 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a92db67b3204d670154ab5b3c0888f091" id="r_a92db67b3204d670154ab5b3c0888f091"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92db67b3204d670154ab5b3c0888f091">la_dla_wwaddw</a> (n, x, y, w)</td></tr>
 <tr class="memdesc:a92db67b3204d670154ab5b3c0888f091"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal.  <br /></td></tr>
 <tr class="separator:a92db67b3204d670154ab5b3c0888f091"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2c24754482a967d8a1f21c8de0df656" id="r_ab2c24754482a967d8a1f21c8de0df656"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab2c24754482a967d8a1f21c8de0df656">la_sla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:ab2c24754482a967d8a1f21c8de0df656"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:ab2c24754482a967d8a1f21c8de0df656"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4c28898e17267b6eab86b4a04619755" id="r_aa4c28898e17267b6eab86b4a04619755"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa4c28898e17267b6eab86b4a04619755">la_dla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:aa4c28898e17267b6eab86b4a04619755"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:aa4c28898e17267b6eab86b4a04619755"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abec52945da4a7716ec83559bdbb1cb48" id="r_abec52945da4a7716ec83559bdbb1cb48"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abec52945da4a7716ec83559bdbb1cb48">la_sla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:abec52945da4a7716ec83559bdbb1cb48"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:abec52945da4a7716ec83559bdbb1cb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4abbadfbe10f05f4b37f7664578fc271" id="r_a4abbadfbe10f05f4b37f7664578fc271"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4abbadfbe10f05f4b37f7664578fc271">la_dla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:a4abbadfbe10f05f4b37f7664578fc271"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:a4abbadfbe10f05f4b37f7664578fc271"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6582c8c44bfea577a07fd246e4a6cb0" id="r_ad6582c8c44bfea577a07fd246e4a6cb0"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad6582c8c44bfea577a07fd246e4a6cb0">la_sla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:ad6582c8c44bfea577a07fd246e4a6cb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:ad6582c8c44bfea577a07fd246e4a6cb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e371718d2ba93d0b288d307d1457961" id="r_a9e371718d2ba93d0b288d307d1457961"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9e371718d2ba93d0b288d307d1457961">la_dla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:a9e371718d2ba93d0b288d307d1457961"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:a9e371718d2ba93d0b288d307d1457961"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4e6c69e01f35e87c813675f8157f645" id="r_ad4e6c69e01f35e87c813675f8157f645"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad4e6c69e01f35e87c813675f8157f645">la_sla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:ad4e6c69e01f35e87c813675f8157f645"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:ad4e6c69e01f35e87c813675f8157f645"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7dfa40e469ac5a5c830c7212904a30d" id="r_ac7dfa40e469ac5a5c830c7212904a30d"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7dfa40e469ac5a5c830c7212904a30d">la_dla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:ac7dfa40e469ac5a5c830c7212904a30d"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:ac7dfa40e469ac5a5c830c7212904a30d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b3f36dadb18d8641ab84d367e33e66a" id="r_a2b3f36dadb18d8641ab84d367e33e66a"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b3f36dadb18d8641ab84d367e33e66a">la_slascl</a> (type, kl, ku, cfrom, cto, m, n, a, lda, info)</td></tr>
 <tr class="memdesc:a2b3f36dadb18d8641ab84d367e33e66a"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded.  <br /></td></tr>
 <tr class="separator:a2b3f36dadb18d8641ab84d367e33e66a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5191739bc8c0e9fa2df2f8d9527c8d7" id="r_ac5191739bc8c0e9fa2df2f8d9527c8d7"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac5191739bc8c0e9fa2df2f8d9527c8d7">la_dlascl</a> (type, kl, ku, cfrom, cto, m, n, a, lda, info)</td></tr>
 <tr class="memdesc:ac5191739bc8c0e9fa2df2f8d9527c8d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/underflow as long as the final result CTO*A(I,J)/CFROM does not over/underflow. TYPE specifies that A may be full, upper triangular, lower triangular, upper Hessenberg, or banded.  <br /></td></tr>
 <tr class="separator:ac5191739bc8c0e9fa2df2f8d9527c8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98aa5d1d694706f0ee7a57dceb76df96" id="r_a98aa5d1d694706f0ee7a57dceb76df96"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a98aa5d1d694706f0ee7a57dceb76df96">la_cla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:a98aa5d1d694706f0ee7a57dceb76df96"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:a98aa5d1d694706f0ee7a57dceb76df96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa919ba3bed03e8b82f7eedeb95e76bc4" id="r_aa919ba3bed03e8b82f7eedeb95e76bc4"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa919ba3bed03e8b82f7eedeb95e76bc4">la_zla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:aa919ba3bed03e8b82f7eedeb95e76bc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:aa919ba3bed03e8b82f7eedeb95e76bc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b2d3e7e8647e740155803bb89b10a42" id="r_a9b2d3e7e8647e740155803bb89b10a42"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9b2d3e7e8647e740155803bb89b10a42">la_cla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:a9b2d3e7e8647e740155803bb89b10a42"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:a9b2d3e7e8647e740155803bb89b10a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0adab2a30ed16aaa954c9c9f8e3b1d5d" id="r_a0adab2a30ed16aaa954c9c9f8e3b1d5d"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0adab2a30ed16aaa954c9c9f8e3b1d5d">la_zla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:a0adab2a30ed16aaa954c9c9f8e3b1d5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:a0adab2a30ed16aaa954c9c9f8e3b1d5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6a895c735585607d5d3c0cee0fb03b4" id="r_ae6a895c735585607d5d3c0cee0fb03b4"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae6a895c735585607d5d3c0cee0fb03b4">la_cla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:ae6a895c735585607d5d3c0cee0fb03b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:ae6a895c735585607d5d3c0cee0fb03b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f9a5038326d128040eafe21a310214c" id="r_a3f9a5038326d128040eafe21a310214c"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3f9a5038326d128040eafe21a310214c">la_zla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="memdesc:a3f9a5038326d128040eafe21a310214c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
-<tr class="separator:a3f9a5038326d128040eafe21a310214c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f75741ff82bdd9e9b7d95a1743f02bf" id="r_a0f75741ff82bdd9e9b7d95a1743f02bf"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f75741ff82bdd9e9b7d95a1743f02bf">la_cla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:a0f75741ff82bdd9e9b7d95a1743f02bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:a0f75741ff82bdd9e9b7d95a1743f02bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adde18dde5b73468b4385cf3958efa716" id="r_adde18dde5b73468b4385cf3958efa716"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adde18dde5b73468b4385cf3958efa716">la_zla_gbamv</a> (trans, m, n, kl, ku, alpha, ab, ldab, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:adde18dde5b73468b4385cf3958efa716"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_GBAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:adde18dde5b73468b4385cf3958efa716"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37061928beaa85000ac7723c4c907008" id="r_a37061928beaa85000ac7723c4c907008"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a37061928beaa85000ac7723c4c907008">la_cla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:a37061928beaa85000ac7723c4c907008"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:a37061928beaa85000ac7723c4c907008"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ac6e96af65ab4a7d7b6a43c99ff96ce" id="r_a1ac6e96af65ab4a7d7b6a43c99ff96ce"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ac6e96af65ab4a7d7b6a43c99ff96ce">la_zla_geamv</a> (trans, m, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:a1ac6e96af65ab4a7d7b6a43c99ff96ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_GEAMV: performs one of the matrix-vector operations y := alpha*abs(A)*abs(x) + beta*abs(y), or y := alpha*abs(A)**T*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an m by n matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:a1ac6e96af65ab4a7d7b6a43c99ff96ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa78829753d1acfee76855a1bc081fa4" id="r_afa78829753d1acfee76855a1bc081fa4"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afa78829753d1acfee76855a1bc081fa4">la_cla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:afa78829753d1acfee76855a1bc081fa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:afa78829753d1acfee76855a1bc081fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bb870261a101a1b8b0f5f81d660f53c" id="r_a1bb870261a101a1b8b0f5f81d660f53c"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1bb870261a101a1b8b0f5f81d660f53c">la_zla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
+<tr class="memdesc:a1bb870261a101a1b8b0f5f81d660f53c"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand.  <br /></td></tr>
+<tr class="separator:a1bb870261a101a1b8b0f5f81d660f53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fd52b834dd218600048b82fec0c19a9" id="r_a3fd52b834dd218600048b82fec0c19a9"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3fd52b834dd218600048b82fec0c19a9">la_cla_wwaddw</a> (n, x, y, w)</td></tr>
 <tr class="memdesc:a3fd52b834dd218600048b82fec0c19a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_WWADDW: adds a vector W into a doubled-single vector (X, Y). This works for all extant IBM's hex and binary floating point arithmetic, but not for decimal.  <br /></td></tr>
 <tr class="separator:a3fd52b834dd218600048b82fec0c19a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,14 +202,14 @@ Functions/Subroutines</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>BLAS-like level 2: matrix-vector products, scaling, rank updates. </p>
 </div><h2 class="groupheader">Function/Subroutine Documentation</h2>
-<a id="a98aa5d1d694706f0ee7a57dceb76df96" name="a98aa5d1d694706f0ee7a57dceb76df96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98aa5d1d694706f0ee7a57dceb76df96">&#9670;&#160;</a></span>la_cla_gbamv()</h2>
+<a id="a0f75741ff82bdd9e9b7d95a1743f02bf" name="a0f75741ff82bdd9e9b7d95a1743f02bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f75741ff82bdd9e9b7d95a1743f02bf">&#9670;&#160;</a></span>la_cla_gbamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_cla_gbamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_cla_gbamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -280,10 +280,10 @@ Functions/Subroutines</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a98aa5d1d694706f0ee7a57dceb76df96_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a98aa5d1d694706f0ee7a57dceb76df96_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a98aa5d1d694706f0ee7a57dceb76df96_cgraph" id="anamespacela__lapack__blas__like__l2_a98aa5d1d694706f0ee7a57dceb76df96_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_a0f75741ff82bdd9e9b7d95a1743f02bf_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a0f75741ff82bdd9e9b7d95a1743f02bf_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_a0f75741ff82bdd9e9b7d95a1743f02bf_cgraph" id="anamespacela__lapack__blas__like__l2_a0f75741ff82bdd9e9b7d95a1743f02bf_cgraph">
 <area shape="rect" title="CLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
 <area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,218,63,202,71,124,107"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,105,370,150"/>
 <area shape="poly" title=" " alt="" coords="152,125,209,126,204,128,153,130"/>
@@ -300,14 +300,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a9b2d3e7e8647e740155803bb89b10a42" name="a9b2d3e7e8647e740155803bb89b10a42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b2d3e7e8647e740155803bb89b10a42">&#9670;&#160;</a></span>la_cla_geamv()</h2>
+<a id="a37061928beaa85000ac7723c4c907008" name="a37061928beaa85000ac7723c4c907008"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37061928beaa85000ac7723c4c907008">&#9670;&#160;</a></span>la_cla_geamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_cla_geamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_cla_geamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -368,10 +368,10 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a9b2d3e7e8647e740155803bb89b10a42_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a9b2d3e7e8647e740155803bb89b10a42_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a9b2d3e7e8647e740155803bb89b10a42_cgraph" id="anamespacela__lapack__blas__like__l2_a9b2d3e7e8647e740155803bb89b10a42_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_a37061928beaa85000ac7723c4c907008_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a37061928beaa85000ac7723c4c907008_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_a37061928beaa85000ac7723c4c907008_cgraph" id="anamespacela__lapack__blas__like__l2_a37061928beaa85000ac7723c4c907008_cgraph">
 <area shape="rect" title="CLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
 <area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,218,63,202,71,124,107"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,105,370,150"/>
 <area shape="poly" title=" " alt="" coords="152,125,209,126,204,128,153,130"/>
@@ -388,14 +388,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ae6a895c735585607d5d3c0cee0fb03b4" name="ae6a895c735585607d5d3c0cee0fb03b4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6a895c735585607d5d3c0cee0fb03b4">&#9670;&#160;</a></span>la_cla_heamv()</h2>
+<a id="afa78829753d1acfee76855a1bc081fa4" name="afa78829753d1acfee76855a1bc081fa4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa78829753d1acfee76855a1bc081fa4">&#9670;&#160;</a></span>la_cla_heamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_cla_heamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_cla_heamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
         </tr>
@@ -451,10 +451,10 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_ae6a895c735585607d5d3c0cee0fb03b4_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ae6a895c735585607d5d3c0cee0fb03b4_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_ae6a895c735585607d5d3c0cee0fb03b4_cgraph" id="anamespacela__lapack__blas__like__l2_ae6a895c735585607d5d3c0cee0fb03b4_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_afa78829753d1acfee76855a1bc081fa4_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_afa78829753d1acfee76855a1bc081fa4_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_afa78829753d1acfee76855a1bc081fa4_cgraph" id="anamespacela__lapack__blas__like__l2_afa78829753d1acfee76855a1bc081fa4_cgraph">
 <area shape="rect" title="CLA_SYAMV performs the matrix&#45;vector operation y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
-<area shape="rect" href="namespacela__lapack__aux.html#a55a8148ea78d07e689cd65ea0cb9dee0" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,29,386,57"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a1b97afb9925f372de6bf6ba5ac9b7df5" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,29,386,57"/>
 <area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,217,63,202,71,124,107"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="220,105,367,150"/>
 <area shape="poly" title=" " alt="" coords="153,125,206,126,201,128,154,130"/>
@@ -854,14 +854,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="aa4c28898e17267b6eab86b4a04619755" name="aa4c28898e17267b6eab86b4a04619755"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4c28898e17267b6eab86b4a04619755">&#9670;&#160;</a></span>la_dla_gbamv()</h2>
+<a id="a9e371718d2ba93d0b288d307d1457961" name="a9e371718d2ba93d0b288d307d1457961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e371718d2ba93d0b288d307d1457961">&#9670;&#160;</a></span>la_dla_gbamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_dla_gbamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_dla_gbamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -932,12 +932,12 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_aa4c28898e17267b6eab86b4a04619755_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_aa4c28898e17267b6eab86b4a04619755_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_aa4c28898e17267b6eab86b4a04619755_cgraph" id="anamespacela__lapack__blas__like__l2_aa4c28898e17267b6eab86b4a04619755_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_a9e371718d2ba93d0b288d307d1457961_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a9e371718d2ba93d0b288d307d1457961_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_a9e371718d2ba93d0b288d307d1457961_cgraph" id="anamespacela__lapack__blas__like__l2_a9e371718d2ba93d0b288d307d1457961_cgraph">
 <area shape="rect" title="DLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,29,370,74"/>
 <area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
 <area shape="poly" title=" " alt="" coords="152,133,187,135,182,136,153,138"/>
 <area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,174,378,202"/>
 <area shape="poly" title=" " alt="" coords="153,151,223,169,218,170,153,156"/>
@@ -952,14 +952,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a4abbadfbe10f05f4b37f7664578fc271" name="a4abbadfbe10f05f4b37f7664578fc271"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4abbadfbe10f05f4b37f7664578fc271">&#9670;&#160;</a></span>la_dla_geamv()</h2>
+<a id="ac7dfa40e469ac5a5c830c7212904a30d" name="ac7dfa40e469ac5a5c830c7212904a30d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7dfa40e469ac5a5c830c7212904a30d">&#9670;&#160;</a></span>la_dla_geamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_dla_geamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_dla_geamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -1020,12 +1020,12 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a4abbadfbe10f05f4b37f7664578fc271_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a4abbadfbe10f05f4b37f7664578fc271_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a4abbadfbe10f05f4b37f7664578fc271_cgraph" id="anamespacela__lapack__blas__like__l2_a4abbadfbe10f05f4b37f7664578fc271_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_ac7dfa40e469ac5a5c830c7212904a30d_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ac7dfa40e469ac5a5c830c7212904a30d_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_ac7dfa40e469ac5a5c830c7212904a30d_cgraph" id="anamespacela__lapack__blas__like__l2_ac7dfa40e469ac5a5c830c7212904a30d_cgraph">
 <area shape="rect" title="DLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,29,370,74"/>
 <area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
 <area shape="poly" title=" " alt="" coords="152,133,187,135,182,136,153,138"/>
 <area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,174,378,202"/>
 <area shape="poly" title=" " alt="" coords="153,151,223,169,218,170,153,156"/>
@@ -1159,14 +1159,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="ab2c24754482a967d8a1f21c8de0df656" name="ab2c24754482a967d8a1f21c8de0df656"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab2c24754482a967d8a1f21c8de0df656">&#9670;&#160;</a></span>la_sla_gbamv()</h2>
+<a id="ad6582c8c44bfea577a07fd246e4a6cb0" name="ad6582c8c44bfea577a07fd246e4a6cb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6582c8c44bfea577a07fd246e4a6cb0">&#9670;&#160;</a></span>la_sla_gbamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_sla_gbamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_sla_gbamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -1237,10 +1237,10 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_ab2c24754482a967d8a1f21c8de0df656_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ab2c24754482a967d8a1f21c8de0df656_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_ab2c24754482a967d8a1f21c8de0df656_cgraph" id="anamespacela__lapack__blas__like__l2_ab2c24754482a967d8a1f21c8de0df656_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_ad6582c8c44bfea577a07fd246e4a6cb0_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ad6582c8c44bfea577a07fd246e4a6cb0_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_ad6582c8c44bfea577a07fd246e4a6cb0_cgraph" id="anamespacela__lapack__blas__like__l2_ad6582c8c44bfea577a07fd246e4a6cb0_cgraph">
 <area shape="rect" title="SLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
 <area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,218,63,202,71,124,107"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,105,370,150"/>
 <area shape="poly" title=" " alt="" coords="152,125,209,126,204,128,153,130"/>
@@ -1257,14 +1257,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="abec52945da4a7716ec83559bdbb1cb48" name="abec52945da4a7716ec83559bdbb1cb48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abec52945da4a7716ec83559bdbb1cb48">&#9670;&#160;</a></span>la_sla_geamv()</h2>
+<a id="ad4e6c69e01f35e87c813675f8157f645" name="ad4e6c69e01f35e87c813675f8157f645"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4e6c69e01f35e87c813675f8157f645">&#9670;&#160;</a></span>la_sla_geamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_sla_geamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_sla_geamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -1325,10 +1325,10 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_abec52945da4a7716ec83559bdbb1cb48_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_abec52945da4a7716ec83559bdbb1cb48_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_abec52945da4a7716ec83559bdbb1cb48_cgraph" id="anamespacela__lapack__blas__like__l2_abec52945da4a7716ec83559bdbb1cb48_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_ad4e6c69e01f35e87c813675f8157f645_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_ad4e6c69e01f35e87c813675f8157f645_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_ad4e6c69e01f35e87c813675f8157f645_cgraph" id="anamespacela__lapack__blas__like__l2_ad4e6c69e01f35e87c813675f8157f645_cgraph">
 <area shape="rect" title="SLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,29,391,57"/>
 <area shape="poly" title=" " alt="" coords="121,102,200,66,222,61,218,63,202,71,124,107"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="222,105,370,150"/>
 <area shape="poly" title=" " alt="" coords="152,125,209,126,204,128,153,130"/>
@@ -1464,14 +1464,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="aa919ba3bed03e8b82f7eedeb95e76bc4" name="aa919ba3bed03e8b82f7eedeb95e76bc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa919ba3bed03e8b82f7eedeb95e76bc4">&#9670;&#160;</a></span>la_zla_gbamv()</h2>
+<a id="adde18dde5b73468b4385cf3958efa716" name="adde18dde5b73468b4385cf3958efa716"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adde18dde5b73468b4385cf3958efa716">&#9670;&#160;</a></span>la_zla_gbamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_zla_gbamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_zla_gbamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -1542,12 +1542,12 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_aa919ba3bed03e8b82f7eedeb95e76bc4_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_aa919ba3bed03e8b82f7eedeb95e76bc4_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_aa919ba3bed03e8b82f7eedeb95e76bc4_cgraph" id="anamespacela__lapack__blas__like__l2_aa919ba3bed03e8b82f7eedeb95e76bc4_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_adde18dde5b73468b4385cf3958efa716_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_adde18dde5b73468b4385cf3958efa716_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_adde18dde5b73468b4385cf3958efa716_cgraph" id="anamespacela__lapack__blas__like__l2_adde18dde5b73468b4385cf3958efa716_cgraph">
 <area shape="rect" title="ZLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,29,370,74"/>
 <area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
 <area shape="poly" title=" " alt="" coords="152,133,187,135,182,136,153,138"/>
 <area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,174,378,202"/>
 <area shape="poly" title=" " alt="" coords="153,151,223,169,218,170,153,156"/>
@@ -1562,14 +1562,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a0adab2a30ed16aaa954c9c9f8e3b1d5d" name="a0adab2a30ed16aaa954c9c9f8e3b1d5d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0adab2a30ed16aaa954c9c9f8e3b1d5d">&#9670;&#160;</a></span>la_zla_geamv()</h2>
+<a id="a1ac6e96af65ab4a7d7b6a43c99ff96ce" name="a1ac6e96af65ab4a7d7b6a43c99ff96ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ac6e96af65ab4a7d7b6a43c99ff96ce">&#9670;&#160;</a></span>la_zla_geamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_zla_geamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_zla_geamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -1630,12 +1630,12 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a0adab2a30ed16aaa954c9c9f8e3b1d5d_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a0adab2a30ed16aaa954c9c9f8e3b1d5d_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a0adab2a30ed16aaa954c9c9f8e3b1d5d_cgraph" id="anamespacela__lapack__blas__like__l2_a0adab2a30ed16aaa954c9c9f8e3b1d5d_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_a1ac6e96af65ab4a7d7b6a43c99ff96ce_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a1ac6e96af65ab4a7d7b6a43c99ff96ce_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_a1ac6e96af65ab4a7d7b6a43c99ff96ce_cgraph" id="anamespacela__lapack__blas__like__l2_a1ac6e96af65ab4a7d7b6a43c99ff96ce_cgraph">
 <area shape="rect" title="ZLA_GEAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,29,370,74"/>
 <area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
-<area shape="rect" href="namespacela__lapack__aux.html#ad063c781b15b262a8e05abdbbf0f00c0" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="201,122,391,150"/>
 <area shape="poly" title=" " alt="" coords="152,133,187,135,182,136,153,138"/>
 <area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,174,378,202"/>
 <area shape="poly" title=" " alt="" coords="153,151,223,169,218,170,153,156"/>
@@ -1650,14 +1650,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a3f9a5038326d128040eafe21a310214c" name="a3f9a5038326d128040eafe21a310214c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3f9a5038326d128040eafe21a310214c">&#9670;&#160;</a></span>la_zla_heamv()</h2>
+<a id="a1bb870261a101a1b8b0f5f81d660f53c" name="a1bb870261a101a1b8b0f5f81d660f53c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bb870261a101a1b8b0f5f81d660f53c">&#9670;&#160;</a></span>la_zla_heamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_blas_like_l2::la_zla_heamv </td>
+          <td class="memname">pure subroutine, public la_lapack_blas_like_l2::la_zla_heamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
         </tr>
@@ -1713,12 +1713,12 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__blas__like__l2_a3f9a5038326d128040eafe21a310214c_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a3f9a5038326d128040eafe21a310214c_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__blas__like__l2_a3f9a5038326d128040eafe21a310214c_cgraph" id="anamespacela__lapack__blas__like__l2_a3f9a5038326d128040eafe21a310214c_cgraph">
+<div class="center"><img src="namespacela__lapack__blas__like__l2_a1bb870261a101a1b8b0f5f81d660f53c_cgraph.png" border="0" usemap="#anamespacela__lapack__blas__like__l2_a1bb870261a101a1b8b0f5f81d660f53c_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__blas__like__l2_a1bb870261a101a1b8b0f5f81d660f53c_cgraph" id="anamespacela__lapack__blas__like__l2_a1bb870261a101a1b8b0f5f81d660f53c_cgraph">
 <area shape="rect" title="ZLA_SYAMV performs the matrix&#45;vector operation y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,113,153,158"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="220,29,367,74"/>
 <area shape="poly" title=" " alt="" coords="134,110,200,84,220,79,215,81,202,89,136,115"/>
-<area shape="rect" href="namespacela__lapack__aux.html#a55a8148ea78d07e689cd65ea0cb9dee0" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,122,386,150"/>
+<area shape="rect" href="namespacela__lapack__aux.html#a1b97afb9925f372de6bf6ba5ac9b7df5" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,122,386,150"/>
 <area shape="poly" title=" " alt="" coords="153,133,188,135,183,136,154,138"/>
 <area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="211,174,376,202"/>
 <area shape="poly" title=" " alt="" coords="153,151,221,169,216,170,153,156"/>

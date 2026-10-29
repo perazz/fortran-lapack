@@ -144,12 +144,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a0001d48c6c04dbfb1d64e5bae166d800" id="r_a0001d48c6c04dbfb1d64e5bae166d800"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0001d48c6c04dbfb1d64e5bae166d800">la_dgghd3</a> (compq, compz, n, ilo, ihi, a, lda, b, ldb, q, ldq, z, ldz, work, lwork, info)</td></tr>
 <tr class="memdesc:a0001d48c6c04dbfb1d64e5bae166d800"><td class="mdescLeft">&#160;</td><td class="mdescRight">DGGHD3: reduces a pair of real matrices (A,B) to generalized upper Hessenberg form using orthogonal transformations, where A is a general matrix and B is upper triangular. The form of the generalized eigenvalue problem is A*x = lambda*B*x, and B is typically made upper triangular by computing its QR factorization and moving the orthogonal matrix Q to the left side of the equation. This subroutine simultaneously reduces A to a Hessenberg matrix H: Q**T*A*Z = H and transforms B to another upper triangular matrix T: Q**T*B*Z = T in order to reduce the problem to its standard form H*y = lambda*T*y where y = Z**T*x. The orthogonal matrices Q and Z are determined as products of Givens rotations. They may either be formed explicitly, or they may be postmultiplied into input matrices Q1 and Z1, so that Q1 * A * Z1**T = (Q1*Q) * H * (Z1*Z)**T Q1 * B * Z1**T = (Q1*Q) * T * (Z1*Z)**T If Q1 is the orthogonal matrix from the QR factorization of B in the original equation A*x = lambda*B*x, then DGGHD3 reduces the original problem to generalized Hessenberg form. This is a blocked variant of DGGHRD, using matrix-matrix multiplications for parts of the computation to enhance performance.  <br /></td></tr>
 <tr class="separator:a0001d48c6c04dbfb1d64e5bae166d800"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a00dee6c2d11eb3b52558141adb0cb767" id="r_a00dee6c2d11eb3b52558141adb0cb767"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a00dee6c2d11eb3b52558141adb0cb767">la_shgeqz</a> (job, compq, compz, n, ilo, ihi, h, ldh, t, ldt, alphar, alphai, beta, q, ldq, z, ldz, work, lwork, info)</td></tr>
-<tr class="memdesc:a00dee6c2d11eb3b52558141adb0cb767"><td class="mdescLeft">&#160;</td><td class="mdescRight">SHGEQZ: computes the eigenvalues of a real matrix pair (H,T), where H is an upper Hessenberg matrix and T is upper triangular, using the double-shift QZ method. Matrix pairs of this type are produced by the reduction to generalized upper Hessenberg form of a real matrix pair (A,B): A = Q1*H*Z1**T, B = Q1*T*Z1**T, as computed by SGGHRD. If JOB='S', then the Hessenberg-triangular pair (H,T) is also reduced to generalized Schur form, H = Q*S*Z**T, T = Q*P*Z**T, where Q and Z are orthogonal matrices, P is an upper triangular matrix, and S is a quasi-triangular matrix with 1-by-1 and 2-by-2 diagonal blocks. The 1-by-1 blocks correspond to real eigenvalues of the matrix pair (H,T) and the 2-by-2 blocks correspond to complex conjugate pairs of eigenvalues. Additionally, the 2-by-2 upper triangular diagonal blocks of P corresponding to 2-by-2 blocks of S are reduced to positive diagonal form, i.e., if S(j+1,j) is non-zero, then P(j+1,j) = P(j,j+1) = 0, P(j,j) &gt; 0, and P(j+1,j+1) &gt; 0. Optionally, the orthogonal matrix Q from the generalized Schur factorization may be postmultiplied into an input matrix Q1, and the orthogonal matrix Z may be postmultiplied into an input matrix Z1. If Q1 and Z1 are the orthogonal matrices from SGGHRD that reduced the matrix pair (A,B) to generalized upper Hessenberg form, then the output matrices Q1*Q and Z1*Z are the orthogonal factors from the generalized Schur factorization of (A,B): A = (Q1*Q)*S*(Z1*Z)**T, B = (Q1*Q)*P*(Z1*Z)**T. To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently, of (A,B)) are computed as a pair of values (alpha,beta), where alpha is complex and beta real. If beta is nonzero, lambda = alpha / beta is an eigenvalue of the generalized nonsymmetric eigenvalue problem (GNEP) A*x = lambda*B*x and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the alternate form of the GNEP mu*A*y = B*y. Real eigenvalues can be read directly from the generalized Schur form: alpha = S(i,i), beta = P(i,i). Ref: C.B. Moler Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973), pp. 241&ndash;256.  <br /></td></tr>
-<tr class="separator:a00dee6c2d11eb3b52558141adb0cb767"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83c37198380b763175ac2c034b545a86" id="r_a83c37198380b763175ac2c034b545a86"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83c37198380b763175ac2c034b545a86">la_dhgeqz</a> (job, compq, compz, n, ilo, ihi, h, ldh, t, ldt, alphar, alphai, beta, q, ldq, z, ldz, work, lwork, info)</td></tr>
-<tr class="memdesc:a83c37198380b763175ac2c034b545a86"><td class="mdescLeft">&#160;</td><td class="mdescRight">DHGEQZ: computes the eigenvalues of a real matrix pair (H,T), where H is an upper Hessenberg matrix and T is upper triangular, using the double-shift QZ method. Matrix pairs of this type are produced by the reduction to generalized upper Hessenberg form of a real matrix pair (A,B): A = Q1*H*Z1**T, B = Q1*T*Z1**T, as computed by DGGHRD. If JOB='S', then the Hessenberg-triangular pair (H,T) is also reduced to generalized Schur form, H = Q*S*Z**T, T = Q*P*Z**T, where Q and Z are orthogonal matrices, P is an upper triangular matrix, and S is a quasi-triangular matrix with 1-by-1 and 2-by-2 diagonal blocks. The 1-by-1 blocks correspond to real eigenvalues of the matrix pair (H,T) and the 2-by-2 blocks correspond to complex conjugate pairs of eigenvalues. Additionally, the 2-by-2 upper triangular diagonal blocks of P corresponding to 2-by-2 blocks of S are reduced to positive diagonal form, i.e., if S(j+1,j) is non-zero, then P(j+1,j) = P(j,j+1) = 0, P(j,j) &gt; 0, and P(j+1,j+1) &gt; 0. Optionally, the orthogonal matrix Q from the generalized Schur factorization may be postmultiplied into an input matrix Q1, and the orthogonal matrix Z may be postmultiplied into an input matrix Z1. If Q1 and Z1 are the orthogonal matrices from DGGHRD that reduced the matrix pair (A,B) to generalized upper Hessenberg form, then the output matrices Q1*Q and Z1*Z are the orthogonal factors from the generalized Schur factorization of (A,B): A = (Q1*Q)*S*(Z1*Z)**T, B = (Q1*Q)*P*(Z1*Z)**T. To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently, of (A,B)) are computed as a pair of values (alpha,beta), where alpha is complex and beta real. If beta is nonzero, lambda = alpha / beta is an eigenvalue of the generalized nonsymmetric eigenvalue problem (GNEP) A*x = lambda*B*x and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the alternate form of the GNEP mu*A*y = B*y. Real eigenvalues can be read directly from the generalized Schur form: alpha = S(i,i), beta = P(i,i). Ref: C.B. Moler Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973), pp. 241&ndash;256.  <br /></td></tr>
-<tr class="separator:a83c37198380b763175ac2c034b545a86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a025d06b27724b94b3ebfff948b3a8874" id="r_a025d06b27724b94b3ebfff948b3a8874"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a025d06b27724b94b3ebfff948b3a8874">la_shgeqz</a> (job, compq, compz, n, ilo, ihi, h, ldh, t, ldt, alphar, alphai, beta, q, ldq, z, ldz, work, lwork, info)</td></tr>
+<tr class="memdesc:a025d06b27724b94b3ebfff948b3a8874"><td class="mdescLeft">&#160;</td><td class="mdescRight">SHGEQZ: computes the eigenvalues of a real matrix pair (H,T), where H is an upper Hessenberg matrix and T is upper triangular, using the double-shift QZ method. Matrix pairs of this type are produced by the reduction to generalized upper Hessenberg form of a real matrix pair (A,B): A = Q1*H*Z1**T, B = Q1*T*Z1**T, as computed by SGGHRD. If JOB='S', then the Hessenberg-triangular pair (H,T) is also reduced to generalized Schur form, H = Q*S*Z**T, T = Q*P*Z**T, where Q and Z are orthogonal matrices, P is an upper triangular matrix, and S is a quasi-triangular matrix with 1-by-1 and 2-by-2 diagonal blocks. The 1-by-1 blocks correspond to real eigenvalues of the matrix pair (H,T) and the 2-by-2 blocks correspond to complex conjugate pairs of eigenvalues. Additionally, the 2-by-2 upper triangular diagonal blocks of P corresponding to 2-by-2 blocks of S are reduced to positive diagonal form, i.e., if S(j+1,j) is non-zero, then P(j+1,j) = P(j,j+1) = 0, P(j,j) &gt; 0, and P(j+1,j+1) &gt; 0. Optionally, the orthogonal matrix Q from the generalized Schur factorization may be postmultiplied into an input matrix Q1, and the orthogonal matrix Z may be postmultiplied into an input matrix Z1. If Q1 and Z1 are the orthogonal matrices from SGGHRD that reduced the matrix pair (A,B) to generalized upper Hessenberg form, then the output matrices Q1*Q and Z1*Z are the orthogonal factors from the generalized Schur factorization of (A,B): A = (Q1*Q)*S*(Z1*Z)**T, B = (Q1*Q)*P*(Z1*Z)**T. To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently, of (A,B)) are computed as a pair of values (alpha,beta), where alpha is complex and beta real. If beta is nonzero, lambda = alpha / beta is an eigenvalue of the generalized nonsymmetric eigenvalue problem (GNEP) A*x = lambda*B*x and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the alternate form of the GNEP mu*A*y = B*y. Real eigenvalues can be read directly from the generalized Schur form: alpha = S(i,i), beta = P(i,i). Ref: C.B. Moler Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973), pp. 241&ndash;256.  <br /></td></tr>
+<tr class="separator:a025d06b27724b94b3ebfff948b3a8874"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9e610a04e1975e7c77b92c6813bde38" id="r_ab9e610a04e1975e7c77b92c6813bde38"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab9e610a04e1975e7c77b92c6813bde38">la_dhgeqz</a> (job, compq, compz, n, ilo, ihi, h, ldh, t, ldt, alphar, alphai, beta, q, ldq, z, ldz, work, lwork, info)</td></tr>
+<tr class="memdesc:ab9e610a04e1975e7c77b92c6813bde38"><td class="mdescLeft">&#160;</td><td class="mdescRight">DHGEQZ: computes the eigenvalues of a real matrix pair (H,T), where H is an upper Hessenberg matrix and T is upper triangular, using the double-shift QZ method. Matrix pairs of this type are produced by the reduction to generalized upper Hessenberg form of a real matrix pair (A,B): A = Q1*H*Z1**T, B = Q1*T*Z1**T, as computed by DGGHRD. If JOB='S', then the Hessenberg-triangular pair (H,T) is also reduced to generalized Schur form, H = Q*S*Z**T, T = Q*P*Z**T, where Q and Z are orthogonal matrices, P is an upper triangular matrix, and S is a quasi-triangular matrix with 1-by-1 and 2-by-2 diagonal blocks. The 1-by-1 blocks correspond to real eigenvalues of the matrix pair (H,T) and the 2-by-2 blocks correspond to complex conjugate pairs of eigenvalues. Additionally, the 2-by-2 upper triangular diagonal blocks of P corresponding to 2-by-2 blocks of S are reduced to positive diagonal form, i.e., if S(j+1,j) is non-zero, then P(j+1,j) = P(j,j+1) = 0, P(j,j) &gt; 0, and P(j+1,j+1) &gt; 0. Optionally, the orthogonal matrix Q from the generalized Schur factorization may be postmultiplied into an input matrix Q1, and the orthogonal matrix Z may be postmultiplied into an input matrix Z1. If Q1 and Z1 are the orthogonal matrices from DGGHRD that reduced the matrix pair (A,B) to generalized upper Hessenberg form, then the output matrices Q1*Q and Z1*Z are the orthogonal factors from the generalized Schur factorization of (A,B): A = (Q1*Q)*S*(Z1*Z)**T, B = (Q1*Q)*P*(Z1*Z)**T. To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently, of (A,B)) are computed as a pair of values (alpha,beta), where alpha is complex and beta real. If beta is nonzero, lambda = alpha / beta is an eigenvalue of the generalized nonsymmetric eigenvalue problem (GNEP) A*x = lambda*B*x and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the alternate form of the GNEP mu*A*y = B*y. Real eigenvalues can be read directly from the generalized Schur form: alpha = S(i,i), beta = P(i,i). Ref: C.B. Moler Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973), pp. 241&ndash;256.  <br /></td></tr>
+<tr class="separator:ab9e610a04e1975e7c77b92c6813bde38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa55d3e450f6cfefceb6b4c81f561eb05" id="r_aa55d3e450f6cfefceb6b4c81f561eb05"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa55d3e450f6cfefceb6b4c81f561eb05">la_cggbak</a> (job, side, n, ilo, ihi, lscale, rscale, m, v, ldv, info)</td></tr>
 <tr class="memdesc:aa55d3e450f6cfefceb6b4c81f561eb05"><td class="mdescLeft">&#160;</td><td class="mdescRight">CGGBAK: forms the right or left eigenvectors of a complex generalized eigenvalue problem A*x = lambda*B*x, by backward transformation on the computed eigenvectors of the balanced pair of matrices output by CGGBAL.  <br /></td></tr>
 <tr class="separator:aa55d3e450f6cfefceb6b4c81f561eb05"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,12 +174,12 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a0718722dee1418255ede88aa11c79844" id="r_a0718722dee1418255ede88aa11c79844"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0718722dee1418255ede88aa11c79844">la_zgghd3</a> (compq, compz, n, ilo, ihi, a, lda, b, ldb, q, ldq, z, ldz, work, lwork, info)</td></tr>
 <tr class="memdesc:a0718722dee1418255ede88aa11c79844"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZGGHD3: reduces a pair of complex matrices (A,B) to generalized upper Hessenberg form using unitary transformations, where A is a general matrix and B is upper triangular. The form of the generalized eigenvalue problem is A*x = lambda*B*x, and B is typically made upper triangular by computing its QR factorization and moving the unitary matrix Q to the left side of the equation. This subroutine simultaneously reduces A to a Hessenberg matrix H: Q**H*A*Z = H and transforms B to another upper triangular matrix T: Q**H*B*Z = T in order to reduce the problem to its standard form H*y = lambda*T*y where y = Z**H*x. The unitary matrices Q and Z are determined as products of Givens rotations. They may either be formed explicitly, or they may be postmultiplied into input matrices Q1 and Z1, so that Q1 * A * Z1**H = (Q1*Q) * H * (Z1*Z)**H Q1 * B * Z1**H = (Q1*Q) * T * (Z1*Z)**H If Q1 is the unitary matrix from the QR factorization of B in the original equation A*x = lambda*B*x, then ZGGHD3 reduces the original problem to generalized Hessenberg form. This is a blocked variant of CGGHRD, using matrix-matrix multiplications for parts of the computation to enhance performance.  <br /></td></tr>
 <tr class="separator:a0718722dee1418255ede88aa11c79844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06586acadbf9120a2569ab0aa6bcf0f2" id="r_a06586acadbf9120a2569ab0aa6bcf0f2"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a06586acadbf9120a2569ab0aa6bcf0f2">la_chgeqz</a> (job, compq, compz, n, ilo, ihi, h, ldh, t, ldt, alpha, beta, q, ldq, z, ldz, work, lwork, rwork, info)</td></tr>
-<tr class="memdesc:a06586acadbf9120a2569ab0aa6bcf0f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">CHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matrix and T is upper triangular, using the single-shift QZ method. Matrix pairs of this type are produced by the reduction to generalized upper Hessenberg form of a complex matrix pair (A,B): A = Q1*H*Z1**H, B = Q1*T*Z1**H, as computed by CGGHRD. If JOB='S', then the Hessenberg-triangular pair (H,T) is also reduced to generalized Schur form, H = Q*S*Z**H, T = Q*P*Z**H, where Q and Z are unitary matrices and S and P are upper triangular. Optionally, the unitary matrix Q from the generalized Schur factorization may be postmultiplied into an input matrix Q1, and the unitary matrix Z may be postmultiplied into an input matrix Z1. If Q1 and Z1 are the unitary matrices from CGGHRD that reduced the matrix pair (A,B) to generalized Hessenberg form, then the output matrices Q1*Q and Z1*Z are the unitary factors from the generalized Schur factorization of (A,B): A = (Q1*Q)*S*(Z1*Z)**H, B = (Q1*Q)*P*(Z1*Z)**H. To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently, of (A,B)) are computed as a pair of complex values (alpha,beta). If beta is nonzero, lambda = alpha / beta is an eigenvalue of the generalized nonsymmetric eigenvalue problem (GNEP) A*x = lambda*B*x and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the alternate form of the GNEP mu*A*y = B*y. The values of alpha and beta for the i-th eigenvalue can be read directly from the generalized Schur form: alpha = S(i,i), beta = P(i,i). Ref: C.B. Moler Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973), pp. 241&ndash;256.  <br /></td></tr>
-<tr class="separator:a06586acadbf9120a2569ab0aa6bcf0f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95b81bd466f608ccf0c4a3da88e66d90" id="r_a95b81bd466f608ccf0c4a3da88e66d90"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a95b81bd466f608ccf0c4a3da88e66d90">la_zhgeqz</a> (job, compq, compz, n, ilo, ihi, h, ldh, t, ldt, alpha, beta, q, ldq, z, ldz, work, lwork, rwork, info)</td></tr>
-<tr class="memdesc:a95b81bd466f608ccf0c4a3da88e66d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matrix and T is upper triangular, using the single-shift QZ method. Matrix pairs of this type are produced by the reduction to generalized upper Hessenberg form of a complex matrix pair (A,B): A = Q1*H*Z1**H, B = Q1*T*Z1**H, as computed by ZGGHRD. If JOB='S', then the Hessenberg-triangular pair (H,T) is also reduced to generalized Schur form, H = Q*S*Z**H, T = Q*P*Z**H, where Q and Z are unitary matrices and S and P are upper triangular. Optionally, the unitary matrix Q from the generalized Schur factorization may be postmultiplied into an input matrix Q1, and the unitary matrix Z may be postmultiplied into an input matrix Z1. If Q1 and Z1 are the unitary matrices from ZGGHRD that reduced the matrix pair (A,B) to generalized Hessenberg form, then the output matrices Q1*Q and Z1*Z are the unitary factors from the generalized Schur factorization of (A,B): A = (Q1*Q)*S*(Z1*Z)**H, B = (Q1*Q)*P*(Z1*Z)**H. To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently, of (A,B)) are computed as a pair of complex values (alpha,beta). If beta is nonzero, lambda = alpha / beta is an eigenvalue of the generalized nonsymmetric eigenvalue problem (GNEP) A*x = lambda*B*x and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the alternate form of the GNEP mu*A*y = B*y. The values of alpha and beta for the i-th eigenvalue can be read directly from the generalized Schur form: alpha = S(i,i), beta = P(i,i). Ref: C.B. Moler Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973), pp. 241&ndash;256.  <br /></td></tr>
-<tr class="separator:a95b81bd466f608ccf0c4a3da88e66d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a852184897a8e360e6d9a1d5d7cb506b6" id="r_a852184897a8e360e6d9a1d5d7cb506b6"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a852184897a8e360e6d9a1d5d7cb506b6">la_chgeqz</a> (job, compq, compz, n, ilo, ihi, h, ldh, t, ldt, alpha, beta, q, ldq, z, ldz, work, lwork, rwork, info)</td></tr>
+<tr class="memdesc:a852184897a8e360e6d9a1d5d7cb506b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">CHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matrix and T is upper triangular, using the single-shift QZ method. Matrix pairs of this type are produced by the reduction to generalized upper Hessenberg form of a complex matrix pair (A,B): A = Q1*H*Z1**H, B = Q1*T*Z1**H, as computed by CGGHRD. If JOB='S', then the Hessenberg-triangular pair (H,T) is also reduced to generalized Schur form, H = Q*S*Z**H, T = Q*P*Z**H, where Q and Z are unitary matrices and S and P are upper triangular. Optionally, the unitary matrix Q from the generalized Schur factorization may be postmultiplied into an input matrix Q1, and the unitary matrix Z may be postmultiplied into an input matrix Z1. If Q1 and Z1 are the unitary matrices from CGGHRD that reduced the matrix pair (A,B) to generalized Hessenberg form, then the output matrices Q1*Q and Z1*Z are the unitary factors from the generalized Schur factorization of (A,B): A = (Q1*Q)*S*(Z1*Z)**H, B = (Q1*Q)*P*(Z1*Z)**H. To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently, of (A,B)) are computed as a pair of complex values (alpha,beta). If beta is nonzero, lambda = alpha / beta is an eigenvalue of the generalized nonsymmetric eigenvalue problem (GNEP) A*x = lambda*B*x and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the alternate form of the GNEP mu*A*y = B*y. The values of alpha and beta for the i-th eigenvalue can be read directly from the generalized Schur form: alpha = S(i,i), beta = P(i,i). Ref: C.B. Moler Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973), pp. 241&ndash;256.  <br /></td></tr>
+<tr class="separator:a852184897a8e360e6d9a1d5d7cb506b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabc6d640ed7cd6c18be2286e90b5bf44" id="r_aabc6d640ed7cd6c18be2286e90b5bf44"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aabc6d640ed7cd6c18be2286e90b5bf44">la_zhgeqz</a> (job, compq, compz, n, ilo, ihi, h, ldh, t, ldt, alpha, beta, q, ldq, z, ldz, work, lwork, rwork, info)</td></tr>
+<tr class="memdesc:aabc6d640ed7cd6c18be2286e90b5bf44"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matrix and T is upper triangular, using the single-shift QZ method. Matrix pairs of this type are produced by the reduction to generalized upper Hessenberg form of a complex matrix pair (A,B): A = Q1*H*Z1**H, B = Q1*T*Z1**H, as computed by ZGGHRD. If JOB='S', then the Hessenberg-triangular pair (H,T) is also reduced to generalized Schur form, H = Q*S*Z**H, T = Q*P*Z**H, where Q and Z are unitary matrices and S and P are upper triangular. Optionally, the unitary matrix Q from the generalized Schur factorization may be postmultiplied into an input matrix Q1, and the unitary matrix Z may be postmultiplied into an input matrix Z1. If Q1 and Z1 are the unitary matrices from ZGGHRD that reduced the matrix pair (A,B) to generalized Hessenberg form, then the output matrices Q1*Q and Z1*Z are the unitary factors from the generalized Schur factorization of (A,B): A = (Q1*Q)*S*(Z1*Z)**H, B = (Q1*Q)*P*(Z1*Z)**H. To avoid overflow, eigenvalues of the matrix pair (H,T) (equivalently, of (A,B)) are computed as a pair of complex values (alpha,beta). If beta is nonzero, lambda = alpha / beta is an eigenvalue of the generalized nonsymmetric eigenvalue problem (GNEP) A*x = lambda*B*x and if alpha is nonzero, mu = beta / alpha is an eigenvalue of the alternate form of the GNEP mu*A*y = B*y. The values of alpha and beta for the i-th eigenvalue can be read directly from the generalized Schur form: alpha = S(i,i), beta = P(i,i). Ref: C.B. Moler Eigenvalue Problems", SIAM J. Numer. Anal., 10(1973), pp. 241&ndash;256.  <br /></td></tr>
+<tr class="separator:aabc6d640ed7cd6c18be2286e90b5bf44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Generalized nonsymmetric eigenproblem components: balancing, Hessenberg-triangular reduction, QZ iteration. </p>
@@ -633,14 +633,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a06586acadbf9120a2569ab0aa6bcf0f2" name="a06586acadbf9120a2569ab0aa6bcf0f2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06586acadbf9120a2569ab0aa6bcf0f2">&#9670;&#160;</a></span>la_chgeqz()</h2>
+<a id="a852184897a8e360e6d9a1d5d7cb506b6" name="a852184897a8e360e6d9a1d5d7cb506b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a852184897a8e360e6d9a1d5d7cb506b6">&#9670;&#160;</a></span>la_chgeqz()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_eigv_comp::la_chgeqz </td>
+          <td class="memname">pure subroutine, public la_lapack_eigv_comp::la_chgeqz </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>job</em></span>, </td>
         </tr>
@@ -746,27 +746,27 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__eigv__comp_a06586acadbf9120a2569ab0aa6bcf0f2_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__comp_a06586acadbf9120a2569ab0aa6bcf0f2_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__eigv__comp_a06586acadbf9120a2569ab0aa6bcf0f2_cgraph" id="anamespacela__lapack__eigv__comp_a06586acadbf9120a2569ab0aa6bcf0f2_cgraph">
-<area shape="rect" title="CHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="5,336,167,381"/>
+<div class="center"><img src="namespacela__lapack__eigv__comp_a852184897a8e360e6d9a1d5d7cb506b6_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__comp_a852184897a8e360e6d9a1d5d7cb506b6_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__eigv__comp_a852184897a8e360e6d9a1d5d7cb506b6_cgraph" id="anamespacela__lapack__eigv__comp_a852184897a8e360e6d9a1d5d7cb506b6_cgraph">
+<area shape="rect" title="CHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="5,312,167,357"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#aa4386e907510cacb88a240be498b8a00" title="CLADIV: := X / Y, where X and Y are complex. The computation of X / Y will not overflow on an interme..." alt="" coords="231,72,378,117"/>
-<area shape="poly" title=" " alt="" coords="93,335,109,293,135,240,169,184,213,134,230,123,226,127,217,138,174,187,139,242,114,295,98,336"/>
+<area shape="poly" title=" " alt="" coords="94,311,112,273,138,226,172,177,213,134,231,123,227,127,216,138,176,181,143,229,117,276,99,313"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="637,123,785,167"/>
-<area shape="poly" title=" " alt="" coords="94,335,111,300,137,258,171,217,213,184,246,171,289,161,397,148,516,142,624,143,619,145,516,148,398,153,290,166,247,176,216,189,175,221,141,261,116,302,99,337"/>
+<area shape="poly" title=" " alt="" coords="97,310,116,280,142,245,174,211,213,184,246,172,290,162,398,150,516,144,624,143,619,146,516,149,398,155,290,168,248,177,216,189,178,215,146,248,120,283,102,313"/>
 <area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="833,191,998,219"/>
-<area shape="poly" title=" " alt="" coords="99,334,145,278,177,250,214,228,263,213,330,202,493,192,668,192,820,199,815,201,668,198,493,198,330,208,265,218,216,233,180,254,149,282,104,337"/>
-<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a00d47f414840cdd8b9ab784f8c3adade" title="CLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="231,267,378,311"/>
-<area shape="poly" title=" " alt="" coords="157,333,219,315,215,319,160,338"/>
-<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="215,336,394,381"/>
-<area shape="poly" title=" " alt="" coords="166,356,201,357,197,360,168,361"/>
-<area shape="rect" href="namespacela__lapack__blas__like__base.html#a2515780aa0e463d42a6afc8406bee3ae" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="442,319,589,363"/>
-<area shape="poly" title=" " alt="" coords="158,379,215,390,305,400,344,399,393,390,427,381,462,369,457,371,428,386,395,396,344,404,305,406,214,396,159,384"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="231,456,378,501"/>
-<area shape="poly" title=" " alt="" coords="122,378,216,435,241,449,236,450,213,439,122,384"/>
-<area shape="rect" href="namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="237,525,372,570"/>
-<area shape="poly" title=" " alt="" coords="101,378,148,444,180,480,216,511,226,519,221,519,213,515,176,483,144,447,100,383"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="222,594,387,622"/>
-<area shape="poly" title=" " alt="" coords="94,379,112,423,136,477,171,533,192,558,216,580,223,587,217,586,213,584,188,562,167,536,132,480,107,425,93,384"/>
+<area shape="poly" title=" " alt="" coords="104,310,151,266,181,244,214,228,264,215,331,205,494,196,668,195,820,200,815,202,668,200,494,201,331,211,265,220,216,233,184,249,154,270,109,313"/>
+<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a321985f4b46a6001e6da5a29cd9f765d" title="Pure subroutine form of CLANHS: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="217,243,392,287"/>
+<area shape="poly" title=" " alt="" coords="157,309,219,291,215,295,160,314"/>
+<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="215,312,394,357"/>
+<area shape="poly" title=" " alt="" coords="166,332,201,333,197,336,168,337"/>
+<area shape="rect" href="namespacela__lapack__blas__like__base.html#a2515780aa0e463d42a6afc8406bee3ae" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="442,307,589,351"/>
+<area shape="poly" title=" " alt="" coords="158,355,215,366,305,375,344,373,393,366,446,356,441,358,395,372,344,379,304,380,214,372,159,360"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="231,432,378,477"/>
+<area shape="poly" title=" " alt="" coords="122,354,216,411,241,425,236,426,213,415,122,360"/>
+<area shape="rect" href="namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="237,501,372,546"/>
+<area shape="poly" title=" " alt="" coords="101,354,148,420,180,456,216,487,226,495,221,495,213,491,176,459,144,423,100,359"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="222,570,387,598"/>
+<area shape="poly" title=" " alt="" coords="94,355,112,399,136,453,171,509,192,534,216,556,223,563,217,562,213,560,188,538,167,512,132,456,107,401,93,360"/>
 <area shape="poly" title=" " alt="" coords="264,71,263,62,269,53,283,47,304,45,327,48,342,56,337,58,326,53,304,51,285,53,273,57,268,63,269,72"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="442,72,589,117"/>
 <area shape="poly" title=" " alt="" coords="378,92,429,93,424,96,380,97"/>
@@ -779,8 +779,7 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="673,121,672,113,679,104,692,98,711,96,732,98,746,107,741,107,730,104,711,101,693,103,682,108,677,114,678,123"/>
 <area shape="poly" title=" " alt="" coords="785,164,854,186,849,187,785,169"/>
 <area shape="poly" title=" " alt="" coords="880,190,874,182,879,173,893,167,915,165,939,167,954,176,949,176,938,172,915,170,894,172,883,177,880,182,885,191"/>
-<area shape="poly" title=" " alt="" coords="264,266,263,257,269,248,283,242,304,240,327,243,342,251,337,252,326,248,304,245,285,247,273,252,268,258,269,267"/>
-<area shape="poly" title=" " alt="" coords="583,316,860,223,855,225,585,321"/>
+<area shape="poly" title=" " alt="" coords="589,304,856,223,851,225,591,309"/>
 </map>
 </div>
 
@@ -1230,14 +1229,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a83c37198380b763175ac2c034b545a86" name="a83c37198380b763175ac2c034b545a86"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a83c37198380b763175ac2c034b545a86">&#9670;&#160;</a></span>la_dhgeqz()</h2>
+<a id="ab9e610a04e1975e7c77b92c6813bde38" name="ab9e610a04e1975e7c77b92c6813bde38"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9e610a04e1975e7c77b92c6813bde38">&#9670;&#160;</a></span>la_dhgeqz()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_eigv_comp::la_dhgeqz </td>
+          <td class="memname">pure subroutine, public la_lapack_eigv_comp::la_dhgeqz </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>job</em></span>, </td>
         </tr>
@@ -1343,38 +1342,37 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__eigv__comp_a83c37198380b763175ac2c034b545a86_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__comp_a83c37198380b763175ac2c034b545a86_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__eigv__comp_a83c37198380b763175ac2c034b545a86_cgraph" id="anamespacela__lapack__eigv__comp_a83c37198380b763175ac2c034b545a86_cgraph">
+<div class="center"><img src="namespacela__lapack__eigv__comp_ab9e610a04e1975e7c77b92c6813bde38_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__comp_ab9e610a04e1975e7c77b92c6813bde38_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__eigv__comp_ab9e610a04e1975e7c77b92c6813bde38_cgraph" id="anamespacela__lapack__eigv__comp_ab9e610a04e1975e7c77b92c6813bde38_cgraph">
 <area shape="rect" title="DHGEQZ: computes the eigenvalues of a real matrix pair (H,T), where H is an upper Hessenberg matrix a..." alt="" coords="5,479,167,523"/>
 <area shape="rect" href="namespacela__lapack__eigv__sym__comp.html#a4daa683898b1130f1dd7f4a8ca24de8e" title="DLAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue problem A &#45; w B,..." alt="" coords="228,5,381,50"/>
-<area shape="poly" title=" " alt="" coords="85,478,91,402,109,294,125,235,147,175,176,118,213,67,226,57,223,62,217,71,181,121,152,177,130,236,114,295,96,403,90,479"/>
+<area shape="poly" title=" " alt="" coords="85,478,91,402,109,294,125,235,147,175,176,118,213,67,226,57,223,61,217,71,181,121,152,177,130,236,114,295,96,403,90,479"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="654,269,802,314"/>
 <area shape="poly" title=" " alt="" coords="104,477,156,420,234,349,280,313,331,279,385,251,441,230,487,220,524,217,561,221,607,230,644,243,680,261,675,262,642,248,606,236,560,226,524,222,488,225,443,236,387,256,334,284,283,317,237,353,160,424,108,480"/>
 <area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="850,278,1015,306"/>
 <area shape="poly" title=" " alt="" coords="85,478,91,411,110,319,126,271,148,223,177,180,213,143,262,108,308,85,353,72,398,69,444,72,493,82,607,110,652,124,696,142,779,184,850,229,904,268,898,268,847,233,776,189,693,147,650,129,606,116,492,87,443,78,398,74,354,78,310,90,265,112,216,147,181,183,153,226,131,273,115,321,97,412,91,479"/>
-<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a05ffa4a5c2849d46428e5a6a1bb1dd01" title="DLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="231,643,378,687"/>
-<area shape="poly" title=" " alt="" coords="117,521,216,598,262,633,257,634,213,602,116,527"/>
+<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#acb69e6bf403316cdfe250066220a60d3" title="Pure subroutine form of DLANHS: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="217,619,392,663"/>
+<area shape="poly" title=" " alt="" coords="113,521,161,559,216,597,239,611,233,612,213,602,158,563,114,527"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="450,576,598,621"/>
-<area shape="poly" title=" " alt="" coords="167,513,395,560,438,572,433,574,393,565,167,518"/>
+<area shape="poly" title=" " alt="" coords="167,513,395,560,438,572,433,573,393,565,167,518"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#aabada9ad2d38e67a9975d653ef15505b" title="DLAPY3: returns sqrt(x**2+y**2+z**2), taking care not to cause unnecessary overflow and unnecessary u..." alt="" coords="450,269,598,314"/>
 <area shape="poly" title=" " alt="" coords="129,476,213,433,460,319,457,323,216,438,133,480"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#adc9152fe9ae73eb4b5fc754d1215b0af" title="DLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="219,448,390,493"/>
 <area shape="poly" title=" " alt="" coords="166,487,206,483,202,486,168,492"/>
-<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="215,712,394,757"/>
-<area shape="poly" title=" " alt="" coords="96,521,116,560,142,607,175,655,216,698,222,703,217,703,213,702,171,659,137,610,111,563,96,527"/>
+<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="215,688,394,733"/>
+<area shape="poly" title=" " alt="" coords="99,521,145,596,178,637,216,674,223,680,218,680,213,678,174,641,141,599,98,526"/>
 <area shape="rect" href="namespacela__lapack__blas__like__base.html#a9d8bc9b29dbe646f52c4b0a259bd4ed8" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="654,636,802,681"/>
 <area shape="poly" title=" " alt="" coords="128,521,216,560,265,574,305,581,345,588,395,604,419,618,443,631,492,643,543,651,641,659,636,660,542,656,491,648,441,635,416,623,393,609,344,593,304,586,264,579,214,565,129,526"/>
 <area shape="rect" href="namespacela__lapack__svd__comp2.html#afcadc64cb5124f246d3a4286ddcd5845" title="DLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="442,125,606,170"/>
 <area shape="poly" title=" " alt="" coords="86,478,95,418,116,339,132,296,153,256,180,218,213,187,263,159,317,142,374,135,429,135,424,138,374,140,319,148,265,164,216,191,184,222,158,258,137,299,121,340,100,419,92,479"/>
-<area shape="rect" href="namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="221,780,388,808"/>
-<area shape="poly" title=" " alt="" coords="92,521,107,574,130,640,166,708,189,740,216,767,221,772,216,772,213,771,185,743,161,711,125,642,102,575,91,527"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="222,832,387,860"/>
-<area shape="poly" title=" " alt="" coords="90,521,102,582,124,662,140,704,160,745,186,784,217,818,223,825,218,824,213,822,182,787,156,748,135,706,119,663,97,583,89,526"/>
+<area shape="rect" href="namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="221,756,388,784"/>
+<area shape="poly" title=" " alt="" coords="93,521,109,569,133,629,169,690,191,718,216,743,222,749,217,748,213,747,187,722,164,693,129,631,104,571,92,526"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="222,808,387,836"/>
+<area shape="poly" title=" " alt="" coords="91,521,104,578,127,651,143,690,163,728,188,763,216,794,223,801,218,800,213,798,183,766,159,731,138,692,122,653,99,580,90,527"/>
 <area shape="poly" title=" " alt="" coords="689,268,688,259,694,250,708,245,728,243,750,245,764,253,759,254,748,250,728,248,709,250,697,255,693,261,694,270"/>
-<area shape="poly" title=" " alt="" coords="801,289,837,291,831,293,803,294"/>
+<area shape="poly" title=" " alt="" coords="801,289,837,291,831,292,803,294"/>
 <area shape="poly" title=" " alt="" coords="897,277,891,269,896,259,910,253,932,251,956,254,971,262,966,263,955,259,932,256,911,258,900,263,897,269,902,278"/>
-<area shape="poly" title=" " alt="" coords="263,641,261,633,268,624,283,618,304,616,328,619,344,627,338,628,327,624,304,621,284,623,271,628,266,634,268,643"/>
-<area shape="poly" title=" " alt="" coords="563,573,585,557,604,538,642,485,672,428,713,331,717,327,677,430,646,488,608,541,588,561,566,578"/>
+<area shape="poly" title=" " alt="" coords="564,573,585,557,604,538,642,485,672,428,713,331,717,327,677,430,646,488,608,541,588,561,566,578"/>
 <area shape="poly" title=" " alt="" coords="485,574,484,566,490,557,504,551,524,549,546,552,561,560,555,560,544,557,524,555,505,557,494,561,489,567,490,577"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="654,567,802,611"/>
 <area shape="poly" title=" " alt="" coords="598,592,641,592,636,594,599,598"/>
@@ -1383,16 +1381,16 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="802,586,845,589,840,589,803,592"/>
 <area shape="poly" title=" " alt="" coords="893,565,892,557,898,548,912,542,932,540,954,542,969,551,964,551,953,548,932,545,913,547,902,552,897,558,898,568"/>
 <area shape="poly" title=" " alt="" coords="597,289,641,291,636,293,599,294"/>
-<area shape="poly" title=" " alt="" coords="485,268,484,259,490,250,504,245,524,243,546,245,561,253,555,254,544,250,524,248,505,250,494,255,489,261,490,269"/>
+<area shape="poly" title=" " alt="" coords="485,268,484,259,490,250,504,245,524,243,546,245,561,253,555,254,544,250,524,248,505,250,494,255,489,261,490,270"/>
 <area shape="poly" title=" " alt="" coords="332,446,381,409,441,375,641,316,637,319,443,379,384,414,335,450"/>
 <area shape="poly" title=" " alt="" coords="358,491,395,509,482,566,477,567,393,514,358,496"/>
 <area shape="rect" href="namespacela__blas__level1.html#a85be6de988bf594f26206471abfc614b" title="!" alt="" coords="457,413,591,458"/>
-<area shape="poly" title=" " alt="" coords="389,455,444,447,440,450,391,459"/>
+<area shape="poly" title=" " alt="" coords="389,454,444,447,440,450,391,459"/>
 <area shape="rect" href="namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="457,483,591,527"/>
 <area shape="poly" title=" " alt="" coords="389,481,444,491,439,493,390,486"/>
 <area shape="poly" title=" " alt="" coords="485,412,484,403,490,394,504,389,524,387,546,389,561,397,555,398,544,394,524,392,505,394,494,399,489,405,490,414"/>
-<area shape="poly" title=" " alt="" coords="786,633,800,622,823,576,857,491,919,322,923,318,862,493,828,578,804,625,789,638"/>
-<area shape="poly" title=" " alt="" coords="574,168,608,187,654,222,696,259,690,259,651,226,605,191,575,173"/>
+<area shape="poly" title=" " alt="" coords="787,633,800,622,823,576,857,491,919,322,923,318,862,493,828,578,804,625,789,638"/>
+<area shape="poly" title=" " alt="" coords="575,168,608,187,654,222,696,259,690,259,651,226,605,191,575,173"/>
 </map>
 </div>
 
@@ -1842,14 +1840,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a00dee6c2d11eb3b52558141adb0cb767" name="a00dee6c2d11eb3b52558141adb0cb767"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a00dee6c2d11eb3b52558141adb0cb767">&#9670;&#160;</a></span>la_shgeqz()</h2>
+<a id="a025d06b27724b94b3ebfff948b3a8874" name="a025d06b27724b94b3ebfff948b3a8874"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a025d06b27724b94b3ebfff948b3a8874">&#9670;&#160;</a></span>la_shgeqz()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_eigv_comp::la_shgeqz </td>
+          <td class="memname">pure subroutine, public la_lapack_eigv_comp::la_shgeqz </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>job</em></span>, </td>
         </tr>
@@ -1955,8 +1953,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__eigv__comp_a00dee6c2d11eb3b52558141adb0cb767_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__comp_a00dee6c2d11eb3b52558141adb0cb767_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__eigv__comp_a00dee6c2d11eb3b52558141adb0cb767_cgraph" id="anamespacela__lapack__eigv__comp_a00dee6c2d11eb3b52558141adb0cb767_cgraph">
+<div class="center"><img src="namespacela__lapack__eigv__comp_a025d06b27724b94b3ebfff948b3a8874_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__comp_a025d06b27724b94b3ebfff948b3a8874_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__eigv__comp_a025d06b27724b94b3ebfff948b3a8874_cgraph" id="anamespacela__lapack__eigv__comp_a025d06b27724b94b3ebfff948b3a8874_cgraph">
 <area shape="rect" title="SHGEQZ: computes the eigenvalues of a real matrix pair (H,T), where H is an upper Hessenberg matrix a..." alt="" coords="5,521,167,565"/>
 <area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="850,215,1015,242"/>
 <area shape="poly" title=" " alt="" coords="88,520,102,424,128,291,146,223,165,162,188,112,213,78,261,42,307,19,351,6,396,3,443,7,493,17,607,47,652,61,696,79,779,121,850,165,904,205,898,205,847,170,776,126,693,83,650,66,606,52,492,23,442,13,396,8,352,11,309,23,264,47,217,82,192,114,170,164,151,225,134,292,107,425,93,521"/>
@@ -1964,28 +1962,27 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="145,563,233,598,229,601,146,569"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="654,206,802,251"/>
 <area shape="poly" title=" " alt="" coords="95,519,140,433,174,381,213,332,267,273,314,230,367,196,441,167,487,155,524,152,561,157,607,167,644,179,680,198,675,199,642,184,606,172,560,162,523,158,487,161,443,172,370,201,317,234,271,277,217,335,178,384,145,435,100,521"/>
-<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a10ceb95261db5c3d25aa2116c5238a31" title="SLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="231,699,378,744"/>
-<area shape="poly" title=" " alt="" coords="109,563,158,610,216,661,256,690,250,691,213,665,155,614,109,569"/>
+<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a06f89ab1379ba0f2d2bfd00d1932d09b" title="Pure subroutine form of SLANHS: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="217,675,392,720"/>
+<area shape="poly" title=" " alt="" coords="106,563,155,612,184,638,216,661,226,667,220,668,213,665,181,642,151,616,107,568"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="450,513,598,557"/>
-<area shape="poly" title=" " alt="" coords="167,539,436,535,433,539,168,544"/>
+<area shape="poly" title=" " alt="" coords="167,539,436,534,433,539,168,544"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a50f83109cac50f77476c73bf9be96171" title="SLAPY3: returns sqrt(x**2+y**2+z**2), taking care not to cause unnecessary overflow and unnecessary u..." alt="" coords="450,206,598,251"/>
 <area shape="poly" title=" " alt="" coords="103,519,150,464,213,405,273,360,323,330,441,267,466,256,462,260,443,272,325,334,276,365,216,409,154,468,107,522"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#a498b4c51428aab284826c313ab93ed53" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="219,419,390,464"/>
 <area shape="poly" title=" " alt="" coords="135,518,242,469,239,473,138,522"/>
-<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="215,769,394,813"/>
-<area shape="poly" title=" " alt="" coords="95,563,114,605,139,656,174,708,216,754,222,760,217,760,213,758,169,712,135,658,109,607,95,568"/>
+<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="215,745,394,789"/>
+<area shape="poly" title=" " alt="" coords="97,563,117,600,143,645,176,690,216,730,223,736,217,736,213,734,172,694,138,647,112,603,97,568"/>
 <area shape="rect" href="namespacela__lapack__blas__like__base.html#a1820d5cc47f17a2df32a206d9865b05b" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="654,573,802,617"/>
 <area shape="poly" title=" " alt="" coords="167,547,640,586,638,590,167,552"/>
 <area shape="rect" href="namespacela__lapack__svd__comp2.html#af26c76fa48bb6e67a108f9e2868df59f" title="SLASV2: computes the singular value decomposition of a 2&#45;by&#45;2 triangular matrix [ F G ] [ 0 H ]...." alt="" coords="442,62,606,107"/>
-<area shape="poly" title=" " alt="" coords="84,520,86,443,91,392,101,335,117,277,140,220,172,168,213,124,236,107,262,94,316,77,373,70,428,70,424,74,373,75,318,82,264,99,239,111,216,128,176,171,145,223,122,279,107,336,97,392,91,444,89,521"/>
-<area shape="rect" href="namespacela__blas__level1.html#af0c9560d34bb1a5bc4eeb76a61cb3147" title="applies a plane rotation." alt="" coords="221,837,388,865"/>
-<area shape="poly" title=" " alt="" coords="91,563,105,618,128,688,144,725,164,761,188,795,216,824,221,829,216,829,213,828,184,798,160,764,140,728,123,690,100,620,91,569"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="222,889,387,917"/>
-<area shape="poly" title=" " alt="" coords="90,563,101,627,122,710,138,755,159,798,185,839,217,874,222,881,217,880,213,878,181,842,154,801,133,757,117,712,96,628,89,568"/>
+<area shape="poly" title=" " alt="" coords="84,520,86,443,91,392,101,335,117,277,140,220,172,168,213,124,236,107,262,94,316,77,373,70,428,71,424,74,373,75,318,82,264,99,239,111,216,128,176,171,145,223,122,279,107,336,97,392,91,444,89,521"/>
+<area shape="rect" href="namespacela__blas__level1.html#af0c9560d34bb1a5bc4eeb76a61cb3147" title="applies a plane rotation." alt="" coords="221,813,388,841"/>
+<area shape="poly" title=" " alt="" coords="92,563,108,614,131,678,167,743,190,773,216,800,222,806,217,805,213,804,186,777,163,746,126,680,103,616,92,569"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="222,865,387,893"/>
+<area shape="poly" title=" " alt="" coords="90,563,103,623,125,700,141,741,162,781,186,818,216,850,223,858,218,857,213,854,182,821,157,783,136,743,120,701,98,624,90,569"/>
 <area shape="poly" title=" " alt="" coords="897,214,891,206,896,196,910,190,932,188,956,190,971,199,966,199,955,196,932,193,911,195,900,200,897,205,902,214"/>
-<area shape="poly" title=" " alt="" coords="801,226,836,227,832,229,803,231"/>
+<area shape="poly" title=" " alt="" coords="801,226,836,227,831,229,803,231"/>
 <area shape="poly" title=" " alt="" coords="689,205,688,196,694,187,708,181,728,179,750,182,764,190,759,191,748,187,728,185,709,187,697,191,693,197,694,206"/>
-<area shape="poly" title=" " alt="" coords="263,698,261,689,268,680,283,675,304,673,328,675,344,684,338,684,327,680,304,678,284,680,271,685,266,691,268,700"/>
 <area shape="poly" title=" " alt="" coords="563,510,585,494,604,475,642,422,672,365,714,267,717,263,677,367,646,424,608,478,588,498,566,514"/>
 <area shape="poly" title=" " alt="" coords="485,511,484,503,490,494,504,488,524,486,546,488,561,497,555,497,544,494,524,491,505,493,494,498,489,504,490,513"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="654,503,802,548"/>
@@ -1994,8 +1991,8 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="858,503,1006,548"/>
 <area shape="poly" title=" " alt="" coords="802,523,845,525,840,526,803,528"/>
 <area shape="poly" title=" " alt="" coords="893,502,892,493,898,484,912,479,932,477,954,479,969,488,963,488,953,484,932,482,913,484,902,489,897,495,898,504"/>
-<area shape="poly" title=" " alt="" coords="597,226,641,227,636,230,599,231"/>
-<area shape="poly" title=" " alt="" coords="485,205,484,196,490,187,504,181,524,179,546,182,560,190,555,191,544,187,524,185,505,187,494,191,489,197,490,206"/>
+<area shape="poly" title=" " alt="" coords="597,226,641,227,636,229,599,231"/>
+<area shape="poly" title=" " alt="" coords="485,205,484,196,490,187,504,181,524,179,546,182,561,190,555,191,544,187,524,185,505,187,494,191,489,197,490,206"/>
 <area shape="poly" title=" " alt="" coords="322,417,372,364,405,336,441,311,641,252,637,255,443,316,408,340,376,368,326,421"/>
 <area shape="poly" title=" " alt="" coords="359,462,458,505,453,507,359,467"/>
 <area shape="rect" href="namespacela__blas__level1.html#afb67704426cd471890e50a68b075c580" title="!" alt="" coords="457,350,591,395"/>
@@ -2459,14 +2456,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a95b81bd466f608ccf0c4a3da88e66d90" name="a95b81bd466f608ccf0c4a3da88e66d90"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95b81bd466f608ccf0c4a3da88e66d90">&#9670;&#160;</a></span>la_zhgeqz()</h2>
+<a id="aabc6d640ed7cd6c18be2286e90b5bf44" name="aabc6d640ed7cd6c18be2286e90b5bf44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabc6d640ed7cd6c18be2286e90b5bf44">&#9670;&#160;</a></span>la_zhgeqz()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_eigv_comp::la_zhgeqz </td>
+          <td class="memname">pure subroutine, public la_lapack_eigv_comp::la_zhgeqz </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>job</em></span>, </td>
         </tr>
@@ -2572,8 +2569,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__eigv__comp_a95b81bd466f608ccf0c4a3da88e66d90_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__comp_a95b81bd466f608ccf0c4a3da88e66d90_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__eigv__comp_a95b81bd466f608ccf0c4a3da88e66d90_cgraph" id="anamespacela__lapack__eigv__comp_a95b81bd466f608ccf0c4a3da88e66d90_cgraph">
+<div class="center"><img src="namespacela__lapack__eigv__comp_aabc6d640ed7cd6c18be2286e90b5bf44_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__comp_aabc6d640ed7cd6c18be2286e90b5bf44_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__eigv__comp_aabc6d640ed7cd6c18be2286e90b5bf44_cgraph" id="anamespacela__lapack__eigv__comp_aabc6d640ed7cd6c18be2286e90b5bf44_cgraph">
 <area shape="rect" title="ZHGEQZ: computes the eigenvalues of a complex matrix pair (H,T), where H is an upper Hessenberg matri..." alt="" coords="5,260,167,305"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="637,149,785,194"/>
 <area shape="poly" title=" " alt="" coords="101,258,147,206,178,181,214,161,266,145,320,134,376,128,431,127,535,134,625,150,620,152,534,140,431,133,376,134,321,139,267,150,216,166,181,185,150,210,105,261"/>
@@ -2582,30 +2579,29 @@ Here is the call graph for this function:</div>
 <area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="222,268,387,296"/>
 <area shape="poly" title=" " alt="" coords="166,280,208,281,204,284,168,285"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a20bbc4a670054f40a583778311ff9875" title="ZLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="231,200,378,245"/>
-<area shape="poly" title=" " alt="" coords="165,258,217,245,214,248,169,262"/>
-<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a1770b8adfb167e8f7cbe38a4b0fc0095" title="ZLANHS: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="231,344,378,389"/>
-<area shape="poly" title=" " alt="" coords="146,303,233,337,228,339,147,308"/>
-<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#aae614052b091e4931bced2b4638120be" title="!" alt="" coords="215,413,394,458"/>
-<area shape="poly" title=" " alt="" coords="107,303,155,351,185,376,216,399,226,406,220,406,213,403,181,380,152,355,107,308"/>
+<area shape="poly" title=" " alt="" coords="166,258,218,245,214,248,169,262"/>
+<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a9255df62d1b689687a973c7412b2cec8" title="Pure subroutine form of ZLANHS: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="217,320,392,365"/>
+<area shape="poly" title=" " alt="" coords="166,302,208,314,203,316,168,307"/>
+<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#aae614052b091e4931bced2b4638120be" title="!" alt="" coords="215,389,394,434"/>
+<area shape="poly" title=" " alt="" coords="114,303,161,339,216,375,228,382,222,383,213,379,158,343,114,308"/>
 <area shape="rect" href="namespacela__lapack__blas__like__base.html#accb4653625f355a5a2a0d2f528f904ec" title="ZLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="442,5,589,50"/>
-<area shape="poly" title=" " alt="" coords="91,259,106,217,131,164,166,110,188,87,213,67,264,41,319,26,375,19,429,19,424,22,375,25,320,32,266,46,216,71,192,91,170,114,135,166,111,219,96,260"/>
-<area shape="rect" href="namespacela__lapack__auxiliary.html#a75a204a7e87f4ca35a85d3bc72613aee" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="231,483,378,527"/>
-<area shape="poly" title=" " alt="" coords="97,303,117,340,143,384,176,429,216,468,223,474,217,474,213,472,172,432,139,387,113,342,97,308"/>
-<area shape="rect" href="namespacela__blas__level1.html#a90995a95970607c78563eb6ad5a006d9" title="ZSCAL: scales a vector by a constant." alt="" coords="237,552,372,597"/>
-<area shape="poly" title=" " alt="" coords="93,303,109,353,134,415,169,480,191,511,216,538,226,547,221,546,213,542,187,514,164,483,129,417,104,354,92,308"/>
+<area shape="poly" title=" " alt="" coords="91,259,106,217,131,164,166,110,188,87,213,67,264,41,319,26,375,19,429,19,424,22,375,25,320,32,266,46,216,71,192,91,170,114,135,166,111,219,96,261"/>
+<area shape="rect" href="namespacela__lapack__auxiliary.html#a75a204a7e87f4ca35a85d3bc72613aee" title="ZROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="231,459,378,503"/>
+<area shape="poly" title=" " alt="" coords="100,302,147,372,179,411,216,444,224,451,218,451,213,448,175,414,143,376,99,308"/>
+<area shape="rect" href="namespacela__blas__level1.html#a90995a95970607c78563eb6ad5a006d9" title="ZSCAL: scales a vector by a constant." alt="" coords="237,528,372,573"/>
+<area shape="poly" title=" " alt="" coords="94,303,112,348,137,404,171,463,193,490,216,514,226,523,221,522,213,518,189,493,167,466,132,407,107,350,94,308"/>
 <area shape="poly" title=" " alt="" coords="673,148,672,139,679,130,692,125,711,123,732,125,746,134,741,134,730,130,711,128,693,130,682,135,677,141,678,150"/>
 <area shape="poly" title=" " alt="" coords="766,146,868,107,863,109,769,151"/>
 <area shape="poly" title=" " alt="" coords="880,73,874,65,879,55,893,49,915,47,939,50,954,58,949,59,938,55,915,52,894,54,883,59,880,65,885,74"/>
 <area shape="poly" title=" " alt="" coords="264,199,263,190,269,181,283,175,304,173,327,176,342,184,337,185,326,181,304,179,285,181,273,185,268,191,269,200"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a0827b32c3e8f552a5d1e1a0e87739e4c" title="DLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="442,200,589,245"/>
-<area shape="poly" title=" " alt="" coords="378,220,429,221,424,223,380,225"/>
+<area shape="poly" title=" " alt="" coords="378,220,429,221,424,223,379,225"/>
 <area shape="poly" title=" " alt="" coords="589,201,625,194,620,196,591,206"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1bf9fec8cb3f0a42fd05beb1ffd1b13e" title=" " alt="" coords="637,219,785,263"/>
 <area shape="poly" title=" " alt="" coords="589,227,624,232,619,233,590,232"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#ab34a41a5a2d8aa8270e1b467aae0ae9b" title=" " alt="" coords="842,219,989,263"/>
 <area shape="poly" title=" " alt="" coords="785,238,829,240,823,242,786,244"/>
 <area shape="poly" title=" " alt="" coords="876,217,875,209,881,200,895,194,915,192,937,194,952,203,946,203,936,200,915,197,896,199,885,204,880,210,881,219"/>
-<area shape="poly" title=" " alt="" coords="264,343,263,334,269,325,283,319,304,317,327,320,342,328,337,329,326,325,304,323,285,325,273,329,268,335,269,344"/>
 <area shape="poly" title=" " alt="" coords="589,36,819,72,815,74,590,41"/>
 </map>
 </div>

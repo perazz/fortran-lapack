@@ -1,0 +1,17 @@
+<map id="la_lapack::la_gbamv::sla_gbamv" name="la_lapack::la_gbamv::sla_gbamv">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,105,161,150"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l2.html#ad6582c8c44bfea577a07fd246e4a6cb0" title="SLA_GBAMV: performs one of the matrix&#45;vector operations y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="209,105,356,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,125,196,126,191,128,161,130"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a635126cb64ce38b7f7ceba1d3134a8ff" title="This subroutine translates from a character string specifying a transposition operation to the releva..." alt="" coords="404,29,594,57"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="325,102,403,66,421,63,426,61,405,71,327,107"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="426,105,573,150"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="356,125,413,127,408,127,356,130"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="416,173,582,201"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="356,146,405,159,432,169,427,169,403,164,356,151"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="462,28,456,20,461,11,475,5,499,3,525,5,540,14,535,14,523,10,499,8,477,10,464,15,461,20,467,30"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="642,72,808,100"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="576,55,636,68,631,69,576,60"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="686,70,680,63,685,53,700,47,725,45,752,48,767,57,762,56,750,53,725,51,701,53,689,57,685,63,691,72"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="573,111,628,103,633,103,573,116"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="458,103,456,95,463,86,478,80,499,78,523,81,538,90,533,89,521,86,499,83,479,85,467,90,461,96,462,106"/>
+</map>

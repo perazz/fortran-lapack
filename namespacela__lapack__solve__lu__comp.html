@@ -261,15 +261,27 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a5167e3fc1d940f998e79e7643cf73343" id="r_a5167e3fc1d940f998e79e7643cf73343"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5167e3fc1d940f998e79e7643cf73343">la_sla_gbrcond</a> (trans, n, kl, ku, ab, ldab, afb, ldafb, ipiv, cmode, c, info, work, iwork)</td></tr>
 <tr class="memdesc:a5167e3fc1d940f998e79e7643cf73343"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE as follows CMODE = 1 op2(C) = C CMODE = 0 op2(C) = I CMODE = -1 op2(C) = inv(C) The Skeel condition number cond(A) = norminf( |inv(A)||A| ) is computed by computing scaling factors R such that diag(R)*A*op2(C) is row equilibrated and computing the standard infinity-norm condition number.  <br /></td></tr>
 <tr class="separator:a5167e3fc1d940f998e79e7643cf73343"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87a5b58b09e7e353429280fe2c8a18be" id="r_a87a5b58b09e7e353429280fe2c8a18be"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87a5b58b09e7e353429280fe2c8a18be">la_sla_gbrcond_sub</a> (trans, n, kl, ku, ab, ldab, afb, ldafb, ipiv, cmode, c, info, work, iwork, res)</td></tr>
+<tr class="memdesc:a87a5b58b09e7e353429280fe2c8a18be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure subroutine form of SLA_GBRCOND: the same arguments, followed by RES, which returns the value of the function.  <br /></td></tr>
+<tr class="separator:a87a5b58b09e7e353429280fe2c8a18be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab89fe6b01f7ad346309c2f9515936675" id="r_ab89fe6b01f7ad346309c2f9515936675"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab89fe6b01f7ad346309c2f9515936675">la_dla_gbrcond</a> (trans, n, kl, ku, ab, ldab, afb, ldafb, ipiv, cmode, c, info, work, iwork)</td></tr>
 <tr class="memdesc:ab89fe6b01f7ad346309c2f9515936675"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE as follows CMODE = 1 op2(C) = C CMODE = 0 op2(C) = I CMODE = -1 op2(C) = inv(C) The Skeel condition number cond(A) = norminf( |inv(A)||A| ) is computed by computing scaling factors R such that diag(R)*A*op2(C) is row equilibrated and computing the standard infinity-norm condition number.  <br /></td></tr>
 <tr class="separator:ab89fe6b01f7ad346309c2f9515936675"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab19160117d181752a12fb36a0c6a66e8" id="r_ab19160117d181752a12fb36a0c6a66e8"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab19160117d181752a12fb36a0c6a66e8">la_dla_gbrcond_sub</a> (trans, n, kl, ku, ab, ldab, afb, ldafb, ipiv, cmode, c, info, work, iwork, res)</td></tr>
+<tr class="memdesc:ab19160117d181752a12fb36a0c6a66e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure subroutine form of DLA_GBRCOND: the same arguments, followed by RES, which returns the value of the function.  <br /></td></tr>
+<tr class="separator:ab19160117d181752a12fb36a0c6a66e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad96279026ce788dd3de188979e4d0273" id="r_ad96279026ce788dd3de188979e4d0273"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad96279026ce788dd3de188979e4d0273">la_sla_gercond</a> (trans, n, a, lda, af, ldaf, ipiv, cmode, c, info, work, iwork)</td></tr>
 <tr class="memdesc:ad96279026ce788dd3de188979e4d0273"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLA_GERCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE as follows CMODE = 1 op2(C) = C CMODE = 0 op2(C) = I CMODE = -1 op2(C) = inv(C) The Skeel condition number cond(A) = norminf( |inv(A)||A| ) is computed by computing scaling factors R such that diag(R)*A*op2(C) is row equilibrated and computing the standard infinity-norm condition number.  <br /></td></tr>
 <tr class="separator:ad96279026ce788dd3de188979e4d0273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87d49c66aad04522657e3e1aec694a21" id="r_a87d49c66aad04522657e3e1aec694a21"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87d49c66aad04522657e3e1aec694a21">la_sla_gercond_sub</a> (trans, n, a, lda, af, ldaf, ipiv, cmode, c, info, work, iwork, res)</td></tr>
+<tr class="memdesc:a87d49c66aad04522657e3e1aec694a21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure subroutine form of SLA_GERCOND: the same arguments, followed by RES, which returns the value of the function.  <br /></td></tr>
+<tr class="separator:a87d49c66aad04522657e3e1aec694a21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99e07a3edfc2d884f36705750ec49508" id="r_a99e07a3edfc2d884f36705750ec49508"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a99e07a3edfc2d884f36705750ec49508">la_dla_gercond</a> (trans, n, a, lda, af, ldaf, ipiv, cmode, c, info, work, iwork)</td></tr>
 <tr class="memdesc:a99e07a3edfc2d884f36705750ec49508"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLA_GERCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE as follows CMODE = 1 op2(C) = C CMODE = 0 op2(C) = I CMODE = -1 op2(C) = inv(C) The Skeel condition number cond(A) = norminf( |inv(A)||A| ) is computed by computing scaling factors R such that diag(R)*A*op2(C) is row equilibrated and computing the standard infinity-norm condition number.  <br /></td></tr>
 <tr class="separator:a99e07a3edfc2d884f36705750ec49508"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c190f30ab13caa1faa068f5eece5349" id="r_a9c190f30ab13caa1faa068f5eece5349"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9c190f30ab13caa1faa068f5eece5349">la_dla_gercond_sub</a> (trans, n, a, lda, af, ldaf, ipiv, cmode, c, info, work, iwork, res)</td></tr>
+<tr class="memdesc:a9c190f30ab13caa1faa068f5eece5349"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure subroutine form of DLA_GERCOND: the same arguments, followed by RES, which returns the value of the function.  <br /></td></tr>
+<tr class="separator:a9c190f30ab13caa1faa068f5eece5349"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad28457ac240611b2b4753e3c8aee2940" id="r_ad28457ac240611b2b4753e3c8aee2940"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad28457ac240611b2b4753e3c8aee2940">la_slatdf</a> (ijob, n, z, ldz, rhs, rdsum, rdscal, ipiv, jpiv)</td></tr>
 <tr class="memdesc:ad28457ac240611b2b4753e3c8aee2940"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLATDF: uses the LU factorization of the n-by-n matrix Z computed by SGETC2 and computes a contribution to the reciprocal Dif-estimate by solving Z * x = b for x, and choosing the r.h.s. b such that the norm of x is as large as possible. On entry RHS = b holds the contribution from earlier solved sub-systems, and on return RHS = x. The factorization of Z returned by SGETC2 has the form Z = P*L*U*Q, where P and Q are permutation matrices. L is lower triangular with unit diagonal elements and U is upper triangular.  <br /></td></tr>
 <tr class="separator:ad28457ac240611b2b4753e3c8aee2940"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -4560,27 +4572,145 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="namespacela__lapack__solve__lu__comp_ab89fe6b01f7ad346309c2f9515936675_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__lu__comp_ab89fe6b01f7ad346309c2f9515936675_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__solve__lu__comp_ab89fe6b01f7ad346309c2f9515936675_cgraph" id="anamespacela__lapack__solve__lu__comp_ab89fe6b01f7ad346309c2f9515936675_cgraph">
 <area shape="rect" title="DLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,135,176,179"/>
-<area shape="poly" title=" " alt="" coords="51,134,50,125,56,116,70,110,91,108,112,110,127,118,122,120,111,115,90,113,71,115,60,120,55,126,56,134"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="224,135,368,179"/>
-<area shape="poly" title=" " alt="" coords="175,154,210,156,205,158,177,159"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="416,35,561,79"/>
-<area shape="poly" title=" " alt="" coords="336,132,415,89,428,85,423,88,417,94,339,136"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="609,43,775,71"/>
-<area shape="poly" title=" " alt="" coords="307,132,324,105,348,73,379,43,415,20,444,10,475,5,538,6,597,18,648,37,642,37,595,23,537,11,476,10,446,15,417,25,382,47,352,76,329,108,311,136"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="609,142,775,169"/>
-<area shape="poly" title=" " alt="" coords="368,157,416,158,561,158,596,160,591,160,561,164,416,164,369,162"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="416,224,561,269"/>
-<area shape="poly" title=" " alt="" coords="346,177,428,217,423,217,345,182"/>
-<area shape="rect" href="namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="422,293,556,338"/>
-<area shape="poly" title=" " alt="" coords="316,177,360,227,418,279,424,285,419,284,414,283,356,231,314,182"/>
-<area shape="rect" href="namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="421,104,556,149"/>
-<area shape="poly" title=" " alt="" coords="368,143,408,139,403,140,369,148"/>
-<area shape="poly" title=" " alt="" coords="561,54,596,56,591,58,562,60"/>
-<area shape="poly" title=" " alt="" coords="537,77,563,89,651,134,646,135,560,94,537,82"/>
-<area shape="poly" title=" " alt="" coords="657,42,651,34,656,25,670,19,692,16,716,19,730,28,725,28,715,24,692,22,671,24,659,28,657,34,662,43"/>
-<area shape="poly" title=" " alt="" coords="540,221,642,177,647,175,542,226"/>
-<area shape="poly" title=" " alt="" coords="555,101,637,75,632,77,557,106"/>
-<area shape="poly" title=" " alt="" coords="557,133,596,141,591,142,557,139"/>
+<area shape="poly" title=" " alt="" coords="46,134,45,124,52,116,68,110,91,108,116,110,132,118,127,120,114,116,90,113,69,115,55,120,50,126,51,134"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#ab19160117d181752a12fb36a0c6a66e8" title="Pure subroutine form of DLA_GBRCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="224,135,424,179"/>
+<area shape="poly" title=" " alt="" coords="175,154,210,156,206,158,177,159"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="472,135,616,179"/>
+<area shape="poly" title=" " alt="" coords="424,154,459,156,454,157,425,160"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="664,35,810,79"/>
+<area shape="poly" title=" " alt="" coords="585,132,663,89,672,88,676,86,666,94,587,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="858,43,1023,71"/>
+<area shape="poly" title=" " alt="" coords="556,132,572,105,597,73,627,43,663,20,693,10,724,5,786,6,845,18,896,37,891,37,844,23,785,11,724,10,694,15,665,25,630,47,601,76,577,108,559,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="858,142,1023,169"/>
+<area shape="poly" title=" " alt="" coords="616,157,664,158,810,158,845,160,839,160,810,164,664,164,617,162"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="664,224,810,269"/>
+<area shape="poly" title=" " alt="" coords="594,177,676,217,671,217,594,182"/>
+<area shape="rect" href="namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="670,293,804,338"/>
+<area shape="poly" title=" " alt="" coords="564,177,609,227,666,279,672,285,667,284,663,283,605,231,562,182"/>
+<area shape="rect" href="namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="669,104,805,149"/>
+<area shape="poly" title=" " alt="" coords="616,143,657,139,651,140,617,148"/>
+<area shape="poly" title=" " alt="" coords="810,54,845,56,839,57,811,60"/>
+<area shape="poly" title=" " alt="" coords="786,77,811,89,899,135,894,134,808,94,785,82"/>
+<area shape="poly" title=" " alt="" coords="905,42,900,34,904,25,918,19,940,16,964,19,979,28,973,28,963,24,940,22,919,24,908,28,905,34,910,43"/>
+<area shape="poly" title=" " alt="" coords="788,221,891,177,896,176,790,226"/>
+<area shape="poly" title=" " alt="" coords="804,101,880,77,885,76,805,106"/>
+<area shape="poly" title=" " alt="" coords="805,133,845,141,839,142,805,139"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="ab19160117d181752a12fb36a0c6a66e8" name="ab19160117d181752a12fb36a0c6a66e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab19160117d181752a12fb36a0c6a66e8">&#9670;&#160;</a></span>la_dla_gbrcond_sub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pure subroutine, public la_lapack_solve_lu_comp::la_dla_gbrcond_sub </td>
+          <td>(</td>
+          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>kl</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ku</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(ldab,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ab</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldab</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(ldafb,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>afb</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldafb</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cmode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>work</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>iwork</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>res</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pure subroutine form of DLA_GBRCOND: the same arguments, followed by RES, which returns the value of the function. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacela__lapack__solve__lu__comp_ab19160117d181752a12fb36a0c6a66e8_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__lu__comp_ab19160117d181752a12fb36a0c6a66e8_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__solve__lu__comp_ab19160117d181752a12fb36a0c6a66e8_cgraph" id="anamespacela__lapack__solve__lu__comp_ab19160117d181752a12fb36a0c6a66e8_cgraph">
+<area shape="rect" title="Pure subroutine form of DLA_GBRCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="5,135,206,179"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="254,135,398,179"/>
+<area shape="poly" title=" " alt="" coords="205,154,241,156,236,158,207,159"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="446,35,591,79"/>
+<area shape="poly" title=" " alt="" coords="366,132,445,89,458,85,453,88,447,94,369,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="639,43,805,71"/>
+<area shape="poly" title=" " alt="" coords="337,132,354,105,378,73,409,43,445,20,474,10,505,5,568,6,627,18,678,37,672,37,625,23,567,11,506,10,476,15,447,25,412,47,382,76,359,108,341,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="639,142,805,169"/>
+<area shape="poly" title=" " alt="" coords="398,157,446,158,591,158,626,160,621,160,591,164,446,164,399,162"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="446,224,591,269"/>
+<area shape="poly" title=" " alt="" coords="376,177,458,217,453,217,375,182"/>
+<area shape="rect" href="namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="452,293,586,338"/>
+<area shape="poly" title=" " alt="" coords="346,177,390,227,448,279,454,285,449,284,444,283,386,231,344,182"/>
+<area shape="rect" href="namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="451,104,586,149"/>
+<area shape="poly" title=" " alt="" coords="398,143,438,139,433,140,399,148"/>
+<area shape="poly" title=" " alt="" coords="591,54,626,56,621,58,592,60"/>
+<area shape="poly" title=" " alt="" coords="567,77,593,89,681,134,676,135,590,94,567,82"/>
+<area shape="poly" title=" " alt="" coords="687,42,681,34,686,25,700,19,722,16,746,19,760,28,755,28,745,24,722,22,701,24,689,28,687,34,692,43"/>
+<area shape="poly" title=" " alt="" coords="570,221,672,177,677,176,572,226"/>
+<area shape="poly" title=" " alt="" coords="585,101,667,75,662,77,587,106"/>
+<area shape="poly" title=" " alt="" coords="587,133,626,141,621,142,587,139"/>
 </map>
 </div>
 
@@ -4724,20 +4854,121 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="namespacela__lapack__solve__lu__comp_a99e07a3edfc2d884f36705750ec49508_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__lu__comp_a99e07a3edfc2d884f36705750ec49508_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__solve__lu__comp_a99e07a3edfc2d884f36705750ec49508_cgraph" id="anamespacela__lapack__solve__lu__comp_a99e07a3edfc2d884f36705750ec49508_cgraph">
 <area shape="rect" title="DLA_GERCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,96,176,141"/>
-<area shape="poly" title=" " alt="" coords="51,95,50,86,56,77,70,71,91,69,112,72,127,80,122,81,111,77,90,75,71,77,60,81,55,87,56,96"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a5632de10753c7d6db07bdb4fc068e4bd" title="DGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="224,96,368,141"/>
-<area shape="poly" title=" " alt="" coords="176,116,210,118,205,119,176,121"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#ac9252b098a8ab4ccff78fc5eca6eab0e" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="416,5,560,50"/>
-<area shape="poly" title=" " alt="" coords="344,93,423,58,428,56,346,98"/>
-<area shape="rect" href="namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="420,125,556,170"/>
-<area shape="poly" title=" " alt="" coords="368,127,408,135,403,135,368,132"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="608,106,774,134"/>
-<area shape="poly" title=" " alt="" coords="368,112,416,110,560,110,595,114,590,114,560,116,416,116,368,117"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="608,162,774,190"/>
-<area shape="poly" title=" " alt="" coords="330,139,370,162,417,180,461,188,506,191,591,191,596,190,506,196,460,193,415,185,368,167,328,144"/>
-<area shape="poly" title=" " alt="" coords="556,136,590,134,596,133,556,141"/>
-<area shape="poly" title=" " alt="" coords="556,154,596,162,590,162,556,160"/>
-<area shape="poly" title=" " alt="" coords="656,104,650,97,655,87,669,81,691,79,715,82,729,91,724,90,713,87,691,84,670,86,659,91,656,97,661,106"/>
+<area shape="poly" title=" " alt="" coords="46,95,45,86,52,77,68,71,91,69,116,72,132,80,127,81,114,77,90,75,69,77,55,81,50,87,51,96"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a9c190f30ab13caa1faa068f5eece5349" title="Pure subroutine form of DLA_GERCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="224,96,424,141"/>
+<area shape="poly" title=" " alt="" coords="175,116,211,118,205,119,176,121"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a5632de10753c7d6db07bdb4fc068e4bd" title="DGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="472,96,616,141"/>
+<area shape="poly" title=" " alt="" coords="424,116,459,118,454,119,425,121"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#ac9252b098a8ab4ccff78fc5eca6eab0e" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="664,5,809,50"/>
+<area shape="poly" title=" " alt="" coords="592,93,671,58,676,56,594,98"/>
+<area shape="rect" href="namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="669,125,804,170"/>
+<area shape="poly" title=" " alt="" coords="617,127,656,135,651,135,617,132"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="857,106,1022,134"/>
+<area shape="poly" title=" " alt="" coords="616,112,664,110,809,110,844,114,838,114,809,116,664,116,617,117"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="857,162,1022,190"/>
+<area shape="poly" title=" " alt="" coords="578,139,619,162,665,180,709,188,755,191,839,191,844,190,755,196,709,193,664,185,617,167,577,144"/>
+<area shape="poly" title=" " alt="" coords="804,136,839,133,844,133,805,141"/>
+<area shape="poly" title=" " alt="" coords="805,154,844,162,839,162,804,160"/>
+<area shape="poly" title=" " alt="" coords="904,104,899,97,903,87,917,81,939,79,963,82,978,91,972,90,962,87,939,84,918,86,907,91,904,97,909,106"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a9c190f30ab13caa1faa068f5eece5349" name="a9c190f30ab13caa1faa068f5eece5349"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c190f30ab13caa1faa068f5eece5349">&#9670;&#160;</a></span>la_dla_gercond_sub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pure subroutine, public la_lapack_solve_lu_comp::la_dla_gercond_sub </td>
+          <td>(</td>
+          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(ldaf,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>af</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldaf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cmode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>work</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>iwork</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>res</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pure subroutine form of DLA_GERCOND: the same arguments, followed by RES, which returns the value of the function. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacela__lapack__solve__lu__comp_a9c190f30ab13caa1faa068f5eece5349_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__lu__comp_a9c190f30ab13caa1faa068f5eece5349_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__solve__lu__comp_a9c190f30ab13caa1faa068f5eece5349_cgraph" id="anamespacela__lapack__solve__lu__comp_a9c190f30ab13caa1faa068f5eece5349_cgraph">
+<area shape="rect" title="Pure subroutine form of DLA_GERCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="5,96,206,141"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a5632de10753c7d6db07bdb4fc068e4bd" title="DGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="254,96,398,141"/>
+<area shape="poly" title=" " alt="" coords="206,116,241,118,236,119,206,121"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#ac9252b098a8ab4ccff78fc5eca6eab0e" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="446,5,590,50"/>
+<area shape="poly" title=" " alt="" coords="374,93,453,58,458,56,376,98"/>
+<area shape="rect" href="namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="450,125,586,170"/>
+<area shape="poly" title=" " alt="" coords="398,127,438,135,433,135,398,132"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="638,106,804,134"/>
+<area shape="poly" title=" " alt="" coords="398,112,446,110,590,110,625,114,620,114,590,116,446,116,398,117"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="638,162,804,190"/>
+<area shape="poly" title=" " alt="" coords="360,139,400,162,447,180,491,188,536,191,621,191,626,190,536,196,490,193,445,185,398,167,358,144"/>
+<area shape="poly" title=" " alt="" coords="586,136,620,134,626,133,586,141"/>
+<area shape="poly" title=" " alt="" coords="586,154,626,162,620,162,586,160"/>
+<area shape="poly" title=" " alt="" coords="686,104,680,97,685,87,699,81,721,79,745,82,759,91,754,90,743,87,721,84,700,86,689,91,686,97,691,106"/>
 </map>
 </div>
 
@@ -7262,40 +7493,146 @@ Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="namespacela__lapack__solve__lu__comp_a5167e3fc1d940f998e79e7643cf73343_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__lu__comp_a5167e3fc1d940f998e79e7643cf73343_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__solve__lu__comp_a5167e3fc1d940f998e79e7643cf73343_cgraph" id="anamespacela__lapack__solve__lu__comp_a5167e3fc1d940f998e79e7643cf73343_cgraph">
-<area shape="rect" title="SLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,292,175,337"/>
-<area shape="poly" title=" " alt="" coords="49,292,48,282,55,273,69,267,90,265,113,268,128,276,123,278,111,273,90,271,70,273,58,277,53,283,55,291"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="648,77,814,104"/>
-<area shape="poly" title=" " alt="" coords="105,290,153,230,226,153,270,113,318,76,371,45,426,20,474,6,513,3,552,8,601,20,654,40,700,67,694,68,651,45,600,25,551,14,513,8,475,12,428,25,373,49,321,81,273,117,229,157,157,234,110,293"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a114355c1262a34b861fa85622374756d" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="229,201,373,246"/>
-<area shape="poly" title=" " alt="" coords="142,289,235,250,232,255,146,294"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="648,270,814,298"/>
-<area shape="poly" title=" " alt="" coords="148,335,238,363,351,388,413,395,476,396,539,390,599,376,630,363,658,345,703,310,708,307,661,349,632,367,601,381,540,396,477,401,413,400,350,393,236,368,149,340"/>
-<area shape="rect" href="namespacela__lapack__solve__aux.html#a3e2127b8555861dda8f66ca3b195e971" title="SLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="223,497,379,542"/>
-<area shape="poly" title=" " alt="" coords="115,335,268,485,263,488,113,340"/>
-<area shape="poly" title=" " alt="" coords="693,76,688,68,692,58,707,52,731,50,757,52,772,61,767,62,755,58,731,55,708,57,696,62,693,67,699,76"/>
-<area shape="poly" title=" " alt="" coords="308,200,324,164,349,121,383,80,403,62,426,48,459,35,494,29,530,28,566,32,633,47,689,69,684,71,631,52,565,37,530,33,495,34,461,40,428,53,406,67,387,84,353,124,329,167,313,202"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="441,201,586,246"/>
-<area shape="poly" title=" " alt="" coords="372,221,428,223,423,225,374,226"/>
-<area shape="poly" title=" " alt="" coords="373,243,427,256,534,270,636,279,631,281,533,275,427,261,374,249"/>
-<area shape="rect" href="namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="441,321,586,366"/>
-<area shape="poly" title=" " alt="" coords="336,244,428,300,452,314,447,314,426,305,336,249"/>
-<area shape="rect" href="namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="446,63,581,107"/>
-<area shape="poly" title=" " alt="" coords="323,199,369,159,426,117,438,113,434,116,428,122,372,163,327,203"/>
-<area shape="rect" href="namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="446,132,581,177"/>
-<area shape="poly" title=" " alt="" coords="370,199,434,180,429,183,373,203"/>
-<area shape="poly" title=" " alt="" coords="576,199,599,187,655,150,700,116,705,113,658,154,602,191,578,203"/>
-<area shape="poly" title=" " alt="" coords="586,241,666,265,661,266,587,246"/>
-<area shape="poly" title=" " alt="" coords="586,321,666,301,661,303,587,326"/>
-<area shape="poly" title=" " alt="" coords="581,132,669,108,664,111,583,137"/>
-<area shape="poly" title=" " alt="" coords="576,175,602,187,657,222,704,260,699,260,654,227,599,191,577,180"/>
-<area shape="rect" href="namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="427,465,600,492"/>
-<area shape="poly" title=" " alt="" coords="379,502,427,495,422,497,380,507"/>
-<area shape="rect" href="namespacela__blas__level1.html#a54c02c2da4a131219e1d231424179d3e" title="SASUM: takes the sum of the absolute values. uses unrolled loops for increment equal to one." alt="" coords="446,540,581,585"/>
-<area shape="poly" title=" " alt="" coords="379,533,434,546,429,546,379,538"/>
-<area shape="rect" href="namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="446,609,581,654"/>
-<area shape="poly" title=" " alt="" coords="336,540,428,595,441,603,436,602,426,599,335,545"/>
-<area shape="poly" title=" " alt="" coords="477,463,471,456,476,446,490,440,514,438,539,440,554,449,548,449,537,446,514,443,492,445,479,450,476,455,482,465"/>
-<area shape="poly" title=" " alt="" coords="473,538,472,530,479,521,493,515,514,513,537,516,552,525,547,525,535,521,514,519,494,521,482,525,477,531,478,541"/>
+<area shape="rect" title="SLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,135,175,179"/>
+<area shape="poly" title=" " alt="" coords="46,134,44,124,52,116,67,110,90,108,115,110,131,118,127,120,114,116,90,113,68,115,55,120,49,126,51,134"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a87a5b58b09e7e353429280fe2c8a18be" title="Pure subroutine form of SLA_GBRCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="223,135,422,179"/>
+<area shape="poly" title=" " alt="" coords="174,154,209,156,205,158,176,159"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a114355c1262a34b861fa85622374756d" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="470,135,614,179"/>
+<area shape="poly" title=" " alt="" coords="422,154,457,156,452,158,423,160"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="856,43,1021,71"/>
+<area shape="poly" title=" " alt="" coords="554,132,570,105,595,73,625,43,661,20,691,10,722,5,784,6,843,18,894,37,889,37,842,23,783,11,722,10,692,15,663,25,628,47,599,76,575,108,557,136"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="662,35,808,79"/>
+<area shape="poly" title=" " alt="" coords="583,132,661,89,670,88,674,86,664,94,585,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="856,142,1021,169"/>
+<area shape="poly" title=" " alt="" coords="614,157,662,158,808,158,843,160,837,160,808,164,662,164,615,162"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="662,224,808,269"/>
+<area shape="poly" title=" " alt="" coords="592,177,674,217,669,217,592,182"/>
+<area shape="rect" href="namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="668,293,802,338"/>
+<area shape="poly" title=" " alt="" coords="562,177,607,227,664,279,670,285,665,284,661,283,603,231,560,182"/>
+<area shape="rect" href="namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="667,104,803,149"/>
+<area shape="poly" title=" " alt="" coords="614,143,655,139,649,140,615,148"/>
+<area shape="poly" title=" " alt="" coords="903,42,898,34,902,25,916,19,938,16,962,19,977,28,971,28,961,24,938,22,917,24,906,28,903,34,908,43"/>
+<area shape="poly" title=" " alt="" coords="808,54,843,56,837,57,809,60"/>
+<area shape="poly" title=" " alt="" coords="784,77,809,89,897,135,892,134,806,94,783,82"/>
+<area shape="poly" title=" " alt="" coords="786,221,889,177,894,176,788,226"/>
+<area shape="poly" title=" " alt="" coords="802,101,878,77,883,76,803,106"/>
+<area shape="poly" title=" " alt="" coords="803,133,843,141,837,142,803,139"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a87a5b58b09e7e353429280fe2c8a18be" name="a87a5b58b09e7e353429280fe2c8a18be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87a5b58b09e7e353429280fe2c8a18be">&#9670;&#160;</a></span>la_sla_gbrcond_sub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pure subroutine, public la_lapack_solve_lu_comp::la_sla_gbrcond_sub </td>
+          <td>(</td>
+          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>kl</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ku</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(ldab,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ab</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldab</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(ldafb,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>afb</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldafb</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cmode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>work</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>iwork</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>res</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pure subroutine form of SLA_GBRCOND: the same arguments, followed by RES, which returns the value of the function. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacela__lapack__solve__lu__comp_a87a5b58b09e7e353429280fe2c8a18be_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__lu__comp_a87a5b58b09e7e353429280fe2c8a18be_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__solve__lu__comp_a87a5b58b09e7e353429280fe2c8a18be_cgraph" id="anamespacela__lapack__solve__lu__comp_a87a5b58b09e7e353429280fe2c8a18be_cgraph">
+<area shape="rect" title="Pure subroutine form of SLA_GBRCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="5,135,205,179"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a114355c1262a34b861fa85622374756d" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="253,135,397,179"/>
+<area shape="poly" title=" " alt="" coords="204,154,239,156,234,158,206,159"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="638,43,804,71"/>
+<area shape="poly" title=" " alt="" coords="336,132,353,105,377,73,408,43,444,20,473,10,504,5,567,6,626,18,677,37,671,37,624,23,566,11,505,10,475,15,446,25,411,47,381,76,358,108,340,136"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="445,35,590,79"/>
+<area shape="poly" title=" " alt="" coords="365,132,444,89,457,85,452,88,446,94,368,136"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="638,142,804,169"/>
+<area shape="poly" title=" " alt="" coords="397,157,445,158,590,158,625,160,620,160,590,164,445,164,398,162"/>
+<area shape="rect" href="namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="445,224,590,269"/>
+<area shape="poly" title=" " alt="" coords="375,177,457,217,452,217,374,182"/>
+<area shape="rect" href="namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="450,293,585,338"/>
+<area shape="poly" title=" " alt="" coords="345,177,389,227,447,279,453,285,448,284,443,283,385,231,343,182"/>
+<area shape="rect" href="namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="450,104,585,149"/>
+<area shape="poly" title=" " alt="" coords="397,143,437,139,432,140,398,148"/>
+<area shape="poly" title=" " alt="" coords="686,42,680,34,685,25,699,19,721,16,745,19,759,28,754,28,744,24,721,22,700,24,688,28,686,34,691,43"/>
+<area shape="poly" title=" " alt="" coords="590,54,625,56,620,58,591,60"/>
+<area shape="poly" title=" " alt="" coords="566,77,592,89,680,134,675,135,589,94,566,82"/>
+<area shape="poly" title=" " alt="" coords="569,221,671,177,676,176,571,226"/>
+<area shape="poly" title=" " alt="" coords="584,101,666,75,661,77,586,106"/>
+<area shape="poly" title=" " alt="" coords="586,133,625,141,620,142,586,139"/>
 </map>
 </div>
 
@@ -7439,20 +7776,121 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="namespacela__lapack__solve__lu__comp_ad96279026ce788dd3de188979e4d0273_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__lu__comp_ad96279026ce788dd3de188979e4d0273_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__solve__lu__comp_ad96279026ce788dd3de188979e4d0273_cgraph" id="anamespacela__lapack__solve__lu__comp_ad96279026ce788dd3de188979e4d0273_cgraph">
 <area shape="rect" title="SLA_GERCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,65,175,110"/>
-<area shape="poly" title=" " alt="" coords="51,64,49,55,56,46,70,40,90,38,112,41,126,49,121,50,110,46,90,44,71,45,59,50,55,56,56,65"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a59c487031b12eddb5e075d2dff45e9da" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="223,65,367,110"/>
-<area shape="poly" title=" " alt="" coords="175,85,210,87,205,88,176,90"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="607,80,773,108"/>
-<area shape="poly" title=" " alt="" coords="324,62,365,36,414,15,455,6,487,3,520,6,560,15,615,39,662,71,656,70,613,43,559,20,519,11,487,8,455,11,416,20,367,41,326,67"/>
-<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a4ceaa0f6cc0ebbcd5c297274b99267f2" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="415,30,559,75"/>
-<area shape="poly" title=" " alt="" coords="367,72,403,68,398,69,368,77"/>
-<area shape="rect" href="namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="420,100,555,144"/>
-<area shape="poly" title=" " alt="" coords="367,98,407,107,402,107,367,103"/>
-<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="607,136,773,164"/>
-<area shape="poly" title=" " alt="" coords="326,107,367,134,416,154,460,163,505,166,589,166,595,166,505,172,459,168,414,159,365,138,324,113"/>
-<area shape="poly" title=" " alt="" coords="655,78,649,71,654,62,668,56,690,53,714,56,728,65,723,64,712,61,690,59,669,61,658,65,655,71,660,81"/>
-<area shape="poly" title=" " alt="" coords="555,110,589,108,595,107,555,115"/>
-<area shape="poly" title=" " alt="" coords="555,129,595,136,589,136,555,134"/>
+<area shape="poly" title=" " alt="" coords="46,64,44,55,52,46,67,40,90,38,115,41,132,49,126,50,114,46,90,44,68,45,55,50,49,56,51,65"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a87d49c66aad04522657e3e1aec694a21" title="Pure subroutine form of SLA_GERCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="223,65,422,110"/>
+<area shape="poly" title=" " alt="" coords="174,85,210,87,204,88,175,90"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a59c487031b12eddb5e075d2dff45e9da" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="470,65,614,110"/>
+<area shape="poly" title=" " alt="" coords="422,85,457,87,452,88,422,90"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="855,80,1020,108"/>
+<area shape="poly" title=" " alt="" coords="571,62,612,36,662,15,702,6,735,3,767,6,807,15,862,39,909,71,904,70,860,43,806,20,766,11,735,8,703,11,663,20,615,41,573,67"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a4ceaa0f6cc0ebbcd5c297274b99267f2" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="662,30,807,75"/>
+<area shape="poly" title=" " alt="" coords="614,72,645,69,650,68,615,77"/>
+<area shape="rect" href="namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="667,100,802,144"/>
+<area shape="poly" title=" " alt="" coords="615,98,654,107,649,107,615,103"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="855,136,1020,164"/>
+<area shape="poly" title=" " alt="" coords="573,107,615,134,663,154,707,163,752,166,837,166,842,166,752,172,706,168,662,159,612,138,572,113"/>
+<area shape="poly" title=" " alt="" coords="902,78,897,71,901,62,915,56,937,53,961,56,976,65,970,64,960,61,937,59,916,61,905,65,902,71,907,81"/>
+<area shape="poly" title=" " alt="" coords="802,110,837,108,842,107,803,115"/>
+<area shape="poly" title=" " alt="" coords="803,129,842,137,837,136,802,134"/>
+</map>
+</div>
+
+</div>
+</div>
+<a id="a87d49c66aad04522657e3e1aec694a21" name="a87d49c66aad04522657e3e1aec694a21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87d49c66aad04522657e3e1aec694a21">&#9670;&#160;</a></span>la_sla_gercond_sub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pure subroutine, public la_lapack_solve_lu_comp::la_sla_gercond_sub </td>
+          <td>(</td>
+          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(ldaf,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>af</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldaf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>cmode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>c</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>work</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>iwork</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>res</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pure subroutine form of SLA_GERCOND: the same arguments, followed by RES, which returns the value of the function. </p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="namespacela__lapack__solve__lu__comp_a87d49c66aad04522657e3e1aec694a21_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__lu__comp_a87d49c66aad04522657e3e1aec694a21_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__solve__lu__comp_a87d49c66aad04522657e3e1aec694a21_cgraph" id="anamespacela__lapack__solve__lu__comp_a87d49c66aad04522657e3e1aec694a21_cgraph">
+<area shape="rect" title="Pure subroutine form of SLA_GERCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="5,65,205,110"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a59c487031b12eddb5e075d2dff45e9da" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="253,65,397,110"/>
+<area shape="poly" title=" " alt="" coords="204,85,239,87,234,88,205,90"/>
+<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="637,80,803,108"/>
+<area shape="poly" title=" " alt="" coords="354,62,395,36,444,15,485,6,517,3,550,6,590,15,645,39,692,71,686,70,643,43,589,20,549,11,517,8,485,11,446,20,397,41,356,67"/>
+<area shape="rect" href="namespacela__lapack__solve__lu__comp.html#a4ceaa0f6cc0ebbcd5c297274b99267f2" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="445,30,589,75"/>
+<area shape="poly" title=" " alt="" coords="397,72,433,68,428,69,398,77"/>
+<area shape="rect" href="namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="450,100,585,144"/>
+<area shape="poly" title=" " alt="" coords="397,98,437,107,432,107,397,103"/>
+<area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="637,136,803,164"/>
+<area shape="poly" title=" " alt="" coords="356,107,397,134,446,154,490,163,535,166,619,166,625,166,535,172,489,168,444,159,395,138,354,113"/>
+<area shape="poly" title=" " alt="" coords="685,78,679,71,684,62,698,56,720,53,744,56,758,65,753,64,742,61,720,59,699,61,688,65,685,71,690,81"/>
+<area shape="poly" title=" " alt="" coords="585,110,619,108,625,107,585,115"/>
+<area shape="poly" title=" " alt="" coords="585,129,625,136,619,136,585,134"/>
 </map>
 </div>
 

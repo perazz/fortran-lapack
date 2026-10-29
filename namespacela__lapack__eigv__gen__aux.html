@@ -138,18 +138,18 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a84f9619fc7d3c6f7013afc5cbfa0b3c3" id="r_a84f9619fc7d3c6f7013afc5cbfa0b3c3"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a84f9619fc7d3c6f7013afc5cbfa0b3c3">la_dlanv2</a> (a, b, c, d, rt1r, rt1i, rt2r, rt2i, cs, sn)</td></tr>
 <tr class="memdesc:a84f9619fc7d3c6f7013afc5cbfa0b3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLANV2: computes the Schur factorization of a real 2-by-2 nonsymmetric matrix in standard form: [ A B ] = [ CS -SN ] [ AA BB ] [ CS SN ] [ C D ] [ SN CS ] [ CC DD ] [-SN CS ] where either 1) CC = 0 so that AA and DD are real eigenvalues of the matrix, or 2) AA = DD and BB*CC &lt; 0, so that AA + or - sqrt(BB*CC) are complex conjugate eigenvalues.  <br /></td></tr>
 <tr class="separator:a84f9619fc7d3c6f7013afc5cbfa0b3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a725441ac1b91eccfca81be4333176c51" id="r_a725441ac1b91eccfca81be4333176c51"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a725441ac1b91eccfca81be4333176c51">la_slaexc</a> (wantq, n, t, ldt, q, ldq, j1, n1, n2, work, info)</td></tr>
-<tr class="memdesc:a725441ac1b91eccfca81be4333176c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi-triangular matrix T by an orthogonal similarity transformation. T must be in Schur canonical form, that is, block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each 2-by-2 diagonal block has its diagonal elements equal and its off-diagonal elements of opposite sign.  <br /></td></tr>
-<tr class="separator:a725441ac1b91eccfca81be4333176c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3568439eae0f442fd3bc4875b5ed5cc" id="r_af3568439eae0f442fd3bc4875b5ed5cc"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af3568439eae0f442fd3bc4875b5ed5cc">la_dlaexc</a> (wantq, n, t, ldt, q, ldq, j1, n1, n2, work, info)</td></tr>
-<tr class="memdesc:af3568439eae0f442fd3bc4875b5ed5cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi-triangular matrix T by an orthogonal similarity transformation. T must be in Schur canonical form, that is, block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each 2-by-2 diagonal block has its diagonal elements equal and its off-diagonal elements of opposite sign.  <br /></td></tr>
-<tr class="separator:af3568439eae0f442fd3bc4875b5ed5cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d5ca881a6030a48267e0f23c2f0bdb8" id="r_a4d5ca881a6030a48267e0f23c2f0bdb8"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d5ca881a6030a48267e0f23c2f0bdb8">la_strexc</a> (compq, n, t, ldt, q, ldq, ifst, ilst, work, info)</td></tr>
-<tr class="memdesc:a4d5ca881a6030a48267e0f23c2f0bdb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">STREXC: reorders the real Schur factorization of a real matrix A = Q*T*Q**T, so that the diagonal block of T with row index IFST is moved to row ILST. The real Schur form T is reordered by an orthogonal similarity transformation Z**T*T*Z, and optionally the matrix Q of Schur vectors is updated by postmultiplying it with Z. T must be in Schur canonical form (as returned by SHSEQR), that is, block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each 2-by-2 diagonal block has its diagonal elements equal and its off-diagonal elements of opposite sign.  <br /></td></tr>
-<tr class="separator:a4d5ca881a6030a48267e0f23c2f0bdb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9aa38d0fd5866cc5e11b3caba9cf9758" id="r_a9aa38d0fd5866cc5e11b3caba9cf9758"><td class="memItemLeft" align="right" valign="top">subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9aa38d0fd5866cc5e11b3caba9cf9758">la_dtrexc</a> (compq, n, t, ldt, q, ldq, ifst, ilst, work, info)</td></tr>
-<tr class="memdesc:a9aa38d0fd5866cc5e11b3caba9cf9758"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTREXC: reorders the real Schur factorization of a real matrix A = Q*T*Q**T, so that the diagonal block of T with row index IFST is moved to row ILST. The real Schur form T is reordered by an orthogonal similarity transformation Z**T*T*Z, and optionally the matrix Q of Schur vectors is updated by postmultiplying it with Z. T must be in Schur canonical form (as returned by DHSEQR), that is, block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each 2-by-2 diagonal block has its diagonal elements equal and its off-diagonal elements of opposite sign.  <br /></td></tr>
-<tr class="separator:a9aa38d0fd5866cc5e11b3caba9cf9758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d90cc7c6cea075e348438f8ce6ddd8e" id="r_a4d90cc7c6cea075e348438f8ce6ddd8e"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4d90cc7c6cea075e348438f8ce6ddd8e">la_slaexc</a> (wantq, n, t, ldt, q, ldq, j1, n1, n2, work, info)</td></tr>
+<tr class="memdesc:a4d90cc7c6cea075e348438f8ce6ddd8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">SLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi-triangular matrix T by an orthogonal similarity transformation. T must be in Schur canonical form, that is, block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each 2-by-2 diagonal block has its diagonal elements equal and its off-diagonal elements of opposite sign.  <br /></td></tr>
+<tr class="separator:a4d90cc7c6cea075e348438f8ce6ddd8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab26a18abf6362f2b79787a6cbd5e9b4c" id="r_ab26a18abf6362f2b79787a6cbd5e9b4c"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab26a18abf6362f2b79787a6cbd5e9b4c">la_dlaexc</a> (wantq, n, t, ldt, q, ldq, j1, n1, n2, work, info)</td></tr>
+<tr class="memdesc:ab26a18abf6362f2b79787a6cbd5e9b4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">DLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi-triangular matrix T by an orthogonal similarity transformation. T must be in Schur canonical form, that is, block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each 2-by-2 diagonal block has its diagonal elements equal and its off-diagonal elements of opposite sign.  <br /></td></tr>
+<tr class="separator:ab26a18abf6362f2b79787a6cbd5e9b4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a032b4e50674245608b953f3a47d023cf" id="r_a032b4e50674245608b953f3a47d023cf"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a032b4e50674245608b953f3a47d023cf">la_strexc</a> (compq, n, t, ldt, q, ldq, ifst, ilst, work, info)</td></tr>
+<tr class="memdesc:a032b4e50674245608b953f3a47d023cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">STREXC: reorders the real Schur factorization of a real matrix A = Q*T*Q**T, so that the diagonal block of T with row index IFST is moved to row ILST. The real Schur form T is reordered by an orthogonal similarity transformation Z**T*T*Z, and optionally the matrix Q of Schur vectors is updated by postmultiplying it with Z. T must be in Schur canonical form (as returned by SHSEQR), that is, block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each 2-by-2 diagonal block has its diagonal elements equal and its off-diagonal elements of opposite sign.  <br /></td></tr>
+<tr class="separator:a032b4e50674245608b953f3a47d023cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad76cf0ee4036bcca361cb0d2969b9e06" id="r_ad76cf0ee4036bcca361cb0d2969b9e06"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad76cf0ee4036bcca361cb0d2969b9e06">la_dtrexc</a> (compq, n, t, ldt, q, ldq, ifst, ilst, work, info)</td></tr>
+<tr class="memdesc:ad76cf0ee4036bcca361cb0d2969b9e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">DTREXC: reorders the real Schur factorization of a real matrix A = Q*T*Q**T, so that the diagonal block of T with row index IFST is moved to row ILST. The real Schur form T is reordered by an orthogonal similarity transformation Z**T*T*Z, and optionally the matrix Q of Schur vectors is updated by postmultiplying it with Z. T must be in Schur canonical form (as returned by DHSEQR), that is, block upper triangular with 1-by-1 and 2-by-2 diagonal blocks; each 2-by-2 diagonal block has its diagonal elements equal and its off-diagonal elements of opposite sign.  <br /></td></tr>
+<tr class="separator:ad76cf0ee4036bcca361cb0d2969b9e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abd970782ec1489b1703ce6847ea26697" id="r_abd970782ec1489b1703ce6847ea26697"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#abd970782ec1489b1703ce6847ea26697">la_ctrexc</a> (compq, n, t, ldt, q, ldq, ifst, ilst, info)</td></tr>
 <tr class="memdesc:abd970782ec1489b1703ce6847ea26697"><td class="mdescLeft">&#160;</td><td class="mdescRight">CTREXC: reorders the Schur factorization of a complex matrix A = Q*T*Q**H, so that the diagonal element of T with row index IFST is moved to row ILST. The Schur form T is reordered by a unitary similarity transformation Z**H*T*Z, and optionally the matrix Q of Schur vectors is updated by postmultplying it with Z.  <br /></td></tr>
 <tr class="separator:abd970782ec1489b1703ce6847ea26697"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -235,14 +235,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="af3568439eae0f442fd3bc4875b5ed5cc" name="af3568439eae0f442fd3bc4875b5ed5cc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af3568439eae0f442fd3bc4875b5ed5cc">&#9670;&#160;</a></span>la_dlaexc()</h2>
+<a id="ab26a18abf6362f2b79787a6cbd5e9b4c" name="ab26a18abf6362f2b79787a6cbd5e9b4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab26a18abf6362f2b79787a6cbd5e9b4c">&#9670;&#160;</a></span>la_dlaexc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_eigv_gen_aux::la_dlaexc </td>
+          <td class="memname">pure subroutine, public la_lapack_eigv_gen_aux::la_dlaexc </td>
           <td>(</td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>wantq</em></span>, </td>
         </tr>
@@ -303,38 +303,37 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__eigv__gen__aux_af3568439eae0f442fd3bc4875b5ed5cc_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__gen__aux_af3568439eae0f442fd3bc4875b5ed5cc_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__eigv__gen__aux_af3568439eae0f442fd3bc4875b5ed5cc_cgraph" id="anamespacela__lapack__eigv__gen__aux_af3568439eae0f442fd3bc4875b5ed5cc_cgraph">
+<div class="center"><img src="namespacela__lapack__eigv__gen__aux_ab26a18abf6362f2b79787a6cbd5e9b4c_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__gen__aux_ab26a18abf6362f2b79787a6cbd5e9b4c_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__eigv__gen__aux_ab26a18abf6362f2b79787a6cbd5e9b4c_cgraph" id="anamespacela__lapack__eigv__gen__aux_ab26a18abf6362f2b79787a6cbd5e9b4c_cgraph">
 <area shape="rect" title="DLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi&#45;triangular matri..." alt="" coords="5,608,155,653"/>
 <area shape="rect" href="namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="667,5,814,50"/>
 <area shape="poly" title=" " alt="" coords="78,607,79,527,84,472,93,412,108,349,130,287,161,228,201,177,249,134,305,101,364,74,426,55,488,41,547,32,653,25,649,28,548,37,489,46,427,60,366,79,307,105,253,139,205,180,165,231,135,289,113,351,98,413,89,473,84,527,83,608"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="667,581,814,626"/>
 <area shape="poly" title=" " alt="" coords="154,625,652,605,651,610,155,630"/>
-<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a305c99f703797de3a2f0a01e35a60e74" title="DLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="219,761,366,806"/>
-<area shape="poly" title=" " alt="" coords="110,650,204,723,245,752,240,753,201,727,109,656"/>
+<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a8ea78bf7b764d6cd59e370d8399683f5" title="Pure subroutine form of DLANGE: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="204,737,380,782"/>
+<area shape="poly" title=" " alt="" coords="106,651,151,687,204,723,215,730,210,731,201,727,148,691,106,656"/>
 <area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#a84f9619fc7d3c6f7013afc5cbfa0b3c3" title="DLANV2: computes the Schur factorization of a real 2&#45;by&#45;2 nonsymmetric matrix in standard form: [ A B..." alt="" coords="218,548,367,593"/>
 <area shape="poly" title=" " alt="" coords="154,607,205,594,201,597,157,611"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#adc9152fe9ae73eb4b5fc754d1215b0af" title="DLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="207,413,378,458"/>
 <area shape="poly" title=" " alt="" coords="104,606,256,466,255,471,108,609"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#aa4e56a67f238e3fcc8dfc1f8517784c2" title="DLARFX: applies a real elementary reflector H to a real m by n matrix C, from either the left or the ..." alt="" coords="207,191,378,235"/>
 <area shape="poly" title=" " alt="" coords="90,607,271,247,275,251,95,609"/>
-<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="203,831,382,875"/>
-<area shape="poly" title=" " alt="" coords="91,651,110,688,134,732,166,777,204,816,210,822,205,822,201,820,162,780,129,735,105,690,90,656"/>
+<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="203,807,382,851"/>
+<area shape="poly" title=" " alt="" coords="93,651,138,720,168,759,204,792,211,798,206,798,201,796,164,762,133,724,92,656"/>
 <area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#ab8bd7aac8b2062056eecee1f3bf601fe" title="DLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="218,668,367,713"/>
 <area shape="poly" title=" " alt="" coords="155,649,205,664,200,666,156,654"/>
-<area shape="rect" href="namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="209,899,376,927"/>
-<area shape="poly" title=" " alt="" coords="86,650,100,701,122,764,156,830,179,860,204,886,209,891,204,890,201,890,174,863,152,833,117,766,95,703,85,656"/>
+<area shape="rect" href="namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="209,875,376,903"/>
+<area shape="poly" title=" " alt="" coords="87,650,103,697,126,753,159,812,180,838,204,862,210,868,205,867,201,866,176,842,155,815,121,756,98,699,86,656"/>
 <area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="877,199,1042,227"/>
 <area shape="poly" title=" " alt="" coords="798,48,830,67,864,95,895,127,942,187,937,186,891,131,860,99,827,71,799,53"/>
 <area shape="poly" title=" " alt="" coords="921,198,916,190,921,181,935,175,959,173,985,175,1000,184,995,184,984,180,959,178,937,180,924,185,921,190,927,199"/>
 <area shape="poly" title=" " alt="" coords="788,579,809,563,826,543,843,514,852,487,855,435,857,382,862,352,874,319,901,274,932,240,935,236,906,277,879,321,867,353,862,382,861,436,857,488,848,516,831,547,813,567,791,583"/>
 <area shape="poly" title=" " alt="" coords="699,580,697,571,704,562,719,557,741,555,764,557,780,566,775,566,763,562,740,560,720,562,708,567,702,573,704,582"/>
-<area shape="poly" title=" " alt="" coords="252,760,250,751,257,742,271,737,292,735,315,737,331,746,325,746,314,742,292,740,273,742,260,747,255,753,257,762"/>
 <area shape="poly" title=" " alt="" coords="367,573,653,595,649,599,368,578"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="444,497,591,542"/>
 <area shape="poly" title=" " alt="" coords="366,551,431,538,426,541,369,556"/>
 <area shape="poly" title=" " alt="" coords="579,540,667,575,662,576,579,545"/>
-<area shape="poly" title=" " alt="" coords="474,496,473,487,480,478,495,473,517,471,541,473,557,482,552,483,540,478,517,476,496,478,483,483,478,489,480,498"/>
+<area shape="poly" title=" " alt="" coords="475,496,473,487,480,478,495,473,517,471,541,473,557,482,552,483,540,478,517,476,496,478,483,483,478,489,480,498"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="667,488,814,533"/>
 <area shape="poly" title=" " alt="" coords="591,514,654,513,649,515,592,519"/>
 <area shape="poly" title=" " alt="" coords="699,486,697,478,704,469,719,463,741,461,764,464,780,473,775,473,763,469,740,467,720,469,708,473,702,479,704,489"/>
@@ -351,7 +350,7 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="336,188,427,148,486,127,551,109,620,96,690,91,761,95,830,110,862,125,891,145,938,188,933,188,888,149,859,130,828,116,760,100,691,96,621,102,552,115,488,132,429,153,339,192"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#aa59fe80fa85cb1f51fb74ae2a659bf95" title="DLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="432,191,602,235"/>
 <area shape="poly" title=" " alt="" coords="376,211,419,212,414,214,379,215"/>
-<area shape="poly" title=" " alt="" coords="602,210,863,212,859,214,603,216"/>
+<area shape="poly" title=" " alt="" coords="602,210,864,212,859,214,603,216"/>
 <area shape="rect" href="namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="668,251,813,295"/>
 <area shape="poly" title=" " alt="" coords="602,233,655,249,650,250,603,238"/>
 <area shape="rect" href="namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="668,395,813,439"/>
@@ -366,7 +365,7 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="810,392,903,363,898,365,812,396"/>
 <area shape="poly" title=" " alt="" coords="703,342,697,334,702,325,717,319,741,317,766,319,782,328,776,328,765,324,740,322,718,324,705,329,702,334,708,343"/>
 <area shape="poly" title=" " alt="" coords="703,148,697,140,702,130,717,124,741,122,766,124,782,133,776,134,765,129,740,127,718,129,705,134,702,139,708,148"/>
-<area shape="poly" title=" " alt="" coords="366,682,479,669,604,646,667,631,662,633,605,652,480,674,368,687"/>
+<area shape="poly" title=" " alt="" coords="367,682,479,669,604,646,667,631,662,632,605,652,480,674,368,687"/>
 <area shape="rect" href="namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="450,793,584,838"/>
 <area shape="poly" title=" " alt="" coords="362,711,384,723,399,737,408,752,417,765,432,779,439,786,434,785,428,783,413,769,404,754,395,741,380,727,362,716"/>
 <area shape="rect" href="namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="450,863,584,907"/>
@@ -705,14 +704,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a9aa38d0fd5866cc5e11b3caba9cf9758" name="a9aa38d0fd5866cc5e11b3caba9cf9758"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9aa38d0fd5866cc5e11b3caba9cf9758">&#9670;&#160;</a></span>la_dtrexc()</h2>
+<a id="ad76cf0ee4036bcca361cb0d2969b9e06" name="ad76cf0ee4036bcca361cb0d2969b9e06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad76cf0ee4036bcca361cb0d2969b9e06">&#9670;&#160;</a></span>la_dtrexc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_eigv_gen_aux::la_dtrexc </td>
+          <td class="memname">pure subroutine, public la_lapack_eigv_gen_aux::la_dtrexc </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>compq</em></span>, </td>
         </tr>
@@ -768,38 +767,37 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__eigv__gen__aux_a9aa38d0fd5866cc5e11b3caba9cf9758_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__gen__aux_a9aa38d0fd5866cc5e11b3caba9cf9758_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__eigv__gen__aux_a9aa38d0fd5866cc5e11b3caba9cf9758_cgraph" id="anamespacela__lapack__eigv__gen__aux_a9aa38d0fd5866cc5e11b3caba9cf9758_cgraph">
-<area shape="rect" title="DTREXC: reorders the real Schur factorization of a real matrix A = Q*T*Q**T, so that the diagonal blo..." alt="" coords="5,403,155,448"/>
-<area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#af3568439eae0f442fd3bc4875b5ed5cc" title="DLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi&#45;triangular matri..." alt="" coords="203,403,352,448"/>
-<area shape="poly" title=" " alt="" coords="153,423,189,424,185,427,156,428"/>
+<div class="center"><img src="namespacela__lapack__eigv__gen__aux_ad76cf0ee4036bcca361cb0d2969b9e06_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__gen__aux_ad76cf0ee4036bcca361cb0d2969b9e06_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__eigv__gen__aux_ad76cf0ee4036bcca361cb0d2969b9e06_cgraph" id="anamespacela__lapack__eigv__gen__aux_ad76cf0ee4036bcca361cb0d2969b9e06_cgraph">
+<area shape="rect" title="DTREXC: reorders the real Schur factorization of a real matrix A = Q*T*Q**T, so that the diagonal blo..." alt="" coords="5,385,155,429"/>
+<area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#ab26a18abf6362f2b79787a6cbd5e9b4c" title="DLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi&#45;triangular matri..." alt="" coords="203,385,352,429"/>
+<area shape="poly" title=" " alt="" coords="153,405,189,405,185,409,156,409"/>
 <area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1074,145,1239,173"/>
-<area shape="poly" title=" " alt="" coords="88,402,134,304,172,240,218,174,273,112,304,85,337,60,372,40,408,24,447,15,488,11,716,11,805,7,875,3,909,4,944,9,983,19,1027,37,1061,56,1092,81,1139,133,1133,133,1088,85,1058,61,1025,41,981,25,943,14,908,9,875,8,805,13,716,16,488,16,448,20,410,29,374,45,340,65,307,89,277,116,222,178,176,243,139,307,93,404"/>
+<area shape="poly" title=" " alt="" coords="89,383,137,290,175,229,221,166,276,107,340,58,374,38,410,24,448,14,488,11,716,11,805,7,875,3,909,4,944,9,983,19,1027,37,1061,56,1092,81,1139,133,1133,133,1088,85,1058,61,1025,41,981,25,943,14,908,9,875,8,805,13,716,16,488,16,449,20,412,29,376,43,342,62,280,111,225,169,179,232,141,292,94,385"/>
 <area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="1074,451,1239,478"/>
-<area shape="poly" title=" " alt="" coords="88,446,129,563,163,641,207,722,261,799,292,833,326,863,362,888,402,907,443,919,488,923,716,923,809,925,885,921,919,913,952,900,987,878,1024,848,1036,829,1051,794,1086,693,1145,495,1150,492,1091,695,1056,796,1040,832,1028,851,990,883,955,905,920,919,885,926,810,930,716,928,488,928,443,924,400,912,360,892,323,867,288,837,257,802,202,725,158,644,124,565,87,451"/>
+<area shape="poly" title=" " alt="" coords="87,427,127,549,160,630,204,714,258,794,289,829,323,860,360,886,400,906,442,919,488,923,716,923,809,925,885,921,919,913,952,900,987,878,1024,848,1036,829,1051,794,1086,693,1145,495,1150,492,1091,695,1056,796,1040,832,1028,851,990,883,955,905,920,919,885,926,810,930,716,928,488,928,441,924,398,911,357,891,320,864,285,833,254,797,199,717,156,632,122,551,87,433"/>
 <area shape="rect" href="namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="864,51,1012,96"/>
-<area shape="poly" title=" " alt="" coords="279,402,290,351,311,284,327,249,346,215,370,183,398,157,451,124,508,98,568,80,630,68,690,62,748,59,851,63,846,65,748,64,691,67,631,74,570,86,510,103,453,128,402,161,374,187,351,217,331,251,316,286,295,352,284,404"/>
+<area shape="poly" title=" " alt="" coords="280,383,292,335,314,273,348,210,371,181,398,157,451,124,509,99,569,82,631,70,691,63,749,60,851,63,846,66,749,65,691,68,631,75,571,87,511,104,454,129,402,161,375,185,353,213,319,275,297,337,285,385"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="864,541,1012,585"/>
-<area shape="poly" title=" " alt="" coords="303,446,348,480,374,496,401,509,437,519,486,528,606,542,851,559,846,561,605,547,485,533,436,524,399,514,371,501,345,484,303,451"/>
-<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a305c99f703797de3a2f0a01e35a60e74" title="DLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="416,334,563,379"/>
-<area shape="poly" title=" " alt="" coords="346,401,407,382,403,386,349,405"/>
+<area shape="poly" title=" " alt="" coords="303,427,348,461,401,490,486,511,606,530,851,556,847,558,605,535,485,517,399,495,345,466,304,433"/>
+<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a8ea78bf7b764d6cd59e370d8399683f5" title="Pure subroutine form of DLANGE: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="402,315,578,360"/>
+<area shape="poly" title=" " alt="" coords="346,382,407,364,403,367,349,386"/>
 <area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#a84f9619fc7d3c6f7013afc5cbfa0b3c3" title="DLANV2: computes the Schur factorization of a real 2&#45;by&#45;2 nonsymmetric matrix in standard form: [ A B..." alt="" coords="415,793,564,837"/>
-<area shape="poly" title=" " alt="" coords="288,446,335,552,402,686,464,780,459,780,398,688,330,554,287,451"/>
+<area shape="poly" title=" " alt="" coords="288,427,333,541,366,614,402,686,433,735,464,781,459,780,428,738,398,688,361,616,329,543,286,432"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#adc9152fe9ae73eb4b5fc754d1215b0af" title="DLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="404,630,575,675"/>
-<area shape="poly" title=" " alt="" coords="301,446,460,618,455,619,299,451"/>
+<area shape="poly" title=" " alt="" coords="299,427,462,617,456,619,297,432"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#aa4e56a67f238e3fcc8dfc1f8517784c2" title="DLARFX: applies a real elementary reflector H to a real m by n matrix C, from either the left or the ..." alt="" coords="404,171,575,216"/>
-<area shape="poly" title=" " alt="" coords="285,402,301,364,325,317,358,269,398,226,406,223,403,227,402,230,362,272,330,320,306,367,289,404"/>
-<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="400,403,579,448"/>
-<area shape="poly" title=" " alt="" coords="351,423,387,424,382,427,354,428"/>
-<area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#ab8bd7aac8b2062056eecee1f3bf601fe" title="DLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="415,241,564,285"/>
-<area shape="poly" title=" " alt="" coords="293,401,337,349,366,321,398,296,409,291,406,295,402,300,370,325,341,353,297,404"/>
-<area shape="rect" href="namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="406,472,573,500"/>
-<area shape="poly" title=" " alt="" coords="352,444,426,466,421,468,353,449"/>
+<area shape="poly" title=" " alt="" coords="287,383,330,310,361,269,398,232,415,222,412,226,402,236,365,272,334,313,292,386"/>
+<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#a5e19ce2e6daf72f87b31eef6d574e075" title="!" alt="" coords="400,385,579,429"/>
+<area shape="poly" title=" " alt="" coords="351,405,387,406,382,408,354,409"/>
+<area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#ab8bd7aac8b2062056eecee1f3bf601fe" title="DLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="415,246,564,291"/>
+<area shape="poly" title=" " alt="" coords="299,383,343,342,399,301,411,296,407,300,401,305,346,346,303,386"/>
+<area shape="rect" href="namespacela__blas__level1.html#a99aa2f933c39f64441cc5e958852aee6" title="DROT: applies a plane rotation." alt="" coords="406,453,573,481"/>
+<area shape="poly" title=" " alt="" coords="352,426,426,448,421,450,353,431"/>
 <area shape="poly" title=" " alt="" coords="997,94,1108,139,1102,140,997,99"/>
 <area shape="poly" title=" " alt="" coords="1119,144,1113,136,1118,127,1133,121,1157,119,1182,121,1198,130,1193,130,1181,126,1157,124,1134,126,1121,131,1118,136,1124,145"/>
 <area shape="poly" title=" " alt="" coords="979,538,1003,520,1024,497,1050,458,1073,416,1109,329,1133,249,1148,190,1152,186,1139,250,1114,331,1078,418,1055,461,1028,501,1006,524,981,542"/>
 <area shape="poly" title=" " alt="" coords="896,539,895,531,902,522,916,516,938,514,962,517,977,526,972,526,960,522,938,519,917,521,905,526,900,532,901,541"/>
-<area shape="poly" title=" " alt="" coords="449,333,448,324,455,315,469,309,490,307,513,310,528,318,523,319,511,315,490,313,470,315,458,319,453,325,454,334"/>
 <area shape="poly" title=" " alt="" coords="539,835,597,856,665,871,700,873,735,871,769,863,800,848,848,751,918,601,922,598,852,753,804,852,771,868,736,876,700,878,664,876,595,861,539,841"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a6392f228090286d0a08702c8ba131de1" title="DLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="641,793,788,837"/>
 <area shape="poly" title=" " alt="" coords="565,812,628,815,623,815,565,818"/>
@@ -835,27 +833,27 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="1011,462,1061,464,1056,465,1012,467"/>
 <area shape="poly" title=" " alt="" coords="900,320,894,312,899,303,914,297,938,295,964,297,979,306,974,306,962,302,938,300,915,302,903,307,900,312,905,321"/>
 <area shape="poly" title=" " alt="" coords="900,244,894,236,899,227,914,221,938,219,964,221,979,230,974,230,962,226,938,224,915,226,903,231,900,236,905,245"/>
-<area shape="poly" title=" " alt="" coords="565,283,581,296,595,315,602,334,605,370,609,405,616,423,629,440,650,457,669,468,708,478,751,483,803,497,881,534,876,534,801,502,750,488,707,483,667,473,647,462,625,444,611,425,604,407,600,370,597,335,590,317,577,300,565,288"/>
+<area shape="poly" title=" " alt="" coords="564,289,581,301,595,319,602,338,605,373,609,407,616,423,629,440,650,457,669,468,708,478,751,483,803,497,881,534,876,534,801,502,750,488,707,483,667,473,647,462,625,444,611,426,604,408,600,373,597,339,590,322,577,305,565,294"/>
 <area shape="rect" href="namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="647,241,782,285"/>
-<area shape="poly" title=" " alt="" coords="564,261,634,262,630,264,566,266"/>
+<area shape="poly" title=" " alt="" coords="564,264,634,264,630,266,566,269"/>
 <area shape="rect" href="namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="647,310,782,355"/>
-<area shape="poly" title=" " alt="" coords="564,283,635,306,630,308,565,289"/>
+<area shape="poly" title=" " alt="" coords="564,287,635,308,630,310,566,292"/>
 <area shape="rect" href="namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="627,403,802,430"/>
-<area shape="poly" title=" " alt="" coords="561,283,581,296,598,313,606,330,615,347,629,365,670,395,665,395,626,369,610,350,602,333,593,316,578,300,561,289"/>
+<area shape="poly" title=" " alt="" coords="560,289,581,301,597,317,606,333,615,349,629,365,671,395,665,395,626,369,610,352,602,336,593,320,578,305,561,294"/>
 <area shape="poly" title=" " alt="" coords="676,402,670,394,675,384,690,378,715,376,741,378,756,387,751,388,739,384,714,381,691,383,678,388,675,393,681,402"/>
 </map>
 </div>
 
 </div>
 </div>
-<a id="a725441ac1b91eccfca81be4333176c51" name="a725441ac1b91eccfca81be4333176c51"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a725441ac1b91eccfca81be4333176c51">&#9670;&#160;</a></span>la_slaexc()</h2>
+<a id="a4d90cc7c6cea075e348438f8ce6ddd8e" name="a4d90cc7c6cea075e348438f8ce6ddd8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d90cc7c6cea075e348438f8ce6ddd8e">&#9670;&#160;</a></span>la_slaexc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_eigv_gen_aux::la_slaexc </td>
+          <td class="memname">pure subroutine, public la_lapack_eigv_gen_aux::la_slaexc </td>
           <td>(</td>
           <td class="paramtype">logical(<a class="el" href="namespacela__constants.html#ab69b1529685742074aaa0fa65f97a084">lk</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>wantq</em></span>, </td>
         </tr>
@@ -916,33 +914,32 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__eigv__gen__aux_a725441ac1b91eccfca81be4333176c51_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__gen__aux_a725441ac1b91eccfca81be4333176c51_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__eigv__gen__aux_a725441ac1b91eccfca81be4333176c51_cgraph" id="anamespacela__lapack__eigv__gen__aux_a725441ac1b91eccfca81be4333176c51_cgraph">
+<div class="center"><img src="namespacela__lapack__eigv__gen__aux_a4d90cc7c6cea075e348438f8ce6ddd8e_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__gen__aux_a4d90cc7c6cea075e348438f8ce6ddd8e_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__eigv__gen__aux_a4d90cc7c6cea075e348438f8ce6ddd8e_cgraph" id="anamespacela__lapack__eigv__gen__aux_a4d90cc7c6cea075e348438f8ce6ddd8e_cgraph">
 <area shape="rect" title="SLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi&#45;triangular matri..." alt="" coords="5,452,155,497"/>
 <area shape="rect" href="namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="665,5,813,50"/>
 <area shape="poly" title=" " alt="" coords="79,451,84,384,101,290,117,240,138,190,166,144,201,104,251,67,306,40,366,21,427,10,489,4,547,3,652,12,647,14,547,9,489,10,428,15,367,27,308,45,253,72,204,108,170,148,143,193,122,242,107,291,89,384,84,452"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="665,355,813,399"/>
 <area shape="poly" title=" " alt="" coords="152,449,202,437,323,416,444,400,652,381,647,384,445,405,324,421,203,442,156,454"/>
-<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#acf18db8fabe5ef770efc03a4bed05d09" title="SLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="219,615,366,659"/>
-<area shape="poly" title=" " alt="" coords="106,495,204,576,244,605,239,606,201,580,106,500"/>
+<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a38cc3401b392e4632b10014a5873fd67" title="Pure subroutine form of SLANGE: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="205,591,380,635"/>
+<area shape="poly" title=" " alt="" coords="103,495,149,536,204,576,214,583,209,584,201,581,146,540,103,500"/>
 <area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#afc0925c208251ce87f5c47b9ec819839" title="SLANV2: computes the Schur factorization of a real 2&#45;by&#45;2 nonsymmetric matrix in standard form: [ A B..." alt="" coords="218,119,367,163"/>
 <area shape="poly" title=" " alt="" coords="92,451,200,268,267,174,265,179,205,270,96,453"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#a498b4c51428aab284826c313ab93ed53" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="207,281,378,326"/>
 <area shape="poly" title=" " alt="" coords="107,450,252,333,251,338,111,453"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#a499cf8b2a93b985594a99bc53a6bb816" title="SLARFX: applies a real elementary reflector H to a real m by n matrix C, from either the left or the ..." alt="" coords="207,452,378,497"/>
 <area shape="poly" title=" " alt="" coords="154,472,194,473,189,476,157,477"/>
-<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="203,684,382,729"/>
-<area shape="poly" title=" " alt="" coords="90,494,108,533,132,580,165,628,204,670,210,675,205,675,201,674,160,631,128,583,103,536,90,500"/>
+<area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="203,660,382,705"/>
+<area shape="poly" title=" " alt="" coords="92,495,136,569,167,610,204,646,211,652,205,652,201,650,163,613,132,572,91,500"/>
 <area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#a5295b2b8d82142ed40bfaac634962176" title="SLASY2: solves for the N1 by N2 matrix X, 1 &lt;= N1,N2 &lt;= 2, in op(TL)*X + ISGN*X*op(TR) = SCALE*B,..." alt="" coords="218,521,367,566"/>
 <area shape="poly" title=" " alt="" coords="150,495,210,515,205,517,151,500"/>
-<area shape="rect" href="namespacela__blas__level1.html#af0c9560d34bb1a5bc4eeb76a61cb3147" title="applies a plane rotation." alt="" coords="209,752,376,780"/>
-<area shape="poly" title=" " alt="" coords="85,494,99,547,121,612,155,681,178,712,204,739,209,745,204,744,201,743,174,715,151,683,116,614,94,548,85,500"/>
+<area shape="rect" href="namespacela__blas__level1.html#af0c9560d34bb1a5bc4eeb76a61cb3147" title="applies a plane rotation." alt="" coords="209,728,376,756"/>
+<area shape="poly" title=" " alt="" coords="86,495,102,543,124,602,158,663,180,691,204,715,210,721,205,720,201,719,176,694,154,666,120,604,97,544,86,500"/>
 <area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="875,436,1040,464"/>
 <area shape="poly" title=" " alt="" coords="789,48,811,63,829,81,846,108,864,147,899,243,951,422,946,421,894,244,859,149,841,111,825,84,807,67,789,53"/>
 <area shape="poly" title=" " alt="" coords="920,435,914,428,919,418,933,412,957,410,983,412,998,421,993,421,982,417,957,415,935,417,922,422,919,427,925,437"/>
 <area shape="poly" title=" " alt="" coords="807,397,902,431,896,431,807,402"/>
 <area shape="poly" title=" " alt="" coords="697,353,696,345,703,336,717,330,739,328,763,331,778,339,773,340,761,336,739,333,719,335,706,340,701,346,702,355"/>
-<area shape="poly" title=" " alt="" coords="252,613,250,605,257,596,271,590,292,588,315,591,331,599,325,600,314,596,292,593,273,595,260,600,255,606,257,615"/>
 <area shape="poly" title=" " alt="" coords="329,116,386,88,457,64,495,58,533,57,570,64,605,80,625,114,657,184,725,341,720,340,652,186,620,116,602,84,569,69,533,62,496,63,459,69,388,93,333,120"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="443,119,590,163"/>
 <area shape="poly" title=" " alt="" coords="366,139,430,140,425,142,369,143"/>
@@ -1318,14 +1315,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a4d5ca881a6030a48267e0f23c2f0bdb8" name="a4d5ca881a6030a48267e0f23c2f0bdb8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d5ca881a6030a48267e0f23c2f0bdb8">&#9670;&#160;</a></span>la_strexc()</h2>
+<a id="a032b4e50674245608b953f3a47d023cf" name="a032b4e50674245608b953f3a47d023cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a032b4e50674245608b953f3a47d023cf">&#9670;&#160;</a></span>la_strexc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine, public la_lapack_eigv_gen_aux::la_strexc </td>
+          <td class="memname">pure subroutine, public la_lapack_eigv_gen_aux::la_strexc </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>compq</em></span>, </td>
         </tr>
@@ -1381,12 +1378,12 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="namespacela__lapack__eigv__gen__aux_a4d5ca881a6030a48267e0f23c2f0bdb8_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__gen__aux_a4d5ca881a6030a48267e0f23c2f0bdb8_cgraph" alt=""/></div>
-<map name="anamespacela__lapack__eigv__gen__aux_a4d5ca881a6030a48267e0f23c2f0bdb8_cgraph" id="anamespacela__lapack__eigv__gen__aux_a4d5ca881a6030a48267e0f23c2f0bdb8_cgraph">
+<div class="center"><img src="namespacela__lapack__eigv__gen__aux_a032b4e50674245608b953f3a47d023cf_cgraph.png" border="0" usemap="#anamespacela__lapack__eigv__gen__aux_a032b4e50674245608b953f3a47d023cf_cgraph" alt=""/></div>
+<map name="anamespacela__lapack__eigv__gen__aux_a032b4e50674245608b953f3a47d023cf_cgraph" id="anamespacela__lapack__eigv__gen__aux_a032b4e50674245608b953f3a47d023cf_cgraph">
 <area shape="rect" title="STREXC: reorders the real Schur factorization of a real matrix A = Q*T*Q**T, so that the diagonal blo..." alt="" coords="5,469,155,513"/>
 <area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1072,413,1237,441"/>
 <area shape="poly" title=" " alt="" coords="89,511,132,622,168,694,212,770,267,841,298,873,331,901,367,924,405,941,445,953,488,957,715,957,774,952,822,939,861,919,896,891,926,857,956,816,1022,719,1050,668,1083,594,1140,457,1144,454,1088,596,1055,670,1026,722,960,819,930,860,899,895,864,923,824,944,775,957,715,962,488,962,444,958,403,946,364,928,328,905,294,877,263,845,208,773,163,697,128,624,88,516"/>
-<area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#a725441ac1b91eccfca81be4333176c51" title="SLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi&#45;triangular matri..." alt="" coords="203,469,352,513"/>
+<area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#a4d90cc7c6cea075e348438f8ce6ddd8e" title="SLAEXC: swaps adjacent diagonal blocks T11 and T22 of order 1 or 2 in an upper quasi&#45;triangular matri..." alt="" coords="203,469,352,513"/>
 <area shape="poly" title=" " alt="" coords="153,489,189,490,185,493,156,493"/>
 <area shape="rect" href="namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="1072,103,1237,130"/>
 <area shape="poly" title=" " alt="" coords="85,468,126,355,160,279,205,200,260,125,291,92,325,62,362,38,401,19,443,7,488,3,715,3,803,3,873,5,940,15,1025,39,1078,63,1125,93,1119,94,1076,68,1023,44,939,20,872,10,803,8,715,8,488,8,444,13,403,24,364,43,328,67,295,96,264,129,209,203,165,281,131,357,90,469"/>
@@ -1395,12 +1392,12 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="286,467,302,433,327,392,359,351,398,316,456,284,507,270,627,259,677,249,719,238,739,237,759,239,780,246,802,260,820,278,829,297,831,317,831,338,831,380,837,400,851,420,854,425,848,424,847,424,832,402,826,380,826,338,826,318,824,299,816,281,799,264,777,251,758,244,739,242,720,244,679,254,628,264,508,275,458,288,402,320,363,354,331,395,307,436,290,470"/>
 <area shape="rect" href="namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="863,550,1010,595"/>
 <area shape="poly" title=" " alt="" coords="302,511,346,546,373,562,401,574,459,589,519,599,580,604,640,605,753,599,850,589,845,590,754,604,640,610,580,609,518,604,458,594,399,579,370,567,343,551,302,517"/>
-<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#acf18db8fabe5ef770efc03a4bed05d09" title="SLANGE: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="416,663,563,708"/>
-<area shape="poly" title=" " alt="" coords="298,511,345,562,402,619,445,654,439,654,398,622,341,566,298,517"/>
+<area shape="rect" href="namespacela__lapack__blas__like__mnorm.html#a38cc3401b392e4632b10014a5873fd67" title="Pure subroutine form of SLANGE: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="402,639,577,684"/>
+<area shape="poly" title=" " alt="" coords="296,511,342,564,370,593,402,618,420,631,415,632,398,623,367,597,338,568,295,516"/>
 <area shape="rect" href="namespacela__lapack__eigv__gen__aux.html#afc0925c208251ce87f5c47b9ec819839" title="SLANV2: computes the Schur factorization of a real 2&#45;by&#45;2 nonsymmetric matrix in standard form: [ A B..." alt="" coords="415,469,564,513"/>
 <area shape="poly" title=" " alt="" coords="352,489,401,490,397,492,354,494"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#a498b4c51428aab284826c313ab93ed53" title="SLARFG: generates a real elementary reflector H of order n, such that H * ( alpha ) = ( beta ),..." alt="" coords="404,757,575,801"/>
-<area shape="poly" title=" " alt="" coords="287,511,330,608,362,666,402,719,435,748,430,748,398,722,358,669,325,611,286,517"/>
+<area shape="poly" title=" " alt="" coords="290,511,336,596,367,646,402,695,451,747,446,746,398,698,363,649,331,599,289,517"/>
 <area shape="rect" href="namespacela__lapack__householder__reflectors.html#a499cf8b2a93b985594a99bc53a6bb816" title="SLARFX: applies a real elementary reflector H to a real m by n matrix C, from either the left or the ..." alt="" coords="404,154,575,199"/>
 <area shape="poly" title=" " alt="" coords="281,467,293,417,316,351,350,280,372,246,398,216,414,205,410,210,402,220,377,249,355,282,321,353,298,419,286,469"/>
 <area shape="rect" href="namespacela__lapack__givens__jacobi__rot.html#ad1f05008592f149f93b439e98ab1b32f" title="!" alt="" coords="400,399,579,444"/>
@@ -1412,7 +1409,6 @@ Here is the call graph for this function:</div>
 <area shape="poly" title=" " alt="" coords="1009,444,1059,440,1054,441,1011,449"/>
 <area shape="poly" title=" " alt="" coords="970,547,1117,451,1122,449,973,552"/>
 <area shape="poly" title=" " alt="" coords="895,548,893,540,900,531,915,526,936,523,960,526,976,535,970,535,959,531,936,529,916,531,903,535,898,541,899,551"/>
-<area shape="poly" title=" " alt="" coords="449,662,448,653,455,644,469,639,490,637,513,639,528,648,523,648,511,644,490,642,470,644,458,649,453,655,454,664"/>
 <area shape="poly" title=" " alt="" coords="564,504,628,517,850,557,845,559,627,522,565,509"/>
 <area shape="rect" href="namespacela__lapack__blas__like__scalar.html#a3d85f08c38ed8387e3f9b3282b67ee25" title="SLAPY2: returns sqrt(x**2+y**2), taking care not to cause unnecessary overflow and unnecessary underf..." alt="" coords="640,663,788,708"/>
 <area shape="poly" title=" " alt="" coords="560,511,581,524,604,545,633,578,690,652,685,651,629,582,601,549,578,528,560,517"/>

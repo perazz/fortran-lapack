@@ -121,30 +121,30 @@ $(function(){initNavTree('interfacela__lapack_1_1uncsd2by1.html',''); initResiza
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1c0002039828b5cbf2f28a528b10bb0b" id="r_a1c0002039828b5cbf2f28a528b10bb0b"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c0002039828b5cbf2f28a528b10bb0b">cuncsd2by1</a> (jobu1, jobu2, jobv1t, m, p, q, x11, ldx11, x21, ldx21, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, work, lwork, rwork, lrwork, iwork, info)</td></tr>
-<tr class="separator:a1c0002039828b5cbf2f28a528b10bb0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20560b8c2b3af248229809afd917a455" id="r_a20560b8c2b3af248229809afd917a455"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a20560b8c2b3af248229809afd917a455">cuncsd2by1</a> (jobu1, jobu2, jobv1t, m, p, q, x11, ldx11, x21, ldx21, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, work, lwork, rwork, lrwork, iwork, info)</td></tr>
+<tr class="separator:a20560b8c2b3af248229809afd917a455"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adfe07b5d3d52aefb9d24a75872d178c1" id="r_adfe07b5d3d52aefb9d24a75872d178c1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adfe07b5d3d52aefb9d24a75872d178c1">la_cuncsd2by1</a></td></tr>
 <tr class="separator:adfe07b5d3d52aefb9d24a75872d178c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8b50023a12ff85627d5b25f4b70d92f" id="r_af8b50023a12ff85627d5b25f4b70d92f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af8b50023a12ff85627d5b25f4b70d92f">la_wuncsd2by1</a></td></tr>
 <tr class="separator:af8b50023a12ff85627d5b25f4b70d92f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a181181ad2024aa397c514dda68d8ebf9" id="r_a181181ad2024aa397c514dda68d8ebf9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a181181ad2024aa397c514dda68d8ebf9">la_yuncsd2by1</a></td></tr>
 <tr class="separator:a181181ad2024aa397c514dda68d8ebf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae38127cdf400c0bb62317901337e33aa" id="r_ae38127cdf400c0bb62317901337e33aa"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae38127cdf400c0bb62317901337e33aa">zuncsd2by1</a> (jobu1, jobu2, jobv1t, m, p, q, x11, ldx11, x21, ldx21, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, work, lwork, rwork, lrwork, iwork, info)</td></tr>
-<tr class="separator:ae38127cdf400c0bb62317901337e33aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d224074678935398644529d1479d451" id="r_a1d224074678935398644529d1479d451"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1d224074678935398644529d1479d451">zuncsd2by1</a> (jobu1, jobu2, jobv1t, m, p, q, x11, ldx11, x21, ldx21, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, work, lwork, rwork, lrwork, iwork, info)</td></tr>
+<tr class="separator:a1d224074678935398644529d1479d451"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a23f331bbe30ade59cfceba18cc33d875" id="r_a23f331bbe30ade59cfceba18cc33d875"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a23f331bbe30ade59cfceba18cc33d875">la_zuncsd2by1</a></td></tr>
 <tr class="separator:a23f331bbe30ade59cfceba18cc33d875"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>UNCSD2BY1: computes the CS decomposition of an M-by-Q matrix X with orthonormal columns that has been partitioned into a 2-by-1 block structure: [ I1 0 0 ] [ 0 C 0 ] [ X11 ] [ U1 | ] [ 0 0 0 ] X = [--&mdash;] = [------&mdash;] [-------&mdash;] V1**T . [ X21 ] [ | U2 ] [ 0 0 0 ] [ 0 S 0 ] [ 0 0 I2] X11 is P-by-Q. The unitary matrices U1, U2, and V1 are P-by-P, (M-P)-by-(M-P), and Q-by-Q, respectively. C and S are R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in which R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0). </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a1c0002039828b5cbf2f28a528b10bb0b" name="a1c0002039828b5cbf2f28a528b10bb0b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c0002039828b5cbf2f28a528b10bb0b">&#9670;&#160;</a></span>cuncsd2by1()</h2>
+<a id="a20560b8c2b3af248229809afd917a455" name="a20560b8c2b3af248229809afd917a455"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20560b8c2b3af248229809afd917a455">&#9670;&#160;</a></span>cuncsd2by1()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::uncsd2by1::cuncsd2by1 </td>
+          <td class="memname">pure subroutine la_lapack::uncsd2by1::cuncsd2by1 </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>jobu1</em></span>, </td>
         </tr>
@@ -319,14 +319,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ae38127cdf400c0bb62317901337e33aa" name="ae38127cdf400c0bb62317901337e33aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae38127cdf400c0bb62317901337e33aa">&#9670;&#160;</a></span>zuncsd2by1()</h2>
+<a id="a1d224074678935398644529d1479d451" name="a1d224074678935398644529d1479d451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d224074678935398644529d1479d451">&#9670;&#160;</a></span>zuncsd2by1()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::uncsd2by1::zuncsd2by1 </td>
+          <td class="memname">pure subroutine la_lapack::uncsd2by1::zuncsd2by1 </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>jobu1</em></span>, </td>
         </tr>

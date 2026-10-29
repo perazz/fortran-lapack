@@ -121,30 +121,30 @@ $(function(){initNavTree('interfacela__lapack_1_1unbdb2.html',''); initResizable
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab420fac0ac973e48045de88858a8772d" id="r_ab420fac0ac973e48045de88858a8772d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab420fac0ac973e48045de88858a8772d">cunbdb2</a> (m, p, q, x11, ldx11, x21, ldx21, theta, phi, taup1, taup2, tauq1, work, lwork, info)</td></tr>
-<tr class="separator:ab420fac0ac973e48045de88858a8772d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7d65c33e0ac9064d3716dfc029de637" id="r_ac7d65c33e0ac9064d3716dfc029de637"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac7d65c33e0ac9064d3716dfc029de637">cunbdb2</a> (m, p, q, x11, ldx11, x21, ldx21, theta, phi, taup1, taup2, tauq1, work, lwork, info)</td></tr>
+<tr class="separator:ac7d65c33e0ac9064d3716dfc029de637"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba0b5a4a6ed001305b70ce1b94aa4f0d" id="r_aba0b5a4a6ed001305b70ce1b94aa4f0d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aba0b5a4a6ed001305b70ce1b94aa4f0d">la_cunbdb2</a></td></tr>
 <tr class="separator:aba0b5a4a6ed001305b70ce1b94aa4f0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c9c989afc49318620f0cc6d7ef88953" id="r_a1c9c989afc49318620f0cc6d7ef88953"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1c9c989afc49318620f0cc6d7ef88953">la_wunbdb2</a></td></tr>
 <tr class="separator:a1c9c989afc49318620f0cc6d7ef88953"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ef51a2157659df821c1ea4f2848a0c8" id="r_a5ef51a2157659df821c1ea4f2848a0c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5ef51a2157659df821c1ea4f2848a0c8">la_yunbdb2</a></td></tr>
 <tr class="separator:a5ef51a2157659df821c1ea4f2848a0c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a548608d27e29970f13b33f52cb679a52" id="r_a548608d27e29970f13b33f52cb679a52"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a548608d27e29970f13b33f52cb679a52">zunbdb2</a> (m, p, q, x11, ldx11, x21, ldx21, theta, phi, taup1, taup2, tauq1, work, lwork, info)</td></tr>
-<tr class="separator:a548608d27e29970f13b33f52cb679a52"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6a48c29656dd2d60c4e8e76164301ba" id="r_ab6a48c29656dd2d60c4e8e76164301ba"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ab6a48c29656dd2d60c4e8e76164301ba">zunbdb2</a> (m, p, q, x11, ldx11, x21, ldx21, theta, phi, taup1, taup2, tauq1, work, lwork, info)</td></tr>
+<tr class="separator:ab6a48c29656dd2d60c4e8e76164301ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a298a7ae0b94c44b492aff85498ed8b74" id="r_a298a7ae0b94c44b492aff85498ed8b74"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a298a7ae0b94c44b492aff85498ed8b74">la_zunbdb2</a></td></tr>
 <tr class="separator:a298a7ae0b94c44b492aff85498ed8b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>UNBDB2: simultaneously bidiagonalizes the blocks of a tall and skinny matrix X with orthonomal columns: [ B11 ] [ X11 ] [ P1 | ] [ 0 ] [--&mdash;] = [------&mdash;] [--&mdash;] Q1**T . [ X21 ] [ | P2 ] [ B21 ] [ 0 ] X11 is P-by-Q, and X21 is (M-P)-by-Q. P must be no larger than M-P, Q, or M-Q. Routines CUNBDB1, CUNBDB3, and CUNBDB4 handle cases in which P is not the minimum dimension. The unitary matrices P1, P2, and Q1 are P-by-P, (M-P)-by-(M-P), and (M-Q)-by-(M-Q), respectively. They are represented implicitly by Householder vectors. B11 and B12 are P-by-P bidiagonal matrices represented implicitly by angles THETA, PHI. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="ab420fac0ac973e48045de88858a8772d" name="ab420fac0ac973e48045de88858a8772d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab420fac0ac973e48045de88858a8772d">&#9670;&#160;</a></span>cunbdb2()</h2>
+<a id="ac7d65c33e0ac9064d3716dfc029de637" name="ac7d65c33e0ac9064d3716dfc029de637"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d65c33e0ac9064d3716dfc029de637">&#9670;&#160;</a></span>cunbdb2()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::unbdb2::cunbdb2 </td>
+          <td class="memname">pure subroutine la_lapack::unbdb2::cunbdb2 </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
         </tr>
@@ -279,14 +279,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a548608d27e29970f13b33f52cb679a52" name="a548608d27e29970f13b33f52cb679a52"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a548608d27e29970f13b33f52cb679a52">&#9670;&#160;</a></span>zunbdb2()</h2>
+<a id="ab6a48c29656dd2d60c4e8e76164301ba" name="ab6a48c29656dd2d60c4e8e76164301ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6a48c29656dd2d60c4e8e76164301ba">&#9670;&#160;</a></span>zunbdb2()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::unbdb2::zunbdb2 </td>
+          <td class="memname">pure subroutine la_lapack::unbdb2::zunbdb2 </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
         </tr>

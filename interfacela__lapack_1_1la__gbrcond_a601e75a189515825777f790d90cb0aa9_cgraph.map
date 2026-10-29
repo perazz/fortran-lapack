@@ -2,25 +2,27 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,135,168,179"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#ab89fe6b01f7ad346309c2f9515936675" title="DLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="216,135,386,179"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,154,202,156,198,158,169,159"/>
-<area shape="poly" id="edge15_Node000002_Node000002" title=" " alt="" coords="261,133,260,125,267,116,281,110,301,108,323,110,337,119,332,119,321,115,301,113,282,115,270,120,265,126,266,135"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="434,135,578,179"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,154,421,156,416,158,387,160"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="626,35,772,79"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="547,132,625,89,634,88,638,86,628,94,549,136"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="820,43,985,71"/>
-<area shape="poly" id="edge13_Node000003_Node000005" title=" " alt="" coords="518,132,534,105,559,73,589,43,625,20,655,10,686,5,748,6,807,18,858,37,853,37,806,23,747,11,686,10,656,15,627,25,592,47,563,76,539,108,521,136"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="820,142,985,169"/>
-<area shape="poly" id="edge14_Node000003_Node000006" title=" " alt="" coords="578,157,626,158,772,158,807,160,801,160,772,164,626,164,579,162"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="626,224,772,269"/>
-<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="556,177,638,217,633,217,556,182"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="632,293,766,338"/>
-<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="526,177,571,227,628,279,634,285,629,284,625,283,567,231,524,182"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="631,104,767,149"/>
-<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="578,143,619,139,613,140,579,148"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="772,54,807,56,801,57,773,60"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="748,77,773,89,861,135,856,134,770,94,747,82"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="867,42,862,34,866,25,880,19,902,16,926,19,941,28,935,28,925,24,902,22,881,24,870,28,867,34,872,43"/>
-<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="750,221,853,177,858,176,752,226"/>
-<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="766,101,842,77,847,75,767,106"/>
-<area shape="poly" id="edge12_Node000009_Node000006" title=" " alt="" coords="767,133,807,141,801,142,767,139"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="260,133,258,124,265,116,280,110,301,108,324,110,339,119,334,120,323,116,301,113,281,115,269,120,264,126,265,135"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#ab19160117d181752a12fb36a0c6a66e8" title="Pure subroutine form of DLA_GBRCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="434,135,634,179"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="386,154,421,156,416,158,387,160"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="682,135,827,179"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="634,154,669,157,664,157,635,160"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="875,35,1020,79"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="795,132,873,89,882,88,887,86,876,94,797,136"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="1068,43,1233,71"/>
+<area shape="poly" id="edge15_Node000004_Node000006" title=" " alt="" coords="766,132,783,105,807,73,837,43,874,20,903,10,934,5,996,6,1055,18,1106,37,1101,37,1054,23,996,11,934,10,904,15,876,25,841,47,811,76,787,108,769,136"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="1068,142,1233,169"/>
+<area shape="poly" id="edge16_Node000004_Node000007" title=" " alt="" coords="827,157,875,158,1020,158,1055,160,1050,160,1020,164,875,164,827,162"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="875,224,1020,269"/>
+<area shape="poly" id="edge9_Node000004_Node000008" title=" " alt="" coords="805,177,887,217,881,217,804,182"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="880,293,1014,338"/>
+<area shape="poly" id="edge11_Node000004_Node000009" title=" " alt="" coords="775,177,819,227,876,279,883,285,878,284,873,283,815,231,773,182"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="880,104,1015,149"/>
+<area shape="poly" id="edge12_Node000004_Node000010" title=" " alt="" coords="827,143,867,139,862,140,828,148"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="1020,54,1055,57,1050,57,1021,60"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="996,77,1021,89,1110,135,1104,134,1019,94,996,82"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="1115,42,1110,34,1114,25,1128,19,1151,16,1175,19,1189,28,1184,28,1173,24,1151,22,1130,24,1118,28,1115,34,1120,44"/>
+<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="999,221,1101,177,1106,176,1000,226"/>
+<area shape="poly" id="edge13_Node000010_Node000006" title=" " alt="" coords="1014,101,1091,77,1096,76,1016,106"/>
+<area shape="poly" id="edge14_Node000010_Node000007" title=" " alt="" coords="1015,133,1055,141,1050,141,1016,139"/>
 </map>

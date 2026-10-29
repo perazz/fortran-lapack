@@ -1,4 +1,6 @@
 <map id="la_lapack_solve_ldl_comp::la_zla_herpvgrw" name="la_lapack_solve_ldl_comp::la_zla_herpvgrw">
 <area shape="rect" id="Node000001" title="ZLA_HERPVGRW: computes the reciprocal pivot growth factor norm(A)/norm(U). The &quot;max absolute element&quot;..." alt="" coords="5,29,184,74"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="60,28,59,19,65,10,77,5,95,3,114,5,127,14,121,14,112,10,94,8,78,10,68,14,64,21,65,30"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="49,28,47,19,55,10,71,5,95,3,121,5,138,14,132,14,119,10,94,8,72,10,58,15,52,21,54,29"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp.html#a6fad55e480f0b4624d332df47519ad1f" title="Pure subroutine form of ZLA_HERPVGRW: the same arguments, followed by RES, which returns the value of..." alt="" coords="232,29,440,74"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="184,49,219,51,213,52,184,54"/>
 </map>

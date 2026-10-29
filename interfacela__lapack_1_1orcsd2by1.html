@@ -121,14 +121,14 @@ $(function(){initNavTree('interfacela__lapack_1_1orcsd2by1.html',''); initResiza
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaeb00c2ec380669dc418a5c487a9dabb" id="r_aaeb00c2ec380669dc418a5c487a9dabb"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aaeb00c2ec380669dc418a5c487a9dabb">dorcsd2by1</a> (jobu1, jobu2, jobv1t, m, p, q, x11, ldx11, x21, ldx21, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, work, lwork, iwork, info)</td></tr>
-<tr class="separator:aaeb00c2ec380669dc418a5c487a9dabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36dc7d72995cdeeea5af7dba3e680b8a" id="r_a36dc7d72995cdeeea5af7dba3e680b8a"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a36dc7d72995cdeeea5af7dba3e680b8a">dorcsd2by1</a> (jobu1, jobu2, jobv1t, m, p, q, x11, ldx11, x21, ldx21, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, work, lwork, iwork, info)</td></tr>
+<tr class="separator:a36dc7d72995cdeeea5af7dba3e680b8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa789e8b702eccd7716b73c83b8c54df0" id="r_aa789e8b702eccd7716b73c83b8c54df0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa789e8b702eccd7716b73c83b8c54df0">la_dorcsd2by1</a></td></tr>
 <tr class="separator:aa789e8b702eccd7716b73c83b8c54df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3720ce4064f586387af55394209877b9" id="r_a3720ce4064f586387af55394209877b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3720ce4064f586387af55394209877b9">la_qorcsd2by1</a></td></tr>
 <tr class="separator:a3720ce4064f586387af55394209877b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24f34e99c5cd0c01dd4740f305cb491a" id="r_a24f34e99c5cd0c01dd4740f305cb491a"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24f34e99c5cd0c01dd4740f305cb491a">sorcsd2by1</a> (jobu1, jobu2, jobv1t, m, p, q, x11, ldx11, x21, ldx21, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, work, lwork, iwork, info)</td></tr>
-<tr class="separator:a24f34e99c5cd0c01dd4740f305cb491a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12067f29129821f931883ceab7e285d7" id="r_a12067f29129821f931883ceab7e285d7"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a12067f29129821f931883ceab7e285d7">sorcsd2by1</a> (jobu1, jobu2, jobv1t, m, p, q, x11, ldx11, x21, ldx21, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, work, lwork, iwork, info)</td></tr>
+<tr class="separator:a12067f29129821f931883ceab7e285d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e74c6c4696f13ece13ff73c4149e890" id="r_a6e74c6c4696f13ece13ff73c4149e890"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6e74c6c4696f13ece13ff73c4149e890">la_sorcsd2by1</a></td></tr>
 <tr class="separator:a6e74c6c4696f13ece13ff73c4149e890"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa501856091a5e1e28b72ae15b28447a9" id="r_aa501856091a5e1e28b72ae15b28447a9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa501856091a5e1e28b72ae15b28447a9">la_xorcsd2by1</a></td></tr>
@@ -137,14 +137,14 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORCSD2BY1: computes the CS decomposition of an M-by-Q matrix X with orthonormal columns that has been partitioned into a 2-by-1 block structure: [ I1 0 0 ] [ 0 C 0 ] [ X11 ] [ U1 | ] [ 0 0 0 ] X = [--&mdash;] = [------&mdash;] [-------&mdash;] V1**T . [ X21 ] [ | U2 ] [ 0 0 0 ] [ 0 S 0 ] [ 0 0 I2] X11 is P-by-Q. The orthogonal matrices U1, U2, and V1 are P-by-P, (M-P)-by-(M-P), and Q-by-Q, respectively. C and S are R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in which R = MIN(P,M-P,Q,M-Q). I1 is a K1-by-K1 identity matrix and I2 is a K2-by-K2 identity matrix, where K1 = MAX(Q+P-M,0), K2 = MAX(Q-P,0). </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="aaeb00c2ec380669dc418a5c487a9dabb" name="aaeb00c2ec380669dc418a5c487a9dabb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaeb00c2ec380669dc418a5c487a9dabb">&#9670;&#160;</a></span>dorcsd2by1()</h2>
+<a id="a36dc7d72995cdeeea5af7dba3e680b8a" name="a36dc7d72995cdeeea5af7dba3e680b8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36dc7d72995cdeeea5af7dba3e680b8a">&#9670;&#160;</a></span>dorcsd2by1()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::orcsd2by1::dorcsd2by1 </td>
+          <td class="memname">pure subroutine la_lapack::orcsd2by1::dorcsd2by1 </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>jobu1</em></span>, </td>
         </tr>
@@ -309,14 +309,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a24f34e99c5cd0c01dd4740f305cb491a" name="a24f34e99c5cd0c01dd4740f305cb491a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24f34e99c5cd0c01dd4740f305cb491a">&#9670;&#160;</a></span>sorcsd2by1()</h2>
+<a id="a12067f29129821f931883ceab7e285d7" name="a12067f29129821f931883ceab7e285d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12067f29129821f931883ceab7e285d7">&#9670;&#160;</a></span>sorcsd2by1()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::orcsd2by1::sorcsd2by1 </td>
+          <td class="memname">pure subroutine la_lapack::orcsd2by1::sorcsd2by1 </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>jobu1</em></span>, </td>
         </tr>

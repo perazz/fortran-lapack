@@ -121,30 +121,30 @@ $(function(){initNavTree('interfacela__lapack_1_1la__heamv.html',''); initResiza
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a87f0ea2d317c1de52ef4330d1358b348" id="r_a87f0ea2d317c1de52ef4330d1358b348"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a87f0ea2d317c1de52ef4330d1358b348">cla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="separator:a87f0ea2d317c1de52ef4330d1358b348"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dd2419de7e82fa8da3f2a5ee8f1a4d0" id="r_a6dd2419de7e82fa8da3f2a5ee8f1a4d0"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6dd2419de7e82fa8da3f2a5ee8f1a4d0">cla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
+<tr class="separator:a6dd2419de7e82fa8da3f2a5ee8f1a4d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a121715acb53f43c952ed6a15d6ed4cf8" id="r_a121715acb53f43c952ed6a15d6ed4cf8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a121715acb53f43c952ed6a15d6ed4cf8">la_cla_heamv</a></td></tr>
 <tr class="separator:a121715acb53f43c952ed6a15d6ed4cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7763ddee2239eb977233dca65648c36" id="r_ae7763ddee2239eb977233dca65648c36"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae7763ddee2239eb977233dca65648c36">la_wla_heamv</a></td></tr>
 <tr class="separator:ae7763ddee2239eb977233dca65648c36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a084910c6e06f841e488f85a2c03b7495" id="r_a084910c6e06f841e488f85a2c03b7495"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a084910c6e06f841e488f85a2c03b7495">la_yla_heamv</a></td></tr>
 <tr class="separator:a084910c6e06f841e488f85a2c03b7495"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b4c4ecfd887e652d05ab10cbb82970d" id="r_a5b4c4ecfd887e652d05ab10cbb82970d"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5b4c4ecfd887e652d05ab10cbb82970d">zla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
-<tr class="separator:a5b4c4ecfd887e652d05ab10cbb82970d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac334e1a419e80a28c43d498c64ca2fa9" id="r_ac334e1a419e80a28c43d498c64ca2fa9"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac334e1a419e80a28c43d498c64ca2fa9">zla_heamv</a> (uplo, n, alpha, a, lda, x, incx, beta, y, incy)</td></tr>
+<tr class="separator:ac334e1a419e80a28c43d498c64ca2fa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17d27b9e99b42f11b6e9b74d90f8df98" id="r_a17d27b9e99b42f11b6e9b74d90f8df98"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a17d27b9e99b42f11b6e9b74d90f8df98">la_zla_heamv</a></td></tr>
 <tr class="separator:a17d27b9e99b42f11b6e9b74d90f8df98"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>CLA_SYAMV performs the matrix-vector operation y := alpha*abs(A)*abs(x) + beta*abs(y), where alpha and beta are scalars, x and y are vectors and A is an n by n symmetric matrix. This function is primarily used in calculating error bounds. To protect against underflow during evaluation, components in the resulting vector are perturbed away from zero by (N+1) times the underflow threshold. To prevent unnecessarily large errors for block-structure embedded in general matrices, "symbolically" zero components are not perturbed. A zero entry is considered "symbolic" if all multiplications involved in computing that entry have at least one zero multiplicand. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a87f0ea2d317c1de52ef4330d1358b348" name="a87f0ea2d317c1de52ef4330d1358b348"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87f0ea2d317c1de52ef4330d1358b348">&#9670;&#160;</a></span>cla_heamv()</h2>
+<a id="a6dd2419de7e82fa8da3f2a5ee8f1a4d0" name="a6dd2419de7e82fa8da3f2a5ee8f1a4d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dd2419de7e82fa8da3f2a5ee8f1a4d0">&#9670;&#160;</a></span>cla_heamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::la_heamv::cla_heamv </td>
+          <td class="memname">pure subroutine la_lapack::la_heamv::cla_heamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
         </tr>
@@ -254,14 +254,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5b4c4ecfd887e652d05ab10cbb82970d" name="a5b4c4ecfd887e652d05ab10cbb82970d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b4c4ecfd887e652d05ab10cbb82970d">&#9670;&#160;</a></span>zla_heamv()</h2>
+<a id="ac334e1a419e80a28c43d498c64ca2fa9" name="ac334e1a419e80a28c43d498c64ca2fa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac334e1a419e80a28c43d498c64ca2fa9">&#9670;&#160;</a></span>zla_heamv()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::la_heamv::zla_heamv </td>
+          <td class="memname">pure subroutine la_lapack::la_heamv::zla_heamv </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
         </tr>

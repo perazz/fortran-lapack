@@ -1,7 +1,7 @@
 var interfacela__lapack_1_1geesx =
 [
-    [ "cgeesx", "interfacela__lapack_1_1geesx.html#a9bf8205db959c3eec53d62fc4a7f860f", null ],
-    [ "dgeesx", "interfacela__lapack_1_1geesx.html#a5eefc51ffc67d1bac6fcad66f06fbe2d", null ],
+    [ "cgeesx", "interfacela__lapack_1_1geesx.html#a19715e250e7464fa2282566d1c58dda7", null ],
+    [ "dgeesx", "interfacela__lapack_1_1geesx.html#a4e5659de3b8039bc36d5b1ee0aad888a", null ],
     [ "la_cgeesx", "interfacela__lapack_1_1geesx.html#a6349486b8c44616ba469a80525e54cd4", null ],
     [ "la_dgeesx", "interfacela__lapack_1_1geesx.html#a5c1a3c7bb6917e22e474e4ef933c1f75", null ],
     [ "la_qgeesx", "interfacela__lapack_1_1geesx.html#a560559baf8ba784c83fc53cedd51e0f4", null ],
@@ -10,6 +10,6 @@ var interfacela__lapack_1_1geesx =
     [ "la_xgeesx", "interfacela__lapack_1_1geesx.html#a59cfe5a2ff03752828536c1a91aca9cd", null ],
     [ "la_ygeesx", "interfacela__lapack_1_1geesx.html#a1caa611dee9a5c9802f2b3f78dcc0236", null ],
     [ "la_zgeesx", "interfacela__lapack_1_1geesx.html#a98443cb53beb5b7c3870319a519286f4", null ],
-    [ "sgeesx", "interfacela__lapack_1_1geesx.html#a4309a1917c910facc6d28287296aecf9", null ],
-    [ "zgeesx", "interfacela__lapack_1_1geesx.html#a93d0526fe08ad4b52021914b131dda13", null ]
+    [ "sgeesx", "interfacela__lapack_1_1geesx.html#a2fafdb6cbdb59aaa5a1437809885fb22", null ],
+    [ "zgeesx", "interfacela__lapack_1_1geesx.html#aa5e8da6e2b6b1af779f351c7244301c5", null ]
 ];

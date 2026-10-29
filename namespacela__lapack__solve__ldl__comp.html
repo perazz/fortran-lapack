@@ -273,9 +273,15 @@ Functions/Subroutines</h2></td></tr>
 <tr class="memitem:a03b2fbaa272af96d92438c10bc8def4e" id="r_a03b2fbaa272af96d92438c10bc8def4e"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a03b2fbaa272af96d92438c10bc8def4e">la_cla_herpvgrw</a> (uplo, n, info, a, lda, af, ldaf, ipiv, work)</td></tr>
 <tr class="memdesc:a03b2fbaa272af96d92438c10bc8def4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLA_HERPVGRW: computes the reciprocal pivot growth factor norm(A)/norm(U). The "max absolute element" norm is used. If this is much less than 1, the stability of the LU factorization of the (equilibrated) matrix A could be poor. This also means that the solution X, estimated condition numbers, and error bounds could be unreliable.  <br /></td></tr>
 <tr class="separator:a03b2fbaa272af96d92438c10bc8def4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a8a0b3a7d1e5f636e712db504882c68" id="r_a0a8a0b3a7d1e5f636e712db504882c68"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0a8a0b3a7d1e5f636e712db504882c68">la_cla_herpvgrw_sub</a> (uplo, n, info, a, lda, af, ldaf, ipiv, work, res)</td></tr>
+<tr class="memdesc:a0a8a0b3a7d1e5f636e712db504882c68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure subroutine form of CLA_HERPVGRW: the same arguments, followed by RES, which returns the value of the function.  <br /></td></tr>
+<tr class="separator:a0a8a0b3a7d1e5f636e712db504882c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa889e5f7724fcdddd5cc6ac335114ca8" id="r_aa889e5f7724fcdddd5cc6ac335114ca8"><td class="memItemLeft" align="right" valign="top">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>) function, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa889e5f7724fcdddd5cc6ac335114ca8">la_zla_herpvgrw</a> (uplo, n, info, a, lda, af, ldaf, ipiv, work)</td></tr>
 <tr class="memdesc:aa889e5f7724fcdddd5cc6ac335114ca8"><td class="mdescLeft">&#160;</td><td class="mdescRight">ZLA_HERPVGRW: computes the reciprocal pivot growth factor norm(A)/norm(U). The "max absolute element" norm is used. If this is much less than 1, the stability of the LU factorization of the (equilibrated) matrix A could be poor. This also means that the solution X, estimated condition numbers, and error bounds could be unreliable.  <br /></td></tr>
 <tr class="separator:aa889e5f7724fcdddd5cc6ac335114ca8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fad55e480f0b4624d332df47519ad1f" id="r_a6fad55e480f0b4624d332df47519ad1f"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6fad55e480f0b4624d332df47519ad1f">la_zla_herpvgrw_sub</a> (uplo, n, info, a, lda, af, ldaf, ipiv, work, res)</td></tr>
+<tr class="memdesc:a6fad55e480f0b4624d332df47519ad1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pure subroutine form of ZLA_HERPVGRW: the same arguments, followed by RES, which returns the value of the function.  <br /></td></tr>
+<tr class="separator:a6fad55e480f0b4624d332df47519ad1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02c0f062c68cca3f53676de094ed1a58" id="r_a02c0f062c68cca3f53676de094ed1a58"><td class="memItemLeft" align="right" valign="top">pure subroutine, public&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02c0f062c68cca3f53676de094ed1a58">la_cspcon</a> (uplo, n, ap, ipiv, anorm, rcond, work, info)</td></tr>
 <tr class="memdesc:a02c0f062c68cca3f53676de094ed1a58"><td class="mdescLeft">&#160;</td><td class="mdescRight">CSPCON: estimates the reciprocal of the condition number (in the 1-norm) of a complex symmetric packed matrix A using the factorization A = U*D*U**T or A = L*D*L**T computed by CSPTRF. An estimate is obtained for norm(inv(A)), and the reciprocal of the condition number is computed as RCOND = 1 / (ANORM * norm(inv(A))).  <br /></td></tr>
 <tr class="separator:a02c0f062c68cca3f53676de094ed1a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -359,12 +365,74 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="namespacela__lapack__solve__ldl__comp_a03b2fbaa272af96d92438c10bc8def4e_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__ldl__comp_a03b2fbaa272af96d92438c10bc8def4e_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__solve__ldl__comp_a03b2fbaa272af96d92438c10bc8def4e_cgraph" id="anamespacela__lapack__solve__ldl__comp_a03b2fbaa272af96d92438c10bc8def4e_cgraph">
 <area shape="rect" title="CLA_HERPVGRW: computes the reciprocal pivot growth factor norm(A)/norm(U). The &quot;max absolute element&quot;..." alt="" coords="5,29,184,74"/>
-<area shape="poly" title=" " alt="" coords="52,28,51,19,58,10,73,5,95,3,118,5,134,14,129,14,117,10,94,8,74,10,61,15,56,21,58,29"/>
-<area shape="rect" href="namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="232,38,397,66"/>
-<area shape="poly" title=" " alt="" coords="184,49,218,51,213,52,184,54"/>
-<area shape="poly" title=" " alt="" coords="276,36,270,29,275,19,290,13,314,11,340,14,356,23,350,22,339,19,314,16,291,18,279,23,276,29,281,38"/>
+<area shape="poly" title=" " alt="" coords="49,28,47,19,55,10,71,5,95,3,121,5,138,14,132,14,119,10,94,8,72,10,58,15,52,21,54,29"/>
+<area shape="rect" href="namespacela__lapack__solve__ldl__comp.html#a0a8a0b3a7d1e5f636e712db504882c68" title="Pure subroutine form of CLA_HERPVGRW: the same arguments, followed by RES, which returns the value of..." alt="" coords="232,29,440,74"/>
+<area shape="poly" title=" " alt="" coords="184,49,219,51,213,52,184,54"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a0a8a0b3a7d1e5f636e712db504882c68" name="a0a8a0b3a7d1e5f636e712db504882c68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a8a0b3a7d1e5f636e712db504882c68">&#9670;&#160;</a></span>la_cla_herpvgrw_sub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pure subroutine, public la_lapack_solve_ldl_comp::la_cla_herpvgrw_sub </td>
+          <td>(</td>
+          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(ldaf,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>af</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldaf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>work</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#aaa5fae659a9baf5889d27d0af583cd0d">sp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>res</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pure subroutine form of CLA_HERPVGRW: the same arguments, followed by RES, which returns the value of the function. </p>
 
 </div>
 </div>
@@ -3982,9 +4050,74 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="namespacela__lapack__solve__ldl__comp_aa889e5f7724fcdddd5cc6ac335114ca8_cgraph.png" border="0" usemap="#anamespacela__lapack__solve__ldl__comp_aa889e5f7724fcdddd5cc6ac335114ca8_cgraph" alt=""/></div>
 <map name="anamespacela__lapack__solve__ldl__comp_aa889e5f7724fcdddd5cc6ac335114ca8_cgraph" id="anamespacela__lapack__solve__ldl__comp_aa889e5f7724fcdddd5cc6ac335114ca8_cgraph">
 <area shape="rect" title="ZLA_HERPVGRW: computes the reciprocal pivot growth factor norm(A)/norm(U). The &quot;max absolute element&quot;..." alt="" coords="5,29,184,74"/>
-<area shape="poly" title=" " alt="" coords="60,28,59,19,65,10,77,5,95,3,114,5,127,14,121,14,112,10,94,8,78,10,68,14,64,21,65,30"/>
+<area shape="poly" title=" " alt="" coords="49,28,47,19,55,10,71,5,95,3,121,5,138,14,132,14,119,10,94,8,72,10,58,15,52,21,54,29"/>
+<area shape="rect" href="namespacela__lapack__solve__ldl__comp.html#a6fad55e480f0b4624d332df47519ad1f" title="Pure subroutine form of ZLA_HERPVGRW: the same arguments, followed by RES, which returns the value of..." alt="" coords="232,29,440,74"/>
+<area shape="poly" title=" " alt="" coords="184,49,219,51,213,52,184,54"/>
 </map>
 </div>
+
+</div>
+</div>
+<a id="a6fad55e480f0b4624d332df47519ad1f" name="a6fad55e480f0b4624d332df47519ad1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fad55e480f0b4624d332df47519ad1f">&#9670;&#160;</a></span>la_zla_herpvgrw_sub()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">pure subroutine, public la_lapack_solve_ldl_comp::la_zla_herpvgrw_sub </td>
+          <td>(</td>
+          <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>uplo</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>info</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(lda,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>a</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>lda</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">complex(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(ldaf,*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>af</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ldaf</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), dimension(*), intent(in)</td>          <td class="paramname"><span class="paramname"><em>ipiv</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), dimension(*), intent(out)</td>          <td class="paramname"><span class="paramname"><em>work</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">real(<a class="el" href="namespacela__constants.html#a81a871edc6f44403650775c5b3a50b52">dp</a>), intent(out)</td>          <td class="paramname"><span class="paramname"><em>res</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Pure subroutine form of ZLA_HERPVGRW: the same arguments, followed by RES, which returns the value of the function. </p>
 
 </div>
 </div>

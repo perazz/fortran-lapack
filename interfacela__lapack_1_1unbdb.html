@@ -121,30 +121,30 @@ $(function(){initNavTree('interfacela__lapack_1_1unbdb.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ade86a611d6a9200e5410ec468cfd3462" id="r_ade86a611d6a9200e5410ec468cfd3462"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ade86a611d6a9200e5410ec468cfd3462">cunbdb</a> (trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, phi, taup1, taup2, tauq1, tauq2, work, lwork, info)</td></tr>
-<tr class="separator:ade86a611d6a9200e5410ec468cfd3462"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0a48902c9063b2dcbdd4bb3f169d31d" id="r_ae0a48902c9063b2dcbdd4bb3f169d31d"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae0a48902c9063b2dcbdd4bb3f169d31d">cunbdb</a> (trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, phi, taup1, taup2, tauq1, tauq2, work, lwork, info)</td></tr>
+<tr class="separator:ae0a48902c9063b2dcbdd4bb3f169d31d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af04e580778d90e3e23319a6f7be694e7" id="r_af04e580778d90e3e23319a6f7be694e7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af04e580778d90e3e23319a6f7be694e7">la_cunbdb</a></td></tr>
 <tr class="separator:af04e580778d90e3e23319a6f7be694e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adeb5627f4da69710f045c6fe86f7aaad" id="r_adeb5627f4da69710f045c6fe86f7aaad"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adeb5627f4da69710f045c6fe86f7aaad">la_wunbdb</a></td></tr>
 <tr class="separator:adeb5627f4da69710f045c6fe86f7aaad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02fedc245d17257c9e0c3211a789788b" id="r_a02fedc245d17257c9e0c3211a789788b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a02fedc245d17257c9e0c3211a789788b">la_yunbdb</a></td></tr>
 <tr class="separator:a02fedc245d17257c9e0c3211a789788b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a565cb578cb376302ed65f63bbf609e14" id="r_a565cb578cb376302ed65f63bbf609e14"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a565cb578cb376302ed65f63bbf609e14">zunbdb</a> (trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, phi, taup1, taup2, tauq1, tauq2, work, lwork, info)</td></tr>
-<tr class="separator:a565cb578cb376302ed65f63bbf609e14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24f6c431351ba82342a4fa427d2ccc22" id="r_a24f6c431351ba82342a4fa427d2ccc22"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a24f6c431351ba82342a4fa427d2ccc22">zunbdb</a> (trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, phi, taup1, taup2, tauq1, tauq2, work, lwork, info)</td></tr>
+<tr class="separator:a24f6c431351ba82342a4fa427d2ccc22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a180739a1a4c6ba803f91367ae535e695" id="r_a180739a1a4c6ba803f91367ae535e695"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a180739a1a4c6ba803f91367ae535e695">la_zunbdb</a></td></tr>
 <tr class="separator:a180739a1a4c6ba803f91367ae535e695"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>UNBDB: simultaneously bidiagonalizes the blocks of an M-by-M partitioned unitary matrix X: [ B11 | B12 0 0 ] [ X11 | X12 ] [ P1 | ] [ 0 | 0 -I 0 ] [ Q1 | ]**H X = [--------&mdash;] = [------&mdash;] [-------------&mdash;] [------&mdash;] . [ X21 | X22 ] [ | P2 ] [ B21 | B22 0 0 ] [ | Q2 ] [ 0 | 0 0 I ] X11 is P-by-Q. Q must be no larger than P, M-P, or M-Q. (If this is not the case, then X must be transposed and/or permuted. This can be done in constant time using the TRANS and SIGNS options. See CUNCSD for details.) The unitary matrices P1, P2, Q1, and Q2 are P-by-P, (M-P)-by- (M-P), Q-by-Q, and (M-Q)-by-(M-Q), respectively. They are represented implicitly by Householder vectors. B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented implicitly by angles THETA, PHI. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="ade86a611d6a9200e5410ec468cfd3462" name="ade86a611d6a9200e5410ec468cfd3462"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade86a611d6a9200e5410ec468cfd3462">&#9670;&#160;</a></span>cunbdb()</h2>
+<a id="ae0a48902c9063b2dcbdd4bb3f169d31d" name="ae0a48902c9063b2dcbdd4bb3f169d31d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0a48902c9063b2dcbdd4bb3f169d31d">&#9670;&#160;</a></span>cunbdb()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::unbdb::cunbdb </td>
+          <td class="memname">pure subroutine la_lapack::unbdb::cunbdb </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -314,14 +314,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a565cb578cb376302ed65f63bbf609e14" name="a565cb578cb376302ed65f63bbf609e14"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a565cb578cb376302ed65f63bbf609e14">&#9670;&#160;</a></span>zunbdb()</h2>
+<a id="a24f6c431351ba82342a4fa427d2ccc22" name="a24f6c431351ba82342a4fa427d2ccc22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24f6c431351ba82342a4fa427d2ccc22">&#9670;&#160;</a></span>zunbdb()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::unbdb::zunbdb </td>
+          <td class="memname">pure subroutine la_lapack::unbdb::zunbdb </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>

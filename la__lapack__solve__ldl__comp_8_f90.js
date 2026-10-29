@@ -1,6 +1,7 @@
 var la__lapack__solve__ldl__comp_8_f90 =
 [
     [ "la_lapack_solve_ldl_comp::la_cla_herpvgrw", "namespacela__lapack__solve__ldl__comp.html#a03b2fbaa272af96d92438c10bc8def4e", null ],
+    [ "la_lapack_solve_ldl_comp::la_cla_herpvgrw_sub", "namespacela__lapack__solve__ldl__comp.html#a0a8a0b3a7d1e5f636e712db504882c68", null ],
     [ "la_lapack_solve_ldl_comp::la_clasyf", "namespacela__lapack__solve__ldl__comp.html#a99054929263d2122c7b9492ff6ddccf5", null ],
     [ "la_lapack_solve_ldl_comp::la_cspcon", "namespacela__lapack__solve__ldl__comp.html#a02c0f062c68cca3f53676de094ed1a58", null ],
     [ "la_lapack_solve_ldl_comp::la_csptrf", "namespacela__lapack__solve__ldl__comp.html#a2b389a07e6f0c878741e0aaea38c99ba", null ],
@@ -44,6 +45,7 @@ var la__lapack__solve__ldl__comp_8_f90 =
     [ "la_lapack_solve_ldl_comp::la_ssytrs2", "namespacela__lapack__solve__ldl__comp.html#a9dd7d243d52ce6556760fd843f10be0a", null ],
     [ "la_lapack_solve_ldl_comp::la_ssytrs_3", "namespacela__lapack__solve__ldl__comp.html#ad18bb58f1c34f9d6ba3e5e587d74c0cd", null ],
     [ "la_lapack_solve_ldl_comp::la_zla_herpvgrw", "namespacela__lapack__solve__ldl__comp.html#aa889e5f7724fcdddd5cc6ac335114ca8", null ],
+    [ "la_lapack_solve_ldl_comp::la_zla_herpvgrw_sub", "namespacela__lapack__solve__ldl__comp.html#a6fad55e480f0b4624d332df47519ad1f", null ],
     [ "la_lapack_solve_ldl_comp::la_zlasyf", "namespacela__lapack__solve__ldl__comp.html#a2022d843380964afe4676df195ae40ee", null ],
     [ "la_lapack_solve_ldl_comp::la_zspcon", "namespacela__lapack__solve__ldl__comp.html#a722169cf84cb42a3d2a156c9d364f239", null ],
     [ "la_lapack_solve_ldl_comp::la_zsptrf", "namespacela__lapack__solve__ldl__comp.html#aa81737fe877a41ccba267137cd924e0f", null ],

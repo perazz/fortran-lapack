@@ -1,7 +1,7 @@
 var interfacela__lapack_1_1la__gbamv =
 [
-    [ "cla_gbamv", "interfacela__lapack_1_1la__gbamv.html#a83d375d38aa9390d57fd11f4d1791bc8", null ],
-    [ "dla_gbamv", "interfacela__lapack_1_1la__gbamv.html#a3ee66608d2ad4ef3ff298418b8011cf8", null ],
+    [ "cla_gbamv", "interfacela__lapack_1_1la__gbamv.html#acb2d897bdb2abf2f66d927a7017c6c27", null ],
+    [ "dla_gbamv", "interfacela__lapack_1_1la__gbamv.html#af04edf5b69238996dd9292139f9e79ef", null ],
     [ "la_cla_gbamv", "interfacela__lapack_1_1la__gbamv.html#ae6bfed1d240b981d15bd17ad4a6c4e9b", null ],
     [ "la_dla_gbamv", "interfacela__lapack_1_1la__gbamv.html#aee971c641392d80d869e59ca583e9efe", null ],
     [ "la_qla_gbamv", "interfacela__lapack_1_1la__gbamv.html#a25e5841cf60fb1b9bf611a410f5b34b4", null ],
@@ -10,6 +10,6 @@ var interfacela__lapack_1_1la__gbamv =
     [ "la_xla_gbamv", "interfacela__lapack_1_1la__gbamv.html#a142342947721c27c4068c587785c0d87", null ],
     [ "la_yla_gbamv", "interfacela__lapack_1_1la__gbamv.html#a36d60b8482b26bef9ba95815361feeef", null ],
     [ "la_zla_gbamv", "interfacela__lapack_1_1la__gbamv.html#a721374e1fa731d108a51f46373bc8c9f", null ],
-    [ "sla_gbamv", "interfacela__lapack_1_1la__gbamv.html#a3c3e0690d264a503e600cefcaaaedfdb", null ],
-    [ "zla_gbamv", "interfacela__lapack_1_1la__gbamv.html#abd328e3ecc3ab74e85a94b4e6cfa643d", null ]
+    [ "sla_gbamv", "interfacela__lapack_1_1la__gbamv.html#aeb604db9c1e24e14f60b5383a87fc446", null ],
+    [ "zla_gbamv", "interfacela__lapack_1_1la__gbamv.html#a61181b36cfbe3cb08a4157f757df6922", null ]
 ];

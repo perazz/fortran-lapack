@@ -1,17 +1,19 @@
 <map id="la_lapack_solve_lu_comp::la_dla_gercond" name="la_lapack_solve_lu_comp::la_dla_gercond">
 <area shape="rect" id="Node000001" title="DLA_GERCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,96,176,141"/>
-<area shape="poly" id="edge9_Node000001_Node000001" title=" " alt="" coords="51,95,50,86,56,77,70,71,91,69,112,72,127,80,122,81,111,77,90,75,71,77,60,81,55,87,56,96"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a5632de10753c7d6db07bdb4fc068e4bd" title="DGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="224,96,368,141"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,116,210,118,205,119,176,121"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#ac9252b098a8ab4ccff78fc5eca6eab0e" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="416,5,560,50"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,93,423,58,428,56,346,98"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="420,125,556,170"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="368,127,408,135,403,135,368,132"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="608,106,774,134"/>
-<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="368,112,416,110,560,110,595,114,590,114,560,116,416,116,368,117"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="608,162,774,190"/>
-<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="330,139,370,162,417,180,461,188,506,191,591,191,596,190,506,196,460,193,415,185,368,167,328,144"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="556,136,590,134,596,133,556,141"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="556,154,596,162,590,162,556,160"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="656,104,650,97,655,87,669,81,691,79,715,82,729,91,724,90,713,87,691,84,670,86,659,91,656,97,661,106"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,95,45,86,52,77,68,71,91,69,116,72,132,80,127,81,114,77,90,75,69,77,55,81,50,87,51,96"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a9c190f30ab13caa1faa068f5eece5349" title="Pure subroutine form of DLA_GERCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="224,96,424,141"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="175,116,211,118,205,119,176,121"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a5632de10753c7d6db07bdb4fc068e4bd" title="DGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="472,96,616,141"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="424,116,459,118,454,119,425,121"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#ac9252b098a8ab4ccff78fc5eca6eab0e" title="DLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="664,5,809,50"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="592,93,671,58,676,56,594,98"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="669,125,804,170"/>
+<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="617,127,656,135,651,135,617,132"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="857,106,1022,134"/>
+<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="616,112,664,110,809,110,844,114,838,114,809,116,664,116,617,117"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="857,162,1022,190"/>
+<area shape="poly" id="edge10_Node000003_Node000007" title=" " alt="" coords="578,139,619,162,665,180,709,188,755,191,839,191,844,190,755,196,709,193,664,185,617,167,577,144"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="804,136,839,133,844,133,805,141"/>
+<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="805,154,844,162,839,162,804,160"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="904,104,899,97,903,87,917,81,939,79,963,82,978,91,972,90,962,87,939,84,918,86,907,91,904,97,909,106"/>
 </map>

@@ -121,14 +121,14 @@ $(function(){initNavTree('interfacela__lapack_1_1orcsd.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6f4bcbef9374dfefb5a682e1eb2daffb" id="r_a6f4bcbef9374dfefb5a682e1eb2daffb"><td class="memItemLeft" align="right" valign="top">recursive subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6f4bcbef9374dfefb5a682e1eb2daffb">dorcsd</a> (jobu1, jobu2, jobv1t, jobv2t, trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, work, lwork, iwork, info)</td></tr>
-<tr class="separator:a6f4bcbef9374dfefb5a682e1eb2daffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acac2fae851ef5b801205560e93dc092c" id="r_acac2fae851ef5b801205560e93dc092c"><td class="memItemLeft" align="right" valign="top">pure recursive subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acac2fae851ef5b801205560e93dc092c">dorcsd</a> (jobu1, jobu2, jobv1t, jobv2t, trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, work, lwork, iwork, info)</td></tr>
+<tr class="separator:acac2fae851ef5b801205560e93dc092c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a756845857c564f1cb8c736f58e52cf9b" id="r_a756845857c564f1cb8c736f58e52cf9b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a756845857c564f1cb8c736f58e52cf9b">la_dorcsd</a></td></tr>
 <tr class="separator:a756845857c564f1cb8c736f58e52cf9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a38ac57df5db2f5d58231eeccf8b2eb02" id="r_a38ac57df5db2f5d58231eeccf8b2eb02"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a38ac57df5db2f5d58231eeccf8b2eb02">la_qorcsd</a></td></tr>
 <tr class="separator:a38ac57df5db2f5d58231eeccf8b2eb02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92014c3a3bbe3ad300fcd22b6b592641" id="r_a92014c3a3bbe3ad300fcd22b6b592641"><td class="memItemLeft" align="right" valign="top">recursive subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a92014c3a3bbe3ad300fcd22b6b592641">sorcsd</a> (jobu1, jobu2, jobv1t, jobv2t, trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, work, lwork, iwork, info)</td></tr>
-<tr class="separator:a92014c3a3bbe3ad300fcd22b6b592641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae39b191f0d95455ccfb0e308d2bdd0a2" id="r_ae39b191f0d95455ccfb0e308d2bdd0a2"><td class="memItemLeft" align="right" valign="top">pure recursive subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae39b191f0d95455ccfb0e308d2bdd0a2">sorcsd</a> (jobu1, jobu2, jobv1t, jobv2t, trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, u1, ldu1, u2, ldu2, v1t, ldv1t, v2t, ldv2t, work, lwork, iwork, info)</td></tr>
+<tr class="separator:ae39b191f0d95455ccfb0e308d2bdd0a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb7e9463eb0daaa41f65dfc37dac3af9" id="r_aeb7e9463eb0daaa41f65dfc37dac3af9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb7e9463eb0daaa41f65dfc37dac3af9">la_sorcsd</a></td></tr>
 <tr class="separator:aeb7e9463eb0daaa41f65dfc37dac3af9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc5a831e3b4c6c90bbf5b7a08a105a23" id="r_adc5a831e3b4c6c90bbf5b7a08a105a23"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adc5a831e3b4c6c90bbf5b7a08a105a23">la_xorcsd</a></td></tr>
@@ -137,14 +137,14 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORCSD: computes the CS decomposition of an M-by-M partitioned orthogonal matrix X: [ I 0 0 | 0 0 0 ] [ 0 C 0 | 0 -S 0 ] [ X11 | X12 ] [ U1 | ] [ 0 0 0 | 0 0 -I ] [ V1 | ]**T X = [--------&mdash;] = [------&mdash;] [------------------&mdash;] [------&mdash;] . [ X21 | X22 ] [ | U2 ] [ 0 0 0 | I 0 0 ] [ | V2 ] [ 0 S 0 | 0 C 0 ] [ 0 0 I | 0 0 0 ] X11 is P-by-Q. The orthogonal matrices U1, U2, V1, and V2 are P-by-P, (M-P)-by-(M-P), Q-by-Q, and (M-Q)-by-(M-Q), respectively. C and S are R-by-R nonnegative diagonal matrices satisfying C^2 + S^2 = I, in which R = MIN(P,M-P,Q,M-Q). </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a6f4bcbef9374dfefb5a682e1eb2daffb" name="a6f4bcbef9374dfefb5a682e1eb2daffb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6f4bcbef9374dfefb5a682e1eb2daffb">&#9670;&#160;</a></span>dorcsd()</h2>
+<a id="acac2fae851ef5b801205560e93dc092c" name="acac2fae851ef5b801205560e93dc092c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acac2fae851ef5b801205560e93dc092c">&#9670;&#160;</a></span>dorcsd()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">recursive subroutine la_lapack::orcsd::dorcsd </td>
+          <td class="memname">pure recursive subroutine la_lapack::orcsd::dorcsd </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>jobu1</em></span>, </td>
         </tr>
@@ -354,14 +354,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a92014c3a3bbe3ad300fcd22b6b592641" name="a92014c3a3bbe3ad300fcd22b6b592641"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92014c3a3bbe3ad300fcd22b6b592641">&#9670;&#160;</a></span>sorcsd()</h2>
+<a id="ae39b191f0d95455ccfb0e308d2bdd0a2" name="ae39b191f0d95455ccfb0e308d2bdd0a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae39b191f0d95455ccfb0e308d2bdd0a2">&#9670;&#160;</a></span>sorcsd()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">recursive subroutine la_lapack::orcsd::sorcsd </td>
+          <td class="memname">pure recursive subroutine la_lapack::orcsd::sorcsd </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>jobu1</em></span>, </td>
         </tr>

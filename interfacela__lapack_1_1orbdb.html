@@ -121,14 +121,14 @@ $(function(){initNavTree('interfacela__lapack_1_1orbdb.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5df40cdb2bcfbf175786bd0e98ac2e55" id="r_a5df40cdb2bcfbf175786bd0e98ac2e55"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5df40cdb2bcfbf175786bd0e98ac2e55">dorbdb</a> (trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, phi, taup1, taup2, tauq1, tauq2, work, lwork, info)</td></tr>
-<tr class="separator:a5df40cdb2bcfbf175786bd0e98ac2e55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb1529848ab2b9bdb5bebab0c8a8a0eb" id="r_adb1529848ab2b9bdb5bebab0c8a8a0eb"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adb1529848ab2b9bdb5bebab0c8a8a0eb">dorbdb</a> (trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, phi, taup1, taup2, tauq1, tauq2, work, lwork, info)</td></tr>
+<tr class="separator:adb1529848ab2b9bdb5bebab0c8a8a0eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4b3ce89160da502b8bf195197e09b9d" id="r_af4b3ce89160da502b8bf195197e09b9d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af4b3ce89160da502b8bf195197e09b9d">la_dorbdb</a></td></tr>
 <tr class="separator:af4b3ce89160da502b8bf195197e09b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc52efa5b30c7918461847c8114aa6bc" id="r_acc52efa5b30c7918461847c8114aa6bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acc52efa5b30c7918461847c8114aa6bc">la_qorbdb</a></td></tr>
 <tr class="separator:acc52efa5b30c7918461847c8114aa6bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ee54f3a164af0a12adad101d3618c33" id="r_a9ee54f3a164af0a12adad101d3618c33"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9ee54f3a164af0a12adad101d3618c33">sorbdb</a> (trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, phi, taup1, taup2, tauq1, tauq2, work, lwork, info)</td></tr>
-<tr class="separator:a9ee54f3a164af0a12adad101d3618c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae113dce294a84b5867e9c4249fc4a27d" id="r_ae113dce294a84b5867e9c4249fc4a27d"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae113dce294a84b5867e9c4249fc4a27d">sorbdb</a> (trans, signs, m, p, q, x11, ldx11, x12, ldx12, x21, ldx21, x22, ldx22, theta, phi, taup1, taup2, tauq1, tauq2, work, lwork, info)</td></tr>
+<tr class="separator:ae113dce294a84b5867e9c4249fc4a27d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae69810a741b280959079ffb1f5998f62" id="r_ae69810a741b280959079ffb1f5998f62"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae69810a741b280959079ffb1f5998f62">la_sorbdb</a></td></tr>
 <tr class="separator:ae69810a741b280959079ffb1f5998f62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a62f192291b59560c38a751d44f17076a" id="r_a62f192291b59560c38a751d44f17076a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a62f192291b59560c38a751d44f17076a">la_xorbdb</a></td></tr>
@@ -137,14 +137,14 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORBDB: simultaneously bidiagonalizes the blocks of an M-by-M partitioned orthogonal matrix X: [ B11 | B12 0 0 ] [ X11 | X12 ] [ P1 | ] [ 0 | 0 -I 0 ] [ Q1 | ]**T X = [--------&mdash;] = [------&mdash;] [-------------&mdash;] [------&mdash;] . [ X21 | X22 ] [ | P2 ] [ B21 | B22 0 0 ] [ | Q2 ] [ 0 | 0 0 I ] X11 is P-by-Q. Q must be no larger than P, M-P, or M-Q. (If this is not the case, then X must be transposed and/or permuted. This can be done in constant time using the TRANS and SIGNS options. See DORCSD for details.) The orthogonal matrices P1, P2, Q1, and Q2 are P-by-P, (M-P)-by- (M-P), Q-by-Q, and (M-Q)-by-(M-Q), respectively. They are represented implicitly by Householder vectors. B11, B12, B21, and B22 are Q-by-Q bidiagonal matrices represented implicitly by angles THETA, PHI. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a5df40cdb2bcfbf175786bd0e98ac2e55" name="a5df40cdb2bcfbf175786bd0e98ac2e55"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5df40cdb2bcfbf175786bd0e98ac2e55">&#9670;&#160;</a></span>dorbdb()</h2>
+<a id="adb1529848ab2b9bdb5bebab0c8a8a0eb" name="adb1529848ab2b9bdb5bebab0c8a8a0eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb1529848ab2b9bdb5bebab0c8a8a0eb">&#9670;&#160;</a></span>dorbdb()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::orbdb::dorbdb </td>
+          <td class="memname">pure subroutine la_lapack::orbdb::dorbdb </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>
@@ -314,14 +314,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a9ee54f3a164af0a12adad101d3618c33" name="a9ee54f3a164af0a12adad101d3618c33"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ee54f3a164af0a12adad101d3618c33">&#9670;&#160;</a></span>sorbdb()</h2>
+<a id="ae113dce294a84b5867e9c4249fc4a27d" name="ae113dce294a84b5867e9c4249fc4a27d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae113dce294a84b5867e9c4249fc4a27d">&#9670;&#160;</a></span>sorbdb()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::orbdb::sorbdb </td>
+          <td class="memname">pure subroutine la_lapack::orbdb::sorbdb </td>
           <td>(</td>
           <td class="paramtype">character, intent(in)</td>          <td class="paramname"><span class="paramname"><em>trans</em></span>, </td>
         </tr>

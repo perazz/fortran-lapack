@@ -121,14 +121,14 @@ $(function(){initNavTree('interfacela__lapack_1_1orbdb3.html',''); initResizable
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0916a975f317c2a723051347f35c8cf3" id="r_a0916a975f317c2a723051347f35c8cf3"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0916a975f317c2a723051347f35c8cf3">dorbdb3</a> (m, p, q, x11, ldx11, x21, ldx21, theta, phi, taup1, taup2, tauq1, work, lwork, info)</td></tr>
-<tr class="separator:a0916a975f317c2a723051347f35c8cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3320d5a0cde4daee370cce62a615518" id="r_aa3320d5a0cde4daee370cce62a615518"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa3320d5a0cde4daee370cce62a615518">dorbdb3</a> (m, p, q, x11, ldx11, x21, ldx21, theta, phi, taup1, taup2, tauq1, work, lwork, info)</td></tr>
+<tr class="separator:aa3320d5a0cde4daee370cce62a615518"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ad2e7b1ba828d03409a827422b279df" id="r_a6ad2e7b1ba828d03409a827422b279df"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a6ad2e7b1ba828d03409a827422b279df">la_dorbdb3</a></td></tr>
 <tr class="separator:a6ad2e7b1ba828d03409a827422b279df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9eccb5683975e4f2dbc912495715325f" id="r_a9eccb5683975e4f2dbc912495715325f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9eccb5683975e4f2dbc912495715325f">la_qorbdb3</a></td></tr>
 <tr class="separator:a9eccb5683975e4f2dbc912495715325f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79b11fa7659136337a0b1b9292fafcae" id="r_a79b11fa7659136337a0b1b9292fafcae"><td class="memItemLeft" align="right" valign="top">subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a79b11fa7659136337a0b1b9292fafcae">sorbdb3</a> (m, p, q, x11, ldx11, x21, ldx21, theta, phi, taup1, taup2, tauq1, work, lwork, info)</td></tr>
-<tr class="separator:a79b11fa7659136337a0b1b9292fafcae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94b8c4ac1dfb2fe94a8810cc480f2857" id="r_a94b8c4ac1dfb2fe94a8810cc480f2857"><td class="memItemLeft" align="right" valign="top">pure subroutine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a94b8c4ac1dfb2fe94a8810cc480f2857">sorbdb3</a> (m, p, q, x11, ldx11, x21, ldx21, theta, phi, taup1, taup2, tauq1, work, lwork, info)</td></tr>
+<tr class="separator:a94b8c4ac1dfb2fe94a8810cc480f2857"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ed88042e1654668fdece22757f8fba7" id="r_a0ed88042e1654668fdece22757f8fba7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0ed88042e1654668fdece22757f8fba7">la_sorbdb3</a></td></tr>
 <tr class="separator:a0ed88042e1654668fdece22757f8fba7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3d01a8fe4f758de5d7cb59d41772143" id="r_ad3d01a8fe4f758de5d7cb59d41772143"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad3d01a8fe4f758de5d7cb59d41772143">la_xorbdb3</a></td></tr>
@@ -137,14 +137,14 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>ORBDB3: simultaneously bidiagonalizes the blocks of a tall and skinny matrix X with orthonomal columns: [ B11 ] [ X11 ] [ P1 | ] [ 0 ] [--&mdash;] = [------&mdash;] [--&mdash;] Q1**T . [ X21 ] [ | P2 ] [ B21 ] [ 0 ] X11 is P-by-Q, and X21 is (M-P)-by-Q. M-P must be no larger than P, Q, or M-Q. Routines DORBDB1, DORBDB2, and DORBDB4 handle cases in which M-P is not the minimum dimension. The orthogonal matrices P1, P2, and Q1 are P-by-P, (M-P)-by-(M-P), and (M-Q)-by-(M-Q), respectively. They are represented implicitly by Householder vectors. B11 and B12 are (M-P)-by-(M-P) bidiagonal matrices represented implicitly by angles THETA, PHI. </p>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
-<a id="a0916a975f317c2a723051347f35c8cf3" name="a0916a975f317c2a723051347f35c8cf3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0916a975f317c2a723051347f35c8cf3">&#9670;&#160;</a></span>dorbdb3()</h2>
+<a id="aa3320d5a0cde4daee370cce62a615518" name="aa3320d5a0cde4daee370cce62a615518"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3320d5a0cde4daee370cce62a615518">&#9670;&#160;</a></span>dorbdb3()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::orbdb3::dorbdb3 </td>
+          <td class="memname">pure subroutine la_lapack::orbdb3::dorbdb3 </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
         </tr>
@@ -279,14 +279,14 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a79b11fa7659136337a0b1b9292fafcae" name="a79b11fa7659136337a0b1b9292fafcae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79b11fa7659136337a0b1b9292fafcae">&#9670;&#160;</a></span>sorbdb3()</h2>
+<a id="a94b8c4ac1dfb2fe94a8810cc480f2857" name="a94b8c4ac1dfb2fe94a8810cc480f2857"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94b8c4ac1dfb2fe94a8810cc480f2857">&#9670;&#160;</a></span>sorbdb3()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">subroutine la_lapack::orbdb3::sorbdb3 </td>
+          <td class="memname">pure subroutine la_lapack::orbdb3::sorbdb3 </td>
           <td>(</td>
           <td class="paramtype">integer(<a class="el" href="namespacela__constants.html#a855ee4571ad1f4065aca0717ce55fd0f">ilp</a>), intent(in)</td>          <td class="paramname"><span class="paramname"><em>m</em></span>, </td>
         </tr>

@@ -1,0 +1,15 @@
+<map id="la_lapack_blas_like_l2::la_cla_heamv" name="la_lapack_blas_like_l2::la_cla_heamv">
+<area shape="rect" id="Node000001" title="CLA_SYAMV performs the matrix&#45;vector operation y := alpha*abs(A)*abs(x) + beta*abs(y),..." alt="" coords="5,105,153,150"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#a1b97afb9925f372de6bf6ba5ac9b7df5" title="This subroutine translated from a character string specifying a upper&#45; or lower&#45;triangular matrix to ..." alt="" coords="201,29,386,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,102,200,66,222,61,217,63,202,71,124,107"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="220,105,367,150"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="153,125,206,126,201,128,154,130"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="211,173,376,201"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="153,146,201,159,228,169,222,169,200,164,153,151"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="256,28,251,20,255,11,270,5,293,3,319,5,334,14,328,14,317,10,293,8,271,10,259,15,256,20,261,29"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="434,72,599,100"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="369,55,429,68,423,69,369,60"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="478,71,472,63,477,53,492,47,517,45,543,48,559,57,553,57,542,53,517,51,493,53,481,57,477,63,483,72"/>
+<area shape="poly" id="edge6_Node000004_Node000003" title=" " alt="" coords="367,111,426,103,421,104,368,116"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="252,103,251,95,258,86,272,80,293,78,317,81,332,90,327,90,315,86,293,83,273,85,261,90,256,96,257,106"/>
+</map>
