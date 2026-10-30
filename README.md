@@ -726,6 +726,107 @@ This subroutine asks LAPACK for the optimal size of the workspace array that [`s
 - This subroutine is `pure`.
 
 
+## [generalized_lstsq](@ref la_least_squares::generalized_lstsq) - Generalized least squares solution (function).
+
+### Syntax
+
+`x = generalized_lstsq(w, a, b [, prefactored_w])`  
+`x = generalized_lstsq(w, a, b [, prefactored_w], err)`
+
+### Description
+
+This function minimizes \f$ (b - A \cdot x)^H W^{-1} (b - A \cdot x) \f$, the least-squares cost of observations whose errors are correlated, with the symmetric (Hermitian) positive definite covariance matrix \f$ W \f$. Without `err` it is `pure`; with `err` it returns errors instead of stopping, and is not `pure`.
+
+### Arguments
+
+- `w`: The covariance matrix of size \f$ [m,m] \f$, of the same type and kind as `a`. If `prefactored_w` is true, it is instead a square root \f$ B \f$ of the covariance matrix, \f$ W = B B^H \f$, which need not be triangular. It is not modified.
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, with \f$ m \ge n \f$. It is not modified.
+- `b`: The right-hand-side vector of size \f$m\f$. It is not modified.
+- `prefactored_w` (optional): If true, `w` is a square root of the covariance matrix, for example its Cholesky factor. Default is false.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that receives the error state.
+
+### Return value
+
+The function returns the solution vector of size \f$n\f$. With `err`, a failed solve returns an empty vector.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` is empty or has fewer rows than columns, or if `w` or `b` does not match the rows of `a`.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `w` is not positive definite, if its square root is singular, or if `a` does not have full column rank.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- This function uses LAPACK's [GGGLM](@ref la_lapack::ggglm) driver: with \f$ W = B B^H \f$, it minimizes \f$ \|y\| \f$ subject to \f$ b = A x + B y \f$. Without `prefactored_w`, \f$ B \f$ is the Cholesky factor of `w`.
+- With an identity covariance matrix, the solution is the one of [`lstsq`](@ref la_least_squares::lstsq).
+- [solve_generalized_lstsq](@ref la_least_squares::solve_generalized_lstsq) is the subroutine form.
+
+
+## [solve_generalized_lstsq](@ref la_least_squares::solve_generalized_lstsq) - Generalized least squares solution into a pre-allocated array.
+
+### Syntax
+
+`call solve_generalized_lstsq(w, a, b, x [, storage] [, prefactored_w] [, overwrite_a] [, overwrite_w] [, err])`
+
+### Description
+
+This subroutine is the subroutine form of [`generalized_lstsq`](@ref la_least_squares::generalized_lstsq): it writes the solution into the caller's array, can reuse a caller-provided workspace, and can work on `w` and `a` in place.
+
+### Arguments
+
+- `w`: The covariance matrix of size \f$ [m,m] \f$, or a square root of it if `prefactored_w` is true. It is an `intent(inout)` argument, and is destroyed if `overwrite_w` is true.
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, with \f$ m \ge n \f$. It is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true.
+- `b`: The right-hand-side vector of size \f$m\f$. It is an `intent(in)` argument.
+- `x`: The solution vector of size \f$n\f$. It is an `intent(out)` argument.
+- `storage` (optional): A working array of size at least the `lwork` returned by [`generalized_lstsq_space`](@ref la_least_squares::generalized_lstsq_space).
+- `prefactored_w` (optional): If true, `w` is a square root of the covariance matrix. Default is false.
+- `overwrite_a` (optional): If true, `a` may be overwritten and destroyed. Default is false.
+- `overwrite_w` (optional): If true, `w` may be overwritten and destroyed. Default is false.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Return value
+
+The solution is written into `x`.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the shapes are inconsistent or if `storage` is too small.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `w` is not positive definite, if its square root is singular, or if `a` does not have full column rank.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- Without `overwrite_a` and `overwrite_w`, both matrices are copied, so neither is changed. With both, and with `storage`, the subroutine allocates nothing.
+- This subroutine is `pure`.
+
+
+## [generalized_lstsq_space](@ref la_least_squares::generalized_lstsq_space) - Workspace size for the generalized least squares solver.
+
+### Syntax
+
+`call generalized_lstsq_space(a, lwork [, err])`
+
+### Description
+
+This subroutine returns the size of the workspace array that [`solve_generalized_lstsq`](@ref la_least_squares::solve_generalized_lstsq) needs for a problem of the shape of `a`: the optimal workspace of LAPACK's GGGLM, plus two vectors of size \f$m\f$.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. Only its shape is read.
+- `lwork`: An `integer` returning the size of the workspace array.
+- `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the subroutine will stop execution.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if LAPACK rejects the problem dimensions, for example if `a` has fewer rows than columns.
+- If `err` is not provided, the subroutine will stop execution on errors.
+
+### Notes
+
+- The size returned is the optimal one, not the minimum one.
+- This subroutine is `pure`.
+
+
 ## [det](@ref la_determinant::det) - Determinant of a scalar or rectangular matrix.
 
 ### Syntax

@@ -165,6 +165,67 @@ module la_least_squares
      !!
      public :: constrained_lstsq_space
 
+     !> @brief Compute a generalized least squares solution of \f$ A \cdot x = b \f$.
+     !!
+     !! This function minimizes \f$ (b - A \cdot x)^H W^{-1} (b - A \cdot x) \f$, the least-squares
+     !! cost of observations whose errors are correlated, with the symmetric (Hermitian) positive
+     !! definite covariance matrix \f$ W \f$.
+     !!
+     !! @param[in] w The covariance matrix of size \f$ [m,m] \f$, or a square root \f$ B \f$ of it,
+     !!              \f$ W = B B^H \f$, if `prefactored_w` is true.
+     !! @param[in] a The input matrix of size \f$ [m,n] \f$, with \f$ m \ge n \f$.
+     !! @param[in] b The right-hand side vector of size \f$m\f$.
+     !! @param[in] prefactored_w (Optional) If true, `w` is a square root of the covariance matrix,
+     !!                          for example its Cholesky factor. Default is false.
+     !! @param[out] err (Optional) A state return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
+     !!
+     !! @return Solution vector `x` of size \f$n\f$.
+     !!
+     !! @note This function relies on LAPACK's [GGGLM](@ref la_lapack::ggglm) driver.
+     !! @note The function form without `err` is `pure`; the form with `err` is not, because a
+     !!       `pure` function cannot return an error argument.
+     !!
+     public :: generalized_lstsq
+
+     !> @brief Compute a generalized least squares solution into a pre-allocated array.
+     !!
+     !! This subroutine is the subroutine form of
+     !! [`generalized_lstsq`](@ref la_least_squares::generalized_lstsq): it writes the solution into
+     !! the caller's array, can reuse a caller-provided workspace, and can work on `w` and `a` in place.
+     !!
+     !! @param[in,out] w The covariance matrix of size \f$ [m,m] \f$, or a square root of it if
+     !!                  `prefactored_w` is true. Unchanged unless `overwrite_w` is true.
+     !! @param[in,out] a The input matrix of size \f$ [m,n] \f$, with \f$ m \ge n \f$. Unchanged
+     !!                  unless `overwrite_a` is true.
+     !! @param[in] b The right-hand side vector of size \f$m\f$.
+     !! @param[out] x The solution vector of size \f$n\f$.
+     !! @param[in,out] storage (Optional) Pre-allocated workspace. Its size is checked with
+     !!                [`generalized_lstsq_space`](@ref la_least_squares::generalized_lstsq_space).
+     !! @param[in] prefactored_w (Optional) If true, `w` is a square root of the covariance matrix.
+     !!                          Default is false.
+     !! @param[in] overwrite_a (Optional) If true, `a` may be overwritten and destroyed. Default is false.
+     !! @param[in] overwrite_w (Optional) If true, `w` may be overwritten and destroyed. Default is false.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                    the subroutine will stop execution.
+     !!
+     !! @note With `storage`, `overwrite_a` and `overwrite_w` it allocates nothing.
+     !!
+     public :: solve_generalized_lstsq
+
+     !> @brief Compute the working space needed by the generalized least squares solver.
+     !!
+     !! This subroutine returns the size of the workspace array that
+     !! [`solve_generalized_lstsq`](@ref la_least_squares::solve_generalized_lstsq) needs: the
+     !! optimal workspace of LAPACK's GGGLM, plus two vectors of size \f$m\f$.
+     !!
+     !! @param[in] a The input matrix of size \f$ [m,n] \f$. Only its shape is used.
+     !! @param[out] lwork The size of the workspace array.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                    the subroutine will stop execution.
+     !!
+     public :: generalized_lstsq_space
+
      interface lstsq
         module procedure la_slstsq_one
         module procedure la_dlstsq_one
@@ -364,6 +425,71 @@ module la_least_squares
         module procedure la_wconstrained_lstsq_space
 #endif
      end interface constrained_lstsq_space
+
+     interface generalized_lstsq
+        module procedure la_sgeneralized_lstsq
+        module procedure la_sgeneralized_lstsq_err
+        module procedure la_dgeneralized_lstsq
+        module procedure la_dgeneralized_lstsq_err
+#ifdef LA_WITH_XDP
+        module procedure la_xgeneralized_lstsq
+        module procedure la_xgeneralized_lstsq_err
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_qgeneralized_lstsq
+        module procedure la_qgeneralized_lstsq_err
+#endif
+        module procedure la_cgeneralized_lstsq
+        module procedure la_cgeneralized_lstsq_err
+        module procedure la_zgeneralized_lstsq
+        module procedure la_zgeneralized_lstsq_err
+#ifdef LA_WITH_XDP
+        module procedure la_ygeneralized_lstsq
+        module procedure la_ygeneralized_lstsq_err
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_wgeneralized_lstsq
+        module procedure la_wgeneralized_lstsq_err
+#endif
+     end interface generalized_lstsq
+
+     interface solve_generalized_lstsq
+        module procedure la_ssolve_generalized_lstsq
+        module procedure la_dsolve_generalized_lstsq
+#ifdef LA_WITH_XDP
+        module procedure la_xsolve_generalized_lstsq
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_qsolve_generalized_lstsq
+#endif
+        module procedure la_csolve_generalized_lstsq
+        module procedure la_zsolve_generalized_lstsq
+#ifdef LA_WITH_XDP
+        module procedure la_ysolve_generalized_lstsq
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_wsolve_generalized_lstsq
+#endif
+     end interface solve_generalized_lstsq
+
+     interface generalized_lstsq_space
+        module procedure la_sgeneralized_lstsq_space
+        module procedure la_dgeneralized_lstsq_space
+#ifdef LA_WITH_XDP
+        module procedure la_xgeneralized_lstsq_space
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_qgeneralized_lstsq_space
+#endif
+        module procedure la_cgeneralized_lstsq_space
+        module procedure la_zgeneralized_lstsq_space
+#ifdef LA_WITH_XDP
+        module procedure la_ygeneralized_lstsq_space
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_wgeneralized_lstsq_space
+#endif
+     end interface generalized_lstsq_space
 
      contains
 
@@ -4434,6 +4560,30 @@ module la_least_squares
 
      end subroutine la_handle_gglse
 
+     !> Process the ggglm exit code
+     pure subroutine la_handle_ggglm(info,m,n,err)
+         integer(ilp),intent(in) :: info,m,n
+         type(la_state),intent(out) :: err
+
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         ! ggglm returns 1 when the solve with T22 fails (rank([a w]) < m), and 2 when the solve with
+         ! R11 fails (rank(a) < n)
+         select case (info)
+            case (0)
+                ! Success
+            case (1)
+                err = la_state(this,LINALG_ERROR,'the square root of w is singular')
+            case (2)
+                err = la_state(this,LINALG_ERROR,'a does not have full column rank')
+            case (-1,-2,-3,-5,-7)
+                err = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a(m,n) =', [m,n])
+            case default
+                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+         end select
+
+     end subroutine la_handle_ggglm
+
      !> Working space needed by the real(sp) equality-constrained least-squares solver
      pure subroutine la_sconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
@@ -4683,6 +4833,227 @@ module la_least_squares
          call err0%handle(err)
 
      end subroutine la_ssolve_weighted_lstsq
+
+     !> Working space needed by the real(sp) generalized least-squares solver
+     pure subroutine la_sgeneralized_lstsq_space(a,lwork,err)
+         !> Input matrix a[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Size of the working space array
+         integer(ilp),intent(out) :: lwork
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,ld,info
+         real(sp) :: a_dummy(1,1),w_dummy(1,1)
+         real(sp) :: d(1),x(1),y(1),work(1)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         ld = max(1_ilp,m)
+
+         ! A workspace query does not reference the matrices
+         call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
+         call la_handle_ggglm(info,m,n,err0)
+
+         ! The vectors d[m] and y[m], followed by the ggglm workspace
+         if (err0%ok()) then
+            lwork = 2*m + ceiling(real(work(1),kind=sp),kind=ilp)
+         else
+            lwork = 0_ilp
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_sgeneralized_lstsq_space
+
+     !> Solve the real(sp) generalized least-squares problem into x: minimize (b-Ax)^H W^{-1} (b-Ax)
+     pure subroutine la_ssolve_generalized_lstsq(w,a,b,x,storage,prefactored_w,overwrite_a, &
+                                                     overwrite_w,err)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(sp),intent(inout),target :: w(:,:)
+         !> Input matrix a[m,n]
+         real(sp),intent(inout),target :: a(:,:)
+         !> Right hand side vector b[m]
+         real(sp),intent(in) :: b(:)
+         !> Solution vector x[n]
+         real(sp),intent(out) :: x(:)
+         !> [optional] working storage space
+         real(sp),optional,intent(inout),contiguous,target :: storage(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Can W data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_w
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,lwork,nwork,info,j
+         logical(lk) :: copy_a,copy_w,factorize
+         real(sp),pointer :: amat(:,:),wmat(:,:)
+         real(sp),pointer,contiguous :: work(:)
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m < 1 .or. n < 1) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a(m,n) =', [m,n])
+         elseif (m < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'a(m,n) needs m >= n, a(m,n) =', [m,n])
+         elseif (size(w,1,kind=ilp) /= m .or. size(w,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'w(m,m) =',shape(w,kind=ilp),'but a has',m,'rows')
+         elseif (size(b,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(b) =',size(b,kind=ilp),'but a has',m,'rows')
+         elseif (size(x,kind=ilp) /= n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(x) =',size(x,kind=ilp),'but a has',n,'columns')
+         else
+            call la_sgeneralized_lstsq_space(a,lwork,err0)
+         end if
+
+         if (err0%ok() .and. present(storage)) then
+            nwork = size(storage,kind=ilp)
+            if (nwork < lwork) err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient working space:', &
+                                             nwork,' should be >=',lwork)
+         end if
+
+         if (err0%error()) then
+            call err0%handle(err)
+            return
+         end if
+
+         ! Is w the covariance matrix, or its square root? By default, factorize it
+         if (present(prefactored_w)) then
+            factorize = .not. prefactored_w
+         else
+            factorize = .true._lk
+         end if
+
+         ! Can A and W be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not. overwrite_a
+         else
+            copy_a = .true._lk
+         end if
+         if (present(overwrite_w)) then
+            copy_w = .not. overwrite_w
+         else
+            copy_w = .true._lk
+         end if
+
+         if (copy_a) then
+            allocate (amat(m,n),source=a)
+         else
+            amat => a
+         end if
+         if (copy_w) then
+            allocate (wmat(m,m),source=w)
+         else
+            wmat => w
+         end if
+
+         if (present(storage)) then
+            work => storage
+         else
+            allocate (work(lwork))
+         end if
+         nwork = size(work,kind=ilp)
+
+         ! The Cholesky factor of w, w = L*L^H, is a square root: ggglm needs it with the upper
+         ! triangle zeroed
+         if (factorize) then
+            call potrf('L',m,wmat,m,info)
+            if (info > 0) then
+               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
+                                                 info,'is not positive')
+            elseif (info < 0) then
+               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+            else
+               do j = 2,m
+                  wmat(1:j - 1,j) = 0
+               end do
+            end if
+         end if
+
+         ! Minimize ||y|| subject to b = A*x + B*y, with W = B*B^H. d[m] and y[m] lead the workspace
+         if (err0%ok()) then
+            work(1:m) = b
+            call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
+            call la_handle_ggglm(info,m,n,err0)
+         end if
+
+         if (.not. present(storage)) deallocate (work)
+         if (copy_a) deallocate (amat)
+         if (copy_w) deallocate (wmat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_ssolve_generalized_lstsq
+
+     !> Generalized least-squares solution, function form: `pure`, stops on error
+     pure function la_sgeneralized_lstsq(w,a,b,prefactored_w) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(sp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(sp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> Solution vector x[n]
+         real(sp),allocatable :: x(:)
+
+         !> Local variables
+         real(sp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_ssolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk)
+
+     end function la_sgeneralized_lstsq
+
+     !> Generalized least-squares solution, function form with a state return flag
+     function la_sgeneralized_lstsq_err(w,a,b,prefactored_w,err) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(sp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(sp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Solution vector x[n]
+         real(sp),allocatable :: x(:)
+
+         !> Local variables
+         real(sp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_ssolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk,err=err)
+
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
+            allocate (x(0))
+         end if
+
+     end function la_sgeneralized_lstsq_err
 
      !> Working space needed by the real(dp) equality-constrained least-squares solver
      pure subroutine la_dconstrained_lstsq_space(A,C,lwork,err)
@@ -4934,6 +5305,227 @@ module la_least_squares
 
      end subroutine la_dsolve_weighted_lstsq
 
+     !> Working space needed by the real(dp) generalized least-squares solver
+     pure subroutine la_dgeneralized_lstsq_space(a,lwork,err)
+         !> Input matrix a[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Size of the working space array
+         integer(ilp),intent(out) :: lwork
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,ld,info
+         real(dp) :: a_dummy(1,1),w_dummy(1,1)
+         real(dp) :: d(1),x(1),y(1),work(1)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         ld = max(1_ilp,m)
+
+         ! A workspace query does not reference the matrices
+         call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
+         call la_handle_ggglm(info,m,n,err0)
+
+         ! The vectors d[m] and y[m], followed by the ggglm workspace
+         if (err0%ok()) then
+            lwork = 2*m + ceiling(real(work(1),kind=dp),kind=ilp)
+         else
+            lwork = 0_ilp
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_dgeneralized_lstsq_space
+
+     !> Solve the real(dp) generalized least-squares problem into x: minimize (b-Ax)^H W^{-1} (b-Ax)
+     pure subroutine la_dsolve_generalized_lstsq(w,a,b,x,storage,prefactored_w,overwrite_a, &
+                                                     overwrite_w,err)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(dp),intent(inout),target :: w(:,:)
+         !> Input matrix a[m,n]
+         real(dp),intent(inout),target :: a(:,:)
+         !> Right hand side vector b[m]
+         real(dp),intent(in) :: b(:)
+         !> Solution vector x[n]
+         real(dp),intent(out) :: x(:)
+         !> [optional] working storage space
+         real(dp),optional,intent(inout),contiguous,target :: storage(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Can W data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_w
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,lwork,nwork,info,j
+         logical(lk) :: copy_a,copy_w,factorize
+         real(dp),pointer :: amat(:,:),wmat(:,:)
+         real(dp),pointer,contiguous :: work(:)
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m < 1 .or. n < 1) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a(m,n) =', [m,n])
+         elseif (m < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'a(m,n) needs m >= n, a(m,n) =', [m,n])
+         elseif (size(w,1,kind=ilp) /= m .or. size(w,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'w(m,m) =',shape(w,kind=ilp),'but a has',m,'rows')
+         elseif (size(b,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(b) =',size(b,kind=ilp),'but a has',m,'rows')
+         elseif (size(x,kind=ilp) /= n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(x) =',size(x,kind=ilp),'but a has',n,'columns')
+         else
+            call la_dgeneralized_lstsq_space(a,lwork,err0)
+         end if
+
+         if (err0%ok() .and. present(storage)) then
+            nwork = size(storage,kind=ilp)
+            if (nwork < lwork) err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient working space:', &
+                                             nwork,' should be >=',lwork)
+         end if
+
+         if (err0%error()) then
+            call err0%handle(err)
+            return
+         end if
+
+         ! Is w the covariance matrix, or its square root? By default, factorize it
+         if (present(prefactored_w)) then
+            factorize = .not. prefactored_w
+         else
+            factorize = .true._lk
+         end if
+
+         ! Can A and W be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not. overwrite_a
+         else
+            copy_a = .true._lk
+         end if
+         if (present(overwrite_w)) then
+            copy_w = .not. overwrite_w
+         else
+            copy_w = .true._lk
+         end if
+
+         if (copy_a) then
+            allocate (amat(m,n),source=a)
+         else
+            amat => a
+         end if
+         if (copy_w) then
+            allocate (wmat(m,m),source=w)
+         else
+            wmat => w
+         end if
+
+         if (present(storage)) then
+            work => storage
+         else
+            allocate (work(lwork))
+         end if
+         nwork = size(work,kind=ilp)
+
+         ! The Cholesky factor of w, w = L*L^H, is a square root: ggglm needs it with the upper
+         ! triangle zeroed
+         if (factorize) then
+            call potrf('L',m,wmat,m,info)
+            if (info > 0) then
+               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
+                                                 info,'is not positive')
+            elseif (info < 0) then
+               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+            else
+               do j = 2,m
+                  wmat(1:j - 1,j) = 0
+               end do
+            end if
+         end if
+
+         ! Minimize ||y|| subject to b = A*x + B*y, with W = B*B^H. d[m] and y[m] lead the workspace
+         if (err0%ok()) then
+            work(1:m) = b
+            call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
+            call la_handle_ggglm(info,m,n,err0)
+         end if
+
+         if (.not. present(storage)) deallocate (work)
+         if (copy_a) deallocate (amat)
+         if (copy_w) deallocate (wmat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_dsolve_generalized_lstsq
+
+     !> Generalized least-squares solution, function form: `pure`, stops on error
+     pure function la_dgeneralized_lstsq(w,a,b,prefactored_w) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(dp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(dp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> Solution vector x[n]
+         real(dp),allocatable :: x(:)
+
+         !> Local variables
+         real(dp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_dsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk)
+
+     end function la_dgeneralized_lstsq
+
+     !> Generalized least-squares solution, function form with a state return flag
+     function la_dgeneralized_lstsq_err(w,a,b,prefactored_w,err) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(dp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(dp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Solution vector x[n]
+         real(dp),allocatable :: x(:)
+
+         !> Local variables
+         real(dp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_dsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk,err=err)
+
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
+            allocate (x(0))
+         end if
+
+     end function la_dgeneralized_lstsq_err
+
 #ifdef LA_WITH_XDP
      !> Working space needed by the real(xdp) equality-constrained least-squares solver
      pure subroutine la_xconstrained_lstsq_space(A,C,lwork,err)
@@ -5184,6 +5776,227 @@ module la_least_squares
          call err0%handle(err)
 
      end subroutine la_xsolve_weighted_lstsq
+
+     !> Working space needed by the real(xdp) generalized least-squares solver
+     pure subroutine la_xgeneralized_lstsq_space(a,lwork,err)
+         !> Input matrix a[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Size of the working space array
+         integer(ilp),intent(out) :: lwork
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,ld,info
+         real(xdp) :: a_dummy(1,1),w_dummy(1,1)
+         real(xdp) :: d(1),x(1),y(1),work(1)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         ld = max(1_ilp,m)
+
+         ! A workspace query does not reference the matrices
+         call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
+         call la_handle_ggglm(info,m,n,err0)
+
+         ! The vectors d[m] and y[m], followed by the ggglm workspace
+         if (err0%ok()) then
+            lwork = 2*m + ceiling(real(work(1),kind=xdp),kind=ilp)
+         else
+            lwork = 0_ilp
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_xgeneralized_lstsq_space
+
+     !> Solve the real(xdp) generalized least-squares problem into x: minimize (b-Ax)^H W^{-1} (b-Ax)
+     pure subroutine la_xsolve_generalized_lstsq(w,a,b,x,storage,prefactored_w,overwrite_a, &
+                                                     overwrite_w,err)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(xdp),intent(inout),target :: w(:,:)
+         !> Input matrix a[m,n]
+         real(xdp),intent(inout),target :: a(:,:)
+         !> Right hand side vector b[m]
+         real(xdp),intent(in) :: b(:)
+         !> Solution vector x[n]
+         real(xdp),intent(out) :: x(:)
+         !> [optional] working storage space
+         real(xdp),optional,intent(inout),contiguous,target :: storage(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Can W data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_w
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,lwork,nwork,info,j
+         logical(lk) :: copy_a,copy_w,factorize
+         real(xdp),pointer :: amat(:,:),wmat(:,:)
+         real(xdp),pointer,contiguous :: work(:)
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m < 1 .or. n < 1) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a(m,n) =', [m,n])
+         elseif (m < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'a(m,n) needs m >= n, a(m,n) =', [m,n])
+         elseif (size(w,1,kind=ilp) /= m .or. size(w,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'w(m,m) =',shape(w,kind=ilp),'but a has',m,'rows')
+         elseif (size(b,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(b) =',size(b,kind=ilp),'but a has',m,'rows')
+         elseif (size(x,kind=ilp) /= n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(x) =',size(x,kind=ilp),'but a has',n,'columns')
+         else
+            call la_xgeneralized_lstsq_space(a,lwork,err0)
+         end if
+
+         if (err0%ok() .and. present(storage)) then
+            nwork = size(storage,kind=ilp)
+            if (nwork < lwork) err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient working space:', &
+                                             nwork,' should be >=',lwork)
+         end if
+
+         if (err0%error()) then
+            call err0%handle(err)
+            return
+         end if
+
+         ! Is w the covariance matrix, or its square root? By default, factorize it
+         if (present(prefactored_w)) then
+            factorize = .not. prefactored_w
+         else
+            factorize = .true._lk
+         end if
+
+         ! Can A and W be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not. overwrite_a
+         else
+            copy_a = .true._lk
+         end if
+         if (present(overwrite_w)) then
+            copy_w = .not. overwrite_w
+         else
+            copy_w = .true._lk
+         end if
+
+         if (copy_a) then
+            allocate (amat(m,n),source=a)
+         else
+            amat => a
+         end if
+         if (copy_w) then
+            allocate (wmat(m,m),source=w)
+         else
+            wmat => w
+         end if
+
+         if (present(storage)) then
+            work => storage
+         else
+            allocate (work(lwork))
+         end if
+         nwork = size(work,kind=ilp)
+
+         ! The Cholesky factor of w, w = L*L^H, is a square root: ggglm needs it with the upper
+         ! triangle zeroed
+         if (factorize) then
+            call potrf('L',m,wmat,m,info)
+            if (info > 0) then
+               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
+                                                 info,'is not positive')
+            elseif (info < 0) then
+               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+            else
+               do j = 2,m
+                  wmat(1:j - 1,j) = 0
+               end do
+            end if
+         end if
+
+         ! Minimize ||y|| subject to b = A*x + B*y, with W = B*B^H. d[m] and y[m] lead the workspace
+         if (err0%ok()) then
+            work(1:m) = b
+            call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
+            call la_handle_ggglm(info,m,n,err0)
+         end if
+
+         if (.not. present(storage)) deallocate (work)
+         if (copy_a) deallocate (amat)
+         if (copy_w) deallocate (wmat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_xsolve_generalized_lstsq
+
+     !> Generalized least-squares solution, function form: `pure`, stops on error
+     pure function la_xgeneralized_lstsq(w,a,b,prefactored_w) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(xdp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(xdp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> Solution vector x[n]
+         real(xdp),allocatable :: x(:)
+
+         !> Local variables
+         real(xdp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_xsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk)
+
+     end function la_xgeneralized_lstsq
+
+     !> Generalized least-squares solution, function form with a state return flag
+     function la_xgeneralized_lstsq_err(w,a,b,prefactored_w,err) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(xdp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(xdp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Solution vector x[n]
+         real(xdp),allocatable :: x(:)
+
+         !> Local variables
+         real(xdp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_xsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk,err=err)
+
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
+            allocate (x(0))
+         end if
+
+     end function la_xgeneralized_lstsq_err
 #endif
 
 #ifdef LA_WITH_QP
@@ -5436,6 +6249,227 @@ module la_least_squares
          call err0%handle(err)
 
      end subroutine la_qsolve_weighted_lstsq
+
+     !> Working space needed by the real(qp) generalized least-squares solver
+     pure subroutine la_qgeneralized_lstsq_space(a,lwork,err)
+         !> Input matrix a[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Size of the working space array
+         integer(ilp),intent(out) :: lwork
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,ld,info
+         real(qp) :: a_dummy(1,1),w_dummy(1,1)
+         real(qp) :: d(1),x(1),y(1),work(1)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         ld = max(1_ilp,m)
+
+         ! A workspace query does not reference the matrices
+         call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
+         call la_handle_ggglm(info,m,n,err0)
+
+         ! The vectors d[m] and y[m], followed by the ggglm workspace
+         if (err0%ok()) then
+            lwork = 2*m + ceiling(real(work(1),kind=qp),kind=ilp)
+         else
+            lwork = 0_ilp
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_qgeneralized_lstsq_space
+
+     !> Solve the real(qp) generalized least-squares problem into x: minimize (b-Ax)^H W^{-1} (b-Ax)
+     pure subroutine la_qsolve_generalized_lstsq(w,a,b,x,storage,prefactored_w,overwrite_a, &
+                                                     overwrite_w,err)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(qp),intent(inout),target :: w(:,:)
+         !> Input matrix a[m,n]
+         real(qp),intent(inout),target :: a(:,:)
+         !> Right hand side vector b[m]
+         real(qp),intent(in) :: b(:)
+         !> Solution vector x[n]
+         real(qp),intent(out) :: x(:)
+         !> [optional] working storage space
+         real(qp),optional,intent(inout),contiguous,target :: storage(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Can W data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_w
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,lwork,nwork,info,j
+         logical(lk) :: copy_a,copy_w,factorize
+         real(qp),pointer :: amat(:,:),wmat(:,:)
+         real(qp),pointer,contiguous :: work(:)
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m < 1 .or. n < 1) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a(m,n) =', [m,n])
+         elseif (m < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'a(m,n) needs m >= n, a(m,n) =', [m,n])
+         elseif (size(w,1,kind=ilp) /= m .or. size(w,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'w(m,m) =',shape(w,kind=ilp),'but a has',m,'rows')
+         elseif (size(b,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(b) =',size(b,kind=ilp),'but a has',m,'rows')
+         elseif (size(x,kind=ilp) /= n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(x) =',size(x,kind=ilp),'but a has',n,'columns')
+         else
+            call la_qgeneralized_lstsq_space(a,lwork,err0)
+         end if
+
+         if (err0%ok() .and. present(storage)) then
+            nwork = size(storage,kind=ilp)
+            if (nwork < lwork) err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient working space:', &
+                                             nwork,' should be >=',lwork)
+         end if
+
+         if (err0%error()) then
+            call err0%handle(err)
+            return
+         end if
+
+         ! Is w the covariance matrix, or its square root? By default, factorize it
+         if (present(prefactored_w)) then
+            factorize = .not. prefactored_w
+         else
+            factorize = .true._lk
+         end if
+
+         ! Can A and W be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not. overwrite_a
+         else
+            copy_a = .true._lk
+         end if
+         if (present(overwrite_w)) then
+            copy_w = .not. overwrite_w
+         else
+            copy_w = .true._lk
+         end if
+
+         if (copy_a) then
+            allocate (amat(m,n),source=a)
+         else
+            amat => a
+         end if
+         if (copy_w) then
+            allocate (wmat(m,m),source=w)
+         else
+            wmat => w
+         end if
+
+         if (present(storage)) then
+            work => storage
+         else
+            allocate (work(lwork))
+         end if
+         nwork = size(work,kind=ilp)
+
+         ! The Cholesky factor of w, w = L*L^H, is a square root: ggglm needs it with the upper
+         ! triangle zeroed
+         if (factorize) then
+            call potrf('L',m,wmat,m,info)
+            if (info > 0) then
+               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
+                                                 info,'is not positive')
+            elseif (info < 0) then
+               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+            else
+               do j = 2,m
+                  wmat(1:j - 1,j) = 0
+               end do
+            end if
+         end if
+
+         ! Minimize ||y|| subject to b = A*x + B*y, with W = B*B^H. d[m] and y[m] lead the workspace
+         if (err0%ok()) then
+            work(1:m) = b
+            call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
+            call la_handle_ggglm(info,m,n,err0)
+         end if
+
+         if (.not. present(storage)) deallocate (work)
+         if (copy_a) deallocate (amat)
+         if (copy_w) deallocate (wmat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_qsolve_generalized_lstsq
+
+     !> Generalized least-squares solution, function form: `pure`, stops on error
+     pure function la_qgeneralized_lstsq(w,a,b,prefactored_w) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(qp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(qp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> Solution vector x[n]
+         real(qp),allocatable :: x(:)
+
+         !> Local variables
+         real(qp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_qsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk)
+
+     end function la_qgeneralized_lstsq
+
+     !> Generalized least-squares solution, function form with a state return flag
+     function la_qgeneralized_lstsq_err(w,a,b,prefactored_w,err) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         real(qp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(qp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Solution vector x[n]
+         real(qp),allocatable :: x(:)
+
+         !> Local variables
+         real(qp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_qsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk,err=err)
+
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
+            allocate (x(0))
+         end if
+
+     end function la_qgeneralized_lstsq_err
 #endif
 
      !> Working space needed by the complex(sp) equality-constrained least-squares solver
@@ -5688,6 +6722,227 @@ module la_least_squares
 
      end subroutine la_csolve_weighted_lstsq
 
+     !> Working space needed by the complex(sp) generalized least-squares solver
+     pure subroutine la_cgeneralized_lstsq_space(a,lwork,err)
+         !> Input matrix a[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Size of the working space array
+         integer(ilp),intent(out) :: lwork
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,ld,info
+         complex(sp) :: a_dummy(1,1),w_dummy(1,1)
+         complex(sp) :: d(1),x(1),y(1),work(1)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         ld = max(1_ilp,m)
+
+         ! A workspace query does not reference the matrices
+         call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
+         call la_handle_ggglm(info,m,n,err0)
+
+         ! The vectors d[m] and y[m], followed by the ggglm workspace
+         if (err0%ok()) then
+            lwork = 2*m + ceiling(real(work(1),kind=sp),kind=ilp)
+         else
+            lwork = 0_ilp
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_cgeneralized_lstsq_space
+
+     !> Solve the complex(sp) generalized least-squares problem into x: minimize (b-Ax)^H W^{-1} (b-Ax)
+     pure subroutine la_csolve_generalized_lstsq(w,a,b,x,storage,prefactored_w,overwrite_a, &
+                                                     overwrite_w,err)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(sp),intent(inout),target :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(sp),intent(inout),target :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(sp),intent(in) :: b(:)
+         !> Solution vector x[n]
+         complex(sp),intent(out) :: x(:)
+         !> [optional] working storage space
+         complex(sp),optional,intent(inout),contiguous,target :: storage(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Can W data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_w
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,lwork,nwork,info,j
+         logical(lk) :: copy_a,copy_w,factorize
+         complex(sp),pointer :: amat(:,:),wmat(:,:)
+         complex(sp),pointer,contiguous :: work(:)
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m < 1 .or. n < 1) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a(m,n) =', [m,n])
+         elseif (m < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'a(m,n) needs m >= n, a(m,n) =', [m,n])
+         elseif (size(w,1,kind=ilp) /= m .or. size(w,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'w(m,m) =',shape(w,kind=ilp),'but a has',m,'rows')
+         elseif (size(b,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(b) =',size(b,kind=ilp),'but a has',m,'rows')
+         elseif (size(x,kind=ilp) /= n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(x) =',size(x,kind=ilp),'but a has',n,'columns')
+         else
+            call la_cgeneralized_lstsq_space(a,lwork,err0)
+         end if
+
+         if (err0%ok() .and. present(storage)) then
+            nwork = size(storage,kind=ilp)
+            if (nwork < lwork) err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient working space:', &
+                                             nwork,' should be >=',lwork)
+         end if
+
+         if (err0%error()) then
+            call err0%handle(err)
+            return
+         end if
+
+         ! Is w the covariance matrix, or its square root? By default, factorize it
+         if (present(prefactored_w)) then
+            factorize = .not. prefactored_w
+         else
+            factorize = .true._lk
+         end if
+
+         ! Can A and W be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not. overwrite_a
+         else
+            copy_a = .true._lk
+         end if
+         if (present(overwrite_w)) then
+            copy_w = .not. overwrite_w
+         else
+            copy_w = .true._lk
+         end if
+
+         if (copy_a) then
+            allocate (amat(m,n),source=a)
+         else
+            amat => a
+         end if
+         if (copy_w) then
+            allocate (wmat(m,m),source=w)
+         else
+            wmat => w
+         end if
+
+         if (present(storage)) then
+            work => storage
+         else
+            allocate (work(lwork))
+         end if
+         nwork = size(work,kind=ilp)
+
+         ! The Cholesky factor of w, w = L*L^H, is a square root: ggglm needs it with the upper
+         ! triangle zeroed
+         if (factorize) then
+            call potrf('L',m,wmat,m,info)
+            if (info > 0) then
+               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
+                                                 info,'is not positive')
+            elseif (info < 0) then
+               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+            else
+               do j = 2,m
+                  wmat(1:j - 1,j) = 0
+               end do
+            end if
+         end if
+
+         ! Minimize ||y|| subject to b = A*x + B*y, with W = B*B^H. d[m] and y[m] lead the workspace
+         if (err0%ok()) then
+            work(1:m) = b
+            call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
+            call la_handle_ggglm(info,m,n,err0)
+         end if
+
+         if (.not. present(storage)) deallocate (work)
+         if (copy_a) deallocate (amat)
+         if (copy_w) deallocate (wmat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_csolve_generalized_lstsq
+
+     !> Generalized least-squares solution, function form: `pure`, stops on error
+     pure function la_cgeneralized_lstsq(w,a,b,prefactored_w) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(sp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(sp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> Solution vector x[n]
+         complex(sp),allocatable :: x(:)
+
+         !> Local variables
+         complex(sp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_csolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk)
+
+     end function la_cgeneralized_lstsq
+
+     !> Generalized least-squares solution, function form with a state return flag
+     function la_cgeneralized_lstsq_err(w,a,b,prefactored_w,err) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(sp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(sp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Solution vector x[n]
+         complex(sp),allocatable :: x(:)
+
+         !> Local variables
+         complex(sp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_csolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk,err=err)
+
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
+            allocate (x(0))
+         end if
+
+     end function la_cgeneralized_lstsq_err
+
      !> Working space needed by the complex(dp) equality-constrained least-squares solver
      pure subroutine la_zconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
@@ -5937,6 +7192,227 @@ module la_least_squares
          call err0%handle(err)
 
      end subroutine la_zsolve_weighted_lstsq
+
+     !> Working space needed by the complex(dp) generalized least-squares solver
+     pure subroutine la_zgeneralized_lstsq_space(a,lwork,err)
+         !> Input matrix a[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Size of the working space array
+         integer(ilp),intent(out) :: lwork
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,ld,info
+         complex(dp) :: a_dummy(1,1),w_dummy(1,1)
+         complex(dp) :: d(1),x(1),y(1),work(1)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         ld = max(1_ilp,m)
+
+         ! A workspace query does not reference the matrices
+         call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
+         call la_handle_ggglm(info,m,n,err0)
+
+         ! The vectors d[m] and y[m], followed by the ggglm workspace
+         if (err0%ok()) then
+            lwork = 2*m + ceiling(real(work(1),kind=dp),kind=ilp)
+         else
+            lwork = 0_ilp
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_zgeneralized_lstsq_space
+
+     !> Solve the complex(dp) generalized least-squares problem into x: minimize (b-Ax)^H W^{-1} (b-Ax)
+     pure subroutine la_zsolve_generalized_lstsq(w,a,b,x,storage,prefactored_w,overwrite_a, &
+                                                     overwrite_w,err)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(dp),intent(inout),target :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(dp),intent(inout),target :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(dp),intent(in) :: b(:)
+         !> Solution vector x[n]
+         complex(dp),intent(out) :: x(:)
+         !> [optional] working storage space
+         complex(dp),optional,intent(inout),contiguous,target :: storage(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Can W data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_w
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,lwork,nwork,info,j
+         logical(lk) :: copy_a,copy_w,factorize
+         complex(dp),pointer :: amat(:,:),wmat(:,:)
+         complex(dp),pointer,contiguous :: work(:)
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m < 1 .or. n < 1) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a(m,n) =', [m,n])
+         elseif (m < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'a(m,n) needs m >= n, a(m,n) =', [m,n])
+         elseif (size(w,1,kind=ilp) /= m .or. size(w,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'w(m,m) =',shape(w,kind=ilp),'but a has',m,'rows')
+         elseif (size(b,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(b) =',size(b,kind=ilp),'but a has',m,'rows')
+         elseif (size(x,kind=ilp) /= n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(x) =',size(x,kind=ilp),'but a has',n,'columns')
+         else
+            call la_zgeneralized_lstsq_space(a,lwork,err0)
+         end if
+
+         if (err0%ok() .and. present(storage)) then
+            nwork = size(storage,kind=ilp)
+            if (nwork < lwork) err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient working space:', &
+                                             nwork,' should be >=',lwork)
+         end if
+
+         if (err0%error()) then
+            call err0%handle(err)
+            return
+         end if
+
+         ! Is w the covariance matrix, or its square root? By default, factorize it
+         if (present(prefactored_w)) then
+            factorize = .not. prefactored_w
+         else
+            factorize = .true._lk
+         end if
+
+         ! Can A and W be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not. overwrite_a
+         else
+            copy_a = .true._lk
+         end if
+         if (present(overwrite_w)) then
+            copy_w = .not. overwrite_w
+         else
+            copy_w = .true._lk
+         end if
+
+         if (copy_a) then
+            allocate (amat(m,n),source=a)
+         else
+            amat => a
+         end if
+         if (copy_w) then
+            allocate (wmat(m,m),source=w)
+         else
+            wmat => w
+         end if
+
+         if (present(storage)) then
+            work => storage
+         else
+            allocate (work(lwork))
+         end if
+         nwork = size(work,kind=ilp)
+
+         ! The Cholesky factor of w, w = L*L^H, is a square root: ggglm needs it with the upper
+         ! triangle zeroed
+         if (factorize) then
+            call potrf('L',m,wmat,m,info)
+            if (info > 0) then
+               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
+                                                 info,'is not positive')
+            elseif (info < 0) then
+               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+            else
+               do j = 2,m
+                  wmat(1:j - 1,j) = 0
+               end do
+            end if
+         end if
+
+         ! Minimize ||y|| subject to b = A*x + B*y, with W = B*B^H. d[m] and y[m] lead the workspace
+         if (err0%ok()) then
+            work(1:m) = b
+            call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
+            call la_handle_ggglm(info,m,n,err0)
+         end if
+
+         if (.not. present(storage)) deallocate (work)
+         if (copy_a) deallocate (amat)
+         if (copy_w) deallocate (wmat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_zsolve_generalized_lstsq
+
+     !> Generalized least-squares solution, function form: `pure`, stops on error
+     pure function la_zgeneralized_lstsq(w,a,b,prefactored_w) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(dp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(dp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> Solution vector x[n]
+         complex(dp),allocatable :: x(:)
+
+         !> Local variables
+         complex(dp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_zsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk)
+
+     end function la_zgeneralized_lstsq
+
+     !> Generalized least-squares solution, function form with a state return flag
+     function la_zgeneralized_lstsq_err(w,a,b,prefactored_w,err) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(dp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(dp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Solution vector x[n]
+         complex(dp),allocatable :: x(:)
+
+         !> Local variables
+         complex(dp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_zsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk,err=err)
+
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
+            allocate (x(0))
+         end if
+
+     end function la_zgeneralized_lstsq_err
 
 #ifdef LA_WITH_XDP
      !> Working space needed by the complex(xdp) equality-constrained least-squares solver
@@ -6188,6 +7664,227 @@ module la_least_squares
          call err0%handle(err)
 
      end subroutine la_ysolve_weighted_lstsq
+
+     !> Working space needed by the complex(xdp) generalized least-squares solver
+     pure subroutine la_ygeneralized_lstsq_space(a,lwork,err)
+         !> Input matrix a[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Size of the working space array
+         integer(ilp),intent(out) :: lwork
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,ld,info
+         complex(xdp) :: a_dummy(1,1),w_dummy(1,1)
+         complex(xdp) :: d(1),x(1),y(1),work(1)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         ld = max(1_ilp,m)
+
+         ! A workspace query does not reference the matrices
+         call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
+         call la_handle_ggglm(info,m,n,err0)
+
+         ! The vectors d[m] and y[m], followed by the ggglm workspace
+         if (err0%ok()) then
+            lwork = 2*m + ceiling(real(work(1),kind=xdp),kind=ilp)
+         else
+            lwork = 0_ilp
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_ygeneralized_lstsq_space
+
+     !> Solve the complex(xdp) generalized least-squares problem into x: minimize (b-Ax)^H W^{-1} (b-Ax)
+     pure subroutine la_ysolve_generalized_lstsq(w,a,b,x,storage,prefactored_w,overwrite_a, &
+                                                     overwrite_w,err)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(xdp),intent(inout),target :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(xdp),intent(inout),target :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(xdp),intent(in) :: b(:)
+         !> Solution vector x[n]
+         complex(xdp),intent(out) :: x(:)
+         !> [optional] working storage space
+         complex(xdp),optional,intent(inout),contiguous,target :: storage(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Can W data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_w
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,lwork,nwork,info,j
+         logical(lk) :: copy_a,copy_w,factorize
+         complex(xdp),pointer :: amat(:,:),wmat(:,:)
+         complex(xdp),pointer,contiguous :: work(:)
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m < 1 .or. n < 1) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a(m,n) =', [m,n])
+         elseif (m < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'a(m,n) needs m >= n, a(m,n) =', [m,n])
+         elseif (size(w,1,kind=ilp) /= m .or. size(w,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'w(m,m) =',shape(w,kind=ilp),'but a has',m,'rows')
+         elseif (size(b,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(b) =',size(b,kind=ilp),'but a has',m,'rows')
+         elseif (size(x,kind=ilp) /= n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(x) =',size(x,kind=ilp),'but a has',n,'columns')
+         else
+            call la_ygeneralized_lstsq_space(a,lwork,err0)
+         end if
+
+         if (err0%ok() .and. present(storage)) then
+            nwork = size(storage,kind=ilp)
+            if (nwork < lwork) err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient working space:', &
+                                             nwork,' should be >=',lwork)
+         end if
+
+         if (err0%error()) then
+            call err0%handle(err)
+            return
+         end if
+
+         ! Is w the covariance matrix, or its square root? By default, factorize it
+         if (present(prefactored_w)) then
+            factorize = .not. prefactored_w
+         else
+            factorize = .true._lk
+         end if
+
+         ! Can A and W be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not. overwrite_a
+         else
+            copy_a = .true._lk
+         end if
+         if (present(overwrite_w)) then
+            copy_w = .not. overwrite_w
+         else
+            copy_w = .true._lk
+         end if
+
+         if (copy_a) then
+            allocate (amat(m,n),source=a)
+         else
+            amat => a
+         end if
+         if (copy_w) then
+            allocate (wmat(m,m),source=w)
+         else
+            wmat => w
+         end if
+
+         if (present(storage)) then
+            work => storage
+         else
+            allocate (work(lwork))
+         end if
+         nwork = size(work,kind=ilp)
+
+         ! The Cholesky factor of w, w = L*L^H, is a square root: ggglm needs it with the upper
+         ! triangle zeroed
+         if (factorize) then
+            call potrf('L',m,wmat,m,info)
+            if (info > 0) then
+               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
+                                                 info,'is not positive')
+            elseif (info < 0) then
+               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+            else
+               do j = 2,m
+                  wmat(1:j - 1,j) = 0
+               end do
+            end if
+         end if
+
+         ! Minimize ||y|| subject to b = A*x + B*y, with W = B*B^H. d[m] and y[m] lead the workspace
+         if (err0%ok()) then
+            work(1:m) = b
+            call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
+            call la_handle_ggglm(info,m,n,err0)
+         end if
+
+         if (.not. present(storage)) deallocate (work)
+         if (copy_a) deallocate (amat)
+         if (copy_w) deallocate (wmat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_ysolve_generalized_lstsq
+
+     !> Generalized least-squares solution, function form: `pure`, stops on error
+     pure function la_ygeneralized_lstsq(w,a,b,prefactored_w) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(xdp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(xdp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> Solution vector x[n]
+         complex(xdp),allocatable :: x(:)
+
+         !> Local variables
+         complex(xdp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_ysolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk)
+
+     end function la_ygeneralized_lstsq
+
+     !> Generalized least-squares solution, function form with a state return flag
+     function la_ygeneralized_lstsq_err(w,a,b,prefactored_w,err) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(xdp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(xdp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Solution vector x[n]
+         complex(xdp),allocatable :: x(:)
+
+         !> Local variables
+         complex(xdp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_ysolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk,err=err)
+
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
+            allocate (x(0))
+         end if
+
+     end function la_ygeneralized_lstsq_err
 #endif
 
 #ifdef LA_WITH_QP
@@ -6440,6 +8137,227 @@ module la_least_squares
          call err0%handle(err)
 
      end subroutine la_wsolve_weighted_lstsq
+
+     !> Working space needed by the complex(qp) generalized least-squares solver
+     pure subroutine la_wgeneralized_lstsq_space(a,lwork,err)
+         !> Input matrix a[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Size of the working space array
+         integer(ilp),intent(out) :: lwork
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,ld,info
+         complex(qp) :: a_dummy(1,1),w_dummy(1,1)
+         complex(qp) :: d(1),x(1),y(1),work(1)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         ld = max(1_ilp,m)
+
+         ! A workspace query does not reference the matrices
+         call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
+         call la_handle_ggglm(info,m,n,err0)
+
+         ! The vectors d[m] and y[m], followed by the ggglm workspace
+         if (err0%ok()) then
+            lwork = 2*m + ceiling(real(work(1),kind=qp),kind=ilp)
+         else
+            lwork = 0_ilp
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_wgeneralized_lstsq_space
+
+     !> Solve the complex(qp) generalized least-squares problem into x: minimize (b-Ax)^H W^{-1} (b-Ax)
+     pure subroutine la_wsolve_generalized_lstsq(w,a,b,x,storage,prefactored_w,overwrite_a, &
+                                                     overwrite_w,err)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(qp),intent(inout),target :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(qp),intent(inout),target :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(qp),intent(in) :: b(:)
+         !> Solution vector x[n]
+         complex(qp),intent(out) :: x(:)
+         !> [optional] working storage space
+         complex(qp),optional,intent(inout),contiguous,target :: storage(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] Can W data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_w
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,lwork,nwork,info,j
+         logical(lk) :: copy_a,copy_w,factorize
+         complex(qp),pointer :: amat(:,:),wmat(:,:)
+         complex(qp),pointer,contiguous :: work(:)
+         character(*),parameter :: this = 'generalized_lstsq'
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         if (m < 1 .or. n < 1) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a(m,n) =', [m,n])
+         elseif (m < n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'a(m,n) needs m >= n, a(m,n) =', [m,n])
+         elseif (size(w,1,kind=ilp) /= m .or. size(w,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'w(m,m) =',shape(w,kind=ilp),'but a has',m,'rows')
+         elseif (size(b,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(b) =',size(b,kind=ilp),'but a has',m,'rows')
+         elseif (size(x,kind=ilp) /= n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'size(x) =',size(x,kind=ilp),'but a has',n,'columns')
+         else
+            call la_wgeneralized_lstsq_space(a,lwork,err0)
+         end if
+
+         if (err0%ok() .and. present(storage)) then
+            nwork = size(storage,kind=ilp)
+            if (nwork < lwork) err0 = la_state(this,LINALG_VALUE_ERROR,'insufficient working space:', &
+                                             nwork,' should be >=',lwork)
+         end if
+
+         if (err0%error()) then
+            call err0%handle(err)
+            return
+         end if
+
+         ! Is w the covariance matrix, or its square root? By default, factorize it
+         if (present(prefactored_w)) then
+            factorize = .not. prefactored_w
+         else
+            factorize = .true._lk
+         end if
+
+         ! Can A and W be overwritten? By default, do not overwrite
+         if (present(overwrite_a)) then
+            copy_a = .not. overwrite_a
+         else
+            copy_a = .true._lk
+         end if
+         if (present(overwrite_w)) then
+            copy_w = .not. overwrite_w
+         else
+            copy_w = .true._lk
+         end if
+
+         if (copy_a) then
+            allocate (amat(m,n),source=a)
+         else
+            amat => a
+         end if
+         if (copy_w) then
+            allocate (wmat(m,m),source=w)
+         else
+            wmat => w
+         end if
+
+         if (present(storage)) then
+            work => storage
+         else
+            allocate (work(lwork))
+         end if
+         nwork = size(work,kind=ilp)
+
+         ! The Cholesky factor of w, w = L*L^H, is a square root: ggglm needs it with the upper
+         ! triangle zeroed
+         if (factorize) then
+            call potrf('L',m,wmat,m,info)
+            if (info > 0) then
+               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
+                                                 info,'is not positive')
+            elseif (info < 0) then
+               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+            else
+               do j = 2,m
+                  wmat(1:j - 1,j) = 0
+               end do
+            end if
+         end if
+
+         ! Minimize ||y|| subject to b = A*x + B*y, with W = B*B^H. d[m] and y[m] lead the workspace
+         if (err0%ok()) then
+            work(1:m) = b
+            call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
+            call la_handle_ggglm(info,m,n,err0)
+         end if
+
+         if (.not. present(storage)) deallocate (work)
+         if (copy_a) deallocate (amat)
+         if (copy_w) deallocate (wmat)
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_wsolve_generalized_lstsq
+
+     !> Generalized least-squares solution, function form: `pure`, stops on error
+     pure function la_wgeneralized_lstsq(w,a,b,prefactored_w) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(qp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(qp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> Solution vector x[n]
+         complex(qp),allocatable :: x(:)
+
+         !> Local variables
+         complex(qp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_wsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk)
+
+     end function la_wgeneralized_lstsq
+
+     !> Generalized least-squares solution, function form with a state return flag
+     function la_wgeneralized_lstsq_err(w,a,b,prefactored_w,err) result(x)
+         !> Covariance matrix w[m,m], or its square root if prefactored_w
+         complex(qp),intent(in) :: w(:,:)
+         !> Input matrix a[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(qp),intent(in) :: b(:)
+         !> [optional] Is w a square root of the covariance matrix?
+         logical(lk),optional,intent(in) :: prefactored_w
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Solution vector x[n]
+         complex(qp),allocatable :: x(:)
+
+         !> Local variables
+         complex(qp),allocatable :: amat(:,:),wmat(:,:)
+
+         ! The solver works in place on its own copies
+         amat = a
+         wmat = w
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_wsolve_generalized_lstsq(wmat,amat,b,x,prefactored_w=prefactored_w, &
+                                              overwrite_a=.true._lk,overwrite_w=.true._lk,err=err)
+
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
+            allocate (x(0))
+         end if
+
+     end function la_wgeneralized_lstsq_err
 #endif
 
 end module la_least_squares

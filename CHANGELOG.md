@@ -182,6 +182,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   overwrite `a` or write into `e`. Given `work` and `iwork`, sized with
   `expm_space(a, lwork, liwork)`, they allocate no work arrays. Every real and complex
   kind; `order` is the Padé order, 10 by default.
+- Generalized least squares, ported from the Fortran standard library: minimize
+  `(b - Ax)^H W^-1 (b - Ax)` for observations with correlated errors, whose covariance
+  matrix `W` is symmetric (Hermitian) positive definite, through LAPACK's `ggglm`.
+  `generalized_lstsq(w, a, b [, prefactored_w])` is `pure`, and
+  `generalized_lstsq(w, a, b [, prefactored_w], err)` returns the error state instead.
+  `solve_generalized_lstsq(w, a, b, x [, storage] [, prefactored_w] [, overwrite_a]
+  [, overwrite_w] [, err])` is the `pure` subroutine form. Given `storage`, sized with
+  `generalized_lstsq_space(a, lwork [, err])`, and both overwrite flags, it allocates
+  nothing. With `prefactored_w=.true.`, `w` is any square root `B` of the covariance,
+  `W = B B^H`, instead of the covariance itself. Every real and complex kind.
 
 ### Changed
 
