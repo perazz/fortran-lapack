@@ -6,6 +6,7 @@ module test_linalg_pure
     use testdrive, only: error_type, check, new_unittest, unittest_type
     use la_constants
     use linear_algebra, only: eigvals, eigvalsh, eig, svd, invert, schur, solve_lstsq, &
+                              generalized_lstsq, solve_generalized_lstsq, &
                               operator(.inv.), operator(.pinv.)
     use la_state_type, only: la_state
 
@@ -46,7 +47,8 @@ module test_linalg_pure
         integer, parameter :: n = 3
         real(${rk}$), parameter :: tol = 1000*epsilon(1.0_${rk}$)
         real(${rk}$), parameter :: d(n) = [1.0_${rk}$, 2.0_${rk}$, 4.0_${rk}$]
-        ${rt}$ :: a(n,n), inva(n,n), pinva(n,n), inverted(n,n), t(n,n), x(n), ainv(n,n)
+        ${rt}$ :: a(n,n), inva(n,n), pinva(n,n), inverted(n,n), t(n,n), x(n), ainv(n,n), &
+                  xg(n), xgs(n)
         complex(${rk}$) :: lambda(n), lambda_eig(n)
         real(${rk}$) :: lambdah(n), s(n)
         logical(lk) :: ok
@@ -59,7 +61,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_${ri}$(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,ok)
+        call pure_calls_${ri}$(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
 
         call check(error, ok, 'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -92,17 +94,23 @@ module test_linalg_pure
         call check(error, all(abs(x-1)<tol), 'solve_lstsq')
         if (allocated(error)) return
 
+        call check(error, all(abs(xg-1)<tol), 'generalized_lstsq')
+        if (allocated(error)) return
+
+        call check(error, all(abs(xgs-1)<tol), 'solve_generalized_lstsq')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_${ri}$
 
-    pure subroutine pure_calls_${ri}$(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,ok)
+    pure subroutine pure_calls_${ri}$(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
         ${rt}$, intent(in) :: a(:,:)
         complex(${rk}$), intent(out) :: lambda(:), lambda_eig(:)
         real(${rk}$), intent(out) :: lambdah(:), s(:)
-        ${rt}$, intent(out) :: inva(:,:), pinva(:,:), inverted(:,:), t(:,:), x(:)
+        ${rt}$, intent(out) :: inva(:,:), pinva(:,:), inverted(:,:), t(:,:), x(:), xg(:), xgs(:)
         logical(lk), intent(out) :: ok
 
-        ${rt}$ :: work(size(a,1),size(a,2))
-        type(la_state) :: err(5)
+        ${rt}$ :: work(size(a,1),size(a,2)), w(size(a,1),size(a,2))
+        type(la_state) :: err(6)
         integer :: i
 
         lambda = eigvals(a)
@@ -124,6 +132,13 @@ module test_linalg_pure
 
         work = a
         call solve_lstsq(work,[(a(i,i), i=1,size(a,1))],x,err=err(5))
+
+        ! a is also a valid covariance: the square system has the exact solution x = 1
+        xg = generalized_lstsq(a,a,[(a(i,i), i=1,size(a,1))])
+
+        work = a
+        w = a
+        call solve_generalized_lstsq(w,work,[(a(i,i), i=1,size(a,1))],xgs,err=err(6))
 
         ok = all(err%ok())
 

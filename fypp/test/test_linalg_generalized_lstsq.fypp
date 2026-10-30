@@ -1,0 +1,263 @@
+#:include "common.fypp"
+#:set RC_KINDS_TYPES = ALL_KINDS_TYPES
+! Test the generalized least squares solver
+module test_linalg_generalized_least_squares
+    use testdrive, only: error_type, check, new_unittest, unittest_type
+    use la_constants
+    use linear_algebra, only: generalized_lstsq, solve_generalized_lstsq, generalized_lstsq_space, &
+                              lstsq, operator(.inv.)
+    use la_state_type, only: la_state, LINALG_ERROR, LINALG_VALUE_ERROR
+
+    implicit none (type,external)
+    private
+
+    public :: test_generalized_least_squares
+
+    integer(ilp), parameter :: m = 4, n = 2
+
+    contains
+
+    !> Solve sample generalized least squares problems
+    subroutine test_generalized_least_squares(tests)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: tests(:)
+
+        allocate(tests(0))
+
+        #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
+        call add_test(tests,new_unittest("generalized_lstsq_identity_${ri}$",test_generalized_lstsq_identity_${ri}$))
+        call add_test(tests,new_unittest("generalized_lstsq_correlated_${ri}$",test_generalized_lstsq_correlated_${ri}$))
+        call add_test(tests,new_unittest("solve_generalized_lstsq_${ri}$",test_solve_generalized_lstsq_${ri}$))
+        call add_test(tests,new_unittest("generalized_lstsq_errors_${ri}$",test_generalized_lstsq_errors_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
+        #:endfor
+
+    end subroutine test_generalized_least_squares
+
+    #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
+    !> A straight-line fit, the lower triangular square root L of its covariance W = L*L^H,
+    !> and the solution of the whitened problem min ||L^{-1}(b - A*x)||
+    subroutine problem_${ri}$(A,b,L,W,x_ref)
+        ${rt}$, intent(out) :: A(m,n), b(m), L(m,m), W(m,m), x_ref(n)
+
+        ${rt}$ :: Linv(m,m), LA(m,n), Lb(m)
+
+        A(:,1) = 1
+        L = 0
+        #:if rt.startswith('complex')
+        A(:,2) = [(1.0_${rk}$,1.0_${rk}$),(2.0_${rk}$,-1.0_${rk}$),(3.0_${rk}$,0.5_${rk}$),(4.0_${rk}$,2.0_${rk}$)]
+        b = [(2.0_${rk}$,1.0_${rk}$),(4.0_${rk}$,0.0_${rk}$),(5.0_${rk}$,-1.0_${rk}$),(4.0_${rk}$,3.0_${rk}$)]
+        L(1:4,1) = [(2.0_${rk}$,0.0_${rk}$),(1.0_${rk}$,0.5_${rk}$),(0.5_${rk}$,0.0_${rk}$),(0.25_${rk}$,0.5_${rk}$)]
+        L(2:4,2) = [(1.5_${rk}$,0.0_${rk}$),(0.25_${rk}$,-0.75_${rk}$),(-0.5_${rk}$,0.0_${rk}$)]
+        L(3:4,3) = [(1.0_${rk}$,0.0_${rk}$),(0.5_${rk}$,0.25_${rk}$)]
+        L(4,4) = 1.25_${rk}$
+        W = matmul(L,conjg(transpose(L)))
+        #:else
+        A(:,2) = [1.0_${rk}$,2.0_${rk}$,3.0_${rk}$,4.0_${rk}$]
+        b = [2.0_${rk}$,4.0_${rk}$,5.0_${rk}$,4.0_${rk}$]
+        L(1:4,1) = [2.0_${rk}$,1.0_${rk}$,0.5_${rk}$,0.25_${rk}$]
+        L(2:4,2) = [1.5_${rk}$,0.25_${rk}$,-0.5_${rk}$]
+        L(3:4,3) = [1.0_${rk}$,0.5_${rk}$]
+        L(4,4) = 1.25_${rk}$
+        W = matmul(L,transpose(L))
+        #:endif
+
+        Linv = .inv.L
+        LA = matmul(Linv,A)
+        Lb = matmul(Linv,b)
+        x_ref = lstsq(LA,Lb)
+
+    end subroutine problem_${ri}$
+
+    !> With an identity covariance, the generalized solution is the ordinary one
+    subroutine test_generalized_lstsq_identity_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        real(${rk}$), parameter :: tol = sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: A(m,n), b(m), L(m,m), W(m,m), x_ref(n)
+        ${rt}$, allocatable :: x(:)
+        integer(ilp) :: i
+
+        call problem_${ri}$(A,b,L,W,x_ref)
+
+        W = 0
+        do i = 1,m
+           W(i,i) = 1
+        end do
+
+        x = generalized_lstsq(W,A,b)
+
+        call check(error, all(abs(x-lstsq(A,b))<tol), 'generalized_lstsq with W = I is not lstsq')
+        if (allocated(error)) return
+
+    end subroutine test_generalized_lstsq_identity_${ri}$
+
+    !> Correlated errors, from the covariance or from any of its square roots
+    subroutine test_generalized_lstsq_correlated_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        real(${rk}$), parameter :: tol = sqrt(epsilon(0.0_${rk}$))
+        type(la_state) :: state
+        ${rt}$ :: A(m,n), b(m), L(m,m), W(m,m), x_ref(n)
+        ${rt}$, allocatable :: x(:)
+
+        call problem_${ri}$(A,b,L,W,x_ref)
+
+        x = generalized_lstsq(W,A,b)
+        call check(error, all(abs(x-x_ref)<tol), 'generalized_lstsq from the covariance')
+        if (allocated(error)) return
+
+        x = generalized_lstsq(W,A,b,err=state)
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+        call check(error, all(abs(x-x_ref)<tol), 'generalized_lstsq with err')
+        if (allocated(error)) return
+
+        x = generalized_lstsq(L,A,b,prefactored_w=.true.)
+        call check(error, all(abs(x-x_ref)<tol), 'generalized_lstsq from the Cholesky factor')
+        if (allocated(error)) return
+
+        ! L*P, with P a permutation, is a square root of W that is not triangular
+        x = generalized_lstsq(L(:,[3,1,4,2]),A,b,prefactored_w=.true.)
+        call check(error, all(abs(x-x_ref)<tol), 'generalized_lstsq from a non-triangular square root')
+        if (allocated(error)) return
+
+    end subroutine test_generalized_lstsq_correlated_${ri}$
+
+    !> Subroutine form: inputs kept by default, caller workspace, in-place solve
+    subroutine test_solve_generalized_lstsq_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        real(${rk}$), parameter :: tol = sqrt(epsilon(0.0_${rk}$))
+        type(la_state) :: state
+        ${rt}$ :: A(m,n), b(m), L(m,m), W(m,m), x_ref(n), x(n), A0(m,n), W0(m,m)
+        ${rt}$, allocatable :: work(:)
+        integer(ilp) :: lwork
+
+        call problem_${ri}$(A,b,L,W,x_ref)
+        A0 = A
+        W0 = W
+
+        call solve_generalized_lstsq(W,A,b,x,err=state)
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+        call check(error, all(abs(x-x_ref)<tol), 'solve_generalized_lstsq')
+        if (allocated(error)) return
+        call check(error, all(A==A0) .and. all(W==W0), 'solve_generalized_lstsq changed a or w')
+        if (allocated(error)) return
+
+        call generalized_lstsq_space(A,lwork,err=state)
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+
+        allocate(work(lwork))
+        call solve_generalized_lstsq(W,A,b,x,storage=work,overwrite_a=.true.,overwrite_w=.true.,err=state)
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+        call check(error, all(abs(x-x_ref)<tol), 'solve_generalized_lstsq in place')
+        if (allocated(error)) return
+
+        A = A0
+        W = W0
+        call solve_generalized_lstsq(W,A,b,x,storage=work(:lwork-1),err=state)
+        call check(error, state%state==LINALG_VALUE_ERROR, 'short workspace returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_solve_generalized_lstsq_${ri}$
+
+    !> Invalid and singular problems
+    subroutine test_generalized_lstsq_errors_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        type(la_state) :: state
+        ${rt}$ :: A(m,n), b(m), L(m,m), W(m,m), x_ref(n)
+        ${rt}$, allocatable :: x(:)
+
+        call problem_${ri}$(A,b,L,W,x_ref)
+
+        x = generalized_lstsq(-W,A,b,err=state)
+        call check(error, state%state==LINALG_ERROR, 'negative definite w returned '//state%print())
+        if (allocated(error)) return
+        call check(error, size(x)==0, 'a failed solve returns an empty solution')
+        if (allocated(error)) return
+
+        x = generalized_lstsq(W(1:n,1:n),transpose(A),b(1:n),err=state)
+        call check(error, state%state==LINALG_VALUE_ERROR, 'a with m < n returned '//state%print())
+        if (allocated(error)) return
+
+        x = generalized_lstsq(W(1:m-1,1:m-1),A,b,err=state)
+        call check(error, state%state==LINALG_VALUE_ERROR, 'w of the wrong size returned '//state%print())
+        if (allocated(error)) return
+
+        x = generalized_lstsq(W,A,b(1:m-1),err=state)
+        call check(error, state%state==LINALG_VALUE_ERROR, 'b of the wrong size returned '//state%print())
+        if (allocated(error)) return
+
+        A(:,2) = 0
+        x = generalized_lstsq(W,A,b,err=state)
+        call check(error, state%state==LINALG_ERROR, 'rank-deficient a returned '//state%print())
+        if (allocated(error)) return
+
+    end subroutine test_generalized_lstsq_errors_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
+
+    #:endfor
+
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type), allocatable, intent(inout) :: tests(:)
+        type(unittest_type), intent(in) :: new_test
+
+        integer :: n
+        type(unittest_type), allocatable :: new_tests(:)
+
+        if (allocated(tests)) then
+            n = size(tests)
+        else
+            n = 0
+        end if
+
+        allocate(new_tests(n+1))
+        if (n>0) new_tests(1:n) = tests(1:n)
+                 new_tests(1+n) = new_test
+        call move_alloc(from=new_tests,to=tests)
+
+    end subroutine add_test
+
+end module test_linalg_generalized_least_squares
+
+program test_generalized_lstsq
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    use testdrive, only : run_testsuite, new_testsuite, testsuite_type
+    use test_linalg_generalized_least_squares, only : test_generalized_least_squares
+    implicit none
+    integer :: stat, is
+    type(testsuite_type), allocatable :: testsuites(:)
+    character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+    stat = 0
+
+    testsuites = [ &
+        new_testsuite("linalg_generalized_least_squares", test_generalized_least_squares) &
+        ]
+
+    do is = 1, size(testsuites)
+        write(error_unit, fmt) "Testing:", testsuites(is)%name
+        call run_testsuite(testsuites(is)%collect, error_unit, stat)
+    end do
+
+    if (stat > 0) then
+        write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+        error stop
+    end if
+end program test_generalized_lstsq
