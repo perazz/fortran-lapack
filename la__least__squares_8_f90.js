@@ -7,5 +7,8 @@ var la__least__squares_8_f90 =
     [ "la_least_squares::solve_weighted_lstsq", "interfacela__least__squares_1_1solve__weighted__lstsq.html", "interfacela__least__squares_1_1solve__weighted__lstsq" ],
     [ "la_least_squares::constrained_lstsq", "interfacela__least__squares_1_1constrained__lstsq.html", "interfacela__least__squares_1_1constrained__lstsq" ],
     [ "la_least_squares::solve_constrained_lstsq", "interfacela__least__squares_1_1solve__constrained__lstsq.html", "interfacela__least__squares_1_1solve__constrained__lstsq" ],
-    [ "la_least_squares::constrained_lstsq_space", "interfacela__least__squares_1_1constrained__lstsq__space.html", "interfacela__least__squares_1_1constrained__lstsq__space" ]
+    [ "la_least_squares::constrained_lstsq_space", "interfacela__least__squares_1_1constrained__lstsq__space.html", "interfacela__least__squares_1_1constrained__lstsq__space" ],
+    [ "la_least_squares::generalized_lstsq", "interfacela__least__squares_1_1generalized__lstsq.html", "interfacela__least__squares_1_1generalized__lstsq" ],
+    [ "la_least_squares::solve_generalized_lstsq", "interfacela__least__squares_1_1solve__generalized__lstsq.html", "interfacela__least__squares_1_1solve__generalized__lstsq" ],
+    [ "la_least_squares::generalized_lstsq_space", "interfacela__least__squares_1_1generalized__lstsq__space.html", "interfacela__least__squares_1_1generalized__lstsq__space" ]
 ];
