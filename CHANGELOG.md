@@ -192,6 +192,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `generalized_lstsq_space(a, lwork [, err])`, and both overwrite flags, it allocates
   nothing. With `prefactored_w=.true.`, `w` is any square root `B` of the covariance,
   `W = B B^H`, instead of the covariance itself. Every real and complex kind.
+- Matrix rank, condition number, log-determinant and matrix power, for every real and
+  complex kind. The functions have a `pure` specific without `err` and a specific with a
+  mandatory `err`:
+  - `matrix_rank(a [, rtol] [, atol] [, err])` in `la_svd`: the number of singular values
+    above `max(atol, rtol*smax)`, with `rtol = max(m,n)*epsilon` and `atol = 0` by default.
+  - `cond(a [, order] [, err])` in `la_norms`: the 2-norm condition number from the
+    singular values, for any shape, by default; the 1- and infinity-norm ones as LAPACK's
+    `gecon` estimates; the Frobenius one from the explicit inverse. `order` is spelled as
+    for `norm`, and `2` is the spectral norm. A singular matrix gives `+inf`.
+  - `slogdet(a, sign, logabsdet [, overwrite_a] [, err])` in `la_determinant`, a `pure`
+    subroutine: `det(a) = sign*exp(logabsdet)`, with a unit-modulus `sign` for complex
+    matrices. A singular matrix gives `sign = 0` and `logabsdet = -inf`, not an error.
+  - `matrix_power(a, n [, err])` in `la_matrix_functions`: `a**n` by repeated squaring;
+    `n = 0` gives the identity, and a negative `n` a power of the inverse.
 
 ### Changed
 
