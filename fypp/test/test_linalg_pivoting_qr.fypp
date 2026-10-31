@@ -28,6 +28,7 @@ module test_linalg_pivoting_qr
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_${ri}$",test_pivoting_qr_random_tall_matrix_${ri}$))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_${ri}$",test_pivoting_qr_random_rank_deficient_${ri}$))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_${ri}$",test_pivoting_qr_random_wide_matrix_${ri}$))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_${ri}$",test_pivoting_qr_thin_full_${ri}$))
         call add_test(tests,new_unittest("pivoting_qr_invalid_${ri}$",test_pivoting_qr_invalid_${ri}$))
         #:if LA_GUARD[rk]
 #endif
@@ -304,6 +305,37 @@ module test_linalg_pivoting_qr
         if (allocated(error)) return
 
     end subroutine test_pivoting_qr_random_wide_matrix_${ri}$
+
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: m = 100_ilp
+        integer(ilp), parameter :: n = 1_ilp
+        real(${rk}$), parameter :: tol = 100*sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: a(m,n),q(m,m),r(m,n)
+        real(${rk}$) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        ${rt}$, allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error, all(abs(a(:,pivots)-matmul(q,r))<tol), 'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate(work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_${ri}$
 
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_${ri}$(error)

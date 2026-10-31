@@ -22,41 +22,49 @@ module test_linalg_pivoting_qr
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_s",test_pivoting_qr_random_tall_matrix_s))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_s",test_pivoting_qr_random_rank_deficient_s))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_s",test_pivoting_qr_random_wide_matrix_s))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_s",test_pivoting_qr_thin_full_s))
         call add_test(tests,new_unittest("pivoting_qr_invalid_s",test_pivoting_qr_invalid_s))
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_d",test_pivoting_qr_random_tall_matrix_d))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_d",test_pivoting_qr_random_rank_deficient_d))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_d",test_pivoting_qr_random_wide_matrix_d))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_d",test_pivoting_qr_thin_full_d))
         call add_test(tests,new_unittest("pivoting_qr_invalid_d",test_pivoting_qr_invalid_d))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_x",test_pivoting_qr_random_tall_matrix_x))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_x",test_pivoting_qr_random_rank_deficient_x))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_x",test_pivoting_qr_random_wide_matrix_x))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_x",test_pivoting_qr_thin_full_x))
         call add_test(tests,new_unittest("pivoting_qr_invalid_x",test_pivoting_qr_invalid_x))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_q",test_pivoting_qr_random_tall_matrix_q))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_q",test_pivoting_qr_random_rank_deficient_q))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_q",test_pivoting_qr_random_wide_matrix_q))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_q",test_pivoting_qr_thin_full_q))
         call add_test(tests,new_unittest("pivoting_qr_invalid_q",test_pivoting_qr_invalid_q))
 #endif
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_c",test_pivoting_qr_random_tall_matrix_c))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_c",test_pivoting_qr_random_rank_deficient_c))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_c",test_pivoting_qr_random_wide_matrix_c))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_c",test_pivoting_qr_thin_full_c))
         call add_test(tests,new_unittest("pivoting_qr_invalid_c",test_pivoting_qr_invalid_c))
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_z",test_pivoting_qr_random_tall_matrix_z))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_z",test_pivoting_qr_random_rank_deficient_z))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_z",test_pivoting_qr_random_wide_matrix_z))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_z",test_pivoting_qr_thin_full_z))
         call add_test(tests,new_unittest("pivoting_qr_invalid_z",test_pivoting_qr_invalid_z))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_y",test_pivoting_qr_random_tall_matrix_y))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_y",test_pivoting_qr_random_rank_deficient_y))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_y",test_pivoting_qr_random_wide_matrix_y))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_y",test_pivoting_qr_thin_full_y))
         call add_test(tests,new_unittest("pivoting_qr_invalid_y",test_pivoting_qr_invalid_y))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_w",test_pivoting_qr_random_tall_matrix_w))
         call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_w",test_pivoting_qr_random_rank_deficient_w))
         call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_w",test_pivoting_qr_random_wide_matrix_w))
+        call add_test(tests,new_unittest("pivoting_qr_thin_full_w",test_pivoting_qr_thin_full_w))
         call add_test(tests,new_unittest("pivoting_qr_invalid_w",test_pivoting_qr_invalid_w))
 #endif
 
@@ -302,6 +310,37 @@ module test_linalg_pivoting_qr
         if (allocated(error)) return
 
     end subroutine test_pivoting_qr_random_wide_matrix_s
+
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_s(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 100_ilp
+        integer(ilp),parameter :: n = 1_ilp
+        real(sp),parameter :: tol = 100*sqrt(epsilon(0.0_sp))
+        real(sp) :: a(m,n),q(m,m),r(m,n)
+        real(sp) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        real(sp),allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a(:,pivots) - matmul(q,r)) < tol),'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate (work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_s
 
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_s(error)
@@ -604,6 +643,37 @@ module test_linalg_pivoting_qr
         if (allocated(error)) return
 
     end subroutine test_pivoting_qr_random_wide_matrix_d
+
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 100_ilp
+        integer(ilp),parameter :: n = 1_ilp
+        real(dp),parameter :: tol = 100*sqrt(epsilon(0.0_dp))
+        real(dp) :: a(m,n),q(m,m),r(m,n)
+        real(dp) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        real(dp),allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a(:,pivots) - matmul(q,r)) < tol),'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate (work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_d
 
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_d(error)
@@ -908,6 +978,37 @@ module test_linalg_pivoting_qr
 
     end subroutine test_pivoting_qr_random_wide_matrix_x
 
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 100_ilp
+        integer(ilp),parameter :: n = 1_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        real(xdp) :: a(m,n),q(m,m),r(m,n)
+        real(xdp) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        real(xdp),allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a(:,pivots) - matmul(q,r)) < tol),'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate (work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_x
+
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_x(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1211,6 +1312,37 @@ module test_linalg_pivoting_qr
         if (allocated(error)) return
 
     end subroutine test_pivoting_qr_random_wide_matrix_q
+
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_q(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 100_ilp
+        integer(ilp),parameter :: n = 1_ilp
+        real(qp),parameter :: tol = 100*sqrt(epsilon(0.0_qp))
+        real(qp) :: a(m,n),q(m,m),r(m,n)
+        real(qp) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        real(qp),allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a(:,pivots) - matmul(q,r)) < tol),'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate (work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_q
 
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_q(error)
@@ -1521,6 +1653,37 @@ module test_linalg_pivoting_qr
 
     end subroutine test_pivoting_qr_random_wide_matrix_c
 
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_c(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 100_ilp
+        integer(ilp),parameter :: n = 1_ilp
+        real(sp),parameter :: tol = 100*sqrt(epsilon(0.0_sp))
+        complex(sp) :: a(m,n),q(m,m),r(m,n)
+        real(sp) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        complex(sp),allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a(:,pivots) - matmul(q,r)) < tol),'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate (work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_c
+
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_c(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1828,6 +1991,37 @@ module test_linalg_pivoting_qr
         if (allocated(error)) return
 
     end subroutine test_pivoting_qr_random_wide_matrix_z
+
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_z(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 100_ilp
+        integer(ilp),parameter :: n = 1_ilp
+        real(dp),parameter :: tol = 100*sqrt(epsilon(0.0_dp))
+        complex(dp) :: a(m,n),q(m,m),r(m,n)
+        real(dp) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        complex(dp),allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a(:,pivots) - matmul(q,r)) < tol),'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate (work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_z
 
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_z(error)
@@ -2138,6 +2332,37 @@ module test_linalg_pivoting_qr
 
     end subroutine test_pivoting_qr_random_wide_matrix_y
 
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 100_ilp
+        integer(ilp),parameter :: n = 1_ilp
+        real(xdp),parameter :: tol = 100*sqrt(epsilon(0.0_xdp))
+        complex(xdp) :: a(m,n),q(m,m),r(m,n)
+        real(xdp) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        complex(xdp),allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a(:,pivots) - matmul(q,r)) < tol),'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate (work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_y
+
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_y(error)
         type(error_type),allocatable,intent(out) :: error
@@ -2447,6 +2672,37 @@ module test_linalg_pivoting_qr
         if (allocated(error)) return
 
     end subroutine test_pivoting_qr_random_wide_matrix_w
+
+    !> Full Q of a single column: the workspace must hold m columns of Q, more than GEQP3 needs
+    subroutine test_pivoting_qr_thin_full_w(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer(ilp),parameter :: m = 100_ilp
+        integer(ilp),parameter :: n = 1_ilp
+        real(qp),parameter :: tol = 100*sqrt(epsilon(0.0_qp))
+        complex(qp) :: a(m,n),q(m,m),r(m,n)
+        real(qp) :: rea(m,n)
+        integer(ilp) :: pivots(n),lwork
+        complex(qp),allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call check(error,all(abs(a(:,pivots) - matmul(q,r)) < tol),'converged solution (full)')
+        if (allocated(error)) return
+
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate (work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_thin_full_w
 
     !> Invalid arguments: pivots, storage, q or r of the wrong size
     subroutine test_pivoting_qr_invalid_w(error)
