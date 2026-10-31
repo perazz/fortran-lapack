@@ -1821,11 +1821,14 @@ The function returns a `logical` flag, `.true.` if `a` is Hessenberg of the requ
 
 ### Syntax
 
-`call qr(a, q, r [, overwrite_a] [, storage] [, err])`
+`call qr(a, q, r [, overwrite_a] [, storage] [, err])`  
+`call qr(a, q, r, pivots [, overwrite_a] [, storage] [, err])`
 
 ### Description
 
 This subroutine computes the QR factorization of a `real` or `complex` matrix \f$ A = Q \cdot R \f$, where \f$ Q \f$ is orthonormal and \f$ R \f$ is upper-triangular. The matrix \f$ A \f$ has size \f$ [m,n] \f$ with \f$ m \ge n \f$. The result is returned in the output matrices \f$ Q \f$ and \f$ R \f$, which have the same type and kind as \f$ A \f$. 
+
+With the `pivots` argument, the factorization uses column pivoting, \f$ A P = Q \cdot R \f$, where the permutation \f$ P \f$ is chosen so that the diagonal of \f$ R \f$ has non-increasing magnitude: `a(:, pivots) = matmul(q, r)`. A rank-deficient matrix of rank \f$ r \f$ then ends its diagonal with \f$ k - r \f$ entries that are zero up to roundoff.
 
 Given \f$ k = \min(m, n) \f$, the matrix \f$ A \f$ can be written as:
 
@@ -1842,7 +1845,8 @@ Because the lower rows of \f$ R \f$ are zeros, a reduced problem \f$ A = Q_1 R_1
 - `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the coefficient matrix. If `overwrite_a = .false.`, this is an input argument. If `overwrite_a = .true.`, it is an `inout` argument and is overwritten upon return.
 - `q`: A rank-2 array of the same type and kind as `a`, representing the orthonormal matrix \f$ Q \f$. This is an output argument with shape \f$ [m,m] \f$ (for the full problem) or \f$ [m,k] \f$ (for the reduced problem).
 - `r`: A rank-2 array of the same type and kind as `a`, representing the upper-triangular matrix \f$ R \f$. This is an output argument with shape \f$ [m,n] \f$ (for the full problem) or \f$ [k,n] \f$ (for the reduced problem).
-- `storage` (optional): A rank-1 array of the same type and kind as `a`, providing working storage for the solver. Its minimum size can be determined by a call to [qr_space](@ref la_qr::qr_space). This is an output argument.
+- `pivots`: An `integer(ilp)` array of size \f$ n \f$, returning the column permutation: column `j` of \f$ Q \cdot R \f$ is column `pivots(j)` of \f$ A \f$. This is an output argument, and its presence selects the factorization with column pivoting.
+- `storage` (optional): A rank-1 array of the same type and kind as `a`, providing working storage for the solver. Its minimum size can be determined by a call to [qr_space](@ref la_qr::qr_space), with `pivoting=.true.` for the pivoted factorization. This is an output argument.
 - `overwrite_a` (optional, default = `.false.`): A logical flag that determines whether the input matrix `a` can be overwritten. If `.true.`, the matrix `a` is used as temporary storage and overwritten to avoid internal memory allocation. This is an input argument.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
 
@@ -1852,25 +1856,27 @@ The QR factorization matrices \f$ Q \f$ and \f$ R \f$ are returned in the corres
 
 ### Errors
 
-- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the sizes of the matrices are incompatible with the full/reduced problem.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the sizes of the matrices are incompatible with the full/reduced problem, or if `pivots` does not have \f$ n \f$ elements.
 - Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if there is insufficient storage space.
 - If `err` is not provided, exceptions will trigger an `error stop`.
 
 ### Notes
 
-- This subroutine computes the QR factorization using LAPACK's QR decomposition algorithm [`*GEQRF`](@ref la_lapack::geqrf).
+- This subroutine computes the QR factorization using LAPACK's QR decomposition algorithm [`*GEQRF`](@ref la_lapack::geqrf), or [`*GEQP3`](@ref la_lapack::geqp3) for the factorization with column pivoting.
 - If `overwrite_a` is enabled, the input matrix `a` will be modified during computation.
+- This subroutine is `pure`.
 
 
 ## [qr_space](@ref la_qr::qr_space) - Workspace size for QR operations.
 
 ### Syntax
 
-`call qr_space(a, lwork [, err])`
+`call qr_space(a, lwork [, err])`  
+`call qr_space(a, lwork, pivoting [, err])`
 
 ### Description
 
-This subroutine computes the minimum workspace size required for performing QR factorization. The size of the workspace array needed for both QR factorization and solving the reduced problem is determined based on the input matrix \f$ A \f$.
+This subroutine computes the minimum workspace size required for performing QR factorization. The size of the workspace array needed for both QR factorization and solving the reduced problem is determined based on the input matrix \f$ A \f$. With `pivoting=.true.`, the size is the one of the QR factorization with column pivoting.
 
 The input matrix \f$ A \f$ has size \f$ [m,n] \f$, and the output value \f$ lwork \f$ represents the minimum size of the workspace array that should be allocated for QR operations.
 
@@ -1878,6 +1884,7 @@ The input matrix \f$ A \f$ has size \f$ [m,n] \f$, and the output value \f$ lwor
 
 - `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, representing the input matrix used to determine the required workspace size.
 - `lwork`: An integer variable that will return the minimum workspace size required for QR factorization.
+- `pivoting`: A `logical` input. If `.true.`, `lwork` is sized for the factorization with column pivoting, `call qr(a, q, r, pivots, storage=work)`; if `.false.`, for the factorization without pivoting.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the function will stop execution on error.
 
 ### Return value

@@ -192,6 +192,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `generalized_lstsq_space(a, lwork [, err])`, and both overwrite flags, it allocates
   nothing. With `prefactored_w=.true.`, `w` is any square root `B` of the covariance,
   `W = B B^H`, instead of the covariance itself. Every real and complex kind.
+- QR factorization with column pivoting, ported from the Fortran standard library:
+  `qr(a, q, r, pivots [, overwrite_a] [, storage] [, err])` is a `pure` overload of `qr`
+  that permutes the columns of `a` so that `|diag(R)|` does not increase, with
+  `a(:, pivots) = matmul(q, r)`, through LAPACK's `geqp3`. `qr_space(a, lwork, pivoting
+  [, err])` sizes its `storage`. Full and reduced `Q` and `R` as for `qr`. Every real and
+  complex kind.
 - Matrix rank, condition number, log-determinant and matrix power, for every real and
   complex kind. The functions have a `pure` specific without `err` and a specific with a
   mandatory `err`:
@@ -221,6 +227,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `real(qp)` and `complex(qp)` code compiles only when `LA_WITH_QP` is defined,
   which the `quad` feature does. A build that defines neither macro carries
   `sp` and `dp` alone.
+- `qr_space` takes `a` as `intent(in)`: only its shape is read.
 
 ### Fixed
 
@@ -255,3 +262,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   resolves.
 - `mnorm` accepts `fro` as a spelling of the Frobenius (Euclidean) order.
 - `test_la_cholesky` compiles, and `la_tests` runs it.
+- `qr` rejects the shapes of `q` and `r` it cannot fill: more rows than `a`, more
+  columns than `a` in `r`, or more than `size(a,1)` columns in `q` or rows in `r`. Those
+  passed the size check before and came back with undefined or misplaced values.
+- `qr` frees its copy of `a` when the `storage` it is given is too small.
