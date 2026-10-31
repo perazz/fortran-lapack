@@ -4,7 +4,7 @@ module test_linalg_pure
     use testdrive,only:error_type,check,new_unittest,unittest_type
     use la_constants
     use linear_algebra,only:eigvals,eigvalsh,eig,svd,invert,schur,solve_lstsq, &
-                              generalized_lstsq,solve_generalized_lstsq, &
+                              generalized_lstsq,solve_generalized_lstsq,qr, &
                               operator(.inv.),operator(.pinv.)
     use la_state_type,only:la_state
 
@@ -49,9 +49,10 @@ module test_linalg_pure
         real(sp),parameter :: tol = 1000*epsilon(1.0_sp)
         real(sp),parameter :: d(n) = [1.0_sp,2.0_sp,4.0_sp]
         real(sp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
-                  xg(n),xgs(n)
+                  xg(n),xgs(n),r(n,n)
         complex(sp) :: lambda(n),lambda_eig(n)
         real(sp) :: lambdah(n),s(n)
+        integer(ilp) :: pivots(n)
         logical(lk) :: ok
         integer :: i
 
@@ -62,7 +63,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_s(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+        call pure_calls_s(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -101,17 +102,22 @@ module test_linalg_pure
         call check(error,all(abs(xgs - 1) < tol),'solve_generalized_lstsq')
         if (allocated(error)) return
 
+        call check(error,all(pivots == [3,2,1]) .and. &
+                          all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_s
 
-    pure subroutine pure_calls_s(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+    pure subroutine pure_calls_s(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
         real(sp),intent(in) :: a(:,:)
         complex(sp),intent(out) :: lambda(:),lambda_eig(:)
         real(sp),intent(out) :: lambdah(:),s(:)
-        real(sp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:)
+        real(sp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:),r(:,:)
+        integer(ilp),intent(out) :: pivots(:)
         logical(lk),intent(out) :: ok
 
-        real(sp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2))
-        type(la_state) :: err(6)
+        real(sp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2)),q(size(a,1),size(a,1))
+        type(la_state) :: err(7)
         integer :: i
 
         lambda = eigvals(a)
@@ -140,6 +146,9 @@ module test_linalg_pure
         work = a
         w = a
         call solve_generalized_lstsq(w,work, [(a(i,i),i=1,size(a,1))],xgs,err=err(6))
+
+        work = a
+        call qr(work,q,r,pivots,err=err(7))
 
         ok = all(err%ok())
 
@@ -153,9 +162,10 @@ module test_linalg_pure
         real(dp),parameter :: tol = 1000*epsilon(1.0_dp)
         real(dp),parameter :: d(n) = [1.0_dp,2.0_dp,4.0_dp]
         real(dp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
-                  xg(n),xgs(n)
+                  xg(n),xgs(n),r(n,n)
         complex(dp) :: lambda(n),lambda_eig(n)
         real(dp) :: lambdah(n),s(n)
+        integer(ilp) :: pivots(n)
         logical(lk) :: ok
         integer :: i
 
@@ -166,7 +176,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_d(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+        call pure_calls_d(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -205,17 +215,22 @@ module test_linalg_pure
         call check(error,all(abs(xgs - 1) < tol),'solve_generalized_lstsq')
         if (allocated(error)) return
 
+        call check(error,all(pivots == [3,2,1]) .and. &
+                          all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_d
 
-    pure subroutine pure_calls_d(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+    pure subroutine pure_calls_d(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
         real(dp),intent(in) :: a(:,:)
         complex(dp),intent(out) :: lambda(:),lambda_eig(:)
         real(dp),intent(out) :: lambdah(:),s(:)
-        real(dp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:)
+        real(dp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:),r(:,:)
+        integer(ilp),intent(out) :: pivots(:)
         logical(lk),intent(out) :: ok
 
-        real(dp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2))
-        type(la_state) :: err(6)
+        real(dp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2)),q(size(a,1),size(a,1))
+        type(la_state) :: err(7)
         integer :: i
 
         lambda = eigvals(a)
@@ -244,6 +259,9 @@ module test_linalg_pure
         work = a
         w = a
         call solve_generalized_lstsq(w,work, [(a(i,i),i=1,size(a,1))],xgs,err=err(6))
+
+        work = a
+        call qr(work,q,r,pivots,err=err(7))
 
         ok = all(err%ok())
 
@@ -258,9 +276,10 @@ module test_linalg_pure
         real(xdp),parameter :: tol = 1000*epsilon(1.0_xdp)
         real(xdp),parameter :: d(n) = [1.0_xdp,2.0_xdp,4.0_xdp]
         real(xdp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
-                  xg(n),xgs(n)
+                  xg(n),xgs(n),r(n,n)
         complex(xdp) :: lambda(n),lambda_eig(n)
         real(xdp) :: lambdah(n),s(n)
+        integer(ilp) :: pivots(n)
         logical(lk) :: ok
         integer :: i
 
@@ -271,7 +290,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_x(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+        call pure_calls_x(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -310,17 +329,22 @@ module test_linalg_pure
         call check(error,all(abs(xgs - 1) < tol),'solve_generalized_lstsq')
         if (allocated(error)) return
 
+        call check(error,all(pivots == [3,2,1]) .and. &
+                          all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_x
 
-    pure subroutine pure_calls_x(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+    pure subroutine pure_calls_x(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
         real(xdp),intent(in) :: a(:,:)
         complex(xdp),intent(out) :: lambda(:),lambda_eig(:)
         real(xdp),intent(out) :: lambdah(:),s(:)
-        real(xdp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:)
+        real(xdp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:),r(:,:)
+        integer(ilp),intent(out) :: pivots(:)
         logical(lk),intent(out) :: ok
 
-        real(xdp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2))
-        type(la_state) :: err(6)
+        real(xdp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2)),q(size(a,1),size(a,1))
+        type(la_state) :: err(7)
         integer :: i
 
         lambda = eigvals(a)
@@ -349,6 +373,9 @@ module test_linalg_pure
         work = a
         w = a
         call solve_generalized_lstsq(w,work, [(a(i,i),i=1,size(a,1))],xgs,err=err(6))
+
+        work = a
+        call qr(work,q,r,pivots,err=err(7))
 
         ok = all(err%ok())
 
@@ -364,9 +391,10 @@ module test_linalg_pure
         real(qp),parameter :: tol = 1000*epsilon(1.0_qp)
         real(qp),parameter :: d(n) = [1.0_qp,2.0_qp,4.0_qp]
         real(qp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
-                  xg(n),xgs(n)
+                  xg(n),xgs(n),r(n,n)
         complex(qp) :: lambda(n),lambda_eig(n)
         real(qp) :: lambdah(n),s(n)
+        integer(ilp) :: pivots(n)
         logical(lk) :: ok
         integer :: i
 
@@ -377,7 +405,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_q(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+        call pure_calls_q(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -416,17 +444,22 @@ module test_linalg_pure
         call check(error,all(abs(xgs - 1) < tol),'solve_generalized_lstsq')
         if (allocated(error)) return
 
+        call check(error,all(pivots == [3,2,1]) .and. &
+                          all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_q
 
-    pure subroutine pure_calls_q(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+    pure subroutine pure_calls_q(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
         real(qp),intent(in) :: a(:,:)
         complex(qp),intent(out) :: lambda(:),lambda_eig(:)
         real(qp),intent(out) :: lambdah(:),s(:)
-        real(qp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:)
+        real(qp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:),r(:,:)
+        integer(ilp),intent(out) :: pivots(:)
         logical(lk),intent(out) :: ok
 
-        real(qp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2))
-        type(la_state) :: err(6)
+        real(qp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2)),q(size(a,1),size(a,1))
+        type(la_state) :: err(7)
         integer :: i
 
         lambda = eigvals(a)
@@ -455,6 +488,9 @@ module test_linalg_pure
         work = a
         w = a
         call solve_generalized_lstsq(w,work, [(a(i,i),i=1,size(a,1))],xgs,err=err(6))
+
+        work = a
+        call qr(work,q,r,pivots,err=err(7))
 
         ok = all(err%ok())
 
@@ -469,9 +505,10 @@ module test_linalg_pure
         real(sp),parameter :: tol = 1000*epsilon(1.0_sp)
         real(sp),parameter :: d(n) = [1.0_sp,2.0_sp,4.0_sp]
         complex(sp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
-                  xg(n),xgs(n)
+                  xg(n),xgs(n),r(n,n)
         complex(sp) :: lambda(n),lambda_eig(n)
         real(sp) :: lambdah(n),s(n)
+        integer(ilp) :: pivots(n)
         logical(lk) :: ok
         integer :: i
 
@@ -482,7 +519,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_c(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+        call pure_calls_c(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -521,17 +558,22 @@ module test_linalg_pure
         call check(error,all(abs(xgs - 1) < tol),'solve_generalized_lstsq')
         if (allocated(error)) return
 
+        call check(error,all(pivots == [3,2,1]) .and. &
+                          all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_c
 
-    pure subroutine pure_calls_c(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+    pure subroutine pure_calls_c(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
         complex(sp),intent(in) :: a(:,:)
         complex(sp),intent(out) :: lambda(:),lambda_eig(:)
         real(sp),intent(out) :: lambdah(:),s(:)
-        complex(sp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:)
+        complex(sp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:),r(:,:)
+        integer(ilp),intent(out) :: pivots(:)
         logical(lk),intent(out) :: ok
 
-        complex(sp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2))
-        type(la_state) :: err(6)
+        complex(sp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2)),q(size(a,1),size(a,1))
+        type(la_state) :: err(7)
         integer :: i
 
         lambda = eigvals(a)
@@ -560,6 +602,9 @@ module test_linalg_pure
         work = a
         w = a
         call solve_generalized_lstsq(w,work, [(a(i,i),i=1,size(a,1))],xgs,err=err(6))
+
+        work = a
+        call qr(work,q,r,pivots,err=err(7))
 
         ok = all(err%ok())
 
@@ -573,9 +618,10 @@ module test_linalg_pure
         real(dp),parameter :: tol = 1000*epsilon(1.0_dp)
         real(dp),parameter :: d(n) = [1.0_dp,2.0_dp,4.0_dp]
         complex(dp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
-                  xg(n),xgs(n)
+                  xg(n),xgs(n),r(n,n)
         complex(dp) :: lambda(n),lambda_eig(n)
         real(dp) :: lambdah(n),s(n)
+        integer(ilp) :: pivots(n)
         logical(lk) :: ok
         integer :: i
 
@@ -586,7 +632,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_z(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+        call pure_calls_z(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -625,17 +671,22 @@ module test_linalg_pure
         call check(error,all(abs(xgs - 1) < tol),'solve_generalized_lstsq')
         if (allocated(error)) return
 
+        call check(error,all(pivots == [3,2,1]) .and. &
+                          all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_z
 
-    pure subroutine pure_calls_z(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+    pure subroutine pure_calls_z(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
         complex(dp),intent(in) :: a(:,:)
         complex(dp),intent(out) :: lambda(:),lambda_eig(:)
         real(dp),intent(out) :: lambdah(:),s(:)
-        complex(dp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:)
+        complex(dp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:),r(:,:)
+        integer(ilp),intent(out) :: pivots(:)
         logical(lk),intent(out) :: ok
 
-        complex(dp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2))
-        type(la_state) :: err(6)
+        complex(dp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2)),q(size(a,1),size(a,1))
+        type(la_state) :: err(7)
         integer :: i
 
         lambda = eigvals(a)
@@ -664,6 +715,9 @@ module test_linalg_pure
         work = a
         w = a
         call solve_generalized_lstsq(w,work, [(a(i,i),i=1,size(a,1))],xgs,err=err(6))
+
+        work = a
+        call qr(work,q,r,pivots,err=err(7))
 
         ok = all(err%ok())
 
@@ -678,9 +732,10 @@ module test_linalg_pure
         real(xdp),parameter :: tol = 1000*epsilon(1.0_xdp)
         real(xdp),parameter :: d(n) = [1.0_xdp,2.0_xdp,4.0_xdp]
         complex(xdp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
-                  xg(n),xgs(n)
+                  xg(n),xgs(n),r(n,n)
         complex(xdp) :: lambda(n),lambda_eig(n)
         real(xdp) :: lambdah(n),s(n)
+        integer(ilp) :: pivots(n)
         logical(lk) :: ok
         integer :: i
 
@@ -691,7 +746,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_y(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+        call pure_calls_y(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -730,17 +785,22 @@ module test_linalg_pure
         call check(error,all(abs(xgs - 1) < tol),'solve_generalized_lstsq')
         if (allocated(error)) return
 
+        call check(error,all(pivots == [3,2,1]) .and. &
+                          all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_y
 
-    pure subroutine pure_calls_y(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+    pure subroutine pure_calls_y(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
         complex(xdp),intent(in) :: a(:,:)
         complex(xdp),intent(out) :: lambda(:),lambda_eig(:)
         real(xdp),intent(out) :: lambdah(:),s(:)
-        complex(xdp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:)
+        complex(xdp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:),r(:,:)
+        integer(ilp),intent(out) :: pivots(:)
         logical(lk),intent(out) :: ok
 
-        complex(xdp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2))
-        type(la_state) :: err(6)
+        complex(xdp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2)),q(size(a,1),size(a,1))
+        type(la_state) :: err(7)
         integer :: i
 
         lambda = eigvals(a)
@@ -769,6 +829,9 @@ module test_linalg_pure
         work = a
         w = a
         call solve_generalized_lstsq(w,work, [(a(i,i),i=1,size(a,1))],xgs,err=err(6))
+
+        work = a
+        call qr(work,q,r,pivots,err=err(7))
 
         ok = all(err%ok())
 
@@ -784,9 +847,10 @@ module test_linalg_pure
         real(qp),parameter :: tol = 1000*epsilon(1.0_qp)
         real(qp),parameter :: d(n) = [1.0_qp,2.0_qp,4.0_qp]
         complex(qp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
-                  xg(n),xgs(n)
+                  xg(n),xgs(n),r(n,n)
         complex(qp) :: lambda(n),lambda_eig(n)
         real(qp) :: lambdah(n),s(n)
+        integer(ilp) :: pivots(n)
         logical(lk) :: ok
         integer :: i
 
@@ -797,7 +861,7 @@ module test_linalg_pure
             ainv(i,i) = 1/d(i)
         end do
 
-        call pure_calls_w(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+        call pure_calls_w(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -836,17 +900,22 @@ module test_linalg_pure
         call check(error,all(abs(xgs - 1) < tol),'solve_generalized_lstsq')
         if (allocated(error)) return
 
+        call check(error,all(pivots == [3,2,1]) .and. &
+                          all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
     end subroutine test_pure_calls_w
 
-    pure subroutine pure_calls_w(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,ok)
+    pure subroutine pure_calls_w(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
         complex(qp),intent(in) :: a(:,:)
         complex(qp),intent(out) :: lambda(:),lambda_eig(:)
         real(qp),intent(out) :: lambdah(:),s(:)
-        complex(qp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:)
+        complex(qp),intent(out) :: inva(:,:),pinva(:,:),inverted(:,:),t(:,:),x(:),xg(:),xgs(:),r(:,:)
+        integer(ilp),intent(out) :: pivots(:)
         logical(lk),intent(out) :: ok
 
-        complex(qp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2))
-        type(la_state) :: err(6)
+        complex(qp) :: work(size(a,1),size(a,2)),w(size(a,1),size(a,2)),q(size(a,1),size(a,1))
+        type(la_state) :: err(7)
         integer :: i
 
         lambda = eigvals(a)
@@ -875,6 +944,9 @@ module test_linalg_pure
         work = a
         w = a
         call solve_generalized_lstsq(w,work, [(a(i,i),i=1,size(a,1))],xgs,err=err(6))
+
+        work = a
+        call qr(work,q,r,pivots,err=err(7))
 
         ok = all(err%ok())
 
