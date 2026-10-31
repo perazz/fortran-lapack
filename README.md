@@ -888,6 +888,36 @@ A scalar of the same type and kind as `A`, holding its determinant.
 - The determinant is computed through the LAPACK [getrf](@ref la_lapack::getrf) backend.
 - If error handling is required, use [det](@ref la_determinant::det) with its `err` argument instead.
 
+## [slogdet](@ref la_determinant::slogdet) - Sign and logarithm of the determinant of a square matrix.
+
+### Syntax
+
+`call slogdet(a, sign, logabsdet [, overwrite_a] [, err])`
+
+### Description
+
+This subroutine computes the determinant of a real or complex square matrix as \f$ \det(A) = sign \cdot e^{logabsdet} \f$, from its LU factorization. The logarithm stays representable where the determinant itself would overflow or underflow, as it does for large matrices or for products of many small pivots.
+
+### Arguments
+
+- `a`: A `real` or `complex` square matrix of size \f$ [n,n] \f$. It is an `intent(inout)` argument, and is overwritten by its LU factorization if `overwrite_a` is true.
+- `sign`: A scalar of the same type and kind as `a`, returning the sign of the determinant: \f$ \pm 1 \f$ for a real matrix, a complex number of unit modulus for a complex one, and 0 for a singular matrix. It is an `intent(out)` argument.
+- `logabsdet`: A `real` scalar of the kind of `a`, returning the natural logarithm of \f$ |\det(A)| \f$, and \f$ -\infty \f$ for a singular matrix. It is an `intent(out)` argument.
+- `overwrite_a` (optional, default = `.false.`): If `.true.`, `a` may be overwritten and destroyed.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If not provided, the subroutine will stop execution on error.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` is not square.
+- A singular matrix is not an error: it returns `sign = 0` and `logabsdet` \f$ = -\infty \f$.
+- If `err` is not provided, exceptions trigger an `error stop`.
+
+### Notes
+
+- The LU factorization comes from LAPACK's [getrf](@ref la_lapack::getrf); the determinant of an empty matrix is 1.
+- This subroutine is `pure`.
+
+
 ## [inv](@ref la_inverse::inv) - Inverse of a square matrix.
 
 ### Syntax
@@ -1198,6 +1228,78 @@ where:
 - The singular values are returned as a vector, sorted in decreasing order.
 - The function uses LAPACK's [GESDD](@ref la_lapack::gesdd) routine for singular value computation.
 
+## [matrix_rank](@ref la_svd::matrix_rank) - Rank of a matrix.
+
+### Syntax
+
+`r = matrix_rank(a [, rtol] [, atol])`  
+`r = matrix_rank(a [, rtol] [, atol], err)`
+
+### Description
+
+This function returns the rank of a real or complex matrix: the number of its singular values larger than \f$ \max(atol, rtol \cdot \sigma_{max}) \f$, where \f$ \sigma_{max} \f$ is the largest one. Without `err` it is `pure`; with `err` it returns errors instead of stopping, and is not `pure`.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is not modified.
+- `rtol` (optional, default = \f$ \max(m,n) \cdot \epsilon \f$): The relative tolerance, a `real` of the kind of `a`, as NumPy's default.
+- `atol` (optional, default = 0): The absolute tolerance, a `real` of the kind of `a`.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that receives the error state.
+
+### Return value
+
+The rank, an `integer(ilp)`. An empty matrix has rank 0; with `err`, a failed computation returns 0.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `rtol` or `atol` is negative.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the SVD does not converge.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- The singular values come from LAPACK's [GESDD](@ref la_lapack::gesdd), on a copy of `a`.
+
+
+## [cond](@ref la_norms::cond) - Condition number of a matrix.
+
+### Syntax
+
+`c = cond(a [, order])`  
+`c = cond(a [, order], err)`
+
+### Description
+
+This function returns the condition number \f$ \kappa(A) = \|A\| \cdot \|A^{-1}\| \f$ of a real or complex matrix, in the norm that `order` selects:
+
+- 2-norm (the default), `order = 2` or `"2"`: \f$ \sigma_{max} / \sigma_{min} \f$, from the singular values. `a` may be rectangular.
+- 1-norm, `order = 1` or `"1"`, and infinity norm, `order = huge(0)` or `"inf"`: LAPACK's estimate from the LU factorization of the square matrix `a`, which is \f$ O(n^2) \f$ after the factorization.
+- Frobenius norm, `order = "fro"`: from the explicit inverse of the square matrix `a`.
+
+Without `err` the function is `pure`; with `err` it returns errors instead of stopping, and is not `pure`.
+
+### Arguments
+
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is not modified.
+- `order` (optional, default = 2): An `integer(ilp)` or a character string, spelled as for [norm](@ref la_norms::norm).
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that receives the error state.
+
+### Return value
+
+The condition number, a `real` scalar of the kind of `a`. A singular matrix has an infinite condition number; with `err`, a failed computation returns 0.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` is empty, if `order` is not one of the norms above, or if `a` is not square for the 1-, infinity- or Frobenius norm.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if the SVD does not converge.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- `order = 2` is the spectral norm here, as in NumPy, while [mnorm](@ref la_norms::mnorm) reads `order = 2` as the Frobenius norm.
+- The 1- and infinity-norm values come from LAPACK's [GECON](@ref la_lapack::gecon), which estimates \f$ \|A^{-1}\| \f$ from below, usually within a factor of 3 and often exactly.
+
+
 ## [expm](@ref la_matrix_functions::expm) - Exponential of a square matrix (function).
 
 ### Syntax
@@ -1275,6 +1377,38 @@ This subroutine returns the sizes of the working arrays that [matrix_exp](@ref l
 ### Errors
 
 - This subroutine is `pure` and cannot fail: it reads the size of `a` and nothing else.
+
+## [matrix_power](@ref la_matrix_functions::matrix_power) - Integer power of a square matrix.
+
+### Syntax
+
+`an = matrix_power(a, n)`  
+`an = matrix_power(a, n, err)`
+
+### Description
+
+This function computes \f$ A^n \f$ for a real or complex square matrix and an integer power \f$ n \f$, by repeated squaring: about \f$ 2 \log_2 |n| \f$ matrix products. \f$ A^0 \f$ is the identity, also for a singular matrix, and a negative power is the power \f$ (A^{-1})^{|n|} \f$ of the inverse. Without `err` it is `pure`; with `err` it returns errors instead of stopping, and is not `pure`.
+
+### Arguments
+
+- `a`: A `real` or `complex` square matrix of size \f$ [m,m] \f$. It is not modified.
+- `n`: The power, an `integer(ilp)`.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that receives the error state.
+
+### Return value
+
+The matrix \f$ A^n \f$, of the same type, kind and size as `a`. With `err`, an error returns an empty matrix.
+
+### Errors
+
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` is not square.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `n` is negative and `a` is singular.
+- If `err` is not present, exceptions trigger an `error stop`.
+
+### Notes
+
+- The products use the BLAS [gemm](@ref la_blas::gemm), and the inverse comes from [invert](@ref la_inverse::invert).
+
 
 ## [diag](@ref la_eye::diag) - Diagonal matrix.
 
