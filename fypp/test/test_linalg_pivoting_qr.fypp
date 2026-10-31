@@ -1,0 +1,421 @@
+#:include "common.fypp"
+#:set RC_KINDS_TYPES = ALL_KINDS_TYPES
+! Test QR factorization with column pivoting
+module test_linalg_pivoting_qr
+    use testdrive, only: error_type, check, new_unittest, unittest_type
+    use la_constants
+    use la_state_type, only: LINALG_VALUE_ERROR,la_state
+    use linear_algebra, only: qr,qr_space
+    use ieee_arithmetic, only: ieee_value,ieee_quiet_nan
+
+    implicit none (type,external)
+
+    public :: test_pivoting_qr_factorization
+
+    contains
+
+    !> QR factorization tests
+    subroutine test_pivoting_qr_factorization(tests)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: tests(:)
+
+        allocate(tests(0))
+
+        #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
+        call add_test(tests,new_unittest("pivoting_qr_random_tall_matrix_${ri}$",test_pivoting_qr_random_tall_matrix_${ri}$))
+        call add_test(tests,new_unittest("pivoting_qr_random_rank_deficient_${ri}$",test_pivoting_qr_random_rank_deficient_${ri}$))
+        call add_test(tests,new_unittest("pivoting_qr_random_wide_matrix_${ri}$",test_pivoting_qr_random_wide_matrix_${ri}$))
+        call add_test(tests,new_unittest("pivoting_qr_invalid_${ri}$",test_pivoting_qr_invalid_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
+        #:endfor
+
+    end subroutine test_pivoting_qr_factorization
+
+    #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
+    !> Pivoted QR factorization of a random tall matrix
+    subroutine test_pivoting_qr_random_tall_matrix_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: m   = 15_ilp
+        integer(ilp), parameter :: n   =  4_ilp
+        integer(ilp), parameter :: k   = min(m,n)
+        real(${rk}$), parameter :: tol = 100*sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: a(m,n),aorig(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n),qerr(m,k-1),rerr(k-1,n)
+        real(${rk}$) :: rea(m,n)
+        #:if rt.startswith('complex')
+        real(${rk}$) :: ima(m,n)
+        #:endif
+        integer(ilp) :: pivots(n)
+        integer(ilp) :: lwork
+        ${rt}$, allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        #:if rt.startswith('complex')
+        call random_number(ima)
+        a = cmplx(rea,ima,kind=${rk}$)
+        #:else
+        a = rea
+        #:endif
+        aorig = a
+
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_${rk}$,ieee_quiet_nan)
+        r = ieee_value(0.0_${rk}$,ieee_quiet_nan)
+        call qr(a,q,r,pivots,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(q,r))<tol), 'converged solution (full)')
+        if (allocated(error)) return
+
+        ! Check the pivoting: |diag(R)| does not increase
+        call check(error, is_non_increasing_${ri}$(r), 'non-increasing |diag(R)| (full)')
+        if (allocated(error)) return
+
+        ! 2) QR factorization with reduced matrices
+        call qr(a,qred,rred,pivots,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(qred,rred))<tol), 'converged solution (reduced)')
+        if (allocated(error)) return
+
+        ! 3) overwrite A
+        call qr(a,qred,rred,pivots,overwrite_a=.true.,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(aorig(:,pivots)-matmul(qred,rred))<tol), 'converged solution (overwrite A)')
+        if (allocated(error)) return
+
+        ! 4) External storage option
+        a = aorig
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate(work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(q,r))<tol), 'converged solution (external storage)')
+        if (allocated(error)) return
+
+        ! Check that an invalid problem size returns an error
+        a = aorig
+        call qr(a,qerr,rerr,pivots,err=state)
+        call check(error,state%error(),'invalid matrix sizes')
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_random_tall_matrix_${ri}$
+
+    !> Pivoted QR factorization of a random tall matrix with a zero column
+    subroutine test_pivoting_qr_random_rank_deficient_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: m   = 15_ilp
+        integer(ilp), parameter :: n   =  4_ilp
+        integer(ilp), parameter :: k   = min(m,n)
+        real(${rk}$), parameter :: tol = 100*sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: a(m,n),aorig(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n),qerr(m,k-1),rerr(k-1,n)
+        real(${rk}$) :: rea(m,n)
+        #:if rt.startswith('complex')
+        real(${rk}$) :: ima(m,n)
+        #:endif
+        integer(ilp) :: pivots(n)
+        integer(ilp) :: lwork
+        ${rt}$, allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        #:if rt.startswith('complex')
+        call random_number(ima)
+        a = cmplx(rea,ima,kind=${rk}$)
+        #:else
+        a = rea
+        #:endif
+        a(:,3) = 0.0_${rk}$ ! Zero-out column to test rank-deficiency.
+        aorig = a
+
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_${rk}$,ieee_quiet_nan)
+        r = ieee_value(0.0_${rk}$,ieee_quiet_nan)
+        call qr(a,q,r,pivots,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(q,r))<tol), 'converged solution (full)')
+        if (allocated(error)) return
+
+        ! The zero column is pivoted last, and leaves a zero at the end of diag(R)
+        call check(error, pivots(n)==3 .and. abs(r(n,n))<tol, 'zero column pivoted last')
+        if (allocated(error)) return
+
+        ! 2) QR factorization with reduced matrices
+        call qr(a,qred,rred,pivots,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(qred,rred))<tol), 'converged solution (reduced)')
+        if (allocated(error)) return
+
+        ! 3) overwrite A
+        call qr(a,qred,rred,pivots,overwrite_a=.true.,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(aorig(:,pivots)-matmul(qred,rred))<tol), 'converged solution (overwrite A)')
+        if (allocated(error)) return
+
+        ! 4) External storage option
+        a = aorig
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate(work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(q,r))<tol), 'converged solution (external storage)')
+        if (allocated(error)) return
+
+        ! Check that an invalid problem size returns an error
+        a = aorig
+        call qr(a,qerr,rerr,pivots,err=state)
+        call check(error,state%error(),'invalid matrix sizes')
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_random_rank_deficient_${ri}$
+
+    !> Pivoted QR factorization of a random wide matrix
+    subroutine test_pivoting_qr_random_wide_matrix_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: m   =  4_ilp
+        integer(ilp), parameter :: n   = 15_ilp
+        integer(ilp), parameter :: k   = min(m,n)
+        real(${rk}$), parameter :: tol = 100*sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: a(m,n),aorig(m,n),q(m,m),r(m,n),qred(m,k),rred(k,n),qerr(m,k-1),rerr(k-1,n)
+        real(${rk}$) :: rea(m,n)
+        #:if rt.startswith('complex')
+        real(${rk}$) :: ima(m,n)
+        #:endif
+        integer(ilp) :: pivots(n)
+        integer(ilp) :: lwork
+        ${rt}$, allocatable :: work(:)
+        type(la_state) :: state
+
+        call random_number(rea)
+        #:if rt.startswith('complex')
+        call random_number(ima)
+        a = cmplx(rea,ima,kind=${rk}$)
+        #:else
+        a = rea
+        #:endif
+        aorig = a
+
+        ! 1) QR factorization with full matrices. Input NaNs to be sure Q and R are OK on return
+        q = ieee_value(0.0_${rk}$,ieee_quiet_nan)
+        r = ieee_value(0.0_${rk}$,ieee_quiet_nan)
+        call qr(a,q,r,pivots,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(q,r))<tol), 'converged solution (full)')
+        if (allocated(error)) return
+
+        ! Check the pivoting: |diag(R)| does not increase
+        call check(error, is_non_increasing_${ri}$(r), 'non-increasing |diag(R)| (full)')
+        if (allocated(error)) return
+
+        ! 2) QR factorization with reduced matrices
+        call qr(a,qred,rred,pivots,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(qred,rred))<tol), 'converged solution (reduced)')
+        if (allocated(error)) return
+
+        ! 3) overwrite A
+        call qr(a,qred,rred,pivots,overwrite_a=.true.,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(aorig(:,pivots)-matmul(qred,rred))<tol), 'converged solution (overwrite A)')
+        if (allocated(error)) return
+
+        ! 4) External storage option
+        a = aorig
+        call qr_space(a,lwork,pivoting=.true.)
+        allocate(work(lwork))
+        call qr(a,q,r,pivots,storage=work,err=state)
+
+        ! Check return code
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        ! Check solution
+        call check(error, all(abs(a(:,pivots)-matmul(q,r))<tol), 'converged solution (external storage)')
+        if (allocated(error)) return
+
+        ! Check that an invalid problem size returns an error
+        a = aorig
+        call qr(a,qerr,rerr,pivots,err=state)
+        call check(error,state%error(),'invalid matrix sizes')
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_random_wide_matrix_${ri}$
+
+    !> Invalid arguments: pivots, storage, q or r of the wrong size
+    subroutine test_pivoting_qr_invalid_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: m = 6_ilp
+        integer(ilp), parameter :: n = 5_ilp
+        ${rt}$ :: a(m,n),q(m,m),r(m,n),work(1),qtall(m+1,m),rwide(m,n+1)
+        real(${rk}$) :: rea(m,n)
+        integer(ilp) :: pivots(n),pivots_short(n-1),pivots_long(n+1),lwork,lwork_qr
+        type(la_state) :: state
+
+        call random_number(rea)
+        a = rea
+
+        call qr(a,q,r,pivots_short,err=state)
+        call check(error,state%error(),'pivots shorter than n')
+        if (allocated(error)) return
+
+        call qr(a,q,r,pivots_long,err=state)
+        call check(error,state%error(),'pivots longer than n')
+        if (allocated(error)) return
+
+        call qr(a,q,r,pivots,storage=work,err=state)
+        call check(error,state%error(),'insufficient storage')
+        if (allocated(error)) return
+
+        ! Q and R larger than the factorization can fill
+        call qr(a,qtall,r,pivots,err=state)
+        call check(error,state%error(),'q with more rows than a')
+        if (allocated(error)) return
+
+        call qr(a,q,rwide,pivots,err=state)
+        call check(error,state%error(),'r with more columns than a')
+        if (allocated(error)) return
+
+        call qr(a,qtall,r,err=state)
+        call check(error,state%error(),'q with more rows than a, no pivoting')
+        if (allocated(error)) return
+
+        ! pivoting=.false. sizes the workspace of the unpivoted factorization
+        call qr_space(a,lwork,pivoting=.false.,err=state)
+        call check(error,state%ok(),state%print())
+        if (allocated(error)) return
+
+        call qr_space(a,lwork_qr,err=state)
+        call check(error,state%ok() .and. lwork==lwork_qr,'pivoting=.false. workspace')
+        if (allocated(error)) return
+
+    end subroutine test_pivoting_qr_invalid_${ri}$
+
+    !> |r(i,i)| does not increase along the diagonal, up to roundoff
+    pure logical function is_non_increasing_${ri}$(r) result(ok)
+        ${rt}$, intent(in) :: r(:,:)
+
+        real(${rk}$), parameter :: slack = 1+sqrt(epsilon(0.0_${rk}$))
+        integer :: i
+
+        ok = all([(abs(r(i+1,i+1))<=slack*abs(r(i,i)), i=1,min(size(r,1),size(r,2))-1)])
+
+    end function is_non_increasing_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
+
+    #:endfor
+
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type), allocatable, intent(inout) :: tests(:)
+        type(unittest_type), intent(in) :: new_test
+
+        integer :: n
+        type(unittest_type), allocatable :: new_tests(:)
+
+        if (allocated(tests)) then
+            n = size(tests)
+        else
+            n = 0
+        end if
+
+        allocate(new_tests(n+1))
+        if (n>0) new_tests(1:n) = tests(1:n)
+                 new_tests(1+n) = new_test
+        call move_alloc(from=new_tests,to=tests)
+
+    end subroutine add_test
+
+end module test_linalg_pivoting_qr
+
+program test_pivoting_qr
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    use testdrive, only : run_testsuite, new_testsuite, testsuite_type
+    use test_linalg_pivoting_qr, only : test_pivoting_qr_factorization
+    implicit none
+    integer :: stat, is
+    type(testsuite_type), allocatable :: testsuites(:)
+    character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+    stat = 0
+
+    testsuites = [ &
+        new_testsuite("linalg_pivoting_qr", test_pivoting_qr_factorization) &
+        ]
+
+    do is = 1, size(testsuites)
+        write(error_unit, fmt) "Testing:", testsuites(is)%name
+        call run_testsuite(testsuites(is)%collect, error_unit, stat)
+    end do
+
+    if (stat > 0) then
+        write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+        error stop
+    end if
+end program test_pivoting_qr
