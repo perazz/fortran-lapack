@@ -1731,10 +1731,12 @@ Notes</h3>
 <a class="el" href="interfacela__qr_1_1qr.html">qr</a> - QR factorization of a matrix.</h2>
 <h3><a class="anchor" id="autotoc_md354"></a>
 Syntax</h3>
-<p><code>call qr(a, q, r [, overwrite_a] [, storage] [, err])</code></p>
+<p><code>call qr(a, q, r [, overwrite_a] [, storage] [, err])</code> <br  />
+ <code>call qr(a, q, r, pivots [, overwrite_a] [, storage] [, err])</code></p>
 <h3><a class="anchor" id="autotoc_md355"></a>
 Description</h3>
 <p>This subroutine computes the QR factorization of a <code>real</code> or <code>complex</code> matrix \( A = Q \cdot R \), where \( Q \) is orthonormal and \( R \) is upper-triangular. The matrix \( A \) has size \( [m,n] \) with \( m \ge n \). The result is returned in the output matrices \( Q \) and \( R \), which have the same type and kind as \( A \).</p>
+<p>With the <code>pivots</code> argument, the factorization uses column pivoting, \( A P = Q \cdot R \), where the permutation \( P \) is chosen so that the diagonal of \( R \) has non-increasing magnitude: <code>a(:, pivots) = matmul(q, r)</code>. A rank-deficient matrix of rank \( r \) then ends its diagonal with \( k - r \) entries that are zero up to roundoff.</p>
 <p>Given \( k = \min(m, n) \), the matrix \( A \) can be written as:</p>
 <p class="formulaDsp">
 \[A = \left( \begin{array}{cc} Q_1 &amp; Q_2 \end{array} \right) \cdot \left( \begin{array}{cc} R_1 &amp; 0 \end{array} \right)
@@ -1750,7 +1752,8 @@ Arguments</h3>
 <li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the coefficient matrix. If <code>overwrite_a = .false.</code>, this is an input argument. If <code>overwrite_a = .true.</code>, it is an <code>inout</code> argument and is overwritten upon return.</li>
 <li><code>q</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the orthonormal matrix \( Q \). This is an output argument with shape \( [m,m] \) (for the full problem) or \( [m,k] \) (for the reduced problem).</li>
 <li><code>r</code>: A rank-2 array of the same type and kind as <code>a</code>, representing the upper-triangular matrix \( R \). This is an output argument with shape \( [m,n] \) (for the full problem) or \( [k,n] \) (for the reduced problem).</li>
-<li><code>storage</code> (optional): A rank-1 array of the same type and kind as <code>a</code>, providing working storage for the solver. Its minimum size can be determined by a call to <a class="el" href="interfacela__qr_1_1qr__space.html">qr_space</a>. This is an output argument.</li>
+<li><code>pivots</code>: An <code>integer(ilp)</code> array of size \( n \), returning the column permutation: column <code>j</code> of \( Q \cdot R \) is column <code>pivots(j)</code> of \( A \). This is an output argument, and its presence selects the factorization with column pivoting.</li>
+<li><code>storage</code> (optional): A rank-1 array of the same type and kind as <code>a</code>, providing working storage for the solver. Its minimum size can be determined by a call to <a class="el" href="interfacela__qr_1_1qr__space.html">qr_space</a>, with <code>pivoting=.true.</code> for the pivoted factorization. This is an output argument.</li>
 <li><code>overwrite_a</code> (optional, default = <code>.false.</code>): A logical flag that determines whether the input matrix <code>a</code> can be overwritten. If <code>.true.</code>, the matrix <code>a</code> is used as temporary storage and overwritten to avoid internal memory allocation. This is an input argument.</li>
 <li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">type(la_state)</a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
 </ul>
@@ -1760,30 +1763,33 @@ Return value</h3>
 <h3><a class="anchor" id="autotoc_md358"></a>
 Errors</h3>
 <ul>
-<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the sizes of the matrices are incompatible with the full/reduced problem.</li>
+<li>Raises <a class="el" href="namespacela__state__type.html#ad9888f2f7d4e692e7d3b8fd532baa903">LINALG_VALUE_ERROR</a> if the sizes of the matrices are incompatible with the full/reduced problem, or if <code>pivots</code> does not have \( n \) elements.</li>
 <li>Raises <a class="el" href="namespacela__state__type.html#af5b55841ca3045c3345d9ab019e0797d">LINALG_ERROR</a> if there is insufficient storage space.</li>
 <li>If <code>err</code> is not provided, exceptions will trigger an <code>error stop</code>.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md359"></a>
 Notes</h3>
 <ul>
-<li>This subroutine computes the QR factorization using LAPACK's QR decomposition algorithm <a class="el" href="interfacela__lapack_1_1geqrf.html"><code>*GEQRF</code></a>.</li>
+<li>This subroutine computes the QR factorization using LAPACK's QR decomposition algorithm <a class="el" href="interfacela__lapack_1_1geqrf.html"><code>*GEQRF</code></a>, or <a class="el" href="interfacela__lapack_1_1geqp3.html"><code>*GEQP3</code></a> for the factorization with column pivoting.</li>
 <li>If <code>overwrite_a</code> is enabled, the input matrix <code>a</code> will be modified during computation.</li>
+<li>This subroutine is <code>pure</code>.</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md360"></a>
 <a class="el" href="interfacela__qr_1_1qr__space.html">qr_space</a> - Workspace size for QR operations.</h2>
 <h3><a class="anchor" id="autotoc_md361"></a>
 Syntax</h3>
-<p><code>call qr_space(a, lwork [, err])</code></p>
+<p><code>call qr_space(a, lwork [, err])</code> <br  />
+ <code>call qr_space(a, lwork, pivoting [, err])</code></p>
 <h3><a class="anchor" id="autotoc_md362"></a>
 Description</h3>
-<p>This subroutine computes the minimum workspace size required for performing QR factorization. The size of the workspace array needed for both QR factorization and solving the reduced problem is determined based on the input matrix \( A \).</p>
+<p>This subroutine computes the minimum workspace size required for performing QR factorization. The size of the workspace array needed for both QR factorization and solving the reduced problem is determined based on the input matrix \( A \). With <code>pivoting=.true.</code>, the size is the one of the QR factorization with column pivoting.</p>
 <p>The input matrix \( A \) has size \( [m,n] \), and the output value \( lwork \) represents the minimum size of the workspace array that should be allocated for QR operations.</p>
 <h3><a class="anchor" id="autotoc_md363"></a>
 Arguments</h3>
 <ul>
 <li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [m,n] \), representing the input matrix used to determine the required workspace size.</li>
 <li><code>lwork</code>: An integer variable that will return the minimum workspace size required for QR factorization.</li>
+<li><code>pivoting</code>: A <code>logical</code> input. If <code>.true.</code>, <code>lwork</code> is sized for the factorization with column pivoting, <code>call qr(a, q, r, pivots, storage=work)</code>; if <code>.false.</code>, for the factorization without pivoting.</li>
 <li><code>err</code> (optional): A <a class="el" href="structla__state__type_1_1la__state.html">type(la_state)</a> variable that returns the error state. If not provided, the function will stop execution on error.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md364"></a>

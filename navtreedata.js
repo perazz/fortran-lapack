@@ -498,16 +498,16 @@ var NAVTREEINDEX =
 "interfacela__norms_1_1get__norm.html#ae4c842f9485762efbe9ca7ca9b0ec40c",
 "interfacela__norms_1_1norm.html#a5a2336d140d9cc7d06a62c693dbc763f",
 "interfacela__norms_1_1norm.html#af02e2c3b19064e58bf1aa4460fd82d6b",
-"interfacela__solve_1_1solve__upper__chol.html#af91ec0fa2665ca6a717cfdf506f58220",
-"namespacela__blas__level2__tri.html#a7a8cd649b79a6144da4f8e8f2c13300f",
-"namespacela__lapack__blas__like__l3.html",
-"namespacela__lapack__eigv__gen.html#a87968ea2c903ade463de54795220062e",
-"namespacela__lapack__eigv__sym.html#afcc37f752192b0320c958e00102220c5",
-"namespacela__lapack__lsq__aux.html#adf65ee3ea350764d9a0f453b671d27b5",
-"namespacela__lapack__orthogonal__factors__qr.html#af93833a35af3694dcba63a6ece91c688",
-"namespacela__lapack__solve__chol__comp.html#ae9c41119845e47ed064a049463e5e824",
-"namespacela__lapack__solve__ldl__comp4.html#ae45ea4318196b7d3564afb57179d1600",
-"namespacela__lapack__svd__comp.html#a26e3838a7ce8223c698b9ec6e1b0a1e1"
+"interfacela__solve_1_1solve__lu.html#a51c5a581f8a1f449fb208e50e17ffcd1",
+"namespacela__blas__level2__pac.html#a026e76104a3a589a4a38063aa283396d",
+"namespacela__lapack__blas__like__l1.html#ad1e92f1f903f5aaf4fa8b61a100b698a",
+"namespacela__lapack__eigv__comp2.html#aac73c5fffc1e8725e3a438b1edb2726e",
+"namespacela__lapack__eigv__sym.html#aa987351a74ff49536d47c19f2ec19011",
+"namespacela__lapack__lsq.html#a3ab8ee39ca208d4413e4ebac3a8f71f6",
+"namespacela__lapack__orthogonal__factors__qr.html#ac8bcf8e4a2b8bbbe58d0ba72e6258f86",
+"namespacela__lapack__solve__chol__comp.html#ab364c7ff1bec922b69d407ec429138a8",
+"namespacela__lapack__solve__ldl__comp3.html#ad90dab567b02766e46ca261e08b3fcd9",
+"namespacela__lapack__solve__tri__comp.html#ae17801aefb391abcb82d9d3379165056"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
