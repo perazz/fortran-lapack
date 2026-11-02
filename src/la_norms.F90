@@ -2,12 +2,14 @@
 module la_norms
      use la_constants
      use la_blas,only:nrm2
-     use la_lapack,only:lange_sub
+     use la_lapack,only:lange_sub,getrf,getri,gecon
+     use la_svd,only:svd
      use la_state_type
+     use,intrinsic :: ieee_arithmetic,only:ieee_value,ieee_positive_inf
      implicit none(type,external)
      private
      
-     public :: norm,get_norm,mnorm
+     public :: norm,get_norm,mnorm,cond
 
      character(*),parameter :: this = 'norm'
      
@@ -18,6 +20,9 @@ module la_norms
      integer(ilp),parameter :: NORM_INF = +huge(0_ilp) ! infinity norm
      integer(ilp),parameter :: NORM_POW_LAST = NORM_INF - 1_ilp
      integer(ilp),parameter :: NORM_MINUSINF = -huge(0_ilp)
+     
+     ! Frobenius norm of a condition number: cond reads order=2 as the spectral norm
+     integer(ilp),parameter :: COND_FRO = 0_ilp
      
      ! List of *LANGE norm flags
      character,parameter :: LANGE_NORM_MAT = 'M' !> maxval(sum(abs(a)))   over whole matrix: unused
@@ -839,6 +844,70 @@ module la_norms
          module procedure matrix_norm_7D_to_5D_int_w
 #endif
      end interface mnorm
+
+     !> @brief Compute the condition number of a matrix.
+     !!
+     !! This function returns the condition number \f$ \kappa(A) = \|A\| \cdot \|A^{-1}\| \f$ of a
+     !! real or complex matrix \f$ A \f$, in the norm that `order` selects:
+     !! - 2-norm (the default), \f$ \sigma_{max} / \sigma_{min} \f$ from the singular values:
+     !!   `order = 2` or `"2"`. \f$ A \f$ may be rectangular.
+     !! - 1-norm, `order = 1` or `"1"`, and infinity norm, `order = huge(0)` or `"inf"`: LAPACK's
+     !!   [gecon](@ref la_lapack::gecon) estimate from the LU factorization of the square matrix \f$ A \f$.
+     !! - Frobenius norm, `order = "fro"`: from the explicit inverse of the square matrix \f$ A \f$.
+     !!
+     !! @param[in] a The input matrix \f$ A \f$ of size \f$ [m,n] \f$.
+     !! @param[in] order (Optional) The norm, as an `integer(ilp)` or a character string. Default is 2.
+     !! @param[out] err (Optional) A state return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
+     !!
+     !! @return The condition number, a `real` scalar of the kind of \f$ A \f$: \f$ +\infty \f$ for
+     !!         a singular matrix, and 0 if the computation failed.
+     !!
+     !! @note Unlike [mnorm](@ref la_norms::mnorm), which reads `order = 2` as the Frobenius norm,
+     !!       `cond` reads it as the spectral norm, as NumPy does.
+     !!
+     interface cond
+        module procedure la_cond_char_s
+        module procedure la_cond_err_char_s
+        module procedure la_cond_int_s
+        module procedure la_cond_err_int_s
+        module procedure la_cond_char_d
+        module procedure la_cond_err_char_d
+        module procedure la_cond_int_d
+        module procedure la_cond_err_int_d
+#ifdef LA_WITH_XDP
+        module procedure la_cond_char_x
+        module procedure la_cond_err_char_x
+        module procedure la_cond_int_x
+        module procedure la_cond_err_int_x
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_cond_char_q
+        module procedure la_cond_err_char_q
+        module procedure la_cond_int_q
+        module procedure la_cond_err_int_q
+#endif
+        module procedure la_cond_char_c
+        module procedure la_cond_err_char_c
+        module procedure la_cond_int_c
+        module procedure la_cond_err_int_c
+        module procedure la_cond_char_z
+        module procedure la_cond_err_char_z
+        module procedure la_cond_int_z
+        module procedure la_cond_err_int_z
+#ifdef LA_WITH_XDP
+        module procedure la_cond_char_y
+        module procedure la_cond_err_char_y
+        module procedure la_cond_int_y
+        module procedure la_cond_err_int_y
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_cond_char_w
+        module procedure la_cond_err_char_w
+        module procedure la_cond_int_w
+        module procedure la_cond_err_int_w
+#endif
+     end interface cond
      
      interface parse_norm_type
         module procedure parse_norm_type_integer
@@ -928,6 +997,53 @@ module la_norms
               err = la_state(this,LINALG_VALUE_ERROR,'Order ',norm_type,' is not a valid matrix norm input.')
         end select
      end subroutine lange_task_request
+
+     !> Norm of a condition number from an integer input: 1, 2 (the default) or huge(0)
+     pure subroutine parse_cond_order_int(order,norm_type,err)
+        !> [optional] User input value
+        integer(ilp),optional,intent(in) :: order
+        !> Return value: norm type
+        integer(ilp),intent(out) :: norm_type
+        !> State return flag
+        type(la_state),intent(out) :: err
+
+        norm_type = NORM_TWO
+        if (.not. present(order)) return
+
+        select case (order)
+           case (NORM_ONE,NORM_TWO,NORM_INF)
+              norm_type = order
+           case default
+              err = la_state('cond',LINALG_VALUE_ERROR,'order ',order,' is not a condition number norm: ', &
+                                                       'use 1, 2 or huge(0).')
+        end select
+
+     end subroutine parse_cond_order_int
+
+     !> Norm of a condition number from a character input: as for the norms, plus "fro"
+     pure subroutine parse_cond_order_char(order,norm_type,err)
+        !> User input value
+        character(len=*),intent(in) :: order
+        !> Return value: norm type
+        integer(ilp),intent(out) :: norm_type
+        !> State return flag
+        type(la_state),intent(out) :: err
+
+        integer(ilp) :: int_order
+
+        select case (order)
+           case ('Euclidean','euclidean','EUCLIDEAN','Frobenius','frobenius','FROBENIUS','fro','Fro','FRO')
+              norm_type = COND_FRO
+           case default
+              call parse_norm_type(order,int_order,err)
+              if (err%ok()) then
+                 call parse_cond_order_int(int_order,norm_type,err)
+              else
+                 norm_type = NORM_TWO
+              end if
+        end select
+
+     end subroutine parse_cond_order_char
                
     !==============================================
     ! Norms : any rank to scalar
@@ -28541,6 +28657,1584 @@ module la_norms
         
     end function matrix_norm_7D_to_5D_int_w
     
+#endif
+
+    !==============================================
+    ! Condition number
+    !==============================================
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_char_s(a,order) result(c)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Condition number
+        real(sp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_s(a,norm_type,c)
+        else
+           c = 0.0_sp
+           call err0%handle()
+        end if
+
+    end function la_cond_char_s
+
+    ! Function interface with output error
+    function la_cond_err_char_s(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(sp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err)
+        if (err%ok()) then
+           call cond_s(a,norm_type,c,err)
+        else
+           c = 0.0_sp
+        end if
+
+    end function la_cond_err_char_s
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_int_s(a,order) result(c)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Condition number
+        real(sp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_s(a,norm_type,c)
+        else
+           c = 0.0_sp
+           call err0%handle()
+        end if
+
+    end function la_cond_int_s
+
+    ! Function interface with output error
+    function la_cond_err_int_s(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(sp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err)
+        if (err%ok()) then
+           call cond_s(a,norm_type,c,err)
+        else
+           c = 0.0_sp
+        end if
+
+    end function la_cond_err_int_s
+
+    !> Condition number of a(m,n) in a parsed norm: NORM_ONE, NORM_TWO, NORM_INF or COND_FRO
+    pure subroutine cond_s(a,norm_type,c,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> Parsed norm type
+        integer(ilp),intent(in) :: norm_type
+        !> Condition number: +inf for a singular matrix, 0 on error
+        real(sp),intent(out) :: c
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(la_state),optional,intent(out) :: err
+
+        type(la_state) :: err0
+        integer(ilp) :: m,n,info,lwork
+        integer(ilp),allocatable :: ipiv(:)
+        integer(ilp),allocatable :: iwork(:)
+        character :: lange_task
+        real(sp) :: anorm,ainvnorm,rcond
+        real(sp),allocatable :: s(:),wnorm(:)
+        real(sp) :: work_dummy(1)
+        real(sp),allocatable :: amat(:,:),work(:)
+        character(*),parameter :: this = 'cond'
+
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        c = 0.0_sp
+
+        if (m < 1 .or. n < 1) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+
+        elseif (norm_type == NORM_TWO) then
+
+           ! Ratio of the extreme singular values, for any shape
+           allocate (amat,source=a)
+           allocate (s(min(m,n)))
+           call svd(amat,s,overwrite_a=.true._lk,err=err0)
+           if (err0%ok()) then
+              if (s(size(s)) > 0) then
+                 c = s(1)/s(size(s))
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+           end if
+
+        elseif (m /= n) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'the 1-, infinity- and Frobenius-norm condition numbers ', &
+                                                   'need a square matrix, a=', [m,n])
+
+        else
+
+           ! Norm of A, before the LU factorization of a copy of it
+           select case (norm_type)
+              case (NORM_ONE)
+                 lange_task = LANGE_NORM_ONE
+              case (NORM_INF)
+                 lange_task = LANGE_NORM_INF
+              case default
+                 lange_task = LANGE_NORM_TWO
+           end select
+           allocate (wnorm(n))
+           call lange_sub(lange_task,n,n,a,n,wnorm,anorm)
+
+           allocate (amat,source=a)
+           allocate (ipiv(n))
+           call getrf(n,n,amat,n,ipiv,info)
+
+           if (info < 0) then
+              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+           elseif (info > 0) then
+              ! A zero pivot: the matrix is singular
+              c = ieee_value(c,ieee_positive_inf)
+           elseif (norm_type == COND_FRO) then
+
+              ! Frobenius norm of the explicit inverse
+              call getri(n,amat,n,ipiv,work_dummy,-1_ilp,info)
+              lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=sp),kind=ilp))
+              allocate (work(lwork))
+              call getri(n,amat,n,ipiv,work,lwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
+              else
+                 call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
+                 c = anorm*ainvnorm
+              end if
+
+           else
+
+              ! LAPACK's estimate of the reciprocal condition number
+              allocate (work(4*n),iwork(n))
+              call gecon(lange_task,n,amat,n,anorm,rcond,work,iwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
+              elseif (rcond > 0) then
+                 c = 1.0_sp/rcond
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+
+           end if
+
+        end if
+
+        call err0%handle(err)
+
+    end subroutine cond_s
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_char_d(a,order) result(c)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Condition number
+        real(dp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_d(a,norm_type,c)
+        else
+           c = 0.0_dp
+           call err0%handle()
+        end if
+
+    end function la_cond_char_d
+
+    ! Function interface with output error
+    function la_cond_err_char_d(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(dp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err)
+        if (err%ok()) then
+           call cond_d(a,norm_type,c,err)
+        else
+           c = 0.0_dp
+        end if
+
+    end function la_cond_err_char_d
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_int_d(a,order) result(c)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Condition number
+        real(dp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_d(a,norm_type,c)
+        else
+           c = 0.0_dp
+           call err0%handle()
+        end if
+
+    end function la_cond_int_d
+
+    ! Function interface with output error
+    function la_cond_err_int_d(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(dp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err)
+        if (err%ok()) then
+           call cond_d(a,norm_type,c,err)
+        else
+           c = 0.0_dp
+        end if
+
+    end function la_cond_err_int_d
+
+    !> Condition number of a(m,n) in a parsed norm: NORM_ONE, NORM_TWO, NORM_INF or COND_FRO
+    pure subroutine cond_d(a,norm_type,c,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> Parsed norm type
+        integer(ilp),intent(in) :: norm_type
+        !> Condition number: +inf for a singular matrix, 0 on error
+        real(dp),intent(out) :: c
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(la_state),optional,intent(out) :: err
+
+        type(la_state) :: err0
+        integer(ilp) :: m,n,info,lwork
+        integer(ilp),allocatable :: ipiv(:)
+        integer(ilp),allocatable :: iwork(:)
+        character :: lange_task
+        real(dp) :: anorm,ainvnorm,rcond
+        real(dp),allocatable :: s(:),wnorm(:)
+        real(dp) :: work_dummy(1)
+        real(dp),allocatable :: amat(:,:),work(:)
+        character(*),parameter :: this = 'cond'
+
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        c = 0.0_dp
+
+        if (m < 1 .or. n < 1) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+
+        elseif (norm_type == NORM_TWO) then
+
+           ! Ratio of the extreme singular values, for any shape
+           allocate (amat,source=a)
+           allocate (s(min(m,n)))
+           call svd(amat,s,overwrite_a=.true._lk,err=err0)
+           if (err0%ok()) then
+              if (s(size(s)) > 0) then
+                 c = s(1)/s(size(s))
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+           end if
+
+        elseif (m /= n) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'the 1-, infinity- and Frobenius-norm condition numbers ', &
+                                                   'need a square matrix, a=', [m,n])
+
+        else
+
+           ! Norm of A, before the LU factorization of a copy of it
+           select case (norm_type)
+              case (NORM_ONE)
+                 lange_task = LANGE_NORM_ONE
+              case (NORM_INF)
+                 lange_task = LANGE_NORM_INF
+              case default
+                 lange_task = LANGE_NORM_TWO
+           end select
+           allocate (wnorm(n))
+           call lange_sub(lange_task,n,n,a,n,wnorm,anorm)
+
+           allocate (amat,source=a)
+           allocate (ipiv(n))
+           call getrf(n,n,amat,n,ipiv,info)
+
+           if (info < 0) then
+              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+           elseif (info > 0) then
+              ! A zero pivot: the matrix is singular
+              c = ieee_value(c,ieee_positive_inf)
+           elseif (norm_type == COND_FRO) then
+
+              ! Frobenius norm of the explicit inverse
+              call getri(n,amat,n,ipiv,work_dummy,-1_ilp,info)
+              lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=dp),kind=ilp))
+              allocate (work(lwork))
+              call getri(n,amat,n,ipiv,work,lwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
+              else
+                 call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
+                 c = anorm*ainvnorm
+              end if
+
+           else
+
+              ! LAPACK's estimate of the reciprocal condition number
+              allocate (work(4*n),iwork(n))
+              call gecon(lange_task,n,amat,n,anorm,rcond,work,iwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
+              elseif (rcond > 0) then
+                 c = 1.0_dp/rcond
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+
+           end if
+
+        end if
+
+        call err0%handle(err)
+
+    end subroutine cond_d
+
+#ifdef LA_WITH_XDP
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_char_x(a,order) result(c)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Condition number
+        real(xdp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_x(a,norm_type,c)
+        else
+           c = 0.0_xdp
+           call err0%handle()
+        end if
+
+    end function la_cond_char_x
+
+    ! Function interface with output error
+    function la_cond_err_char_x(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(xdp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err)
+        if (err%ok()) then
+           call cond_x(a,norm_type,c,err)
+        else
+           c = 0.0_xdp
+        end if
+
+    end function la_cond_err_char_x
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_int_x(a,order) result(c)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Condition number
+        real(xdp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_x(a,norm_type,c)
+        else
+           c = 0.0_xdp
+           call err0%handle()
+        end if
+
+    end function la_cond_int_x
+
+    ! Function interface with output error
+    function la_cond_err_int_x(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(xdp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err)
+        if (err%ok()) then
+           call cond_x(a,norm_type,c,err)
+        else
+           c = 0.0_xdp
+        end if
+
+    end function la_cond_err_int_x
+
+    !> Condition number of a(m,n) in a parsed norm: NORM_ONE, NORM_TWO, NORM_INF or COND_FRO
+    pure subroutine cond_x(a,norm_type,c,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> Parsed norm type
+        integer(ilp),intent(in) :: norm_type
+        !> Condition number: +inf for a singular matrix, 0 on error
+        real(xdp),intent(out) :: c
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(la_state),optional,intent(out) :: err
+
+        type(la_state) :: err0
+        integer(ilp) :: m,n,info,lwork
+        integer(ilp),allocatable :: ipiv(:)
+        integer(ilp),allocatable :: iwork(:)
+        character :: lange_task
+        real(xdp) :: anorm,ainvnorm,rcond
+        real(xdp),allocatable :: s(:),wnorm(:)
+        real(xdp) :: work_dummy(1)
+        real(xdp),allocatable :: amat(:,:),work(:)
+        character(*),parameter :: this = 'cond'
+
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        c = 0.0_xdp
+
+        if (m < 1 .or. n < 1) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+
+        elseif (norm_type == NORM_TWO) then
+
+           ! Ratio of the extreme singular values, for any shape
+           allocate (amat,source=a)
+           allocate (s(min(m,n)))
+           call svd(amat,s,overwrite_a=.true._lk,err=err0)
+           if (err0%ok()) then
+              if (s(size(s)) > 0) then
+                 c = s(1)/s(size(s))
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+           end if
+
+        elseif (m /= n) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'the 1-, infinity- and Frobenius-norm condition numbers ', &
+                                                   'need a square matrix, a=', [m,n])
+
+        else
+
+           ! Norm of A, before the LU factorization of a copy of it
+           select case (norm_type)
+              case (NORM_ONE)
+                 lange_task = LANGE_NORM_ONE
+              case (NORM_INF)
+                 lange_task = LANGE_NORM_INF
+              case default
+                 lange_task = LANGE_NORM_TWO
+           end select
+           allocate (wnorm(n))
+           call lange_sub(lange_task,n,n,a,n,wnorm,anorm)
+
+           allocate (amat,source=a)
+           allocate (ipiv(n))
+           call getrf(n,n,amat,n,ipiv,info)
+
+           if (info < 0) then
+              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+           elseif (info > 0) then
+              ! A zero pivot: the matrix is singular
+              c = ieee_value(c,ieee_positive_inf)
+           elseif (norm_type == COND_FRO) then
+
+              ! Frobenius norm of the explicit inverse
+              call getri(n,amat,n,ipiv,work_dummy,-1_ilp,info)
+              lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=xdp),kind=ilp))
+              allocate (work(lwork))
+              call getri(n,amat,n,ipiv,work,lwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
+              else
+                 call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
+                 c = anorm*ainvnorm
+              end if
+
+           else
+
+              ! LAPACK's estimate of the reciprocal condition number
+              allocate (work(4*n),iwork(n))
+              call gecon(lange_task,n,amat,n,anorm,rcond,work,iwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
+              elseif (rcond > 0) then
+                 c = 1.0_xdp/rcond
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+
+           end if
+
+        end if
+
+        call err0%handle(err)
+
+    end subroutine cond_x
+
+#endif
+#ifdef LA_WITH_QP
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_char_q(a,order) result(c)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Condition number
+        real(qp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_q(a,norm_type,c)
+        else
+           c = 0.0_qp
+           call err0%handle()
+        end if
+
+    end function la_cond_char_q
+
+    ! Function interface with output error
+    function la_cond_err_char_q(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(qp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err)
+        if (err%ok()) then
+           call cond_q(a,norm_type,c,err)
+        else
+           c = 0.0_qp
+        end if
+
+    end function la_cond_err_char_q
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_int_q(a,order) result(c)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Condition number
+        real(qp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_q(a,norm_type,c)
+        else
+           c = 0.0_qp
+           call err0%handle()
+        end if
+
+    end function la_cond_int_q
+
+    ! Function interface with output error
+    function la_cond_err_int_q(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(qp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err)
+        if (err%ok()) then
+           call cond_q(a,norm_type,c,err)
+        else
+           c = 0.0_qp
+        end if
+
+    end function la_cond_err_int_q
+
+    !> Condition number of a(m,n) in a parsed norm: NORM_ONE, NORM_TWO, NORM_INF or COND_FRO
+    pure subroutine cond_q(a,norm_type,c,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> Parsed norm type
+        integer(ilp),intent(in) :: norm_type
+        !> Condition number: +inf for a singular matrix, 0 on error
+        real(qp),intent(out) :: c
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(la_state),optional,intent(out) :: err
+
+        type(la_state) :: err0
+        integer(ilp) :: m,n,info,lwork
+        integer(ilp),allocatable :: ipiv(:)
+        integer(ilp),allocatable :: iwork(:)
+        character :: lange_task
+        real(qp) :: anorm,ainvnorm,rcond
+        real(qp),allocatable :: s(:),wnorm(:)
+        real(qp) :: work_dummy(1)
+        real(qp),allocatable :: amat(:,:),work(:)
+        character(*),parameter :: this = 'cond'
+
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        c = 0.0_qp
+
+        if (m < 1 .or. n < 1) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+
+        elseif (norm_type == NORM_TWO) then
+
+           ! Ratio of the extreme singular values, for any shape
+           allocate (amat,source=a)
+           allocate (s(min(m,n)))
+           call svd(amat,s,overwrite_a=.true._lk,err=err0)
+           if (err0%ok()) then
+              if (s(size(s)) > 0) then
+                 c = s(1)/s(size(s))
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+           end if
+
+        elseif (m /= n) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'the 1-, infinity- and Frobenius-norm condition numbers ', &
+                                                   'need a square matrix, a=', [m,n])
+
+        else
+
+           ! Norm of A, before the LU factorization of a copy of it
+           select case (norm_type)
+              case (NORM_ONE)
+                 lange_task = LANGE_NORM_ONE
+              case (NORM_INF)
+                 lange_task = LANGE_NORM_INF
+              case default
+                 lange_task = LANGE_NORM_TWO
+           end select
+           allocate (wnorm(n))
+           call lange_sub(lange_task,n,n,a,n,wnorm,anorm)
+
+           allocate (amat,source=a)
+           allocate (ipiv(n))
+           call getrf(n,n,amat,n,ipiv,info)
+
+           if (info < 0) then
+              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+           elseif (info > 0) then
+              ! A zero pivot: the matrix is singular
+              c = ieee_value(c,ieee_positive_inf)
+           elseif (norm_type == COND_FRO) then
+
+              ! Frobenius norm of the explicit inverse
+              call getri(n,amat,n,ipiv,work_dummy,-1_ilp,info)
+              lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=qp),kind=ilp))
+              allocate (work(lwork))
+              call getri(n,amat,n,ipiv,work,lwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
+              else
+                 call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
+                 c = anorm*ainvnorm
+              end if
+
+           else
+
+              ! LAPACK's estimate of the reciprocal condition number
+              allocate (work(4*n),iwork(n))
+              call gecon(lange_task,n,amat,n,anorm,rcond,work,iwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
+              elseif (rcond > 0) then
+                 c = 1.0_qp/rcond
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+
+           end if
+
+        end if
+
+        call err0%handle(err)
+
+    end subroutine cond_q
+
+#endif
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_char_c(a,order) result(c)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Condition number
+        real(sp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_c(a,norm_type,c)
+        else
+           c = 0.0_sp
+           call err0%handle()
+        end if
+
+    end function la_cond_char_c
+
+    ! Function interface with output error
+    function la_cond_err_char_c(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(sp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err)
+        if (err%ok()) then
+           call cond_c(a,norm_type,c,err)
+        else
+           c = 0.0_sp
+        end if
+
+    end function la_cond_err_char_c
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_int_c(a,order) result(c)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Condition number
+        real(sp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_c(a,norm_type,c)
+        else
+           c = 0.0_sp
+           call err0%handle()
+        end if
+
+    end function la_cond_int_c
+
+    ! Function interface with output error
+    function la_cond_err_int_c(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(sp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err)
+        if (err%ok()) then
+           call cond_c(a,norm_type,c,err)
+        else
+           c = 0.0_sp
+        end if
+
+    end function la_cond_err_int_c
+
+    !> Condition number of a(m,n) in a parsed norm: NORM_ONE, NORM_TWO, NORM_INF or COND_FRO
+    pure subroutine cond_c(a,norm_type,c,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> Parsed norm type
+        integer(ilp),intent(in) :: norm_type
+        !> Condition number: +inf for a singular matrix, 0 on error
+        real(sp),intent(out) :: c
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(la_state),optional,intent(out) :: err
+
+        type(la_state) :: err0
+        integer(ilp) :: m,n,info,lwork
+        integer(ilp),allocatable :: ipiv(:)
+        character :: lange_task
+        real(sp) :: anorm,ainvnorm,rcond
+        real(sp),allocatable :: s(:),wnorm(:)
+        real(sp),allocatable :: rwork(:)
+        complex(sp) :: work_dummy(1)
+        complex(sp),allocatable :: amat(:,:),work(:)
+        character(*),parameter :: this = 'cond'
+
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        c = 0.0_sp
+
+        if (m < 1 .or. n < 1) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+
+        elseif (norm_type == NORM_TWO) then
+
+           ! Ratio of the extreme singular values, for any shape
+           allocate (amat,source=a)
+           allocate (s(min(m,n)))
+           call svd(amat,s,overwrite_a=.true._lk,err=err0)
+           if (err0%ok()) then
+              if (s(size(s)) > 0) then
+                 c = s(1)/s(size(s))
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+           end if
+
+        elseif (m /= n) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'the 1-, infinity- and Frobenius-norm condition numbers ', &
+                                                   'need a square matrix, a=', [m,n])
+
+        else
+
+           ! Norm of A, before the LU factorization of a copy of it
+           select case (norm_type)
+              case (NORM_ONE)
+                 lange_task = LANGE_NORM_ONE
+              case (NORM_INF)
+                 lange_task = LANGE_NORM_INF
+              case default
+                 lange_task = LANGE_NORM_TWO
+           end select
+           allocate (wnorm(n))
+           call lange_sub(lange_task,n,n,a,n,wnorm,anorm)
+
+           allocate (amat,source=a)
+           allocate (ipiv(n))
+           call getrf(n,n,amat,n,ipiv,info)
+
+           if (info < 0) then
+              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+           elseif (info > 0) then
+              ! A zero pivot: the matrix is singular
+              c = ieee_value(c,ieee_positive_inf)
+           elseif (norm_type == COND_FRO) then
+
+              ! Frobenius norm of the explicit inverse
+              call getri(n,amat,n,ipiv,work_dummy,-1_ilp,info)
+              lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=sp),kind=ilp))
+              allocate (work(lwork))
+              call getri(n,amat,n,ipiv,work,lwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
+              else
+                 call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
+                 c = anorm*ainvnorm
+              end if
+
+           else
+
+              ! LAPACK's estimate of the reciprocal condition number
+              allocate (work(2*n),rwork(2*n))
+              call gecon(lange_task,n,amat,n,anorm,rcond,work,rwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
+              elseif (rcond > 0) then
+                 c = 1.0_sp/rcond
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+
+           end if
+
+        end if
+
+        call err0%handle(err)
+
+    end subroutine cond_c
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_char_z(a,order) result(c)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Condition number
+        real(dp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_z(a,norm_type,c)
+        else
+           c = 0.0_dp
+           call err0%handle()
+        end if
+
+    end function la_cond_char_z
+
+    ! Function interface with output error
+    function la_cond_err_char_z(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(dp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err)
+        if (err%ok()) then
+           call cond_z(a,norm_type,c,err)
+        else
+           c = 0.0_dp
+        end if
+
+    end function la_cond_err_char_z
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_int_z(a,order) result(c)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Condition number
+        real(dp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_z(a,norm_type,c)
+        else
+           c = 0.0_dp
+           call err0%handle()
+        end if
+
+    end function la_cond_int_z
+
+    ! Function interface with output error
+    function la_cond_err_int_z(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(dp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err)
+        if (err%ok()) then
+           call cond_z(a,norm_type,c,err)
+        else
+           c = 0.0_dp
+        end if
+
+    end function la_cond_err_int_z
+
+    !> Condition number of a(m,n) in a parsed norm: NORM_ONE, NORM_TWO, NORM_INF or COND_FRO
+    pure subroutine cond_z(a,norm_type,c,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> Parsed norm type
+        integer(ilp),intent(in) :: norm_type
+        !> Condition number: +inf for a singular matrix, 0 on error
+        real(dp),intent(out) :: c
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(la_state),optional,intent(out) :: err
+
+        type(la_state) :: err0
+        integer(ilp) :: m,n,info,lwork
+        integer(ilp),allocatable :: ipiv(:)
+        character :: lange_task
+        real(dp) :: anorm,ainvnorm,rcond
+        real(dp),allocatable :: s(:),wnorm(:)
+        real(dp),allocatable :: rwork(:)
+        complex(dp) :: work_dummy(1)
+        complex(dp),allocatable :: amat(:,:),work(:)
+        character(*),parameter :: this = 'cond'
+
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        c = 0.0_dp
+
+        if (m < 1 .or. n < 1) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+
+        elseif (norm_type == NORM_TWO) then
+
+           ! Ratio of the extreme singular values, for any shape
+           allocate (amat,source=a)
+           allocate (s(min(m,n)))
+           call svd(amat,s,overwrite_a=.true._lk,err=err0)
+           if (err0%ok()) then
+              if (s(size(s)) > 0) then
+                 c = s(1)/s(size(s))
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+           end if
+
+        elseif (m /= n) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'the 1-, infinity- and Frobenius-norm condition numbers ', &
+                                                   'need a square matrix, a=', [m,n])
+
+        else
+
+           ! Norm of A, before the LU factorization of a copy of it
+           select case (norm_type)
+              case (NORM_ONE)
+                 lange_task = LANGE_NORM_ONE
+              case (NORM_INF)
+                 lange_task = LANGE_NORM_INF
+              case default
+                 lange_task = LANGE_NORM_TWO
+           end select
+           allocate (wnorm(n))
+           call lange_sub(lange_task,n,n,a,n,wnorm,anorm)
+
+           allocate (amat,source=a)
+           allocate (ipiv(n))
+           call getrf(n,n,amat,n,ipiv,info)
+
+           if (info < 0) then
+              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+           elseif (info > 0) then
+              ! A zero pivot: the matrix is singular
+              c = ieee_value(c,ieee_positive_inf)
+           elseif (norm_type == COND_FRO) then
+
+              ! Frobenius norm of the explicit inverse
+              call getri(n,amat,n,ipiv,work_dummy,-1_ilp,info)
+              lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=dp),kind=ilp))
+              allocate (work(lwork))
+              call getri(n,amat,n,ipiv,work,lwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
+              else
+                 call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
+                 c = anorm*ainvnorm
+              end if
+
+           else
+
+              ! LAPACK's estimate of the reciprocal condition number
+              allocate (work(2*n),rwork(2*n))
+              call gecon(lange_task,n,amat,n,anorm,rcond,work,rwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
+              elseif (rcond > 0) then
+                 c = 1.0_dp/rcond
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+
+           end if
+
+        end if
+
+        call err0%handle(err)
+
+    end subroutine cond_z
+
+#ifdef LA_WITH_XDP
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_char_y(a,order) result(c)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Condition number
+        real(xdp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_y(a,norm_type,c)
+        else
+           c = 0.0_xdp
+           call err0%handle()
+        end if
+
+    end function la_cond_char_y
+
+    ! Function interface with output error
+    function la_cond_err_char_y(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(xdp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err)
+        if (err%ok()) then
+           call cond_y(a,norm_type,c,err)
+        else
+           c = 0.0_xdp
+        end if
+
+    end function la_cond_err_char_y
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_int_y(a,order) result(c)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Condition number
+        real(xdp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_y(a,norm_type,c)
+        else
+           c = 0.0_xdp
+           call err0%handle()
+        end if
+
+    end function la_cond_int_y
+
+    ! Function interface with output error
+    function la_cond_err_int_y(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(xdp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err)
+        if (err%ok()) then
+           call cond_y(a,norm_type,c,err)
+        else
+           c = 0.0_xdp
+        end if
+
+    end function la_cond_err_int_y
+
+    !> Condition number of a(m,n) in a parsed norm: NORM_ONE, NORM_TWO, NORM_INF or COND_FRO
+    pure subroutine cond_y(a,norm_type,c,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> Parsed norm type
+        integer(ilp),intent(in) :: norm_type
+        !> Condition number: +inf for a singular matrix, 0 on error
+        real(xdp),intent(out) :: c
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(la_state),optional,intent(out) :: err
+
+        type(la_state) :: err0
+        integer(ilp) :: m,n,info,lwork
+        integer(ilp),allocatable :: ipiv(:)
+        character :: lange_task
+        real(xdp) :: anorm,ainvnorm,rcond
+        real(xdp),allocatable :: s(:),wnorm(:)
+        real(xdp),allocatable :: rwork(:)
+        complex(xdp) :: work_dummy(1)
+        complex(xdp),allocatable :: amat(:,:),work(:)
+        character(*),parameter :: this = 'cond'
+
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        c = 0.0_xdp
+
+        if (m < 1 .or. n < 1) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+
+        elseif (norm_type == NORM_TWO) then
+
+           ! Ratio of the extreme singular values, for any shape
+           allocate (amat,source=a)
+           allocate (s(min(m,n)))
+           call svd(amat,s,overwrite_a=.true._lk,err=err0)
+           if (err0%ok()) then
+              if (s(size(s)) > 0) then
+                 c = s(1)/s(size(s))
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+           end if
+
+        elseif (m /= n) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'the 1-, infinity- and Frobenius-norm condition numbers ', &
+                                                   'need a square matrix, a=', [m,n])
+
+        else
+
+           ! Norm of A, before the LU factorization of a copy of it
+           select case (norm_type)
+              case (NORM_ONE)
+                 lange_task = LANGE_NORM_ONE
+              case (NORM_INF)
+                 lange_task = LANGE_NORM_INF
+              case default
+                 lange_task = LANGE_NORM_TWO
+           end select
+           allocate (wnorm(n))
+           call lange_sub(lange_task,n,n,a,n,wnorm,anorm)
+
+           allocate (amat,source=a)
+           allocate (ipiv(n))
+           call getrf(n,n,amat,n,ipiv,info)
+
+           if (info < 0) then
+              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+           elseif (info > 0) then
+              ! A zero pivot: the matrix is singular
+              c = ieee_value(c,ieee_positive_inf)
+           elseif (norm_type == COND_FRO) then
+
+              ! Frobenius norm of the explicit inverse
+              call getri(n,amat,n,ipiv,work_dummy,-1_ilp,info)
+              lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=xdp),kind=ilp))
+              allocate (work(lwork))
+              call getri(n,amat,n,ipiv,work,lwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
+              else
+                 call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
+                 c = anorm*ainvnorm
+              end if
+
+           else
+
+              ! LAPACK's estimate of the reciprocal condition number
+              allocate (work(2*n),rwork(2*n))
+              call gecon(lange_task,n,amat,n,anorm,rcond,work,rwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
+              elseif (rcond > 0) then
+                 c = 1.0_xdp/rcond
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+
+           end if
+
+        end if
+
+        call err0%handle(err)
+
+    end subroutine cond_y
+
+#endif
+#ifdef LA_WITH_QP
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_char_w(a,order) result(c)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Condition number
+        real(qp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_w(a,norm_type,c)
+        else
+           c = 0.0_qp
+           call err0%handle()
+        end if
+
+    end function la_cond_char_w
+
+    ! Function interface with output error
+    function la_cond_err_char_w(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(qp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_char(order,norm_type,err)
+        if (err%ok()) then
+           call cond_w(a,norm_type,c,err)
+        else
+           c = 0.0_qp
+        end if
+
+    end function la_cond_err_char_w
+
+    ! Pure function interface. On error, the code will stop
+    pure function la_cond_int_w(a,order) result(c)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Condition number
+        real(qp) :: c
+
+        type(la_state) :: err0
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err0)
+        if (err0%ok()) then
+           call cond_w(a,norm_type,c)
+        else
+           c = 0.0_qp
+           call err0%handle()
+        end if
+
+    end function la_cond_int_w
+
+    ! Function interface with output error
+    function la_cond_err_int_w(a,order,err) result(c)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> [optional] Order of the matrix norm: 1, 2 (default) or huge(0)
+        integer(ilp),optional,intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Condition number
+        real(qp) :: c
+
+        integer(ilp) :: norm_type
+
+        call parse_cond_order_int(order,norm_type,err)
+        if (err%ok()) then
+           call cond_w(a,norm_type,c,err)
+        else
+           c = 0.0_qp
+        end if
+
+    end function la_cond_err_int_w
+
+    !> Condition number of a(m,n) in a parsed norm: NORM_ONE, NORM_TWO, NORM_INF or COND_FRO
+    pure subroutine cond_w(a,norm_type,c,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> Parsed norm type
+        integer(ilp),intent(in) :: norm_type
+        !> Condition number: +inf for a singular matrix, 0 on error
+        real(qp),intent(out) :: c
+        !> [optional] state return flag. On error if not requested, the code will stop
+        type(la_state),optional,intent(out) :: err
+
+        type(la_state) :: err0
+        integer(ilp) :: m,n,info,lwork
+        integer(ilp),allocatable :: ipiv(:)
+        character :: lange_task
+        real(qp) :: anorm,ainvnorm,rcond
+        real(qp),allocatable :: s(:),wnorm(:)
+        real(qp),allocatable :: rwork(:)
+        complex(qp) :: work_dummy(1)
+        complex(qp),allocatable :: amat(:,:),work(:)
+        character(*),parameter :: this = 'cond'
+
+        m = size(a,1,kind=ilp)
+        n = size(a,2,kind=ilp)
+        c = 0.0_qp
+
+        if (m < 1 .or. n < 1) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
+
+        elseif (norm_type == NORM_TWO) then
+
+           ! Ratio of the extreme singular values, for any shape
+           allocate (amat,source=a)
+           allocate (s(min(m,n)))
+           call svd(amat,s,overwrite_a=.true._lk,err=err0)
+           if (err0%ok()) then
+              if (s(size(s)) > 0) then
+                 c = s(1)/s(size(s))
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+           end if
+
+        elseif (m /= n) then
+
+           err0 = la_state(this,LINALG_VALUE_ERROR,'the 1-, infinity- and Frobenius-norm condition numbers ', &
+                                                   'need a square matrix, a=', [m,n])
+
+        else
+
+           ! Norm of A, before the LU factorization of a copy of it
+           select case (norm_type)
+              case (NORM_ONE)
+                 lange_task = LANGE_NORM_ONE
+              case (NORM_INF)
+                 lange_task = LANGE_NORM_INF
+              case default
+                 lange_task = LANGE_NORM_TWO
+           end select
+           allocate (wnorm(n))
+           call lange_sub(lange_task,n,n,a,n,wnorm,anorm)
+
+           allocate (amat,source=a)
+           allocate (ipiv(n))
+           call getrf(n,n,amat,n,ipiv,info)
+
+           if (info < 0) then
+              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+           elseif (info > 0) then
+              ! A zero pivot: the matrix is singular
+              c = ieee_value(c,ieee_positive_inf)
+           elseif (norm_type == COND_FRO) then
+
+              ! Frobenius norm of the explicit inverse
+              call getri(n,amat,n,ipiv,work_dummy,-1_ilp,info)
+              lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=qp),kind=ilp))
+              allocate (work(lwork))
+              call getri(n,amat,n,ipiv,work,lwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
+              else
+                 call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
+                 c = anorm*ainvnorm
+              end if
+
+           else
+
+              ! LAPACK's estimate of the reciprocal condition number
+              allocate (work(2*n),rwork(2*n))
+              call gecon(lange_task,n,amat,n,anorm,rcond,work,rwork,info)
+              if (info /= 0) then
+                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
+              elseif (rcond > 0) then
+                 c = 1.0_qp/rcond
+              else
+                 c = ieee_value(c,ieee_positive_inf)
+              end if
+
+           end if
+
+        end if
+
+        call err0%handle(err)
+
+    end subroutine cond_w
+
 #endif
 
 end module la_norms

@@ -44,6 +44,24 @@ module la_svd
      !!
      public :: svdvals
 
+     !> @brief Compute the rank of a matrix.
+     !!
+     !! This function returns the number of singular values of the real or complex matrix \f$ A \f$
+     !! that are larger than \f$ \max(atol, rtol \cdot \sigma_{max}) \f$, where \f$ \sigma_{max} \f$
+     !! is its largest singular value.
+     !!
+     !! @param[in] a The input matrix \f$ A \f$ of size \f$ [m,n] \f$.
+     !! @param[in] rtol (Optional) Relative tolerance. Default is \f$ \max(m,n) \cdot \epsilon \f$.
+     !! @param[in] atol (Optional) Absolute tolerance. Default is 0.
+     !! @param[out] err (Optional) A state return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
+     !! @return The rank of \f$ A \f$, an `integer(ilp)`. An empty matrix has rank 0, and a failed
+     !!         computation returns 0.
+     !!
+     !! @note The singular values come from the LAPACK [gesdd](@ref la_lapack::gesdd) backend.
+     !!
+     public :: matrix_rank
+
      interface svd
         module procedure la_svd_s
         module procedure la_svd_d
@@ -81,6 +99,33 @@ module la_svd
         module procedure la_svdvals_w
 #endif
      end interface svdvals
+
+     interface matrix_rank
+        module procedure la_matrix_rank_s
+        module procedure la_matrix_rank_err_s
+        module procedure la_matrix_rank_d
+        module procedure la_matrix_rank_err_d
+#ifdef LA_WITH_XDP
+        module procedure la_matrix_rank_x
+        module procedure la_matrix_rank_err_x
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_matrix_rank_q
+        module procedure la_matrix_rank_err_q
+#endif
+        module procedure la_matrix_rank_c
+        module procedure la_matrix_rank_err_c
+        module procedure la_matrix_rank_z
+        module procedure la_matrix_rank_err_z
+#ifdef LA_WITH_XDP
+        module procedure la_matrix_rank_y
+        module procedure la_matrix_rank_err_y
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_matrix_rank_w
+        module procedure la_matrix_rank_err_w
+#endif
+     end interface matrix_rank
 
      !> Return full matrices U, V^T to separate storage
      character,parameter :: GESDD_FULL_MATRICES = 'A'
@@ -316,6 +361,84 @@ module la_svd
 
      end subroutine la_svd_s
 
+     !> Rank of matrix A, function form: `pure`, stops on error
+     pure function la_matrix_rank_s(a,rtol,atol) result(r)
+         !> Input matrix A[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(sp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(sp),optional,intent(in) :: atol
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_s(a,r,rtol,atol)
+
+     end function la_matrix_rank_s
+
+     !> Rank of matrix A, function form with a state return flag
+     function la_matrix_rank_err_s(a,rtol,atol,err) result(r)
+         !> Input matrix A[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(sp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(sp),optional,intent(in) :: atol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_s(a,r,rtol,atol,err)
+
+     end function la_matrix_rank_err_s
+
+     !> Rank of matrix A: the number of singular values above max(atol, rtol*smax)
+     pure subroutine matrix_rank_s(a,r,rtol,atol,err)
+         !> Input matrix A[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Matrix rank; 0 on error
+         integer(ilp),intent(out) :: r
+         !> [optional] Relative tolerance, on the largest singular value
+         real(sp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(sp),optional,intent(in) :: atol
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,k
+         real(sp) :: rtol_,atol_
+         real(sp),allocatable :: s(:)
+         real(sp),allocatable :: amat(:,:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         r = 0_ilp
+
+         ! Default tolerances: a relative one that scales with the roundoff of the SVD, no absolute one
+         rtol_ = max(m,n)*epsilon(0.0_sp)
+         if (present(rtol)) rtol_ = rtol
+         atol_ = 0.0_sp
+         if (present(atol)) atol_ = atol
+
+         if (.not. (rtol_ >= 0 .and. atol_ >= 0)) then
+            err0 = la_state('matrix_rank',LINALG_VALUE_ERROR,'tolerances must be non-negative: rtol=',rtol_, &
+                            ', atol=',atol_)
+         elseif (k > 0) then
+            ! Singular values of a copy of A
+            allocate (amat,source=a)
+            allocate (s(k))
+            call la_svd_s(amat,s,overwrite_a=.true._lk,err=err0)
+            if (err0%ok()) r = count(s > max(atol_,rtol_*s(1)),kind=ilp)
+         end if
+
+         call err0%handle(err)
+
+     end subroutine matrix_rank_s
+
      !> Singular values of matrix A
      function la_svdvals_d(a,err) result(s)
          !> Input matrix A[m,n]
@@ -502,6 +625,84 @@ module la_svd
          call err0%handle(err)
 
      end subroutine la_svd_d
+
+     !> Rank of matrix A, function form: `pure`, stops on error
+     pure function la_matrix_rank_d(a,rtol,atol) result(r)
+         !> Input matrix A[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(dp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(dp),optional,intent(in) :: atol
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_d(a,r,rtol,atol)
+
+     end function la_matrix_rank_d
+
+     !> Rank of matrix A, function form with a state return flag
+     function la_matrix_rank_err_d(a,rtol,atol,err) result(r)
+         !> Input matrix A[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(dp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(dp),optional,intent(in) :: atol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_d(a,r,rtol,atol,err)
+
+     end function la_matrix_rank_err_d
+
+     !> Rank of matrix A: the number of singular values above max(atol, rtol*smax)
+     pure subroutine matrix_rank_d(a,r,rtol,atol,err)
+         !> Input matrix A[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Matrix rank; 0 on error
+         integer(ilp),intent(out) :: r
+         !> [optional] Relative tolerance, on the largest singular value
+         real(dp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(dp),optional,intent(in) :: atol
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,k
+         real(dp) :: rtol_,atol_
+         real(dp),allocatable :: s(:)
+         real(dp),allocatable :: amat(:,:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         r = 0_ilp
+
+         ! Default tolerances: a relative one that scales with the roundoff of the SVD, no absolute one
+         rtol_ = max(m,n)*epsilon(0.0_dp)
+         if (present(rtol)) rtol_ = rtol
+         atol_ = 0.0_dp
+         if (present(atol)) atol_ = atol
+
+         if (.not. (rtol_ >= 0 .and. atol_ >= 0)) then
+            err0 = la_state('matrix_rank',LINALG_VALUE_ERROR,'tolerances must be non-negative: rtol=',rtol_, &
+                            ', atol=',atol_)
+         elseif (k > 0) then
+            ! Singular values of a copy of A
+            allocate (amat,source=a)
+            allocate (s(k))
+            call la_svd_d(amat,s,overwrite_a=.true._lk,err=err0)
+            if (err0%ok()) r = count(s > max(atol_,rtol_*s(1)),kind=ilp)
+         end if
+
+         call err0%handle(err)
+
+     end subroutine matrix_rank_d
 
 #ifdef LA_WITH_XDP
      !> Singular values of matrix A
@@ -690,6 +891,84 @@ module la_svd
          call err0%handle(err)
 
      end subroutine la_svd_x
+
+     !> Rank of matrix A, function form: `pure`, stops on error
+     pure function la_matrix_rank_x(a,rtol,atol) result(r)
+         !> Input matrix A[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(xdp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(xdp),optional,intent(in) :: atol
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_x(a,r,rtol,atol)
+
+     end function la_matrix_rank_x
+
+     !> Rank of matrix A, function form with a state return flag
+     function la_matrix_rank_err_x(a,rtol,atol,err) result(r)
+         !> Input matrix A[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(xdp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(xdp),optional,intent(in) :: atol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_x(a,r,rtol,atol,err)
+
+     end function la_matrix_rank_err_x
+
+     !> Rank of matrix A: the number of singular values above max(atol, rtol*smax)
+     pure subroutine matrix_rank_x(a,r,rtol,atol,err)
+         !> Input matrix A[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Matrix rank; 0 on error
+         integer(ilp),intent(out) :: r
+         !> [optional] Relative tolerance, on the largest singular value
+         real(xdp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(xdp),optional,intent(in) :: atol
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,k
+         real(xdp) :: rtol_,atol_
+         real(xdp),allocatable :: s(:)
+         real(xdp),allocatable :: amat(:,:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         r = 0_ilp
+
+         ! Default tolerances: a relative one that scales with the roundoff of the SVD, no absolute one
+         rtol_ = max(m,n)*epsilon(0.0_xdp)
+         if (present(rtol)) rtol_ = rtol
+         atol_ = 0.0_xdp
+         if (present(atol)) atol_ = atol
+
+         if (.not. (rtol_ >= 0 .and. atol_ >= 0)) then
+            err0 = la_state('matrix_rank',LINALG_VALUE_ERROR,'tolerances must be non-negative: rtol=',rtol_, &
+                            ', atol=',atol_)
+         elseif (k > 0) then
+            ! Singular values of a copy of A
+            allocate (amat,source=a)
+            allocate (s(k))
+            call la_svd_x(amat,s,overwrite_a=.true._lk,err=err0)
+            if (err0%ok()) r = count(s > max(atol_,rtol_*s(1)),kind=ilp)
+         end if
+
+         call err0%handle(err)
+
+     end subroutine matrix_rank_x
 #endif
 
 #ifdef LA_WITH_QP
@@ -879,6 +1158,84 @@ module la_svd
          call err0%handle(err)
 
      end subroutine la_svd_q
+
+     !> Rank of matrix A, function form: `pure`, stops on error
+     pure function la_matrix_rank_q(a,rtol,atol) result(r)
+         !> Input matrix A[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(qp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(qp),optional,intent(in) :: atol
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_q(a,r,rtol,atol)
+
+     end function la_matrix_rank_q
+
+     !> Rank of matrix A, function form with a state return flag
+     function la_matrix_rank_err_q(a,rtol,atol,err) result(r)
+         !> Input matrix A[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(qp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(qp),optional,intent(in) :: atol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_q(a,r,rtol,atol,err)
+
+     end function la_matrix_rank_err_q
+
+     !> Rank of matrix A: the number of singular values above max(atol, rtol*smax)
+     pure subroutine matrix_rank_q(a,r,rtol,atol,err)
+         !> Input matrix A[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Matrix rank; 0 on error
+         integer(ilp),intent(out) :: r
+         !> [optional] Relative tolerance, on the largest singular value
+         real(qp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(qp),optional,intent(in) :: atol
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,k
+         real(qp) :: rtol_,atol_
+         real(qp),allocatable :: s(:)
+         real(qp),allocatable :: amat(:,:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         r = 0_ilp
+
+         ! Default tolerances: a relative one that scales with the roundoff of the SVD, no absolute one
+         rtol_ = max(m,n)*epsilon(0.0_qp)
+         if (present(rtol)) rtol_ = rtol
+         atol_ = 0.0_qp
+         if (present(atol)) atol_ = atol
+
+         if (.not. (rtol_ >= 0 .and. atol_ >= 0)) then
+            err0 = la_state('matrix_rank',LINALG_VALUE_ERROR,'tolerances must be non-negative: rtol=',rtol_, &
+                            ', atol=',atol_)
+         elseif (k > 0) then
+            ! Singular values of a copy of A
+            allocate (amat,source=a)
+            allocate (s(k))
+            call la_svd_q(amat,s,overwrite_a=.true._lk,err=err0)
+            if (err0%ok()) r = count(s > max(atol_,rtol_*s(1)),kind=ilp)
+         end if
+
+         call err0%handle(err)
+
+     end subroutine matrix_rank_q
 #endif
 
      !> Singular values of matrix A
@@ -1074,6 +1431,84 @@ module la_svd
 
      end subroutine la_svd_c
 
+     !> Rank of matrix A, function form: `pure`, stops on error
+     pure function la_matrix_rank_c(a,rtol,atol) result(r)
+         !> Input matrix A[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(sp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(sp),optional,intent(in) :: atol
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_c(a,r,rtol,atol)
+
+     end function la_matrix_rank_c
+
+     !> Rank of matrix A, function form with a state return flag
+     function la_matrix_rank_err_c(a,rtol,atol,err) result(r)
+         !> Input matrix A[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(sp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(sp),optional,intent(in) :: atol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_c(a,r,rtol,atol,err)
+
+     end function la_matrix_rank_err_c
+
+     !> Rank of matrix A: the number of singular values above max(atol, rtol*smax)
+     pure subroutine matrix_rank_c(a,r,rtol,atol,err)
+         !> Input matrix A[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Matrix rank; 0 on error
+         integer(ilp),intent(out) :: r
+         !> [optional] Relative tolerance, on the largest singular value
+         real(sp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(sp),optional,intent(in) :: atol
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,k
+         real(sp) :: rtol_,atol_
+         real(sp),allocatable :: s(:)
+         complex(sp),allocatable :: amat(:,:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         r = 0_ilp
+
+         ! Default tolerances: a relative one that scales with the roundoff of the SVD, no absolute one
+         rtol_ = max(m,n)*epsilon(0.0_sp)
+         if (present(rtol)) rtol_ = rtol
+         atol_ = 0.0_sp
+         if (present(atol)) atol_ = atol
+
+         if (.not. (rtol_ >= 0 .and. atol_ >= 0)) then
+            err0 = la_state('matrix_rank',LINALG_VALUE_ERROR,'tolerances must be non-negative: rtol=',rtol_, &
+                            ', atol=',atol_)
+         elseif (k > 0) then
+            ! Singular values of a copy of A
+            allocate (amat,source=a)
+            allocate (s(k))
+            call la_svd_c(amat,s,overwrite_a=.true._lk,err=err0)
+            if (err0%ok()) r = count(s > max(atol_,rtol_*s(1)),kind=ilp)
+         end if
+
+         call err0%handle(err)
+
+     end subroutine matrix_rank_c
+
      !> Singular values of matrix A
      function la_svdvals_z(a,err) result(s)
          !> Input matrix A[m,n]
@@ -1266,6 +1701,84 @@ module la_svd
          call err0%handle(err)
 
      end subroutine la_svd_z
+
+     !> Rank of matrix A, function form: `pure`, stops on error
+     pure function la_matrix_rank_z(a,rtol,atol) result(r)
+         !> Input matrix A[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(dp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(dp),optional,intent(in) :: atol
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_z(a,r,rtol,atol)
+
+     end function la_matrix_rank_z
+
+     !> Rank of matrix A, function form with a state return flag
+     function la_matrix_rank_err_z(a,rtol,atol,err) result(r)
+         !> Input matrix A[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(dp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(dp),optional,intent(in) :: atol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_z(a,r,rtol,atol,err)
+
+     end function la_matrix_rank_err_z
+
+     !> Rank of matrix A: the number of singular values above max(atol, rtol*smax)
+     pure subroutine matrix_rank_z(a,r,rtol,atol,err)
+         !> Input matrix A[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Matrix rank; 0 on error
+         integer(ilp),intent(out) :: r
+         !> [optional] Relative tolerance, on the largest singular value
+         real(dp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(dp),optional,intent(in) :: atol
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,k
+         real(dp) :: rtol_,atol_
+         real(dp),allocatable :: s(:)
+         complex(dp),allocatable :: amat(:,:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         r = 0_ilp
+
+         ! Default tolerances: a relative one that scales with the roundoff of the SVD, no absolute one
+         rtol_ = max(m,n)*epsilon(0.0_dp)
+         if (present(rtol)) rtol_ = rtol
+         atol_ = 0.0_dp
+         if (present(atol)) atol_ = atol
+
+         if (.not. (rtol_ >= 0 .and. atol_ >= 0)) then
+            err0 = la_state('matrix_rank',LINALG_VALUE_ERROR,'tolerances must be non-negative: rtol=',rtol_, &
+                            ', atol=',atol_)
+         elseif (k > 0) then
+            ! Singular values of a copy of A
+            allocate (amat,source=a)
+            allocate (s(k))
+            call la_svd_z(amat,s,overwrite_a=.true._lk,err=err0)
+            if (err0%ok()) r = count(s > max(atol_,rtol_*s(1)),kind=ilp)
+         end if
+
+         call err0%handle(err)
+
+     end subroutine matrix_rank_z
 
 #ifdef LA_WITH_XDP
      !> Singular values of matrix A
@@ -1460,6 +1973,84 @@ module la_svd
          call err0%handle(err)
 
      end subroutine la_svd_y
+
+     !> Rank of matrix A, function form: `pure`, stops on error
+     pure function la_matrix_rank_y(a,rtol,atol) result(r)
+         !> Input matrix A[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(xdp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(xdp),optional,intent(in) :: atol
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_y(a,r,rtol,atol)
+
+     end function la_matrix_rank_y
+
+     !> Rank of matrix A, function form with a state return flag
+     function la_matrix_rank_err_y(a,rtol,atol,err) result(r)
+         !> Input matrix A[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(xdp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(xdp),optional,intent(in) :: atol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_y(a,r,rtol,atol,err)
+
+     end function la_matrix_rank_err_y
+
+     !> Rank of matrix A: the number of singular values above max(atol, rtol*smax)
+     pure subroutine matrix_rank_y(a,r,rtol,atol,err)
+         !> Input matrix A[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Matrix rank; 0 on error
+         integer(ilp),intent(out) :: r
+         !> [optional] Relative tolerance, on the largest singular value
+         real(xdp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(xdp),optional,intent(in) :: atol
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,k
+         real(xdp) :: rtol_,atol_
+         real(xdp),allocatable :: s(:)
+         complex(xdp),allocatable :: amat(:,:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         r = 0_ilp
+
+         ! Default tolerances: a relative one that scales with the roundoff of the SVD, no absolute one
+         rtol_ = max(m,n)*epsilon(0.0_xdp)
+         if (present(rtol)) rtol_ = rtol
+         atol_ = 0.0_xdp
+         if (present(atol)) atol_ = atol
+
+         if (.not. (rtol_ >= 0 .and. atol_ >= 0)) then
+            err0 = la_state('matrix_rank',LINALG_VALUE_ERROR,'tolerances must be non-negative: rtol=',rtol_, &
+                            ', atol=',atol_)
+         elseif (k > 0) then
+            ! Singular values of a copy of A
+            allocate (amat,source=a)
+            allocate (s(k))
+            call la_svd_y(amat,s,overwrite_a=.true._lk,err=err0)
+            if (err0%ok()) r = count(s > max(atol_,rtol_*s(1)),kind=ilp)
+         end if
+
+         call err0%handle(err)
+
+     end subroutine matrix_rank_y
 #endif
 
 #ifdef LA_WITH_QP
@@ -1655,6 +2246,84 @@ module la_svd
          call err0%handle(err)
 
      end subroutine la_svd_w
+
+     !> Rank of matrix A, function form: `pure`, stops on error
+     pure function la_matrix_rank_w(a,rtol,atol) result(r)
+         !> Input matrix A[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(qp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(qp),optional,intent(in) :: atol
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_w(a,r,rtol,atol)
+
+     end function la_matrix_rank_w
+
+     !> Rank of matrix A, function form with a state return flag
+     function la_matrix_rank_err_w(a,rtol,atol,err) result(r)
+         !> Input matrix A[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> [optional] Relative tolerance, on the largest singular value
+         real(qp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(qp),optional,intent(in) :: atol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix rank
+         integer(ilp) :: r
+
+         call matrix_rank_w(a,r,rtol,atol,err)
+
+     end function la_matrix_rank_err_w
+
+     !> Rank of matrix A: the number of singular values above max(atol, rtol*smax)
+     pure subroutine matrix_rank_w(a,r,rtol,atol,err)
+         !> Input matrix A[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Matrix rank; 0 on error
+         integer(ilp),intent(out) :: r
+         !> [optional] Relative tolerance, on the largest singular value
+         real(qp),optional,intent(in) :: rtol
+         !> [optional] Absolute tolerance
+         real(qp),optional,intent(in) :: atol
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,k
+         real(qp) :: rtol_,atol_
+         real(qp),allocatable :: s(:)
+         complex(qp),allocatable :: amat(:,:)
+
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+         k = min(m,n)
+         r = 0_ilp
+
+         ! Default tolerances: a relative one that scales with the roundoff of the SVD, no absolute one
+         rtol_ = max(m,n)*epsilon(0.0_qp)
+         if (present(rtol)) rtol_ = rtol
+         atol_ = 0.0_qp
+         if (present(atol)) atol_ = atol
+
+         if (.not. (rtol_ >= 0 .and. atol_ >= 0)) then
+            err0 = la_state('matrix_rank',LINALG_VALUE_ERROR,'tolerances must be non-negative: rtol=',rtol_, &
+                            ', atol=',atol_)
+         elseif (k > 0) then
+            ! Singular values of a copy of A
+            allocate (amat,source=a)
+            allocate (s(k))
+            call la_svd_w(amat,s,overwrite_a=.true._lk,err=err0)
+            if (err0%ok()) r = count(s > max(atol_,rtol_*s(1)),kind=ilp)
+         end if
+
+         call err0%handle(err)
+
+     end subroutine matrix_rank_w
 #endif
 
 end module la_svd

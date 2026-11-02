@@ -5,6 +5,7 @@ module test_linalg_pure
     use la_constants
     use linear_algebra,only:eigvals,eigvalsh,eig,svd,invert,schur,solve_lstsq, &
                               generalized_lstsq,solve_generalized_lstsq,qr, &
+                              matrix_rank,cond,slogdet,matrix_power, &
                               operator(.inv.),operator(.pinv.)
     use la_state_type,only:la_state
 
@@ -51,8 +52,9 @@ module test_linalg_pure
         real(sp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
                   xg(n),xgs(n),r(n,n)
         complex(sp) :: lambda(n),lambda_eig(n)
-        real(sp) :: lambdah(n),s(n)
-        integer(ilp) :: pivots(n)
+        real(sp) :: lambdah(n),s(n),c(3),lad
+        real(sp) :: sgn,a2(n,n),am1(n,n)
+        integer(ilp) :: pivots(n),rnk
         logical(lk) :: ok
         integer :: i
 
@@ -64,6 +66,7 @@ module test_linalg_pure
         end do
 
         call pure_calls_s(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
+        call pure_scalars_s(a,rnk,c,sgn,lad,a2,am1)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -104,6 +107,19 @@ module test_linalg_pure
 
         call check(error,all(pivots == [3,2,1]) .and. &
                           all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
+        call check(error,rnk == n,'matrix_rank')
+        if (allocated(error)) return
+
+        ! 2- and 1-norms: 4/1; Frobenius norm: sqrt(21)*sqrt(21/16)
+        call check(error,all(abs(c - [4.0_sp,4.0_sp,5.25_sp]) < tol),'cond')
+        if (allocated(error)) return
+
+        call check(error,abs(sgn - 1) < tol .and. abs(lad - log(8.0_sp)) < tol,'slogdet')
+        if (allocated(error)) return
+
+        call check(error,all(abs(a2 - matmul(a,a)) < tol) .and. all(abs(am1 - ainv) < tol),'matrix_power')
         if (allocated(error)) return
 
     end subroutine test_pure_calls_s
@@ -154,6 +170,24 @@ module test_linalg_pure
 
     end subroutine pure_calls_s
 
+    pure subroutine pure_scalars_s(a,rnk,c,sgn,lad,a2,am1)
+        real(sp),intent(in) :: a(:,:)
+        integer(ilp),intent(out) :: rnk
+        real(sp),intent(out) :: c(3),lad
+        real(sp),intent(out) :: sgn,a2(:,:),am1(:,:)
+
+        real(sp) :: work(size(a,1),size(a,2))
+
+        rnk = matrix_rank(a)
+        c = [cond(a),cond(a,1_ilp),cond(a,'fro')]
+        a2 = matrix_power(a,2_ilp)
+        am1 = matrix_power(a,-1_ilp)
+
+        work = a
+        call slogdet(work,sgn,lad)
+
+    end subroutine pure_scalars_s
+
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_d(error)
         type(error_type),allocatable,intent(out) :: error
@@ -164,8 +198,9 @@ module test_linalg_pure
         real(dp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
                   xg(n),xgs(n),r(n,n)
         complex(dp) :: lambda(n),lambda_eig(n)
-        real(dp) :: lambdah(n),s(n)
-        integer(ilp) :: pivots(n)
+        real(dp) :: lambdah(n),s(n),c(3),lad
+        real(dp) :: sgn,a2(n,n),am1(n,n)
+        integer(ilp) :: pivots(n),rnk
         logical(lk) :: ok
         integer :: i
 
@@ -177,6 +212,7 @@ module test_linalg_pure
         end do
 
         call pure_calls_d(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
+        call pure_scalars_d(a,rnk,c,sgn,lad,a2,am1)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -217,6 +253,19 @@ module test_linalg_pure
 
         call check(error,all(pivots == [3,2,1]) .and. &
                           all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
+        call check(error,rnk == n,'matrix_rank')
+        if (allocated(error)) return
+
+        ! 2- and 1-norms: 4/1; Frobenius norm: sqrt(21)*sqrt(21/16)
+        call check(error,all(abs(c - [4.0_dp,4.0_dp,5.25_dp]) < tol),'cond')
+        if (allocated(error)) return
+
+        call check(error,abs(sgn - 1) < tol .and. abs(lad - log(8.0_dp)) < tol,'slogdet')
+        if (allocated(error)) return
+
+        call check(error,all(abs(a2 - matmul(a,a)) < tol) .and. all(abs(am1 - ainv) < tol),'matrix_power')
         if (allocated(error)) return
 
     end subroutine test_pure_calls_d
@@ -267,6 +316,24 @@ module test_linalg_pure
 
     end subroutine pure_calls_d
 
+    pure subroutine pure_scalars_d(a,rnk,c,sgn,lad,a2,am1)
+        real(dp),intent(in) :: a(:,:)
+        integer(ilp),intent(out) :: rnk
+        real(dp),intent(out) :: c(3),lad
+        real(dp),intent(out) :: sgn,a2(:,:),am1(:,:)
+
+        real(dp) :: work(size(a,1),size(a,2))
+
+        rnk = matrix_rank(a)
+        c = [cond(a),cond(a,1_ilp),cond(a,'fro')]
+        a2 = matrix_power(a,2_ilp)
+        am1 = matrix_power(a,-1_ilp)
+
+        work = a
+        call slogdet(work,sgn,lad)
+
+    end subroutine pure_scalars_d
+
 #ifdef LA_WITH_XDP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_x(error)
@@ -278,8 +345,9 @@ module test_linalg_pure
         real(xdp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
                   xg(n),xgs(n),r(n,n)
         complex(xdp) :: lambda(n),lambda_eig(n)
-        real(xdp) :: lambdah(n),s(n)
-        integer(ilp) :: pivots(n)
+        real(xdp) :: lambdah(n),s(n),c(3),lad
+        real(xdp) :: sgn,a2(n,n),am1(n,n)
+        integer(ilp) :: pivots(n),rnk
         logical(lk) :: ok
         integer :: i
 
@@ -291,6 +359,7 @@ module test_linalg_pure
         end do
 
         call pure_calls_x(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
+        call pure_scalars_x(a,rnk,c,sgn,lad,a2,am1)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -331,6 +400,19 @@ module test_linalg_pure
 
         call check(error,all(pivots == [3,2,1]) .and. &
                           all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
+        call check(error,rnk == n,'matrix_rank')
+        if (allocated(error)) return
+
+        ! 2- and 1-norms: 4/1; Frobenius norm: sqrt(21)*sqrt(21/16)
+        call check(error,all(abs(c - [4.0_xdp,4.0_xdp,5.25_xdp]) < tol),'cond')
+        if (allocated(error)) return
+
+        call check(error,abs(sgn - 1) < tol .and. abs(lad - log(8.0_xdp)) < tol,'slogdet')
+        if (allocated(error)) return
+
+        call check(error,all(abs(a2 - matmul(a,a)) < tol) .and. all(abs(am1 - ainv) < tol),'matrix_power')
         if (allocated(error)) return
 
     end subroutine test_pure_calls_x
@@ -381,6 +463,24 @@ module test_linalg_pure
 
     end subroutine pure_calls_x
 
+    pure subroutine pure_scalars_x(a,rnk,c,sgn,lad,a2,am1)
+        real(xdp),intent(in) :: a(:,:)
+        integer(ilp),intent(out) :: rnk
+        real(xdp),intent(out) :: c(3),lad
+        real(xdp),intent(out) :: sgn,a2(:,:),am1(:,:)
+
+        real(xdp) :: work(size(a,1),size(a,2))
+
+        rnk = matrix_rank(a)
+        c = [cond(a),cond(a,1_ilp),cond(a,'fro')]
+        a2 = matrix_power(a,2_ilp)
+        am1 = matrix_power(a,-1_ilp)
+
+        work = a
+        call slogdet(work,sgn,lad)
+
+    end subroutine pure_scalars_x
+
 #endif
 #ifdef LA_WITH_QP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
@@ -393,8 +493,9 @@ module test_linalg_pure
         real(qp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
                   xg(n),xgs(n),r(n,n)
         complex(qp) :: lambda(n),lambda_eig(n)
-        real(qp) :: lambdah(n),s(n)
-        integer(ilp) :: pivots(n)
+        real(qp) :: lambdah(n),s(n),c(3),lad
+        real(qp) :: sgn,a2(n,n),am1(n,n)
+        integer(ilp) :: pivots(n),rnk
         logical(lk) :: ok
         integer :: i
 
@@ -406,6 +507,7 @@ module test_linalg_pure
         end do
 
         call pure_calls_q(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
+        call pure_scalars_q(a,rnk,c,sgn,lad,a2,am1)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -446,6 +548,19 @@ module test_linalg_pure
 
         call check(error,all(pivots == [3,2,1]) .and. &
                           all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
+        call check(error,rnk == n,'matrix_rank')
+        if (allocated(error)) return
+
+        ! 2- and 1-norms: 4/1; Frobenius norm: sqrt(21)*sqrt(21/16)
+        call check(error,all(abs(c - [4.0_qp,4.0_qp,5.25_qp]) < tol),'cond')
+        if (allocated(error)) return
+
+        call check(error,abs(sgn - 1) < tol .and. abs(lad - log(8.0_qp)) < tol,'slogdet')
+        if (allocated(error)) return
+
+        call check(error,all(abs(a2 - matmul(a,a)) < tol) .and. all(abs(am1 - ainv) < tol),'matrix_power')
         if (allocated(error)) return
 
     end subroutine test_pure_calls_q
@@ -496,6 +611,24 @@ module test_linalg_pure
 
     end subroutine pure_calls_q
 
+    pure subroutine pure_scalars_q(a,rnk,c,sgn,lad,a2,am1)
+        real(qp),intent(in) :: a(:,:)
+        integer(ilp),intent(out) :: rnk
+        real(qp),intent(out) :: c(3),lad
+        real(qp),intent(out) :: sgn,a2(:,:),am1(:,:)
+
+        real(qp) :: work(size(a,1),size(a,2))
+
+        rnk = matrix_rank(a)
+        c = [cond(a),cond(a,1_ilp),cond(a,'fro')]
+        a2 = matrix_power(a,2_ilp)
+        am1 = matrix_power(a,-1_ilp)
+
+        work = a
+        call slogdet(work,sgn,lad)
+
+    end subroutine pure_scalars_q
+
 #endif
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_c(error)
@@ -507,8 +640,9 @@ module test_linalg_pure
         complex(sp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
                   xg(n),xgs(n),r(n,n)
         complex(sp) :: lambda(n),lambda_eig(n)
-        real(sp) :: lambdah(n),s(n)
-        integer(ilp) :: pivots(n)
+        real(sp) :: lambdah(n),s(n),c(3),lad
+        complex(sp) :: sgn,a2(n,n),am1(n,n)
+        integer(ilp) :: pivots(n),rnk
         logical(lk) :: ok
         integer :: i
 
@@ -520,6 +654,7 @@ module test_linalg_pure
         end do
 
         call pure_calls_c(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
+        call pure_scalars_c(a,rnk,c,sgn,lad,a2,am1)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -560,6 +695,19 @@ module test_linalg_pure
 
         call check(error,all(pivots == [3,2,1]) .and. &
                           all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
+        call check(error,rnk == n,'matrix_rank')
+        if (allocated(error)) return
+
+        ! 2- and 1-norms: 4/1; Frobenius norm: sqrt(21)*sqrt(21/16)
+        call check(error,all(abs(c - [4.0_sp,4.0_sp,5.25_sp]) < tol),'cond')
+        if (allocated(error)) return
+
+        call check(error,abs(sgn - 1) < tol .and. abs(lad - log(8.0_sp)) < tol,'slogdet')
+        if (allocated(error)) return
+
+        call check(error,all(abs(a2 - matmul(a,a)) < tol) .and. all(abs(am1 - ainv) < tol),'matrix_power')
         if (allocated(error)) return
 
     end subroutine test_pure_calls_c
@@ -610,6 +758,24 @@ module test_linalg_pure
 
     end subroutine pure_calls_c
 
+    pure subroutine pure_scalars_c(a,rnk,c,sgn,lad,a2,am1)
+        complex(sp),intent(in) :: a(:,:)
+        integer(ilp),intent(out) :: rnk
+        real(sp),intent(out) :: c(3),lad
+        complex(sp),intent(out) :: sgn,a2(:,:),am1(:,:)
+
+        complex(sp) :: work(size(a,1),size(a,2))
+
+        rnk = matrix_rank(a)
+        c = [cond(a),cond(a,1_ilp),cond(a,'fro')]
+        a2 = matrix_power(a,2_ilp)
+        am1 = matrix_power(a,-1_ilp)
+
+        work = a
+        call slogdet(work,sgn,lad)
+
+    end subroutine pure_scalars_c
+
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_z(error)
         type(error_type),allocatable,intent(out) :: error
@@ -620,8 +786,9 @@ module test_linalg_pure
         complex(dp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
                   xg(n),xgs(n),r(n,n)
         complex(dp) :: lambda(n),lambda_eig(n)
-        real(dp) :: lambdah(n),s(n)
-        integer(ilp) :: pivots(n)
+        real(dp) :: lambdah(n),s(n),c(3),lad
+        complex(dp) :: sgn,a2(n,n),am1(n,n)
+        integer(ilp) :: pivots(n),rnk
         logical(lk) :: ok
         integer :: i
 
@@ -633,6 +800,7 @@ module test_linalg_pure
         end do
 
         call pure_calls_z(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
+        call pure_scalars_z(a,rnk,c,sgn,lad,a2,am1)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -673,6 +841,19 @@ module test_linalg_pure
 
         call check(error,all(pivots == [3,2,1]) .and. &
                           all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
+        call check(error,rnk == n,'matrix_rank')
+        if (allocated(error)) return
+
+        ! 2- and 1-norms: 4/1; Frobenius norm: sqrt(21)*sqrt(21/16)
+        call check(error,all(abs(c - [4.0_dp,4.0_dp,5.25_dp]) < tol),'cond')
+        if (allocated(error)) return
+
+        call check(error,abs(sgn - 1) < tol .and. abs(lad - log(8.0_dp)) < tol,'slogdet')
+        if (allocated(error)) return
+
+        call check(error,all(abs(a2 - matmul(a,a)) < tol) .and. all(abs(am1 - ainv) < tol),'matrix_power')
         if (allocated(error)) return
 
     end subroutine test_pure_calls_z
@@ -723,6 +904,24 @@ module test_linalg_pure
 
     end subroutine pure_calls_z
 
+    pure subroutine pure_scalars_z(a,rnk,c,sgn,lad,a2,am1)
+        complex(dp),intent(in) :: a(:,:)
+        integer(ilp),intent(out) :: rnk
+        real(dp),intent(out) :: c(3),lad
+        complex(dp),intent(out) :: sgn,a2(:,:),am1(:,:)
+
+        complex(dp) :: work(size(a,1),size(a,2))
+
+        rnk = matrix_rank(a)
+        c = [cond(a),cond(a,1_ilp),cond(a,'fro')]
+        a2 = matrix_power(a,2_ilp)
+        am1 = matrix_power(a,-1_ilp)
+
+        work = a
+        call slogdet(work,sgn,lad)
+
+    end subroutine pure_scalars_z
+
 #ifdef LA_WITH_XDP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_y(error)
@@ -734,8 +933,9 @@ module test_linalg_pure
         complex(xdp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
                   xg(n),xgs(n),r(n,n)
         complex(xdp) :: lambda(n),lambda_eig(n)
-        real(xdp) :: lambdah(n),s(n)
-        integer(ilp) :: pivots(n)
+        real(xdp) :: lambdah(n),s(n),c(3),lad
+        complex(xdp) :: sgn,a2(n,n),am1(n,n)
+        integer(ilp) :: pivots(n),rnk
         logical(lk) :: ok
         integer :: i
 
@@ -747,6 +947,7 @@ module test_linalg_pure
         end do
 
         call pure_calls_y(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
+        call pure_scalars_y(a,rnk,c,sgn,lad,a2,am1)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -787,6 +988,19 @@ module test_linalg_pure
 
         call check(error,all(pivots == [3,2,1]) .and. &
                           all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
+        call check(error,rnk == n,'matrix_rank')
+        if (allocated(error)) return
+
+        ! 2- and 1-norms: 4/1; Frobenius norm: sqrt(21)*sqrt(21/16)
+        call check(error,all(abs(c - [4.0_xdp,4.0_xdp,5.25_xdp]) < tol),'cond')
+        if (allocated(error)) return
+
+        call check(error,abs(sgn - 1) < tol .and. abs(lad - log(8.0_xdp)) < tol,'slogdet')
+        if (allocated(error)) return
+
+        call check(error,all(abs(a2 - matmul(a,a)) < tol) .and. all(abs(am1 - ainv) < tol),'matrix_power')
         if (allocated(error)) return
 
     end subroutine test_pure_calls_y
@@ -837,6 +1051,24 @@ module test_linalg_pure
 
     end subroutine pure_calls_y
 
+    pure subroutine pure_scalars_y(a,rnk,c,sgn,lad,a2,am1)
+        complex(xdp),intent(in) :: a(:,:)
+        integer(ilp),intent(out) :: rnk
+        real(xdp),intent(out) :: c(3),lad
+        complex(xdp),intent(out) :: sgn,a2(:,:),am1(:,:)
+
+        complex(xdp) :: work(size(a,1),size(a,2))
+
+        rnk = matrix_rank(a)
+        c = [cond(a),cond(a,1_ilp),cond(a,'fro')]
+        a2 = matrix_power(a,2_ilp)
+        am1 = matrix_power(a,-1_ilp)
+
+        work = a
+        call slogdet(work,sgn,lad)
+
+    end subroutine pure_scalars_y
+
 #endif
 #ifdef LA_WITH_QP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
@@ -849,8 +1081,9 @@ module test_linalg_pure
         complex(qp) :: a(n,n),inva(n,n),pinva(n,n),inverted(n,n),t(n,n),x(n),ainv(n,n), &
                   xg(n),xgs(n),r(n,n)
         complex(qp) :: lambda(n),lambda_eig(n)
-        real(qp) :: lambdah(n),s(n)
-        integer(ilp) :: pivots(n)
+        real(qp) :: lambdah(n),s(n),c(3),lad
+        complex(qp) :: sgn,a2(n,n),am1(n,n)
+        integer(ilp) :: pivots(n),rnk
         logical(lk) :: ok
         integer :: i
 
@@ -862,6 +1095,7 @@ module test_linalg_pure
         end do
 
         call pure_calls_w(a,lambda,lambda_eig,lambdah,s,inva,pinva,inverted,t,x,xg,xgs,r,pivots,ok)
+        call pure_scalars_w(a,rnk,c,sgn,lad,a2,am1)
 
         call check(error,ok,'no error state from the pure subroutines')
         if (allocated(error)) return
@@ -902,6 +1136,19 @@ module test_linalg_pure
 
         call check(error,all(pivots == [3,2,1]) .and. &
                           all(abs([(abs(r(i,i)),i=1,n)] - d(n:1:-1)) < tol),'pivoted qr')
+        if (allocated(error)) return
+
+        call check(error,rnk == n,'matrix_rank')
+        if (allocated(error)) return
+
+        ! 2- and 1-norms: 4/1; Frobenius norm: sqrt(21)*sqrt(21/16)
+        call check(error,all(abs(c - [4.0_qp,4.0_qp,5.25_qp]) < tol),'cond')
+        if (allocated(error)) return
+
+        call check(error,abs(sgn - 1) < tol .and. abs(lad - log(8.0_qp)) < tol,'slogdet')
+        if (allocated(error)) return
+
+        call check(error,all(abs(a2 - matmul(a,a)) < tol) .and. all(abs(am1 - ainv) < tol),'matrix_power')
         if (allocated(error)) return
 
     end subroutine test_pure_calls_w
@@ -951,6 +1198,24 @@ module test_linalg_pure
         ok = all(err%ok())
 
     end subroutine pure_calls_w
+
+    pure subroutine pure_scalars_w(a,rnk,c,sgn,lad,a2,am1)
+        complex(qp),intent(in) :: a(:,:)
+        integer(ilp),intent(out) :: rnk
+        real(qp),intent(out) :: c(3),lad
+        complex(qp),intent(out) :: sgn,a2(:,:),am1(:,:)
+
+        complex(qp) :: work(size(a,1),size(a,2))
+
+        rnk = matrix_rank(a)
+        c = [cond(a),cond(a,1_ilp),cond(a,'fro')]
+        a2 = matrix_power(a,2_ilp)
+        am1 = matrix_power(a,-1_ilp)
+
+        work = a
+        call slogdet(work,sgn,lad)
+
+    end subroutine pure_scalars_w
 
 #endif
 

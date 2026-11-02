@@ -1,0 +1,517 @@
+#:include "common.fypp"
+#:set RC_KINDS_TYPES = ALL_KINDS_TYPES
+! Test matrix rank, condition number, log-determinant and matrix power
+module test_linalg_scalars
+    use testdrive, only: error_type, check, new_unittest, unittest_type
+    use la_constants
+    use la_state_type, only: LINALG_VALUE_ERROR,la_state
+    use linear_algebra, only: matrix_rank,cond,slogdet,matrix_power,det,inv,mnorm,svdvals
+    use ieee_arithmetic, only: ieee_is_finite,ieee_is_negative
+
+    implicit none (type,external)
+
+    public :: test_matrix_scalars
+
+    contains
+
+    !> Matrix rank, condition number, log-determinant and matrix power tests
+    subroutine test_matrix_scalars(tests)
+        !> Collection of tests
+        type(unittest_type), allocatable, intent(out) :: tests(:)
+
+        allocate(tests(0))
+
+        #:for rk,rt,ri in RC_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
+        call add_test(tests,new_unittest("matrix_rank_ladder_${ri}$",test_matrix_rank_ladder_${ri}$))
+        call add_test(tests,new_unittest("matrix_rank_tolerances_${ri}$",test_matrix_rank_tolerances_${ri}$))
+        call add_test(tests,new_unittest("cond_${ri}$",test_cond_${ri}$))
+        call add_test(tests,new_unittest("cond_invalid_${ri}$",test_cond_invalid_${ri}$))
+        call add_test(tests,new_unittest("slogdet_${ri}$",test_slogdet_${ri}$))
+        call add_test(tests,new_unittest("slogdet_special_${ri}$",test_slogdet_special_${ri}$))
+        call add_test(tests,new_unittest("matrix_power_${ri}$",test_matrix_power_${ri}$))
+        call add_test(tests,new_unittest("matrix_power_invalid_${ri}$",test_matrix_power_invalid_${ri}$))
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
+        #:endfor
+
+    end subroutine test_matrix_scalars
+
+    #:for rk,rt,ri in RC_KINDS_TYPES
+    #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+    #:endif
+    !> Products of rank r = 0, ..., n of integer factors, so the products are exact: the first r
+    !> columns of a Vandermonde matrix with distinct nodes, by the first r rows of an upper
+    !> triangular matrix with a nonzero diagonal
+    subroutine test_matrix_rank_ladder_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: m = 6_ilp
+        integer(ilp), parameter :: n = 4_ilp
+        ${rt}$ :: u(m,n),v(n,n),a(m,n)
+        integer(ilp) :: r,i,j
+
+        do concurrent (i=1:m, j=1:n)
+           u(i,j) = i**(j-1)
+        end do
+        v = 0.0_${rk}$
+        do concurrent (i=1:n, j=1:n, j>=i)
+           #:if rt.startswith('complex')
+           v(i,j) = cmplx(i+j,j-i,kind=${rk}$)
+           #:else
+           v(i,j) = i+j
+           #:endif
+        end do
+
+        do r = 0, n
+           a = matmul(u(:,1:r),v(1:r,:))
+
+           call check(error, matrix_rank(a)==r, 'rank of a tall matrix')
+           if (allocated(error)) return
+
+           call check(error, matrix_rank(transpose(a))==r, 'rank of a wide matrix')
+           if (allocated(error)) return
+        end do
+
+    end subroutine test_matrix_rank_ladder_${ri}$
+
+    !> diag(1, 1e-2, 1e-4) with different tolerances, an empty matrix, invalid tolerances
+    subroutine test_matrix_rank_tolerances_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        ${rt}$ :: d(3,3),empty(0,3)
+        integer(ilp) :: r
+        type(la_state) :: state
+
+        d = 0.0_${rk}$
+        d(1,1) = 1.0_${rk}$
+        d(2,2) = 1.0e-2_${rk}$
+        d(3,3) = 1.0e-4_${rk}$
+
+        call check(error, matrix_rank(d)==3, 'default tolerances')
+        if (allocated(error)) return
+
+        call check(error, matrix_rank(d,atol=1.0e-3_${rk}$)==2, 'absolute tolerance')
+        if (allocated(error)) return
+
+        call check(error, matrix_rank(d,rtol=1.0e-1_${rk}$)==1, 'relative tolerance')
+        if (allocated(error)) return
+
+        call check(error, matrix_rank(d,rtol=1.0e-3_${rk}$,atol=1.0e-1_${rk}$)==1, 'larger of the two tolerances')
+        if (allocated(error)) return
+
+        call check(error, matrix_rank(d,atol=2.0_${rk}$)==0, 'tolerance above every singular value')
+        if (allocated(error)) return
+
+        r = matrix_rank(empty,err=state)
+        call check(error, state%ok() .and. r==0, 'empty matrix')
+        if (allocated(error)) return
+
+        r = matrix_rank(d,rtol=-1.0_${rk}$,err=state)
+        call check(error, state%error() .and. r==0, 'negative tolerance')
+        if (allocated(error)) return
+
+    end subroutine test_matrix_rank_tolerances_${ri}$
+
+    !> Condition numbers against the norms of the matrix and of its inverse
+    subroutine test_cond_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 5_ilp
+        real(${rk}$), parameter :: tol = sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: a(n,n),ainv(n,n),rect(n,n-2)
+        real(${rk}$) :: s(n),c,ref
+        type(la_state) :: state
+
+        a = sample_matrix_${ri}$(n,n,shift=1.0_${rk}$)
+        ainv = inv(a)
+
+        ! 2-norm: ratio of the extreme singular values
+        s = svdvals(a)
+        ref = s(1)/s(n)
+
+        call check(error, is_close(cond(a),ref), 'default (2-norm) condition number')
+        if (allocated(error)) return
+
+        call check(error, is_close(cond(a,2_ilp),ref) .and. is_close(cond(a,'2'),ref), 'order=2')
+        if (allocated(error)) return
+
+        c = cond(a,err=state)
+        call check(error, state%ok() .and. is_close(c,ref), 'default condition number with err')
+        if (allocated(error)) return
+
+        ! 1-norm and infinity norm: gecon estimates the norm of the inverse from below, usually
+        ! within a factor of 3
+        ref = mnorm(a,'1')*mnorm(ainv,'1')
+        call check(error, is_estimate(cond(a,1_ilp),ref) .and. cond(a,'1')==cond(a,1_ilp), '1-norm')
+        if (allocated(error)) return
+
+        ref = mnorm(a,'inf')*mnorm(ainv,'inf')
+        call check(error, is_estimate(cond(a,huge(0_ilp)),ref) .and. cond(a,'inf')==cond(a,huge(0_ilp)), &
+                   'infinity norm')
+        if (allocated(error)) return
+
+        c = cond(a,'inf',err=state)
+        call check(error, state%ok() .and. is_estimate(c,ref), 'infinity norm with err')
+        if (allocated(error)) return
+
+        ! A diagonal matrix, whose estimate is exact
+        call check(error, is_close(cond(diagonal(),1_ilp),4.0_${rk}$) .and. &
+                          is_close(cond(diagonal(),'inf'),4.0_${rk}$), 'diagonal matrix')
+        if (allocated(error)) return
+
+        ! Frobenius norm
+        ref = mnorm(a,'fro')*mnorm(ainv,'fro')
+        call check(error, is_close(cond(a,'fro'),ref), 'Frobenius norm')
+        if (allocated(error)) return
+
+        ! Rectangular matrix, 2-norm
+        rect = a(:,1:n-2)
+        s(1:n-2) = svdvals(rect)
+        call check(error, is_close(cond(rect),s(1)/s(n-2)), 'rectangular matrix')
+        if (allocated(error)) return
+
+        ! A zero column: infinite condition number, not an error
+        a(:,2) = 0.0_${rk}$
+        c = cond(a,1_ilp,err=state)
+        call check(error, state%ok() .and. .not.ieee_is_finite(c) .and. c>0, 'singular matrix, 1-norm')
+        if (allocated(error)) return
+
+        c = cond(a,'fro',err=state)
+        call check(error, state%ok() .and. .not.ieee_is_finite(c) .and. c>0, 'singular matrix, Frobenius norm')
+        if (allocated(error)) return
+
+        contains
+
+           elemental logical function is_close(x,y)
+              real(${rk}$), intent(in) :: x,y
+              is_close = abs(x-y)<=tol*abs(y)
+           end function is_close
+
+           elemental logical function is_estimate(x,y)
+              real(${rk}$), intent(in) :: x,y
+              is_estimate = x<=(1+tol)*y .and. x>=y/3
+           end function is_estimate
+
+           pure function diagonal() result(d)
+              ${rt}$ :: d(3,3)
+              d = 0.0_${rk}$
+              d(1,1) = 1.0_${rk}$
+              d(2,2) = -2.0_${rk}$
+              d(3,3) = 4.0_${rk}$
+           end function diagonal
+
+    end subroutine test_cond_${ri}$
+
+    !> Inputs that cond rejects
+    subroutine test_cond_invalid_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        ${rt}$ :: a(3,3),rect(3,2),empty(0,0)
+        real(${rk}$) :: c
+        type(la_state) :: state
+
+        a = 1.0_${rk}$
+        rect = 1.0_${rk}$
+
+        c = cond(rect,1_ilp,err=state)
+        call check(error, state%error() .and. c==0, 'rectangular matrix, 1-norm')
+        if (allocated(error)) return
+
+        c = cond(rect,'fro',err=state)
+        call check(error, state%error() .and. c==0, 'rectangular matrix, Frobenius norm')
+        if (allocated(error)) return
+
+        c = cond(a,3_ilp,err=state)
+        call check(error, state%error() .and. c==0, 'order=3')
+        if (allocated(error)) return
+
+        c = cond(a,'-inf',err=state)
+        call check(error, state%error() .and. c==0, 'order=-inf')
+        if (allocated(error)) return
+
+        c = cond(a,'nuc',err=state)
+        call check(error, state%error() .and. c==0, 'order=nuc')
+        if (allocated(error)) return
+
+        c = cond(empty,err=state)
+        call check(error, state%error() .and. c==0, 'empty matrix')
+        if (allocated(error)) return
+
+    end subroutine test_cond_invalid_${ri}$
+
+    !> Log-determinant against det, and of the Hilbert matrix against its closed form
+    subroutine test_slogdet_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: n = 4_ilp
+        real(${rk}$), parameter :: tol = sqrt(epsilon(0.0_${rk}$))
+        real(${rk}$), parameter :: tol_hilbert = 1.0e5_${rk}$*epsilon(0.0_${rk}$)
+        ${rt}$ :: a(n,n),aorig(n,n),h(n,n),sgn,sgn2,d
+        real(${rk}$) :: lad,lad2,ref
+        integer(ilp) :: i,j
+        type(la_state) :: state
+
+        ! A well-scaled matrix
+        a = sample_matrix_${ri}$(n,n,shift=2.0_${rk}$*n)
+        aorig = a
+        d = det(a)
+
+        call slogdet(a,sgn,lad,err=state)
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+
+        call check(error, abs(sgn*exp(lad)-d)<=tol*abs(d), 'sign*exp(logabsdet) = det(a)')
+        if (allocated(error)) return
+
+        call check(error, abs(abs(sgn)-1)<=tol, 'unit modulus sign')
+        if (allocated(error)) return
+
+        call check(error, all(a==aorig), 'a is not overwritten by default')
+        if (allocated(error)) return
+
+        call slogdet(a,sgn2,lad2,overwrite_a=.true.,err=state)
+        call check(error, state%ok() .and. abs(sgn2-sgn)<=tol .and. abs(lad2-lad)<=tol*abs(lad), &
+                   'same result with overwrite_a')
+        if (allocated(error)) return
+
+        ! Hilbert matrix: det(H) = c(n)**4/c(2n), with c(k) = 1! 2! ... (k-1)!
+        do concurrent (i=1:n, j=1:n)
+           h(i,j) = 1.0_${rk}$/(i+j-1)
+        end do
+        ref = 4*log_superfactorial(n)-log_superfactorial(2*n)
+
+        call slogdet(h,sgn,lad,err=state)
+        call check(error, state%ok(), state%print())
+        if (allocated(error)) return
+
+        call check(error, abs(sgn-1)<=tol .and. abs(lad-ref)<=tol_hilbert*abs(ref), 'Hilbert matrix')
+        if (allocated(error)) return
+
+        contains
+
+           !> log(1! 2! ... (k-1)!)
+           pure real(${rk}$) function log_superfactorial(k)
+              integer(ilp), intent(in) :: k
+              integer(ilp) :: i
+              log_superfactorial = sum([(log_gamma(real(i+1,kind=${rk}$)), i=1,k-1)])
+           end function log_superfactorial
+
+    end subroutine test_slogdet_${ri}$
+
+    !> Signs, a determinant out of range, singular, empty and non-square matrices
+    subroutine test_slogdet_special_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        real(${rk}$), parameter :: tol = sqrt(epsilon(0.0_${rk}$))
+        ${rt}$ :: p(2,2),d3(3,3),big(50,50),z(3,3),empty(0,0),rect(2,3),sgn
+        real(${rk}$) :: lad
+        integer(ilp) :: i
+        type(la_state) :: state
+
+        ! A row interchange: det = -1
+        p = reshape([0,1,1,0],[2,2])
+        call slogdet(p,sgn,lad)
+        call check(error, abs(sgn+1)<=tol .and. abs(lad)<=tol, 'permutation matrix')
+        if (allocated(error)) return
+
+        ! Diagonal matrix with a negative #{if rt.startswith('complex')}#and an imaginary #{endif}#entry
+        d3 = 0.0_${rk}$
+        #:if rt.startswith('complex')
+        d3(1,1) = (0.0_${rk}$,1.0_${rk}$)
+        d3(2,2) = 2.0_${rk}$
+        d3(3,3) = -1.0_${rk}$
+        call slogdet(d3,sgn,lad)
+        call check(error, abs(sgn-(0.0_${rk}$,-1.0_${rk}$))<=tol .and. abs(lad-log(2.0_${rk}$))<=tol, &
+                   'complex sign')
+        #:else
+        d3(1,1) = 1.0_${rk}$
+        d3(2,2) = -2.0_${rk}$
+        d3(3,3) = 3.0_${rk}$
+        call slogdet(d3,sgn,lad)
+        call check(error, abs(sgn+1)<=tol .and. abs(lad-log(6.0_${rk}$))<=tol, 'negative determinant')
+        #:endif
+        if (allocated(error)) return
+
+        ! det = 10**50, beyond the range of real(sp)
+        big = 0.0_${rk}$
+        do i = 1, 50
+           big(i,i) = 10.0_${rk}$
+        end do
+        call slogdet(big,sgn,lad)
+        call check(error, abs(sgn-1)<=tol .and. abs(lad-50*log(10.0_${rk}$))<=tol*lad, 'determinant out of range')
+        if (allocated(error)) return
+
+        ! Singular matrix: sign 0, logabsdet -inf, no error
+        z = 0.0_${rk}$
+        call slogdet(z,sgn,lad,err=state)
+        call check(error, state%ok() .and. sgn==0 .and. .not.ieee_is_finite(lad) .and. ieee_is_negative(lad), &
+                   'singular matrix')
+        if (allocated(error)) return
+
+        ! Empty matrix: det = 1
+        call slogdet(empty,sgn,lad,err=state)
+        call check(error, state%ok() .and. sgn==1 .and. lad==0, 'empty matrix')
+        if (allocated(error)) return
+
+        ! Non-square matrix
+        rect = 1.0_${rk}$
+        call slogdet(rect,sgn,lad,err=state)
+        call check(error, state%error(), 'non-square matrix')
+        if (allocated(error)) return
+
+    end subroutine test_slogdet_special_${ri}$
+
+    !> Matrix powers against repeated products, for positive, zero and negative powers
+    subroutine test_matrix_power_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        integer(ilp), parameter :: m = 4_ilp
+        real(${rk}$), parameter :: tol = 1000*epsilon(0.0_${rk}$)
+        ${rt}$ :: a(m,m),ainv(m,m),eye(m,m),ref(m,m)
+        ${rt}$, allocatable :: an(:,:)
+        integer(ilp) :: i,k
+        type(la_state) :: state
+
+        ! A well-conditioned matrix: the identity plus a perturbation of norm below 1
+        eye = 0.0_${rk}$
+        do i = 1, m
+           eye(i,i) = 1.0_${rk}$
+        end do
+        a = eye+sample_matrix_${ri}$(m,m,shift=0.0_${rk}$)/(2*m)
+        ainv = inv(a)
+
+        ! Zero power: the identity
+        an = matrix_power(a,0_ilp)
+        call check(error, all(an==eye), 'a**0')
+        if (allocated(error)) return
+
+        ! Positive powers
+        ref = eye
+        do k = 1, 7
+           ref = matmul(ref,a)
+           an = matrix_power(a,k)
+           call check(error, all(abs(an-ref)<=tol*maxval(abs(ref))), 'positive power')
+           if (allocated(error)) return
+        end do
+
+        ! Negative powers
+        ref = eye
+        do k = 1, 3
+           ref = matmul(ref,ainv)
+           an = matrix_power(a,-k,err=state)
+           call check(error, state%ok() .and. all(abs(an-ref)<=tol*maxval(abs(ref))), 'negative power')
+           if (allocated(error)) return
+        end do
+
+    end subroutine test_matrix_power_${ri}$
+
+    !> Inputs that matrix_power rejects or treats specially
+    subroutine test_matrix_power_invalid_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        ${rt}$ :: rect(2,3),z(3,3),empty(0,0)
+        ${rt}$, allocatable :: an(:,:)
+        type(la_state) :: state
+
+        rect = 1.0_${rk}$
+        z = 0.0_${rk}$
+
+        an = matrix_power(rect,2_ilp,err=state)
+        call check(error, state%error() .and. size(an)==0, 'non-square matrix')
+        if (allocated(error)) return
+
+        an = matrix_power(z,-2_ilp,err=state)
+        call check(error, state%error() .and. size(an)==0, 'negative power of a singular matrix')
+        if (allocated(error)) return
+
+        an = matrix_power(z,0_ilp,err=state)
+        call check(error, state%ok() .and. all(shape(an)==[3,3]), 'zero power of a singular matrix')
+        if (allocated(error)) return
+
+        an = matrix_power(z,3_ilp,err=state)
+        call check(error, state%ok() .and. all(an==0), 'positive power of a singular matrix')
+        if (allocated(error)) return
+
+        an = matrix_power(empty,-3_ilp,err=state)
+        call check(error, state%ok() .and. size(an)==0, 'empty matrix')
+        if (allocated(error)) return
+
+    end subroutine test_matrix_power_invalid_${ri}$
+
+    !> A deterministic matrix with entries in [-1,1] (each part, if complex), plus shift*I
+    pure function sample_matrix_${ri}$(m,n,shift) result(a)
+        integer(ilp), intent(in) :: m,n
+        real(${rk}$), intent(in) :: shift
+        ${rt}$ :: a(m,n)
+
+        integer(ilp) :: i,j
+
+        do concurrent (i=1:m, j=1:n)
+           #:if rt.startswith('complex')
+           a(i,j) = cmplx(sin(real(3*i+5*j*j,kind=${rk}$)),cos(real(2*i*i+7*j,kind=${rk}$)),kind=${rk}$)
+           #:else
+           a(i,j) = sin(real(3*i+5*j*j,kind=${rk}$))
+           #:endif
+           if (i==j) a(i,j) = a(i,j)+shift
+        end do
+
+    end function sample_matrix_${ri}$
+    #:if LA_GUARD[rk]
+#endif
+    #:endif
+
+    #:endfor
+
+    ! gcc-15 bugfix utility
+    subroutine add_test(tests,new_test)
+        type(unittest_type), allocatable, intent(inout) :: tests(:)
+        type(unittest_type), intent(in) :: new_test
+
+        integer :: n
+        type(unittest_type), allocatable :: new_tests(:)
+
+        if (allocated(tests)) then
+            n = size(tests)
+        else
+            n = 0
+        end if
+
+        allocate(new_tests(n+1))
+        if (n>0) new_tests(1:n) = tests(1:n)
+                 new_tests(1+n) = new_test
+        call move_alloc(from=new_tests,to=tests)
+
+    end subroutine add_test
+
+end module test_linalg_scalars
+
+program test_scalars
+    use, intrinsic :: iso_fortran_env, only : error_unit
+    use testdrive, only : run_testsuite, new_testsuite, testsuite_type
+    use test_linalg_scalars, only : test_matrix_scalars
+    implicit none
+    integer :: stat, is
+    type(testsuite_type), allocatable :: testsuites(:)
+    character(len=*), parameter :: fmt = '("#", *(1x, a))'
+
+    stat = 0
+
+    testsuites = [ &
+        new_testsuite("linalg_scalars", test_matrix_scalars) &
+        ]
+
+    do is = 1, size(testsuites)
+        write(error_unit, fmt) "Testing:", testsuites(is)%name
+        call run_testsuite(testsuites(is)%collect, error_unit, stat)
+    end do
+
+    if (stat > 0) then
+        write(error_unit, '(i0, 1x, a)') stat, "test(s) failed!"
+        error stop
+    end if
+end program test_scalars

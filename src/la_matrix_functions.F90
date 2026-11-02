@@ -3,6 +3,7 @@ module la_matrix_functions
      use la_constants
      use la_blas,only:gemm
      use la_lapack,only:gesv
+     use la_inverse,only:invert
      use la_state_type
      implicit none(type,external)
      private
@@ -10,6 +11,7 @@ module la_matrix_functions
      public :: expm
      public :: matrix_exp
      public :: expm_space
+     public :: matrix_power
 
      character(*),parameter :: this = 'matrix_exponential'
 
@@ -130,6 +132,51 @@ module la_matrix_functions
         module procedure la_w_expm_space
 #endif
      end interface expm_space
+
+     !> @brief Compute an integer power of a square matrix.
+     !!
+     !! This function computes \f$ A^n \f$ for a real or complex square matrix \f$ A \f$ and an
+     !! integer \f$ n \f$, by repeated squaring: about \f$ 2 \log_2 |n| \f$ matrix products.
+     !! \f$ A^0 \f$ is the identity matrix, also for a singular \f$ A \f$, and a negative power is
+     !! the power \f$ (A^{-1})^{|n|} \f$ of the inverse.
+     !!
+     !! @param[in] A The input square matrix of size \f$ [m, m] \f$.
+     !! @param[in] n The power, an `integer(ilp)`.
+     !! @param[out] err (Optional) A state return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
+     !!
+     !! @return The matrix \f$ A^n \f$, of the same type, kind and size as \f$ A \f$. With `err`,
+     !!         an error returns an empty matrix.
+     !!
+     !! @note The matrix products use the BLAS [gemm](@ref la_blas::gemm); the inverse comes from
+     !!       [invert](@ref la_inverse::invert).
+     !!
+     interface matrix_power
+        module procedure la_s_matrix_power
+        module procedure la_s_matrix_power_err
+        module procedure la_d_matrix_power
+        module procedure la_d_matrix_power_err
+#ifdef LA_WITH_XDP
+        module procedure la_x_matrix_power
+        module procedure la_x_matrix_power_err
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_q_matrix_power
+        module procedure la_q_matrix_power_err
+#endif
+        module procedure la_c_matrix_power
+        module procedure la_c_matrix_power_err
+        module procedure la_z_matrix_power
+        module procedure la_z_matrix_power_err
+#ifdef LA_WITH_XDP
+        module procedure la_y_matrix_power
+        module procedure la_y_matrix_power_err
+#endif
+#ifdef LA_WITH_QP
+        module procedure la_w_matrix_power
+        module procedure la_w_matrix_power_err
+#endif
+     end interface matrix_power
 
      contains
 
@@ -372,6 +419,104 @@ module la_matrix_functions
 
      end subroutine la_s_expm_kernel
 
+     !> Integer power of a square matrix, function form: `pure`, stops on error
+     pure function la_s_matrix_power(a,n) result(an)
+         !> Input matrix a[m,m]
+         real(sp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         real(sp),allocatable :: an(:,:)
+
+         call la_s_matrix_power_sub(a,n,an)
+
+     end function la_s_matrix_power
+
+     !> Integer power of a square matrix, function form with a state return flag
+     function la_s_matrix_power_err(a,n,err) result(an)
+         !> Input matrix a[m,m]
+         real(sp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix power a^n [m,m]; empty on error
+         real(sp),allocatable :: an(:,:)
+
+         call la_s_matrix_power_sub(a,n,an,err)
+
+     end function la_s_matrix_power_err
+
+     !> Integer power of a square matrix by repeated squaring; empty on error
+     pure subroutine la_s_matrix_power_sub(a,n,an,err)
+         !> Input matrix a[m,m]
+         real(sp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         real(sp),allocatable,intent(out) :: an(:,:)
+         !> [optional] State return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         character(*),parameter :: this = 'matrix_power'
+         real(sp),parameter :: zero = 0.0_sp
+         real(sp),parameter :: one = 1.0_sp
+         type(la_state) :: err0
+         integer(ilp) :: m,p,i
+         logical(lk) :: first
+         real(sp),allocatable :: base(:,:),tmp(:,:)
+
+         m = size(a,1,kind=ilp)
+
+         if (size(a,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=',shape(a,kind=ilp))
+         else if (n == 0) then
+            ! The identity, also for a singular matrix
+            allocate (an(m,m))
+            an = zero
+            do i = 1,m
+               an(i,i) = one
+            end do
+         else
+            ! A negative power is a power of the inverse
+            base = a
+            if (n < 0 .and. m > 0) call invert(base,err=err0)
+
+            if (err0%ok()) then
+               allocate (tmp(m,m))
+
+               ! Binary exponentiation over the bits of |n|. p keeps the sign of n: mod and the
+               ! integer division by 2 act on it as they would on |n|
+               p = n
+               first = .true._lk
+               do
+                  if (mod(p,2_ilp) /= 0) then
+                     if (first) then
+                        an = base
+                        first = .false._lk
+                     else
+                        call gemm('N','N',m,m,m,one,an,m,base,m,zero,tmp,m)
+                        an = tmp
+                     end if
+                  end if
+                  p = p/2
+                  if (p == 0) exit
+                  call gemm('N','N',m,m,m,one,base,m,base,m,zero,tmp,m)
+                  base = tmp
+               end do
+            end if
+         end if
+
+         ! An invalid problem returns an empty matrix
+         if (err0%error()) then
+            if (allocated(an)) deallocate (an)
+            allocate (an(0,0))
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_s_matrix_power_sub
+
      !> Matrix exponential, function form: `pure`, stops on error
      pure function la_d_expm_fun(a,order) result(e)
          !> Input matrix a[n,n]
@@ -582,6 +727,104 @@ module la_matrix_functions
          end if
 
      end subroutine la_d_expm_kernel
+
+     !> Integer power of a square matrix, function form: `pure`, stops on error
+     pure function la_d_matrix_power(a,n) result(an)
+         !> Input matrix a[m,m]
+         real(dp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         real(dp),allocatable :: an(:,:)
+
+         call la_d_matrix_power_sub(a,n,an)
+
+     end function la_d_matrix_power
+
+     !> Integer power of a square matrix, function form with a state return flag
+     function la_d_matrix_power_err(a,n,err) result(an)
+         !> Input matrix a[m,m]
+         real(dp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix power a^n [m,m]; empty on error
+         real(dp),allocatable :: an(:,:)
+
+         call la_d_matrix_power_sub(a,n,an,err)
+
+     end function la_d_matrix_power_err
+
+     !> Integer power of a square matrix by repeated squaring; empty on error
+     pure subroutine la_d_matrix_power_sub(a,n,an,err)
+         !> Input matrix a[m,m]
+         real(dp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         real(dp),allocatable,intent(out) :: an(:,:)
+         !> [optional] State return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         character(*),parameter :: this = 'matrix_power'
+         real(dp),parameter :: zero = 0.0_dp
+         real(dp),parameter :: one = 1.0_dp
+         type(la_state) :: err0
+         integer(ilp) :: m,p,i
+         logical(lk) :: first
+         real(dp),allocatable :: base(:,:),tmp(:,:)
+
+         m = size(a,1,kind=ilp)
+
+         if (size(a,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=',shape(a,kind=ilp))
+         else if (n == 0) then
+            ! The identity, also for a singular matrix
+            allocate (an(m,m))
+            an = zero
+            do i = 1,m
+               an(i,i) = one
+            end do
+         else
+            ! A negative power is a power of the inverse
+            base = a
+            if (n < 0 .and. m > 0) call invert(base,err=err0)
+
+            if (err0%ok()) then
+               allocate (tmp(m,m))
+
+               ! Binary exponentiation over the bits of |n|. p keeps the sign of n: mod and the
+               ! integer division by 2 act on it as they would on |n|
+               p = n
+               first = .true._lk
+               do
+                  if (mod(p,2_ilp) /= 0) then
+                     if (first) then
+                        an = base
+                        first = .false._lk
+                     else
+                        call gemm('N','N',m,m,m,one,an,m,base,m,zero,tmp,m)
+                        an = tmp
+                     end if
+                  end if
+                  p = p/2
+                  if (p == 0) exit
+                  call gemm('N','N',m,m,m,one,base,m,base,m,zero,tmp,m)
+                  base = tmp
+               end do
+            end if
+         end if
+
+         ! An invalid problem returns an empty matrix
+         if (err0%error()) then
+            if (allocated(an)) deallocate (an)
+            allocate (an(0,0))
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_d_matrix_power_sub
 
 #ifdef LA_WITH_XDP
      !> Matrix exponential, function form: `pure`, stops on error
@@ -794,6 +1037,104 @@ module la_matrix_functions
          end if
 
      end subroutine la_x_expm_kernel
+
+     !> Integer power of a square matrix, function form: `pure`, stops on error
+     pure function la_x_matrix_power(a,n) result(an)
+         !> Input matrix a[m,m]
+         real(xdp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         real(xdp),allocatable :: an(:,:)
+
+         call la_x_matrix_power_sub(a,n,an)
+
+     end function la_x_matrix_power
+
+     !> Integer power of a square matrix, function form with a state return flag
+     function la_x_matrix_power_err(a,n,err) result(an)
+         !> Input matrix a[m,m]
+         real(xdp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix power a^n [m,m]; empty on error
+         real(xdp),allocatable :: an(:,:)
+
+         call la_x_matrix_power_sub(a,n,an,err)
+
+     end function la_x_matrix_power_err
+
+     !> Integer power of a square matrix by repeated squaring; empty on error
+     pure subroutine la_x_matrix_power_sub(a,n,an,err)
+         !> Input matrix a[m,m]
+         real(xdp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         real(xdp),allocatable,intent(out) :: an(:,:)
+         !> [optional] State return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         character(*),parameter :: this = 'matrix_power'
+         real(xdp),parameter :: zero = 0.0_xdp
+         real(xdp),parameter :: one = 1.0_xdp
+         type(la_state) :: err0
+         integer(ilp) :: m,p,i
+         logical(lk) :: first
+         real(xdp),allocatable :: base(:,:),tmp(:,:)
+
+         m = size(a,1,kind=ilp)
+
+         if (size(a,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=',shape(a,kind=ilp))
+         else if (n == 0) then
+            ! The identity, also for a singular matrix
+            allocate (an(m,m))
+            an = zero
+            do i = 1,m
+               an(i,i) = one
+            end do
+         else
+            ! A negative power is a power of the inverse
+            base = a
+            if (n < 0 .and. m > 0) call invert(base,err=err0)
+
+            if (err0%ok()) then
+               allocate (tmp(m,m))
+
+               ! Binary exponentiation over the bits of |n|. p keeps the sign of n: mod and the
+               ! integer division by 2 act on it as they would on |n|
+               p = n
+               first = .true._lk
+               do
+                  if (mod(p,2_ilp) /= 0) then
+                     if (first) then
+                        an = base
+                        first = .false._lk
+                     else
+                        call gemm('N','N',m,m,m,one,an,m,base,m,zero,tmp,m)
+                        an = tmp
+                     end if
+                  end if
+                  p = p/2
+                  if (p == 0) exit
+                  call gemm('N','N',m,m,m,one,base,m,base,m,zero,tmp,m)
+                  base = tmp
+               end do
+            end if
+         end if
+
+         ! An invalid problem returns an empty matrix
+         if (err0%error()) then
+            if (allocated(an)) deallocate (an)
+            allocate (an(0,0))
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_x_matrix_power_sub
 #endif
 
 #ifdef LA_WITH_QP
@@ -1007,6 +1348,104 @@ module la_matrix_functions
          end if
 
      end subroutine la_q_expm_kernel
+
+     !> Integer power of a square matrix, function form: `pure`, stops on error
+     pure function la_q_matrix_power(a,n) result(an)
+         !> Input matrix a[m,m]
+         real(qp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         real(qp),allocatable :: an(:,:)
+
+         call la_q_matrix_power_sub(a,n,an)
+
+     end function la_q_matrix_power
+
+     !> Integer power of a square matrix, function form with a state return flag
+     function la_q_matrix_power_err(a,n,err) result(an)
+         !> Input matrix a[m,m]
+         real(qp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix power a^n [m,m]; empty on error
+         real(qp),allocatable :: an(:,:)
+
+         call la_q_matrix_power_sub(a,n,an,err)
+
+     end function la_q_matrix_power_err
+
+     !> Integer power of a square matrix by repeated squaring; empty on error
+     pure subroutine la_q_matrix_power_sub(a,n,an,err)
+         !> Input matrix a[m,m]
+         real(qp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         real(qp),allocatable,intent(out) :: an(:,:)
+         !> [optional] State return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         character(*),parameter :: this = 'matrix_power'
+         real(qp),parameter :: zero = 0.0_qp
+         real(qp),parameter :: one = 1.0_qp
+         type(la_state) :: err0
+         integer(ilp) :: m,p,i
+         logical(lk) :: first
+         real(qp),allocatable :: base(:,:),tmp(:,:)
+
+         m = size(a,1,kind=ilp)
+
+         if (size(a,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=',shape(a,kind=ilp))
+         else if (n == 0) then
+            ! The identity, also for a singular matrix
+            allocate (an(m,m))
+            an = zero
+            do i = 1,m
+               an(i,i) = one
+            end do
+         else
+            ! A negative power is a power of the inverse
+            base = a
+            if (n < 0 .and. m > 0) call invert(base,err=err0)
+
+            if (err0%ok()) then
+               allocate (tmp(m,m))
+
+               ! Binary exponentiation over the bits of |n|. p keeps the sign of n: mod and the
+               ! integer division by 2 act on it as they would on |n|
+               p = n
+               first = .true._lk
+               do
+                  if (mod(p,2_ilp) /= 0) then
+                     if (first) then
+                        an = base
+                        first = .false._lk
+                     else
+                        call gemm('N','N',m,m,m,one,an,m,base,m,zero,tmp,m)
+                        an = tmp
+                     end if
+                  end if
+                  p = p/2
+                  if (p == 0) exit
+                  call gemm('N','N',m,m,m,one,base,m,base,m,zero,tmp,m)
+                  base = tmp
+               end do
+            end if
+         end if
+
+         ! An invalid problem returns an empty matrix
+         if (err0%error()) then
+            if (allocated(an)) deallocate (an)
+            allocate (an(0,0))
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_q_matrix_power_sub
 #endif
 
      !> Matrix exponential, function form: `pure`, stops on error
@@ -1220,6 +1659,104 @@ module la_matrix_functions
 
      end subroutine la_c_expm_kernel
 
+     !> Integer power of a square matrix, function form: `pure`, stops on error
+     pure function la_c_matrix_power(a,n) result(an)
+         !> Input matrix a[m,m]
+         complex(sp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         complex(sp),allocatable :: an(:,:)
+
+         call la_c_matrix_power_sub(a,n,an)
+
+     end function la_c_matrix_power
+
+     !> Integer power of a square matrix, function form with a state return flag
+     function la_c_matrix_power_err(a,n,err) result(an)
+         !> Input matrix a[m,m]
+         complex(sp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix power a^n [m,m]; empty on error
+         complex(sp),allocatable :: an(:,:)
+
+         call la_c_matrix_power_sub(a,n,an,err)
+
+     end function la_c_matrix_power_err
+
+     !> Integer power of a square matrix by repeated squaring; empty on error
+     pure subroutine la_c_matrix_power_sub(a,n,an,err)
+         !> Input matrix a[m,m]
+         complex(sp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         complex(sp),allocatable,intent(out) :: an(:,:)
+         !> [optional] State return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         character(*),parameter :: this = 'matrix_power'
+         complex(sp),parameter :: zero = 0.0_sp
+         complex(sp),parameter :: one = 1.0_sp
+         type(la_state) :: err0
+         integer(ilp) :: m,p,i
+         logical(lk) :: first
+         complex(sp),allocatable :: base(:,:),tmp(:,:)
+
+         m = size(a,1,kind=ilp)
+
+         if (size(a,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=',shape(a,kind=ilp))
+         else if (n == 0) then
+            ! The identity, also for a singular matrix
+            allocate (an(m,m))
+            an = zero
+            do i = 1,m
+               an(i,i) = one
+            end do
+         else
+            ! A negative power is a power of the inverse
+            base = a
+            if (n < 0 .and. m > 0) call invert(base,err=err0)
+
+            if (err0%ok()) then
+               allocate (tmp(m,m))
+
+               ! Binary exponentiation over the bits of |n|. p keeps the sign of n: mod and the
+               ! integer division by 2 act on it as they would on |n|
+               p = n
+               first = .true._lk
+               do
+                  if (mod(p,2_ilp) /= 0) then
+                     if (first) then
+                        an = base
+                        first = .false._lk
+                     else
+                        call gemm('N','N',m,m,m,one,an,m,base,m,zero,tmp,m)
+                        an = tmp
+                     end if
+                  end if
+                  p = p/2
+                  if (p == 0) exit
+                  call gemm('N','N',m,m,m,one,base,m,base,m,zero,tmp,m)
+                  base = tmp
+               end do
+            end if
+         end if
+
+         ! An invalid problem returns an empty matrix
+         if (err0%error()) then
+            if (allocated(an)) deallocate (an)
+            allocate (an(0,0))
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_c_matrix_power_sub
+
      !> Matrix exponential, function form: `pure`, stops on error
      pure function la_z_expm_fun(a,order) result(e)
          !> Input matrix a[n,n]
@@ -1430,6 +1967,104 @@ module la_matrix_functions
          end if
 
      end subroutine la_z_expm_kernel
+
+     !> Integer power of a square matrix, function form: `pure`, stops on error
+     pure function la_z_matrix_power(a,n) result(an)
+         !> Input matrix a[m,m]
+         complex(dp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         complex(dp),allocatable :: an(:,:)
+
+         call la_z_matrix_power_sub(a,n,an)
+
+     end function la_z_matrix_power
+
+     !> Integer power of a square matrix, function form with a state return flag
+     function la_z_matrix_power_err(a,n,err) result(an)
+         !> Input matrix a[m,m]
+         complex(dp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix power a^n [m,m]; empty on error
+         complex(dp),allocatable :: an(:,:)
+
+         call la_z_matrix_power_sub(a,n,an,err)
+
+     end function la_z_matrix_power_err
+
+     !> Integer power of a square matrix by repeated squaring; empty on error
+     pure subroutine la_z_matrix_power_sub(a,n,an,err)
+         !> Input matrix a[m,m]
+         complex(dp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         complex(dp),allocatable,intent(out) :: an(:,:)
+         !> [optional] State return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         character(*),parameter :: this = 'matrix_power'
+         complex(dp),parameter :: zero = 0.0_dp
+         complex(dp),parameter :: one = 1.0_dp
+         type(la_state) :: err0
+         integer(ilp) :: m,p,i
+         logical(lk) :: first
+         complex(dp),allocatable :: base(:,:),tmp(:,:)
+
+         m = size(a,1,kind=ilp)
+
+         if (size(a,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=',shape(a,kind=ilp))
+         else if (n == 0) then
+            ! The identity, also for a singular matrix
+            allocate (an(m,m))
+            an = zero
+            do i = 1,m
+               an(i,i) = one
+            end do
+         else
+            ! A negative power is a power of the inverse
+            base = a
+            if (n < 0 .and. m > 0) call invert(base,err=err0)
+
+            if (err0%ok()) then
+               allocate (tmp(m,m))
+
+               ! Binary exponentiation over the bits of |n|. p keeps the sign of n: mod and the
+               ! integer division by 2 act on it as they would on |n|
+               p = n
+               first = .true._lk
+               do
+                  if (mod(p,2_ilp) /= 0) then
+                     if (first) then
+                        an = base
+                        first = .false._lk
+                     else
+                        call gemm('N','N',m,m,m,one,an,m,base,m,zero,tmp,m)
+                        an = tmp
+                     end if
+                  end if
+                  p = p/2
+                  if (p == 0) exit
+                  call gemm('N','N',m,m,m,one,base,m,base,m,zero,tmp,m)
+                  base = tmp
+               end do
+            end if
+         end if
+
+         ! An invalid problem returns an empty matrix
+         if (err0%error()) then
+            if (allocated(an)) deallocate (an)
+            allocate (an(0,0))
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_z_matrix_power_sub
 
 #ifdef LA_WITH_XDP
      !> Matrix exponential, function form: `pure`, stops on error
@@ -1642,6 +2277,104 @@ module la_matrix_functions
          end if
 
      end subroutine la_y_expm_kernel
+
+     !> Integer power of a square matrix, function form: `pure`, stops on error
+     pure function la_y_matrix_power(a,n) result(an)
+         !> Input matrix a[m,m]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         complex(xdp),allocatable :: an(:,:)
+
+         call la_y_matrix_power_sub(a,n,an)
+
+     end function la_y_matrix_power
+
+     !> Integer power of a square matrix, function form with a state return flag
+     function la_y_matrix_power_err(a,n,err) result(an)
+         !> Input matrix a[m,m]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix power a^n [m,m]; empty on error
+         complex(xdp),allocatable :: an(:,:)
+
+         call la_y_matrix_power_sub(a,n,an,err)
+
+     end function la_y_matrix_power_err
+
+     !> Integer power of a square matrix by repeated squaring; empty on error
+     pure subroutine la_y_matrix_power_sub(a,n,an,err)
+         !> Input matrix a[m,m]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         complex(xdp),allocatable,intent(out) :: an(:,:)
+         !> [optional] State return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         character(*),parameter :: this = 'matrix_power'
+         complex(xdp),parameter :: zero = 0.0_xdp
+         complex(xdp),parameter :: one = 1.0_xdp
+         type(la_state) :: err0
+         integer(ilp) :: m,p,i
+         logical(lk) :: first
+         complex(xdp),allocatable :: base(:,:),tmp(:,:)
+
+         m = size(a,1,kind=ilp)
+
+         if (size(a,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=',shape(a,kind=ilp))
+         else if (n == 0) then
+            ! The identity, also for a singular matrix
+            allocate (an(m,m))
+            an = zero
+            do i = 1,m
+               an(i,i) = one
+            end do
+         else
+            ! A negative power is a power of the inverse
+            base = a
+            if (n < 0 .and. m > 0) call invert(base,err=err0)
+
+            if (err0%ok()) then
+               allocate (tmp(m,m))
+
+               ! Binary exponentiation over the bits of |n|. p keeps the sign of n: mod and the
+               ! integer division by 2 act on it as they would on |n|
+               p = n
+               first = .true._lk
+               do
+                  if (mod(p,2_ilp) /= 0) then
+                     if (first) then
+                        an = base
+                        first = .false._lk
+                     else
+                        call gemm('N','N',m,m,m,one,an,m,base,m,zero,tmp,m)
+                        an = tmp
+                     end if
+                  end if
+                  p = p/2
+                  if (p == 0) exit
+                  call gemm('N','N',m,m,m,one,base,m,base,m,zero,tmp,m)
+                  base = tmp
+               end do
+            end if
+         end if
+
+         ! An invalid problem returns an empty matrix
+         if (err0%error()) then
+            if (allocated(an)) deallocate (an)
+            allocate (an(0,0))
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_y_matrix_power_sub
 #endif
 
 #ifdef LA_WITH_QP
@@ -1855,6 +2588,104 @@ module la_matrix_functions
          end if
 
      end subroutine la_w_expm_kernel
+
+     !> Integer power of a square matrix, function form: `pure`, stops on error
+     pure function la_w_matrix_power(a,n) result(an)
+         !> Input matrix a[m,m]
+         complex(qp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         complex(qp),allocatable :: an(:,:)
+
+         call la_w_matrix_power_sub(a,n,an)
+
+     end function la_w_matrix_power
+
+     !> Integer power of a square matrix, function form with a state return flag
+     function la_w_matrix_power_err(a,n,err) result(an)
+         !> Input matrix a[m,m]
+         complex(qp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix power a^n [m,m]; empty on error
+         complex(qp),allocatable :: an(:,:)
+
+         call la_w_matrix_power_sub(a,n,an,err)
+
+     end function la_w_matrix_power_err
+
+     !> Integer power of a square matrix by repeated squaring; empty on error
+     pure subroutine la_w_matrix_power_sub(a,n,an,err)
+         !> Input matrix a[m,m]
+         complex(qp),intent(in) :: a(:,:)
+         !> Power
+         integer(ilp),intent(in) :: n
+         !> Matrix power a^n [m,m]
+         complex(qp),allocatable,intent(out) :: an(:,:)
+         !> [optional] State return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
+
+         character(*),parameter :: this = 'matrix_power'
+         complex(qp),parameter :: zero = 0.0_qp
+         complex(qp),parameter :: one = 1.0_qp
+         type(la_state) :: err0
+         integer(ilp) :: m,p,i
+         logical(lk) :: first
+         complex(qp),allocatable :: base(:,:),tmp(:,:)
+
+         m = size(a,1,kind=ilp)
+
+         if (size(a,2,kind=ilp) /= m) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=',shape(a,kind=ilp))
+         else if (n == 0) then
+            ! The identity, also for a singular matrix
+            allocate (an(m,m))
+            an = zero
+            do i = 1,m
+               an(i,i) = one
+            end do
+         else
+            ! A negative power is a power of the inverse
+            base = a
+            if (n < 0 .and. m > 0) call invert(base,err=err0)
+
+            if (err0%ok()) then
+               allocate (tmp(m,m))
+
+               ! Binary exponentiation over the bits of |n|. p keeps the sign of n: mod and the
+               ! integer division by 2 act on it as they would on |n|
+               p = n
+               first = .true._lk
+               do
+                  if (mod(p,2_ilp) /= 0) then
+                     if (first) then
+                        an = base
+                        first = .false._lk
+                     else
+                        call gemm('N','N',m,m,m,one,an,m,base,m,zero,tmp,m)
+                        an = tmp
+                     end if
+                  end if
+                  p = p/2
+                  if (p == 0) exit
+                  call gemm('N','N',m,m,m,one,base,m,base,m,zero,tmp,m)
+                  base = tmp
+               end do
+            end if
+         end if
+
+         ! An invalid problem returns an empty matrix
+         if (err0%error()) then
+            if (allocated(an)) deallocate (an)
+            allocate (an(0,0))
+         end if
+
+         call err0%handle(err)
+
+     end subroutine la_w_matrix_power_sub
 #endif
 
 end module la_matrix_functions

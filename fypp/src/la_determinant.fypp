@@ -6,6 +6,7 @@ module la_determinant
      use la_lapack
      use la_state_type
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
+     use,intrinsic :: ieee_arithmetic,only:ieee_value,ieee_negative_inf
      implicit none(type,external)
      private
 
@@ -71,6 +72,40 @@ module la_determinant
         #:endif
         #:endfor
      end interface operator(.det.)
+
+     !> @brief Compute the sign and the logarithm of the absolute value of the determinant.
+     !!
+     !! This subroutine computes \f$ \det(A) = sign \cdot e^{logabsdet} \f$ for a real or complex
+     !! square matrix \f$ A \f$, from its LU factorization. The logarithm does not overflow or
+     !! underflow where the determinant itself would.
+     !!
+     !! @param[in,out] a The input square matrix of size \f$ [n, n] \f$. If `overwrite_a` is true,
+     !!                  it is overwritten by its LU factorization.
+     !! @param[out] sign The sign of the determinant, of the same type and kind as \f$ A \f$:
+     !!                  \f$ \pm 1 \f$ for a real matrix, a complex number of unit modulus for a
+     !!                  complex one, and 0 for a singular matrix.
+     !! @param[out] logabsdet The natural logarithm of \f$ |\det(A)| \f$, a `real` of the kind of
+     !!                       \f$ A \f$; \f$ -\infty \f$ for a singular matrix.
+     !! @param[in] overwrite_a (Optional) If `.true.`, A may be overwritten and destroyed. Default is `.false.`.
+     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
+     !!                 the subroutine will stop execution.
+     !!
+     !! @note The subroutine is `pure`. A singular matrix is not an error: it returns `sign = 0`
+     !!       and `logabsdet` \f$ = -\infty \f$.
+     !!
+     public :: slogdet
+
+     interface slogdet
+        #:for rk,rt,ri in ALL_KINDS_TYPES
+        #:if LA_GUARD[rk]
+#ifdef ${LA_GUARD[rk]}$
+        #:endif
+        module procedure la_${ri}$slogdet
+        #:if LA_GUARD[rk]
+#endif
+        #:endif
+        #:endfor
+     end interface slogdet
 
 
      contains
@@ -246,6 +281,88 @@ module la_determinant
          call err0%handle()
 
      end function la_${ri}$pure_determinant
+
+     ! Sign and logarithm of the absolute value of the determinant of a square matrix A
+     pure subroutine la_${ri}$slogdet(a,sign,logabsdet,overwrite_a,err)
+         !> Input matrix a[n,n]
+         ${rt}$, intent(inout), target :: a(:,:)
+         !> Sign of the determinant: +1 or -1, a complex number of unit modulus, or 0 if a is singular
+         ${rt}$, intent(out) :: sign
+         !> Natural logarithm of |det(a)|; -inf if a is singular
+         real(${rk}$), intent(out) :: logabsdet
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk), optional, intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state), optional, intent(out) :: err
+
+         !> Local variables
+         type(la_state) :: err0
+         integer(ilp) :: m,n,info,k
+         integer(ilp), allocatable :: ipiv(:)
+         logical(lk) :: copy_a
+         ${rt}$, pointer :: amat(:,:)
+         character(*), parameter :: this = 'slogdet'
+
+         !> Matrix size
+         m = size(a,1,kind=ilp)
+         n = size(a,2,kind=ilp)
+
+         ! The result of a singular matrix, until the factorization says otherwise
+         sign = 0.0_${rk}$
+         logabsdet = ieee_value(logabsdet,ieee_negative_inf)
+
+         if (m/=n) then
+            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
+         elseif (n==0) then
+            ! Empty array has determinant 1
+            sign = 1.0_${rk}$
+            logabsdet = 0.0_${rk}$
+         else
+
+            ! Can A be overwritten? By default, do not overwrite
+            copy_a = .true._lk
+            if (present(overwrite_a)) copy_a = .not.overwrite_a
+
+            if (copy_a) then
+               allocate(amat(m,n),source=a)
+            else
+               amat => a
+            endif
+
+            ! Pivot indices
+            allocate(ipiv(n))
+
+            ! LU factorization: det(a) is the product of the diagonal of U, with one sign
+            ! change per row interchange
+            call getrf(m,n,amat,m,ipiv,info)
+
+            select case (info)
+               case (0)
+                   sign = 1.0_${rk}$
+                   logabsdet = 0.0_${rk}$
+                   do k=1,n
+                      if (ipiv(k)/=k) sign = -sign
+                      sign = sign*(amat(k,k)/abs(amat(k,k)))
+                      logabsdet = logabsdet+log(abs(amat(k,k)))
+                   end do
+                   #:if rt.startswith('complex')
+                   ! Keep the sign on the unit circle
+                   sign = sign/abs(sign)
+                   #:endif
+               case (1:)
+                   ! Singular matrix: a zero pivot in U
+               case default
+                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+            end select
+
+            if (copy_a) deallocate(amat)
+
+         end if
+
+         ! Process output and return
+         call err0%handle(err)
+
+     end subroutine la_${ri}$slogdet
      #:if LA_GUARD[rk]
 #endif
      #:endif
