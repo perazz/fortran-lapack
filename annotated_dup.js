@@ -57,7 +57,8 @@ var annotated_dup =
     ] ],
     [ "la_determinant", "namespacela__determinant.html", [
       [ "det", "interfacela__determinant_1_1det.html", "interfacela__determinant_1_1det" ],
-      [ "operator(.det.)", "interfacela__determinant_1_1operator_07_8det_8_08.html", "interfacela__determinant_1_1operator_07_8det_8_08" ]
+      [ "operator(.det.)", "interfacela__determinant_1_1operator_07_8det_8_08.html", "interfacela__determinant_1_1operator_07_8det_8_08" ],
+      [ "slogdet", "interfacela__determinant_1_1slogdet.html", "interfacela__determinant_1_1slogdet" ]
     ] ],
     [ "la_eig", "namespacela__eig.html", [
       [ "eig", "interfacela__eig_1_1eig.html", "interfacela__eig_1_1eig" ],
@@ -638,7 +639,8 @@ var annotated_dup =
     [ "la_matrix_functions", "namespacela__matrix__functions.html", [
       [ "expm", "interfacela__matrix__functions_1_1expm.html", "interfacela__matrix__functions_1_1expm" ],
       [ "expm_space", "interfacela__matrix__functions_1_1expm__space.html", "interfacela__matrix__functions_1_1expm__space" ],
-      [ "matrix_exp", "interfacela__matrix__functions_1_1matrix__exp.html", "interfacela__matrix__functions_1_1matrix__exp" ]
+      [ "matrix_exp", "interfacela__matrix__functions_1_1matrix__exp.html", "interfacela__matrix__functions_1_1matrix__exp" ],
+      [ "matrix_power", "interfacela__matrix__functions_1_1matrix__power.html", "interfacela__matrix__functions_1_1matrix__power" ]
     ] ],
     [ "la_matrix_property_checks", "namespacela__matrix__property__checks.html", [
       [ "is_diagonal", "interfacela__matrix__property__checks_1_1is__diagonal.html", "interfacela__matrix__property__checks_1_1is__diagonal" ],
@@ -650,6 +652,7 @@ var annotated_dup =
       [ "is_triangular", "interfacela__matrix__property__checks_1_1is__triangular.html", "interfacela__matrix__property__checks_1_1is__triangular" ]
     ] ],
     [ "la_norms", "namespacela__norms.html", [
+      [ "cond", "interfacela__norms_1_1cond.html", "interfacela__norms_1_1cond" ],
       [ "get_norm", "interfacela__norms_1_1get__norm.html", "interfacela__norms_1_1get__norm" ],
       [ "mnorm", "interfacela__norms_1_1mnorm.html", "interfacela__norms_1_1mnorm" ],
       [ "norm", "interfacela__norms_1_1norm.html", "interfacela__norms_1_1norm" ]
@@ -684,6 +687,7 @@ var annotated_dup =
       [ "operator(>=)", "interfacela__state__type_1_1operator_07_4_0a_08.html", "interfacela__state__type_1_1operator_07_4_0a_08" ]
     ] ],
     [ "la_svd", "namespacela__svd.html", [
+      [ "matrix_rank", "interfacela__svd_1_1matrix__rank.html", "interfacela__svd_1_1matrix__rank" ],
       [ "svd", "interfacela__svd_1_1svd.html", "interfacela__svd_1_1svd" ],
       [ "svdvals", "interfacela__svd_1_1svdvals.html", "interfacela__svd_1_1svdvals" ]
     ] ]

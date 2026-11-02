@@ -163,7 +163,20 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The singular values of matrix \( A \) are returned in the <code>real</code> array \( s \), with the same kind as the input matrix.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function returns only the singular values and does not compute the full SVD. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function returns only the singular values and does not compute the full SVD.</dd></dl>
+<p>Compute the rank of a matrix.</p>
+<p>This function returns the number of singular values of the real or complex matrix \( A \) that are larger than \( \max(atol, rtol \cdot \sigma_{max}) \), where \( \sigma_{max} \) is its largest singular value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>The input matrix \( A \) of size \( [m,n] \). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">rtol</td><td>(Optional) Relative tolerance. Default is \( \max(m,n) \cdot \epsilon \). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">atol</td><td>(Optional) Absolute tolerance. Default is 0. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>(Optional) A state return flag. Without it the function is <code>pure</code>, and an error stops execution. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The rank of \( A \), an <code>integer(ilp)</code>. An empty matrix has rank 0, and a failed computation returns 0.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The singular values come from the LAPACK <a class="el" href="interfacela__lapack_1_1gesdd.html">gesdd</a> backend. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aa6b46f6d54a62f05e5fa3fc70c52b65c" name="aa6b46f6d54a62f05e5fa3fc70c52b65c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa6b46f6d54a62f05e5fa3fc70c52b65c">&#9670;&#160;</a></span>la_svd_c()</h2>
