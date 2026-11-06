@@ -1,7 +1,8 @@
 module la_schur
     use la_constants
     use la_lapack,only:gees
-    use la_state_type,only:la_state,LINALG_ERROR,LINALG_INTERNAL_ERROR,LINALG_VALUE_ERROR
+    use la_state_type,only:la_state,LINALG_VALUE_ERROR
+    use la_info,only:handle_gees
     implicit none(type,external)
     private
     
@@ -121,48 +122,6 @@ module la_schur
         gees_sort_eigs = merge(GEES_SORTED_VECTORS,GEES_NOT,sorted)
     end function gees_sort_eigs
     
-    !> Wrapper function to handle GEES error codes
-    elemental subroutine handle_gees_info(info,m,n,ldvs,err)
-        integer(ilp),intent(in) :: info,m,n,ldvs
-        type(la_state),intent(out) :: err
-
-        ! Process GEES output
-        select case (info)
-        case (0_ilp)
-            ! Success
-        case (-1_ilp)
-            ! Vector not wanted, but task is wrong
-            err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid Schur vector task request')
-        case (-2_ilp)
-            ! Vector not wanted, but task is wrong
-            err = la_state(this,LINALG_INTERNAL_ERROR,'Invalid sorting task request')
-        case (-4_ilp,-6_ilp)
-            ! Vector not wanted, but task is wrong
-            err = la_state(this,LINALG_VALUE_ERROR,'Invalid/non-square input matrix size:', [m,n])
-        case (-11_ilp)
-            err = la_state(this,LINALG_VALUE_ERROR,'Schur vector matrix has insufficient size', [ldvs,n])
-        case (-13_ilp)
-            err = la_state(this,LINALG_INTERNAL_ERROR,'Insufficient working storage size')
-        case (1_ilp:)
-            
-            if (info == n + 2) then
-                err = la_state(this,LINALG_ERROR,'Ill-conditioned problem: could not sort eigenvalues')
-            elseif (info == n + 1) then
-                err = la_state(this,LINALG_ERROR,'Some selected eigenvalues lost property due to sorting')
-            elseif (info == n) then
-                err = la_state(this,LINALG_ERROR,'Convergence failure: no converged eigenvalues')
-            else
-                err = la_state(this,LINALG_ERROR,'Convergence failure; converged range is', [info,n])
-            end if
-            
-        case default
-            
-            err = la_state(this,LINALG_INTERNAL_ERROR,'GEES catastrophic error: info=',info)
-
-        end select
-        
-    end subroutine handle_gees_info
-    
     pure subroutine get_schur_s_workspace(a,lwork,err)
         !> Input matrix a[m,m]
         real(sp),intent(in) :: a(:,:)
@@ -193,7 +152,7 @@ module la_schur
         call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=sp),kind=ilp)
-        call handle_gees_info(info,m,n,m,err0)
+        call handle_gees(this,info,n,m,m,err0)
         call err0%handle(err)
         
         contains
@@ -345,7 +304,7 @@ module la_schur
             ! Compute Schur decomposition
             call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                       vs,ldvs,work,lwork,bwork,info)
-            call handle_gees_info(info,m,n,m,err0)
+            call handle_gees(this,info,nt,mt,ldvs,err0)
             
         end if
 
@@ -442,7 +401,7 @@ module la_schur
         call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=dp),kind=ilp)
-        call handle_gees_info(info,m,n,m,err0)
+        call handle_gees(this,info,n,m,m,err0)
         call err0%handle(err)
         
         contains
@@ -594,7 +553,7 @@ module la_schur
             ! Compute Schur decomposition
             call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                       vs,ldvs,work,lwork,bwork,info)
-            call handle_gees_info(info,m,n,m,err0)
+            call handle_gees(this,info,nt,mt,ldvs,err0)
             
         end if
 
@@ -692,7 +651,7 @@ module la_schur
         call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=xdp),kind=ilp)
-        call handle_gees_info(info,m,n,m,err0)
+        call handle_gees(this,info,n,m,m,err0)
         call err0%handle(err)
         
         contains
@@ -844,7 +803,7 @@ module la_schur
             ! Compute Schur decomposition
             call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                       vs,ldvs,work,lwork,bwork,info)
-            call handle_gees_info(info,m,n,m,err0)
+            call handle_gees(this,info,nt,mt,ldvs,err0)
             
         end if
 
@@ -943,7 +902,7 @@ module la_schur
         call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy,wi_dummy, &
                   vs_dummy,m,work_dummy,lwork,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=qp),kind=ilp)
-        call handle_gees_info(info,m,n,m,err0)
+        call handle_gees(this,info,n,m,m,err0)
         call err0%handle(err)
         
         contains
@@ -1095,7 +1054,7 @@ module la_schur
             ! Compute Schur decomposition
             call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs,eigi, &
                       vs,ldvs,work,lwork,bwork,info)
-            call handle_gees_info(info,m,n,m,err0)
+            call handle_gees(this,info,nt,mt,ldvs,err0)
             
         end if
 
@@ -1193,7 +1152,7 @@ module la_schur
         call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=sp),kind=ilp)
-        call handle_gees_info(info,m,n,m,err0)
+        call handle_gees(this,info,n,m,m,err0)
         call err0%handle(err)
         
         contains
@@ -1347,7 +1306,7 @@ module la_schur
             ! Compute Schur decomposition
             call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                       vs,ldvs,work,lwork,rwork,bwork,info)
-            call handle_gees_info(info,m,n,m,err0)
+            call handle_gees(this,info,nt,mt,ldvs,err0)
             
         end if
 
@@ -1440,7 +1399,7 @@ module la_schur
         call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=dp),kind=ilp)
-        call handle_gees_info(info,m,n,m,err0)
+        call handle_gees(this,info,n,m,m,err0)
         call err0%handle(err)
         
         contains
@@ -1594,7 +1553,7 @@ module la_schur
             ! Compute Schur decomposition
             call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                       vs,ldvs,work,lwork,rwork,bwork,info)
-            call handle_gees_info(info,m,n,m,err0)
+            call handle_gees(this,info,nt,mt,ldvs,err0)
             
         end if
 
@@ -1688,7 +1647,7 @@ module la_schur
         call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=xdp),kind=ilp)
-        call handle_gees_info(info,m,n,m,err0)
+        call handle_gees(this,info,n,m,m,err0)
         call err0%handle(err)
         
         contains
@@ -1842,7 +1801,7 @@ module la_schur
             ! Compute Schur decomposition
             call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                       vs,ldvs,work,lwork,rwork,bwork,info)
-            call handle_gees_info(info,m,n,m,err0)
+            call handle_gees(this,info,nt,mt,ldvs,err0)
             
         end if
 
@@ -1937,7 +1896,7 @@ module la_schur
         call gees(jobvs,sort,do_not_select,n,a_dummy,m,sdim,wr_dummy, &
                   vs_dummy,m,work_dummy,lwork,rwork_dummy,bwork_dummy,info)
         if (info == 0) lwork = nint(real(work_dummy(1),kind=qp),kind=ilp)
-        call handle_gees_info(info,m,n,m,err0)
+        call handle_gees(this,info,n,m,m,err0)
         call err0%handle(err)
         
         contains
@@ -2091,7 +2050,7 @@ module la_schur
             ! Compute Schur decomposition
             call gees(jobvs,sort,eig_select,nt,t,mt,sdim,eigs, &
                       vs,ldvs,work,lwork,rwork,bwork,info)
-            call handle_gees_info(info,m,n,m,err0)
+            call handle_gees(this,info,nt,mt,ldvs,err0)
             
         end if
 

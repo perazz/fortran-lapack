@@ -4,6 +4,7 @@ module la_inverse
      use la_blas
      use la_lapack
      use la_state_type
+     use la_info,only:handle_getrf,handle_getri
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -171,9 +172,9 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
-         ! Return codes from getrf and getri are identical
-         if (info == 0) then
+         if (err0%ok()) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
             nb = la_ilaenv(1,'sgetri',' ',n,-1,-1,-1)
@@ -183,20 +184,9 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
-
-         select case (info)
-            case (0)
-                ! Success
-            case (:-1)
-                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                ! Matrix is singular
-                err0 = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
 
          ! Process output and return
          if (.not. present(pivot)) deallocate (ipiv)
@@ -318,9 +308,9 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
-         ! Return codes from getrf and getri are identical
-         if (info == 0) then
+         if (err0%ok()) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
             nb = la_ilaenv(1,'dgetri',' ',n,-1,-1,-1)
@@ -330,20 +320,9 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
-
-         select case (info)
-            case (0)
-                ! Success
-            case (:-1)
-                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                ! Matrix is singular
-                err0 = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
 
          ! Process output and return
          if (.not. present(pivot)) deallocate (ipiv)
@@ -466,9 +445,9 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
-         ! Return codes from getrf and getri are identical
-         if (info == 0) then
+         if (err0%ok()) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
             nb = la_ilaenv(1,'xgetri',' ',n,-1,-1,-1)
@@ -478,20 +457,9 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
-
-         select case (info)
-            case (0)
-                ! Success
-            case (:-1)
-                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                ! Matrix is singular
-                err0 = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
 
          ! Process output and return
          if (.not. present(pivot)) deallocate (ipiv)
@@ -615,9 +583,9 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
-         ! Return codes from getrf and getri are identical
-         if (info == 0) then
+         if (err0%ok()) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
             nb = la_ilaenv(1,'qgetri',' ',n,-1,-1,-1)
@@ -627,20 +595,9 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
-
-         select case (info)
-            case (0)
-                ! Success
-            case (:-1)
-                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                ! Matrix is singular
-                err0 = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
 
          ! Process output and return
          if (.not. present(pivot)) deallocate (ipiv)
@@ -763,9 +720,9 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
-         ! Return codes from getrf and getri are identical
-         if (info == 0) then
+         if (err0%ok()) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
             nb = la_ilaenv(1,'cgetri',' ',n,-1,-1,-1)
@@ -775,20 +732,9 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
-
-         select case (info)
-            case (0)
-                ! Success
-            case (:-1)
-                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                ! Matrix is singular
-                err0 = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
 
          ! Process output and return
          if (.not. present(pivot)) deallocate (ipiv)
@@ -910,9 +856,9 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
-         ! Return codes from getrf and getri are identical
-         if (info == 0) then
+         if (err0%ok()) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
             nb = la_ilaenv(1,'zgetri',' ',n,-1,-1,-1)
@@ -922,20 +868,9 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
-
-         select case (info)
-            case (0)
-                ! Success
-            case (:-1)
-                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                ! Matrix is singular
-                err0 = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
 
          ! Process output and return
          if (.not. present(pivot)) deallocate (ipiv)
@@ -1058,9 +993,9 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
-         ! Return codes from getrf and getri are identical
-         if (info == 0) then
+         if (err0%ok()) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
             nb = la_ilaenv(1,'ygetri',' ',n,-1,-1,-1)
@@ -1070,20 +1005,9 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
-
-         select case (info)
-            case (0)
-                ! Success
-            case (:-1)
-                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                ! Matrix is singular
-                err0 = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
 
          ! Process output and return
          if (.not. present(pivot)) deallocate (ipiv)
@@ -1207,9 +1131,9 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
-         ! Return codes from getrf and getri are identical
-         if (info == 0) then
+         if (err0%ok()) then
 
             ! Get optimal worksize (returned in work(1)) (apply 2% safety parameter)
             nb = la_ilaenv(1,'wgetri',' ',n,-1,-1,-1)
@@ -1219,20 +1143,9 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
-
-         select case (info)
-            case (0)
-                ! Success
-            case (:-1)
-                err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',lda,',',n,']')
-            case (1:)
-                ! Matrix is singular
-                err0 = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
 
          ! Process output and return
          if (.not. present(pivot)) deallocate (ipiv)

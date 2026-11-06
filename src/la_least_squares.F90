@@ -4,6 +4,7 @@ module la_least_squares
      use la_blas
      use la_lapack
      use la_state_type
+     use la_info,only:handle_gelsd,handle_gglse,handle_ggglm,handle_potrf
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -952,16 +953,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -1177,16 +1169,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -1403,16 +1386,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -1630,16 +1604,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -1870,16 +1835,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2110,16 +2066,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2351,16 +2298,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2593,16 +2531,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2820,16 +2749,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3045,16 +2965,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3271,16 +3182,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3498,16 +3400,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3738,16 +3631,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3978,16 +3862,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -4219,16 +4094,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -4461,16 +4327,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            select case (info)
-               case (0)
-                   ! Success
-               case (:-1)
-                   err0 = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a=', [lda,n],', b=', [ldb,nrhs])
-               case (1:)
-                   err0 = la_state(this,LINALG_ERROR,'SVD did not converge.')
-               case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            end select
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -4534,56 +4391,6 @@ module la_least_squares
 
      end subroutine la_check_constrained_sizes
 
-     !> Process the gglse exit code
-     pure subroutine la_handle_gglse(info,m,n,p,err)
-         integer(ilp),intent(in) :: info,m,n,p
-         type(la_state),intent(out) :: err
-
-         character(*),parameter :: this = 'constrained_lstsq'
-
-         select case (info)
-            case (0)
-                ! Success
-            case (1)
-                err = la_state(this,LINALG_ERROR,'rank(c) < p: the least-squares solution cannot be computed')
-            case (2)
-                err = la_state(this,LINALG_ERROR,'rank([a; c]) < n: the least-squares solution cannot be computed')
-            case (-1)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid number of rows for a, m=',m)
-            case (-2)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid number of columns for a and c, n=',n)
-            case (-3)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid number of rows for c, p=',p)
-            case default
-                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
-
-     end subroutine la_handle_gglse
-
-     !> Process the ggglm exit code
-     pure subroutine la_handle_ggglm(info,m,n,err)
-         integer(ilp),intent(in) :: info,m,n
-         type(la_state),intent(out) :: err
-
-         character(*),parameter :: this = 'generalized_lstsq'
-
-         ! ggglm returns 1 when the solve with T22 fails (rank([a w]) < m), and 2 when the solve with
-         ! R11 fails (rank(a) < n)
-         select case (info)
-            case (0)
-                ! Success
-            case (1)
-                err = la_state(this,LINALG_ERROR,'the square root of w is singular')
-            case (2)
-                err = la_state(this,LINALG_ERROR,'a does not have full column rank')
-            case (-1,-2,-3,-5,-7)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid problem size a(m,n) =', [m,n])
-            case default
-                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
-
-     end subroutine la_handle_ggglm
-
      !> Working space needed by the real(sp) equality-constrained least-squares solver
      pure subroutine la_sconstrained_lstsq_space(A,C,lwork,err)
          !> Least-squares matrix a[m,n]
@@ -4601,6 +4408,7 @@ module la_least_squares
          real(sp) :: a_dummy(1,1),b_dummy(1)
          real(sp) :: c_dummy(1,1),d_dummy(1)
          real(sp) :: work(1),x(1)
+         character(*),parameter :: this = 'constrained_lstsq'
 
          m = size(A,1,kind=ilp)
          n = size(A,2,kind=ilp)
@@ -4608,7 +4416,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call la_handle_gglse(info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=sp),kind=ilp)
 
@@ -4686,7 +4494,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call la_handle_gglse(info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -4848,6 +4656,7 @@ module la_least_squares
          integer(ilp) :: m,n,ld,info
          real(sp) :: a_dummy(1,1),w_dummy(1,1)
          real(sp) :: d(1),x(1),y(1),work(1)
+         character(*),parameter :: this = 'generalized_lstsq'
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -4855,7 +4664,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call la_handle_ggglm(info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -4967,12 +4776,8 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            if (info > 0) then
-               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
-                                                 info,'is not positive')
-            elseif (info < 0) then
-               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            else
+            call handle_potrf(this,info,'L',m,m,err0)
+            if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
                end do
@@ -4983,7 +4788,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call la_handle_ggglm(info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -5072,6 +4877,7 @@ module la_least_squares
          real(dp) :: a_dummy(1,1),b_dummy(1)
          real(dp) :: c_dummy(1,1),d_dummy(1)
          real(dp) :: work(1),x(1)
+         character(*),parameter :: this = 'constrained_lstsq'
 
          m = size(A,1,kind=ilp)
          n = size(A,2,kind=ilp)
@@ -5079,7 +4885,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call la_handle_gglse(info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=dp),kind=ilp)
 
@@ -5157,7 +4963,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call la_handle_gglse(info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -5319,6 +5125,7 @@ module la_least_squares
          integer(ilp) :: m,n,ld,info
          real(dp) :: a_dummy(1,1),w_dummy(1,1)
          real(dp) :: d(1),x(1),y(1),work(1)
+         character(*),parameter :: this = 'generalized_lstsq'
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -5326,7 +5133,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call la_handle_ggglm(info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -5438,12 +5245,8 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            if (info > 0) then
-               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
-                                                 info,'is not positive')
-            elseif (info < 0) then
-               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            else
+            call handle_potrf(this,info,'L',m,m,err0)
+            if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
                end do
@@ -5454,7 +5257,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call la_handle_ggglm(info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -5544,6 +5347,7 @@ module la_least_squares
          real(xdp) :: a_dummy(1,1),b_dummy(1)
          real(xdp) :: c_dummy(1,1),d_dummy(1)
          real(xdp) :: work(1),x(1)
+         character(*),parameter :: this = 'constrained_lstsq'
 
          m = size(A,1,kind=ilp)
          n = size(A,2,kind=ilp)
@@ -5551,7 +5355,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call la_handle_gglse(info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=xdp),kind=ilp)
 
@@ -5629,7 +5433,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call la_handle_gglse(info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -5791,6 +5595,7 @@ module la_least_squares
          integer(ilp) :: m,n,ld,info
          real(xdp) :: a_dummy(1,1),w_dummy(1,1)
          real(xdp) :: d(1),x(1),y(1),work(1)
+         character(*),parameter :: this = 'generalized_lstsq'
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -5798,7 +5603,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call la_handle_ggglm(info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -5910,12 +5715,8 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            if (info > 0) then
-               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
-                                                 info,'is not positive')
-            elseif (info < 0) then
-               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            else
+            call handle_potrf(this,info,'L',m,m,err0)
+            if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
                end do
@@ -5926,7 +5727,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call la_handle_ggglm(info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -6017,6 +5818,7 @@ module la_least_squares
          real(qp) :: a_dummy(1,1),b_dummy(1)
          real(qp) :: c_dummy(1,1),d_dummy(1)
          real(qp) :: work(1),x(1)
+         character(*),parameter :: this = 'constrained_lstsq'
 
          m = size(A,1,kind=ilp)
          n = size(A,2,kind=ilp)
@@ -6024,7 +5826,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call la_handle_gglse(info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=qp),kind=ilp)
 
@@ -6102,7 +5904,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call la_handle_gglse(info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -6264,6 +6066,7 @@ module la_least_squares
          integer(ilp) :: m,n,ld,info
          real(qp) :: a_dummy(1,1),w_dummy(1,1)
          real(qp) :: d(1),x(1),y(1),work(1)
+         character(*),parameter :: this = 'generalized_lstsq'
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -6271,7 +6074,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call la_handle_ggglm(info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -6383,12 +6186,8 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            if (info > 0) then
-               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
-                                                 info,'is not positive')
-            elseif (info < 0) then
-               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            else
+            call handle_potrf(this,info,'L',m,m,err0)
+            if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
                end do
@@ -6399,7 +6198,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call la_handle_ggglm(info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -6489,6 +6288,7 @@ module la_least_squares
          complex(sp) :: a_dummy(1,1),b_dummy(1)
          complex(sp) :: c_dummy(1,1),d_dummy(1)
          complex(sp) :: work(1),x(1)
+         character(*),parameter :: this = 'constrained_lstsq'
 
          m = size(A,1,kind=ilp)
          n = size(A,2,kind=ilp)
@@ -6496,7 +6296,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call la_handle_gglse(info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=sp),kind=ilp)
 
@@ -6574,7 +6374,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call la_handle_gglse(info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -6736,6 +6536,7 @@ module la_least_squares
          integer(ilp) :: m,n,ld,info
          complex(sp) :: a_dummy(1,1),w_dummy(1,1)
          complex(sp) :: d(1),x(1),y(1),work(1)
+         character(*),parameter :: this = 'generalized_lstsq'
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -6743,7 +6544,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call la_handle_ggglm(info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -6855,12 +6656,8 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            if (info > 0) then
-               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
-                                                 info,'is not positive')
-            elseif (info < 0) then
-               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            else
+            call handle_potrf(this,info,'L',m,m,err0)
+            if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
                end do
@@ -6871,7 +6668,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call la_handle_ggglm(info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -6960,6 +6757,7 @@ module la_least_squares
          complex(dp) :: a_dummy(1,1),b_dummy(1)
          complex(dp) :: c_dummy(1,1),d_dummy(1)
          complex(dp) :: work(1),x(1)
+         character(*),parameter :: this = 'constrained_lstsq'
 
          m = size(A,1,kind=ilp)
          n = size(A,2,kind=ilp)
@@ -6967,7 +6765,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call la_handle_gglse(info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=dp),kind=ilp)
 
@@ -7045,7 +6843,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call la_handle_gglse(info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -7207,6 +7005,7 @@ module la_least_squares
          integer(ilp) :: m,n,ld,info
          complex(dp) :: a_dummy(1,1),w_dummy(1,1)
          complex(dp) :: d(1),x(1),y(1),work(1)
+         character(*),parameter :: this = 'generalized_lstsq'
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -7214,7 +7013,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call la_handle_ggglm(info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -7326,12 +7125,8 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            if (info > 0) then
-               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
-                                                 info,'is not positive')
-            elseif (info < 0) then
-               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            else
+            call handle_potrf(this,info,'L',m,m,err0)
+            if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
                end do
@@ -7342,7 +7137,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call la_handle_ggglm(info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -7432,6 +7227,7 @@ module la_least_squares
          complex(xdp) :: a_dummy(1,1),b_dummy(1)
          complex(xdp) :: c_dummy(1,1),d_dummy(1)
          complex(xdp) :: work(1),x(1)
+         character(*),parameter :: this = 'constrained_lstsq'
 
          m = size(A,1,kind=ilp)
          n = size(A,2,kind=ilp)
@@ -7439,7 +7235,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call la_handle_gglse(info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=xdp),kind=ilp)
 
@@ -7517,7 +7313,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call la_handle_gglse(info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -7679,6 +7475,7 @@ module la_least_squares
          integer(ilp) :: m,n,ld,info
          complex(xdp) :: a_dummy(1,1),w_dummy(1,1)
          complex(xdp) :: d(1),x(1),y(1),work(1)
+         character(*),parameter :: this = 'generalized_lstsq'
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -7686,7 +7483,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call la_handle_ggglm(info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -7798,12 +7595,8 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            if (info > 0) then
-               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
-                                                 info,'is not positive')
-            elseif (info < 0) then
-               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            else
+            call handle_potrf(this,info,'L',m,m,err0)
+            if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
                end do
@@ -7814,7 +7607,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call la_handle_ggglm(info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -7905,6 +7698,7 @@ module la_least_squares
          complex(qp) :: a_dummy(1,1),b_dummy(1)
          complex(qp) :: c_dummy(1,1),d_dummy(1)
          complex(qp) :: work(1),x(1)
+         character(*),parameter :: this = 'constrained_lstsq'
 
          m = size(A,1,kind=ilp)
          n = size(A,2,kind=ilp)
@@ -7912,7 +7706,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call la_handle_gglse(info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=qp),kind=ilp)
 
@@ -7990,7 +7784,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call la_handle_gglse(info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -8152,6 +7946,7 @@ module la_least_squares
          integer(ilp) :: m,n,ld,info
          complex(qp) :: a_dummy(1,1),w_dummy(1,1)
          complex(qp) :: d(1),x(1),y(1),work(1)
+         character(*),parameter :: this = 'generalized_lstsq'
 
          m = size(a,1,kind=ilp)
          n = size(a,2,kind=ilp)
@@ -8159,7 +7954,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call la_handle_ggglm(info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -8271,12 +8066,8 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            if (info > 0) then
-               err0 = la_state(this,LINALG_ERROR,'w is not positive definite: its leading minor of order', &
-                                                 info,'is not positive')
-            elseif (info < 0) then
-               err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-            else
+            call handle_potrf(this,info,'L',m,m,err0)
+            if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
                end do
@@ -8287,7 +8078,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call la_handle_ggglm(info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)

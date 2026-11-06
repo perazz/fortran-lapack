@@ -5,6 +5,7 @@ module la_norms
      use la_lapack,only:lange_sub,getrf,getri,gecon
      use la_svd,only:svd
      use la_state_type
+     use la_info,only:handle_getrf,handle_getri,handle_gecon
      use,intrinsic :: ieee_arithmetic,only:ieee_value,ieee_positive_inf
      implicit none(type,external)
      private
@@ -28819,7 +28820,7 @@ module la_norms
            call getrf(n,n,amat,n,ipiv,info)
 
            if (info < 0) then
-              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+              call handle_getrf(this,info,n,n,n,err0)
            elseif (info > 0) then
               ! A zero pivot: the matrix is singular
               c = ieee_value(c,ieee_positive_inf)
@@ -28830,9 +28831,8 @@ module la_norms
               lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=sp),kind=ilp))
               allocate (work(lwork))
               call getri(n,amat,n,ipiv,work,lwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
-              else
+              call handle_getri(this,info,n,n,err0)
+              if (err0%ok()) then
                  call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
                  c = anorm*ainvnorm
               end if
@@ -28842,12 +28842,13 @@ module la_norms
               ! LAPACK's estimate of the reciprocal condition number
               allocate (work(4*n),iwork(n))
               call gecon(lange_task,n,amat,n,anorm,rcond,work,iwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
-              elseif (rcond > 0) then
-                 c = 1.0_sp/rcond
-              else
-                 c = ieee_value(c,ieee_positive_inf)
+              call handle_gecon(this,info,n,n,err0)
+              if (err0%ok()) then
+                 if (rcond > 0) then
+                    c = 1.0_sp/rcond
+                 else
+                    c = ieee_value(c,ieee_positive_inf)
+                 end if
               end if
 
            end if
@@ -29014,7 +29015,7 @@ module la_norms
            call getrf(n,n,amat,n,ipiv,info)
 
            if (info < 0) then
-              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+              call handle_getrf(this,info,n,n,n,err0)
            elseif (info > 0) then
               ! A zero pivot: the matrix is singular
               c = ieee_value(c,ieee_positive_inf)
@@ -29025,9 +29026,8 @@ module la_norms
               lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=dp),kind=ilp))
               allocate (work(lwork))
               call getri(n,amat,n,ipiv,work,lwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
-              else
+              call handle_getri(this,info,n,n,err0)
+              if (err0%ok()) then
                  call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
                  c = anorm*ainvnorm
               end if
@@ -29037,12 +29037,13 @@ module la_norms
               ! LAPACK's estimate of the reciprocal condition number
               allocate (work(4*n),iwork(n))
               call gecon(lange_task,n,amat,n,anorm,rcond,work,iwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
-              elseif (rcond > 0) then
-                 c = 1.0_dp/rcond
-              else
-                 c = ieee_value(c,ieee_positive_inf)
+              call handle_gecon(this,info,n,n,err0)
+              if (err0%ok()) then
+                 if (rcond > 0) then
+                    c = 1.0_dp/rcond
+                 else
+                    c = ieee_value(c,ieee_positive_inf)
+                 end if
               end if
 
            end if
@@ -29211,7 +29212,7 @@ module la_norms
            call getrf(n,n,amat,n,ipiv,info)
 
            if (info < 0) then
-              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+              call handle_getrf(this,info,n,n,n,err0)
            elseif (info > 0) then
               ! A zero pivot: the matrix is singular
               c = ieee_value(c,ieee_positive_inf)
@@ -29222,9 +29223,8 @@ module la_norms
               lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=xdp),kind=ilp))
               allocate (work(lwork))
               call getri(n,amat,n,ipiv,work,lwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
-              else
+              call handle_getri(this,info,n,n,err0)
+              if (err0%ok()) then
                  call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
                  c = anorm*ainvnorm
               end if
@@ -29234,12 +29234,13 @@ module la_norms
               ! LAPACK's estimate of the reciprocal condition number
               allocate (work(4*n),iwork(n))
               call gecon(lange_task,n,amat,n,anorm,rcond,work,iwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
-              elseif (rcond > 0) then
-                 c = 1.0_xdp/rcond
-              else
-                 c = ieee_value(c,ieee_positive_inf)
+              call handle_gecon(this,info,n,n,err0)
+              if (err0%ok()) then
+                 if (rcond > 0) then
+                    c = 1.0_xdp/rcond
+                 else
+                    c = ieee_value(c,ieee_positive_inf)
+                 end if
               end if
 
            end if
@@ -29409,7 +29410,7 @@ module la_norms
            call getrf(n,n,amat,n,ipiv,info)
 
            if (info < 0) then
-              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+              call handle_getrf(this,info,n,n,n,err0)
            elseif (info > 0) then
               ! A zero pivot: the matrix is singular
               c = ieee_value(c,ieee_positive_inf)
@@ -29420,9 +29421,8 @@ module la_norms
               lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=qp),kind=ilp))
               allocate (work(lwork))
               call getri(n,amat,n,ipiv,work,lwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
-              else
+              call handle_getri(this,info,n,n,err0)
+              if (err0%ok()) then
                  call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
                  c = anorm*ainvnorm
               end if
@@ -29432,12 +29432,13 @@ module la_norms
               ! LAPACK's estimate of the reciprocal condition number
               allocate (work(4*n),iwork(n))
               call gecon(lange_task,n,amat,n,anorm,rcond,work,iwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
-              elseif (rcond > 0) then
-                 c = 1.0_qp/rcond
-              else
-                 c = ieee_value(c,ieee_positive_inf)
+              call handle_gecon(this,info,n,n,err0)
+              if (err0%ok()) then
+                 if (rcond > 0) then
+                    c = 1.0_qp/rcond
+                 else
+                    c = ieee_value(c,ieee_positive_inf)
+                 end if
               end if
 
            end if
@@ -29606,7 +29607,7 @@ module la_norms
            call getrf(n,n,amat,n,ipiv,info)
 
            if (info < 0) then
-              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+              call handle_getrf(this,info,n,n,n,err0)
            elseif (info > 0) then
               ! A zero pivot: the matrix is singular
               c = ieee_value(c,ieee_positive_inf)
@@ -29617,9 +29618,8 @@ module la_norms
               lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=sp),kind=ilp))
               allocate (work(lwork))
               call getri(n,amat,n,ipiv,work,lwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
-              else
+              call handle_getri(this,info,n,n,err0)
+              if (err0%ok()) then
                  call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
                  c = anorm*ainvnorm
               end if
@@ -29629,12 +29629,13 @@ module la_norms
               ! LAPACK's estimate of the reciprocal condition number
               allocate (work(2*n),rwork(2*n))
               call gecon(lange_task,n,amat,n,anorm,rcond,work,rwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
-              elseif (rcond > 0) then
-                 c = 1.0_sp/rcond
-              else
-                 c = ieee_value(c,ieee_positive_inf)
+              call handle_gecon(this,info,n,n,err0)
+              if (err0%ok()) then
+                 if (rcond > 0) then
+                    c = 1.0_sp/rcond
+                 else
+                    c = ieee_value(c,ieee_positive_inf)
+                 end if
               end if
 
            end if
@@ -29801,7 +29802,7 @@ module la_norms
            call getrf(n,n,amat,n,ipiv,info)
 
            if (info < 0) then
-              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+              call handle_getrf(this,info,n,n,n,err0)
            elseif (info > 0) then
               ! A zero pivot: the matrix is singular
               c = ieee_value(c,ieee_positive_inf)
@@ -29812,9 +29813,8 @@ module la_norms
               lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=dp),kind=ilp))
               allocate (work(lwork))
               call getri(n,amat,n,ipiv,work,lwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
-              else
+              call handle_getri(this,info,n,n,err0)
+              if (err0%ok()) then
                  call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
                  c = anorm*ainvnorm
               end if
@@ -29824,12 +29824,13 @@ module la_norms
               ! LAPACK's estimate of the reciprocal condition number
               allocate (work(2*n),rwork(2*n))
               call gecon(lange_task,n,amat,n,anorm,rcond,work,rwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
-              elseif (rcond > 0) then
-                 c = 1.0_dp/rcond
-              else
-                 c = ieee_value(c,ieee_positive_inf)
+              call handle_gecon(this,info,n,n,err0)
+              if (err0%ok()) then
+                 if (rcond > 0) then
+                    c = 1.0_dp/rcond
+                 else
+                    c = ieee_value(c,ieee_positive_inf)
+                 end if
               end if
 
            end if
@@ -29998,7 +29999,7 @@ module la_norms
            call getrf(n,n,amat,n,ipiv,info)
 
            if (info < 0) then
-              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+              call handle_getrf(this,info,n,n,n,err0)
            elseif (info > 0) then
               ! A zero pivot: the matrix is singular
               c = ieee_value(c,ieee_positive_inf)
@@ -30009,9 +30010,8 @@ module la_norms
               lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=xdp),kind=ilp))
               allocate (work(lwork))
               call getri(n,amat,n,ipiv,work,lwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
-              else
+              call handle_getri(this,info,n,n,err0)
+              if (err0%ok()) then
                  call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
                  c = anorm*ainvnorm
               end if
@@ -30021,12 +30021,13 @@ module la_norms
               ! LAPACK's estimate of the reciprocal condition number
               allocate (work(2*n),rwork(2*n))
               call gecon(lange_task,n,amat,n,anorm,rcond,work,rwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
-              elseif (rcond > 0) then
-                 c = 1.0_xdp/rcond
-              else
-                 c = ieee_value(c,ieee_positive_inf)
+              call handle_gecon(this,info,n,n,err0)
+              if (err0%ok()) then
+                 if (rcond > 0) then
+                    c = 1.0_xdp/rcond
+                 else
+                    c = ieee_value(c,ieee_positive_inf)
+                 end if
               end if
 
            end if
@@ -30196,7 +30197,7 @@ module la_norms
            call getrf(n,n,amat,n,ipiv,info)
 
            if (info < 0) then
-              err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=', [m,n])
+              call handle_getrf(this,info,n,n,n,err0)
            elseif (info > 0) then
               ! A zero pivot: the matrix is singular
               c = ieee_value(c,ieee_positive_inf)
@@ -30207,9 +30208,8 @@ module la_norms
               lwork = max(1_ilp,ceiling(real(work_dummy(1),kind=qp),kind=ilp))
               allocate (work(lwork))
               call getri(n,amat,n,ipiv,work,lwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'inversion failed with info=',info)
-              else
+              call handle_getri(this,info,n,n,err0)
+              if (err0%ok()) then
                  call lange_sub(lange_task,n,n,amat,n,wnorm,ainvnorm)
                  c = anorm*ainvnorm
               end if
@@ -30219,12 +30219,13 @@ module la_norms
               ! LAPACK's estimate of the reciprocal condition number
               allocate (work(2*n),rwork(2*n))
               call gecon(lange_task,n,amat,n,anorm,rcond,work,rwork,info)
-              if (info /= 0) then
-                 err0 = la_state(this,LINALG_INTERNAL_ERROR,'condition number estimate failed with info=',info)
-              elseif (rcond > 0) then
-                 c = 1.0_qp/rcond
-              else
-                 c = ieee_value(c,ieee_positive_inf)
+              call handle_gecon(this,info,n,n,err0)
+              if (err0%ok()) then
+                 if (rcond > 0) then
+                    c = 1.0_qp/rcond
+                 else
+                    c = ieee_value(c,ieee_positive_inf)
+                 end if
               end if
 
            end if

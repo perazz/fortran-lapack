@@ -3,6 +3,7 @@ module la_solve
      use la_blas
      use la_lapack
      use la_state_type
+     use la_info,only:handle_gesv,handle_posv,handle_potrs
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -315,59 +316,6 @@ module la_solve
 
      contains
      
-     elemental subroutine handle_gesv_info(info,lda,n,nrhs,err)
-         integer(ilp),intent(in) :: info,lda,n,nrhs
-         type(la_state),intent(out) :: err
-
-         ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (-2)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid rhs size n=',nrhs)
-            case (-4)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [lda,n])
-            case (-7)
-                err = la_state(this,LINALG_ERROR,'invalid matrix size a=', [lda,n])
-            case (1:)
-                err = la_state(this,LINALG_ERROR,'singular matrix')
-            case default
-                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
-
-     end subroutine handle_gesv_info
-
-     elemental subroutine handle_chol_info(info,triangle,n,nrhs,lda,ldb,err)
-         integer(ilp),intent(in) :: info,n,nrhs,lda,ldb
-         character,intent(in) :: triangle
-         type(la_state),intent(out) :: err
-
-         ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err = la_state(this,LINALG_INTERNAL_ERROR,'invalid triangle selection: ', &
-                                    triangle,'. should be U/L')
-            case (-2)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
-            case (-3)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid rhs size nrhs=',nrhs)
-            case (-5)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid lda=',lda,': should be >=',n)
-            case (-7)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid ldb=',ldb,': should be >=',n)
-            case (1:)
-                err = la_state(this,LINALG_ERROR,'matrix is not positive definite: ', &
-                                    'leading minor of order',info,'is not positive definite')
-            case default
-                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
-
-     end subroutine handle_chol_info
-
      !> Linear system solve, _one, real(sp)
      function la_ssolve_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
@@ -427,7 +375,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -506,7 +454,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -584,7 +532,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -635,7 +583,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -731,7 +679,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -810,7 +758,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -888,7 +836,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -939,7 +887,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -1036,7 +984,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -1115,7 +1063,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -1193,7 +1141,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -1244,7 +1192,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -1342,7 +1290,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -1421,7 +1369,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -1499,7 +1447,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -1550,7 +1498,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -1647,7 +1595,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -1726,7 +1674,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -1804,7 +1752,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -1855,7 +1803,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -1951,7 +1899,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -2030,7 +1978,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -2108,7 +2056,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -2159,7 +2107,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -2256,7 +2204,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -2335,7 +2283,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -2413,7 +2361,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -2464,7 +2412,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -2562,7 +2510,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -2641,7 +2589,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -2719,7 +2667,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -2770,7 +2718,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -2867,7 +2815,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -2946,7 +2894,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -3024,7 +2972,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -3075,7 +3023,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -3171,7 +3119,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -3250,7 +3198,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -3328,7 +3276,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -3379,7 +3327,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -3476,7 +3424,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -3555,7 +3503,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -3633,7 +3581,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -3684,7 +3632,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -3782,7 +3730,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -3861,7 +3809,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -3939,7 +3887,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -3990,7 +3938,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -4087,7 +4035,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -4166,7 +4114,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -4244,7 +4192,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -4295,7 +4243,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -4391,7 +4339,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -4470,7 +4418,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -4548,7 +4496,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -4599,7 +4547,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -4696,7 +4644,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -4775,7 +4723,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -4853,7 +4801,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -4904,7 +4852,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)
@@ -5002,7 +4950,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -5081,7 +5029,7 @@ module la_solve
          call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
 
          ! Process output
-         call handle_gesv_info(info,lda,n,nrhs,err0)
+         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
 
          if (copy_a) deallocate (amat)
          if (.not. present(pivot)) deallocate (ipiv)
@@ -5159,7 +5107,7 @@ module la_solve
          call posv(uplo,n,nrhs,amat,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_posv(this,info,uplo,n,nrhs,lda,n,err0)
 
          if (copy_a) deallocate (amat)
 
@@ -5210,7 +5158,7 @@ module la_solve
          call potrs(uplo,n,nrhs,a,lda,xmat,n,info)
 
          ! Process output
-         call handle_chol_info(info,uplo,n,nrhs,lda,n,err0)
+         call handle_potrs(this,info,uplo,n,nrhs,lda,n,err0)
 
          ! Process output and return
          call err0%handle(err)

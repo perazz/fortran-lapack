@@ -4,6 +4,7 @@ module la_qr
      use la_blas
      use la_lapack
      use la_state_type
+     use la_info,only:handle_geqrf,handle_geqp3,handle_orgqr
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -117,74 +118,6 @@ module la_qr
 
      contains
      
-     elemental subroutine handle_orgqr_info(info,m,n,k,lwork,err)
-         integer(ilp),intent(in) :: info,m,n,k,lwork
-         type(la_state),intent(out) :: err
-
-         ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
-            case (-2)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
-            case (-4)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid k=min(m,n)=',k)
-            case (-5)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
-            case (-8)
-                err = la_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
-            case default
-                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
-
-     end subroutine handle_orgqr_info
-     
-     elemental subroutine handle_geqrf_info(info,m,n,lwork,err)
-         integer(ilp),intent(in) :: info,m,n,lwork
-         type(la_state),intent(out) :: err
-
-         ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
-            case (-2)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
-            case (-4)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
-            case (-7)
-                err = la_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
-            case default
-                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
-
-     end subroutine handle_geqrf_info
-
-     elemental subroutine handle_geqp3_info(info,m,n,lwork,err)
-         integer(ilp),intent(in) :: info,m,n,lwork
-         type(la_state),intent(out) :: err
-
-         ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size m=',m)
-            case (-2)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size n=',n)
-            case (-4)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid matrix size a=', [m,n])
-            case (-8)
-                err = la_state(this,LINALG_ERROR,'invalid input for lwork=',lwork)
-            case default
-                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
-
-     end subroutine handle_geqp3_info
-
      ! Check that Q and R have shapes the factorization fills: Q is [m,q2] and R is [r1,n],
      ! with k <= q2,r1 <= m. [m,m] and [m,n] give the full problem, [m,k] and [k,n] the reduced one
      elemental subroutine check_problem_size(m,n,q1,q2,r1,r2,err)
@@ -226,7 +159,7 @@ module la_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a_dummy,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         call handle_geqrf(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -237,7 +170,7 @@ module la_qr
          lwork_ord = -1_ilp
          call orgqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -347,7 +280,7 @@ module la_qr
              else
                  ! Compute factorization.
                  call geqrf(m,n,amat,lda,tau,work,lwork,info)
-                 call handle_geqrf_info(info,m,n,lwork,err0)
+                 call handle_geqrf(this,info,m,n,lwork,err0)
              end if
              
              if (err0%ok()) then
@@ -360,7 +293,7 @@ module la_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
                       (m,qcols,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
+                 call handle_orgqr(this,info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -417,7 +350,7 @@ module la_qr
          lwork_qr = -1_ilp
          call geqp3(m,n,a_dummy,m,jpvt_dummy,tau_dummy,work_dummy,lwork_qr, &
                     info)
-         call handle_geqp3_info(info,m,n,lwork_qr,err0)
+         call handle_geqp3(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -428,7 +361,7 @@ module la_qr
          lwork_ord = -1_ilp
          call orgqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -534,7 +467,7 @@ module la_qr
 
          ! Compute factorization.
          call geqp3(m,n,amat,lda,pivots,tau,work,lwork,info)
-         call handle_geqp3_info(info,m,n,lwork,err0)
+         call handle_geqp3(this,info,m,n,lwork,err0)
 
          if (err0%ok()) then
 
@@ -550,7 +483,7 @@ module la_qr
              ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
              call orgqr &
                   (m,q2,k,amat,lda,tau,work,lwork,info)
-             call handle_orgqr_info(info,m,q2,k,lwork,err0)
+             call handle_orgqr(this,info,m,q2,k,lwork,err0)
 
              ! Copy result back to Q
              if (.not. use_q_matrix) q = amat(:,:q2)
@@ -592,7 +525,7 @@ module la_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a_dummy,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         call handle_geqrf(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -603,7 +536,7 @@ module la_qr
          lwork_ord = -1_ilp
          call orgqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -713,7 +646,7 @@ module la_qr
              else
                  ! Compute factorization.
                  call geqrf(m,n,amat,lda,tau,work,lwork,info)
-                 call handle_geqrf_info(info,m,n,lwork,err0)
+                 call handle_geqrf(this,info,m,n,lwork,err0)
              end if
              
              if (err0%ok()) then
@@ -726,7 +659,7 @@ module la_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
                       (m,qcols,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
+                 call handle_orgqr(this,info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -783,7 +716,7 @@ module la_qr
          lwork_qr = -1_ilp
          call geqp3(m,n,a_dummy,m,jpvt_dummy,tau_dummy,work_dummy,lwork_qr, &
                     info)
-         call handle_geqp3_info(info,m,n,lwork_qr,err0)
+         call handle_geqp3(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -794,7 +727,7 @@ module la_qr
          lwork_ord = -1_ilp
          call orgqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -900,7 +833,7 @@ module la_qr
 
          ! Compute factorization.
          call geqp3(m,n,amat,lda,pivots,tau,work,lwork,info)
-         call handle_geqp3_info(info,m,n,lwork,err0)
+         call handle_geqp3(this,info,m,n,lwork,err0)
 
          if (err0%ok()) then
 
@@ -916,7 +849,7 @@ module la_qr
              ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
              call orgqr &
                   (m,q2,k,amat,lda,tau,work,lwork,info)
-             call handle_orgqr_info(info,m,q2,k,lwork,err0)
+             call handle_orgqr(this,info,m,q2,k,lwork,err0)
 
              ! Copy result back to Q
              if (.not. use_q_matrix) q = amat(:,:q2)
@@ -959,7 +892,7 @@ module la_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a_dummy,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         call handle_geqrf(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -970,7 +903,7 @@ module la_qr
          lwork_ord = -1_ilp
          call orgqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1080,7 +1013,7 @@ module la_qr
              else
                  ! Compute factorization.
                  call geqrf(m,n,amat,lda,tau,work,lwork,info)
-                 call handle_geqrf_info(info,m,n,lwork,err0)
+                 call handle_geqrf(this,info,m,n,lwork,err0)
              end if
              
              if (err0%ok()) then
@@ -1093,7 +1026,7 @@ module la_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
                       (m,qcols,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
+                 call handle_orgqr(this,info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -1150,7 +1083,7 @@ module la_qr
          lwork_qr = -1_ilp
          call geqp3(m,n,a_dummy,m,jpvt_dummy,tau_dummy,work_dummy,lwork_qr, &
                     info)
-         call handle_geqp3_info(info,m,n,lwork_qr,err0)
+         call handle_geqp3(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1161,7 +1094,7 @@ module la_qr
          lwork_ord = -1_ilp
          call orgqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1267,7 +1200,7 @@ module la_qr
 
          ! Compute factorization.
          call geqp3(m,n,amat,lda,pivots,tau,work,lwork,info)
-         call handle_geqp3_info(info,m,n,lwork,err0)
+         call handle_geqp3(this,info,m,n,lwork,err0)
 
          if (err0%ok()) then
 
@@ -1283,7 +1216,7 @@ module la_qr
              ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
              call orgqr &
                   (m,q2,k,amat,lda,tau,work,lwork,info)
-             call handle_orgqr_info(info,m,q2,k,lwork,err0)
+             call handle_orgqr(this,info,m,q2,k,lwork,err0)
 
              ! Copy result back to Q
              if (.not. use_q_matrix) q = amat(:,:q2)
@@ -1327,7 +1260,7 @@ module la_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a_dummy,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         call handle_geqrf(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1338,7 +1271,7 @@ module la_qr
          lwork_ord = -1_ilp
          call orgqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1448,7 +1381,7 @@ module la_qr
              else
                  ! Compute factorization.
                  call geqrf(m,n,amat,lda,tau,work,lwork,info)
-                 call handle_geqrf_info(info,m,n,lwork,err0)
+                 call handle_geqrf(this,info,m,n,lwork,err0)
              end if
              
              if (err0%ok()) then
@@ -1461,7 +1394,7 @@ module la_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call orgqr &
                       (m,qcols,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
+                 call handle_orgqr(this,info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -1518,7 +1451,7 @@ module la_qr
          lwork_qr = -1_ilp
          call geqp3(m,n,a_dummy,m,jpvt_dummy,tau_dummy,work_dummy,lwork_qr, &
                     info)
-         call handle_geqp3_info(info,m,n,lwork_qr,err0)
+         call handle_geqp3(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1529,7 +1462,7 @@ module la_qr
          lwork_ord = -1_ilp
          call orgqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1635,7 +1568,7 @@ module la_qr
 
          ! Compute factorization.
          call geqp3(m,n,amat,lda,pivots,tau,work,lwork,info)
-         call handle_geqp3_info(info,m,n,lwork,err0)
+         call handle_geqp3(this,info,m,n,lwork,err0)
 
          if (err0%ok()) then
 
@@ -1651,7 +1584,7 @@ module la_qr
              ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
              call orgqr &
                   (m,q2,k,amat,lda,tau,work,lwork,info)
-             call handle_orgqr_info(info,m,q2,k,lwork,err0)
+             call handle_orgqr(this,info,m,q2,k,lwork,err0)
 
              ! Copy result back to Q
              if (.not. use_q_matrix) q = amat(:,:q2)
@@ -1694,7 +1627,7 @@ module la_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a_dummy,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         call handle_geqrf(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1705,7 +1638,7 @@ module la_qr
          lwork_ord = -1_ilp
          call ungqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1815,7 +1748,7 @@ module la_qr
              else
                  ! Compute factorization.
                  call geqrf(m,n,amat,lda,tau,work,lwork,info)
-                 call handle_geqrf_info(info,m,n,lwork,err0)
+                 call handle_geqrf(this,info,m,n,lwork,err0)
              end if
              
              if (err0%ok()) then
@@ -1828,7 +1761,7 @@ module la_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
                       (m,qcols,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
+                 call handle_orgqr(this,info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -1886,7 +1819,7 @@ module la_qr
          lwork_qr = -1_ilp
          call geqp3(m,n,a_dummy,m,jpvt_dummy,tau_dummy,work_dummy,lwork_qr, &
                     rwork_dummy,info)
-         call handle_geqp3_info(info,m,n,lwork_qr,err0)
+         call handle_geqp3(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -1897,7 +1830,7 @@ module la_qr
          lwork_ord = -1_ilp
          call ungqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2005,7 +1938,7 @@ module la_qr
 
          ! Compute factorization.
          call geqp3(m,n,amat,lda,pivots,tau,work,lwork,rwork,info)
-         call handle_geqp3_info(info,m,n,lwork,err0)
+         call handle_geqp3(this,info,m,n,lwork,err0)
 
          if (err0%ok()) then
 
@@ -2021,7 +1954,7 @@ module la_qr
              ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
              call ungqr &
                   (m,q2,k,amat,lda,tau,work,lwork,info)
-             call handle_orgqr_info(info,m,q2,k,lwork,err0)
+             call handle_orgqr(this,info,m,q2,k,lwork,err0)
 
              ! Copy result back to Q
              if (.not. use_q_matrix) q = amat(:,:q2)
@@ -2063,7 +1996,7 @@ module la_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a_dummy,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         call handle_geqrf(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2074,7 +2007,7 @@ module la_qr
          lwork_ord = -1_ilp
          call ungqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2184,7 +2117,7 @@ module la_qr
              else
                  ! Compute factorization.
                  call geqrf(m,n,amat,lda,tau,work,lwork,info)
-                 call handle_geqrf_info(info,m,n,lwork,err0)
+                 call handle_geqrf(this,info,m,n,lwork,err0)
              end if
              
              if (err0%ok()) then
@@ -2197,7 +2130,7 @@ module la_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
                       (m,qcols,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
+                 call handle_orgqr(this,info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -2255,7 +2188,7 @@ module la_qr
          lwork_qr = -1_ilp
          call geqp3(m,n,a_dummy,m,jpvt_dummy,tau_dummy,work_dummy,lwork_qr, &
                     rwork_dummy,info)
-         call handle_geqp3_info(info,m,n,lwork_qr,err0)
+         call handle_geqp3(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2266,7 +2199,7 @@ module la_qr
          lwork_ord = -1_ilp
          call ungqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2374,7 +2307,7 @@ module la_qr
 
          ! Compute factorization.
          call geqp3(m,n,amat,lda,pivots,tau,work,lwork,rwork,info)
-         call handle_geqp3_info(info,m,n,lwork,err0)
+         call handle_geqp3(this,info,m,n,lwork,err0)
 
          if (err0%ok()) then
 
@@ -2390,7 +2323,7 @@ module la_qr
              ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
              call ungqr &
                   (m,q2,k,amat,lda,tau,work,lwork,info)
-             call handle_orgqr_info(info,m,q2,k,lwork,err0)
+             call handle_orgqr(this,info,m,q2,k,lwork,err0)
 
              ! Copy result back to Q
              if (.not. use_q_matrix) q = amat(:,:q2)
@@ -2433,7 +2366,7 @@ module la_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a_dummy,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         call handle_geqrf(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2444,7 +2377,7 @@ module la_qr
          lwork_ord = -1_ilp
          call ungqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2554,7 +2487,7 @@ module la_qr
              else
                  ! Compute factorization.
                  call geqrf(m,n,amat,lda,tau,work,lwork,info)
-                 call handle_geqrf_info(info,m,n,lwork,err0)
+                 call handle_geqrf(this,info,m,n,lwork,err0)
              end if
              
              if (err0%ok()) then
@@ -2567,7 +2500,7 @@ module la_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
                       (m,qcols,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
+                 call handle_orgqr(this,info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -2625,7 +2558,7 @@ module la_qr
          lwork_qr = -1_ilp
          call geqp3(m,n,a_dummy,m,jpvt_dummy,tau_dummy,work_dummy,lwork_qr, &
                     rwork_dummy,info)
-         call handle_geqp3_info(info,m,n,lwork_qr,err0)
+         call handle_geqp3(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2636,7 +2569,7 @@ module la_qr
          lwork_ord = -1_ilp
          call ungqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2744,7 +2677,7 @@ module la_qr
 
          ! Compute factorization.
          call geqp3(m,n,amat,lda,pivots,tau,work,lwork,rwork,info)
-         call handle_geqp3_info(info,m,n,lwork,err0)
+         call handle_geqp3(this,info,m,n,lwork,err0)
 
          if (err0%ok()) then
 
@@ -2760,7 +2693,7 @@ module la_qr
              ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
              call ungqr &
                   (m,q2,k,amat,lda,tau,work,lwork,info)
-             call handle_orgqr_info(info,m,q2,k,lwork,err0)
+             call handle_orgqr(this,info,m,q2,k,lwork,err0)
 
              ! Copy result back to Q
              if (.not. use_q_matrix) q = amat(:,:q2)
@@ -2804,7 +2737,7 @@ module la_qr
          ! QR space
          lwork_qr = -1_ilp
          call geqrf(m,n,a_dummy,m,tau_dummy,work_dummy,lwork_qr,info)
-         call handle_geqrf_info(info,m,n,lwork_qr,err0)
+         call handle_geqrf(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2815,7 +2748,7 @@ module la_qr
          lwork_ord = -1_ilp
          call ungqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -2925,7 +2858,7 @@ module la_qr
              else
                  ! Compute factorization.
                  call geqrf(m,n,amat,lda,tau,work,lwork,info)
-                 call handle_geqrf_info(info,m,n,lwork,err0)
+                 call handle_geqrf(this,info,m,n,lwork,err0)
              end if
              
              if (err0%ok()) then
@@ -2938,7 +2871,7 @@ module la_qr
                  ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
                  call ungqr &
                       (m,qcols,k,amat,lda,tau,work,lwork,info)
-                 call handle_orgqr_info(info,m,qcols,k,lwork,err0)
+                 call handle_orgqr(this,info,m,qcols,k,lwork,err0)
                       
                  ! Copy result back to Q
                  if (.not. use_q_matrix) q = amat(:q1,:q2)
@@ -2996,7 +2929,7 @@ module la_qr
          lwork_qr = -1_ilp
          call geqp3(m,n,a_dummy,m,jpvt_dummy,tau_dummy,work_dummy,lwork_qr, &
                     rwork_dummy,info)
-         call handle_geqp3_info(info,m,n,lwork_qr,err0)
+         call handle_geqp3(this,info,m,n,lwork_qr,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -3007,7 +2940,7 @@ module la_qr
          lwork_ord = -1_ilp
          call ungqr &
               (m,m,k,a_dummy,m,tau_dummy,work_dummy,lwork_ord,info)
-         call handle_orgqr_info(info,m,m,k,lwork_ord,err0)
+         call handle_orgqr(this,info,m,m,k,lwork_ord,err0)
          if (err0%error()) then
             call err0%handle(err)
             return
@@ -3115,7 +3048,7 @@ module la_qr
 
          ! Compute factorization.
          call geqp3(m,n,amat,lda,pivots,tau,work,lwork,rwork,info)
-         call handle_geqp3_info(info,m,n,lwork,err0)
+         call handle_geqp3(this,info,m,n,lwork,err0)
 
          if (err0%ok()) then
 
@@ -3131,7 +3064,7 @@ module la_qr
              ! Convert K elementary reflectors tau(1:k) -> orthogonal matrix Q
              call ungqr &
                   (m,q2,k,amat,lda,tau,work,lwork,info)
-             call handle_orgqr_info(info,m,q2,k,lwork,err0)
+             call handle_orgqr(this,info,m,q2,k,lwork,err0)
 
              ! Copy result back to Q
              if (.not. use_q_matrix) q = amat(:,:q2)
