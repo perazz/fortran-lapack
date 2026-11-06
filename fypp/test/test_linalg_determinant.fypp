@@ -46,6 +46,8 @@ module test_linalg_determinant
 #ifdef ${LA_GUARD[rk]}$
         #:endif
         call add_test(tests,new_unittest("$det_operator_${rt[0]}$${rk}$",test_${rt[0]}$${rk}$_det_operator))
+        call add_test(tests,new_unittest("$det_singular_${rt[0]}$${rk}$",test_${rt[0]}$${rk}$_det_singular))
+        call add_test(tests,new_unittest("$det_zero_${rt[0]}$${rk}$",test_${rt[0]}$${rk}$_det_zero))
         #:if LA_GUARD[rk]
 #endif
         #:endif
@@ -206,6 +208,55 @@ module test_linalg_determinant
         if (allocated(error)) return
 
     end subroutine test_${rt[0]}$${rk}$_det_operator
+
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_${rt[0]}$${rk}$_det_singular(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        ${rt}$ :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7],[3,3],order=[2,1])
+
+        call check_zero_det_${rt[0]}$${rk}$(a,'singular',error)
+
+    end subroutine test_${rt[0]}$${rk}$_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_${rt[0]}$${rk}$_det_zero(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        ${rt}$ :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_${rt[0]}$${rk}$(a,'zero',error)
+
+    end subroutine test_${rt[0]}$${rk}$_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_${rt[0]}$${rk}$(a,label,error)
+        ${rt}$, intent(inout) :: a(:,:)
+        character(*), intent(in) :: label
+        type(error_type), allocatable, intent(inout) :: error
+
+        type(la_state) :: state
+        ${rt}$ :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error, deta==0, 'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error, deta==0, 'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error, .det. a==0, '.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_${rt[0]}$${rk}$
     #:if LA_GUARD[rk]
 #endif
     #:endif

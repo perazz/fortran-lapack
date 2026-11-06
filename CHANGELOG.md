@@ -160,6 +160,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `lstsq` does. For a singular matrix, `solve` returned an array of the
     shape of `b`, and `inv` the `n x n` matrix that `invert` overwrote, both
     with undefined values.
+- **Breaking:** `det` and `.det.` return 0 for an exactly singular matrix
+  instead of a `LINALG_ERROR`, and no longer stop on one, as `slogdet`
+  already returns `sign = 0`.
 - Fortran 2018 is the minimum language standard: a `pure` procedure stops on
   an error with `error stop`, which `la_state` already relied on.
   

@@ -29,34 +29,42 @@ module test_linalg_pure
         call add_test(tests,new_unittest("pure_calls_s",test_pure_calls_s))
         call add_test(tests,new_unittest("pure_functions_s",test_pure_functions_s))
         call add_test(tests,new_unittest("err_functions_s",test_err_functions_s))
+        call add_test(tests,new_unittest("pure_singular_det_s",test_pure_singular_det_s))
         call add_test(tests,new_unittest("pure_calls_d",test_pure_calls_d))
         call add_test(tests,new_unittest("pure_functions_d",test_pure_functions_d))
         call add_test(tests,new_unittest("err_functions_d",test_err_functions_d))
+        call add_test(tests,new_unittest("pure_singular_det_d",test_pure_singular_det_d))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("pure_calls_x",test_pure_calls_x))
         call add_test(tests,new_unittest("pure_functions_x",test_pure_functions_x))
         call add_test(tests,new_unittest("err_functions_x",test_err_functions_x))
+        call add_test(tests,new_unittest("pure_singular_det_x",test_pure_singular_det_x))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("pure_calls_q",test_pure_calls_q))
         call add_test(tests,new_unittest("pure_functions_q",test_pure_functions_q))
         call add_test(tests,new_unittest("err_functions_q",test_err_functions_q))
+        call add_test(tests,new_unittest("pure_singular_det_q",test_pure_singular_det_q))
 #endif
         call add_test(tests,new_unittest("pure_calls_c",test_pure_calls_c))
         call add_test(tests,new_unittest("pure_functions_c",test_pure_functions_c))
         call add_test(tests,new_unittest("err_functions_c",test_err_functions_c))
+        call add_test(tests,new_unittest("pure_singular_det_c",test_pure_singular_det_c))
         call add_test(tests,new_unittest("pure_calls_z",test_pure_calls_z))
         call add_test(tests,new_unittest("pure_functions_z",test_pure_functions_z))
         call add_test(tests,new_unittest("err_functions_z",test_err_functions_z))
+        call add_test(tests,new_unittest("pure_singular_det_z",test_pure_singular_det_z))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("pure_calls_y",test_pure_calls_y))
         call add_test(tests,new_unittest("pure_functions_y",test_pure_functions_y))
         call add_test(tests,new_unittest("err_functions_y",test_err_functions_y))
+        call add_test(tests,new_unittest("pure_singular_det_y",test_pure_singular_det_y))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("pure_calls_w",test_pure_calls_w))
         call add_test(tests,new_unittest("pure_functions_w",test_pure_functions_w))
         call add_test(tests,new_unittest("err_functions_w",test_err_functions_w))
+        call add_test(tests,new_unittest("pure_singular_det_w",test_pure_singular_det_w))
 #endif
 
     end subroutine test_pure_procedures
@@ -360,6 +368,30 @@ module test_linalg_pure
 
     end subroutine test_err_functions_s
 
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_s(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(sp) :: a(3,3),dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call pure_singular_det_s(a,dt)
+
+        call check(error,dt == 0,'.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_s
+
+    pure subroutine pure_singular_det_s(a,dt)
+        real(sp),intent(in) :: a(:,:)
+        real(sp),intent(out) :: dt
+
+        dt = .det.a
+
+    end subroutine pure_singular_det_s
+
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_d(error)
         type(error_type),allocatable,intent(out) :: error
@@ -658,6 +690,30 @@ module test_linalg_pure
         if (allocated(error)) return
 
     end subroutine test_err_functions_d
+
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(dp) :: a(3,3),dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call pure_singular_det_d(a,dt)
+
+        call check(error,dt == 0,'.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_d
+
+    pure subroutine pure_singular_det_d(a,dt)
+        real(dp),intent(in) :: a(:,:)
+        real(dp),intent(out) :: dt
+
+        dt = .det.a
+
+    end subroutine pure_singular_det_d
 
 #ifdef LA_WITH_XDP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
@@ -958,6 +1014,30 @@ module test_linalg_pure
         if (allocated(error)) return
 
     end subroutine test_err_functions_x
+
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(xdp) :: a(3,3),dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call pure_singular_det_x(a,dt)
+
+        call check(error,dt == 0,'.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_x
+
+    pure subroutine pure_singular_det_x(a,dt)
+        real(xdp),intent(in) :: a(:,:)
+        real(xdp),intent(out) :: dt
+
+        dt = .det.a
+
+    end subroutine pure_singular_det_x
 
 #endif
 #ifdef LA_WITH_QP
@@ -1260,6 +1340,30 @@ module test_linalg_pure
 
     end subroutine test_err_functions_q
 
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_q(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(qp) :: a(3,3),dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call pure_singular_det_q(a,dt)
+
+        call check(error,dt == 0,'.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_q
+
+    pure subroutine pure_singular_det_q(a,dt)
+        real(qp),intent(in) :: a(:,:)
+        real(qp),intent(out) :: dt
+
+        dt = .det.a
+
+    end subroutine pure_singular_det_q
+
 #endif
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_c(error)
@@ -1560,6 +1664,30 @@ module test_linalg_pure
 
     end subroutine test_err_functions_c
 
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_c(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(sp) :: a(3,3),dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call pure_singular_det_c(a,dt)
+
+        call check(error,dt == 0,'.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_c
+
+    pure subroutine pure_singular_det_c(a,dt)
+        complex(sp),intent(in) :: a(:,:)
+        complex(sp),intent(out) :: dt
+
+        dt = .det.a
+
+    end subroutine pure_singular_det_c
+
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_z(error)
         type(error_type),allocatable,intent(out) :: error
@@ -1858,6 +1986,30 @@ module test_linalg_pure
         if (allocated(error)) return
 
     end subroutine test_err_functions_z
+
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_z(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(dp) :: a(3,3),dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call pure_singular_det_z(a,dt)
+
+        call check(error,dt == 0,'.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_z
+
+    pure subroutine pure_singular_det_z(a,dt)
+        complex(dp),intent(in) :: a(:,:)
+        complex(dp),intent(out) :: dt
+
+        dt = .det.a
+
+    end subroutine pure_singular_det_z
 
 #ifdef LA_WITH_XDP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
@@ -2159,6 +2311,30 @@ module test_linalg_pure
 
     end subroutine test_err_functions_y
 
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(xdp) :: a(3,3),dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call pure_singular_det_y(a,dt)
+
+        call check(error,dt == 0,'.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_y
+
+    pure subroutine pure_singular_det_y(a,dt)
+        complex(xdp),intent(in) :: a(:,:)
+        complex(xdp),intent(out) :: dt
+
+        dt = .det.a
+
+    end subroutine pure_singular_det_y
+
 #endif
 #ifdef LA_WITH_QP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
@@ -2459,6 +2635,30 @@ module test_linalg_pure
         if (allocated(error)) return
 
     end subroutine test_err_functions_w
+
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_w(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(qp) :: a(3,3),dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call pure_singular_det_w(a,dt)
+
+        call check(error,dt == 0,'.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_w
+
+    pure subroutine pure_singular_det_w(a,dt)
+        complex(qp),intent(in) :: a(:,:)
+        complex(qp),intent(out) :: dt
+
+        dt = .det.a
+
+    end subroutine pure_singular_det_w
 
 #endif
 

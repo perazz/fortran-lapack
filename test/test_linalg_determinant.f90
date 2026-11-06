@@ -51,20 +51,36 @@ module test_linalg_determinant
         call add_test(tests,new_unittest("$complex_det_cqp",test_cqp_complex_determinant))
 #endif
         call add_test(tests,new_unittest("$det_operator_rsp",test_rsp_det_operator))
+        call add_test(tests,new_unittest("$det_singular_rsp",test_rsp_det_singular))
+        call add_test(tests,new_unittest("$det_zero_rsp",test_rsp_det_zero))
         call add_test(tests,new_unittest("$det_operator_rdp",test_rdp_det_operator))
+        call add_test(tests,new_unittest("$det_singular_rdp",test_rdp_det_singular))
+        call add_test(tests,new_unittest("$det_zero_rdp",test_rdp_det_zero))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("$det_operator_rxdp",test_rxdp_det_operator))
+        call add_test(tests,new_unittest("$det_singular_rxdp",test_rxdp_det_singular))
+        call add_test(tests,new_unittest("$det_zero_rxdp",test_rxdp_det_zero))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("$det_operator_rqp",test_rqp_det_operator))
+        call add_test(tests,new_unittest("$det_singular_rqp",test_rqp_det_singular))
+        call add_test(tests,new_unittest("$det_zero_rqp",test_rqp_det_zero))
 #endif
         call add_test(tests,new_unittest("$det_operator_csp",test_csp_det_operator))
+        call add_test(tests,new_unittest("$det_singular_csp",test_csp_det_singular))
+        call add_test(tests,new_unittest("$det_zero_csp",test_csp_det_zero))
         call add_test(tests,new_unittest("$det_operator_cdp",test_cdp_det_operator))
+        call add_test(tests,new_unittest("$det_singular_cdp",test_cdp_det_singular))
+        call add_test(tests,new_unittest("$det_zero_cdp",test_cdp_det_zero))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("$det_operator_cxdp",test_cxdp_det_operator))
+        call add_test(tests,new_unittest("$det_singular_cxdp",test_cxdp_det_singular))
+        call add_test(tests,new_unittest("$det_zero_cxdp",test_cxdp_det_zero))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("$det_operator_cqp",test_cqp_det_operator))
+        call add_test(tests,new_unittest("$det_singular_cqp",test_cqp_det_singular))
+        call add_test(tests,new_unittest("$det_zero_cqp",test_cqp_det_zero))
 #endif
 
     end subroutine test_matrix_determinant
@@ -744,6 +760,55 @@ module test_linalg_determinant
 
     end subroutine test_rsp_det_operator
 
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_rsp_det_singular(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(sp) :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call check_zero_det_rsp(a,'singular',error)
+
+    end subroutine test_rsp_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_rsp_det_zero(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(sp) :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_rsp(a,'zero',error)
+
+    end subroutine test_rsp_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_rsp(a,label,error)
+        real(sp),intent(inout) :: a(:,:)
+        character(*),intent(in) :: label
+        type(error_type),allocatable,intent(inout) :: error
+
+        type(la_state) :: state
+        real(sp) :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error,deta == 0,'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error,deta == 0,'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error,.det.a == 0,'.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_rsp
+
     !> Pure determinant through the .det. operator
     subroutine test_rdp_det_operator(error)
         type(error_type),allocatable,intent(out) :: error
@@ -776,6 +841,55 @@ module test_linalg_determinant
         if (allocated(error)) return
 
     end subroutine test_rdp_det_operator
+
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_rdp_det_singular(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(dp) :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call check_zero_det_rdp(a,'singular',error)
+
+    end subroutine test_rdp_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_rdp_det_zero(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(dp) :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_rdp(a,'zero',error)
+
+    end subroutine test_rdp_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_rdp(a,label,error)
+        real(dp),intent(inout) :: a(:,:)
+        character(*),intent(in) :: label
+        type(error_type),allocatable,intent(inout) :: error
+
+        type(la_state) :: state
+        real(dp) :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error,deta == 0,'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error,deta == 0,'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error,.det.a == 0,'.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_rdp
 
 #ifdef LA_WITH_XDP
     !> Pure determinant through the .det. operator
@@ -810,6 +924,55 @@ module test_linalg_determinant
         if (allocated(error)) return
 
     end subroutine test_rxdp_det_operator
+
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_rxdp_det_singular(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(xdp) :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call check_zero_det_rxdp(a,'singular',error)
+
+    end subroutine test_rxdp_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_rxdp_det_zero(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(xdp) :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_rxdp(a,'zero',error)
+
+    end subroutine test_rxdp_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_rxdp(a,label,error)
+        real(xdp),intent(inout) :: a(:,:)
+        character(*),intent(in) :: label
+        type(error_type),allocatable,intent(inout) :: error
+
+        type(la_state) :: state
+        real(xdp) :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error,deta == 0,'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error,deta == 0,'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error,.det.a == 0,'.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_rxdp
 #endif
 
 #ifdef LA_WITH_QP
@@ -845,6 +1008,55 @@ module test_linalg_determinant
         if (allocated(error)) return
 
     end subroutine test_rqp_det_operator
+
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_rqp_det_singular(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(qp) :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call check_zero_det_rqp(a,'singular',error)
+
+    end subroutine test_rqp_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_rqp_det_zero(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        real(qp) :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_rqp(a,'zero',error)
+
+    end subroutine test_rqp_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_rqp(a,label,error)
+        real(qp),intent(inout) :: a(:,:)
+        character(*),intent(in) :: label
+        type(error_type),allocatable,intent(inout) :: error
+
+        type(la_state) :: state
+        real(qp) :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error,deta == 0,'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error,deta == 0,'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error,.det.a == 0,'.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_rqp
 #endif
 
     !> Pure determinant through the .det. operator
@@ -880,6 +1092,55 @@ module test_linalg_determinant
 
     end subroutine test_csp_det_operator
 
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_csp_det_singular(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(sp) :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call check_zero_det_csp(a,'singular',error)
+
+    end subroutine test_csp_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_csp_det_zero(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(sp) :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_csp(a,'zero',error)
+
+    end subroutine test_csp_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_csp(a,label,error)
+        complex(sp),intent(inout) :: a(:,:)
+        character(*),intent(in) :: label
+        type(error_type),allocatable,intent(inout) :: error
+
+        type(la_state) :: state
+        complex(sp) :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error,deta == 0,'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error,deta == 0,'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error,.det.a == 0,'.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_csp
+
     !> Pure determinant through the .det. operator
     subroutine test_cdp_det_operator(error)
         type(error_type),allocatable,intent(out) :: error
@@ -912,6 +1173,55 @@ module test_linalg_determinant
         if (allocated(error)) return
 
     end subroutine test_cdp_det_operator
+
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_cdp_det_singular(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(dp) :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call check_zero_det_cdp(a,'singular',error)
+
+    end subroutine test_cdp_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_cdp_det_zero(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(dp) :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_cdp(a,'zero',error)
+
+    end subroutine test_cdp_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_cdp(a,label,error)
+        complex(dp),intent(inout) :: a(:,:)
+        character(*),intent(in) :: label
+        type(error_type),allocatable,intent(inout) :: error
+
+        type(la_state) :: state
+        complex(dp) :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error,deta == 0,'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error,deta == 0,'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error,.det.a == 0,'.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_cdp
 
 #ifdef LA_WITH_XDP
     !> Pure determinant through the .det. operator
@@ -946,6 +1256,55 @@ module test_linalg_determinant
         if (allocated(error)) return
 
     end subroutine test_cxdp_det_operator
+
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_cxdp_det_singular(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(xdp) :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call check_zero_det_cxdp(a,'singular',error)
+
+    end subroutine test_cxdp_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_cxdp_det_zero(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(xdp) :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_cxdp(a,'zero',error)
+
+    end subroutine test_cxdp_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_cxdp(a,label,error)
+        complex(xdp),intent(inout) :: a(:,:)
+        character(*),intent(in) :: label
+        type(error_type),allocatable,intent(inout) :: error
+
+        type(la_state) :: state
+        complex(xdp) :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error,deta == 0,'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error,deta == 0,'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error,.det.a == 0,'.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_cxdp
 #endif
 
 #ifdef LA_WITH_QP
@@ -981,6 +1340,55 @@ module test_linalg_determinant
         if (allocated(error)) return
 
     end subroutine test_cqp_det_operator
+
+    !> An exactly singular matrix has determinant 0, and is not an error
+    subroutine test_cqp_det_singular(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(qp) :: a(3,3)
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7], [3,3],order=[2,1])
+
+        call check_zero_det_cqp(a,'singular',error)
+
+    end subroutine test_cqp_det_singular
+
+    !> The zero matrix has determinant 0, and is not an error
+    subroutine test_cqp_det_zero(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        complex(qp) :: a(4,4)
+
+        a = 0
+
+        call check_zero_det_cqp(a,'zero',error)
+
+    end subroutine test_cqp_det_zero
+
+    !> Every form of det returns 0 on a, with no error
+    subroutine check_zero_det_cqp(a,label,error)
+        complex(qp),intent(inout) :: a(:,:)
+        character(*),intent(in) :: label
+        type(error_type),allocatable,intent(inout) :: error
+
+        type(la_state) :: state
+        complex(qp) :: deta
+
+        deta = det(a,err=state)
+        call check(error,state%ok(),state%print()//' ('//label//' matrix)')
+        if (allocated(error)) return
+        call check(error,deta == 0,'det(a,err) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        deta = det(a)
+        call check(error,deta == 0,'det(a) of a '//label//' matrix')
+        if (allocated(error)) return
+
+        call check(error,.det.a == 0,'.det. a of a '//label//' matrix')
+        if (allocated(error)) return
+
+    end subroutine check_zero_det_cqp
 #endif
 
     ! gcc-15 bugfix utility

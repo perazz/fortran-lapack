@@ -35,6 +35,7 @@ module la_determinant
      !!
      !! @note This function relies on a matrix factorization approach (e.g., LU decomposition) to compute
      !!       the determinant efficiently from the [getrf](@ref la_lapack::getrf) backend.
+     !! @note A singular matrix is not an error: its determinant is 0, and `err` is not set.
      !! @warning If `overwrite_a` is enabled, the original contents of A will be lost.
      !!
      interface det
@@ -76,7 +77,7 @@ module la_determinant
      !! @note This operator is a shorthand for the `pure` determinant, allowing expressions such as:
      !!       \f$ d = .det. A \f$
      !! @warning The matrix \f$ A \f$ is copied internally, so the operator never modifies its argument.
-     !!          Execution stops if the matrix is not square.
+     !!          Execution stops only if the matrix is not square; a singular matrix returns 0.
      !!
      public :: operator(.det.)
 
@@ -248,6 +249,11 @@ module la_determinant
                           det = det*amat(k,k)
                        end do
                        if (mod(perm,2) /= 0) det = -det
+
+                   case (1:)
+                       ! Exactly singular: return 0, not the product of the diagonal, which an
+                       ! infinite pivot would turn into NaN
+                       det = 0.0_sp
 
                    case default
                        call handle_getrf(this,info,m,n,m,err0)
@@ -446,6 +452,11 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
+                   case (1:)
+                       ! Exactly singular: return 0, not the product of the diagonal, which an
+                       ! infinite pivot would turn into NaN
+                       det = 0.0_dp
+
                    case default
                        call handle_getrf(this,info,m,n,m,err0)
                 end select
@@ -643,6 +654,11 @@ module la_determinant
                           det = det*amat(k,k)
                        end do
                        if (mod(perm,2) /= 0) det = -det
+
+                   case (1:)
+                       ! Exactly singular: return 0, not the product of the diagonal, which an
+                       ! infinite pivot would turn into NaN
+                       det = 0.0_xdp
 
                    case default
                        call handle_getrf(this,info,m,n,m,err0)
@@ -843,6 +859,11 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
+                   case (1:)
+                       ! Exactly singular: return 0, not the product of the diagonal, which an
+                       ! infinite pivot would turn into NaN
+                       det = 0.0_qp
+
                    case default
                        call handle_getrf(this,info,m,n,m,err0)
                 end select
@@ -1040,6 +1061,11 @@ module la_determinant
                           det = det*amat(k,k)
                        end do
                        if (mod(perm,2) /= 0) det = -det
+
+                   case (1:)
+                       ! Exactly singular: return 0, not the product of the diagonal, which an
+                       ! infinite pivot would turn into NaN
+                       det = 0.0_sp
 
                    case default
                        call handle_getrf(this,info,m,n,m,err0)
@@ -1239,6 +1265,11 @@ module la_determinant
                           det = det*amat(k,k)
                        end do
                        if (mod(perm,2) /= 0) det = -det
+
+                   case (1:)
+                       ! Exactly singular: return 0, not the product of the diagonal, which an
+                       ! infinite pivot would turn into NaN
+                       det = 0.0_dp
 
                    case default
                        call handle_getrf(this,info,m,n,m,err0)
@@ -1440,6 +1471,11 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
+                   case (1:)
+                       ! Exactly singular: return 0, not the product of the diagonal, which an
+                       ! infinite pivot would turn into NaN
+                       det = 0.0_xdp
+
                    case default
                        call handle_getrf(this,info,m,n,m,err0)
                 end select
@@ -1640,6 +1676,11 @@ module la_determinant
                           det = det*amat(k,k)
                        end do
                        if (mod(perm,2) /= 0) det = -det
+
+                   case (1:)
+                       ! Exactly singular: return 0, not the product of the diagonal, which an
+                       ! infinite pivot would turn into NaN
+                       det = 0.0_qp
 
                    case default
                        call handle_getrf(this,info,m,n,m,err0)
