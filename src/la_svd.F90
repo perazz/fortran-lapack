@@ -38,7 +38,8 @@ module la_svd
      !! The singular values are stored in a vector \f$ s \f$, which is an array of size \f$ k = min(m,n) \f$.
      !!
      !! @param[in] a The input matrix \f$ A \f$ of size \f$ [m,n] \f$.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided, the function will stop execution.
+     !! @param[out] err (Optional) A state return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
      !! @return The singular values of matrix \f$ A \f$ are returned in the `real` array \f$ s \f$, with the same kind as the input matrix.
      !!
      !! @note This function returns only the singular values and does not compute the full SVD.
@@ -84,20 +85,28 @@ module la_svd
 
      interface svdvals
         module procedure la_svdvals_s
+        module procedure la_svdvals_err_s
         module procedure la_svdvals_d
+        module procedure la_svdvals_err_d
 #ifdef LA_WITH_XDP
         module procedure la_svdvals_x
+        module procedure la_svdvals_err_x
 #endif
 #ifdef LA_WITH_QP
         module procedure la_svdvals_q
+        module procedure la_svdvals_err_q
 #endif
         module procedure la_svdvals_c
+        module procedure la_svdvals_err_c
         module procedure la_svdvals_z
+        module procedure la_svdvals_err_z
 #ifdef LA_WITH_XDP
         module procedure la_svdvals_y
+        module procedure la_svdvals_err_y
 #endif
 #ifdef LA_WITH_QP
         module procedure la_svdvals_w
+        module procedure la_svdvals_err_w
 #endif
      end interface svdvals
 
@@ -144,33 +153,47 @@ module la_svd
 
      contains
 
-     !> Singular values of matrix A
-     function la_svdvals_s(a,err) result(s)
+     !> Singular values of matrix A: `pure`, stops on error
+     pure function la_svdvals_s(a) result(s)
          !> Input matrix A[m,n]
-         real(sp),intent(in),target :: a(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         real(sp),intent(in) :: a(:,:)
          !> Array of singular values
          real(sp),allocatable :: s(:)
 
-         !> Create
-         real(sp),pointer :: amat(:,:)
-         integer(ilp) :: m,n,k
+         !> Working copy, which the SVD overwrites
+         real(sp),allocatable :: amat(:,:)
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         k = min(m,n)
+         amat = a
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
 
          !> Compute singular values
-         call la_svd_s(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_s(amat,s,overwrite_a=.true._lk)
 
      end function la_svdvals_s
+
+     !> Singular values of matrix A, with a state return flag
+     function la_svdvals_err_s(a,err) result(s)
+         !> Input matrix A[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Array of singular values
+         real(sp),allocatable :: s(:)
+
+         !> Working copy, which the SVD overwrites
+         real(sp),allocatable :: amat(:,:)
+
+         amat = a
+
+         !> Allocate return storage
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
+
+         !> Compute singular values
+         call la_svd_s(amat,s,overwrite_a=.true._lk,err=err)
+
+     end function la_svdvals_err_s
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      pure subroutine la_svd_s(a,s,u,vt,overwrite_a,full_matrices,err)
@@ -409,33 +432,47 @@ module la_svd
 
      end subroutine matrix_rank_s
 
-     !> Singular values of matrix A
-     function la_svdvals_d(a,err) result(s)
+     !> Singular values of matrix A: `pure`, stops on error
+     pure function la_svdvals_d(a) result(s)
          !> Input matrix A[m,n]
-         real(dp),intent(in),target :: a(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         real(dp),intent(in) :: a(:,:)
          !> Array of singular values
          real(dp),allocatable :: s(:)
 
-         !> Create
-         real(dp),pointer :: amat(:,:)
-         integer(ilp) :: m,n,k
+         !> Working copy, which the SVD overwrites
+         real(dp),allocatable :: amat(:,:)
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         k = min(m,n)
+         amat = a
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
 
          !> Compute singular values
-         call la_svd_d(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_d(amat,s,overwrite_a=.true._lk)
 
      end function la_svdvals_d
+
+     !> Singular values of matrix A, with a state return flag
+     function la_svdvals_err_d(a,err) result(s)
+         !> Input matrix A[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Array of singular values
+         real(dp),allocatable :: s(:)
+
+         !> Working copy, which the SVD overwrites
+         real(dp),allocatable :: amat(:,:)
+
+         amat = a
+
+         !> Allocate return storage
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
+
+         !> Compute singular values
+         call la_svd_d(amat,s,overwrite_a=.true._lk,err=err)
+
+     end function la_svdvals_err_d
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      pure subroutine la_svd_d(a,s,u,vt,overwrite_a,full_matrices,err)
@@ -675,33 +712,47 @@ module la_svd
      end subroutine matrix_rank_d
 
 #ifdef LA_WITH_XDP
-     !> Singular values of matrix A
-     function la_svdvals_x(a,err) result(s)
+     !> Singular values of matrix A: `pure`, stops on error
+     pure function la_svdvals_x(a) result(s)
          !> Input matrix A[m,n]
-         real(xdp),intent(in),target :: a(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         real(xdp),intent(in) :: a(:,:)
          !> Array of singular values
          real(xdp),allocatable :: s(:)
 
-         !> Create
-         real(xdp),pointer :: amat(:,:)
-         integer(ilp) :: m,n,k
+         !> Working copy, which the SVD overwrites
+         real(xdp),allocatable :: amat(:,:)
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         k = min(m,n)
+         amat = a
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
 
          !> Compute singular values
-         call la_svd_x(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_x(amat,s,overwrite_a=.true._lk)
 
      end function la_svdvals_x
+
+     !> Singular values of matrix A, with a state return flag
+     function la_svdvals_err_x(a,err) result(s)
+         !> Input matrix A[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Array of singular values
+         real(xdp),allocatable :: s(:)
+
+         !> Working copy, which the SVD overwrites
+         real(xdp),allocatable :: amat(:,:)
+
+         amat = a
+
+         !> Allocate return storage
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
+
+         !> Compute singular values
+         call la_svd_x(amat,s,overwrite_a=.true._lk,err=err)
+
+     end function la_svdvals_err_x
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      pure subroutine la_svd_x(a,s,u,vt,overwrite_a,full_matrices,err)
@@ -942,33 +993,47 @@ module la_svd
 #endif
 
 #ifdef LA_WITH_QP
-     !> Singular values of matrix A
-     function la_svdvals_q(a,err) result(s)
+     !> Singular values of matrix A: `pure`, stops on error
+     pure function la_svdvals_q(a) result(s)
          !> Input matrix A[m,n]
-         real(qp),intent(in),target :: a(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         real(qp),intent(in) :: a(:,:)
          !> Array of singular values
          real(qp),allocatable :: s(:)
 
-         !> Create
-         real(qp),pointer :: amat(:,:)
-         integer(ilp) :: m,n,k
+         !> Working copy, which the SVD overwrites
+         real(qp),allocatable :: amat(:,:)
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         k = min(m,n)
+         amat = a
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
 
          !> Compute singular values
-         call la_svd_q(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_q(amat,s,overwrite_a=.true._lk)
 
      end function la_svdvals_q
+
+     !> Singular values of matrix A, with a state return flag
+     function la_svdvals_err_q(a,err) result(s)
+         !> Input matrix A[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Array of singular values
+         real(qp),allocatable :: s(:)
+
+         !> Working copy, which the SVD overwrites
+         real(qp),allocatable :: amat(:,:)
+
+         amat = a
+
+         !> Allocate return storage
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
+
+         !> Compute singular values
+         call la_svd_q(amat,s,overwrite_a=.true._lk,err=err)
+
+     end function la_svdvals_err_q
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      pure subroutine la_svd_q(a,s,u,vt,overwrite_a,full_matrices,err)
@@ -1208,33 +1273,47 @@ module la_svd
      end subroutine matrix_rank_q
 #endif
 
-     !> Singular values of matrix A
-     function la_svdvals_c(a,err) result(s)
+     !> Singular values of matrix A: `pure`, stops on error
+     pure function la_svdvals_c(a) result(s)
          !> Input matrix A[m,n]
-         complex(sp),intent(in),target :: a(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         complex(sp),intent(in) :: a(:,:)
          !> Array of singular values
          real(sp),allocatable :: s(:)
 
-         !> Create
-         complex(sp),pointer :: amat(:,:)
-         integer(ilp) :: m,n,k
+         !> Working copy, which the SVD overwrites
+         complex(sp),allocatable :: amat(:,:)
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         k = min(m,n)
+         amat = a
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
 
          !> Compute singular values
-         call la_svd_c(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_c(amat,s,overwrite_a=.true._lk)
 
      end function la_svdvals_c
+
+     !> Singular values of matrix A, with a state return flag
+     function la_svdvals_err_c(a,err) result(s)
+         !> Input matrix A[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Array of singular values
+         real(sp),allocatable :: s(:)
+
+         !> Working copy, which the SVD overwrites
+         complex(sp),allocatable :: amat(:,:)
+
+         amat = a
+
+         !> Allocate return storage
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
+
+         !> Compute singular values
+         call la_svd_c(amat,s,overwrite_a=.true._lk,err=err)
+
+     end function la_svdvals_err_c
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      pure subroutine la_svd_c(a,s,u,vt,overwrite_a,full_matrices,err)
@@ -1479,33 +1558,47 @@ module la_svd
 
      end subroutine matrix_rank_c
 
-     !> Singular values of matrix A
-     function la_svdvals_z(a,err) result(s)
+     !> Singular values of matrix A: `pure`, stops on error
+     pure function la_svdvals_z(a) result(s)
          !> Input matrix A[m,n]
-         complex(dp),intent(in),target :: a(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         complex(dp),intent(in) :: a(:,:)
          !> Array of singular values
          real(dp),allocatable :: s(:)
 
-         !> Create
-         complex(dp),pointer :: amat(:,:)
-         integer(ilp) :: m,n,k
+         !> Working copy, which the SVD overwrites
+         complex(dp),allocatable :: amat(:,:)
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         k = min(m,n)
+         amat = a
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
 
          !> Compute singular values
-         call la_svd_z(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_z(amat,s,overwrite_a=.true._lk)
 
      end function la_svdvals_z
+
+     !> Singular values of matrix A, with a state return flag
+     function la_svdvals_err_z(a,err) result(s)
+         !> Input matrix A[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Array of singular values
+         real(dp),allocatable :: s(:)
+
+         !> Working copy, which the SVD overwrites
+         complex(dp),allocatable :: amat(:,:)
+
+         amat = a
+
+         !> Allocate return storage
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
+
+         !> Compute singular values
+         call la_svd_z(amat,s,overwrite_a=.true._lk,err=err)
+
+     end function la_svdvals_err_z
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      pure subroutine la_svd_z(a,s,u,vt,overwrite_a,full_matrices,err)
@@ -1751,33 +1844,47 @@ module la_svd
      end subroutine matrix_rank_z
 
 #ifdef LA_WITH_XDP
-     !> Singular values of matrix A
-     function la_svdvals_y(a,err) result(s)
+     !> Singular values of matrix A: `pure`, stops on error
+     pure function la_svdvals_y(a) result(s)
          !> Input matrix A[m,n]
-         complex(xdp),intent(in),target :: a(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         complex(xdp),intent(in) :: a(:,:)
          !> Array of singular values
          real(xdp),allocatable :: s(:)
 
-         !> Create
-         complex(xdp),pointer :: amat(:,:)
-         integer(ilp) :: m,n,k
+         !> Working copy, which the SVD overwrites
+         complex(xdp),allocatable :: amat(:,:)
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         k = min(m,n)
+         amat = a
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
 
          !> Compute singular values
-         call la_svd_y(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_y(amat,s,overwrite_a=.true._lk)
 
      end function la_svdvals_y
+
+     !> Singular values of matrix A, with a state return flag
+     function la_svdvals_err_y(a,err) result(s)
+         !> Input matrix A[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Array of singular values
+         real(xdp),allocatable :: s(:)
+
+         !> Working copy, which the SVD overwrites
+         complex(xdp),allocatable :: amat(:,:)
+
+         amat = a
+
+         !> Allocate return storage
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
+
+         !> Compute singular values
+         call la_svd_y(amat,s,overwrite_a=.true._lk,err=err)
+
+     end function la_svdvals_err_y
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      pure subroutine la_svd_y(a,s,u,vt,overwrite_a,full_matrices,err)
@@ -2024,33 +2131,47 @@ module la_svd
 #endif
 
 #ifdef LA_WITH_QP
-     !> Singular values of matrix A
-     function la_svdvals_w(a,err) result(s)
+     !> Singular values of matrix A: `pure`, stops on error
+     pure function la_svdvals_w(a) result(s)
          !> Input matrix A[m,n]
-         complex(qp),intent(in),target :: a(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         complex(qp),intent(in) :: a(:,:)
          !> Array of singular values
          real(qp),allocatable :: s(:)
 
-         !> Create
-         complex(qp),pointer :: amat(:,:)
-         integer(ilp) :: m,n,k
+         !> Working copy, which the SVD overwrites
+         complex(qp),allocatable :: amat(:,:)
 
-         !> Create an internal pointer so the intent of A won't affect the next call
-         amat => a
-
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         k = min(m,n)
+         amat = a
 
          !> Allocate return storage
-         allocate (s(k))
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
 
          !> Compute singular values
-         call la_svd_w(amat,s,overwrite_a=.false.,err=err)
+         call la_svd_w(amat,s,overwrite_a=.true._lk)
 
      end function la_svdvals_w
+
+     !> Singular values of matrix A, with a state return flag
+     function la_svdvals_err_w(a,err) result(s)
+         !> Input matrix A[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Array of singular values
+         real(qp),allocatable :: s(:)
+
+         !> Working copy, which the SVD overwrites
+         complex(qp),allocatable :: amat(:,:)
+
+         amat = a
+
+         !> Allocate return storage
+         allocate (s(min(size(a,1,kind=ilp),size(a,2,kind=ilp))))
+
+         !> Compute singular values
+         call la_svd_w(amat,s,overwrite_a=.true._lk,err=err)
+
+     end function la_svdvals_err_w
 
      !> SVD of matrix A = U S V^T, returning S and optionally U and V^T
      pure subroutine la_svd_w(a,s,u,vt,overwrite_a,full_matrices,err)
