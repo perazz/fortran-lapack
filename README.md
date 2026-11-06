@@ -967,7 +967,7 @@ The computation is performed using LU decomposition.
 
 ### Return value
 
-- `inv_a`: A `real` or `complex` square matrix of size \f$ [n,n] \f$, representing the inverse of `a`.
+- `inv_a`: A `real` or `complex` square matrix of size \f$ [n,n] \f$, representing the inverse of `a`. With `err`, an error returns an empty \f$ [0,0] \f$ matrix.
 
 ### Errors
 

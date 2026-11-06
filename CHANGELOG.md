@@ -156,9 +156,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `.inv.` stops on a singular matrix instead of returning a 0x0 matrix, as
     `.det.` and `.pinv.` already did. `.inv.` and `.det.` are the forms of
     `inv` and `det` without `err`.
-  - `solve` with `err` returns an empty array on any error, as `lstsq` does.
-    It returned an array of the shape of `b`, with undefined values, for a
-    singular matrix.
+  - `solve` and `inv` with `err` return an empty array on any error, as
+    `lstsq` does. For a singular matrix, `solve` returned an array of the
+    shape of `b`, and `inv` the `n x n` matrix that `invert` overwrote, both
+    with undefined values.
 - Fortran 2018 is the minimum language standard: a `pure` procedure stops on
   an error with `error stop`, which `la_state` already relied on.
   

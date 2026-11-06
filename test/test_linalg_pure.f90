@@ -319,7 +319,7 @@ module test_linalg_pure
         if (allocated(error)) return
 
         xm = inv(z,err=err)
-        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        call check(error,err%state == LINALG_ERROR .and. size(xm) == 0,'inv: singular matrix')
         if (allocated(error)) return
 
         dt = det(rect,err=err)
@@ -618,7 +618,7 @@ module test_linalg_pure
         if (allocated(error)) return
 
         xm = inv(z,err=err)
-        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        call check(error,err%state == LINALG_ERROR .and. size(xm) == 0,'inv: singular matrix')
         if (allocated(error)) return
 
         dt = det(rect,err=err)
@@ -918,7 +918,7 @@ module test_linalg_pure
         if (allocated(error)) return
 
         xm = inv(z,err=err)
-        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        call check(error,err%state == LINALG_ERROR .and. size(xm) == 0,'inv: singular matrix')
         if (allocated(error)) return
 
         dt = det(rect,err=err)
@@ -1219,7 +1219,7 @@ module test_linalg_pure
         if (allocated(error)) return
 
         xm = inv(z,err=err)
-        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        call check(error,err%state == LINALG_ERROR .and. size(xm) == 0,'inv: singular matrix')
         if (allocated(error)) return
 
         dt = det(rect,err=err)
@@ -1519,7 +1519,7 @@ module test_linalg_pure
         if (allocated(error)) return
 
         xm = inv(z,err=err)
-        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        call check(error,err%state == LINALG_ERROR .and. size(xm) == 0,'inv: singular matrix')
         if (allocated(error)) return
 
         dt = det(rect,err=err)
@@ -1818,7 +1818,7 @@ module test_linalg_pure
         if (allocated(error)) return
 
         xm = inv(z,err=err)
-        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        call check(error,err%state == LINALG_ERROR .and. size(xm) == 0,'inv: singular matrix')
         if (allocated(error)) return
 
         dt = det(rect,err=err)
@@ -2118,7 +2118,7 @@ module test_linalg_pure
         if (allocated(error)) return
 
         xm = inv(z,err=err)
-        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        call check(error,err%state == LINALG_ERROR .and. size(xm) == 0,'inv: singular matrix')
         if (allocated(error)) return
 
         dt = det(rect,err=err)
@@ -2419,7 +2419,7 @@ module test_linalg_pure
         if (allocated(error)) return
 
         xm = inv(z,err=err)
-        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        call check(error,err%state == LINALG_ERROR .and. size(xm) == 0,'inv: singular matrix')
         if (allocated(error)) return
 
         dt = det(rect,err=err)

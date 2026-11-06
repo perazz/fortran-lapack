@@ -227,13 +227,13 @@ module la_inverse
 
      end function la_inverse_${ri}$
 
-     ! Matrix inverse, function form with a state return flag
+     ! Matrix inverse, function form with a state return flag; an error returns an empty 0x0 matrix
      function la_inverse_err_${ri}$(a,err) result(inva)
          !> Input matrix a[n,n]
          ${rt}$, intent(in) :: a(:,:)
          !> State return flag
          type(la_state), intent(out) :: err
-         !> Output matrix inverse
+         !> Output matrix inverse (empty 0x0 on error)
          ${rt}$, allocatable :: inva(:,:)
 
          !> Allocate with copy
@@ -241,6 +241,12 @@ module la_inverse
 
          !> Compute matrix inverse
          call la_invert_${ri}$(inva,err=err)
+
+         ! An invalid problem returns an empty inverse
+         if (err%error()) then
+            deallocate(inva)
+            allocate(inva(0,0))
+         endif
 
      end function la_inverse_err_${ri}$
      #:if LA_GUARD[rk]
