@@ -5,7 +5,7 @@ module la_matrix_functions
      use la_lapack,only:gesv
      use la_inverse,only:invert
      use la_state_type
-     use la_info,only:handle_gesv_info
+     use la_info,only:handle_gesv
      implicit none(type,external)
      private
 
@@ -321,7 +321,7 @@ module la_matrix_functions
             end if
 
             call la_s_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(this,info,n,n,n,n,err0)
+            call handle_gesv(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -630,7 +630,7 @@ module la_matrix_functions
             end if
 
             call la_d_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(this,info,n,n,n,n,err0)
+            call handle_gesv(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -940,7 +940,7 @@ module la_matrix_functions
             end if
 
             call la_x_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(this,info,n,n,n,n,err0)
+            call handle_gesv(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1251,7 +1251,7 @@ module la_matrix_functions
             end if
 
             call la_q_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(this,info,n,n,n,n,err0)
+            call handle_gesv(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1561,7 +1561,7 @@ module la_matrix_functions
             end if
 
             call la_c_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(this,info,n,n,n,n,err0)
+            call handle_gesv(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1870,7 +1870,7 @@ module la_matrix_functions
             end if
 
             call la_z_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(this,info,n,n,n,n,err0)
+            call handle_gesv(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -2180,7 +2180,7 @@ module la_matrix_functions
             end if
 
             call la_y_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(this,info,n,n,n,n,err0)
+            call handle_gesv(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -2491,7 +2491,7 @@ module la_matrix_functions
             end if
 
             call la_w_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(this,info,n,n,n,n,err0)
+            call handle_gesv(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)

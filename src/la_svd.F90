@@ -4,7 +4,7 @@ module la_svd
      use la_blas
      use la_lapack
      use la_state_type
-     use la_info,only:handle_gesdd_info
+     use la_info,only:handle_gesdd
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -307,7 +307,7 @@ module la_svd
 
          call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                     work_dummy,lwork,iwork,info)
-         call handle_gesdd_info(this,info,m,n,err0)
+         call handle_gesdd(this,info,m,n,err0)
 
          ! Compute SVD
          if (info == 0) then
@@ -319,7 +319,7 @@ module la_svd
             !> Compute SVD
             call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                        work,lwork,iwork,info)
-            call handle_gesdd_info(this,info,m,n,err0)
+            call handle_gesdd(this,info,m,n,err0)
 
          end if
 
@@ -572,7 +572,7 @@ module la_svd
 
          call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                     work_dummy,lwork,iwork,info)
-         call handle_gesdd_info(this,info,m,n,err0)
+         call handle_gesdd(this,info,m,n,err0)
 
          ! Compute SVD
          if (info == 0) then
@@ -584,7 +584,7 @@ module la_svd
             !> Compute SVD
             call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                        work,lwork,iwork,info)
-            call handle_gesdd_info(this,info,m,n,err0)
+            call handle_gesdd(this,info,m,n,err0)
 
          end if
 
@@ -838,7 +838,7 @@ module la_svd
 
          call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                     work_dummy,lwork,iwork,info)
-         call handle_gesdd_info(this,info,m,n,err0)
+         call handle_gesdd(this,info,m,n,err0)
 
          ! Compute SVD
          if (info == 0) then
@@ -850,7 +850,7 @@ module la_svd
             !> Compute SVD
             call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                        work,lwork,iwork,info)
-            call handle_gesdd_info(this,info,m,n,err0)
+            call handle_gesdd(this,info,m,n,err0)
 
          end if
 
@@ -1105,7 +1105,7 @@ module la_svd
 
          call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                     work_dummy,lwork,iwork,info)
-         call handle_gesdd_info(this,info,m,n,err0)
+         call handle_gesdd(this,info,m,n,err0)
 
          ! Compute SVD
          if (info == 0) then
@@ -1117,7 +1117,7 @@ module la_svd
             !> Compute SVD
             call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                        work,lwork,iwork,info)
-            call handle_gesdd_info(this,info,m,n,err0)
+            call handle_gesdd(this,info,m,n,err0)
 
          end if
 
@@ -1377,7 +1377,7 @@ module la_svd
 
          call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                     work_dummy,lwork,rwork,iwork,info)
-         call handle_gesdd_info(this,info,m,n,err0)
+         call handle_gesdd(this,info,m,n,err0)
 
          ! Compute SVD
          if (info == 0) then
@@ -1389,7 +1389,7 @@ module la_svd
             !> Compute SVD
             call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                        work,lwork,rwork,iwork,info)
-            call handle_gesdd_info(this,info,m,n,err0)
+            call handle_gesdd(this,info,m,n,err0)
 
          end if
 
@@ -1648,7 +1648,7 @@ module la_svd
 
          call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                     work_dummy,lwork,rwork,iwork,info)
-         call handle_gesdd_info(this,info,m,n,err0)
+         call handle_gesdd(this,info,m,n,err0)
 
          ! Compute SVD
          if (info == 0) then
@@ -1660,7 +1660,7 @@ module la_svd
             !> Compute SVD
             call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                        work,lwork,rwork,iwork,info)
-            call handle_gesdd_info(this,info,m,n,err0)
+            call handle_gesdd(this,info,m,n,err0)
 
          end if
 
@@ -1920,7 +1920,7 @@ module la_svd
 
          call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                     work_dummy,lwork,rwork,iwork,info)
-         call handle_gesdd_info(this,info,m,n,err0)
+         call handle_gesdd(this,info,m,n,err0)
 
          ! Compute SVD
          if (info == 0) then
@@ -1932,7 +1932,7 @@ module la_svd
             !> Compute SVD
             call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                        work,lwork,rwork,iwork,info)
-            call handle_gesdd_info(this,info,m,n,err0)
+            call handle_gesdd(this,info,m,n,err0)
 
          end if
 
@@ -2193,7 +2193,7 @@ module la_svd
 
          call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                     work_dummy,lwork,rwork,iwork,info)
-         call handle_gesdd_info(this,info,m,n,err0)
+         call handle_gesdd(this,info,m,n,err0)
 
          ! Compute SVD
          if (info == 0) then
@@ -2205,7 +2205,7 @@ module la_svd
             !> Compute SVD
             call gesdd(task,m,n,amat,lda,s,umat,ldu,vtmat,ldvt, &
                        work,lwork,rwork,iwork,info)
-            call handle_gesdd_info(this,info,m,n,err0)
+            call handle_gesdd(this,info,m,n,err0)
 
          end if
 

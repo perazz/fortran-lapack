@@ -86,7 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   be passed.
 - A new module `la_info` decodes the `info` exit code of the LAPACK routines
   the high-level procedures call: one `elemental` handler per routine,
-  `handle_<routine>_info`, that takes the caller's name first and reports it
+  `handle_<routine>`, that takes the caller's name first and reports it
   as `where_at`. It replaces the private copies and the inline decodes of the
   topic modules, and `linear_algebra` does not re-export it. Every routine now
   follows one classification: an invalid dimension of the user's data is

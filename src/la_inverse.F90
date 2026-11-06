@@ -4,7 +4,7 @@ module la_inverse
      use la_blas
      use la_lapack
      use la_state_type
-     use la_info,only:handle_getrf_info,handle_getri_info
+     use la_info,only:handle_getrf,handle_getri
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -172,7 +172,7 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
-         call handle_getrf_info(this,info,lda,n,lda,err0)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
          if (err0%ok()) then
 
@@ -184,7 +184,7 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
-            call handle_getri_info(this,info,n,lda,err0)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
 
@@ -308,7 +308,7 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
-         call handle_getrf_info(this,info,lda,n,lda,err0)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
          if (err0%ok()) then
 
@@ -320,7 +320,7 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
-            call handle_getri_info(this,info,n,lda,err0)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
 
@@ -445,7 +445,7 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
-         call handle_getrf_info(this,info,lda,n,lda,err0)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
          if (err0%ok()) then
 
@@ -457,7 +457,7 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
-            call handle_getri_info(this,info,n,lda,err0)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
 
@@ -583,7 +583,7 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
-         call handle_getrf_info(this,info,lda,n,lda,err0)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
          if (err0%ok()) then
 
@@ -595,7 +595,7 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
-            call handle_getri_info(this,info,n,lda,err0)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
 
@@ -720,7 +720,7 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
-         call handle_getrf_info(this,info,lda,n,lda,err0)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
          if (err0%ok()) then
 
@@ -732,7 +732,7 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
-            call handle_getri_info(this,info,n,lda,err0)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
 
@@ -856,7 +856,7 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
-         call handle_getrf_info(this,info,lda,n,lda,err0)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
          if (err0%ok()) then
 
@@ -868,7 +868,7 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
-            call handle_getri_info(this,info,n,lda,err0)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
 
@@ -993,7 +993,7 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
-         call handle_getrf_info(this,info,lda,n,lda,err0)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
          if (err0%ok()) then
 
@@ -1005,7 +1005,7 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
-            call handle_getri_info(this,info,n,lda,err0)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
 
@@ -1131,7 +1131,7 @@ module la_inverse
 
          ! Factorize matrix (overwrite result)
          call getrf(lda,n,a,lda,ipiv,info)
-         call handle_getrf_info(this,info,lda,n,lda,err0)
+         call handle_getrf(this,info,lda,n,lda,err0)
 
          if (err0%ok()) then
 
@@ -1143,7 +1143,7 @@ module la_inverse
 
             ! Invert matrix
             call getri(n,a,lda,ipiv,work,lwork,info)
-            call handle_getri_info(this,info,n,lda,err0)
+            call handle_getri(this,info,n,lda,err0)
 
          end if
 

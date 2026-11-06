@@ -31,149 +31,149 @@ module test_linalg_info
 
         allocate(tests(0))
 
-        call add_test(tests,new_unittest("gesv_info",test_gesv_info))
-        call add_test(tests,new_unittest("getrf_info",test_getrf_info))
-        call add_test(tests,new_unittest("getri_info",test_getri_info))
-        call add_test(tests,new_unittest("gecon_info",test_gecon_info))
-        call add_test(tests,new_unittest("posv_info",test_posv_info))
-        call add_test(tests,new_unittest("potrs_info",test_potrs_info))
-        call add_test(tests,new_unittest("potrf_info",test_potrf_info))
-        call add_test(tests,new_unittest("geqrf_info",test_geqrf_info))
-        call add_test(tests,new_unittest("geqp3_info",test_geqp3_info))
-        call add_test(tests,new_unittest("orgqr_info",test_orgqr_info))
-        call add_test(tests,new_unittest("gees_info",test_gees_info))
-        call add_test(tests,new_unittest("geev_info",test_geev_info))
-        call add_test(tests,new_unittest("ggev_info",test_ggev_info))
-        call add_test(tests,new_unittest("heev_info",test_heev_info))
-        call add_test(tests,new_unittest("gesdd_info",test_gesdd_info))
-        call add_test(tests,new_unittest("gelsd_info",test_gelsd_info))
-        call add_test(tests,new_unittest("gglse_info",test_gglse_info))
-        call add_test(tests,new_unittest("ggglm_info",test_ggglm_info))
+        call add_test(tests,new_unittest("handle_gesv",test_handle_gesv))
+        call add_test(tests,new_unittest("handle_getrf",test_handle_getrf))
+        call add_test(tests,new_unittest("handle_getri",test_handle_getri))
+        call add_test(tests,new_unittest("handle_gecon",test_handle_gecon))
+        call add_test(tests,new_unittest("handle_posv",test_handle_posv))
+        call add_test(tests,new_unittest("handle_potrs",test_handle_potrs))
+        call add_test(tests,new_unittest("handle_potrf",test_handle_potrf))
+        call add_test(tests,new_unittest("handle_geqrf",test_handle_geqrf))
+        call add_test(tests,new_unittest("handle_geqp3",test_handle_geqp3))
+        call add_test(tests,new_unittest("handle_orgqr",test_handle_orgqr))
+        call add_test(tests,new_unittest("handle_gees",test_handle_gees))
+        call add_test(tests,new_unittest("handle_geev",test_handle_geev))
+        call add_test(tests,new_unittest("handle_ggev",test_handle_ggev))
+        call add_test(tests,new_unittest("handle_heev",test_handle_heev))
+        call add_test(tests,new_unittest("handle_gesdd",test_handle_gesdd))
+        call add_test(tests,new_unittest("handle_gelsd",test_handle_gelsd))
+        call add_test(tests,new_unittest("handle_gglse",test_handle_gglse))
+        call add_test(tests,new_unittest("handle_ggglm",test_handle_ggglm))
 
     end subroutine test_info_handlers
 
-    subroutine test_gesv_info(error)
+    subroutine test_handle_gesv(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-4,-7,1,-3]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,VALERR,VALERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_gesv_info(caller,info,nmat,1_ilp,nmat,nmat,err)
+        call handle_gesv(caller,info,nmat,1_ilp,nmat,nmat,err)
         call check_states(error,'gesv',info,err,flag)
 
-    end subroutine test_gesv_info
+    end subroutine test_handle_gesv
 
-    subroutine test_getrf_info(error)
+    subroutine test_handle_getrf(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-4,1,-3]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,VALERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_getrf_info(caller,info,nmat,nmat,nmat,err)
+        call handle_getrf(caller,info,nmat,nmat,nmat,err)
         call check_states(error,'getrf',info,err,flag)
 
-    end subroutine test_getrf_info
+    end subroutine test_handle_getrf
 
-    subroutine test_getri_info(error)
+    subroutine test_handle_getri(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-3,-6,1,-2]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,INTERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_getri_info(caller,info,nmat,nmat,err)
+        call handle_getri(caller,info,nmat,nmat,err)
         call check_states(error,'getri',info,err,flag)
 
-    end subroutine test_getri_info
+    end subroutine test_handle_getri
 
-    subroutine test_gecon_info(error)
+    subroutine test_handle_gecon(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-4,-5,1,-3,2]
         integer(ilp), parameter :: flag(*) = [OK,INTERR,VALERR,VALERR,INTERR,ALGERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_gecon_info(caller,info,nmat,nmat,err)
+        call handle_gecon(caller,info,nmat,nmat,err)
         call check_states(error,'gecon',info,err,flag)
 
-    end subroutine test_gecon_info
+    end subroutine test_handle_gecon
 
-    subroutine test_posv_info(error)
+    subroutine test_handle_posv(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-7,1,-4]
         integer(ilp), parameter :: flag(*) = [OK,INTERR,VALERR,VALERR,VALERR,VALERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_posv_info(caller,info,'L',nmat,1_ilp,nmat,nmat,err)
+        call handle_posv(caller,info,'L',nmat,1_ilp,nmat,nmat,err)
         call check_states(error,'posv',info,err,flag)
 
-    end subroutine test_posv_info
+    end subroutine test_handle_posv
 
-    subroutine test_potrs_info(error)
+    subroutine test_handle_potrs(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-7,1,-4]
         integer(ilp), parameter :: flag(*) = [OK,INTERR,VALERR,VALERR,VALERR,VALERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_potrs_info(caller,info,'L',nmat,1_ilp,nmat,nmat,err)
+        call handle_potrs(caller,info,'L',nmat,1_ilp,nmat,nmat,err)
         call check_states(error,'potrs',info,err,flag)
 
-    end subroutine test_potrs_info
+    end subroutine test_handle_potrs
 
-    subroutine test_potrf_info(error)
+    subroutine test_handle_potrf(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-4,1,-3]
         integer(ilp), parameter :: flag(*) = [OK,INTERR,VALERR,VALERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_potrf_info(caller,info,'L',nmat,nmat,err)
+        call handle_potrf(caller,info,'L',nmat,nmat,err)
         call check_states(error,'potrf',info,err,flag)
 
-    end subroutine test_potrf_info
+    end subroutine test_handle_potrf
 
-    subroutine test_geqrf_info(error)
+    subroutine test_handle_geqrf(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-4,-7,1,-3]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,VALERR,INTERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_geqrf_info(caller,info,nmat,nmat,nmat,err)
+        call handle_geqrf(caller,info,nmat,nmat,nmat,err)
         call check_states(error,'geqrf',info,err,flag)
 
-    end subroutine test_geqrf_info
+    end subroutine test_handle_geqrf
 
-    subroutine test_geqp3_info(error)
+    subroutine test_handle_geqp3(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-4,-8,1,-3]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,VALERR,INTERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_geqp3_info(caller,info,nmat,nmat,nmat,err)
+        call handle_geqp3(caller,info,nmat,nmat,nmat,err)
         call check_states(error,'geqp3',info,err,flag)
 
-    end subroutine test_geqp3_info
+    end subroutine test_handle_geqp3
 
-    subroutine test_orgqr_info(error)
+    subroutine test_handle_orgqr(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-8,1,-4]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,VALERR,VALERR,INTERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_orgqr_info(caller,info,nmat,nmat,nmat,nmat,err)
+        call handle_orgqr(caller,info,nmat,nmat,nmat,nmat,err)
         call check_states(error,'orgqr',info,err,flag)
 
-    end subroutine test_orgqr_info
+    end subroutine test_handle_orgqr
 
     !> Both argument lists: ldvs is -11 (real) or -10 (complex), lwork -13 or -12
-    subroutine test_gees_info(error)
+    subroutine test_handle_gees(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-4,-6,-10,-11,-12,-13,1,nmat,nmat+1,nmat+2,nmat+3,-3]
@@ -181,13 +181,13 @@ module test_linalg_info
                                               ALGERR,ALGERR,ALGERR,ALGERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_gees_info(caller,info,nmat,nmat,nmat,err)
+        call handle_gees(caller,info,nmat,nmat,nmat,err)
         call check_states(error,'gees',info,err,flag)
 
-    end subroutine test_gees_info
+    end subroutine test_handle_gees
 
     !> Both argument lists: ldvl is -9 (real) or -8 (complex), ldvr -11 or -10, lwork -13 or -12
-    subroutine test_geev_info(error)
+    subroutine test_handle_geev(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-8,-9,-10,-11,-12,-13,1,-4]
@@ -195,13 +195,13 @@ module test_linalg_info
                                               INTERR,INTERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_geev_info(caller,info,nmat,nmat,err)
+        call handle_geev(caller,info,nmat,nmat,err)
         call check_states(error,'geev',info,err,flag)
 
-    end subroutine test_geev_info
+    end subroutine test_handle_geev
 
     !> Both argument lists: ldvl is -12 (real) or -11 (complex), ldvr -14 or -13, lwork -16 or -15
-    subroutine test_ggev_info(error)
+    subroutine test_handle_ggev(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-7,-11,-12,-13,-14,-15,-16,1,nmat+1,nmat+2,nmat+3,-4]
@@ -209,70 +209,70 @@ module test_linalg_info
                                               INTERR,INTERR,ALGERR,ALGERR,ALGERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_ggev_info(caller,info,nmat,nmat,nmat,err)
+        call handle_ggev(caller,info,nmat,nmat,nmat,err)
         call check_states(error,'ggev',info,err,flag)
 
-    end subroutine test_ggev_info
+    end subroutine test_handle_ggev
 
-    subroutine test_heev_info(error)
+    subroutine test_handle_heev(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-8,1,-4]
         integer(ilp), parameter :: flag(*) = [OK,INTERR,INTERR,VALERR,VALERR,INTERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_heev_info(caller,info,nmat,nmat,err)
+        call handle_heev(caller,info,nmat,nmat,err)
         call check_states(error,'heev',info,err,flag)
 
-    end subroutine test_heev_info
+    end subroutine test_handle_heev
 
-    subroutine test_gesdd_info(error)
+    subroutine test_handle_gesdd(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-4,-5,-8,-10,-12,1,-6]
         integer(ilp), parameter :: flag(*) = [OK,INTERR,VALERR,VALERR,VALERR,VALERR,VALERR,VALERR,INTERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_gesdd_info(caller,info,nmat,nmat,err)
+        call handle_gesdd(caller,info,nmat,nmat,err)
         call check_states(error,'gesdd',info,err,flag)
 
-    end subroutine test_gesdd_info
+    end subroutine test_handle_gesdd
 
-    subroutine test_gelsd_info(error)
+    subroutine test_handle_gelsd(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-7,-12,1,-4]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,VALERR,VALERR,VALERR,INTERR,ALGERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_gelsd_info(caller,info,nmat,1_ilp,nmat,nmat,err)
+        call handle_gelsd(caller,info,nmat,1_ilp,nmat,nmat,err)
         call check_states(error,'gelsd',info,err,flag)
 
-    end subroutine test_gelsd_info
+    end subroutine test_handle_gelsd
 
-    subroutine test_gglse_info(error)
+    subroutine test_handle_gglse(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-7,-12,1,2,3,-4]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,VALERR,VALERR,VALERR,INTERR,ALGERR,ALGERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_gglse_info(caller,info,nmat,nmat,2_ilp,err)
+        call handle_gglse(caller,info,nmat,nmat,2_ilp,err)
         call check_states(error,'gglse',info,err,flag)
 
-    end subroutine test_gglse_info
+    end subroutine test_handle_gglse
 
-    subroutine test_ggglm_info(error)
+    subroutine test_handle_ggglm(error)
         type(error_type), allocatable, intent(out) :: error
 
         integer(ilp), parameter :: info(*) = [0,-1,-2,-3,-5,-7,-12,1,2,3,-4]
         integer(ilp), parameter :: flag(*) = [OK,VALERR,VALERR,VALERR,VALERR,VALERR,INTERR,ALGERR,ALGERR,INTERR,INTERR]
         type(la_state) :: err(size(info))
 
-        call handle_ggglm_info(caller,info,nmat,nmat,err)
+        call handle_ggglm(caller,info,nmat,nmat,err)
         call check_states(error,'ggglm',info,err,flag)
 
-    end subroutine test_ggglm_info
+    end subroutine test_handle_ggglm
 
     !> Each info code returns its flag, and names the caller exactly when it is an error
     subroutine check_states(error,routine,info,err,flag)

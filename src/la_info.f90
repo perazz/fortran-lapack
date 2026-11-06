@@ -1,8 +1,8 @@
 !> @brief Decode the `info` exit code of the LAPACK routines into a `la_state`.
 !>
-!> One `elemental` handler per LAPACK routine, shared by every procedure that calls it. Each
-!> handler takes the caller's name first, which becomes the `where_at` of the returned state,
-!> then the exit code, then the routine arguments its messages need.
+!> One `elemental` handler per LAPACK routine, `handle_<routine>`, shared by every procedure
+!> that calls it. Each handler takes the caller's name first, which becomes the `where_at` of
+!> the returned state, then the exit code, then the routine arguments its messages need.
 !>
 !> One classification holds for every routine: an invalid dimension of the user's data is a
 !> `LINALG_VALUE_ERROR`; an invalid argument the library chose (a job character, a triangle
@@ -15,29 +15,29 @@ module la_info
      implicit none(type,external)
      private
 
-     public :: handle_gesv_info
-     public :: handle_getrf_info
-     public :: handle_getri_info
-     public :: handle_gecon_info
-     public :: handle_posv_info
-     public :: handle_potrs_info
-     public :: handle_potrf_info
-     public :: handle_geqrf_info
-     public :: handle_geqp3_info
-     public :: handle_orgqr_info
-     public :: handle_gees_info
-     public :: handle_geev_info
-     public :: handle_ggev_info
-     public :: handle_heev_info
-     public :: handle_gesdd_info
-     public :: handle_gelsd_info
-     public :: handle_gglse_info
-     public :: handle_ggglm_info
+     public :: handle_gesv
+     public :: handle_getrf
+     public :: handle_getri
+     public :: handle_gecon
+     public :: handle_posv
+     public :: handle_potrs
+     public :: handle_potrf
+     public :: handle_geqrf
+     public :: handle_geqp3
+     public :: handle_orgqr
+     public :: handle_gees
+     public :: handle_geev
+     public :: handle_ggev
+     public :: handle_heev
+     public :: handle_gesdd
+     public :: handle_gelsd
+     public :: handle_gglse
+     public :: handle_ggglm
 
      contains
 
      !> Process the exit code of gesv(n,nrhs,a,lda,ipiv,b,ldb,info)
-     elemental subroutine handle_gesv_info(where_at,info,n,nrhs,lda,ldb,err)
+     elemental subroutine handle_gesv(where_at,info,n,nrhs,lda,ldb,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> gesv exit code
@@ -64,10 +64,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_gesv_info
+     end subroutine handle_gesv
 
      !> Process the exit code of getrf(m,n,a,lda,ipiv,info)
-     elemental subroutine handle_getrf_info(where_at,info,m,n,lda,err)
+     elemental subroutine handle_getrf(where_at,info,m,n,lda,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> getrf exit code
@@ -90,10 +90,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_getrf_info
+     end subroutine handle_getrf
 
      !> Process the exit code of getri(n,a,lda,ipiv,work,lwork,info)
-     elemental subroutine handle_getri_info(where_at,info,n,lda,err)
+     elemental subroutine handle_getri(where_at,info,n,lda,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> getri exit code
@@ -118,10 +118,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_getri_info
+     end subroutine handle_getri
 
      !> Process the exit code of gecon(norm,n,a,lda,anorm,rcond,work,iwork,info)
-     elemental subroutine handle_gecon_info(where_at,info,n,lda,err)
+     elemental subroutine handle_gecon(where_at,info,n,lda,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> gecon exit code
@@ -149,10 +149,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_gecon_info
+     end subroutine handle_gecon
 
      !> Process the exit code of posv(uplo,n,nrhs,a,lda,b,ldb,info)
-     elemental subroutine handle_posv_info(where_at,info,triangle,n,nrhs,lda,ldb,err)
+     elemental subroutine handle_posv(where_at,info,triangle,n,nrhs,lda,ldb,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> posv exit code
@@ -184,10 +184,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_posv_info
+     end subroutine handle_posv
 
      !> Process the exit code of potrs(uplo,n,nrhs,a,lda,b,ldb,info)
-     elemental subroutine handle_potrs_info(where_at,info,triangle,n,nrhs,lda,ldb,err)
+     elemental subroutine handle_potrs(where_at,info,triangle,n,nrhs,lda,ldb,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> potrs exit code
@@ -216,10 +216,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_potrs_info
+     end subroutine handle_potrs
 
      !> Process the exit code of potrf(uplo,n,a,lda,info)
-     elemental subroutine handle_potrf_info(where_at,info,triangle,n,lda,err)
+     elemental subroutine handle_potrf(where_at,info,triangle,n,lda,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> potrf exit code
@@ -247,10 +247,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_potrf_info
+     end subroutine handle_potrf
 
      !> Process the exit code of geqrf(m,n,a,lda,tau,work,lwork,info)
-     elemental subroutine handle_geqrf_info(where_at,info,m,n,lwork,err)
+     elemental subroutine handle_geqrf(where_at,info,m,n,lwork,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> geqrf exit code
@@ -275,10 +275,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_geqrf_info
+     end subroutine handle_geqrf
 
      !> Process the exit code of geqp3(m,n,a,lda,jpvt,tau,work,lwork,[rwork,]info)
-     elemental subroutine handle_geqp3_info(where_at,info,m,n,lwork,err)
+     elemental subroutine handle_geqp3(where_at,info,m,n,lwork,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> geqp3 exit code
@@ -303,10 +303,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_geqp3_info
+     end subroutine handle_geqp3
 
      !> Process the exit code of orgqr/ungqr(m,n,k,a,lda,tau,work,lwork,info)
-     elemental subroutine handle_orgqr_info(where_at,info,m,n,k,lwork,err)
+     elemental subroutine handle_orgqr(where_at,info,m,n,k,lwork,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> orgqr exit code
@@ -333,13 +333,13 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_orgqr_info
+     end subroutine handle_orgqr
 
      !> Process the exit code of gees: real gees(jobvs,sort,select,n,a,lda,sdim,wr,wi,vs,ldvs,work,
      !> lwork,bwork,info), complex gees(jobvs,sort,select,n,a,lda,sdim,w,vs,ldvs,work,lwork,rwork,
      !> bwork,info). The complex form has one eigenvalue array less, so ldvs and lwork come one
      !> position earlier: never on a code where the real form has a scalar argument
-     elemental subroutine handle_gees_info(where_at,info,n,lda,ldvs,err)
+     elemental subroutine handle_gees(where_at,info,n,lda,ldvs,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> gees exit code
@@ -378,13 +378,13 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'GEES catastrophic error: info=',info)
          end select
 
-     end subroutine handle_gees_info
+     end subroutine handle_gees
 
      !> Process the exit code of geev: real geev(jobvl,jobvr,n,a,lda,wr,wi,vl,ldvl,vr,ldvr,work,lwork,
      !> info), complex geev(jobvl,jobvr,n,a,lda,w,vl,ldvl,vr,ldvr,work,lwork,rwork,info). The complex
      !> form has one eigenvalue array less, so ldvl, ldvr and lwork come one position earlier: never
      !> on a code where the real form has a scalar argument
-     elemental subroutine handle_geev_info(where_at,info,n,lda,err)
+     elemental subroutine handle_geev(where_at,info,n,lda,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> geev exit code
@@ -415,13 +415,13 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'Unknown error returned by geev.')
          end select
 
-     end subroutine handle_geev_info
+     end subroutine handle_geev
 
      !> Process the exit code of ggev: real ggev(jobvl,jobvr,n,a,lda,b,ldb,alphar,alphai,beta,vl,ldvl,
      !> vr,ldvr,work,lwork,info), complex ggev(jobvl,jobvr,n,a,lda,b,ldb,alpha,beta,vl,ldvl,vr,ldvr,
      !> work,lwork,rwork,info). The complex form has one eigenvalue array less, so ldvl, ldvr and
      !> lwork come one position earlier: never on a code where the real form has a scalar argument
-     elemental subroutine handle_ggev_info(where_at,info,n,lda,ldb,err)
+     elemental subroutine handle_ggev(where_at,info,n,lda,ldb,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> ggev exit code
@@ -462,11 +462,11 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'Unknown error returned by ggev.')
          end select
 
-     end subroutine handle_ggev_info
+     end subroutine handle_ggev
 
      !> Process the exit code of syev(jobz,uplo,n,a,lda,w,work,lwork,info) and
      !> heev(jobz,uplo,n,a,lda,w,work,lwork,rwork,info)
-     elemental subroutine handle_heev_info(where_at,info,n,lda,err)
+     elemental subroutine handle_heev(where_at,info,n,lda,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> syev/heev exit code
@@ -493,10 +493,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'Unknown error returned by syev/heev.')
          end select
 
-     end subroutine handle_heev_info
+     end subroutine handle_heev
 
      !> Process the exit code of gesdd(jobz,m,n,a,lda,s,u,ldu,vt,ldvt,work,lwork,[rwork,]iwork,info)
-     elemental subroutine handle_gesdd_info(where_at,info,m,n,err)
+     elemental subroutine handle_gesdd(where_at,info,m,n,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> gesdd exit code
@@ -527,10 +527,10 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'Unknown error returned by GESDD.')
          end select
 
-     end subroutine handle_gesdd_info
+     end subroutine handle_gesdd
 
      !> Process the exit code of gelsd(m,n,nrhs,a,lda,b,ldb,s,rcond,rank,work,lwork,[rwork,]iwork,info)
-     elemental subroutine handle_gelsd_info(where_at,info,n,nrhs,lda,ldb,err)
+     elemental subroutine handle_gelsd(where_at,info,n,nrhs,lda,ldb,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> gelsd exit code
@@ -553,12 +553,12 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_gelsd_info
+     end subroutine handle_gelsd
 
      !> Process the exit code of gglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info), that minimizes
      !> ||c - a*x|| subject to b*x = d. The messages name the matrices as constrained_lstsq does:
      !> a(m,n) and the constraint c(p,n)
-     elemental subroutine handle_gglse_info(where_at,info,m,n,p,err)
+     elemental subroutine handle_gglse(where_at,info,m,n,p,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> gglse exit code
@@ -587,12 +587,12 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_gglse_info
+     end subroutine handle_gglse
 
      !> Process the exit code of ggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info), that minimizes
      !> ||y|| subject to d = a*x + b*y. The messages name the matrices as generalized_lstsq does:
      !> a(m,n), with m rows, and the square root w of the covariance in place of b
-     elemental subroutine handle_ggglm_info(where_at,info,m,n,err)
+     elemental subroutine handle_ggglm(where_at,info,m,n,err)
          !> Name of the calling procedure
          character(*), intent(in) :: where_at
          !> ggglm exit code
@@ -619,6 +619,6 @@ module la_info
                 err = la_state(where_at,LINALG_INTERNAL_ERROR,'catastrophic error')
          end select
 
-     end subroutine handle_ggglm_info
+     end subroutine handle_ggglm
 
 end module la_info

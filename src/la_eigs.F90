@@ -4,7 +4,7 @@ module la_eig
      use la_blas
      use la_lapack
      use la_state_type
-     use la_info,only:handle_geev_info,handle_ggev_info,handle_heev_info
+     use la_info,only:handle_geev,handle_ggev,handle_heev
      use,intrinsic :: ieee_arithmetic,only:ieee_value,ieee_positive_inf,ieee_quiet_nan
      implicit none(type,external)
      private
@@ -541,7 +541,7 @@ module la_eig
                        lreal,limag, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,info)
-             call handle_geev_info(this,info,n,lda,err0)
+             call handle_geev(this,info,n,lda,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -555,7 +555,7 @@ module la_eig
                           lreal,limag, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,info)
-                call handle_geev_info(this,info,n,lda,err0)
+                call handle_geev(this,info,n,lda,err0)
 
              end if
              
@@ -775,7 +775,7 @@ module la_eig
                        beta, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,info)
-             call handle_ggev_info(this,info,n,lda,ldb,err0)
+             call handle_ggev(this,info,n,lda,ldb,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -791,7 +791,7 @@ module la_eig
                           beta, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,info)
-                call handle_ggev_info(this,info,n,lda,ldb,err0)
+                call handle_ggev(this,info,n,lda,ldb,err0)
 
              end if
              
@@ -968,7 +968,7 @@ module la_eig
          ! Request workspace size
          lwork = -1_ilp
          call syev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,info)
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info == 0) then
@@ -979,7 +979,7 @@ module la_eig
 
             !> Compute eigensystem
             call syev(task,triangle,n,amat,lda,lambda,work,lwork,info)
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          end if
          
@@ -1151,7 +1151,7 @@ module la_eig
                        lreal,limag, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,info)
-             call handle_geev_info(this,info,n,lda,err0)
+             call handle_geev(this,info,n,lda,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -1165,7 +1165,7 @@ module la_eig
                           lreal,limag, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,info)
-                call handle_geev_info(this,info,n,lda,err0)
+                call handle_geev(this,info,n,lda,err0)
 
              end if
              
@@ -1385,7 +1385,7 @@ module la_eig
                        beta, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,info)
-             call handle_ggev_info(this,info,n,lda,ldb,err0)
+             call handle_ggev(this,info,n,lda,ldb,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -1401,7 +1401,7 @@ module la_eig
                           beta, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,info)
-                call handle_ggev_info(this,info,n,lda,ldb,err0)
+                call handle_ggev(this,info,n,lda,ldb,err0)
 
              end if
              
@@ -1578,7 +1578,7 @@ module la_eig
          ! Request workspace size
          lwork = -1_ilp
          call syev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,info)
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info == 0) then
@@ -1589,7 +1589,7 @@ module la_eig
 
             !> Compute eigensystem
             call syev(task,triangle,n,amat,lda,lambda,work,lwork,info)
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          end if
          
@@ -1763,7 +1763,7 @@ module la_eig
                        lreal,limag, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,info)
-             call handle_geev_info(this,info,n,lda,err0)
+             call handle_geev(this,info,n,lda,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -1777,7 +1777,7 @@ module la_eig
                           lreal,limag, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,info)
-                call handle_geev_info(this,info,n,lda,err0)
+                call handle_geev(this,info,n,lda,err0)
 
              end if
              
@@ -1997,7 +1997,7 @@ module la_eig
                        beta, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,info)
-             call handle_ggev_info(this,info,n,lda,ldb,err0)
+             call handle_ggev(this,info,n,lda,ldb,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -2013,7 +2013,7 @@ module la_eig
                           beta, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,info)
-                call handle_ggev_info(this,info,n,lda,ldb,err0)
+                call handle_ggev(this,info,n,lda,ldb,err0)
 
              end if
              
@@ -2190,7 +2190,7 @@ module la_eig
          ! Request workspace size
          lwork = -1_ilp
          call syev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,info)
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info == 0) then
@@ -2201,7 +2201,7 @@ module la_eig
 
             !> Compute eigensystem
             call syev(task,triangle,n,amat,lda,lambda,work,lwork,info)
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          end if
          
@@ -2376,7 +2376,7 @@ module la_eig
                        lreal,limag, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,info)
-             call handle_geev_info(this,info,n,lda,err0)
+             call handle_geev(this,info,n,lda,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -2390,7 +2390,7 @@ module la_eig
                           lreal,limag, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,info)
-                call handle_geev_info(this,info,n,lda,err0)
+                call handle_geev(this,info,n,lda,err0)
 
              end if
              
@@ -2610,7 +2610,7 @@ module la_eig
                        beta, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,info)
-             call handle_ggev_info(this,info,n,lda,ldb,err0)
+             call handle_ggev(this,info,n,lda,ldb,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -2626,7 +2626,7 @@ module la_eig
                           beta, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,info)
-                call handle_ggev_info(this,info,n,lda,ldb,err0)
+                call handle_ggev(this,info,n,lda,ldb,err0)
 
              end if
              
@@ -2803,7 +2803,7 @@ module la_eig
          ! Request workspace size
          lwork = -1_ilp
          call syev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,info)
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info == 0) then
@@ -2814,7 +2814,7 @@ module la_eig
 
             !> Compute eigensystem
             call syev(task,triangle,n,amat,lda,lambda,work,lwork,info)
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          end if
          
@@ -2987,7 +2987,7 @@ module la_eig
                        lambda, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,rwork,info)
-             call handle_geev_info(this,info,n,lda,err0)
+             call handle_geev(this,info,n,lda,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -3001,7 +3001,7 @@ module la_eig
                           lambda, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,rwork,info)
-                call handle_geev_info(this,info,n,lda,err0)
+                call handle_geev(this,info,n,lda,err0)
 
              end if
              
@@ -3210,7 +3210,7 @@ module la_eig
                        beta, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,rwork,info)
-             call handle_ggev_info(this,info,n,lda,ldb,err0)
+             call handle_ggev(this,info,n,lda,ldb,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -3226,7 +3226,7 @@ module la_eig
                           beta, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,rwork,info)
-                call handle_ggev_info(this,info,n,lda,ldb,err0)
+                call handle_ggev(this,info,n,lda,ldb,err0)
 
              end if
              
@@ -3393,7 +3393,7 @@ module la_eig
          lwork = -1_ilp
          allocate (rwork(max(1,3*n - 2)))
          call heev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,rwork,info)
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info == 0) then
@@ -3404,7 +3404,7 @@ module la_eig
 
             !> Compute eigensystem
             call heev(task,triangle,n,amat,lda,lambda,work,lwork,rwork,info)
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          end if
          
@@ -3576,7 +3576,7 @@ module la_eig
                        lambda, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,rwork,info)
-             call handle_geev_info(this,info,n,lda,err0)
+             call handle_geev(this,info,n,lda,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -3590,7 +3590,7 @@ module la_eig
                           lambda, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,rwork,info)
-                call handle_geev_info(this,info,n,lda,err0)
+                call handle_geev(this,info,n,lda,err0)
 
              end if
              
@@ -3799,7 +3799,7 @@ module la_eig
                        beta, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,rwork,info)
-             call handle_ggev_info(this,info,n,lda,ldb,err0)
+             call handle_ggev(this,info,n,lda,ldb,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -3815,7 +3815,7 @@ module la_eig
                           beta, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,rwork,info)
-                call handle_ggev_info(this,info,n,lda,ldb,err0)
+                call handle_ggev(this,info,n,lda,ldb,err0)
 
              end if
              
@@ -3982,7 +3982,7 @@ module la_eig
          lwork = -1_ilp
          allocate (rwork(max(1,3*n - 2)))
          call heev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,rwork,info)
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info == 0) then
@@ -3993,7 +3993,7 @@ module la_eig
 
             !> Compute eigensystem
             call heev(task,triangle,n,amat,lda,lambda,work,lwork,rwork,info)
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          end if
          
@@ -4167,7 +4167,7 @@ module la_eig
                        lambda, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,rwork,info)
-             call handle_geev_info(this,info,n,lda,err0)
+             call handle_geev(this,info,n,lda,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -4181,7 +4181,7 @@ module la_eig
                           lambda, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,rwork,info)
-                call handle_geev_info(this,info,n,lda,err0)
+                call handle_geev(this,info,n,lda,err0)
 
              end if
              
@@ -4390,7 +4390,7 @@ module la_eig
                        beta, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,rwork,info)
-             call handle_ggev_info(this,info,n,lda,ldb,err0)
+             call handle_ggev(this,info,n,lda,ldb,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -4406,7 +4406,7 @@ module la_eig
                           beta, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,rwork,info)
-                call handle_ggev_info(this,info,n,lda,ldb,err0)
+                call handle_ggev(this,info,n,lda,ldb,err0)
 
              end if
              
@@ -4573,7 +4573,7 @@ module la_eig
          lwork = -1_ilp
          allocate (rwork(max(1,3*n - 2)))
          call heev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,rwork,info)
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info == 0) then
@@ -4584,7 +4584,7 @@ module la_eig
 
             !> Compute eigensystem
             call heev(task,triangle,n,amat,lda,lambda,work,lwork,rwork,info)
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          end if
          
@@ -4759,7 +4759,7 @@ module la_eig
                        lambda, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,rwork,info)
-             call handle_geev_info(this,info,n,lda,err0)
+             call handle_geev(this,info,n,lda,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -4773,7 +4773,7 @@ module la_eig
                           lambda, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,rwork,info)
-                call handle_geev_info(this,info,n,lda,err0)
+                call handle_geev(this,info,n,lda,err0)
 
              end if
              
@@ -4982,7 +4982,7 @@ module la_eig
                        beta, &
                        umat,ldu,vmat,ldv, &
                        work_dummy,lwork,rwork,info)
-             call handle_ggev_info(this,info,n,lda,ldb,err0)
+             call handle_ggev(this,info,n,lda,ldb,err0)
 
              ! Compute eigenvalues
              if (info == 0) then
@@ -4998,7 +4998,7 @@ module la_eig
                           beta, &
                           umat,ldu,vmat,ldv, &
                           work,lwork,rwork,info)
-                call handle_ggev_info(this,info,n,lda,ldb,err0)
+                call handle_ggev(this,info,n,lda,ldb,err0)
 
              end if
              
@@ -5165,7 +5165,7 @@ module la_eig
          lwork = -1_ilp
          allocate (rwork(max(1,3*n - 2)))
          call heev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,rwork,info)
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info == 0) then
@@ -5176,7 +5176,7 @@ module la_eig
 
             !> Compute eigensystem
             call heev(task,triangle,n,amat,lda,lambda,work,lwork,rwork,info)
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          end if
          

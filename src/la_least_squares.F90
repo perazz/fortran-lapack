@@ -4,7 +4,7 @@ module la_least_squares
      use la_blas
      use la_lapack
      use la_state_type
-     use la_info,only:handle_gelsd_info,handle_gglse_info,handle_ggglm_info,handle_potrf_info
+     use la_info,only:handle_gelsd,handle_gglse,handle_ggglm,handle_potrf
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      implicit none(type,external)
      private
@@ -953,7 +953,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -1169,7 +1169,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -1386,7 +1386,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -1604,7 +1604,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -1835,7 +1835,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2066,7 +2066,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2298,7 +2298,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2531,7 +2531,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2749,7 +2749,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -2965,7 +2965,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3182,7 +3182,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3400,7 +3400,7 @@ module la_least_squares
                        rwork,nrs,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3631,7 +3631,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -3862,7 +3862,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -4094,7 +4094,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -4327,7 +4327,7 @@ module la_least_squares
                        cwork,ncs,rwork,iwork,info)
 
             ! Process output
-            call handle_gelsd_info(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
+            call handle_gelsd(this,info,n,nrhs,lda,size(xmat,1,kind=ilp),err0)
 
          end if
 
@@ -4416,7 +4416,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call handle_gglse_info(this,info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=sp),kind=ilp)
 
@@ -4494,7 +4494,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call handle_gglse_info(this,info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -4664,7 +4664,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call handle_ggglm_info(this,info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -4776,7 +4776,7 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            call handle_potrf_info(this,info,'L',m,m,err0)
+            call handle_potrf(this,info,'L',m,m,err0)
             if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
@@ -4788,7 +4788,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call handle_ggglm_info(this,info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -4885,7 +4885,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call handle_gglse_info(this,info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=dp),kind=ilp)
 
@@ -4963,7 +4963,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call handle_gglse_info(this,info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -5133,7 +5133,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call handle_ggglm_info(this,info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -5245,7 +5245,7 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            call handle_potrf_info(this,info,'L',m,m,err0)
+            call handle_potrf(this,info,'L',m,m,err0)
             if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
@@ -5257,7 +5257,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call handle_ggglm_info(this,info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -5355,7 +5355,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call handle_gglse_info(this,info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=xdp),kind=ilp)
 
@@ -5433,7 +5433,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call handle_gglse_info(this,info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -5603,7 +5603,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call handle_ggglm_info(this,info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -5715,7 +5715,7 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            call handle_potrf_info(this,info,'L',m,m,err0)
+            call handle_potrf(this,info,'L',m,m,err0)
             if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
@@ -5727,7 +5727,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call handle_ggglm_info(this,info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -5826,7 +5826,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call handle_gglse_info(this,info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=qp),kind=ilp)
 
@@ -5904,7 +5904,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call handle_gglse_info(this,info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -6074,7 +6074,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call handle_ggglm_info(this,info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -6186,7 +6186,7 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            call handle_potrf_info(this,info,'L',m,m,err0)
+            call handle_potrf(this,info,'L',m,m,err0)
             if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
@@ -6198,7 +6198,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call handle_ggglm_info(this,info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -6296,7 +6296,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call handle_gglse_info(this,info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=sp),kind=ilp)
 
@@ -6374,7 +6374,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call handle_gglse_info(this,info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -6544,7 +6544,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call handle_ggglm_info(this,info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -6656,7 +6656,7 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            call handle_potrf_info(this,info,'L',m,m,err0)
+            call handle_potrf(this,info,'L',m,m,err0)
             if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
@@ -6668,7 +6668,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call handle_ggglm_info(this,info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -6765,7 +6765,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call handle_gglse_info(this,info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=dp),kind=ilp)
 
@@ -6843,7 +6843,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call handle_gglse_info(this,info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -7013,7 +7013,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call handle_ggglm_info(this,info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -7125,7 +7125,7 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            call handle_potrf_info(this,info,'L',m,m,err0)
+            call handle_potrf(this,info,'L',m,m,err0)
             if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
@@ -7137,7 +7137,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call handle_ggglm_info(this,info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -7235,7 +7235,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call handle_gglse_info(this,info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=xdp),kind=ilp)
 
@@ -7313,7 +7313,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call handle_gglse_info(this,info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -7483,7 +7483,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call handle_ggglm_info(this,info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -7595,7 +7595,7 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            call handle_potrf_info(this,info,'L',m,m,err0)
+            call handle_potrf(this,info,'L',m,m,err0)
             if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
@@ -7607,7 +7607,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call handle_ggglm_info(this,info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)
@@ -7706,7 +7706,7 @@ module la_least_squares
 
          lwork = -1_ilp
          call gglse(m,n,p,a_dummy,m,c_dummy,p,b_dummy,d_dummy,x,work,lwork,info)
-         call handle_gglse_info(this,info,m,n,p,err0)
+         call handle_gglse(this,info,m,n,p,err0)
 
          lwork = ceiling(real(work(1),kind=qp),kind=ilp)
 
@@ -7784,7 +7784,7 @@ module la_least_squares
                                                        ' should be >=',lwork)
             else
                call gglse(ma,na,mc,amat,ma,cmat,mc,bvec,dvec,x,work,lwork,info)
-               call handle_gglse_info(this,info,ma,na,mc,err0)
+               call handle_gglse(this,info,ma,na,mc,err0)
             end if
 
             if (.not. present(storage)) deallocate (work)
@@ -7954,7 +7954,7 @@ module la_least_squares
 
          ! A workspace query does not reference the matrices
          call ggglm(m,n,m,a_dummy,ld,w_dummy,ld,d,x,y,work,-1_ilp,info)
-         call handle_ggglm_info(this,info,m,n,err0)
+         call handle_ggglm(this,info,m,n,err0)
 
          ! The vectors d[m] and y[m], followed by the ggglm workspace
          if (err0%ok()) then
@@ -8066,7 +8066,7 @@ module la_least_squares
          ! triangle zeroed
          if (factorize) then
             call potrf('L',m,wmat,m,info)
-            call handle_potrf_info(this,info,'L',m,m,err0)
+            call handle_potrf(this,info,'L',m,m,err0)
             if (err0%ok()) then
                do j = 2,m
                   wmat(1:j - 1,j) = 0
@@ -8078,7 +8078,7 @@ module la_least_squares
          if (err0%ok()) then
             work(1:m) = b
             call ggglm(m,n,m,amat,m,wmat,m,work(1:m),x,work(m + 1:2*m),work(2*m + 1:nwork),nwork - 2*m,info)
-            call handle_ggglm_info(this,info,m,n,err0)
+            call handle_ggglm(this,info,m,n,err0)
          end if
 
          if (.not. present(storage)) deallocate (work)

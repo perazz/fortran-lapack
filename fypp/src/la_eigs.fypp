@@ -8,7 +8,7 @@ module la_eig
      use la_blas
      use la_lapack
      use la_state_type
-     use la_info, only: handle_geev_info,handle_ggev_info,handle_heev_info
+     use la_info, only: handle_geev,handle_ggev,handle_heev
      use, intrinsic :: ieee_arithmetic, only: ieee_value, ieee_positive_inf, ieee_quiet_nan
      implicit none(type,external)
      private
@@ -540,7 +540,7 @@ module la_eig
                        #:endif                       
                        umat,ldu,vmat,ldv,&
                        work_dummy,lwork,#{if rt.startswith('complex')}#rwork,#{endif}#info)
-             call handle_${ei}$_info(this,info,n,lda,#{if ei=='ggev'}#ldb,#{endif}#err0)
+             call handle_${ei}$(this,info,n,lda,#{if ei=='ggev'}#ldb,#{endif}#err0)
 
              ! Compute eigenvalues
              if (info==0) then
@@ -560,7 +560,7 @@ module la_eig
                           #:endif                                                 
                           umat,ldu,vmat,ldv,&            
                           work,lwork,#{if rt.startswith('complex')}#rwork,#{endif}#info)
-                call handle_${ei}$_info(this,info,n,lda,#{if ei=='ggev'}#ldb,#{endif}#err0)
+                call handle_${ei}$(this,info,n,lda,#{if ei=='ggev'}#ldb,#{endif}#err0)
 
              endif
              
@@ -755,7 +755,7 @@ module la_eig
          #:else
          call syev(task,triangle,n,amat,lda,lambda,work_dummy,lwork,info)
          #:endif
-         call handle_heev_info(this,info,n,lda,err0)
+         call handle_heev(this,info,n,lda,err0)
 
          ! Compute eigenvalues
          if (info==0) then
@@ -770,7 +770,7 @@ module la_eig
             #:else
             call syev(task,triangle,n,amat,lda,lambda,work,lwork,info)
             #:endif
-            call handle_heev_info(this,info,n,lda,err0)
+            call handle_heev(this,info,n,lda,err0)
 
          endif
          

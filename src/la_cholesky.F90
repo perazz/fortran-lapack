@@ -3,7 +3,7 @@ module la_cholesky
      use la_constants
      use la_lapack,only:potrf
      use la_state_type,only:la_state,LINALG_VALUE_ERROR
-     use la_info,only:handle_potrf_info
+     use la_info,only:handle_potrf
      implicit none(type,external)
      private
      
@@ -156,7 +156,7 @@ module la_cholesky
          
              ! Compute factorization
              call potrf(triangle,n,a,lda,info)
-             call handle_potrf_info(this,info,triangle,n,lda,err0)
+             call handle_potrf(this,info,triangle,n,lda,err0)
                       
              ! Zero-out the unused part of matrix A
              clean_unused: if (other_zeroed_ .and. err0%ok()) then
@@ -283,7 +283,7 @@ module la_cholesky
          
              ! Compute factorization
              call potrf(triangle,n,a,lda,info)
-             call handle_potrf_info(this,info,triangle,n,lda,err0)
+             call handle_potrf(this,info,triangle,n,lda,err0)
                       
              ! Zero-out the unused part of matrix A
              clean_unused: if (other_zeroed_ .and. err0%ok()) then
@@ -411,7 +411,7 @@ module la_cholesky
          
              ! Compute factorization
              call potrf(triangle,n,a,lda,info)
-             call handle_potrf_info(this,info,triangle,n,lda,err0)
+             call handle_potrf(this,info,triangle,n,lda,err0)
                       
              ! Zero-out the unused part of matrix A
              clean_unused: if (other_zeroed_ .and. err0%ok()) then
@@ -540,7 +540,7 @@ module la_cholesky
          
              ! Compute factorization
              call potrf(triangle,n,a,lda,info)
-             call handle_potrf_info(this,info,triangle,n,lda,err0)
+             call handle_potrf(this,info,triangle,n,lda,err0)
                       
              ! Zero-out the unused part of matrix A
              clean_unused: if (other_zeroed_ .and. err0%ok()) then
@@ -668,7 +668,7 @@ module la_cholesky
          
              ! Compute factorization
              call potrf(triangle,n,a,lda,info)
-             call handle_potrf_info(this,info,triangle,n,lda,err0)
+             call handle_potrf(this,info,triangle,n,lda,err0)
                       
              ! Zero-out the unused part of matrix A
              clean_unused: if (other_zeroed_ .and. err0%ok()) then
@@ -795,7 +795,7 @@ module la_cholesky
          
              ! Compute factorization
              call potrf(triangle,n,a,lda,info)
-             call handle_potrf_info(this,info,triangle,n,lda,err0)
+             call handle_potrf(this,info,triangle,n,lda,err0)
                       
              ! Zero-out the unused part of matrix A
              clean_unused: if (other_zeroed_ .and. err0%ok()) then
@@ -923,7 +923,7 @@ module la_cholesky
          
              ! Compute factorization
              call potrf(triangle,n,a,lda,info)
-             call handle_potrf_info(this,info,triangle,n,lda,err0)
+             call handle_potrf(this,info,triangle,n,lda,err0)
                       
              ! Zero-out the unused part of matrix A
              clean_unused: if (other_zeroed_ .and. err0%ok()) then
@@ -1052,7 +1052,7 @@ module la_cholesky
          
              ! Compute factorization
              call potrf(triangle,n,a,lda,info)
-             call handle_potrf_info(this,info,triangle,n,lda,err0)
+             call handle_potrf(this,info,triangle,n,lda,err0)
                       
              ! Zero-out the unused part of matrix A
              clean_unused: if (other_zeroed_ .and. err0%ok()) then
