@@ -19,17 +19,22 @@ module la_least_squares
      !! where A is an `n x n` matrix and b is either a vector (`n`) or a matrix (`n x nrhs`).
      !! The solution `x` is returned as an allocatable array.
      !!
+     !! Without `err` the function is `pure`, takes A as `intent(in)`, and stops on error.
+     !! With `err` it returns the error state instead, can overwrite A, and can return the rank.
+     !!
      !! @param[in,out] a The input matrix of size `n x n`. If `overwrite_a` is true,
      !!                  the contents of A may be modified during computation.
      !! @param[in] b The right-hand side vector (`n`) or matrix (`n x nrhs`).
      !! @param[in] cond (Optional) A cutoff for rank evaluation: singular values \f$ s(i) \f$ such that
      !!                \f$ s(i) \leq \text{cond} \cdot \max(s) \f$ are considered zero.
-     !! @param[in] overwrite_a (Optional) If true, A and B may be overwritten and destroyed. Default is false.
-     !! @param[out] rank (Optional) The rank of the matrix A.
+     !! @param[in] overwrite_a (Optional, with `err` only) If true, A and B may be overwritten and
+     !!                        destroyed. Default is false.
+     !! @param[out] rank (Optional, with `err` only) The rank of the matrix A.
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                    the function will stop execution.
      !!
-     !! @return Solution matrix `x` of size `n` (for a single right-hand side) or `n x nrhs`.
+     !! @return Solution matrix `x` of size `n` (for a single right-hand side) or `n x nrhs`; with
+     !!         `err`, an empty array if the problem is invalid.
      !!
      !! @note This function relies on LAPACK least-squares solvers such as `[*GELSS](@ref la_lapack::gelss)`.
      !!
@@ -79,13 +84,17 @@ module la_least_squares
      !! This function minimizes \f$ \|D (b - A \cdot x)\| \f$ with \f$ D = \mathrm{diag}(\sqrt{w}) \f$,
      !! that is, it gives the \f$i\f$-th equation the weight \f$ w_i \f$.
      !!
+     !! Without `err` the function is `pure`, takes `a` as `intent(in)`, and stops on error.
+     !! With `err` it returns the error state instead, can overwrite `a`, and can return the rank.
+     !!
      !! @param[in] w The weight vector of size \f$m\f$. It is always real, and every entry must be positive.
      !! @param[in,out] a The input matrix of size \f$ [m,n] \f$. If `overwrite_a` is true,
      !!                  the contents of `a` may be modified during computation.
      !! @param[in] b The right-hand side vector of size \f$m\f$.
      !! @param[in] cond (Optional) A cutoff for rank evaluation.
-     !! @param[in] overwrite_a (Optional) If true, `a` may be overwritten and destroyed. Default is false.
-     !! @param[out] rank (Optional) The rank of the matrix `a`.
+     !! @param[in] overwrite_a (Optional, with `err` only) If true, `a` may be overwritten and destroyed.
+     !!                        Default is false.
+     !! @param[out] rank (Optional, with `err` only) The rank of the matrix `a`.
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                    the function will stop execution.
      !!
@@ -117,12 +126,15 @@ module la_least_squares
      !! with \f$ A \f$ of size \f$ [m,n] \f$ and \f$ C \f$ of size \f$ [p,n] \f$,
      !! \f$ p \le n \le m+p \f$.
      !!
+     !! Without `err` the function is `pure`, takes `A`, `b`, `C` and `d` as `intent(in)`, and stops
+     !! on error. With `err` it returns the error state instead, and can overwrite them.
+     !!
      !! @param[in,out] A The least-squares matrix of size \f$ [m,n] \f$.
      !! @param[in,out] b The least-squares right-hand side vector of size \f$m\f$.
      !! @param[in,out] C The constraint matrix of size \f$ [p,n] \f$.
      !! @param[in,out] d The constraint right-hand side vector of size \f$p\f$.
-     !! @param[in] overwrite_matrices (Optional) If true, `A`, `b`, `C` and `d` may be overwritten
-     !!                               and destroyed. Default is false.
+     !! @param[in] overwrite_matrices (Optional, with `err` only) If true, `A`, `b`, `C` and `d` may
+     !!                               be overwritten and destroyed. Default is false.
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                    the function will stop execution.
      !!
@@ -229,36 +241,52 @@ module la_least_squares
 
      interface lstsq
         module procedure la_slstsq_one
+        module procedure la_slstsq_err_one
         module procedure la_dlstsq_one
+        module procedure la_dlstsq_err_one
 #ifdef LA_WITH_XDP
         module procedure la_xlstsq_one
+        module procedure la_xlstsq_err_one
 #endif
 #ifdef LA_WITH_QP
         module procedure la_qlstsq_one
+        module procedure la_qlstsq_err_one
 #endif
         module procedure la_clstsq_one
+        module procedure la_clstsq_err_one
         module procedure la_zlstsq_one
+        module procedure la_zlstsq_err_one
 #ifdef LA_WITH_XDP
         module procedure la_ylstsq_one
+        module procedure la_ylstsq_err_one
 #endif
 #ifdef LA_WITH_QP
         module procedure la_wlstsq_one
+        module procedure la_wlstsq_err_one
 #endif
         module procedure la_slstsq_multiple
+        module procedure la_slstsq_err_multiple
         module procedure la_dlstsq_multiple
+        module procedure la_dlstsq_err_multiple
 #ifdef LA_WITH_XDP
         module procedure la_xlstsq_multiple
+        module procedure la_xlstsq_err_multiple
 #endif
 #ifdef LA_WITH_QP
         module procedure la_qlstsq_multiple
+        module procedure la_qlstsq_err_multiple
 #endif
         module procedure la_clstsq_multiple
+        module procedure la_clstsq_err_multiple
         module procedure la_zlstsq_multiple
+        module procedure la_zlstsq_err_multiple
 #ifdef LA_WITH_XDP
         module procedure la_ylstsq_multiple
+        module procedure la_ylstsq_err_multiple
 #endif
 #ifdef LA_WITH_QP
         module procedure la_wlstsq_multiple
+        module procedure la_wlstsq_err_multiple
 #endif
      end interface lstsq
 
@@ -334,20 +362,28 @@ module la_least_squares
 
      interface weighted_lstsq
         module procedure la_sweighted_lstsq
+        module procedure la_sweighted_lstsq_err
         module procedure la_dweighted_lstsq
+        module procedure la_dweighted_lstsq_err
 #ifdef LA_WITH_XDP
         module procedure la_xweighted_lstsq
+        module procedure la_xweighted_lstsq_err
 #endif
 #ifdef LA_WITH_QP
         module procedure la_qweighted_lstsq
+        module procedure la_qweighted_lstsq_err
 #endif
         module procedure la_cweighted_lstsq
+        module procedure la_cweighted_lstsq_err
         module procedure la_zweighted_lstsq
+        module procedure la_zweighted_lstsq_err
 #ifdef LA_WITH_XDP
         module procedure la_yweighted_lstsq
+        module procedure la_yweighted_lstsq_err
 #endif
 #ifdef LA_WITH_QP
         module procedure la_wweighted_lstsq
+        module procedure la_wweighted_lstsq_err
 #endif
      end interface weighted_lstsq
 
@@ -372,20 +408,28 @@ module la_least_squares
 
      interface constrained_lstsq
         module procedure la_sconstrained_lstsq
+        module procedure la_sconstrained_lstsq_err
         module procedure la_dconstrained_lstsq
+        module procedure la_dconstrained_lstsq_err
 #ifdef LA_WITH_XDP
         module procedure la_xconstrained_lstsq
+        module procedure la_xconstrained_lstsq_err
 #endif
 #ifdef LA_WITH_QP
         module procedure la_qconstrained_lstsq
+        module procedure la_qconstrained_lstsq_err
 #endif
         module procedure la_cconstrained_lstsq
+        module procedure la_cconstrained_lstsq_err
         module procedure la_zconstrained_lstsq
+        module procedure la_zconstrained_lstsq_err
 #ifdef LA_WITH_XDP
         module procedure la_yconstrained_lstsq
+        module procedure la_yconstrained_lstsq_err
 #endif
 #ifdef LA_WITH_QP
         module procedure la_wconstrained_lstsq
+        module procedure la_wconstrained_lstsq_err
 #endif
      end interface constrained_lstsq
 
@@ -780,8 +824,39 @@ module la_least_squares
 
      end subroutine la_slstsq_space_one
 
-     !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B
-     function la_slstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_slstsq_one(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(sp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(sp),allocatable :: x(:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         real(sp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_ssolve_lstsq_one(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_slstsq_one
+
+     !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_slstsq_err_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -792,13 +867,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(sp),allocatable,target :: x(:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -808,17 +882,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n))
 
-         call la_ssolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_ssolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0))
          end if
 
-         call err0%handle(err)
-
-     end function la_slstsq_one
+     end function la_slstsq_err_one
 
      !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B into x
      pure subroutine la_ssolve_lstsq_one(a,b,x,real_storage,int_storage, &
@@ -996,8 +1068,39 @@ module la_least_squares
 
      end subroutine la_dlstsq_space_one
 
-     !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B
-     function la_dlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_dlstsq_one(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(dp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(dp),allocatable :: x(:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         real(dp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_dsolve_lstsq_one(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_dlstsq_one
+
+     !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_dlstsq_err_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1008,13 +1111,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(dp),allocatable,target :: x(:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -1024,17 +1126,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n))
 
-         call la_dsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_dsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0))
          end if
 
-         call err0%handle(err)
-
-     end function la_dlstsq_one
+     end function la_dlstsq_err_one
 
      !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B into x
      pure subroutine la_dsolve_lstsq_one(a,b,x,real_storage,int_storage, &
@@ -1213,8 +1313,39 @@ module la_least_squares
 
      end subroutine la_xlstsq_space_one
 
-     !> Compute the least-squares solution to a real(xdp) system of linear equations Ax = B
-     function la_xlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a real(xdp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_xlstsq_one(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(xdp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(xdp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(xdp),allocatable :: x(:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         real(xdp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_xsolve_lstsq_one(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_xlstsq_one
+
+     !> Compute the least-squares solution to a real(xdp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_xlstsq_err_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(xdp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1225,13 +1356,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(xdp),allocatable,target :: x(:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -1241,17 +1371,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n))
 
-         call la_xsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_xsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0))
          end if
 
-         call err0%handle(err)
-
-     end function la_xlstsq_one
+     end function la_xlstsq_err_one
 
      !> Compute the least-squares solution to a real(xdp) system of linear equations Ax = B into x
      pure subroutine la_xsolve_lstsq_one(a,b,x,real_storage,int_storage, &
@@ -1431,8 +1559,39 @@ module la_least_squares
 
      end subroutine la_qlstsq_space_one
 
-     !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B
-     function la_qlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_qlstsq_one(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(qp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(qp),allocatable :: x(:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         real(qp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_qsolve_lstsq_one(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_qlstsq_one
+
+     !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_qlstsq_err_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1443,13 +1602,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(qp),allocatable,target :: x(:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -1459,17 +1617,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n))
 
-         call la_qsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_qsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0))
          end if
 
-         call err0%handle(err)
-
-     end function la_qlstsq_one
+     end function la_qlstsq_err_one
 
      !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B into x
      pure subroutine la_qsolve_lstsq_one(a,b,x,real_storage,int_storage, &
@@ -1649,8 +1805,39 @@ module la_least_squares
 
      end subroutine la_clstsq_space_one
 
-     !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B
-     function la_clstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_clstsq_one(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(sp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(sp),allocatable :: x(:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         complex(sp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_csolve_lstsq_one(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_clstsq_one
+
+     !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_clstsq_err_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1661,13 +1848,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(sp),allocatable,target :: x(:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -1677,17 +1863,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n))
 
-         call la_csolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_csolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0))
          end if
 
-         call err0%handle(err)
-
-     end function la_clstsq_one
+     end function la_clstsq_err_one
 
      !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B into x
      pure subroutine la_csolve_lstsq_one(a,b,x,real_storage,int_storage, &
@@ -1880,8 +2064,39 @@ module la_least_squares
 
      end subroutine la_zlstsq_space_one
 
-     !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B
-     function la_zlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_zlstsq_one(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(dp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(dp),allocatable :: x(:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         complex(dp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_zsolve_lstsq_one(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_zlstsq_one
+
+     !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_zlstsq_err_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -1892,13 +2107,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(dp),allocatable,target :: x(:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -1908,17 +2122,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n))
 
-         call la_zsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_zsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0))
          end if
 
-         call err0%handle(err)
-
-     end function la_zlstsq_one
+     end function la_zlstsq_err_one
 
      !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B into x
      pure subroutine la_zsolve_lstsq_one(a,b,x,real_storage,int_storage, &
@@ -2112,8 +2324,39 @@ module la_least_squares
 
      end subroutine la_ylstsq_space_one
 
-     !> Compute the least-squares solution to a complex(xdp) system of linear equations Ax = B
-     function la_ylstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a complex(xdp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_ylstsq_one(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(xdp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(xdp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(xdp),allocatable :: x(:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         complex(xdp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_ysolve_lstsq_one(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_ylstsq_one
+
+     !> Compute the least-squares solution to a complex(xdp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_ylstsq_err_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(xdp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -2124,13 +2367,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(xdp),allocatable,target :: x(:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -2140,17 +2382,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n))
 
-         call la_ysolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_ysolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0))
          end if
 
-         call err0%handle(err)
-
-     end function la_ylstsq_one
+     end function la_ylstsq_err_one
 
      !> Compute the least-squares solution to a complex(xdp) system of linear equations Ax = B into x
      pure subroutine la_ysolve_lstsq_one(a,b,x,real_storage,int_storage, &
@@ -2345,8 +2585,39 @@ module la_least_squares
 
      end subroutine la_wlstsq_space_one
 
-     !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B
-     function la_wlstsq_one(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_wlstsq_one(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(qp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(qp),allocatable :: x(:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         complex(qp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_wsolve_lstsq_one(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_wlstsq_one
+
+     !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_wlstsq_err_one(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -2357,13 +2628,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(qp),allocatable,target :: x(:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -2373,17 +2643,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n))
 
-         call la_wsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_wsolve_lstsq_one(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0))
          end if
 
-         call err0%handle(err)
-
-     end function la_wlstsq_one
+     end function la_wlstsq_err_one
 
      !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B into x
      pure subroutine la_wsolve_lstsq_one(a,b,x,real_storage,int_storage, &
@@ -2576,8 +2844,39 @@ module la_least_squares
 
      end subroutine la_slstsq_space_multiple
 
-     !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B
-     function la_slstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_slstsq_multiple(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(sp),intent(in) :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(sp),allocatable :: x(:,:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         real(sp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_ssolve_lstsq_multiple(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_slstsq_multiple
+
+     !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_slstsq_err_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -2588,13 +2887,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(sp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -2604,17 +2902,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n,nrhs))
 
-         call la_ssolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_ssolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0,0))
          end if
 
-         call err0%handle(err)
-
-     end function la_slstsq_multiple
+     end function la_slstsq_err_multiple
 
      !> Compute the least-squares solution to a real(sp) system of linear equations Ax = B into x
      pure subroutine la_ssolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
@@ -2792,8 +3088,39 @@ module la_least_squares
 
      end subroutine la_dlstsq_space_multiple
 
-     !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B
-     function la_dlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_dlstsq_multiple(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(dp),intent(in) :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(dp),allocatable :: x(:,:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         real(dp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_dsolve_lstsq_multiple(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_dlstsq_multiple
+
+     !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_dlstsq_err_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -2804,13 +3131,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(dp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -2820,17 +3146,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n,nrhs))
 
-         call la_dsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_dsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0,0))
          end if
 
-         call err0%handle(err)
-
-     end function la_dlstsq_multiple
+     end function la_dlstsq_err_multiple
 
      !> Compute the least-squares solution to a real(dp) system of linear equations Ax = B into x
      pure subroutine la_dsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
@@ -3009,8 +3333,39 @@ module la_least_squares
 
      end subroutine la_xlstsq_space_multiple
 
-     !> Compute the least-squares solution to a real(xdp) system of linear equations Ax = B
-     function la_xlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a real(xdp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_xlstsq_multiple(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(xdp),intent(in) :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(xdp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(xdp),allocatable :: x(:,:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         real(xdp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_xsolve_lstsq_multiple(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_xlstsq_multiple
+
+     !> Compute the least-squares solution to a real(xdp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_xlstsq_err_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(xdp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -3021,13 +3376,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(xdp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -3037,17 +3391,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n,nrhs))
 
-         call la_xsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_xsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0,0))
          end if
 
-         call err0%handle(err)
-
-     end function la_xlstsq_multiple
+     end function la_xlstsq_err_multiple
 
      !> Compute the least-squares solution to a real(xdp) system of linear equations Ax = B into x
      pure subroutine la_xsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
@@ -3227,8 +3579,39 @@ module la_least_squares
 
      end subroutine la_qlstsq_space_multiple
 
-     !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B
-     function la_qlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_qlstsq_multiple(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(qp),intent(in) :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(qp),allocatable :: x(:,:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         real(qp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_qsolve_lstsq_multiple(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_qlstsq_multiple
+
+     !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_qlstsq_err_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -3239,13 +3622,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          real(qp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -3255,17 +3637,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n,nrhs))
 
-         call la_qsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_qsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0,0))
          end if
 
-         call err0%handle(err)
-
-     end function la_qlstsq_multiple
+     end function la_qlstsq_err_multiple
 
      !> Compute the least-squares solution to a real(qp) system of linear equations Ax = B into x
      pure subroutine la_qsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
@@ -3445,8 +3825,39 @@ module la_least_squares
 
      end subroutine la_clstsq_space_multiple
 
-     !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B
-     function la_clstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_clstsq_multiple(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(sp),intent(in) :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(sp),allocatable :: x(:,:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         complex(sp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_csolve_lstsq_multiple(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_clstsq_multiple
+
+     !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_clstsq_err_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -3457,13 +3868,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(sp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -3473,17 +3883,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n,nrhs))
 
-         call la_csolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_csolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0,0))
          end if
 
-         call err0%handle(err)
-
-     end function la_clstsq_multiple
+     end function la_clstsq_err_multiple
 
      !> Compute the least-squares solution to a complex(sp) system of linear equations Ax = B into x
      pure subroutine la_csolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
@@ -3676,8 +4084,39 @@ module la_least_squares
 
      end subroutine la_zlstsq_space_multiple
 
-     !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B
-     function la_zlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_zlstsq_multiple(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(dp),intent(in) :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(dp),allocatable :: x(:,:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         complex(dp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_zsolve_lstsq_multiple(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_zlstsq_multiple
+
+     !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_zlstsq_err_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -3688,13 +4127,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(dp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -3704,17 +4142,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n,nrhs))
 
-         call la_zsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_zsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0,0))
          end if
 
-         call err0%handle(err)
-
-     end function la_zlstsq_multiple
+     end function la_zlstsq_err_multiple
 
      !> Compute the least-squares solution to a complex(dp) system of linear equations Ax = B into x
      pure subroutine la_zsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
@@ -3908,8 +4344,39 @@ module la_least_squares
 
      end subroutine la_ylstsq_space_multiple
 
-     !> Compute the least-squares solution to a complex(xdp) system of linear equations Ax = B
-     function la_ylstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a complex(xdp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_ylstsq_multiple(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(xdp),intent(in) :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(xdp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(xdp),allocatable :: x(:,:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         complex(xdp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_ysolve_lstsq_multiple(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_ylstsq_multiple
+
+     !> Compute the least-squares solution to a complex(xdp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_ylstsq_err_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(xdp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -3920,13 +4387,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(xdp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -3936,17 +4402,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n,nrhs))
 
-         call la_ysolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_ysolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0,0))
          end if
 
-         call err0%handle(err)
-
-     end function la_ylstsq_multiple
+     end function la_ylstsq_err_multiple
 
      !> Compute the least-squares solution to a complex(xdp) system of linear equations Ax = B into x
      pure subroutine la_ysolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
@@ -4141,8 +4605,39 @@ module la_least_squares
 
      end subroutine la_wlstsq_space_multiple
 
-     !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B
-     function la_wlstsq_multiple(a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B:
+     !> `pure`, stops on error
+     pure function la_wlstsq_multiple(a,b,cond) result(x)
+         !> Input matrix a[n,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(qp),intent(in) :: b(:,:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp),optional,intent(in) :: cond
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(qp),allocatable :: x(:,:)
+
+         !> Local variables
+         integer(ilp) :: n,nrhs,ldb
+         complex(qp),allocatable :: amat(:,:)
+
+         n = size(a,2,kind=ilp)
+         ldb = size(b,1,kind=ilp)
+         nrhs = size(b,kind=ilp)/ldb
+
+         ! The solution has the shape of the second dimension of a
+         allocate (x(n,nrhs))
+
+         ! The solver works in place on its own copy
+         amat = a
+
+         call la_wsolve_lstsq_multiple(amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_wlstsq_multiple
+
+     !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B,
+     !> with a state return flag
+     function la_wlstsq_err_multiple(a,b,cond,overwrite_a,rank,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
@@ -4153,13 +4648,12 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
          complex(qp),allocatable,target :: x(:,:)
 
          !> Local variables
-         type(la_state) :: err0
          integer(ilp) :: n,nrhs,ldb
 
          n = size(a,2,kind=ilp)
@@ -4169,17 +4663,15 @@ module la_least_squares
          ! The solution has the shape of the second dimension of a
          allocate (x(n,nrhs))
 
-         call la_wsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err0)
+         call la_wsolve_lstsq_multiple(a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
          ! An invalid problem returns an empty solution
-         if (err0%error()) then
+         if (err%error()) then
             deallocate (x)
             allocate (x(0,0))
          end if
 
-         call err0%handle(err)
-
-     end function la_wlstsq_multiple
+     end function la_wlstsq_err_multiple
 
      !> Compute the least-squares solution to a complex(qp) system of linear equations Ax = B into x
      pure subroutine la_wsolve_lstsq_multiple(a,b,x,real_storage,int_storage, &
@@ -4508,16 +5000,39 @@ module la_least_squares
 
      end subroutine la_ssolve_constrained_lstsq
 
-     !> Solve the real(sp) equality-constrained least-squares problem
-     function la_sconstrained_lstsq(A,b,C,d,overwrite_matrices,err) result(x)
+     !> Solve the real(sp) equality-constrained least-squares problem: `pure`, stops on error
+     pure function la_sconstrained_lstsq(A,b,C,d) result(x)
+         !> Least-squares matrix a[m,n] and right hand side b[m]
+         real(sp),intent(in) :: A(:,:),b(:)
+         !> Equality constraint matrix c[p,n] and right hand side d[p]
+         real(sp),intent(in) :: C(:,:),d(:)
+         !> Solution vector x[n]
+         real(sp),allocatable :: x(:)
+
+         !> Local variables
+         real(sp),allocatable :: amat(:,:),bvec(:),cmat(:,:),dvec(:)
+
+         ! The solver works in place on its own copies
+         amat = A
+         bvec = b
+         cmat = C
+         dvec = d
+         allocate (x(size(A,2,kind=ilp)))
+
+         call la_ssolve_constrained_lstsq(amat,bvec,cmat,dvec,x,overwrite_matrices=.true._lk)
+
+     end function la_sconstrained_lstsq
+
+     !> Solve the real(sp) equality-constrained least-squares problem, with a state return flag
+     function la_sconstrained_lstsq_err(A,b,C,d,overwrite_matrices,err) result(x)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          real(sp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
          real(sp),intent(inout),target :: C(:,:),d(:)
          !> [optional] Can A,b,C,d data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_matrices
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Solution vector x[n]
          real(sp),allocatable,target :: x(:)
 
@@ -4529,10 +5044,34 @@ module la_least_squares
 
          call la_ssolve_constrained_lstsq(A,b,C,d,x,overwrite_matrices=overwrite_matrices,err=err)
 
-     end function la_sconstrained_lstsq
+     end function la_sconstrained_lstsq_err
 
-     !> Compute the real(sp) weighted least-squares solution
-     function la_sweighted_lstsq(w,a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the real(sp) weighted least-squares solution: `pure`, stops on error
+     pure function la_sweighted_lstsq(w,a,b,cond) result(x)
+         !> Weight vector w[m]. It is always real, and all its entries must be positive
+         real(sp),intent(in) :: w(:)
+         !> Input matrix a[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(sp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp),optional,intent(in) :: cond
+         !> Result array x[n]
+         real(sp),allocatable :: x(:)
+
+         !> Local variables
+         real(sp),allocatable :: amat(:,:)
+
+         ! The solver works in place on its own copy
+         amat = a
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_ssolve_weighted_lstsq(w,amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_sweighted_lstsq
+
+     !> Compute the real(sp) weighted least-squares solution, with a state return flag
+     function la_sweighted_lstsq_err(w,a,b,cond,overwrite_a,rank,err) result(x)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(sp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -4545,8 +5084,8 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array x[n]
          real(sp),allocatable :: x(:)
 
@@ -4558,7 +5097,7 @@ module la_least_squares
 
          call la_ssolve_weighted_lstsq(w,a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
-     end function la_sweighted_lstsq
+     end function la_sweighted_lstsq_err
 
      !> Compute the real(sp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
      pure subroutine la_ssolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
@@ -4977,16 +5516,39 @@ module la_least_squares
 
      end subroutine la_dsolve_constrained_lstsq
 
-     !> Solve the real(dp) equality-constrained least-squares problem
-     function la_dconstrained_lstsq(A,b,C,d,overwrite_matrices,err) result(x)
+     !> Solve the real(dp) equality-constrained least-squares problem: `pure`, stops on error
+     pure function la_dconstrained_lstsq(A,b,C,d) result(x)
+         !> Least-squares matrix a[m,n] and right hand side b[m]
+         real(dp),intent(in) :: A(:,:),b(:)
+         !> Equality constraint matrix c[p,n] and right hand side d[p]
+         real(dp),intent(in) :: C(:,:),d(:)
+         !> Solution vector x[n]
+         real(dp),allocatable :: x(:)
+
+         !> Local variables
+         real(dp),allocatable :: amat(:,:),bvec(:),cmat(:,:),dvec(:)
+
+         ! The solver works in place on its own copies
+         amat = A
+         bvec = b
+         cmat = C
+         dvec = d
+         allocate (x(size(A,2,kind=ilp)))
+
+         call la_dsolve_constrained_lstsq(amat,bvec,cmat,dvec,x,overwrite_matrices=.true._lk)
+
+     end function la_dconstrained_lstsq
+
+     !> Solve the real(dp) equality-constrained least-squares problem, with a state return flag
+     function la_dconstrained_lstsq_err(A,b,C,d,overwrite_matrices,err) result(x)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          real(dp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
          real(dp),intent(inout),target :: C(:,:),d(:)
          !> [optional] Can A,b,C,d data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_matrices
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Solution vector x[n]
          real(dp),allocatable,target :: x(:)
 
@@ -4998,10 +5560,34 @@ module la_least_squares
 
          call la_dsolve_constrained_lstsq(A,b,C,d,x,overwrite_matrices=overwrite_matrices,err=err)
 
-     end function la_dconstrained_lstsq
+     end function la_dconstrained_lstsq_err
 
-     !> Compute the real(dp) weighted least-squares solution
-     function la_dweighted_lstsq(w,a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the real(dp) weighted least-squares solution: `pure`, stops on error
+     pure function la_dweighted_lstsq(w,a,b,cond) result(x)
+         !> Weight vector w[m]. It is always real, and all its entries must be positive
+         real(dp),intent(in) :: w(:)
+         !> Input matrix a[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(dp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp),optional,intent(in) :: cond
+         !> Result array x[n]
+         real(dp),allocatable :: x(:)
+
+         !> Local variables
+         real(dp),allocatable :: amat(:,:)
+
+         ! The solver works in place on its own copy
+         amat = a
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_dsolve_weighted_lstsq(w,amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_dweighted_lstsq
+
+     !> Compute the real(dp) weighted least-squares solution, with a state return flag
+     function la_dweighted_lstsq_err(w,a,b,cond,overwrite_a,rank,err) result(x)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(dp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -5014,8 +5600,8 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array x[n]
          real(dp),allocatable :: x(:)
 
@@ -5027,7 +5613,7 @@ module la_least_squares
 
          call la_dsolve_weighted_lstsq(w,a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
-     end function la_dweighted_lstsq
+     end function la_dweighted_lstsq_err
 
      !> Compute the real(dp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
      pure subroutine la_dsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
@@ -5447,16 +6033,39 @@ module la_least_squares
 
      end subroutine la_xsolve_constrained_lstsq
 
-     !> Solve the real(xdp) equality-constrained least-squares problem
-     function la_xconstrained_lstsq(A,b,C,d,overwrite_matrices,err) result(x)
+     !> Solve the real(xdp) equality-constrained least-squares problem: `pure`, stops on error
+     pure function la_xconstrained_lstsq(A,b,C,d) result(x)
+         !> Least-squares matrix a[m,n] and right hand side b[m]
+         real(xdp),intent(in) :: A(:,:),b(:)
+         !> Equality constraint matrix c[p,n] and right hand side d[p]
+         real(xdp),intent(in) :: C(:,:),d(:)
+         !> Solution vector x[n]
+         real(xdp),allocatable :: x(:)
+
+         !> Local variables
+         real(xdp),allocatable :: amat(:,:),bvec(:),cmat(:,:),dvec(:)
+
+         ! The solver works in place on its own copies
+         amat = A
+         bvec = b
+         cmat = C
+         dvec = d
+         allocate (x(size(A,2,kind=ilp)))
+
+         call la_xsolve_constrained_lstsq(amat,bvec,cmat,dvec,x,overwrite_matrices=.true._lk)
+
+     end function la_xconstrained_lstsq
+
+     !> Solve the real(xdp) equality-constrained least-squares problem, with a state return flag
+     function la_xconstrained_lstsq_err(A,b,C,d,overwrite_matrices,err) result(x)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          real(xdp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
          real(xdp),intent(inout),target :: C(:,:),d(:)
          !> [optional] Can A,b,C,d data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_matrices
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Solution vector x[n]
          real(xdp),allocatable,target :: x(:)
 
@@ -5468,10 +6077,34 @@ module la_least_squares
 
          call la_xsolve_constrained_lstsq(A,b,C,d,x,overwrite_matrices=overwrite_matrices,err=err)
 
-     end function la_xconstrained_lstsq
+     end function la_xconstrained_lstsq_err
 
-     !> Compute the real(xdp) weighted least-squares solution
-     function la_xweighted_lstsq(w,a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the real(xdp) weighted least-squares solution: `pure`, stops on error
+     pure function la_xweighted_lstsq(w,a,b,cond) result(x)
+         !> Weight vector w[m]. It is always real, and all its entries must be positive
+         real(xdp),intent(in) :: w(:)
+         !> Input matrix a[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(xdp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(xdp),optional,intent(in) :: cond
+         !> Result array x[n]
+         real(xdp),allocatable :: x(:)
+
+         !> Local variables
+         real(xdp),allocatable :: amat(:,:)
+
+         ! The solver works in place on its own copy
+         amat = a
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_xsolve_weighted_lstsq(w,amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_xweighted_lstsq
+
+     !> Compute the real(xdp) weighted least-squares solution, with a state return flag
+     function la_xweighted_lstsq_err(w,a,b,cond,overwrite_a,rank,err) result(x)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(xdp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -5484,8 +6117,8 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array x[n]
          real(xdp),allocatable :: x(:)
 
@@ -5497,7 +6130,7 @@ module la_least_squares
 
          call la_xsolve_weighted_lstsq(w,a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
-     end function la_xweighted_lstsq
+     end function la_xweighted_lstsq_err
 
      !> Compute the real(xdp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
      pure subroutine la_xsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
@@ -5918,16 +6551,39 @@ module la_least_squares
 
      end subroutine la_qsolve_constrained_lstsq
 
-     !> Solve the real(qp) equality-constrained least-squares problem
-     function la_qconstrained_lstsq(A,b,C,d,overwrite_matrices,err) result(x)
+     !> Solve the real(qp) equality-constrained least-squares problem: `pure`, stops on error
+     pure function la_qconstrained_lstsq(A,b,C,d) result(x)
+         !> Least-squares matrix a[m,n] and right hand side b[m]
+         real(qp),intent(in) :: A(:,:),b(:)
+         !> Equality constraint matrix c[p,n] and right hand side d[p]
+         real(qp),intent(in) :: C(:,:),d(:)
+         !> Solution vector x[n]
+         real(qp),allocatable :: x(:)
+
+         !> Local variables
+         real(qp),allocatable :: amat(:,:),bvec(:),cmat(:,:),dvec(:)
+
+         ! The solver works in place on its own copies
+         amat = A
+         bvec = b
+         cmat = C
+         dvec = d
+         allocate (x(size(A,2,kind=ilp)))
+
+         call la_qsolve_constrained_lstsq(amat,bvec,cmat,dvec,x,overwrite_matrices=.true._lk)
+
+     end function la_qconstrained_lstsq
+
+     !> Solve the real(qp) equality-constrained least-squares problem, with a state return flag
+     function la_qconstrained_lstsq_err(A,b,C,d,overwrite_matrices,err) result(x)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          real(qp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
          real(qp),intent(inout),target :: C(:,:),d(:)
          !> [optional] Can A,b,C,d data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_matrices
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Solution vector x[n]
          real(qp),allocatable,target :: x(:)
 
@@ -5939,10 +6595,34 @@ module la_least_squares
 
          call la_qsolve_constrained_lstsq(A,b,C,d,x,overwrite_matrices=overwrite_matrices,err=err)
 
-     end function la_qconstrained_lstsq
+     end function la_qconstrained_lstsq_err
 
-     !> Compute the real(qp) weighted least-squares solution
-     function la_qweighted_lstsq(w,a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the real(qp) weighted least-squares solution: `pure`, stops on error
+     pure function la_qweighted_lstsq(w,a,b,cond) result(x)
+         !> Weight vector w[m]. It is always real, and all its entries must be positive
+         real(qp),intent(in) :: w(:)
+         !> Input matrix a[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         real(qp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp),optional,intent(in) :: cond
+         !> Result array x[n]
+         real(qp),allocatable :: x(:)
+
+         !> Local variables
+         real(qp),allocatable :: amat(:,:)
+
+         ! The solver works in place on its own copy
+         amat = a
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_qsolve_weighted_lstsq(w,amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_qweighted_lstsq
+
+     !> Compute the real(qp) weighted least-squares solution, with a state return flag
+     function la_qweighted_lstsq_err(w,a,b,cond,overwrite_a,rank,err) result(x)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(qp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -5955,8 +6635,8 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array x[n]
          real(qp),allocatable :: x(:)
 
@@ -5968,7 +6648,7 @@ module la_least_squares
 
          call la_qsolve_weighted_lstsq(w,a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
-     end function la_qweighted_lstsq
+     end function la_qweighted_lstsq_err
 
      !> Compute the real(qp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
      pure subroutine la_qsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
@@ -6388,16 +7068,39 @@ module la_least_squares
 
      end subroutine la_csolve_constrained_lstsq
 
-     !> Solve the complex(sp) equality-constrained least-squares problem
-     function la_cconstrained_lstsq(A,b,C,d,overwrite_matrices,err) result(x)
+     !> Solve the complex(sp) equality-constrained least-squares problem: `pure`, stops on error
+     pure function la_cconstrained_lstsq(A,b,C,d) result(x)
+         !> Least-squares matrix a[m,n] and right hand side b[m]
+         complex(sp),intent(in) :: A(:,:),b(:)
+         !> Equality constraint matrix c[p,n] and right hand side d[p]
+         complex(sp),intent(in) :: C(:,:),d(:)
+         !> Solution vector x[n]
+         complex(sp),allocatable :: x(:)
+
+         !> Local variables
+         complex(sp),allocatable :: amat(:,:),bvec(:),cmat(:,:),dvec(:)
+
+         ! The solver works in place on its own copies
+         amat = A
+         bvec = b
+         cmat = C
+         dvec = d
+         allocate (x(size(A,2,kind=ilp)))
+
+         call la_csolve_constrained_lstsq(amat,bvec,cmat,dvec,x,overwrite_matrices=.true._lk)
+
+     end function la_cconstrained_lstsq
+
+     !> Solve the complex(sp) equality-constrained least-squares problem, with a state return flag
+     function la_cconstrained_lstsq_err(A,b,C,d,overwrite_matrices,err) result(x)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          complex(sp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
          complex(sp),intent(inout),target :: C(:,:),d(:)
          !> [optional] Can A,b,C,d data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_matrices
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Solution vector x[n]
          complex(sp),allocatable,target :: x(:)
 
@@ -6409,10 +7112,34 @@ module la_least_squares
 
          call la_csolve_constrained_lstsq(A,b,C,d,x,overwrite_matrices=overwrite_matrices,err=err)
 
-     end function la_cconstrained_lstsq
+     end function la_cconstrained_lstsq_err
 
-     !> Compute the complex(sp) weighted least-squares solution
-     function la_cweighted_lstsq(w,a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the complex(sp) weighted least-squares solution: `pure`, stops on error
+     pure function la_cweighted_lstsq(w,a,b,cond) result(x)
+         !> Weight vector w[m]. It is always real, and all its entries must be positive
+         real(sp),intent(in) :: w(:)
+         !> Input matrix a[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(sp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(sp),optional,intent(in) :: cond
+         !> Result array x[n]
+         complex(sp),allocatable :: x(:)
+
+         !> Local variables
+         complex(sp),allocatable :: amat(:,:)
+
+         ! The solver works in place on its own copy
+         amat = a
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_csolve_weighted_lstsq(w,amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_cweighted_lstsq
+
+     !> Compute the complex(sp) weighted least-squares solution, with a state return flag
+     function la_cweighted_lstsq_err(w,a,b,cond,overwrite_a,rank,err) result(x)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(sp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -6425,8 +7152,8 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array x[n]
          complex(sp),allocatable :: x(:)
 
@@ -6438,7 +7165,7 @@ module la_least_squares
 
          call la_csolve_weighted_lstsq(w,a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
-     end function la_cweighted_lstsq
+     end function la_cweighted_lstsq_err
 
      !> Compute the complex(sp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
      pure subroutine la_csolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
@@ -6857,16 +7584,39 @@ module la_least_squares
 
      end subroutine la_zsolve_constrained_lstsq
 
-     !> Solve the complex(dp) equality-constrained least-squares problem
-     function la_zconstrained_lstsq(A,b,C,d,overwrite_matrices,err) result(x)
+     !> Solve the complex(dp) equality-constrained least-squares problem: `pure`, stops on error
+     pure function la_zconstrained_lstsq(A,b,C,d) result(x)
+         !> Least-squares matrix a[m,n] and right hand side b[m]
+         complex(dp),intent(in) :: A(:,:),b(:)
+         !> Equality constraint matrix c[p,n] and right hand side d[p]
+         complex(dp),intent(in) :: C(:,:),d(:)
+         !> Solution vector x[n]
+         complex(dp),allocatable :: x(:)
+
+         !> Local variables
+         complex(dp),allocatable :: amat(:,:),bvec(:),cmat(:,:),dvec(:)
+
+         ! The solver works in place on its own copies
+         amat = A
+         bvec = b
+         cmat = C
+         dvec = d
+         allocate (x(size(A,2,kind=ilp)))
+
+         call la_zsolve_constrained_lstsq(amat,bvec,cmat,dvec,x,overwrite_matrices=.true._lk)
+
+     end function la_zconstrained_lstsq
+
+     !> Solve the complex(dp) equality-constrained least-squares problem, with a state return flag
+     function la_zconstrained_lstsq_err(A,b,C,d,overwrite_matrices,err) result(x)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          complex(dp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
          complex(dp),intent(inout),target :: C(:,:),d(:)
          !> [optional] Can A,b,C,d data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_matrices
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Solution vector x[n]
          complex(dp),allocatable,target :: x(:)
 
@@ -6878,10 +7628,34 @@ module la_least_squares
 
          call la_zsolve_constrained_lstsq(A,b,C,d,x,overwrite_matrices=overwrite_matrices,err=err)
 
-     end function la_zconstrained_lstsq
+     end function la_zconstrained_lstsq_err
 
-     !> Compute the complex(dp) weighted least-squares solution
-     function la_zweighted_lstsq(w,a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the complex(dp) weighted least-squares solution: `pure`, stops on error
+     pure function la_zweighted_lstsq(w,a,b,cond) result(x)
+         !> Weight vector w[m]. It is always real, and all its entries must be positive
+         real(dp),intent(in) :: w(:)
+         !> Input matrix a[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(dp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(dp),optional,intent(in) :: cond
+         !> Result array x[n]
+         complex(dp),allocatable :: x(:)
+
+         !> Local variables
+         complex(dp),allocatable :: amat(:,:)
+
+         ! The solver works in place on its own copy
+         amat = a
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_zsolve_weighted_lstsq(w,amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_zweighted_lstsq
+
+     !> Compute the complex(dp) weighted least-squares solution, with a state return flag
+     function la_zweighted_lstsq_err(w,a,b,cond,overwrite_a,rank,err) result(x)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(dp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -6894,8 +7668,8 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array x[n]
          complex(dp),allocatable :: x(:)
 
@@ -6907,7 +7681,7 @@ module la_least_squares
 
          call la_zsolve_weighted_lstsq(w,a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
-     end function la_zweighted_lstsq
+     end function la_zweighted_lstsq_err
 
      !> Compute the complex(dp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
      pure subroutine la_zsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
@@ -7327,16 +8101,39 @@ module la_least_squares
 
      end subroutine la_ysolve_constrained_lstsq
 
-     !> Solve the complex(xdp) equality-constrained least-squares problem
-     function la_yconstrained_lstsq(A,b,C,d,overwrite_matrices,err) result(x)
+     !> Solve the complex(xdp) equality-constrained least-squares problem: `pure`, stops on error
+     pure function la_yconstrained_lstsq(A,b,C,d) result(x)
+         !> Least-squares matrix a[m,n] and right hand side b[m]
+         complex(xdp),intent(in) :: A(:,:),b(:)
+         !> Equality constraint matrix c[p,n] and right hand side d[p]
+         complex(xdp),intent(in) :: C(:,:),d(:)
+         !> Solution vector x[n]
+         complex(xdp),allocatable :: x(:)
+
+         !> Local variables
+         complex(xdp),allocatable :: amat(:,:),bvec(:),cmat(:,:),dvec(:)
+
+         ! The solver works in place on its own copies
+         amat = A
+         bvec = b
+         cmat = C
+         dvec = d
+         allocate (x(size(A,2,kind=ilp)))
+
+         call la_ysolve_constrained_lstsq(amat,bvec,cmat,dvec,x,overwrite_matrices=.true._lk)
+
+     end function la_yconstrained_lstsq
+
+     !> Solve the complex(xdp) equality-constrained least-squares problem, with a state return flag
+     function la_yconstrained_lstsq_err(A,b,C,d,overwrite_matrices,err) result(x)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          complex(xdp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
          complex(xdp),intent(inout),target :: C(:,:),d(:)
          !> [optional] Can A,b,C,d data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_matrices
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Solution vector x[n]
          complex(xdp),allocatable,target :: x(:)
 
@@ -7348,10 +8145,34 @@ module la_least_squares
 
          call la_ysolve_constrained_lstsq(A,b,C,d,x,overwrite_matrices=overwrite_matrices,err=err)
 
-     end function la_yconstrained_lstsq
+     end function la_yconstrained_lstsq_err
 
-     !> Compute the complex(xdp) weighted least-squares solution
-     function la_yweighted_lstsq(w,a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the complex(xdp) weighted least-squares solution: `pure`, stops on error
+     pure function la_yweighted_lstsq(w,a,b,cond) result(x)
+         !> Weight vector w[m]. It is always real, and all its entries must be positive
+         real(xdp),intent(in) :: w(:)
+         !> Input matrix a[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(xdp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(xdp),optional,intent(in) :: cond
+         !> Result array x[n]
+         complex(xdp),allocatable :: x(:)
+
+         !> Local variables
+         complex(xdp),allocatable :: amat(:,:)
+
+         ! The solver works in place on its own copy
+         amat = a
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_ysolve_weighted_lstsq(w,amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_yweighted_lstsq
+
+     !> Compute the complex(xdp) weighted least-squares solution, with a state return flag
+     function la_yweighted_lstsq_err(w,a,b,cond,overwrite_a,rank,err) result(x)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(xdp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -7364,8 +8185,8 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array x[n]
          complex(xdp),allocatable :: x(:)
 
@@ -7377,7 +8198,7 @@ module la_least_squares
 
          call la_ysolve_weighted_lstsq(w,a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
-     end function la_yweighted_lstsq
+     end function la_yweighted_lstsq_err
 
      !> Compute the complex(xdp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
      pure subroutine la_ysolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
@@ -7798,16 +8619,39 @@ module la_least_squares
 
      end subroutine la_wsolve_constrained_lstsq
 
-     !> Solve the complex(qp) equality-constrained least-squares problem
-     function la_wconstrained_lstsq(A,b,C,d,overwrite_matrices,err) result(x)
+     !> Solve the complex(qp) equality-constrained least-squares problem: `pure`, stops on error
+     pure function la_wconstrained_lstsq(A,b,C,d) result(x)
+         !> Least-squares matrix a[m,n] and right hand side b[m]
+         complex(qp),intent(in) :: A(:,:),b(:)
+         !> Equality constraint matrix c[p,n] and right hand side d[p]
+         complex(qp),intent(in) :: C(:,:),d(:)
+         !> Solution vector x[n]
+         complex(qp),allocatable :: x(:)
+
+         !> Local variables
+         complex(qp),allocatable :: amat(:,:),bvec(:),cmat(:,:),dvec(:)
+
+         ! The solver works in place on its own copies
+         amat = A
+         bvec = b
+         cmat = C
+         dvec = d
+         allocate (x(size(A,2,kind=ilp)))
+
+         call la_wsolve_constrained_lstsq(amat,bvec,cmat,dvec,x,overwrite_matrices=.true._lk)
+
+     end function la_wconstrained_lstsq
+
+     !> Solve the complex(qp) equality-constrained least-squares problem, with a state return flag
+     function la_wconstrained_lstsq_err(A,b,C,d,overwrite_matrices,err) result(x)
          !> Least-squares matrix a[m,n] and right hand side b[m]
          complex(qp),intent(inout),target :: A(:,:),b(:)
          !> Equality constraint matrix c[p,n] and right hand side d[p]
          complex(qp),intent(inout),target :: C(:,:),d(:)
          !> [optional] Can A,b,C,d data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_matrices
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Solution vector x[n]
          complex(qp),allocatable,target :: x(:)
 
@@ -7819,10 +8663,34 @@ module la_least_squares
 
          call la_wsolve_constrained_lstsq(A,b,C,d,x,overwrite_matrices=overwrite_matrices,err=err)
 
-     end function la_wconstrained_lstsq
+     end function la_wconstrained_lstsq_err
 
-     !> Compute the complex(qp) weighted least-squares solution
-     function la_wweighted_lstsq(w,a,b,cond,overwrite_a,rank,err) result(x)
+     !> Compute the complex(qp) weighted least-squares solution: `pure`, stops on error
+     pure function la_wweighted_lstsq(w,a,b,cond) result(x)
+         !> Weight vector w[m]. It is always real, and all its entries must be positive
+         real(qp),intent(in) :: w(:)
+         !> Input matrix a[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Right hand side vector b[m]
+         complex(qp),intent(in) :: b(:)
+         !> [optional] cutoff for rank evaluation: singular values s(i)<=cond*maxval(s) are considered 0.
+         real(qp),optional,intent(in) :: cond
+         !> Result array x[n]
+         complex(qp),allocatable :: x(:)
+
+         !> Local variables
+         complex(qp),allocatable :: amat(:,:)
+
+         ! The solver works in place on its own copy
+         amat = a
+         allocate (x(size(a,2,kind=ilp)))
+
+         call la_wsolve_weighted_lstsq(w,amat,b,x,cond=cond,overwrite_a=.true._lk)
+
+     end function la_wweighted_lstsq
+
+     !> Compute the complex(qp) weighted least-squares solution, with a state return flag
+     function la_wweighted_lstsq_err(w,a,b,cond,overwrite_a,rank,err) result(x)
          !> Weight vector w[m]. It is always real, and all its entries must be positive
          real(qp),intent(in) :: w(:)
          !> Input matrix a[m,n]
@@ -7835,8 +8703,8 @@ module la_least_squares
          logical(lk),optional,intent(in) :: overwrite_a
          !> [optional] Return rank of A
          integer(ilp),optional,intent(out) :: rank
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array x[n]
          complex(qp),allocatable :: x(:)
 
@@ -7848,7 +8716,7 @@ module la_least_squares
 
          call la_wsolve_weighted_lstsq(w,a,b,x,cond=cond,overwrite_a=overwrite_a,rank=rank,err=err)
 
-     end function la_wweighted_lstsq
+     end function la_wweighted_lstsq_err
 
      !> Compute the complex(qp) weighted least-squares solution into x: minimize ||D(Ax - b)||, D = diag(sqrt(w))
      pure subroutine la_wsolve_weighted_lstsq(w,a,b,x,cond,overwrite_a,rank,err)
