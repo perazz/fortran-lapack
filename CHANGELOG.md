@@ -134,6 +134,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `solve_generalized_lstsq`, `generalized_lstsq`: an invalid `n` or `lda`
     from `potrf` (`info = -2, -4`), `LINALG_INTERNAL_ERROR` to
     `LINALG_VALUE_ERROR`.
+- **Breaking:** every function that can fail has the two forms of the API
+  style decided in #44: a `pure` form without `err`, and a form whose `err`
+  is mandatory, which is not `pure`. `solve`, `inv`, `det`, `lstsq`, `pinv`,
+  `svdvals` and `mnorm` had one form with an optional `err`; each is split in
+  two, as `norm`, `eigvals` and `eigvalsh` already were, and both forms call
+  the same `pure` subroutine. `chol` had only the `pure` form and gains
+  `chol(a [, lower] [, other_zeroed], err)`. `weighted_lstsq` and
+  `constrained_lstsq`, new in this release, have the same two forms. What a
+  caller has to change:
+  - An `err` that is itself an absent optional argument can no longer be
+    passed through to a function: the form with `err` needs it present. Call
+    the form without `err`, or the subroutine, when it may be absent.
+  - The form without `err` takes its matrices as `intent(in)`, so it has no
+    `overwrite_a` (`overwrite_matrices` for `constrained_lstsq`) and no
+    `rank` output. `solve(a, b, overwrite_a=...)`, `det(a, overwrite_a=...)`,
+    `lstsq(a, b, overwrite_a=..., rank=...)` and the like resolve only with
+    `err`; the subroutines `solve_lu`, `solve_lstsq`, `solve_weighted_lstsq`
+    and `solve_constrained_lstsq` keep these arguments. In exchange, `solve`,
+    `det` and `lstsq` without `err` accept a constant or an expression for `a`.
+  - `.inv.` stops on a singular matrix instead of returning a 0x0 matrix, as
+    `.det.` and `.pinv.` already did. `.inv.` and `.det.` are the forms of
+    `inv` and `det` without `err`.
+  - `solve` and `inv` with `err` return an empty array on any error, as
+    `lstsq` does. For a singular matrix, `solve` returned an array of the
+    shape of `b`, and `inv` the `n x n` matrix that `invert` overwrote, both
+    with undefined values.
+- Fortran 2018 is the minimum language standard: a `pure` procedure stops on
+  an error with `error stop`, which `la_state` already relied on.
   
 ### Added
 
@@ -323,3 +351,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   columns than `a` in `r`, or more than `size(a,1)` columns in `q` or rows in `r`. Those
   passed the size check before and came back with undefined or misplaced values.
 - `qr` frees its copy of `a` when the `storage` it is given is too small.
+- `mnorm(a, order, dim)` of an array of rank 3 or more returns an empty array on an
+  invalid `order`, as it does on an invalid `dim`, instead of an unallocated result.

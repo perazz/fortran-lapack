@@ -22,8 +22,8 @@ module la_pseudoinverse
      !! @param[in] A The input matrix of size \f$ [m, n] \f$.
      !! @param[in] rtol (Optional) Relative tolerance for singular value truncation. If not provided,
      !!                 a default value is used.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
+     !! @param[out] err (Optional) A state return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
      !!
      !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
      !!
@@ -71,8 +71,8 @@ module la_pseudoinverse
      !!
      !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
      !!
-     !! @note This operator is a shorthand for calling `pinv(A)`, allowing expressions such as:
-     !!       \f$ X = .pinv.A \f$
+     !! @note This operator is the `pure` form of `pinv(A)`, allowing expressions such as:
+     !!       \f$ X = .pinv.A \f$. Execution stops if the SVD fails.
      !! @warning The accuracy of the pseudo-inverse depends on the condition number of \f$ A \f$.
      !!
      public :: operator(.pinv.)
@@ -90,8 +90,8 @@ module la_pseudoinverse
      !! @param[in] A The input matrix of size \f$ [m, n] \f$.
      !! @param[in] rtol (Optional) Relative tolerance for singular value truncation. If not provided,
      !!                 a default value is used.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
+     !! @param[out] err (Optional) A state return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
      !!
      !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
      !!
@@ -101,20 +101,28 @@ module la_pseudoinverse
      !!
      interface pinv
         module procedure la_pseudoinverse_s
+        module procedure la_pseudoinverse_err_s
         module procedure la_pseudoinverse_d
+        module procedure la_pseudoinverse_err_d
 #ifdef LA_WITH_XDP
         module procedure la_pseudoinverse_x
+        module procedure la_pseudoinverse_err_x
 #endif
 #ifdef LA_WITH_QP
         module procedure la_pseudoinverse_q
+        module procedure la_pseudoinverse_err_q
 #endif
         module procedure la_pseudoinverse_c
+        module procedure la_pseudoinverse_err_c
         module procedure la_pseudoinverse_z
+        module procedure la_pseudoinverse_err_z
 #ifdef LA_WITH_XDP
         module procedure la_pseudoinverse_y
+        module procedure la_pseudoinverse_err_y
 #endif
 #ifdef LA_WITH_QP
         module procedure la_pseudoinverse_w
+        module procedure la_pseudoinverse_err_w
 #endif
      end interface pinv
 
@@ -173,8 +181,8 @@ module la_pseudoinverse
      !!
      !! @return The pseudo-inverse matrix \f$ A^+ \f$ of size \f$ [n, m] \f$.
      !!
-     !! @note This operator is a shorthand for calling `pinv(A)`, allowing expressions such as:
-     !!       \f$ X = .pinv.A \f$
+     !! @note This operator is the `pure` form of `pinv(A)`, allowing expressions such as:
+     !!       \f$ X = .pinv.A \f$. Execution stops if the SVD fails.
      !! @warning The accuracy of the pseudo-inverse depends on the condition number of \f$ A \f$.
      !!
      interface operator(.pinv.)
@@ -267,24 +275,41 @@ module la_pseudoinverse
 
      end subroutine la_pseudoinvert_s
 
-     ! Function interface
-     function la_pseudoinverse_s(a,rtol,err) result(pinva)
+     ! Function interface: `pure`, stops on error
+     pure function la_pseudoinverse_s(a,rtol) result(pinva)
          !> Input matrix a[m,n]
-         real(sp),intent(in),target :: a(:,:)
+         real(sp),intent(in) :: a(:,:)
          !> [optional] ....
          real(sp),optional,intent(in) :: rtol
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(sp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy, which the SVD may overwrite
+         real(sp),allocatable :: amat(:,:)
          
-         call la_pseudoinvert_s(ap,pinva,rtol,err=err)
+         amat = a
+         call la_pseudoinvert_s(amat,pinva,rtol,overwrite_a=.true._lk)
 
      end function la_pseudoinverse_s
+
+     ! Function interface with a state return flag
+     function la_pseudoinverse_err_s(a,rtol,err) result(pinva)
+         !> Input matrix a[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> [optional] ....
+         real(sp),optional,intent(in) :: rtol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix pseudo-inverse
+         real(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         ! Working copy, which the SVD may overwrite
+         real(sp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_pseudoinvert_s(amat,pinva,rtol,overwrite_a=.true._lk,err=err)
+
+     end function la_pseudoinverse_err_s
 
      ! Inverse matrix operator
      pure function la_pinv_s_operator(a) result(pinva)
@@ -368,24 +393,41 @@ module la_pseudoinverse
 
      end subroutine la_pseudoinvert_d
 
-     ! Function interface
-     function la_pseudoinverse_d(a,rtol,err) result(pinva)
+     ! Function interface: `pure`, stops on error
+     pure function la_pseudoinverse_d(a,rtol) result(pinva)
          !> Input matrix a[m,n]
-         real(dp),intent(in),target :: a(:,:)
+         real(dp),intent(in) :: a(:,:)
          !> [optional] ....
          real(dp),optional,intent(in) :: rtol
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(dp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy, which the SVD may overwrite
+         real(dp),allocatable :: amat(:,:)
          
-         call la_pseudoinvert_d(ap,pinva,rtol,err=err)
+         amat = a
+         call la_pseudoinvert_d(amat,pinva,rtol,overwrite_a=.true._lk)
 
      end function la_pseudoinverse_d
+
+     ! Function interface with a state return flag
+     function la_pseudoinverse_err_d(a,rtol,err) result(pinva)
+         !> Input matrix a[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> [optional] ....
+         real(dp),optional,intent(in) :: rtol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix pseudo-inverse
+         real(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         ! Working copy, which the SVD may overwrite
+         real(dp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_pseudoinvert_d(amat,pinva,rtol,overwrite_a=.true._lk,err=err)
+
+     end function la_pseudoinverse_err_d
 
      ! Inverse matrix operator
      pure function la_pinv_d_operator(a) result(pinva)
@@ -470,24 +512,41 @@ module la_pseudoinverse
 
      end subroutine la_pseudoinvert_x
 
-     ! Function interface
-     function la_pseudoinverse_x(a,rtol,err) result(pinva)
+     ! Function interface: `pure`, stops on error
+     pure function la_pseudoinverse_x(a,rtol) result(pinva)
          !> Input matrix a[m,n]
-         real(xdp),intent(in),target :: a(:,:)
+         real(xdp),intent(in) :: a(:,:)
          !> [optional] ....
          real(xdp),optional,intent(in) :: rtol
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(xdp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(xdp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy, which the SVD may overwrite
+         real(xdp),allocatable :: amat(:,:)
          
-         call la_pseudoinvert_x(ap,pinva,rtol,err=err)
+         amat = a
+         call la_pseudoinvert_x(amat,pinva,rtol,overwrite_a=.true._lk)
 
      end function la_pseudoinverse_x
+
+     ! Function interface with a state return flag
+     function la_pseudoinverse_err_x(a,rtol,err) result(pinva)
+         !> Input matrix a[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> [optional] ....
+         real(xdp),optional,intent(in) :: rtol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix pseudo-inverse
+         real(xdp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         ! Working copy, which the SVD may overwrite
+         real(xdp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_pseudoinvert_x(amat,pinva,rtol,overwrite_a=.true._lk,err=err)
+
+     end function la_pseudoinverse_err_x
 
      ! Inverse matrix operator
      pure function la_pinv_x_operator(a) result(pinva)
@@ -573,24 +632,41 @@ module la_pseudoinverse
 
      end subroutine la_pseudoinvert_q
 
-     ! Function interface
-     function la_pseudoinverse_q(a,rtol,err) result(pinva)
+     ! Function interface: `pure`, stops on error
+     pure function la_pseudoinverse_q(a,rtol) result(pinva)
          !> Input matrix a[m,n]
-         real(qp),intent(in),target :: a(:,:)
+         real(qp),intent(in) :: a(:,:)
          !> [optional] ....
          real(qp),optional,intent(in) :: rtol
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          real(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         real(qp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy, which the SVD may overwrite
+         real(qp),allocatable :: amat(:,:)
          
-         call la_pseudoinvert_q(ap,pinva,rtol,err=err)
+         amat = a
+         call la_pseudoinvert_q(amat,pinva,rtol,overwrite_a=.true._lk)
 
      end function la_pseudoinverse_q
+
+     ! Function interface with a state return flag
+     function la_pseudoinverse_err_q(a,rtol,err) result(pinva)
+         !> Input matrix a[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> [optional] ....
+         real(qp),optional,intent(in) :: rtol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix pseudo-inverse
+         real(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         ! Working copy, which the SVD may overwrite
+         real(qp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_pseudoinvert_q(amat,pinva,rtol,overwrite_a=.true._lk,err=err)
+
+     end function la_pseudoinverse_err_q
 
      ! Inverse matrix operator
      pure function la_pinv_q_operator(a) result(pinva)
@@ -675,24 +751,41 @@ module la_pseudoinverse
 
      end subroutine la_pseudoinvert_c
 
-     ! Function interface
-     function la_pseudoinverse_c(a,rtol,err) result(pinva)
+     ! Function interface: `pure`, stops on error
+     pure function la_pseudoinverse_c(a,rtol) result(pinva)
          !> Input matrix a[m,n]
-         complex(sp),intent(in),target :: a(:,:)
+         complex(sp),intent(in) :: a(:,:)
          !> [optional] ....
          real(sp),optional,intent(in) :: rtol
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(sp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy, which the SVD may overwrite
+         complex(sp),allocatable :: amat(:,:)
          
-         call la_pseudoinvert_c(ap,pinva,rtol,err=err)
+         amat = a
+         call la_pseudoinvert_c(amat,pinva,rtol,overwrite_a=.true._lk)
 
      end function la_pseudoinverse_c
+
+     ! Function interface with a state return flag
+     function la_pseudoinverse_err_c(a,rtol,err) result(pinva)
+         !> Input matrix a[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> [optional] ....
+         real(sp),optional,intent(in) :: rtol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix pseudo-inverse
+         complex(sp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         ! Working copy, which the SVD may overwrite
+         complex(sp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_pseudoinvert_c(amat,pinva,rtol,overwrite_a=.true._lk,err=err)
+
+     end function la_pseudoinverse_err_c
 
      ! Inverse matrix operator
      pure function la_pinv_c_operator(a) result(pinva)
@@ -776,24 +869,41 @@ module la_pseudoinverse
 
      end subroutine la_pseudoinvert_z
 
-     ! Function interface
-     function la_pseudoinverse_z(a,rtol,err) result(pinva)
+     ! Function interface: `pure`, stops on error
+     pure function la_pseudoinverse_z(a,rtol) result(pinva)
          !> Input matrix a[m,n]
-         complex(dp),intent(in),target :: a(:,:)
+         complex(dp),intent(in) :: a(:,:)
          !> [optional] ....
          real(dp),optional,intent(in) :: rtol
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(dp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy, which the SVD may overwrite
+         complex(dp),allocatable :: amat(:,:)
          
-         call la_pseudoinvert_z(ap,pinva,rtol,err=err)
+         amat = a
+         call la_pseudoinvert_z(amat,pinva,rtol,overwrite_a=.true._lk)
 
      end function la_pseudoinverse_z
+
+     ! Function interface with a state return flag
+     function la_pseudoinverse_err_z(a,rtol,err) result(pinva)
+         !> Input matrix a[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> [optional] ....
+         real(dp),optional,intent(in) :: rtol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix pseudo-inverse
+         complex(dp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         ! Working copy, which the SVD may overwrite
+         complex(dp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_pseudoinvert_z(amat,pinva,rtol,overwrite_a=.true._lk,err=err)
+
+     end function la_pseudoinverse_err_z
 
      ! Inverse matrix operator
      pure function la_pinv_z_operator(a) result(pinva)
@@ -878,24 +988,41 @@ module la_pseudoinverse
 
      end subroutine la_pseudoinvert_y
 
-     ! Function interface
-     function la_pseudoinverse_y(a,rtol,err) result(pinva)
+     ! Function interface: `pure`, stops on error
+     pure function la_pseudoinverse_y(a,rtol) result(pinva)
          !> Input matrix a[m,n]
-         complex(xdp),intent(in),target :: a(:,:)
+         complex(xdp),intent(in) :: a(:,:)
          !> [optional] ....
          real(xdp),optional,intent(in) :: rtol
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(xdp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(xdp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy, which the SVD may overwrite
+         complex(xdp),allocatable :: amat(:,:)
          
-         call la_pseudoinvert_y(ap,pinva,rtol,err=err)
+         amat = a
+         call la_pseudoinvert_y(amat,pinva,rtol,overwrite_a=.true._lk)
 
      end function la_pseudoinverse_y
+
+     ! Function interface with a state return flag
+     function la_pseudoinverse_err_y(a,rtol,err) result(pinva)
+         !> Input matrix a[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> [optional] ....
+         real(xdp),optional,intent(in) :: rtol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix pseudo-inverse
+         complex(xdp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         ! Working copy, which the SVD may overwrite
+         complex(xdp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_pseudoinvert_y(amat,pinva,rtol,overwrite_a=.true._lk,err=err)
+
+     end function la_pseudoinverse_err_y
 
      ! Inverse matrix operator
      pure function la_pinv_y_operator(a) result(pinva)
@@ -981,24 +1108,41 @@ module la_pseudoinverse
 
      end subroutine la_pseudoinvert_w
 
-     ! Function interface
-     function la_pseudoinverse_w(a,rtol,err) result(pinva)
+     ! Function interface: `pure`, stops on error
+     pure function la_pseudoinverse_w(a,rtol) result(pinva)
          !> Input matrix a[m,n]
-         complex(qp),intent(in),target :: a(:,:)
+         complex(qp),intent(in) :: a(:,:)
          !> [optional] ....
          real(qp),optional,intent(in) :: rtol
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
          !> Matrix pseudo-inverse
          complex(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
          
-         ! Use pointer to circumvent svd intent(inout) restriction
-         complex(qp),pointer :: ap(:,:)
-         ap => a
+         ! Working copy, which the SVD may overwrite
+         complex(qp),allocatable :: amat(:,:)
          
-         call la_pseudoinvert_w(ap,pinva,rtol,err=err)
+         amat = a
+         call la_pseudoinvert_w(amat,pinva,rtol,overwrite_a=.true._lk)
 
      end function la_pseudoinverse_w
+
+     ! Function interface with a state return flag
+     function la_pseudoinverse_err_w(a,rtol,err) result(pinva)
+         !> Input matrix a[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> [optional] ....
+         real(qp),optional,intent(in) :: rtol
+         !> State return flag
+         type(la_state),intent(out) :: err
+         !> Matrix pseudo-inverse
+         complex(qp) :: pinva(size(a,2,kind=ilp),size(a,1,kind=ilp))
+
+         ! Working copy, which the SVD may overwrite
+         complex(qp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_pseudoinvert_w(amat,pinva,rtol,overwrite_a=.true._lk,err=err)
+
+     end function la_pseudoinverse_err_w
 
      ! Inverse matrix operator
      pure function la_pinv_w_operator(a) result(pinva)

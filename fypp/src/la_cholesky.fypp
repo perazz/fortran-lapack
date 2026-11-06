@@ -54,7 +54,7 @@ module la_cholesky
      !> @brief Computes the Cholesky factorization \f$ A = L \cdot L^T \f$, or \f$ A = U^T \cdot U \f$. 
      !!
      !! ### Summary 
-     !! Pure function interface for computing the Cholesky triangular factors. 
+     !! Function interface for computing the Cholesky triangular factors.
      !!
      !! ### Description
      !! 
@@ -73,6 +73,8 @@ module la_cholesky
      !!                  Default: lower triangular factor.
      !! @param[in] other_zeroed (Optional) Logical flag indicating whether the unused half of the matrix should be zeroed.
      !!                         Default: true.
+     !! @param[out] err (Optional) State return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
      !! @return c The output matrix of size \f$ [n, n] \f$, containing the Cholesky factor.
      !!
      interface chol
@@ -81,6 +83,7 @@ module la_cholesky
 #ifdef ${LA_GUARD[rk]}$
         #:endif
         module procedure la_${ri}$_cholesky_fun
+        module procedure la_${ri}$_cholesky_fun_err
         #:if LA_GUARD[rk]
 #endif
         #:endif
@@ -220,6 +223,26 @@ module la_cholesky
          call la_${ri}$_cholesky_inplace(c,lower,other_zeroed)
 
      end function la_${ri}$_cholesky_fun
+
+     ! Compute the Cholesky factorization of a symmetric / Hermitian matrix, A = L*L^T = U^T*U.
+     ! Function interface with a state return flag
+     function la_${ri}$_cholesky_fun_err(a,lower,other_zeroed,err) result(c)
+         !> Input matrix a[n,n]
+         ${rt}$, intent(in) :: a(:,:)
+         !> Output matrix with Cholesky factors c[n,n]
+         ${rt}$ :: c(size(a, 1),size(a, 2))
+         !> [optional] is the lower or upper triangular factor required? Default = lower
+         logical(lk), optional, intent(in) :: lower
+         !> [optional] should the unused half of the return matrix be zeroed out? Default: yes
+         logical(lk), optional, intent(in) :: other_zeroed
+         !> State return flag
+         type(la_state), intent(out) :: err
+
+         c = a
+
+         call la_${ri}$_cholesky_inplace(c,lower,other_zeroed,err)
+
+     end function la_${ri}$_cholesky_fun_err
      #:if LA_GUARD[rk]
 #endif
      #:endif

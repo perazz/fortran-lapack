@@ -1933,7 +1933,7 @@ module la_matrix_property_checks
          real(sp),intent(in) :: A(:,:)
          !> Triangle to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          real(sp),parameter :: zero = 0.0_sp
@@ -1977,7 +1977,7 @@ module la_matrix_property_checks
          real(sp),intent(in) :: A(:,:)
          !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          real(sp),parameter :: zero = 0.0_sp
@@ -2021,7 +2021,7 @@ module la_matrix_property_checks
          real(dp),intent(in) :: A(:,:)
          !> Triangle to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          real(dp),parameter :: zero = 0.0_dp
@@ -2065,7 +2065,7 @@ module la_matrix_property_checks
          real(dp),intent(in) :: A(:,:)
          !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          real(dp),parameter :: zero = 0.0_dp
@@ -2110,7 +2110,7 @@ module la_matrix_property_checks
          real(xdp),intent(in) :: A(:,:)
          !> Triangle to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          real(xdp),parameter :: zero = 0.0_xdp
@@ -2154,7 +2154,7 @@ module la_matrix_property_checks
          real(xdp),intent(in) :: A(:,:)
          !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          real(xdp),parameter :: zero = 0.0_xdp
@@ -2200,7 +2200,7 @@ module la_matrix_property_checks
          real(qp),intent(in) :: A(:,:)
          !> Triangle to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          real(qp),parameter :: zero = 0.0_qp
@@ -2244,7 +2244,7 @@ module la_matrix_property_checks
          real(qp),intent(in) :: A(:,:)
          !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          real(qp),parameter :: zero = 0.0_qp
@@ -2289,7 +2289,7 @@ module la_matrix_property_checks
          complex(sp),intent(in) :: A(:,:)
          !> Triangle to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          complex(sp),parameter :: zero = 0.0_sp
@@ -2333,7 +2333,7 @@ module la_matrix_property_checks
          complex(sp),intent(in) :: A(:,:)
          !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          complex(sp),parameter :: zero = 0.0_sp
@@ -2377,7 +2377,7 @@ module la_matrix_property_checks
          complex(dp),intent(in) :: A(:,:)
          !> Triangle to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          complex(dp),parameter :: zero = 0.0_dp
@@ -2421,7 +2421,7 @@ module la_matrix_property_checks
          complex(dp),intent(in) :: A(:,:)
          !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          complex(dp),parameter :: zero = 0.0_dp
@@ -2466,7 +2466,7 @@ module la_matrix_property_checks
          complex(xdp),intent(in) :: A(:,:)
          !> Triangle to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          complex(xdp),parameter :: zero = 0.0_xdp
@@ -2510,7 +2510,7 @@ module la_matrix_property_checks
          complex(xdp),intent(in) :: A(:,:)
          !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          complex(xdp),parameter :: zero = 0.0_xdp
@@ -2556,7 +2556,7 @@ module la_matrix_property_checks
          complex(qp),intent(in) :: A(:,:)
          !> Triangle to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          complex(qp),parameter :: zero = 0.0_qp
@@ -2600,7 +2600,7 @@ module la_matrix_property_checks
          complex(qp),intent(in) :: A(:,:)
          !> Hessenberg form to be tested: 'U' for upper, 'L' for lower
          character,intent(in) :: uplo
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
 
          complex(qp),parameter :: zero = 0.0_qp

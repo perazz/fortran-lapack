@@ -232,7 +232,7 @@ module la_eye
          ${rt}$, intent(in) :: mold
          #:endif
          #:if epresent
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state), intent(out) :: err
          #:endif
          !> Return matrix
@@ -290,7 +290,7 @@ module la_eye
          !> Scalar diagonal value. Used to define the return type.
          ${rt}$, intent(in) :: source
          #:if epresent
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state), intent(out) :: err
          #:endif
          !> Return matrix
@@ -334,7 +334,7 @@ module la_eye
          !> Array of diagonal values. Used to define the return type and the matrix size.
          ${rt}$, intent(in) :: source(:)
          #:if epresent
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state), intent(out) :: err
          #:endif
          !> Return matrix
