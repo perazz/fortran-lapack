@@ -141,7 +141,7 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The determinant of the matrix \( A \), of the same kind as \( A \).</dd></dl>
 <dl class="section note"><dt>Note</dt><dd>This operator is a shorthand for the <code>pure</code> determinant, allowing expressions such as: \( d = .det. A \) </dd></dl>
-<dl class="section warning"><dt>Warning</dt><dd>The matrix \( A \) is copied internally, so the operator never modifies its argument. Execution stops if the matrix is not square. </dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>The matrix \( A \) is copied internally, so the operator never modifies its argument. Execution stops only if the matrix is not square; a singular matrix returns 0. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="a3cce001a9cb015c034dba0e94009a842" name="a3cce001a9cb015c034dba0e94009a842"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3cce001a9cb015c034dba0e94009a842">&#9670;&#160;</a></span>la_cdeterminant()</h2>

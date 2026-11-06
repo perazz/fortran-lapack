@@ -151,7 +151,9 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The determinant of the matrix \( A \). The result is a <code>real</code> scalar value of the same kind as the input matrix.</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This function relies on a matrix factorization approach (e.g., LU decomposition) to compute the determinant efficiently from the <a class="el" href="interfacela__lapack_1_1getrf.html">getrf</a> backend. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This function relies on a matrix factorization approach (e.g., LU decomposition) to compute the determinant efficiently from the <a class="el" href="interfacela__lapack_1_1getrf.html">getrf</a> backend. </dd>
+<dd>
+A singular matrix is not an error: its determinant is 0. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>If <code>overwrite_a</code> is enabled, the original contents of A will be lost. </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aeead739b655f45002e757d26a375f50c" name="aeead739b655f45002e757d26a375f50c"></a>

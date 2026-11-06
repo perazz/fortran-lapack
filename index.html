@@ -936,6 +936,7 @@ Errors</h3>
 <h3><a class="anchor" id="autotoc_md182"></a>
 Notes</h3>
 <ul>
+<li>A singular matrix is not an error: its determinant is 0.</li>
 <li>The determinant of the matrix is computed using the LAPACK <a class="el" href="interfacela__lapack_1_1getrf.html">getrf</a> backend.</li>
 <li>If <code>overwrite_a</code> is enabled, the input matrix <code>a</code> will be destroyed during the computation process.</li>
 </ul>
@@ -958,7 +959,7 @@ Return value</h3>
 <h3><a class="anchor" id="autotoc_md188"></a>
 Errors</h3>
 <ul>
-<li>Unlike <a class="el" href="interfacela__determinant_1_1det.html">det</a>, this operator <b>does not provide explicit error handling</b>: it has no <code>err</code> argument, so a non-square or singular matrix triggers an <code>error stop</code>.</li>
+<li>Unlike <a class="el" href="interfacela__determinant_1_1det.html">det</a>, this operator <b>does not provide explicit error handling</b>: it has no <code>err</code> argument, so a non-square matrix triggers an <code>error stop</code>. A singular matrix is not an error: it returns 0.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md189"></a>
 Notes</h3>
