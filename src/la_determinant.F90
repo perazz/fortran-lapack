@@ -19,9 +19,14 @@ module la_determinant
      !! This function computes the determinant of a real or complex rectangular matrix \f$ A \f$.
      !! The determinant is calculated using LU factorization.
      !!
+     !! Without `err` the function is `pure`, takes A as `intent(in)`, and stops on error; it is
+     !! the function behind `.det.`. With `err` it returns the error state instead, and can
+     !! overwrite A.
+     !!
      !! @param[in,out] A The input square matrix of size \f$ [m, n] \f$. If `overwrite_a` is true,
      !!                  the contents of A may be modified during computation.
-     !! @param[in] overwrite_a (Optional) If `.true.`, A may be overwritten and destroyed. Default is `.false.`.
+     !! @param[in] overwrite_a (Optional, with `err` only) If `.true.`, A may be overwritten and destroyed.
+     !!                        Default is `.false.`.
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
      !!
@@ -34,20 +39,28 @@ module la_determinant
      !!
      interface det
         module procedure la_sdeterminant
+        module procedure la_sdeterminant_err
         module procedure la_ddeterminant
+        module procedure la_ddeterminant_err
 #ifdef LA_WITH_XDP
         module procedure la_xdeterminant
+        module procedure la_xdeterminant_err
 #endif
 #ifdef LA_WITH_QP
         module procedure la_qdeterminant
+        module procedure la_qdeterminant_err
 #endif
         module procedure la_cdeterminant
+        module procedure la_cdeterminant_err
         module procedure la_zdeterminant
+        module procedure la_zdeterminant_err
 #ifdef LA_WITH_XDP
         module procedure la_ydeterminant
+        module procedure la_ydeterminant_err
 #endif
 #ifdef LA_WITH_QP
         module procedure la_wdeterminant
+        module procedure la_wdeterminant_err
 #endif
      end interface det
 
@@ -69,21 +82,21 @@ module la_determinant
 
      ! Operator interface
      interface operator(.det.)
-        module procedure la_spure_determinant
-        module procedure la_dpure_determinant
+        module procedure la_sdeterminant
+        module procedure la_ddeterminant
 #ifdef LA_WITH_XDP
-        module procedure la_xpure_determinant
+        module procedure la_xdeterminant
 #endif
 #ifdef LA_WITH_QP
-        module procedure la_qpure_determinant
+        module procedure la_qdeterminant
 #endif
-        module procedure la_cpure_determinant
-        module procedure la_zpure_determinant
+        module procedure la_cdeterminant
+        module procedure la_zdeterminant
 #ifdef LA_WITH_XDP
-        module procedure la_ypure_determinant
+        module procedure la_ydeterminant
 #endif
 #ifdef LA_WITH_QP
-        module procedure la_wpure_determinant
+        module procedure la_wdeterminant
 #endif
      end interface operator(.det.)
 
@@ -130,16 +143,46 @@ module la_determinant
 
      contains
 
-     ! Compute determinant of a square matrix A
-     function la_sdeterminant(a,overwrite_a,err) result(det)
+     ! Determinant of a square matrix A, function form and operator: `pure`, stops on error
+     pure function la_sdeterminant(a) result(det)
+         !> Input matrix a[m,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         real(sp) :: det
+
+         !> Working copy, which the factorization overwrites
+         real(sp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_sdeterminant_sub(amat,det,overwrite_a=.true._lk)
+
+     end function la_sdeterminant
+
+     ! Determinant of a square matrix A, function form with a state return flag
+     function la_sdeterminant_err(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(sp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result: matrix determinant
          real(sp) :: det
+
+         call la_sdeterminant_sub(a,det,overwrite_a,err)
+
+     end function la_sdeterminant_err
+
+     ! Determinant of a square matrix A
+     pure subroutine la_sdeterminant_sub(a,det,overwrite_a,err)
+         !> Input matrix a[m,n]
+         real(sp),intent(inout),target :: a(:,:)
+         !> Result: matrix determinant
+         real(sp),intent(out) :: det
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
@@ -217,78 +260,7 @@ module la_determinant
          ! Process output and return
          call err0%handle(err)
 
-     end function la_sdeterminant
-
-     ! Compute determinant of a square matrix A, without error control
-     pure function la_spure_determinant(a) result(det)
-         !> Input matrix a[m,n]
-         real(sp),intent(in) :: a(:,:)
-         !> Result: matrix determinant
-         real(sp) :: det
-
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp),allocatable :: ipiv(:)
-         real(sp),allocatable :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det = 0.0_sp
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_sp
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate (amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate (ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_sp
-                       perm = 0
-                       do k = 1,n
-                          if (ipiv(k) /= k) perm = perm + 1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2) /= 0) det = -det
-
-                   case default
-                       call handle_getrf(this,info,m,n,m,err0)
-                end select
-
-                deallocate (amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle()
-
-     end function la_spure_determinant
+     end subroutine la_sdeterminant_sub
 
      ! Sign and logarithm of the absolute value of the determinant of a square matrix A
      pure subroutine la_sslogdet(a,sign,logabsdet,overwrite_a,err)
@@ -368,16 +340,46 @@ module la_determinant
 
      end subroutine la_sslogdet
 
-     ! Compute determinant of a square matrix A
-     function la_ddeterminant(a,overwrite_a,err) result(det)
+     ! Determinant of a square matrix A, function form and operator: `pure`, stops on error
+     pure function la_ddeterminant(a) result(det)
+         !> Input matrix a[m,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         real(dp) :: det
+
+         !> Working copy, which the factorization overwrites
+         real(dp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_ddeterminant_sub(amat,det,overwrite_a=.true._lk)
+
+     end function la_ddeterminant
+
+     ! Determinant of a square matrix A, function form with a state return flag
+     function la_ddeterminant_err(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(dp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result: matrix determinant
          real(dp) :: det
+
+         call la_ddeterminant_sub(a,det,overwrite_a,err)
+
+     end function la_ddeterminant_err
+
+     ! Determinant of a square matrix A
+     pure subroutine la_ddeterminant_sub(a,det,overwrite_a,err)
+         !> Input matrix a[m,n]
+         real(dp),intent(inout),target :: a(:,:)
+         !> Result: matrix determinant
+         real(dp),intent(out) :: det
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
@@ -455,78 +457,7 @@ module la_determinant
          ! Process output and return
          call err0%handle(err)
 
-     end function la_ddeterminant
-
-     ! Compute determinant of a square matrix A, without error control
-     pure function la_dpure_determinant(a) result(det)
-         !> Input matrix a[m,n]
-         real(dp),intent(in) :: a(:,:)
-         !> Result: matrix determinant
-         real(dp) :: det
-
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp),allocatable :: ipiv(:)
-         real(dp),allocatable :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det = 0.0_dp
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_dp
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate (amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate (ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_dp
-                       perm = 0
-                       do k = 1,n
-                          if (ipiv(k) /= k) perm = perm + 1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2) /= 0) det = -det
-
-                   case default
-                       call handle_getrf(this,info,m,n,m,err0)
-                end select
-
-                deallocate (amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle()
-
-     end function la_dpure_determinant
+     end subroutine la_ddeterminant_sub
 
      ! Sign and logarithm of the absolute value of the determinant of a square matrix A
      pure subroutine la_dslogdet(a,sign,logabsdet,overwrite_a,err)
@@ -607,16 +538,46 @@ module la_determinant
      end subroutine la_dslogdet
 
 #ifdef LA_WITH_XDP
-     ! Compute determinant of a square matrix A
-     function la_xdeterminant(a,overwrite_a,err) result(det)
+     ! Determinant of a square matrix A, function form and operator: `pure`, stops on error
+     pure function la_xdeterminant(a) result(det)
+         !> Input matrix a[m,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         real(xdp) :: det
+
+         !> Working copy, which the factorization overwrites
+         real(xdp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_xdeterminant_sub(amat,det,overwrite_a=.true._lk)
+
+     end function la_xdeterminant
+
+     ! Determinant of a square matrix A, function form with a state return flag
+     function la_xdeterminant_err(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(xdp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result: matrix determinant
          real(xdp) :: det
+
+         call la_xdeterminant_sub(a,det,overwrite_a,err)
+
+     end function la_xdeterminant_err
+
+     ! Determinant of a square matrix A
+     pure subroutine la_xdeterminant_sub(a,det,overwrite_a,err)
+         !> Input matrix a[m,n]
+         real(xdp),intent(inout),target :: a(:,:)
+         !> Result: matrix determinant
+         real(xdp),intent(out) :: det
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
@@ -694,78 +655,7 @@ module la_determinant
          ! Process output and return
          call err0%handle(err)
 
-     end function la_xdeterminant
-
-     ! Compute determinant of a square matrix A, without error control
-     pure function la_xpure_determinant(a) result(det)
-         !> Input matrix a[m,n]
-         real(xdp),intent(in) :: a(:,:)
-         !> Result: matrix determinant
-         real(xdp) :: det
-
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp),allocatable :: ipiv(:)
-         real(xdp),allocatable :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det = 0.0_xdp
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_xdp
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate (amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate (ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_xdp
-                       perm = 0
-                       do k = 1,n
-                          if (ipiv(k) /= k) perm = perm + 1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2) /= 0) det = -det
-
-                   case default
-                       call handle_getrf(this,info,m,n,m,err0)
-                end select
-
-                deallocate (amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle()
-
-     end function la_xpure_determinant
+     end subroutine la_xdeterminant_sub
 
      ! Sign and logarithm of the absolute value of the determinant of a square matrix A
      pure subroutine la_xslogdet(a,sign,logabsdet,overwrite_a,err)
@@ -847,16 +737,46 @@ module la_determinant
 #endif
 
 #ifdef LA_WITH_QP
-     ! Compute determinant of a square matrix A
-     function la_qdeterminant(a,overwrite_a,err) result(det)
+     ! Determinant of a square matrix A, function form and operator: `pure`, stops on error
+     pure function la_qdeterminant(a) result(det)
+         !> Input matrix a[m,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         real(qp) :: det
+
+         !> Working copy, which the factorization overwrites
+         real(qp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_qdeterminant_sub(amat,det,overwrite_a=.true._lk)
+
+     end function la_qdeterminant
+
+     ! Determinant of a square matrix A, function form with a state return flag
+     function la_qdeterminant_err(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          real(qp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result: matrix determinant
          real(qp) :: det
+
+         call la_qdeterminant_sub(a,det,overwrite_a,err)
+
+     end function la_qdeterminant_err
+
+     ! Determinant of a square matrix A
+     pure subroutine la_qdeterminant_sub(a,det,overwrite_a,err)
+         !> Input matrix a[m,n]
+         real(qp),intent(inout),target :: a(:,:)
+         !> Result: matrix determinant
+         real(qp),intent(out) :: det
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
@@ -934,78 +854,7 @@ module la_determinant
          ! Process output and return
          call err0%handle(err)
 
-     end function la_qdeterminant
-
-     ! Compute determinant of a square matrix A, without error control
-     pure function la_qpure_determinant(a) result(det)
-         !> Input matrix a[m,n]
-         real(qp),intent(in) :: a(:,:)
-         !> Result: matrix determinant
-         real(qp) :: det
-
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp),allocatable :: ipiv(:)
-         real(qp),allocatable :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det = 0.0_qp
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_qp
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate (amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate (ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_qp
-                       perm = 0
-                       do k = 1,n
-                          if (ipiv(k) /= k) perm = perm + 1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2) /= 0) det = -det
-
-                   case default
-                       call handle_getrf(this,info,m,n,m,err0)
-                end select
-
-                deallocate (amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle()
-
-     end function la_qpure_determinant
+     end subroutine la_qdeterminant_sub
 
      ! Sign and logarithm of the absolute value of the determinant of a square matrix A
      pure subroutine la_qslogdet(a,sign,logabsdet,overwrite_a,err)
@@ -1086,16 +935,46 @@ module la_determinant
      end subroutine la_qslogdet
 #endif
 
-     ! Compute determinant of a square matrix A
-     function la_cdeterminant(a,overwrite_a,err) result(det)
+     ! Determinant of a square matrix A, function form and operator: `pure`, stops on error
+     pure function la_cdeterminant(a) result(det)
+         !> Input matrix a[m,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         complex(sp) :: det
+
+         !> Working copy, which the factorization overwrites
+         complex(sp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_cdeterminant_sub(amat,det,overwrite_a=.true._lk)
+
+     end function la_cdeterminant
+
+     ! Determinant of a square matrix A, function form with a state return flag
+     function la_cdeterminant_err(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result: matrix determinant
          complex(sp) :: det
+
+         call la_cdeterminant_sub(a,det,overwrite_a,err)
+
+     end function la_cdeterminant_err
+
+     ! Determinant of a square matrix A
+     pure subroutine la_cdeterminant_sub(a,det,overwrite_a,err)
+         !> Input matrix a[m,n]
+         complex(sp),intent(inout),target :: a(:,:)
+         !> Result: matrix determinant
+         complex(sp),intent(out) :: det
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
@@ -1173,78 +1052,7 @@ module la_determinant
          ! Process output and return
          call err0%handle(err)
 
-     end function la_cdeterminant
-
-     ! Compute determinant of a square matrix A, without error control
-     pure function la_cpure_determinant(a) result(det)
-         !> Input matrix a[m,n]
-         complex(sp),intent(in) :: a(:,:)
-         !> Result: matrix determinant
-         complex(sp) :: det
-
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp),allocatable :: ipiv(:)
-         complex(sp),allocatable :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det = 0.0_sp
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_sp
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate (amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate (ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_sp
-                       perm = 0
-                       do k = 1,n
-                          if (ipiv(k) /= k) perm = perm + 1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2) /= 0) det = -det
-
-                   case default
-                       call handle_getrf(this,info,m,n,m,err0)
-                end select
-
-                deallocate (amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle()
-
-     end function la_cpure_determinant
+     end subroutine la_cdeterminant_sub
 
      ! Sign and logarithm of the absolute value of the determinant of a square matrix A
      pure subroutine la_cslogdet(a,sign,logabsdet,overwrite_a,err)
@@ -1326,16 +1134,46 @@ module la_determinant
 
      end subroutine la_cslogdet
 
-     ! Compute determinant of a square matrix A
-     function la_zdeterminant(a,overwrite_a,err) result(det)
+     ! Determinant of a square matrix A, function form and operator: `pure`, stops on error
+     pure function la_zdeterminant(a) result(det)
+         !> Input matrix a[m,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         complex(dp) :: det
+
+         !> Working copy, which the factorization overwrites
+         complex(dp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_zdeterminant_sub(amat,det,overwrite_a=.true._lk)
+
+     end function la_zdeterminant
+
+     ! Determinant of a square matrix A, function form with a state return flag
+     function la_zdeterminant_err(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result: matrix determinant
          complex(dp) :: det
+
+         call la_zdeterminant_sub(a,det,overwrite_a,err)
+
+     end function la_zdeterminant_err
+
+     ! Determinant of a square matrix A
+     pure subroutine la_zdeterminant_sub(a,det,overwrite_a,err)
+         !> Input matrix a[m,n]
+         complex(dp),intent(inout),target :: a(:,:)
+         !> Result: matrix determinant
+         complex(dp),intent(out) :: det
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
@@ -1413,78 +1251,7 @@ module la_determinant
          ! Process output and return
          call err0%handle(err)
 
-     end function la_zdeterminant
-
-     ! Compute determinant of a square matrix A, without error control
-     pure function la_zpure_determinant(a) result(det)
-         !> Input matrix a[m,n]
-         complex(dp),intent(in) :: a(:,:)
-         !> Result: matrix determinant
-         complex(dp) :: det
-
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp),allocatable :: ipiv(:)
-         complex(dp),allocatable :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det = 0.0_dp
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_dp
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate (amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate (ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_dp
-                       perm = 0
-                       do k = 1,n
-                          if (ipiv(k) /= k) perm = perm + 1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2) /= 0) det = -det
-
-                   case default
-                       call handle_getrf(this,info,m,n,m,err0)
-                end select
-
-                deallocate (amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle()
-
-     end function la_zpure_determinant
+     end subroutine la_zdeterminant_sub
 
      ! Sign and logarithm of the absolute value of the determinant of a square matrix A
      pure subroutine la_zslogdet(a,sign,logabsdet,overwrite_a,err)
@@ -1567,16 +1334,46 @@ module la_determinant
      end subroutine la_zslogdet
 
 #ifdef LA_WITH_XDP
-     ! Compute determinant of a square matrix A
-     function la_ydeterminant(a,overwrite_a,err) result(det)
+     ! Determinant of a square matrix A, function form and operator: `pure`, stops on error
+     pure function la_ydeterminant(a) result(det)
+         !> Input matrix a[m,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         complex(xdp) :: det
+
+         !> Working copy, which the factorization overwrites
+         complex(xdp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_ydeterminant_sub(amat,det,overwrite_a=.true._lk)
+
+     end function la_ydeterminant
+
+     ! Determinant of a square matrix A, function form with a state return flag
+     function la_ydeterminant_err(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(xdp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result: matrix determinant
          complex(xdp) :: det
+
+         call la_ydeterminant_sub(a,det,overwrite_a,err)
+
+     end function la_ydeterminant_err
+
+     ! Determinant of a square matrix A
+     pure subroutine la_ydeterminant_sub(a,det,overwrite_a,err)
+         !> Input matrix a[m,n]
+         complex(xdp),intent(inout),target :: a(:,:)
+         !> Result: matrix determinant
+         complex(xdp),intent(out) :: det
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
@@ -1654,78 +1451,7 @@ module la_determinant
          ! Process output and return
          call err0%handle(err)
 
-     end function la_ydeterminant
-
-     ! Compute determinant of a square matrix A, without error control
-     pure function la_ypure_determinant(a) result(det)
-         !> Input matrix a[m,n]
-         complex(xdp),intent(in) :: a(:,:)
-         !> Result: matrix determinant
-         complex(xdp) :: det
-
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp),allocatable :: ipiv(:)
-         complex(xdp),allocatable :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det = 0.0_xdp
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_xdp
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate (amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate (ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_xdp
-                       perm = 0
-                       do k = 1,n
-                          if (ipiv(k) /= k) perm = perm + 1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2) /= 0) det = -det
-
-                   case default
-                       call handle_getrf(this,info,m,n,m,err0)
-                end select
-
-                deallocate (amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle()
-
-     end function la_ypure_determinant
+     end subroutine la_ydeterminant_sub
 
      ! Sign and logarithm of the absolute value of the determinant of a square matrix A
      pure subroutine la_yslogdet(a,sign,logabsdet,overwrite_a,err)
@@ -1809,16 +1535,46 @@ module la_determinant
 #endif
 
 #ifdef LA_WITH_QP
-     ! Compute determinant of a square matrix A
-     function la_wdeterminant(a,overwrite_a,err) result(det)
+     ! Determinant of a square matrix A, function form and operator: `pure`, stops on error
+     pure function la_wdeterminant(a) result(det)
+         !> Input matrix a[m,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Result: matrix determinant
+         complex(qp) :: det
+
+         !> Working copy, which the factorization overwrites
+         complex(qp),allocatable :: amat(:,:)
+
+         amat = a
+         call la_wdeterminant_sub(amat,det,overwrite_a=.true._lk)
+
+     end function la_wdeterminant
+
+     ! Determinant of a square matrix A, function form with a state return flag
+     function la_wdeterminant_err(a,overwrite_a,err) result(det)
          !> Input matrix a[m,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result: matrix determinant
          complex(qp) :: det
+
+         call la_wdeterminant_sub(a,det,overwrite_a,err)
+
+     end function la_wdeterminant_err
+
+     ! Determinant of a square matrix A
+     pure subroutine la_wdeterminant_sub(a,det,overwrite_a,err)
+         !> Input matrix a[m,n]
+         complex(qp),intent(inout),target :: a(:,:)
+         !> Result: matrix determinant
+         complex(qp),intent(out) :: det
+         !> [optional] Can A data be overwritten and destroyed?
+         logical(lk),optional,intent(in) :: overwrite_a
+         !> [optional] state return flag. On error if not requested, the code will stop
+         type(la_state),optional,intent(out) :: err
 
          !> Local variables
          type(la_state) :: err0
@@ -1896,78 +1652,7 @@ module la_determinant
          ! Process output and return
          call err0%handle(err)
 
-     end function la_wdeterminant
-
-     ! Compute determinant of a square matrix A, without error control
-     pure function la_wpure_determinant(a) result(det)
-         !> Input matrix a[m,n]
-         complex(qp),intent(in) :: a(:,:)
-         !> Result: matrix determinant
-         complex(qp) :: det
-
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: m,n,info,perm,k
-         integer(ilp),allocatable :: ipiv(:)
-         complex(qp),allocatable :: amat(:,:)
-
-         !> Matrix determinant size
-         m = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-
-         if (m /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid or non-square matrix: a=[',m,',',n,']')
-            det = 0.0_qp
-            call err0%handle()
-            return
-         end if
-
-         select case (m)
-            case (0)
-                ! Empty array has determinant 1 because math
-                det = 1.0_qp
-
-            case (1)
-                ! Scalar
-                det = a(1,1)
-
-            case default
-
-                ! Find determinant from LU decomposition
-                allocate (amat(m,n),source=a)
-
-                ! Pivot indices
-                allocate (ipiv(n))
-
-                ! Compute determinant from LU factorization, then calculate the product of
-                ! all diagonal entries of the U factor.
-                call getrf(m,n,amat,m,ipiv,info)
-
-                select case (info)
-                   case (0)
-                       ! Success: compute determinant
-
-                       ! Start with real 1.0
-                       det = 1.0_qp
-                       perm = 0
-                       do k = 1,n
-                          if (ipiv(k) /= k) perm = perm + 1
-                          det = det*amat(k,k)
-                       end do
-                       if (mod(perm,2) /= 0) det = -det
-
-                   case default
-                       call handle_getrf(this,info,m,n,m,err0)
-                end select
-
-                deallocate (amat)
-
-         end select
-
-         ! Process output and return
-         call err0%handle()
-
-     end function la_wpure_determinant
+     end subroutine la_wdeterminant_sub
 
      ! Sign and logarithm of the absolute value of the determinant of a square matrix A
      pure subroutine la_wslogdet(a,sign,logabsdet,overwrite_a,err)
