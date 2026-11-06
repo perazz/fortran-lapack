@@ -17,14 +17,19 @@ module la_solve
      !! where A is an `n x n` square matrix, and B is either a vector (`n`) or a matrix (`n x nrhs`).
      !! The solution X is returned as an allocatable array.
      !!
+     !! Without `err` the function is `pure`, takes A as `intent(in)`, and stops on error.
+     !! With `err` it returns the error state instead, and can overwrite A.
+     !!
      !! @param[in,out] A The input square matrix of size `n x n`. If `overwrite_a` is true,
      !!                  the contents of A may be modified during computation.
      !! @param[in] B The right-hand side vector (size `n`) or matrix (size `n x nrhs`).
-     !! @param[in] overwrite_a (Optional) If true, A may be overwritten and destroyed. Default is false.
+     !! @param[in] overwrite_a (Optional, with `err` only) If true, A may be overwritten and destroyed.
+     !!                        Default is false.
      !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
      !!                 the function will stop execution.
      !!
-     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`.
+     !! @return Solution matrix X of size `n` (for a single right-hand side) or `n x nrhs`; with `err`,
+     !!         an empty array if the solve failed.
      !!
      !! @note This function relies on LAPACK LU decomposition based solvers `*GESV`.
      !!
@@ -139,36 +144,52 @@ module la_solve
 
      interface solve
         module procedure la_ssolve_one
+        module procedure la_ssolve_err_one
         module procedure la_dsolve_one
+        module procedure la_dsolve_err_one
 #ifdef LA_WITH_XDP
         module procedure la_xsolve_one
+        module procedure la_xsolve_err_one
 #endif
 #ifdef LA_WITH_QP
         module procedure la_qsolve_one
+        module procedure la_qsolve_err_one
 #endif
         module procedure la_csolve_one
+        module procedure la_csolve_err_one
         module procedure la_zsolve_one
+        module procedure la_zsolve_err_one
 #ifdef LA_WITH_XDP
         module procedure la_ysolve_one
+        module procedure la_ysolve_err_one
 #endif
 #ifdef LA_WITH_QP
         module procedure la_wsolve_one
+        module procedure la_wsolve_err_one
 #endif
         module procedure la_ssolve_multiple
+        module procedure la_ssolve_err_multiple
         module procedure la_dsolve_multiple
+        module procedure la_dsolve_err_multiple
 #ifdef LA_WITH_XDP
         module procedure la_xsolve_multiple
+        module procedure la_xsolve_err_multiple
 #endif
 #ifdef LA_WITH_QP
         module procedure la_qsolve_multiple
+        module procedure la_qsolve_err_multiple
 #endif
         module procedure la_csolve_multiple
+        module procedure la_csolve_err_multiple
         module procedure la_zsolve_multiple
+        module procedure la_zsolve_err_multiple
 #ifdef LA_WITH_XDP
         module procedure la_ysolve_multiple
+        module procedure la_ysolve_err_multiple
 #endif
 #ifdef LA_WITH_QP
         module procedure la_wsolve_multiple
+        module procedure la_wsolve_err_multiple
 #endif
      end interface solve
 
@@ -316,73 +337,49 @@ module la_solve
 
      contains
      
-     !> Linear system solve, _one, real(sp)
-     function la_ssolve_one(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _one, real(sp): `pure`, stops on error
+     pure function la_ssolve_one(a,b) result(x)
+         !> Input matrix a[n,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(sp),intent(in) :: b(:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(sp),allocatable :: x(:)
+
+         !> Working copy, which the solver overwrites
+         real(sp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_ssolve_lu_one(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_ssolve_one
+
+     !> Linear system solve, _one, real(sp), with a state return flag
+     function la_ssolve_err_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(sp),intent(in) :: b(:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         real(sp),allocatable,target :: x(:)
+         real(sp),allocatable :: x(:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         real(sp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_ssolve_lu_one(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_ssolve_one
+     end function la_ssolve_err_one
 
      !> Linear system solve into a pre-allocated array, _one, real(sp)
      pure subroutine la_ssolve_lu_one(a,b,x,pivot,overwrite_a,err)
@@ -620,73 +617,49 @@ module la_solve
 
      end subroutine la_ssolve_upper_chol_one
 
-     !> Linear system solve, _one, real(dp)
-     function la_dsolve_one(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _one, real(dp): `pure`, stops on error
+     pure function la_dsolve_one(a,b) result(x)
+         !> Input matrix a[n,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(dp),intent(in) :: b(:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(dp),allocatable :: x(:)
+
+         !> Working copy, which the solver overwrites
+         real(dp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_dsolve_lu_one(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_dsolve_one
+
+     !> Linear system solve, _one, real(dp), with a state return flag
+     function la_dsolve_err_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(dp),intent(in) :: b(:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         real(dp),allocatable,target :: x(:)
+         real(dp),allocatable :: x(:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         real(dp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_dsolve_lu_one(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_dsolve_one
+     end function la_dsolve_err_one
 
      !> Linear system solve into a pre-allocated array, _one, real(dp)
      pure subroutine la_dsolve_lu_one(a,b,x,pivot,overwrite_a,err)
@@ -925,73 +898,49 @@ module la_solve
      end subroutine la_dsolve_upper_chol_one
 
 #ifdef LA_WITH_XDP
-     !> Linear system solve, _one, real(xdp)
-     function la_xsolve_one(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _one, real(xdp): `pure`, stops on error
+     pure function la_xsolve_one(a,b) result(x)
+         !> Input matrix a[n,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(xdp),intent(in) :: b(:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(xdp),allocatable :: x(:)
+
+         !> Working copy, which the solver overwrites
+         real(xdp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_xsolve_lu_one(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_xsolve_one
+
+     !> Linear system solve, _one, real(xdp), with a state return flag
+     function la_xsolve_err_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(xdp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(xdp),intent(in) :: b(:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         real(xdp),allocatable,target :: x(:)
+         real(xdp),allocatable :: x(:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         real(xdp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_xsolve_lu_one(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_xsolve_one
+     end function la_xsolve_err_one
 
      !> Linear system solve into a pre-allocated array, _one, real(xdp)
      pure subroutine la_xsolve_lu_one(a,b,x,pivot,overwrite_a,err)
@@ -1231,73 +1180,49 @@ module la_solve
 #endif
 
 #ifdef LA_WITH_QP
-     !> Linear system solve, _one, real(qp)
-     function la_qsolve_one(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _one, real(qp): `pure`, stops on error
+     pure function la_qsolve_one(a,b) result(x)
+         !> Input matrix a[n,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(qp),intent(in) :: b(:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(qp),allocatable :: x(:)
+
+         !> Working copy, which the solver overwrites
+         real(qp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_qsolve_lu_one(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_qsolve_one
+
+     !> Linear system solve, _one, real(qp), with a state return flag
+     function la_qsolve_err_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(qp),intent(in) :: b(:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         real(qp),allocatable,target :: x(:)
+         real(qp),allocatable :: x(:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         real(qp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_qsolve_lu_one(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_qsolve_one
+     end function la_qsolve_err_one
 
      !> Linear system solve into a pre-allocated array, _one, real(qp)
      pure subroutine la_qsolve_lu_one(a,b,x,pivot,overwrite_a,err)
@@ -1536,73 +1461,49 @@ module la_solve
      end subroutine la_qsolve_upper_chol_one
 #endif
 
-     !> Linear system solve, _one, complex(sp)
-     function la_csolve_one(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _one, complex(sp): `pure`, stops on error
+     pure function la_csolve_one(a,b) result(x)
+         !> Input matrix a[n,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(sp),intent(in) :: b(:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(sp),allocatable :: x(:)
+
+         !> Working copy, which the solver overwrites
+         complex(sp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_csolve_lu_one(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_csolve_one
+
+     !> Linear system solve, _one, complex(sp), with a state return flag
+     function la_csolve_err_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(sp),intent(in) :: b(:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         complex(sp),allocatable,target :: x(:)
+         complex(sp),allocatable :: x(:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         complex(sp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_csolve_lu_one(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_csolve_one
+     end function la_csolve_err_one
 
      !> Linear system solve into a pre-allocated array, _one, complex(sp)
      pure subroutine la_csolve_lu_one(a,b,x,pivot,overwrite_a,err)
@@ -1840,73 +1741,49 @@ module la_solve
 
      end subroutine la_csolve_upper_chol_one
 
-     !> Linear system solve, _one, complex(dp)
-     function la_zsolve_one(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _one, complex(dp): `pure`, stops on error
+     pure function la_zsolve_one(a,b) result(x)
+         !> Input matrix a[n,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(dp),intent(in) :: b(:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(dp),allocatable :: x(:)
+
+         !> Working copy, which the solver overwrites
+         complex(dp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_zsolve_lu_one(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_zsolve_one
+
+     !> Linear system solve, _one, complex(dp), with a state return flag
+     function la_zsolve_err_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(dp),intent(in) :: b(:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         complex(dp),allocatable,target :: x(:)
+         complex(dp),allocatable :: x(:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         complex(dp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_zsolve_lu_one(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_zsolve_one
+     end function la_zsolve_err_one
 
      !> Linear system solve into a pre-allocated array, _one, complex(dp)
      pure subroutine la_zsolve_lu_one(a,b,x,pivot,overwrite_a,err)
@@ -2145,73 +2022,49 @@ module la_solve
      end subroutine la_zsolve_upper_chol_one
 
 #ifdef LA_WITH_XDP
-     !> Linear system solve, _one, complex(xdp)
-     function la_ysolve_one(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _one, complex(xdp): `pure`, stops on error
+     pure function la_ysolve_one(a,b) result(x)
+         !> Input matrix a[n,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(xdp),intent(in) :: b(:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(xdp),allocatable :: x(:)
+
+         !> Working copy, which the solver overwrites
+         complex(xdp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_ysolve_lu_one(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_ysolve_one
+
+     !> Linear system solve, _one, complex(xdp), with a state return flag
+     function la_ysolve_err_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(xdp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(xdp),intent(in) :: b(:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         complex(xdp),allocatable,target :: x(:)
+         complex(xdp),allocatable :: x(:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         complex(xdp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_ysolve_lu_one(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_ysolve_one
+     end function la_ysolve_err_one
 
      !> Linear system solve into a pre-allocated array, _one, complex(xdp)
      pure subroutine la_ysolve_lu_one(a,b,x,pivot,overwrite_a,err)
@@ -2451,73 +2304,49 @@ module la_solve
 #endif
 
 #ifdef LA_WITH_QP
-     !> Linear system solve, _one, complex(qp)
-     function la_wsolve_one(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _one, complex(qp): `pure`, stops on error
+     pure function la_wsolve_one(a,b) result(x)
+         !> Input matrix a[n,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(qp),intent(in) :: b(:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(qp),allocatable :: x(:)
+
+         !> Working copy, which the solver overwrites
+         complex(qp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_wsolve_lu_one(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_wsolve_one
+
+     !> Linear system solve, _one, complex(qp), with a state return flag
+     function la_wsolve_err_one(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(qp),intent(in) :: b(:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         complex(qp),allocatable,target :: x(:)
+         complex(qp),allocatable :: x(:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         complex(qp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_wsolve_lu_one(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_wsolve_one
+     end function la_wsolve_err_one
 
      !> Linear system solve into a pre-allocated array, _one, complex(qp)
      pure subroutine la_wsolve_lu_one(a,b,x,pivot,overwrite_a,err)
@@ -2756,73 +2585,49 @@ module la_solve
      end subroutine la_wsolve_upper_chol_one
 #endif
 
-     !> Linear system solve, _multiple, real(sp)
-     function la_ssolve_multiple(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _multiple, real(sp): `pure`, stops on error
+     pure function la_ssolve_multiple(a,b) result(x)
+         !> Input matrix a[n,n]
+         real(sp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(sp),intent(in) :: b(:,:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(sp),allocatable :: x(:,:)
+
+         !> Working copy, which the solver overwrites
+         real(sp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_ssolve_lu_multiple(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_ssolve_multiple
+
+     !> Linear system solve, _multiple, real(sp), with a state return flag
+     function la_ssolve_err_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(sp),intent(in) :: b(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         real(sp),allocatable,target :: x(:,:)
+         real(sp),allocatable :: x(:,:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         real(sp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_ssolve_lu_multiple(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0,0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_ssolve_multiple
+     end function la_ssolve_err_multiple
 
      !> Linear system solve into a pre-allocated array, _multiple, real(sp)
      pure subroutine la_ssolve_lu_multiple(a,b,x,pivot,overwrite_a,err)
@@ -3060,73 +2865,49 @@ module la_solve
 
      end subroutine la_ssolve_upper_chol_multiple
 
-     !> Linear system solve, _multiple, real(dp)
-     function la_dsolve_multiple(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _multiple, real(dp): `pure`, stops on error
+     pure function la_dsolve_multiple(a,b) result(x)
+         !> Input matrix a[n,n]
+         real(dp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(dp),intent(in) :: b(:,:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(dp),allocatable :: x(:,:)
+
+         !> Working copy, which the solver overwrites
+         real(dp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_dsolve_lu_multiple(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_dsolve_multiple
+
+     !> Linear system solve, _multiple, real(dp), with a state return flag
+     function la_dsolve_err_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(dp),intent(in) :: b(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         real(dp),allocatable,target :: x(:,:)
+         real(dp),allocatable :: x(:,:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         real(dp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_dsolve_lu_multiple(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0,0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_dsolve_multiple
+     end function la_dsolve_err_multiple
 
      !> Linear system solve into a pre-allocated array, _multiple, real(dp)
      pure subroutine la_dsolve_lu_multiple(a,b,x,pivot,overwrite_a,err)
@@ -3365,73 +3146,49 @@ module la_solve
      end subroutine la_dsolve_upper_chol_multiple
 
 #ifdef LA_WITH_XDP
-     !> Linear system solve, _multiple, real(xdp)
-     function la_xsolve_multiple(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _multiple, real(xdp): `pure`, stops on error
+     pure function la_xsolve_multiple(a,b) result(x)
+         !> Input matrix a[n,n]
+         real(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(xdp),intent(in) :: b(:,:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(xdp),allocatable :: x(:,:)
+
+         !> Working copy, which the solver overwrites
+         real(xdp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_xsolve_lu_multiple(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_xsolve_multiple
+
+     !> Linear system solve, _multiple, real(xdp), with a state return flag
+     function la_xsolve_err_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(xdp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(xdp),intent(in) :: b(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         real(xdp),allocatable,target :: x(:,:)
+         real(xdp),allocatable :: x(:,:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         real(xdp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_xsolve_lu_multiple(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0,0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_xsolve_multiple
+     end function la_xsolve_err_multiple
 
      !> Linear system solve into a pre-allocated array, _multiple, real(xdp)
      pure subroutine la_xsolve_lu_multiple(a,b,x,pivot,overwrite_a,err)
@@ -3671,73 +3428,49 @@ module la_solve
 #endif
 
 #ifdef LA_WITH_QP
-     !> Linear system solve, _multiple, real(qp)
-     function la_qsolve_multiple(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _multiple, real(qp): `pure`, stops on error
+     pure function la_qsolve_multiple(a,b) result(x)
+         !> Input matrix a[n,n]
+         real(qp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         real(qp),intent(in) :: b(:,:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         real(qp),allocatable :: x(:,:)
+
+         !> Working copy, which the solver overwrites
+         real(qp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_qsolve_lu_multiple(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_qsolve_multiple
+
+     !> Linear system solve, _multiple, real(qp), with a state return flag
+     function la_qsolve_err_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          real(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          real(qp),intent(in) :: b(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         real(qp),allocatable,target :: x(:,:)
+         real(qp),allocatable :: x(:,:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         real(qp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_qsolve_lu_multiple(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0,0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_qsolve_multiple
+     end function la_qsolve_err_multiple
 
      !> Linear system solve into a pre-allocated array, _multiple, real(qp)
      pure subroutine la_qsolve_lu_multiple(a,b,x,pivot,overwrite_a,err)
@@ -3976,73 +3709,49 @@ module la_solve
      end subroutine la_qsolve_upper_chol_multiple
 #endif
 
-     !> Linear system solve, _multiple, complex(sp)
-     function la_csolve_multiple(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _multiple, complex(sp): `pure`, stops on error
+     pure function la_csolve_multiple(a,b) result(x)
+         !> Input matrix a[n,n]
+         complex(sp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(sp),intent(in) :: b(:,:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(sp),allocatable :: x(:,:)
+
+         !> Working copy, which the solver overwrites
+         complex(sp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_csolve_lu_multiple(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_csolve_multiple
+
+     !> Linear system solve, _multiple, complex(sp), with a state return flag
+     function la_csolve_err_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(sp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(sp),intent(in) :: b(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         complex(sp),allocatable,target :: x(:,:)
+         complex(sp),allocatable :: x(:,:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         complex(sp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_csolve_lu_multiple(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0,0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_csolve_multiple
+     end function la_csolve_err_multiple
 
      !> Linear system solve into a pre-allocated array, _multiple, complex(sp)
      pure subroutine la_csolve_lu_multiple(a,b,x,pivot,overwrite_a,err)
@@ -4280,73 +3989,49 @@ module la_solve
 
      end subroutine la_csolve_upper_chol_multiple
 
-     !> Linear system solve, _multiple, complex(dp)
-     function la_zsolve_multiple(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _multiple, complex(dp): `pure`, stops on error
+     pure function la_zsolve_multiple(a,b) result(x)
+         !> Input matrix a[n,n]
+         complex(dp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(dp),intent(in) :: b(:,:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(dp),allocatable :: x(:,:)
+
+         !> Working copy, which the solver overwrites
+         complex(dp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_zsolve_lu_multiple(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_zsolve_multiple
+
+     !> Linear system solve, _multiple, complex(dp), with a state return flag
+     function la_zsolve_err_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(dp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(dp),intent(in) :: b(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         complex(dp),allocatable,target :: x(:,:)
+         complex(dp),allocatable :: x(:,:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         complex(dp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_zsolve_lu_multiple(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0,0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_zsolve_multiple
+     end function la_zsolve_err_multiple
 
      !> Linear system solve into a pre-allocated array, _multiple, complex(dp)
      pure subroutine la_zsolve_lu_multiple(a,b,x,pivot,overwrite_a,err)
@@ -4585,73 +4270,49 @@ module la_solve
      end subroutine la_zsolve_upper_chol_multiple
 
 #ifdef LA_WITH_XDP
-     !> Linear system solve, _multiple, complex(xdp)
-     function la_ysolve_multiple(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _multiple, complex(xdp): `pure`, stops on error
+     pure function la_ysolve_multiple(a,b) result(x)
+         !> Input matrix a[n,n]
+         complex(xdp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(xdp),intent(in) :: b(:,:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(xdp),allocatable :: x(:,:)
+
+         !> Working copy, which the solver overwrites
+         complex(xdp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_ysolve_lu_multiple(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_ysolve_multiple
+
+     !> Linear system solve, _multiple, complex(xdp), with a state return flag
+     function la_ysolve_err_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(xdp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(xdp),intent(in) :: b(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         complex(xdp),allocatable,target :: x(:,:)
+         complex(xdp),allocatable :: x(:,:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         complex(xdp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_ysolve_lu_multiple(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0,0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_ysolve_multiple
+     end function la_ysolve_err_multiple
 
      !> Linear system solve into a pre-allocated array, _multiple, complex(xdp)
      pure subroutine la_ysolve_lu_multiple(a,b,x,pivot,overwrite_a,err)
@@ -4891,73 +4552,49 @@ module la_solve
 #endif
 
 #ifdef LA_WITH_QP
-     !> Linear system solve, _multiple, complex(qp)
-     function la_wsolve_multiple(a,b,overwrite_a,err) result(x)
+     !> Linear system solve, _multiple, complex(qp): `pure`, stops on error
+     pure function la_wsolve_multiple(a,b) result(x)
+         !> Input matrix a[n,n]
+         complex(qp),intent(in) :: a(:,:)
+         !> Right hand side vector or array, b[n] or b[n,nrhs]
+         complex(qp),intent(in) :: b(:,:)
+         !> Result array/matrix x[n] or x[n,nrhs]
+         complex(qp),allocatable :: x(:,:)
+
+         !> Working copy, which the solver overwrites
+         complex(qp),allocatable :: amat(:,:)
+
+         amat = a
+         allocate (x,mold=b)
+
+         call la_wsolve_lu_multiple(amat,b,x,overwrite_a=.true._lk)
+
+     end function la_wsolve_multiple
+
+     !> Linear system solve, _multiple, complex(qp), with a state return flag
+     function la_wsolve_err_multiple(a,b,overwrite_a,err) result(x)
          !> Input matrix a[n,n]
          complex(qp),intent(inout),target :: a(:,:)
          !> Right hand side vector or array, b[n] or b[n,nrhs]
          complex(qp),intent(in) :: b(:,:)
          !> [optional] Can A data be overwritten and destroyed?
          logical(lk),optional,intent(in) :: overwrite_a
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state),optional,intent(out) :: err
+         !> State return flag
+         type(la_state),intent(out) :: err
          !> Result array/matrix x[n] or x[n,nrhs]
-         complex(qp),allocatable,target :: x(:,:)
+         complex(qp),allocatable :: x(:,:)
 
-         !> Local variables
-         type(la_state) :: err0
-         integer(ilp) :: lda,n,ldb,nrhs,info
-         integer(ilp),allocatable :: ipiv(:)
-         logical(lk) :: copy_a
-         complex(qp),pointer :: xmat(:,:),amat(:,:)
+         allocate (x,mold=b)
 
-         !> Problem sizes
-         lda = size(a,1,kind=ilp)
-         n = size(a,2,kind=ilp)
-         ldb = size(b,1,kind=ilp)
-         nrhs = size(b,kind=ilp)/ldb
+         call la_wsolve_lu_multiple(a,b,x,overwrite_a=overwrite_a,err=err)
 
-         if (lda < 1 .or. n < 1 .or. ldb < 1 .or. lda /= n .or. ldb /= n) then
-            err0 = la_state(this,LINALG_VALUE_ERROR,'invalid sizes: a=[',lda,',',n,'],', &
-                                                                       'b=[',ldb,',',nrhs,']')
+         ! An invalid problem returns an empty solution
+         if (err%error()) then
+            deallocate (x)
             allocate (x(0,0))
-            call err0%handle(err)
-            return
          end if
 
-         ! Can A be overwritten? By default, do not overwrite
-         if (present(overwrite_a)) then
-            copy_a = .not. overwrite_a
-         else
-            copy_a = .true._lk
-         end if
-
-         ! Pivot indices
-         allocate (ipiv(n))
-
-         ! Initialize a matrix temporary
-         if (copy_a) then
-            allocate (amat(lda,n),source=a)
-         else
-            amat => a
-         end if
-
-         ! Initialize solution with the rhs
-         allocate (x,source=b)
-         xmat(1:n,1:nrhs) => x
-
-         ! Solve system
-         call gesv(n,nrhs,amat,lda,ipiv,xmat,ldb,info)
-
-         ! Process output
-         call handle_gesv(this,info,n,nrhs,lda,ldb,err0)
-
-         if (copy_a) deallocate (amat)
-
-         ! Process output and return
-         call err0%handle(err)
-
-     end function la_wsolve_multiple
+     end function la_wsolve_err_multiple
 
      !> Linear system solve into a pre-allocated array, _multiple, complex(qp)
      pure subroutine la_wsolve_lu_multiple(a,b,x,pivot,overwrite_a,err)
