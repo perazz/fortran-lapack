@@ -738,111 +738,213 @@ module la_norms
 #endif
      end interface get_norm
      
-     !> Matrix norm: function interface
+     !> Matrix norm: function interface.
+     !!
+     !! `nrm = mnorm(a, order [, dim])` returns the 1-, infinity- or Frobenius norm of the matrix
+     !! `a`, from LAPACK's [lange](@ref la_lapack::lange); for an array of rank 3 or higher, the
+     !! norms of its matrices along the dimensions `dim` (default `[1,2]`). Without `err` the
+     !! function is `pure`, and an error stops execution; `mnorm(a, order [, dim], err)` returns
+     !! the error state instead.
      interface mnorm
-         module procedure matrix_norm_char_s
-         module procedure matrix_norm_3D_to_1D_char_s
-         module procedure matrix_norm_4D_to_2D_char_s
-         module procedure matrix_norm_5D_to_3D_char_s
-         module procedure matrix_norm_6D_to_4D_char_s
-         module procedure matrix_norm_7D_to_5D_char_s
-         module procedure matrix_norm_int_s
-         module procedure matrix_norm_3D_to_1D_int_s
-         module procedure matrix_norm_4D_to_2D_int_s
-         module procedure matrix_norm_5D_to_3D_int_s
-         module procedure matrix_norm_6D_to_4D_int_s
-         module procedure matrix_norm_7D_to_5D_int_s
-         module procedure matrix_norm_char_d
-         module procedure matrix_norm_3D_to_1D_char_d
-         module procedure matrix_norm_4D_to_2D_char_d
-         module procedure matrix_norm_5D_to_3D_char_d
-         module procedure matrix_norm_6D_to_4D_char_d
-         module procedure matrix_norm_7D_to_5D_char_d
-         module procedure matrix_norm_int_d
-         module procedure matrix_norm_3D_to_1D_int_d
-         module procedure matrix_norm_4D_to_2D_int_d
-         module procedure matrix_norm_5D_to_3D_int_d
-         module procedure matrix_norm_6D_to_4D_int_d
-         module procedure matrix_norm_7D_to_5D_int_d
+         module procedure la_mnorm_char_s
+         module procedure la_mnorm_err_char_s
+         module procedure la_mnorm_3D_to_1D_char_s
+         module procedure la_mnorm_3D_to_1D_err_char_s
+         module procedure la_mnorm_4D_to_2D_char_s
+         module procedure la_mnorm_4D_to_2D_err_char_s
+         module procedure la_mnorm_5D_to_3D_char_s
+         module procedure la_mnorm_5D_to_3D_err_char_s
+         module procedure la_mnorm_6D_to_4D_char_s
+         module procedure la_mnorm_6D_to_4D_err_char_s
+         module procedure la_mnorm_7D_to_5D_char_s
+         module procedure la_mnorm_7D_to_5D_err_char_s
+         module procedure la_mnorm_int_s
+         module procedure la_mnorm_err_int_s
+         module procedure la_mnorm_3D_to_1D_int_s
+         module procedure la_mnorm_3D_to_1D_err_int_s
+         module procedure la_mnorm_4D_to_2D_int_s
+         module procedure la_mnorm_4D_to_2D_err_int_s
+         module procedure la_mnorm_5D_to_3D_int_s
+         module procedure la_mnorm_5D_to_3D_err_int_s
+         module procedure la_mnorm_6D_to_4D_int_s
+         module procedure la_mnorm_6D_to_4D_err_int_s
+         module procedure la_mnorm_7D_to_5D_int_s
+         module procedure la_mnorm_7D_to_5D_err_int_s
+         module procedure la_mnorm_char_d
+         module procedure la_mnorm_err_char_d
+         module procedure la_mnorm_3D_to_1D_char_d
+         module procedure la_mnorm_3D_to_1D_err_char_d
+         module procedure la_mnorm_4D_to_2D_char_d
+         module procedure la_mnorm_4D_to_2D_err_char_d
+         module procedure la_mnorm_5D_to_3D_char_d
+         module procedure la_mnorm_5D_to_3D_err_char_d
+         module procedure la_mnorm_6D_to_4D_char_d
+         module procedure la_mnorm_6D_to_4D_err_char_d
+         module procedure la_mnorm_7D_to_5D_char_d
+         module procedure la_mnorm_7D_to_5D_err_char_d
+         module procedure la_mnorm_int_d
+         module procedure la_mnorm_err_int_d
+         module procedure la_mnorm_3D_to_1D_int_d
+         module procedure la_mnorm_3D_to_1D_err_int_d
+         module procedure la_mnorm_4D_to_2D_int_d
+         module procedure la_mnorm_4D_to_2D_err_int_d
+         module procedure la_mnorm_5D_to_3D_int_d
+         module procedure la_mnorm_5D_to_3D_err_int_d
+         module procedure la_mnorm_6D_to_4D_int_d
+         module procedure la_mnorm_6D_to_4D_err_int_d
+         module procedure la_mnorm_7D_to_5D_int_d
+         module procedure la_mnorm_7D_to_5D_err_int_d
 #ifdef LA_WITH_XDP
-         module procedure matrix_norm_char_x
-         module procedure matrix_norm_3D_to_1D_char_x
-         module procedure matrix_norm_4D_to_2D_char_x
-         module procedure matrix_norm_5D_to_3D_char_x
-         module procedure matrix_norm_6D_to_4D_char_x
-         module procedure matrix_norm_7D_to_5D_char_x
-         module procedure matrix_norm_int_x
-         module procedure matrix_norm_3D_to_1D_int_x
-         module procedure matrix_norm_4D_to_2D_int_x
-         module procedure matrix_norm_5D_to_3D_int_x
-         module procedure matrix_norm_6D_to_4D_int_x
-         module procedure matrix_norm_7D_to_5D_int_x
+         module procedure la_mnorm_char_x
+         module procedure la_mnorm_err_char_x
+         module procedure la_mnorm_3D_to_1D_char_x
+         module procedure la_mnorm_3D_to_1D_err_char_x
+         module procedure la_mnorm_4D_to_2D_char_x
+         module procedure la_mnorm_4D_to_2D_err_char_x
+         module procedure la_mnorm_5D_to_3D_char_x
+         module procedure la_mnorm_5D_to_3D_err_char_x
+         module procedure la_mnorm_6D_to_4D_char_x
+         module procedure la_mnorm_6D_to_4D_err_char_x
+         module procedure la_mnorm_7D_to_5D_char_x
+         module procedure la_mnorm_7D_to_5D_err_char_x
+         module procedure la_mnorm_int_x
+         module procedure la_mnorm_err_int_x
+         module procedure la_mnorm_3D_to_1D_int_x
+         module procedure la_mnorm_3D_to_1D_err_int_x
+         module procedure la_mnorm_4D_to_2D_int_x
+         module procedure la_mnorm_4D_to_2D_err_int_x
+         module procedure la_mnorm_5D_to_3D_int_x
+         module procedure la_mnorm_5D_to_3D_err_int_x
+         module procedure la_mnorm_6D_to_4D_int_x
+         module procedure la_mnorm_6D_to_4D_err_int_x
+         module procedure la_mnorm_7D_to_5D_int_x
+         module procedure la_mnorm_7D_to_5D_err_int_x
 #endif
 #ifdef LA_WITH_QP
-         module procedure matrix_norm_char_q
-         module procedure matrix_norm_3D_to_1D_char_q
-         module procedure matrix_norm_4D_to_2D_char_q
-         module procedure matrix_norm_5D_to_3D_char_q
-         module procedure matrix_norm_6D_to_4D_char_q
-         module procedure matrix_norm_7D_to_5D_char_q
-         module procedure matrix_norm_int_q
-         module procedure matrix_norm_3D_to_1D_int_q
-         module procedure matrix_norm_4D_to_2D_int_q
-         module procedure matrix_norm_5D_to_3D_int_q
-         module procedure matrix_norm_6D_to_4D_int_q
-         module procedure matrix_norm_7D_to_5D_int_q
+         module procedure la_mnorm_char_q
+         module procedure la_mnorm_err_char_q
+         module procedure la_mnorm_3D_to_1D_char_q
+         module procedure la_mnorm_3D_to_1D_err_char_q
+         module procedure la_mnorm_4D_to_2D_char_q
+         module procedure la_mnorm_4D_to_2D_err_char_q
+         module procedure la_mnorm_5D_to_3D_char_q
+         module procedure la_mnorm_5D_to_3D_err_char_q
+         module procedure la_mnorm_6D_to_4D_char_q
+         module procedure la_mnorm_6D_to_4D_err_char_q
+         module procedure la_mnorm_7D_to_5D_char_q
+         module procedure la_mnorm_7D_to_5D_err_char_q
+         module procedure la_mnorm_int_q
+         module procedure la_mnorm_err_int_q
+         module procedure la_mnorm_3D_to_1D_int_q
+         module procedure la_mnorm_3D_to_1D_err_int_q
+         module procedure la_mnorm_4D_to_2D_int_q
+         module procedure la_mnorm_4D_to_2D_err_int_q
+         module procedure la_mnorm_5D_to_3D_int_q
+         module procedure la_mnorm_5D_to_3D_err_int_q
+         module procedure la_mnorm_6D_to_4D_int_q
+         module procedure la_mnorm_6D_to_4D_err_int_q
+         module procedure la_mnorm_7D_to_5D_int_q
+         module procedure la_mnorm_7D_to_5D_err_int_q
 #endif
-         module procedure matrix_norm_char_c
-         module procedure matrix_norm_3D_to_1D_char_c
-         module procedure matrix_norm_4D_to_2D_char_c
-         module procedure matrix_norm_5D_to_3D_char_c
-         module procedure matrix_norm_6D_to_4D_char_c
-         module procedure matrix_norm_7D_to_5D_char_c
-         module procedure matrix_norm_int_c
-         module procedure matrix_norm_3D_to_1D_int_c
-         module procedure matrix_norm_4D_to_2D_int_c
-         module procedure matrix_norm_5D_to_3D_int_c
-         module procedure matrix_norm_6D_to_4D_int_c
-         module procedure matrix_norm_7D_to_5D_int_c
-         module procedure matrix_norm_char_z
-         module procedure matrix_norm_3D_to_1D_char_z
-         module procedure matrix_norm_4D_to_2D_char_z
-         module procedure matrix_norm_5D_to_3D_char_z
-         module procedure matrix_norm_6D_to_4D_char_z
-         module procedure matrix_norm_7D_to_5D_char_z
-         module procedure matrix_norm_int_z
-         module procedure matrix_norm_3D_to_1D_int_z
-         module procedure matrix_norm_4D_to_2D_int_z
-         module procedure matrix_norm_5D_to_3D_int_z
-         module procedure matrix_norm_6D_to_4D_int_z
-         module procedure matrix_norm_7D_to_5D_int_z
+         module procedure la_mnorm_char_c
+         module procedure la_mnorm_err_char_c
+         module procedure la_mnorm_3D_to_1D_char_c
+         module procedure la_mnorm_3D_to_1D_err_char_c
+         module procedure la_mnorm_4D_to_2D_char_c
+         module procedure la_mnorm_4D_to_2D_err_char_c
+         module procedure la_mnorm_5D_to_3D_char_c
+         module procedure la_mnorm_5D_to_3D_err_char_c
+         module procedure la_mnorm_6D_to_4D_char_c
+         module procedure la_mnorm_6D_to_4D_err_char_c
+         module procedure la_mnorm_7D_to_5D_char_c
+         module procedure la_mnorm_7D_to_5D_err_char_c
+         module procedure la_mnorm_int_c
+         module procedure la_mnorm_err_int_c
+         module procedure la_mnorm_3D_to_1D_int_c
+         module procedure la_mnorm_3D_to_1D_err_int_c
+         module procedure la_mnorm_4D_to_2D_int_c
+         module procedure la_mnorm_4D_to_2D_err_int_c
+         module procedure la_mnorm_5D_to_3D_int_c
+         module procedure la_mnorm_5D_to_3D_err_int_c
+         module procedure la_mnorm_6D_to_4D_int_c
+         module procedure la_mnorm_6D_to_4D_err_int_c
+         module procedure la_mnorm_7D_to_5D_int_c
+         module procedure la_mnorm_7D_to_5D_err_int_c
+         module procedure la_mnorm_char_z
+         module procedure la_mnorm_err_char_z
+         module procedure la_mnorm_3D_to_1D_char_z
+         module procedure la_mnorm_3D_to_1D_err_char_z
+         module procedure la_mnorm_4D_to_2D_char_z
+         module procedure la_mnorm_4D_to_2D_err_char_z
+         module procedure la_mnorm_5D_to_3D_char_z
+         module procedure la_mnorm_5D_to_3D_err_char_z
+         module procedure la_mnorm_6D_to_4D_char_z
+         module procedure la_mnorm_6D_to_4D_err_char_z
+         module procedure la_mnorm_7D_to_5D_char_z
+         module procedure la_mnorm_7D_to_5D_err_char_z
+         module procedure la_mnorm_int_z
+         module procedure la_mnorm_err_int_z
+         module procedure la_mnorm_3D_to_1D_int_z
+         module procedure la_mnorm_3D_to_1D_err_int_z
+         module procedure la_mnorm_4D_to_2D_int_z
+         module procedure la_mnorm_4D_to_2D_err_int_z
+         module procedure la_mnorm_5D_to_3D_int_z
+         module procedure la_mnorm_5D_to_3D_err_int_z
+         module procedure la_mnorm_6D_to_4D_int_z
+         module procedure la_mnorm_6D_to_4D_err_int_z
+         module procedure la_mnorm_7D_to_5D_int_z
+         module procedure la_mnorm_7D_to_5D_err_int_z
 #ifdef LA_WITH_XDP
-         module procedure matrix_norm_char_y
-         module procedure matrix_norm_3D_to_1D_char_y
-         module procedure matrix_norm_4D_to_2D_char_y
-         module procedure matrix_norm_5D_to_3D_char_y
-         module procedure matrix_norm_6D_to_4D_char_y
-         module procedure matrix_norm_7D_to_5D_char_y
-         module procedure matrix_norm_int_y
-         module procedure matrix_norm_3D_to_1D_int_y
-         module procedure matrix_norm_4D_to_2D_int_y
-         module procedure matrix_norm_5D_to_3D_int_y
-         module procedure matrix_norm_6D_to_4D_int_y
-         module procedure matrix_norm_7D_to_5D_int_y
+         module procedure la_mnorm_char_y
+         module procedure la_mnorm_err_char_y
+         module procedure la_mnorm_3D_to_1D_char_y
+         module procedure la_mnorm_3D_to_1D_err_char_y
+         module procedure la_mnorm_4D_to_2D_char_y
+         module procedure la_mnorm_4D_to_2D_err_char_y
+         module procedure la_mnorm_5D_to_3D_char_y
+         module procedure la_mnorm_5D_to_3D_err_char_y
+         module procedure la_mnorm_6D_to_4D_char_y
+         module procedure la_mnorm_6D_to_4D_err_char_y
+         module procedure la_mnorm_7D_to_5D_char_y
+         module procedure la_mnorm_7D_to_5D_err_char_y
+         module procedure la_mnorm_int_y
+         module procedure la_mnorm_err_int_y
+         module procedure la_mnorm_3D_to_1D_int_y
+         module procedure la_mnorm_3D_to_1D_err_int_y
+         module procedure la_mnorm_4D_to_2D_int_y
+         module procedure la_mnorm_4D_to_2D_err_int_y
+         module procedure la_mnorm_5D_to_3D_int_y
+         module procedure la_mnorm_5D_to_3D_err_int_y
+         module procedure la_mnorm_6D_to_4D_int_y
+         module procedure la_mnorm_6D_to_4D_err_int_y
+         module procedure la_mnorm_7D_to_5D_int_y
+         module procedure la_mnorm_7D_to_5D_err_int_y
 #endif
 #ifdef LA_WITH_QP
-         module procedure matrix_norm_char_w
-         module procedure matrix_norm_3D_to_1D_char_w
-         module procedure matrix_norm_4D_to_2D_char_w
-         module procedure matrix_norm_5D_to_3D_char_w
-         module procedure matrix_norm_6D_to_4D_char_w
-         module procedure matrix_norm_7D_to_5D_char_w
-         module procedure matrix_norm_int_w
-         module procedure matrix_norm_3D_to_1D_int_w
-         module procedure matrix_norm_4D_to_2D_int_w
-         module procedure matrix_norm_5D_to_3D_int_w
-         module procedure matrix_norm_6D_to_4D_int_w
-         module procedure matrix_norm_7D_to_5D_int_w
+         module procedure la_mnorm_char_w
+         module procedure la_mnorm_err_char_w
+         module procedure la_mnorm_3D_to_1D_char_w
+         module procedure la_mnorm_3D_to_1D_err_char_w
+         module procedure la_mnorm_4D_to_2D_char_w
+         module procedure la_mnorm_4D_to_2D_err_char_w
+         module procedure la_mnorm_5D_to_3D_char_w
+         module procedure la_mnorm_5D_to_3D_err_char_w
+         module procedure la_mnorm_6D_to_4D_char_w
+         module procedure la_mnorm_6D_to_4D_err_char_w
+         module procedure la_mnorm_7D_to_5D_char_w
+         module procedure la_mnorm_7D_to_5D_err_char_w
+         module procedure la_mnorm_int_w
+         module procedure la_mnorm_err_int_w
+         module procedure la_mnorm_3D_to_1D_int_w
+         module procedure la_mnorm_3D_to_1D_err_int_w
+         module procedure la_mnorm_4D_to_2D_int_w
+         module procedure la_mnorm_4D_to_2D_err_int_w
+         module procedure la_mnorm_5D_to_3D_int_w
+         module procedure la_mnorm_5D_to_3D_err_int_w
+         module procedure la_mnorm_6D_to_4D_int_w
+         module procedure la_mnorm_6D_to_4D_err_int_w
+         module procedure la_mnorm_7D_to_5D_int_w
+         module procedure la_mnorm_7D_to_5D_err_int_w
 #endif
      end interface mnorm
 
@@ -2231,12 +2333,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_char_s(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Norm of the matrix.
+        real(sp) :: nrm
+
+        call matrix_norm_char_s(a,nrm,order)
+
+    end function la_mnorm_char_s
+
+    ! Function interface with output error
+    function la_mnorm_err_char_s(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp) :: nrm
+
+        call matrix_norm_char_s(a,nrm,order,err)
+
+    end function la_mnorm_err_char_s
+
     ! Internal implementation
-    function matrix_norm_char_s(a,order,err) result(nrm)
+    pure subroutine matrix_norm_char_s(a,nrm,order,err)
         !> Input matrix a(m,n)
         real(sp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(sp) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -2279,14 +2409,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_char_s
+    end subroutine matrix_norm_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_char_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_char_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_s(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_char_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_char_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_char_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -2295,15 +2457,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:)
+        real(sp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -2311,8 +2472,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -2325,6 +2484,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -2332,18 +2492,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -2352,37 +2518,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_char_s
+    end subroutine matrix_norm_3D_to_1D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_char_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_char_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_s(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_char_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_char_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_char_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -2391,15 +2576,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:,:)
+        real(sp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -2407,8 +2591,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -2421,6 +2603,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -2428,18 +2611,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -2448,38 +2638,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_char_s
+    end subroutine matrix_norm_4D_to_2D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_char_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_char_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_s(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_char_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_char_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_char_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -2488,15 +2697,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:,:,:)
+        real(sp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -2504,8 +2712,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -2518,6 +2724,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -2525,18 +2732,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -2545,39 +2760,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_char_s
+    end subroutine matrix_norm_5D_to_3D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_char_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_char_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_s(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_char_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_char_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_char_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -2586,15 +2820,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:,:,:,:)
+        real(sp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -2602,8 +2835,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -2616,6 +2847,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -2623,18 +2855,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -2643,40 +2884,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_char_s
+    end subroutine matrix_norm_6D_to_4D_char_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_char_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_char_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_s(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_char_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_char_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_char_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_char_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -2685,15 +2945,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:,:,:,:,:)
+        real(sp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -2701,8 +2960,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -2715,6 +2972,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -2722,18 +2980,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -2742,34 +3010,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_char_s
+    end subroutine matrix_norm_7D_to_5D_char_s
     
     !==============================================
     ! Norms : any rank to scalar
@@ -3956,12 +4211,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_int_s(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Norm of the matrix.
+        real(sp) :: nrm
+
+        call matrix_norm_int_s(a,nrm,order)
+
+    end function la_mnorm_int_s
+
+    ! Function interface with output error
+    function la_mnorm_err_int_s(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp) :: nrm
+
+        call matrix_norm_int_s(a,nrm,order,err)
+
+    end function la_mnorm_err_int_s
+
     ! Internal implementation
-    function matrix_norm_int_s(a,order,err) result(nrm)
+    pure subroutine matrix_norm_int_s(a,nrm,order,err)
         !> Input matrix a(m,n)
         real(sp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(sp) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -4004,14 +4287,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_int_s
+    end subroutine matrix_norm_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_int_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_int_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_s(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_int_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_int_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_int_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -4020,15 +4335,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:)
+        real(sp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4036,8 +4350,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -4050,6 +4362,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -4057,18 +4370,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -4077,37 +4396,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_int_s
+    end subroutine matrix_norm_3D_to_1D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_int_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_int_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_s(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_int_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_int_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_int_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -4116,15 +4454,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:,:)
+        real(sp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4132,8 +4469,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -4146,6 +4481,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -4153,18 +4489,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -4173,38 +4516,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_int_s
+    end subroutine matrix_norm_4D_to_2D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_int_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_int_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_s(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_int_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_int_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_int_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -4213,15 +4575,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:,:,:)
+        real(sp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4229,8 +4590,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -4243,6 +4602,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -4250,18 +4610,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -4270,39 +4638,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_int_s
+    end subroutine matrix_norm_5D_to_3D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_int_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_int_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_s(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_int_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_int_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_int_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -4311,15 +4698,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:,:,:,:)
+        real(sp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4327,8 +4713,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -4341,6 +4725,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -4348,18 +4733,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -4368,40 +4762,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_int_s
+    end subroutine matrix_norm_6D_to_4D_int_s
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_int_s(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_int_s(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(sp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_s(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_int_s
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_int_s(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_s(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_int_s
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_int_s(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -4410,15 +4823,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        real(sp),pointer :: apack(:,:,:,:,:,:,:)
+        real(sp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -4426,8 +4838,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -4440,6 +4850,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -4447,18 +4858,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -4467,34 +4888,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_int_s
+    end subroutine matrix_norm_7D_to_5D_int_s
     
     !==============================================
     ! Norms : any rank to scalar
@@ -5681,12 +6089,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_char_d(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Norm of the matrix.
+        real(dp) :: nrm
+
+        call matrix_norm_char_d(a,nrm,order)
+
+    end function la_mnorm_char_d
+
+    ! Function interface with output error
+    function la_mnorm_err_char_d(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp) :: nrm
+
+        call matrix_norm_char_d(a,nrm,order,err)
+
+    end function la_mnorm_err_char_d
+
     ! Internal implementation
-    function matrix_norm_char_d(a,order,err) result(nrm)
+    pure subroutine matrix_norm_char_d(a,nrm,order,err)
         !> Input matrix a(m,n)
         real(dp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(dp) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -5729,14 +6165,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_char_d
+    end subroutine matrix_norm_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_char_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_char_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_d(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_char_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_char_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_char_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -5745,15 +6213,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:)
+        real(dp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -5761,8 +6228,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -5775,6 +6240,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -5782,18 +6248,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -5802,37 +6274,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_char_d
+    end subroutine matrix_norm_3D_to_1D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_char_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_char_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_d(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_char_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_char_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_char_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -5841,15 +6332,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:,:)
+        real(dp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -5857,8 +6347,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -5871,6 +6359,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -5878,18 +6367,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -5898,38 +6394,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_char_d
+    end subroutine matrix_norm_4D_to_2D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_char_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_char_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_d(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_char_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_char_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_char_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -5938,15 +6453,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:,:,:)
+        real(dp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -5954,8 +6468,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -5968,6 +6480,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -5975,18 +6488,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -5995,39 +6516,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_char_d
+    end subroutine matrix_norm_5D_to_3D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_char_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_char_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_d(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_char_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_char_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_char_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -6036,15 +6576,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:,:,:,:)
+        real(dp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -6052,8 +6591,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -6066,6 +6603,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -6073,18 +6611,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -6093,40 +6640,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_char_d
+    end subroutine matrix_norm_6D_to_4D_char_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_char_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_char_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_d(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_char_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_char_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_char_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_char_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -6135,15 +6701,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:,:,:,:,:)
+        real(dp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -6151,8 +6716,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -6165,6 +6728,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -6172,18 +6736,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -6192,34 +6766,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_char_d
+    end subroutine matrix_norm_7D_to_5D_char_d
     
     !==============================================
     ! Norms : any rank to scalar
@@ -7406,12 +7967,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_int_d(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Norm of the matrix.
+        real(dp) :: nrm
+
+        call matrix_norm_int_d(a,nrm,order)
+
+    end function la_mnorm_int_d
+
+    ! Function interface with output error
+    function la_mnorm_err_int_d(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp) :: nrm
+
+        call matrix_norm_int_d(a,nrm,order,err)
+
+    end function la_mnorm_err_int_d
+
     ! Internal implementation
-    function matrix_norm_int_d(a,order,err) result(nrm)
+    pure subroutine matrix_norm_int_d(a,nrm,order,err)
         !> Input matrix a(m,n)
         real(dp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(dp) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -7454,14 +8043,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_int_d
+    end subroutine matrix_norm_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_int_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_int_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_d(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_int_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_int_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_int_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -7470,15 +8091,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:)
+        real(dp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7486,8 +8106,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -7500,6 +8118,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -7507,18 +8126,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -7527,37 +8152,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_int_d
+    end subroutine matrix_norm_3D_to_1D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_int_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_int_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_d(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_int_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_int_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_int_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -7566,15 +8210,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:,:)
+        real(dp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7582,8 +8225,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -7596,6 +8237,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -7603,18 +8245,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -7623,38 +8272,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_int_d
+    end subroutine matrix_norm_4D_to_2D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_int_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_int_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_d(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_int_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_int_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_int_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -7663,15 +8331,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:,:,:)
+        real(dp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7679,8 +8346,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -7693,6 +8358,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -7700,18 +8366,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -7720,39 +8394,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_int_d
+    end subroutine matrix_norm_5D_to_3D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_int_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_int_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_d(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_int_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_int_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_int_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -7761,15 +8454,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:,:,:,:)
+        real(dp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7777,8 +8469,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -7791,6 +8481,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -7798,18 +8489,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -7818,40 +8518,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_int_d
+    end subroutine matrix_norm_6D_to_4D_int_d
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_int_d(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_int_d(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(dp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_d(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_int_d
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_int_d(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_d(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_int_d
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_int_d(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -7860,15 +8579,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        real(dp),pointer :: apack(:,:,:,:,:,:,:)
+        real(dp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -7876,8 +8594,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -7890,6 +8606,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -7897,18 +8614,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -7917,34 +8644,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_int_d
+    end subroutine matrix_norm_7D_to_5D_int_d
     
 #ifdef LA_WITH_XDP
 
@@ -9133,12 +9847,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_char_x(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Norm of the matrix.
+        real(xdp) :: nrm
+
+        call matrix_norm_char_x(a,nrm,order)
+
+    end function la_mnorm_char_x
+
+    ! Function interface with output error
+    function la_mnorm_err_char_x(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp) :: nrm
+
+        call matrix_norm_char_x(a,nrm,order,err)
+
+    end function la_mnorm_err_char_x
+
     ! Internal implementation
-    function matrix_norm_char_x(a,order,err) result(nrm)
+    pure subroutine matrix_norm_char_x(a,nrm,order,err)
         !> Input matrix a(m,n)
         real(xdp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(xdp) :: nrm
+        real(xdp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -9181,14 +9923,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_char_x
+    end subroutine matrix_norm_char_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_char_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_char_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_x(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_char_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_char_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_char_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_char_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -9197,15 +9971,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:)
+        real(xdp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -9213,8 +9986,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -9227,6 +9998,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -9234,18 +10006,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -9254,37 +10032,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_char_x
+    end subroutine matrix_norm_3D_to_1D_char_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_char_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_char_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_x(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_char_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_char_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_char_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_char_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -9293,15 +10090,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:,:)
+        real(xdp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -9309,8 +10105,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -9323,6 +10117,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -9330,18 +10125,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -9350,38 +10152,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_char_x
+    end subroutine matrix_norm_4D_to_2D_char_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_char_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_char_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_x(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_char_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_char_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_char_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_char_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -9390,15 +10211,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:,:,:)
+        real(xdp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -9406,8 +10226,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -9420,6 +10238,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -9427,18 +10246,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -9447,39 +10274,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_char_x
+    end subroutine matrix_norm_5D_to_3D_char_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_char_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_char_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_x(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_char_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_char_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_char_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_char_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -9488,15 +10334,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:,:,:,:)
+        real(xdp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -9504,8 +10349,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -9518,6 +10361,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -9525,18 +10369,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -9545,40 +10398,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_char_x
+    end subroutine matrix_norm_6D_to_4D_char_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_char_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_char_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_x(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_char_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_char_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_char_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_char_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -9587,15 +10459,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:,:,:,:,:)
+        real(xdp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -9603,8 +10474,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -9617,6 +10486,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -9624,18 +10494,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -9644,34 +10524,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_char_x
+    end subroutine matrix_norm_7D_to_5D_char_x
     
     !==============================================
     ! Norms : any rank to scalar
@@ -10858,12 +11725,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_int_x(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Norm of the matrix.
+        real(xdp) :: nrm
+
+        call matrix_norm_int_x(a,nrm,order)
+
+    end function la_mnorm_int_x
+
+    ! Function interface with output error
+    function la_mnorm_err_int_x(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp) :: nrm
+
+        call matrix_norm_int_x(a,nrm,order,err)
+
+    end function la_mnorm_err_int_x
+
     ! Internal implementation
-    function matrix_norm_int_x(a,order,err) result(nrm)
+    pure subroutine matrix_norm_int_x(a,nrm,order,err)
         !> Input matrix a(m,n)
         real(xdp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(xdp) :: nrm
+        real(xdp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -10906,14 +11801,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_int_x
+    end subroutine matrix_norm_int_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_int_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_int_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_x(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_int_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_int_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_int_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_int_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -10922,15 +11849,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:)
+        real(xdp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -10938,8 +11864,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -10952,6 +11876,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -10959,18 +11884,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -10979,37 +11910,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_int_x
+    end subroutine matrix_norm_3D_to_1D_int_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_int_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_int_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_x(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_int_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_int_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_int_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_int_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -11018,15 +11968,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:,:)
+        real(xdp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11034,8 +11983,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -11048,6 +11995,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -11055,18 +12003,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -11075,38 +12030,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_int_x
+    end subroutine matrix_norm_4D_to_2D_int_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_int_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_int_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_x(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_int_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_int_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_int_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_int_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -11115,15 +12089,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:,:,:)
+        real(xdp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11131,8 +12104,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -11145,6 +12116,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -11152,18 +12124,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -11172,39 +12152,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_int_x
+    end subroutine matrix_norm_5D_to_3D_int_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_int_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_int_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_x(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_int_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_int_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_int_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_int_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -11213,15 +12212,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:,:,:,:)
+        real(xdp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11229,8 +12227,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -11243,6 +12239,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -11250,18 +12247,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -11270,40 +12276,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_int_x
+    end subroutine matrix_norm_6D_to_4D_int_x
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_int_x(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_int_x(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(xdp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_x(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_int_x
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_int_x(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_x(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_int_x
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_int_x(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -11312,15 +12337,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        real(xdp),pointer :: apack(:,:,:,:,:,:,:)
+        real(xdp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -11328,8 +12352,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -11342,6 +12364,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -11349,18 +12372,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -11369,34 +12402,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_int_x
+    end subroutine matrix_norm_7D_to_5D_int_x
     
 #endif
 #ifdef LA_WITH_QP
@@ -12586,12 +13606,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_char_q(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Norm of the matrix.
+        real(qp) :: nrm
+
+        call matrix_norm_char_q(a,nrm,order)
+
+    end function la_mnorm_char_q
+
+    ! Function interface with output error
+    function la_mnorm_err_char_q(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp) :: nrm
+
+        call matrix_norm_char_q(a,nrm,order,err)
+
+    end function la_mnorm_err_char_q
+
     ! Internal implementation
-    function matrix_norm_char_q(a,order,err) result(nrm)
+    pure subroutine matrix_norm_char_q(a,nrm,order,err)
         !> Input matrix a(m,n)
         real(qp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(qp) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -12634,14 +13682,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_char_q
+    end subroutine matrix_norm_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_char_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_char_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_q(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_char_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_char_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_char_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -12650,15 +13730,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:)
+        real(qp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12666,8 +13745,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -12680,6 +13757,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -12687,18 +13765,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -12707,37 +13791,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_char_q
+    end subroutine matrix_norm_3D_to_1D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_char_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_char_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_q(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_char_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_char_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_char_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -12746,15 +13849,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:,:)
+        real(qp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12762,8 +13864,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -12776,6 +13876,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -12783,18 +13884,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -12803,38 +13911,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_char_q
+    end subroutine matrix_norm_4D_to_2D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_char_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_char_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_q(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_char_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_char_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_char_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -12843,15 +13970,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:,:,:)
+        real(qp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12859,8 +13985,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -12873,6 +13997,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -12880,18 +14005,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -12900,39 +14033,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_char_q
+    end subroutine matrix_norm_5D_to_3D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_char_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_char_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_q(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_char_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_char_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_char_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -12941,15 +14093,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:,:,:,:)
+        real(qp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -12957,8 +14108,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -12971,6 +14120,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -12978,18 +14128,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -12998,40 +14157,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_char_q
+    end subroutine matrix_norm_6D_to_4D_char_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_char_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_char_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_q(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_char_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_char_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_char_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_char_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -13040,15 +14218,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:,:,:,:,:)
+        real(qp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -13056,8 +14233,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -13070,6 +14245,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -13077,18 +14253,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -13097,34 +14283,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_char_q
+    end subroutine matrix_norm_7D_to_5D_char_q
     
     !==============================================
     ! Norms : any rank to scalar
@@ -14311,12 +15484,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_int_q(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Norm of the matrix.
+        real(qp) :: nrm
+
+        call matrix_norm_int_q(a,nrm,order)
+
+    end function la_mnorm_int_q
+
+    ! Function interface with output error
+    function la_mnorm_err_int_q(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp) :: nrm
+
+        call matrix_norm_int_q(a,nrm,order,err)
+
+    end function la_mnorm_err_int_q
+
     ! Internal implementation
-    function matrix_norm_int_q(a,order,err) result(nrm)
+    pure subroutine matrix_norm_int_q(a,nrm,order,err)
         !> Input matrix a(m,n)
         real(qp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(qp) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -14359,14 +15560,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_int_q
+    end subroutine matrix_norm_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_int_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_int_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_q(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_int_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_int_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_int_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -14375,15 +15608,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:)
+        real(qp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -14391,8 +15623,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -14405,6 +15635,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -14412,18 +15643,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -14432,37 +15669,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_int_q
+    end subroutine matrix_norm_3D_to_1D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_int_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_int_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_q(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_int_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_int_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_int_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -14471,15 +15727,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:,:)
+        real(qp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -14487,8 +15742,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -14501,6 +15754,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -14508,18 +15762,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -14528,38 +15789,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_int_q
+    end subroutine matrix_norm_4D_to_2D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_int_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_int_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_q(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_int_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_int_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_int_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -14568,15 +15848,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:,:,:)
+        real(qp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -14584,8 +15863,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -14598,6 +15875,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -14605,18 +15883,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -14625,39 +15911,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_int_q
+    end subroutine matrix_norm_5D_to_3D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_int_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_int_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_q(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_int_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_int_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_int_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -14666,15 +15971,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:,:,:,:)
+        real(qp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -14682,8 +15986,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -14696,6 +15998,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -14703,18 +16006,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -14723,40 +16035,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_int_q
+    end subroutine matrix_norm_6D_to_4D_int_q
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_int_q(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_int_q(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        real(qp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_q(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_int_q
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_int_q(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_q(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_int_q
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_int_q(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        real(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -14765,15 +16096,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        real(qp),pointer :: apack(:,:,:,:,:,:,:)
+        real(qp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -14781,8 +16111,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -14795,6 +16123,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -14802,18 +16131,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -14822,34 +16161,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_int_q
+    end subroutine matrix_norm_7D_to_5D_int_q
     
 #endif
 
@@ -16038,12 +17364,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_char_c(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Norm of the matrix.
+        real(sp) :: nrm
+
+        call matrix_norm_char_c(a,nrm,order)
+
+    end function la_mnorm_char_c
+
+    ! Function interface with output error
+    function la_mnorm_err_char_c(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp) :: nrm
+
+        call matrix_norm_char_c(a,nrm,order,err)
+
+    end function la_mnorm_err_char_c
+
     ! Internal implementation
-    function matrix_norm_char_c(a,order,err) result(nrm)
+    pure subroutine matrix_norm_char_c(a,nrm,order,err)
         !> Input matrix a(m,n)
         complex(sp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(sp) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -16086,14 +17440,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_char_c
+    end subroutine matrix_norm_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_char_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_char_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_c(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_char_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_char_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_char_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -16102,15 +17488,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:)
+        complex(sp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16118,8 +17503,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -16132,6 +17515,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -16139,18 +17523,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -16159,37 +17549,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_char_c
+    end subroutine matrix_norm_3D_to_1D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_char_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_char_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_c(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_char_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_char_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_char_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -16198,15 +17607,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:,:)
+        complex(sp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16214,8 +17622,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -16228,6 +17634,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -16235,18 +17642,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -16255,38 +17669,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_char_c
+    end subroutine matrix_norm_4D_to_2D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_char_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_char_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_c(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_char_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_char_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_char_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -16295,15 +17728,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:,:,:)
+        complex(sp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16311,8 +17743,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -16325,6 +17755,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -16332,18 +17763,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -16352,39 +17791,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_char_c
+    end subroutine matrix_norm_5D_to_3D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_char_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_char_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_c(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_char_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_char_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_char_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -16393,15 +17851,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:,:,:,:)
+        complex(sp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16409,8 +17866,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -16423,6 +17878,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -16430,18 +17886,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -16450,40 +17915,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_char_c
+    end subroutine matrix_norm_6D_to_4D_char_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_char_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_char_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_c(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_char_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_char_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_char_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_char_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -16492,15 +17976,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:,:,:,:,:)
+        complex(sp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -16508,8 +17991,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -16522,6 +18003,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -16529,18 +18011,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -16549,34 +18041,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_char_c
+    end subroutine matrix_norm_7D_to_5D_char_c
     
     !==============================================
     ! Norms : any rank to scalar
@@ -17763,12 +19242,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_int_c(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Norm of the matrix.
+        real(sp) :: nrm
+
+        call matrix_norm_int_c(a,nrm,order)
+
+    end function la_mnorm_int_c
+
+    ! Function interface with output error
+    function la_mnorm_err_int_c(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp) :: nrm
+
+        call matrix_norm_int_c(a,nrm,order,err)
+
+    end function la_mnorm_err_int_c
+
     ! Internal implementation
-    function matrix_norm_int_c(a,order,err) result(nrm)
+    pure subroutine matrix_norm_int_c(a,nrm,order,err)
         !> Input matrix a(m,n)
         complex(sp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(sp) :: nrm
+        real(sp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -17811,14 +19318,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_int_c
+    end subroutine matrix_norm_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_int_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_int_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_c(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_int_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_int_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_int_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -17827,15 +19366,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:)
+        complex(sp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -17843,8 +19381,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -17857,6 +19393,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -17864,18 +19401,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -17884,37 +19427,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_int_c
+    end subroutine matrix_norm_3D_to_1D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_int_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_int_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_c(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_int_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_int_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_int_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -17923,15 +19485,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:,:)
+        complex(sp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -17939,8 +19500,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -17953,6 +19512,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -17960,18 +19520,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -17980,38 +19547,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_int_c
+    end subroutine matrix_norm_4D_to_2D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_int_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_int_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_c(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_int_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_int_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_int_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -18020,15 +19606,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:,:,:)
+        complex(sp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -18036,8 +19621,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -18050,6 +19633,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -18057,18 +19641,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -18077,39 +19669,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_int_c
+    end subroutine matrix_norm_5D_to_3D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_int_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_int_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_c(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_int_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_int_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_int_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -18118,15 +19729,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:,:,:,:)
+        complex(sp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -18134,8 +19744,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -18148,6 +19756,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -18155,18 +19764,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -18175,40 +19793,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_int_c
+    end subroutine matrix_norm_6D_to_4D_int_c
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_int_c(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_int_c(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(sp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(sp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_c(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_int_c
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_int_c(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(sp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_c(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_int_c
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_int_c(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(sp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(sp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -18217,15 +19854,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(sp),target :: work1(1)
         real(sp),pointer :: work(:)
-        complex(sp),pointer :: apack(:,:,:,:,:,:,:)
+        complex(sp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -18233,8 +19869,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -18247,6 +19881,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -18254,18 +19889,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -18274,34 +19919,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_int_c
+    end subroutine matrix_norm_7D_to_5D_int_c
     
     !==============================================
     ! Norms : any rank to scalar
@@ -19488,12 +21120,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_char_z(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Norm of the matrix.
+        real(dp) :: nrm
+
+        call matrix_norm_char_z(a,nrm,order)
+
+    end function la_mnorm_char_z
+
+    ! Function interface with output error
+    function la_mnorm_err_char_z(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp) :: nrm
+
+        call matrix_norm_char_z(a,nrm,order,err)
+
+    end function la_mnorm_err_char_z
+
     ! Internal implementation
-    function matrix_norm_char_z(a,order,err) result(nrm)
+    pure subroutine matrix_norm_char_z(a,nrm,order,err)
         !> Input matrix a(m,n)
         complex(dp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(dp) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -19536,14 +21196,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_char_z
+    end subroutine matrix_norm_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_char_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_char_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_z(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_char_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_char_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_char_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -19552,15 +21244,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:)
+        complex(dp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19568,8 +21259,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -19582,6 +21271,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -19589,18 +21279,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -19609,37 +21305,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_char_z
+    end subroutine matrix_norm_3D_to_1D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_char_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_char_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_z(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_char_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_char_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_char_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -19648,15 +21363,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:,:)
+        complex(dp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19664,8 +21378,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -19678,6 +21390,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -19685,18 +21398,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -19705,38 +21425,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_char_z
+    end subroutine matrix_norm_4D_to_2D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_char_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_char_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_z(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_char_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_char_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_char_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -19745,15 +21484,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:,:,:)
+        complex(dp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19761,8 +21499,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -19775,6 +21511,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -19782,18 +21519,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -19802,39 +21547,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_char_z
+    end subroutine matrix_norm_5D_to_3D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_char_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_char_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_z(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_char_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_char_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_char_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -19843,15 +21607,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:,:,:,:)
+        complex(dp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19859,8 +21622,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -19873,6 +21634,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -19880,18 +21642,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -19900,40 +21671,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_char_z
+    end subroutine matrix_norm_6D_to_4D_char_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_char_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_char_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_z(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_char_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_char_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_char_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_char_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -19942,15 +21732,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:,:,:,:,:)
+        complex(dp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -19958,8 +21747,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -19972,6 +21759,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -19979,18 +21767,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -19999,34 +21797,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_char_z
+    end subroutine matrix_norm_7D_to_5D_char_z
     
     !==============================================
     ! Norms : any rank to scalar
@@ -21213,12 +22998,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_int_z(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Norm of the matrix.
+        real(dp) :: nrm
+
+        call matrix_norm_int_z(a,nrm,order)
+
+    end function la_mnorm_int_z
+
+    ! Function interface with output error
+    function la_mnorm_err_int_z(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp) :: nrm
+
+        call matrix_norm_int_z(a,nrm,order,err)
+
+    end function la_mnorm_err_int_z
+
     ! Internal implementation
-    function matrix_norm_int_z(a,order,err) result(nrm)
+    pure subroutine matrix_norm_int_z(a,nrm,order,err)
         !> Input matrix a(m,n)
         complex(dp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(dp) :: nrm
+        real(dp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -21261,14 +23074,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_int_z
+    end subroutine matrix_norm_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_int_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_int_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_z(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_int_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_int_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_int_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -21277,15 +23122,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:)
+        complex(dp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -21293,8 +23137,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -21307,6 +23149,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -21314,18 +23157,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -21334,37 +23183,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_int_z
+    end subroutine matrix_norm_3D_to_1D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_int_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_int_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_z(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_int_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_int_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_int_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -21373,15 +23241,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:,:)
+        complex(dp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -21389,8 +23256,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -21403,6 +23268,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -21410,18 +23276,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -21430,38 +23303,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_int_z
+    end subroutine matrix_norm_4D_to_2D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_int_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_int_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_z(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_int_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_int_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_int_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -21470,15 +23362,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:,:,:)
+        complex(dp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -21486,8 +23377,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -21500,6 +23389,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -21507,18 +23397,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -21527,39 +23425,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_int_z
+    end subroutine matrix_norm_5D_to_3D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_int_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_int_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_z(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_int_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_int_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_int_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -21568,15 +23485,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:,:,:,:)
+        complex(dp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -21584,8 +23500,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -21598,6 +23512,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -21605,18 +23520,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -21625,40 +23549,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_int_z
+    end subroutine matrix_norm_6D_to_4D_int_z
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_int_z(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_int_z(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(dp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(dp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_z(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_int_z
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_int_z(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(dp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_z(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_int_z
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_int_z(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(dp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(dp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -21667,15 +23610,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(dp),target :: work1(1)
         real(dp),pointer :: work(:)
-        complex(dp),pointer :: apack(:,:,:,:,:,:,:)
+        complex(dp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -21683,8 +23625,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -21697,6 +23637,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -21704,18 +23645,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -21724,34 +23675,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_int_z
+    end subroutine matrix_norm_7D_to_5D_int_z
     
 #ifdef LA_WITH_XDP
 
@@ -22940,12 +24878,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_char_y(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Norm of the matrix.
+        real(xdp) :: nrm
+
+        call matrix_norm_char_y(a,nrm,order)
+
+    end function la_mnorm_char_y
+
+    ! Function interface with output error
+    function la_mnorm_err_char_y(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp) :: nrm
+
+        call matrix_norm_char_y(a,nrm,order,err)
+
+    end function la_mnorm_err_char_y
+
     ! Internal implementation
-    function matrix_norm_char_y(a,order,err) result(nrm)
+    pure subroutine matrix_norm_char_y(a,nrm,order,err)
         !> Input matrix a(m,n)
         complex(xdp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(xdp) :: nrm
+        real(xdp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -22988,14 +24954,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_char_y
+    end subroutine matrix_norm_char_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_char_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_char_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_y(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_char_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_char_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_char_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_char_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -23004,15 +25002,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23020,8 +25017,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -23034,6 +25029,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -23041,18 +25037,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -23061,37 +25063,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_char_y
+    end subroutine matrix_norm_3D_to_1D_char_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_char_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_char_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_y(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_char_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_char_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_char_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_char_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -23100,15 +25121,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23116,8 +25136,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -23130,6 +25148,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -23137,18 +25156,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -23157,38 +25183,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_char_y
+    end subroutine matrix_norm_4D_to_2D_char_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_char_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_char_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_y(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_char_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_char_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_char_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_char_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -23197,15 +25242,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23213,8 +25257,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -23227,6 +25269,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -23234,18 +25277,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -23254,39 +25305,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_char_y
+    end subroutine matrix_norm_5D_to_3D_char_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_char_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_char_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_y(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_char_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_char_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_char_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_char_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -23295,15 +25365,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:,:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23311,8 +25380,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -23325,6 +25392,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -23332,18 +25400,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -23352,40 +25429,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_char_y
+    end subroutine matrix_norm_6D_to_4D_char_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_char_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_char_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_y(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_char_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_char_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_char_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_char_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -23394,15 +25490,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:,:,:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -23410,8 +25505,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -23424,6 +25517,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -23431,18 +25525,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -23451,34 +25555,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_char_y
+    end subroutine matrix_norm_7D_to_5D_char_y
     
     !==============================================
     ! Norms : any rank to scalar
@@ -24665,12 +26756,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_int_y(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Norm of the matrix.
+        real(xdp) :: nrm
+
+        call matrix_norm_int_y(a,nrm,order)
+
+    end function la_mnorm_int_y
+
+    ! Function interface with output error
+    function la_mnorm_err_int_y(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp) :: nrm
+
+        call matrix_norm_int_y(a,nrm,order,err)
+
+    end function la_mnorm_err_int_y
+
     ! Internal implementation
-    function matrix_norm_int_y(a,order,err) result(nrm)
+    pure subroutine matrix_norm_int_y(a,nrm,order,err)
         !> Input matrix a(m,n)
         complex(xdp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(xdp) :: nrm
+        real(xdp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -24713,14 +26832,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_int_y
+    end subroutine matrix_norm_int_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_int_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_int_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_y(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_int_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_int_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_int_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_int_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -24729,15 +26880,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24745,8 +26895,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -24759,6 +26907,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -24766,18 +26915,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -24786,37 +26941,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_int_y
+    end subroutine matrix_norm_3D_to_1D_int_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_int_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_int_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_y(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_int_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_int_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_int_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_int_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -24825,15 +26999,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24841,8 +27014,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -24855,6 +27026,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -24862,18 +27034,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -24882,38 +27061,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_int_y
+    end subroutine matrix_norm_4D_to_2D_int_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_int_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_int_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_y(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_int_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_int_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_int_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_int_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -24922,15 +27120,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -24938,8 +27135,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -24952,6 +27147,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -24959,18 +27155,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -24979,39 +27183,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_int_y
+    end subroutine matrix_norm_5D_to_3D_int_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_int_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_int_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_y(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_int_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_int_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_int_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_int_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -25020,15 +27243,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:,:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -25036,8 +27258,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -25050,6 +27270,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -25057,18 +27278,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -25077,40 +27307,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_int_y
+    end subroutine matrix_norm_6D_to_4D_int_y
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_int_y(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_int_y(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(xdp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(xdp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_y(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_int_y
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_int_y(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(xdp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_y(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_int_y
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_int_y(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(xdp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(xdp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -25119,15 +27368,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(xdp),target :: work1(1)
         real(xdp),pointer :: work(:)
-        complex(xdp),pointer :: apack(:,:,:,:,:,:,:)
+        complex(xdp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -25135,8 +27383,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -25149,6 +27395,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -25156,18 +27403,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -25176,34 +27433,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_int_y
+    end subroutine matrix_norm_7D_to_5D_int_y
     
 #endif
 #ifdef LA_WITH_QP
@@ -26393,12 +28637,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_char_w(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Norm of the matrix.
+        real(qp) :: nrm
+
+        call matrix_norm_char_w(a,nrm,order)
+
+    end function la_mnorm_char_w
+
+    ! Function interface with output error
+    function la_mnorm_err_char_w(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp) :: nrm
+
+        call matrix_norm_char_w(a,nrm,order,err)
+
+    end function la_mnorm_err_char_w
+
     ! Internal implementation
-    function matrix_norm_char_w(a,order,err) result(nrm)
+    pure subroutine matrix_norm_char_w(a,nrm,order,err)
         !> Input matrix a(m,n)
         complex(qp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(qp) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -26441,14 +28713,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_char_w
+    end subroutine matrix_norm_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_char_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_char_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_w(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_char_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_char_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_char_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_char_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -26457,15 +28761,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:)
+        complex(qp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26473,8 +28776,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -26487,6 +28788,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -26494,18 +28796,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -26514,37 +28822,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_char_w
+    end subroutine matrix_norm_3D_to_1D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_char_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_char_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_w(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_char_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_char_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_char_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_char_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -26553,15 +28880,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:,:)
+        complex(qp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26569,8 +28895,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -26583,6 +28907,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -26590,18 +28915,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -26610,38 +28942,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_char_w
+    end subroutine matrix_norm_4D_to_2D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_char_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_char_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_w(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_char_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_char_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_char_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_char_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -26650,15 +29001,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:,:,:)
+        complex(qp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26666,8 +29016,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -26680,6 +29028,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -26687,18 +29036,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -26707,39 +29064,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_char_w
+    end subroutine matrix_norm_5D_to_3D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_char_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_char_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_w(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_char_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_char_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_char_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_char_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -26748,15 +29124,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:,:,:,:)
+        complex(qp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26764,8 +29139,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -26778,6 +29151,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -26785,18 +29159,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -26805,40 +29188,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_char_w
+    end subroutine matrix_norm_6D_to_4D_char_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_char_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_char_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_w(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_char_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_char_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        character(len=*),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_char_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_char_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_char_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         character(len=*),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -26847,15 +29249,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:,:,:,:,:)
+        complex(qp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -26863,8 +29264,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -26877,6 +29276,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -26884,18 +29284,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -26904,34 +29314,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_char_w
+    end subroutine matrix_norm_7D_to_5D_char_w
     
     !==============================================
     ! Norms : any rank to scalar
@@ -28118,12 +30515,40 @@ module la_norms
     ! Matrix norms
     !====================================================================
     
+    ! Pure function interface. On error, the code will stop
+    pure function la_mnorm_int_w(a,order) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Norm of the matrix.
+        real(qp) :: nrm
+
+        call matrix_norm_int_w(a,nrm,order)
+
+    end function la_mnorm_int_w
+
+    ! Function interface with output error
+    function la_mnorm_err_int_w(a,order,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in) :: a(:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp) :: nrm
+
+        call matrix_norm_int_w(a,nrm,order,err)
+
+    end function la_mnorm_err_int_w
+
     ! Internal implementation
-    function matrix_norm_int_w(a,order,err) result(nrm)
+    pure subroutine matrix_norm_int_w(a,nrm,order,err)
         !> Input matrix a(m,n)
         complex(qp),intent(in),target :: a(:,:)
         !> Norm of the matrix.
-        real(qp) :: nrm
+        real(qp),intent(out) :: nrm
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] state return flag. On error if not requested, the code will stop
@@ -28166,14 +30591,46 @@ module la_norms
         
         if (lange_task == LANGE_NORM_INF) deallocate (work)
         
-    end function matrix_norm_int_w
+    end subroutine matrix_norm_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_3D_to_1D_int_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_3D_to_1D_int_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_w(a,nrm,order,dim)
+
+    end function la_mnorm_3D_to_1D_int_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_3D_to_1D_err_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:)
+
+        call matrix_norm_3D_to_1D_int_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_3D_to_1D_err_int_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_3D_to_1D_int_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -28182,15 +30639,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(3) :: s,spack,perm,iperm
         integer(ilp),dimension(3),parameter :: dim_range = [(m,m=1_ilp,3_ilp)]
         integer(ilp) :: j3
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:)
+        complex(qp),allocatable :: apack(:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28198,8 +30654,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 3)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',3,' matrix norm has invalid dim=',dims)
@@ -28212,6 +30666,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0))
             call err0%handle(err)
             return
         end if
@@ -28219,18 +30674,24 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3)))
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         else
             
@@ -28239,37 +30700,56 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3)))
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3),m,work, &
+                           nrm(j3))
+            end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3),lda,work, &
-                       nrm(j3))
-        end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_3D_to_1D_int_w
+    end subroutine matrix_norm_3D_to_1D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_4D_to_2D_int_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_4D_to_2D_int_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_w(a,nrm,order,dim)
+
+    end function la_mnorm_4D_to_2D_int_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_4D_to_2D_err_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:)
+
+        call matrix_norm_4D_to_2D_int_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_4D_to_2D_err_int_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_4D_to_2D_int_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -28278,15 +30758,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(4) :: s,spack,perm,iperm
         integer(ilp),dimension(4),parameter :: dim_range = [(m,m=1_ilp,4_ilp)]
         integer(ilp) :: j3,j4
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:,:)
+        complex(qp),allocatable :: apack(:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28294,8 +30773,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 4)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',4,' matrix norm has invalid dim=',dims)
@@ -28308,6 +30785,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0))
             call err0%handle(err)
             return
         end if
@@ -28315,18 +30793,25 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4)))
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         else
             
@@ -28335,38 +30820,57 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4)))
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4),m,work, &
+                           nrm(j3,j4))
+            end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4),lda,work, &
-                       nrm(j3,j4))
-        end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_4D_to_2D_int_w
+    end subroutine matrix_norm_4D_to_2D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_5D_to_3D_int_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_5D_to_3D_int_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_w(a,nrm,order,dim)
+
+    end function la_mnorm_5D_to_3D_int_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_5D_to_3D_err_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:)
+
+        call matrix_norm_5D_to_3D_int_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_5D_to_3D_err_int_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_5D_to_3D_int_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -28375,15 +30879,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(5) :: s,spack,perm,iperm
         integer(ilp),dimension(5),parameter :: dim_range = [(m,m=1_ilp,5_ilp)]
         integer(ilp) :: j3,j4,j5
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:,:,:)
+        complex(qp),allocatable :: apack(:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28391,8 +30894,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 5)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',5,' matrix norm has invalid dim=',dims)
@@ -28405,6 +30906,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0))
             call err0%handle(err)
             return
         end if
@@ -28412,18 +30914,26 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5)))
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         else
             
@@ -28432,39 +30942,58 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),m,work, &
+                           nrm(j3,j4,j5))
+            end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5),lda,work, &
-                       nrm(j3,j4,j5))
-        end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_5D_to_3D_int_w
+    end subroutine matrix_norm_5D_to_3D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_6D_to_4D_int_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_6D_to_4D_int_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:,:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_w(a,nrm,order,dim)
+
+    end function la_mnorm_6D_to_4D_int_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_6D_to_4D_err_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:)
+
+        call matrix_norm_6D_to_4D_int_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_6D_to_4D_err_int_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_6D_to_4D_int_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -28473,15 +31002,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(6) :: s,spack,perm,iperm
         integer(ilp),dimension(6),parameter :: dim_range = [(m,m=1_ilp,6_ilp)]
         integer(ilp) :: j3,j4,j5,j6
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:,:,:,:)
+        complex(qp),allocatable :: apack(:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28489,8 +31017,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 6)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',6,' matrix norm has invalid dim=',dims)
@@ -28503,6 +31029,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -28510,18 +31037,27 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6)))
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         else
             
@@ -28530,40 +31066,59 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),m,work, &
+                           nrm(j3,j4,j5,j6))
+            end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6),lda,work, &
-                       nrm(j3,j4,j5,j6))
-        end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_6D_to_4D_int_w
+    end subroutine matrix_norm_6D_to_4D_int_w
     
     ! Pure function interface with DIM specifier. On error, the code will stop
-    function matrix_norm_7D_to_5D_int_w(a,order,dim,err) result(nrm)
+    pure function la_mnorm_7D_to_5D_int_w(a,order,dim) result(nrm)
         !> Input matrix a(m,n)
-        complex(qp),intent(in),contiguous,target :: a(:,:,:,:,:,:,:)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
         !> Norm of the matrix.
         real(qp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_w(a,nrm,order,dim)
+
+    end function la_mnorm_7D_to_5D_int_w
+
+    ! Function interface with DIM specifier and output error state.
+    function la_mnorm_7D_to_5D_err_int_w(a,order,dim,err) result(nrm)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Order of the matrix norm being computed.
+        integer(ilp),intent(in) :: order
+        !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
+        integer(ilp),optional,intent(in) :: dim(2)
+        !> Output state return flag.
+        type(la_state),intent(out) :: err
+        !> Norm of the matrix.
+        real(qp),allocatable :: nrm(:,:,:,:,:)
+
+        call matrix_norm_7D_to_5D_int_w(a,nrm,order,dim,err)
+
+    end function la_mnorm_7D_to_5D_err_int_w
+
+    ! Internal implementation
+    pure subroutine matrix_norm_7D_to_5D_int_w(a,nrm,order,dim,err)
+        !> Input matrix a(m,n)
+        complex(qp),intent(in),contiguous :: a(:,:,:,:,:,:,:)
+        !> Norm of the matrix.
+        real(qp),allocatable,intent(out) :: nrm(:,:,:,:,:)
         !> Order of the matrix norm being computed.
         integer(ilp),intent(in) :: order
         !> [optional] dimensions of the sub-matrices the norms should be evaluated at (default = [1,2])
@@ -28572,15 +31127,14 @@ module la_norms
         type(la_state),intent(out),optional :: err
         
         type(la_state) :: err0
-        integer(ilp) :: m,n,lda,dims(2),norm_request
+        integer(ilp) :: m,n,dims(2),norm_request
         integer(ilp),dimension(7) :: s,spack,perm,iperm
         integer(ilp),dimension(7),parameter :: dim_range = [(m,m=1_ilp,7_ilp)]
         integer(ilp) :: j3,j4,j5,j6,j7
-        logical :: contiguous_data
         character :: lange_task
         real(qp),target :: work1(1)
         real(qp),pointer :: work(:)
-        complex(qp),pointer :: apack(:,:,:,:,:,:,:)
+        complex(qp),allocatable :: apack(:,:,:,:,:,:,:)
         
         ! Get dimensions
         if (present(dim)) then
@@ -28588,8 +31142,6 @@ module la_norms
         else
            dims = [1,2]
         end if
-        
-        nullify (apack)
 
         if (dims(1) == dims(2) .or. .not. all(dims > 0 .and. dims <= 7)) then
             err0 = la_state(this,LINALG_VALUE_ERROR,'Rank-',7,' matrix norm has invalid dim=',dims)
@@ -28602,6 +31154,7 @@ module la_norms
         call parse_norm_type(order,norm_request,err0)
         call lange_task_request(norm_request,lange_task,err0)
         if (err0%error()) then
+            allocate (nrm(0,0,0,0,0))
             call err0%handle(err)
             return
         end if
@@ -28609,18 +31162,28 @@ module la_norms
         ! Input matrix properties
         s = shape(a,kind=ilp)
         
-        ! Check if input column data is contiguous
-        contiguous_data = all(dims == [1,2])
-        
         ! Matrix norm size
         m = s(dims(1))
         n = s(dims(2))
 
-        ! Get packed data with norm dimensions as 1:2
-        if (contiguous_data) then
+        if (lange_task == LANGE_NORM_INF) then
+            allocate (work(m))
+        else
+            work => work1
+        end if
+
+        if (all(dims == [1,2])) then
             
             ! The norm dimensions already lead: use the input data as-is
-            apack => a
+            allocate (nrm(size(a,3),size(a,4),size(a,5),size(a,6),size(a,7)))
+            do j7 = lbound(a,7),ubound(a,7)
+            do j6 = lbound(a,6),ubound(a,6)
+            do j5 = lbound(a,5),ubound(a,5)
+            do j4 = lbound(a,4),ubound(a,4)
+            do j3 = lbound(a,3),ubound(a,3)
+            call lange_sub(lange_task,m,n,a(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         else
             
@@ -28629,34 +31192,21 @@ module la_norms
             iperm(perm) = dim_range
             spack = s(perm)
             allocate (apack,source=reshape(a,shape=spack,order=iperm))
+            allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
+            do j7 = lbound(apack,7),ubound(apack,7)
+            do j6 = lbound(apack,6),ubound(apack,6)
+            do j5 = lbound(apack,5),ubound(apack,5)
+            do j4 = lbound(apack,4),ubound(apack,4)
+            do j3 = lbound(apack,3),ubound(apack,3)
+            call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),m,work, &
+                           nrm(j3,j4,j5,j6,j7))
+            end do; end do; end do; end do; end do
             
         end if
             
-        if (lange_task == LANGE_NORM_INF) then
-            allocate (work(m))
-        else
-            work => work1
-        end if
-        
-        ! Allocate norm
-        allocate (nrm(size(apack,3),size(apack,4),size(apack,5),size(apack,6),size(apack,7)))
-        
-        lda = size(apack,dim=1,kind=ilp)
-        
-        ! LAPACK interface
-        do j7 = lbound(apack,7),ubound(apack,7)
-        do j6 = lbound(apack,6),ubound(apack,6)
-        do j5 = lbound(apack,5),ubound(apack,5)
-        do j4 = lbound(apack,4),ubound(apack,4)
-        do j3 = lbound(apack,3),ubound(apack,3)
-        call lange_sub(lange_task,m,n,apack(:,:,j3,j4,j5,j6,j7),lda,work, &
-                       nrm(j3,j4,j5,j6,j7))
-        end do; end do; end do; end do; end do
-        
         if (lange_task == LANGE_NORM_INF) deallocate (work)
-        if (.not. contiguous_data) deallocate (apack)
         
-    end function matrix_norm_7D_to_5D_int_w
+    end subroutine matrix_norm_7D_to_5D_int_w
     
 #endif
 
