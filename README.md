@@ -58,11 +58,19 @@ Outside fpm, the same choice is made with the preprocessor: the generated source
 All procedures work with all types (`real`, `complex`) and kinds (32, 64, 128-bit floats, and the
 80-bit extended floats of the `xdp` feature).
 
+The subroutines are `pure` and take an optional `err` argument: without it, an error stops execution.
+A function that can fail has two forms: without `err` it is `pure`, takes its matrices as
+`intent(in)`, and stops with `error stop` on an error; with `err` it returns the error state instead,
+and is not `pure`, since a `pure` function cannot have an `intent(out)` argument. An `err` that is
+itself an absent optional argument cannot be passed to the second form. The operators `.inv.`,
+`.det.` and `.pinv.` are `pure` forms, and stop on an error.
+
 ## [chol](@ref la_cholesky::chol) - Cholesky factorization of a matrix (function).
 
 ### Syntax
 
 `c = chol(a [, lower] [, other_zeroed])`
+`c = chol(a [, lower] [, other_zeroed], err)`
 
 ### Description
 
@@ -74,12 +82,14 @@ A = L L^T = U^T U
 
 where \f$ L \f$ is a lower triangular matrix and \f$ U \f$ is an upper triangular matrix. 
 The function returns the factorized matrix as a new allocation, without modifying the input matrix.
+Without `err` it is `pure`; with `err` it returns errors instead of stopping, and is not `pure`.
 
 ### Arguments
 
 - `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the symmetric/Hermitian input matrix.
 - `lower` (optional): A logical flag indicating whether the lower (\f$ L \f$) or upper (\f$ U \f$) triangular factor should be computed. Defaults to `lower = .true.`.
 - `other_zeroed` (optional): A logical flag determining whether the unused half of the returned matrix should be explicitly zeroed. Defaults to `other_zeroed = .true.`.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that receives the error state.
 
 ### Return value
 
@@ -89,7 +99,7 @@ The function returns the factorized matrix as a new allocation, without modifyin
 
 - Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if the input matrix ihas invalid size.
 - Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if numerical instability prevents factorization.
-- If error handling is not provided, exceptions will trigger an `error stop`.
+- If `err` is not present, exceptions trigger an `error stop`.
 
 ### Notes
 
@@ -337,22 +347,24 @@ The user can specify whether to use the upper or lower half of the matrix \f$A\f
 
 ### Syntax
 
-`x = solve(a, b [, overwrite_a] [, err])`  
+`x = solve(a, b)`  
+`x = solve(a, b [, overwrite_a], err)`
 
 ### Description
 
 Solve linear systems - one (`b(:)`) or many (`b(:,:)`).  
+Without `err` the function is `pure` and takes `a` as `intent(in)`; with `err` it returns errors instead of stopping, is not `pure`, and can overwrite `a`.
 
 ### Arguments
 
 - `a`: A `real` or `complex` coefficient matrix. If `overwrite_a=.true.`, it is destroyed by the call.
 - `b`: A rank-1 (one system) or rank-2 (many systems) array of the same kind as `a`, containing the right-hand-side vector(s).
-- `overwrite_a` (optional, default = `.false.`): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
-- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable. 
+- `overwrite_a` (optional, default = `.false.`, with `err` only): If `.true.`, input matrix `a` will be used as temporary storage and overwritten, to avoid internal data allocation.
+- `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that receives the error state.
 
 ### Return value
 
-For a full-rank matrix, returns an array value that represents the solution to the linear system of equations.
+For a full-rank matrix, returns an array value that represents the solution to the linear system of equations. With `err`, a failed solve returns an empty array.
 
 ### Errors
 
@@ -453,7 +465,8 @@ Solve \f$ A x = b \f$ for one or many right-hand sides from a Cholesky factor co
 
 ### Syntax
 
-`x = lstsq(a, b [, cond] [, overwrite_a] [, rank] [, err])`
+`x = lstsq(a, b [, cond])`  
+`x = lstsq(a, b [, cond] [, overwrite_a] [, rank], err)`
 
 ### Description
 
@@ -461,18 +474,20 @@ Solves the least-squares problem for the system \f$ A \cdot x = b \f$, where \f$
 
 The result \f$ x \f$ is returned as an allocatable array, and it is either a vector (for a single right-hand side) or a matrix (for multiple right-hand sides).
 
+Without `err` the function is `pure` and takes `a` as `intent(in)`; with `err` it returns errors instead of stopping, is not `pure`, can overwrite `a`, and can return the rank.
+
 ### Arguments
 
 - `a`: A `real` matrix of size \f$ n \times n \f$ representing the coefficient matrix. If `overwrite_a = .true.`, the contents of `a` may be modified during the computation.
 - `b`: A `real` vector or matrix representing the right-hand side. The size should be \f$ n \f$ (for a single right-hand side) or \f$ n \times nrhs \f$ (for multiple right-hand sides).
 - `cond` (optional): A cutoff for rank evaluation. Singular values \f$ s(i) \f$ such that \f$ s(i) \leq \text{cond} \cdot \max(s) \f$ are considered zero. 
-- `overwrite_a` (optional, default = `.false.`): If `.true.`, both `a` and `b` may be overwritten and destroyed during computation. 
-- `rank` (optional): An integer variable that returns the rank of the matrix \f$ A \f$.
+- `overwrite_a` (optional, default = `.false.`, with `err` only): If `.true.`, both `a` and `b` may be overwritten and destroyed during computation. 
+- `rank` (optional, with `err` only): An integer variable that returns the rank of the matrix \f$ A \f$.
 - `err` (optional): A [type(la_state)](@ref la_state_type::la_state) variable that returns the error state. If `err` is not provided, the function will stop execution on error.
 
 ### Return value
 
-Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-hand side) or \f$ n \times nrhs \f$ (for multiple right-hand sides).
+Returns the solution array \f$ x \f$ with size \f$ n \f$ (for a single right-hand side) or \f$ n \times nrhs \f$ (for multiple right-hand sides). With `err`, an invalid problem returns an empty array.
 
 ### Errors
 
@@ -561,20 +576,22 @@ The solution is written into `x`.
 
 ### Syntax
 
-`x = weighted_lstsq(w, a, b [, cond] [, overwrite_a] [, rank] [, err])`
+`x = weighted_lstsq(w, a, b [, cond])`  
+`x = weighted_lstsq(w, a, b [, cond] [, overwrite_a] [, rank], err)`
 
 ### Description
 
 This function minimizes \f$ \|D (b - A \cdot x)\| \f$ with \f$ D = \mathrm{diag}(\sqrt{w}) \f$: the \f$i\f$-th equation carries the weight \f$ w_i \f$. Both sides are scaled and the resulting ordinary least-squares problem is solved with [GELSD](@ref la_lapack::gelsd).
+Without `err` the function is `pure` and takes `a` as `intent(in)`; with `err` it returns errors instead of stopping, is not `pure`, can overwrite `a`, and can return the rank.
 
 ### Arguments
 
 - `w`: A `real` vector of size \f$m\f$. The weights are always real and must all be positive.
-- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. It is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true.
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$. With `err` it is an `intent(inout)` argument, and is destroyed if `overwrite_a` is true; without `err` it is `intent(in)`.
 - `b`: The right-hand-side vector of size \f$m\f$. It is an `intent(in)` argument.
 - `cond` (optional): The cutoff for rank evaluation.
-- `overwrite_a` (optional): If true, `a` may be overwritten and destroyed. Default is false.
-- `rank` (optional): An `integer` returning the rank of `a`.
+- `overwrite_a` (optional, with `err` only): If true, `a` may be overwritten and destroyed. Default is false.
+- `rank` (optional, with `err` only): An `integer` returning the rank of `a`.
 - `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
 
 ### Return value
@@ -631,19 +648,21 @@ The solution is written into `x`.
 
 ### Syntax
 
-`x = constrained_lstsq(a, b, c, d [, overwrite_matrices] [, err])`
+`x = constrained_lstsq(a, b, c, d)`  
+`x = constrained_lstsq(a, b, c, d [, overwrite_matrices], err)`
 
 ### Description
 
 This function minimizes \f$ \|b - A \cdot x\| \f$ subject to \f$ C \cdot x = d \f$, with \f$ A \f$ of size \f$ [m,n] \f$ and \f$ C \f$ of size \f$ [p,n] \f$. The problem has a unique solution when \f$ p \le n \le m+p \f$, \f$ \mathrm{rank}(C) = p \f$ and the stacked matrix has rank \f$ n \f$.
+Without `err` the function is `pure` and takes `a`, `b`, `c` and `d` as `intent(in)`; with `err` it returns errors instead of stopping, is not `pure`, and can overwrite them.
 
 ### Arguments
 
-- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, the least-squares cost. It is an `intent(inout)` argument, and is destroyed if `overwrite_matrices` is true.
-- `b`: The least-squares right-hand-side vector of size \f$m\f$. It is an `intent(inout)` argument.
-- `c`: The constraint matrix of size \f$ [p,n] \f$. It is an `intent(inout)` argument.
-- `d`: The constraint right-hand-side vector of size \f$p\f$. It is an `intent(inout)` argument.
-- `overwrite_matrices` (optional): If true, `a`, `b`, `c` and `d` may be overwritten and destroyed. Default is false.
+- `a`: A `real` or `complex` matrix of size \f$ [m,n] \f$, the least-squares cost. With `err` it is an `intent(inout)` argument, and is destroyed if `overwrite_matrices` is true; without `err`, `a`, `b`, `c` and `d` are `intent(in)`.
+- `b`: The least-squares right-hand-side vector of size \f$m\f$. It is an `intent(inout)` argument with `err`.
+- `c`: The constraint matrix of size \f$ [p,n] \f$. It is an `intent(inout)` argument with `err`.
+- `d`: The constraint right-hand-side vector of size \f$p\f$. It is an `intent(inout)` argument with `err`.
+- `overwrite_matrices` (optional, with `err` only): If true, `a`, `b`, `c` and `d` may be overwritten and destroyed. Default is false.
 - `err` (optional): A state return flag of [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
 
 ### Return value
@@ -831,16 +850,18 @@ This subroutine returns the size of the workspace array that [`solve_generalized
 
 ### Syntax
 
-`d = det(a [, overwrite_a] [, err])`
+`d = det(a)`  
+`d = det(a [, overwrite_a], err)`
 
 ### Description
 
 This function computes the determinant of a square matrix \f$ A \f$. The matrix must be a real matrix of size \f$ [m, n] \f$, and the determinant is computed using an efficient factorization method (e.g., LU decomposition).
+Without `err` the function is `pure`, takes `a` as `intent(in)`, and is the function behind [operator(.det.)](@ref la_determinant::operator(.det.)); with `err` it returns errors instead of stopping, is not `pure`, and can overwrite `a`.
 
 ### Arguments
 
-- `a`: A real matrix of size \f$ [m, n] \f$, representing the rectangular matrix for which the determinant is calculated. If `overwrite_a`, it is an `inout` argument and may be modified during computation.
-- `overwrite_a` (optional, default = `.false.`): A logical flag that determines whether the input matrix `a` can be overwritten. If `.true.`, the matrix `a` may be destroyed and modified in place to save memory.
+- `a`: A real matrix of size \f$ [m, n] \f$, representing the rectangular matrix for which the determinant is calculated. With `err`, it is an `inout` argument and may be modified during computation if `overwrite_a` is set.
+- `overwrite_a` (optional, default = `.false.`, with `err` only): A logical flag that determines whether the input matrix `a` can be overwritten. If `.true.`, the matrix `a` may be destroyed and modified in place to save memory.
 - `err` (optional): A state return flag of  [type(la_state)](@ref la_state_type::la_state). If an error occurs and `err` is not provided, the function will stop execution.
 
 ### Return value
@@ -869,7 +890,7 @@ d = .det. A
 
 ### Description
 
-This operator computes the determinant of a square real or complex matrix \f$ A \f$ from its LU factorization, in the same way as [det](@ref la_determinant::det). It is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks; it takes no `overwrite_a` flag and never modifies its operand, which is copied internally.
+This operator computes the determinant of a square real or complex matrix \f$ A \f$ from its LU factorization: it is `det(A)` without `err`. It is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks; it takes no `overwrite_a` flag and never modifies its operand, which is copied internally.
 
 ### Arguments
 
@@ -922,11 +943,13 @@ This subroutine computes the determinant of a real or complex square matrix as \
 
 ### Syntax
 
-`inv_a = inv(a [, err])`
+`inv_a = inv(a)`  
+`inv_a = inv(a, err)`
 
 ### Description
 
 This function computes the inverse \f$ A^{-1} \f$ of a real or complex square matrix \f$ A \f$, provided that \f$ A \f$ is non-singular. 
+Without `err` it is `pure`, and is the function behind [operator(.inv.)](@ref la_inverse::operator(.inv.)); with `err` it returns errors instead of stopping, and is not `pure`.
 The inverse of a matrix is defined as:
 
 \f[
@@ -948,7 +971,8 @@ The computation is performed using LU decomposition.
 
 ### Errors
 
-- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` is singular or has invalid size.
+- Raises [LINALG_ERROR](@ref la_state_type::linalg_error) if `a` is singular.
+- Raises [LINALG_VALUE_ERROR](@ref la_state_type::linalg_value_error) if `a` has invalid size.
 - If `err` is not provided, exceptions will trigger an `error stop`.
 
 ### Notes
@@ -1021,7 +1045,7 @@ A A^{-1} = I
 
 where \f$ I \f$ is the identity matrix of appropriate size.
 
-This operator is functionally equivalent to [inv](@ref la_inverse::inv) but provides a more convenient syntax. It supports operator chaining, allowing multiple inversions within expressions:
+This operator is `inv(A)` without `err`, with a more convenient syntax. It supports operator chaining, allowing multiple inversions within expressions.
 
 ### Arguments
 
@@ -1030,30 +1054,29 @@ This operator is functionally equivalent to [inv](@ref la_inverse::inv) but prov
 ### Return value
 
 - `invA`: A `real` or `complex` square matrix of size \f$ [n,n] \f$, and same kind as `A` representing its inverse.  
-- If `A` is singular or the inversion fails, an **empty matrix** (size \f$ [0,0] \f$) is returned instead of raising an error.
 
 ### Errors
 
-- Unlike [inv](@ref la_inverse::inv), this operator **does not provide explicit error handling**.
-- If `A` is singular or an error occurs during inversion, the function **returns an empty matrix** (size \f$ [0,0] \f$) instead of raising an exception.
-- The caller should check the size of the returned matrix to determine if inversion was successful.
+- Unlike [inv](@ref la_inverse::inv) with `err`, this operator **does not provide explicit error handling**.
+- If `A` is singular or an error occurs during inversion, execution stops.
 
 ### Notes
 
 - This operator internally calls LAPACK's LU decomposition routine [GETRF](@ref la_lapack::getrf) followed by [GETRI](@ref la_lapack::getri).
-- The chaining property allows for concise expressions but requires caution: if any intermediate inversion fails, subsequent operations may propagate errors due to empty matrix results.
-- If strict error handling is required, use [inv](@ref la_inverse::inv) instead.
+- If error handling is required, use [inv](@ref la_inverse::inv) with its `err` argument instead.
 - The operator is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks.
 
 ## [pinv](@ref la_pseudoinverse::pinv) - Moore-Penrose pseudo-inverse of a matrix (function).
 
 ### Syntax
 
-`pinva = pinv(a [, rtol] [, err])`
+`pinva = pinv(a [, rtol])`  
+`pinva = pinv(a [, rtol], err)`
 
 ### Description
 
 This function computes the Moore-Penrose pseudo-inverse \f$ A^+ \f$ of a real or complex matrix \f$ A \f$ using Singular Value Decomposition (SVD). The pseudo-inverse provides a generalization of the inverse for non-square and singular matrices, making it useful for solving least-squares problems and underdetermined systems.
+Without `err` it is `pure`; with `err` it returns errors instead of stopping, and is not `pure`.
 
 The computation is based on the singular value decomposition (SVD):
 
@@ -1131,7 +1154,7 @@ where \f$ \Sigma^+ \f$ is the inverse of the nonzero singular values in \f$ \Sig
 
 ### Notes
 
-- This operator internally calls [pinv](@ref la_pseudoinverse::pinv) and behaves identically.
+- This operator behaves as [pinv](@ref la_pseudoinverse::pinv) without `rtol` and `err`.
 - The pseudo-inverse is computed using LAPACK's SVD decomposition routine [GESVD](@ref la_lapack::gesvd).
 - This operator is a convenient shorthand for calling the functional interface `pinv(a)`.
 - The operator is `pure`, so it can be used inside `pure` procedures and `do concurrent` blocks.
@@ -1188,11 +1211,13 @@ The SVD of matrix \f$ A \f$ is returned in the corresponding output arguments, w
 
 ### Syntax
 
-`s = svdvals(a [, err])`
+`s = svdvals(a)`  
+`s = svdvals(a, err)`
 
 ### Description
 
 This function computes the singular values of a `real` or `complex` matrix \f$ A \f$ and returns them in a vector \f$ s \f$, where \f$ s \f$ is an array of size \f$ k = \min(m, n) \f$. 
+Without `err` it is `pure`; with `err` it returns errors instead of stopping, and is not `pure`.
 Singular values are non-negative values that provide important insights into the properties of the matrix, such as its rank and conditioning.
 
 This function does not compute the full Singular Value Decomposition ([SVD](@ref la_svd::svd)); instead, it directly calculates and returns only the singular values of matrix \f$ A \f$.
@@ -2001,6 +2026,9 @@ The following refactorings are applied:
 Grouping every precision of a topic in one module hopefully allows for cross-procedural inlining which is otherwise impossible without link-time optimization.
 
 # Building
+The library needs a Fortran 2018 compiler: its `pure` procedures stop on an error with `error stop`,
+which a `pure` procedure may contain from Fortran 2018 on.
+
 An automated build is currently available via the [Fortran Package Manager](https://fpm.fortran-lang.org).
 To add fortran-lapack to your project, simply add it as a dependency: 
 
