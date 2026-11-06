@@ -88,10 +88,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('STRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -294,10 +291,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('DTRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -501,10 +495,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('XTRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -709,10 +700,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('QTRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -918,10 +906,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('STRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -1149,10 +1134,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('DTRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -1381,10 +1363,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('XTRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -1614,10 +1593,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('QTRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -1847,10 +1823,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('CTRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.
@@ -2088,10 +2061,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('ZTRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.
@@ -2330,10 +2300,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('YTRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.
@@ -2573,10 +2540,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('WTRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.
@@ -2817,10 +2781,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('CTRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.
@@ -3081,10 +3042,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('ZTRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.
@@ -3346,10 +3304,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('YTRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.
@@ -3612,10 +3567,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('WTRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.

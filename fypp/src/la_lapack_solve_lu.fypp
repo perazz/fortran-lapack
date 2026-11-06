@@ -87,10 +87,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (nrhs == 1) then
               loop_10: do i = 1,n - 2
@@ -280,10 +277,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_${ri}$gbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -416,10 +410,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$gbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -591,10 +582,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_${ri}$copy(n,d,1,df,1)
@@ -709,10 +697,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$${ril.upper()}$GESV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip ${LA_PRECISION[rkl]}$ precision iterative refinement if a priori slower
@@ -862,10 +847,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_${ri}$getrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -988,10 +970,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$geequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)
@@ -1145,10 +1124,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            loop_30: do k = 1,n - 1
               if (dl(k) == czero) then
@@ -1247,10 +1223,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_${ri}$gbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -1382,10 +1355,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$gbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -1557,10 +1527,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_${ri}$copy(n,d,1,df,1)
@@ -1680,10 +1647,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$${ril.upper()}$GESV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip ${LA_PRECISION[rkl]}$ precision iterative refinement if a priori slower
@@ -1833,10 +1797,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_${ri}$getrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -1960,10 +1921,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$geequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)

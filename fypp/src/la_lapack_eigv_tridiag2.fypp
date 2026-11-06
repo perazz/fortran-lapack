@@ -367,10 +367,7 @@ module la_lapack_eigv_tridiag2
            if (n < 0) then
               info = -1
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAEDA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine location of first number in second half.

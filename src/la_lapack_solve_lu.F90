@@ -110,10 +110,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SGTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (nrhs == 1) then
               loop_10: do i = 1,n - 2
@@ -289,10 +286,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DGTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (nrhs == 1) then
               loop_10: do i = 1,n - 2
@@ -469,10 +463,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XGTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (nrhs == 1) then
               loop_10: do i = 1,n - 2
@@ -650,10 +641,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QGTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (nrhs == 1) then
               loop_10: do i = 1,n - 2
@@ -836,10 +824,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SGBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_sgbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -887,10 +872,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DGBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_dgbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -939,10 +921,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XGBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_xgbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -992,10 +971,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QGBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_qgbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -1119,10 +1095,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('SGBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_sgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -1344,10 +1317,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DGBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_dgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -1570,10 +1540,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XGBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_xgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -1797,10 +1764,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QGBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_qgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -1965,10 +1929,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('SGTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_scopy(n,d,1,df,1)
@@ -2054,10 +2015,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('DGTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_dcopy(n,d,1,df,1)
@@ -2144,10 +2102,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('XGTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_xcopy(n,d,1,df,1)
@@ -2235,10 +2190,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('QGTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_qcopy(n,d,1,df,1)
@@ -2345,10 +2297,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DSGESV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip single precision iterative refinement if a priori slower
@@ -2523,10 +2472,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XDGESV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip double precision iterative refinement if a priori slower
@@ -2702,10 +2648,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QDGESV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip double precision iterative refinement if a priori slower
@@ -2847,10 +2790,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SGESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_sgetrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -2894,10 +2834,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DGESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_dgetrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -2942,10 +2879,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XGESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_xgetrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -2991,10 +2925,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QGESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_qgetrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -3110,10 +3041,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('SGESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_sgeequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)
@@ -3317,10 +3245,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DGESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_dgeequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)
@@ -3525,10 +3450,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XGESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_xgeequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)
@@ -3734,10 +3656,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QGESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_qgeequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)
@@ -3875,10 +3794,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CGTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            loop_30: do k = 1,n - 1
               if (dl(k) == czero) then
@@ -3967,10 +3883,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            loop_30: do k = 1,n - 1
               if (dl(k) == czero) then
@@ -4060,10 +3973,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YGTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            loop_30: do k = 1,n - 1
               if (dl(k) == czero) then
@@ -4154,10 +4064,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WGTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            loop_30: do k = 1,n - 1
               if (dl(k) == czero) then
@@ -4249,10 +4156,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CGBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_cgbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -4300,10 +4204,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_zgbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -4352,10 +4253,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YGBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_ygbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -4405,10 +4303,7 @@ module la_lapack_solve_lu
            else if (ldb < max(n,1)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WGBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of the band matrix a.
            call la_wgbtrf(n,n,kl,ku,ab,ldab,ipiv,info)
            if (info == 0) then
@@ -4533,10 +4428,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('CGBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_cgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -4762,10 +4654,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_zgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -4992,10 +4881,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('YGBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_ygbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -5223,10 +5109,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('WGBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_wgbequ(n,n,kl,ku,ab,ldab,r,c,rowcnd,colcnd,amax,infequ)
@@ -5391,10 +5274,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('CGTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_ccopy(n,d,1,df,1)
@@ -5479,10 +5359,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_zcopy(n,d,1,df,1)
@@ -5568,10 +5445,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('YGTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_ycopy(n,d,1,df,1)
@@ -5658,10 +5532,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('WGTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the lu factorization of a.
               call la_wcopy(n,d,1,df,1)
@@ -5773,10 +5644,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZCGESV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip single precision iterative refinement if a priori slower
@@ -5957,10 +5825,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YZGESV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip double precision iterative refinement if a priori slower
@@ -6142,10 +6007,7 @@ module la_lapack_solve_lu
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WZGESV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip double precision iterative refinement if a priori slower
@@ -6287,10 +6149,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CGESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_cgetrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -6334,10 +6193,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_zgetrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -6382,10 +6238,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YGESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_ygetrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -6431,10 +6284,7 @@ module la_lapack_solve_lu
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WGESV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the lu factorization of a.
            call la_wgetrf(n,n,a,lda,ipiv,info)
            if (info == 0) then
@@ -6551,10 +6401,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('CGESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_cgeequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)
@@ -6759,10 +6606,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_zgeequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)
@@ -6968,10 +6812,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('YGESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_ygeequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)
@@ -7178,10 +7019,7 @@ module la_lapack_solve_lu
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('WGESVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_wgeequ(n,n,a,lda,r,c,rowcnd,colcnd,amax,infequ)

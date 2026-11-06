@@ -98,10 +98,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_${ri}$sptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -168,10 +165,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_${ri}$copy(n*(n + 1)/2,ap,1,afp,1)
@@ -267,7 +261,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -354,7 +347,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -435,7 +427,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSV ',-info)
               return
            else if (lquery) then
               return
@@ -530,7 +521,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSVX',-info)
               return
            else if (lquery) then
               return
@@ -626,11 +616,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-#:if rk == "sp"
-              call la_xerbla('${ri.upper()}$SYSV_AA',-info)
-#:else
-              call la_xerbla('${ri.upper()}$SYSV_AA ',-info)
-#:endif
               return
            else if (lquery) then
               return
@@ -692,10 +677,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_${ri}$sptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -762,10 +744,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_${ri}$copy(n*(n + 1)/2,ap,1,afp,1)
@@ -857,7 +836,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSV ',-info)
               return
            else if (lquery) then
               return
@@ -947,7 +925,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -1038,7 +1015,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -1128,7 +1104,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSVX',-info)
               return
            else if (lquery) then
               return
@@ -1225,7 +1200,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HESV ',-info)
               return
            else if (lquery) then
               return
@@ -1315,7 +1289,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HESV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -1406,7 +1379,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HESV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -1496,7 +1468,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HESVX',-info)
               return
            else if (lquery) then
               return
@@ -1574,10 +1545,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**h or a = l*d*l**h.
            call la_${ri}$hptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -1644,10 +1612,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**h or a = l*d*l**h.
               call la_${ri}$copy(n*(n + 1)/2,ap,1,afp,1)
@@ -1738,7 +1703,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HESV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -1818,7 +1782,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYSV_AA ',-info)
               return
            else if (lquery) then
               return

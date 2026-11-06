@@ -130,10 +130,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SGEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -227,10 +224,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DGEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -325,10 +319,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XGEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -424,10 +415,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QGEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -524,7 +512,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SORGHR',-info)
               return
            else if (lquery) then
               return
@@ -614,7 +601,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DORGHR',-info)
               return
            else if (lquery) then
               return
@@ -705,7 +691,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XORGHR',-info)
               return
            else if (lquery) then
               return
@@ -797,7 +782,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QORGHR',-info)
               return
            else if (lquery) then
               return
@@ -915,7 +899,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SORMHR',-info)
               return
            else if (lquery) then
               return
@@ -1013,7 +996,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DORMHR',-info)
               return
            else if (lquery) then
               return
@@ -1112,7 +1094,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XORMHR',-info)
               return
            else if (lquery) then
               return
@@ -1212,7 +1193,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QORMHR',-info)
               return
            else if (lquery) then
               return
@@ -1282,10 +1262,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SGEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -1375,7 +1352,6 @@ module la_lapack_eigv_gen_hess
                  if (la_sisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('SGEBAL',-info)
                  return
               end if
               f = f/sclfac
@@ -1448,10 +1424,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DGEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -1530,7 +1503,6 @@ module la_lapack_eigv_gen_hess
                  if (la_disnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('DGEBAL',-info)
                  return
               end if
               f = f*sclfac
@@ -1615,10 +1587,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XGEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -1697,7 +1666,6 @@ module la_lapack_eigv_gen_hess
                  if (la_xisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('XGEBAL',-info)
                  return
               end if
               f = f*sclfac
@@ -1783,10 +1751,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QGEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -1865,7 +1830,6 @@ module la_lapack_eigv_gen_hess
                  if (la_qisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('QGEBAL',-info)
                  return
               end if
               f = f*sclfac
@@ -1942,10 +1906,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SGEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               call la_slarfg(ihi - i,a(i + 1,i),a(min(i + 2,n),i),1,tau(i))
@@ -1994,10 +1955,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DGEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               call la_dlarfg(ihi - i,a(i + 1,i),a(min(i + 2,n),i),1,tau(i))
@@ -2047,10 +2005,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XGEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               call la_xlarfg(ihi - i,a(i + 1,i),a(min(i + 2,n),i),1,tau(i))
@@ -2101,10 +2056,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QGEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               call la_qlarfg(ihi - i,a(i + 1,i),a(min(i + 2,n),i),1,tau(i))
@@ -2527,7 +2479,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SGEHRD',-info)
               return
            else if (lquery) then
               return
@@ -2655,7 +2606,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DGEHRD',-info)
               return
            else if (lquery) then
               return
@@ -2784,7 +2734,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XGEHRD',-info)
               return
            else if (lquery) then
               return
@@ -2914,7 +2863,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QGEHRD',-info)
               return
            else if (lquery) then
               return
@@ -3041,10 +2989,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CGEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -3138,10 +3083,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -3236,10 +3178,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YGEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -3335,10 +3274,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WGEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -3431,10 +3367,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CGEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -3515,7 +3448,6 @@ module la_lapack_eigv_gen_hess
                  if (la_sisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('CGEBAL',-info)
                  return
               end if
               f = f*sclfac
@@ -3599,10 +3531,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -3683,7 +3612,6 @@ module la_lapack_eigv_gen_hess
                  if (la_disnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('ZGEBAL',-info)
                  return
               end if
               f = f*sclfac
@@ -3768,10 +3696,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YGEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -3852,7 +3777,6 @@ module la_lapack_eigv_gen_hess
                  if (la_xisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('YGEBAL',-info)
                  return
               end if
               f = f*sclfac
@@ -3938,10 +3862,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WGEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -4022,7 +3943,6 @@ module la_lapack_eigv_gen_hess
                  if (la_qisnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('WGEBAL',-info)
                  return
               end if
               f = f*sclfac
@@ -4099,10 +4019,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CGEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               alpha = a(i + 1,i)
@@ -4151,10 +4068,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               alpha = a(i + 1,i)
@@ -4204,10 +4118,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YGEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               alpha = a(i + 1,i)
@@ -4258,10 +4169,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WGEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               alpha = a(i + 1,i)
@@ -4690,7 +4598,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CUNGHR',-info)
               return
            else if (lquery) then
               return
@@ -4780,7 +4687,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNGHR',-info)
               return
            else if (lquery) then
               return
@@ -4871,7 +4777,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YUNGHR',-info)
               return
            else if (lquery) then
               return
@@ -4963,7 +4868,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WUNGHR',-info)
               return
            else if (lquery) then
               return
@@ -5081,7 +4985,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CUNMHR',-info)
               return
            else if (lquery) then
               return
@@ -5179,7 +5082,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNMHR',-info)
               return
            else if (lquery) then
               return
@@ -5278,7 +5180,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YUNMHR',-info)
               return
            else if (lquery) then
               return
@@ -5378,7 +5279,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WUNMHR',-info)
               return
            else if (lquery) then
               return
@@ -5454,7 +5354,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CGEHRD',-info)
               return
            else if (lquery) then
               return
@@ -5583,7 +5482,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZGEHRD',-info)
               return
            else if (lquery) then
               return
@@ -5713,7 +5611,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YGEHRD',-info)
               return
            else if (lquery) then
               return
@@ -5844,7 +5741,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WGEHRD',-info)
               return
            else if (lquery) then
               return

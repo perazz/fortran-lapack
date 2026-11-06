@@ -114,10 +114,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**t to the unit matrix, if needed
            if (wantq) call la_${ri}$laset('FULL',m,m,zero,one,q,ldq)
            if (wantpt) call la_${ri}$laset('FULL',n,n,zero,one,pt,ldpt)
@@ -355,10 +352,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('${ri.upper()}$GEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -486,10 +480,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -1188,10 +1179,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -1677,10 +1665,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_${ri}$laset('FULL',m,m,zero,one,u,ldu)
            if (initv) call la_${ri}$laset('FULL',p,p,zero,one,v,ldv)
@@ -1849,7 +1834,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('${ri.upper()}$GEBRD',-info)
               return
            else if (lquery) then
               return
@@ -2004,7 +1988,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -2178,7 +2161,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORMBR',-info)
               return
            else if (lquery) then
               return
@@ -2281,10 +2263,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('${ri.upper()}$GEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -2485,10 +2464,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_${ri}$laset('FULL',m,m,czero,cone,u,ldu)
            if (initv) call la_${ri}$laset('FULL',p,p,czero,cone,v,ldv)
@@ -2677,10 +2653,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**h to the unit matrix, if needed
            if (wantq) call la_${ri}$laset('FULL',m,m,czero,cone,q,ldq)
            if (wantpt) call la_${ri}$laset('FULL',n,n,czero,cone,pt,ldpt)
@@ -2948,7 +2921,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('${ri.upper()}$GEBRD',-info)
               return
            else if (lquery) then
               return
@@ -3104,7 +3076,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -3282,7 +3253,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNMBR',-info)
               return
            else if (lquery) then
               return
@@ -3409,10 +3379,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -3984,10 +3951,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then

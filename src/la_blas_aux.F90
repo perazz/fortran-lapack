@@ -26,8 +26,6 @@ module la_blas_aux
      public :: la_iwamax
 #endif
      public :: la_lsame
-     public :: la_xerbla
-     public :: la_xerbla_array
 
      contains
 
@@ -492,67 +490,5 @@ module la_blas_aux
            la_lsame = inta == intb
            ! return
      end function la_lsame
-
-     !> XERBLA:  is an error handler for the LAPACK routines.
-     !> It is called by an LAPACK routine if an input parameter has an
-     !> invalid value.  A message is printed and execution stops.
-     !> Installers may consider modifying the STOP statement in order to
-     !> call system-specific exception-handling facilities.
-
-     pure subroutine la_xerbla(srname,info)
-        ! -- reference blas level1 routine --
-        ! -- reference blas is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           character(len=*),intent(in) :: srname
-           integer(ilp),intent(in) :: info
-       ! =====================================================================
-           ! Intrinsic Functions
-           intrinsic :: len_trim
-           ! Executable Statements
-9999 format(' ** ON ENTRY TO ',a,' PARAMETER NUMBER ',i2,' HAD ','AN ILLEGAL VALUE')
-                
-     end subroutine la_xerbla
-
-     !> XERBLA_ARRAY: assists other languages in calling XERBLA, the LAPACK
-     !> and BLAS error handler.  Rather than taking a Fortran string argument
-     !> as the function's name, XERBLA_ARRAY takes an array of single
-     !> characters along with the array's length.  XERBLA_ARRAY then copies
-     !> up to 32 characters of that array into a Fortran string and passes
-     !> that to XERBLA.  If called with a non-positive SRNAME_LEN,
-     !> XERBLA_ARRAY will call XERBLA with a string of all blank characters.
-     !> Say some macro or other device makes XERBLA_ARRAY available to C99
-     !> by a name lapack_xerbla and with a common Fortran calling convention.
-     !> Then a C99 program could invoke XERBLA via:
-     !> {
-     !> int flen = strlen(__func__);
-     !> lapack_xerbla(__func__,
-     !> }
-     !> Providing XERBLA_ARRAY is not necessary for intercepting LAPACK
-     !> errors.  XERBLA_ARRAY calls XERBLA.
-
-     pure subroutine la_xerbla_array(srname_array,srname_len,info)
-        ! -- reference blas level1 routine --
-        ! -- reference blas is a software package provided by univ. of tennessee,    --
-        ! -- univ. of california berkeley, univ. of colorado denver and nag ltd..--
-           ! Scalar Arguments
-           integer(ilp),intent(in) :: srname_len,info
-           ! Array Arguments
-           character(1),intent(in) :: srname_array(srname_len)
-       ! =====================================================================
-           ! Local Scalars
-           integer(ilp) :: i
-           ! Local Arrays
-           character*32 srname
-           ! Intrinsic Functions
-           intrinsic :: min,len
-           ! Executable Statements
-           srname = ''
-           do i = 1,min(srname_len,len(srname))
-              srname(i:i) = srname_array(i)
-           end do
-           call la_xerbla(srname,info)
-           return
-     end subroutine la_xerbla_array
 
 end module la_blas_aux

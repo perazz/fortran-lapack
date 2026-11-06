@@ -1597,10 +1597,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('STFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -1852,10 +1849,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DTFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -2108,10 +2102,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XTFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -2365,10 +2356,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QTFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -2624,10 +2612,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('STFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -2852,10 +2837,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DTFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -3081,10 +3063,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XTFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -3311,10 +3290,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QTFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -3541,10 +3517,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('STPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3782,10 +3755,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -4024,10 +3994,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -4267,10 +4234,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -4505,10 +4469,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('STPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -4558,10 +4519,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -4612,10 +4570,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -4667,10 +4622,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -4726,10 +4678,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('STRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -4953,10 +4902,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -5181,10 +5127,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -5410,10 +5353,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -5635,10 +5575,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('STRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -5688,10 +5625,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -5742,10 +5676,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -5797,10 +5728,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -7372,10 +7300,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('CTFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -7630,10 +7555,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -7889,10 +7811,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('YTFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -8149,10 +8068,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('WTFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -8409,10 +8325,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CTFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -8658,10 +8571,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -8908,10 +8818,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YTFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -9159,10 +9066,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WTFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -9409,10 +9313,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -9666,10 +9567,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -9924,10 +9822,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -10183,10 +10078,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -10437,10 +10329,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -10490,10 +10379,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -10544,10 +10430,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -10599,10 +10482,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -10659,10 +10539,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -10907,10 +10784,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -11156,10 +11030,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -11406,10 +11277,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -11651,10 +11519,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -11704,10 +11569,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -11758,10 +11620,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -11813,10 +11672,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n

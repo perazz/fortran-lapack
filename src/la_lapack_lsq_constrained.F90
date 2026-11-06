@@ -112,7 +112,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SGGGLM',-info)
               return
            else if (lquery) then
               return
@@ -248,7 +247,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DGGGLM',-info)
               return
            else if (lquery) then
               return
@@ -385,7 +383,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XGGGLM',-info)
               return
            else if (lquery) then
               return
@@ -523,7 +520,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QGGGLM',-info)
               return
            else if (lquery) then
               return
@@ -655,7 +651,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SGGLSE',-info)
               return
            else if (lquery) then
               return
@@ -787,7 +782,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DGGLSE',-info)
               return
            else if (lquery) then
               return
@@ -920,7 +914,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XGGLSE',-info)
               return
            else if (lquery) then
               return
@@ -1054,7 +1047,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QGGLSE',-info)
               return
            else if (lquery) then
               return
@@ -1194,7 +1186,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CGGGLM',-info)
               return
            else if (lquery) then
               return
@@ -1330,7 +1321,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZGGGLM',-info)
               return
            else if (lquery) then
               return
@@ -1467,7 +1457,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YGGGLM',-info)
               return
            else if (lquery) then
               return
@@ -1605,7 +1594,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WGGGLM',-info)
               return
            else if (lquery) then
               return
@@ -1737,7 +1725,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CGGLSE',-info)
               return
            else if (lquery) then
               return
@@ -1869,7 +1856,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZGGLSE',-info)
               return
            else if (lquery) then
               return
@@ -2002,7 +1988,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YGGLSE',-info)
               return
            else if (lquery) then
               return
@@ -2136,7 +2121,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WGGLSE',-info)
               return
            else if (lquery) then
               return

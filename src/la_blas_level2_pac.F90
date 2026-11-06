@@ -84,10 +84,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('SSBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -246,10 +243,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('DSBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -409,10 +403,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('XSBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -573,10 +564,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('QSBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -731,10 +719,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('SSPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -887,10 +872,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('DSPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -1044,10 +1026,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('XSPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -1202,10 +1181,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('QSPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -1358,10 +1334,7 @@ module la_blas_level2_pac
            else if (incx == 0) then
                info = 5
            end if
-           if (info /= 0) then
-               call la_xerbla('SSPR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
@@ -1465,10 +1438,7 @@ module la_blas_level2_pac
            else if (incx == 0) then
                info = 5
            end if
-           if (info /= 0) then
-               call la_xerbla('DSPR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
@@ -1573,10 +1543,7 @@ module la_blas_level2_pac
            else if (incx == 0) then
                info = 5
            end if
-           if (info /= 0) then
-               call la_xerbla('XSPR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
@@ -1682,10 +1649,7 @@ module la_blas_level2_pac
            else if (incx == 0) then
                info = 5
            end if
-           if (info /= 0) then
-               call la_xerbla('QSPR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
@@ -1793,10 +1757,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('SSPR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
@@ -1920,10 +1881,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('DSPR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
@@ -2048,10 +2006,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('XSPR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
@@ -2177,10 +2132,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('QSPR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
@@ -2308,10 +2260,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('CHPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2466,10 +2415,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2625,10 +2571,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('YHPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2785,10 +2728,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('WHPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2943,10 +2883,7 @@ module la_blas_level2_pac
            else if (incx == 0) then
                info = 5
            end if
-           if (info /= 0) then
-               call la_xerbla('CHPR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=sp))) return
            ! set the start point in x if the increment is not unity.
@@ -3065,10 +3002,7 @@ module la_blas_level2_pac
            else if (incx == 0) then
                info = 5
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHPR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=dp))) return
            ! set the start point in x if the increment is not unity.
@@ -3188,10 +3122,7 @@ module la_blas_level2_pac
            else if (incx == 0) then
                info = 5
            end if
-           if (info /= 0) then
-               call la_xerbla('YHPR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=xdp))) return
            ! set the start point in x if the increment is not unity.
@@ -3312,10 +3243,7 @@ module la_blas_level2_pac
            else if (incx == 0) then
                info = 5
            end if
-           if (info /= 0) then
-               call la_xerbla('WHPR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=qp))) return
            ! set the start point in x if the increment is not unity.
@@ -3438,10 +3366,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('CHPR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both
@@ -3583,10 +3508,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHPR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both
@@ -3729,10 +3651,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('YHPR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both
@@ -3876,10 +3795,7 @@ module la_blas_level2_pac
            else if (incy == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('WHPR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both

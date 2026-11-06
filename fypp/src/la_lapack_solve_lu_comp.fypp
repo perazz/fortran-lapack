@@ -140,10 +140,7 @@ module la_lapack_solve_lu_comp
            else if (ldab < kl + kv + 1) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            ! gaussian elimination with partial pivoting
@@ -242,10 +239,7 @@ module la_lapack_solve_lu_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            kd = ku + kl + 1
@@ -331,7 +325,6 @@ module la_lapack_solve_lu_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('${ri.upper()}$GTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -856,10 +849,7 @@ module la_lapack_solve_lu_comp
            else if (anorm < zero) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -986,10 +976,7 @@ module la_lapack_solve_lu_comp
            else if (ldab < kl + ku + 1) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) then
               rowcnd = one
@@ -1131,10 +1118,7 @@ module la_lapack_solve_lu_comp
            else if (ldab < kl + ku + 1) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) then
               rowcnd = one
@@ -1292,10 +1276,7 @@ module la_lapack_solve_lu_comp
            else if (ldx < max(1,n)) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -1486,10 +1467,7 @@ module la_lapack_solve_lu_comp
            else if (ldab < kl + kv + 1) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            ! determine the block size for this environment
@@ -1745,10 +1723,7 @@ module la_lapack_solve_lu_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GECON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -1848,10 +1823,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) then
               rowcnd = one
@@ -1986,10 +1958,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) then
               rowcnd = one
@@ -2286,10 +2255,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            ! compute machine safe minimum
@@ -2379,10 +2345,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (m == 1) then
@@ -2494,7 +2457,6 @@ module la_lapack_solve_lu_comp
               info = -6
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETRI',-info)
               return
            else if (lquery) then
               return
@@ -2606,10 +2568,7 @@ module la_lapack_solve_lu_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (notran) then
@@ -2680,10 +2639,7 @@ module la_lapack_solve_lu_comp
            else if (ldb < max(n,1)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! decode trans
@@ -2787,10 +2743,7 @@ module la_lapack_solve_lu_comp
            else if (ldafb < 2*kl + ku + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_GBRCOND',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) then
               res = one
               return
@@ -2973,10 +2926,7 @@ module la_lapack_solve_lu_comp
            else if (ldaf < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_GERCOND',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) then
               res = one
               return
@@ -3259,10 +3209,7 @@ module la_lapack_solve_lu_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GERFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -3440,10 +3387,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            ! determine the block size for this environment.
@@ -3533,10 +3477,7 @@ module la_lapack_solve_lu_comp
            else if (anorm < zero) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -3633,10 +3574,7 @@ module la_lapack_solve_lu_comp
            else if (ldx < max(1,n)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -3844,10 +3782,7 @@ module la_lapack_solve_lu_comp
            else if (ldab < kl + ku + 1) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) then
               rowcnd = one
@@ -3994,10 +3929,7 @@ module la_lapack_solve_lu_comp
            else if (ldab < kl + ku + 1) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) then
               rowcnd = one
@@ -4136,10 +4068,7 @@ module la_lapack_solve_lu_comp
            else if (ldab < kl + kv + 1) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            ! gaussian elimination with partial pivoting
@@ -4241,10 +4170,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) then
               rowcnd = one
@@ -4384,10 +4310,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) then
               rowcnd = one
@@ -4617,10 +4540,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            ! compute machine safe minimum
@@ -4701,7 +4621,6 @@ module la_lapack_solve_lu_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('${ri.upper()}$GTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -5298,10 +5217,7 @@ module la_lapack_solve_lu_comp
            else if (anorm < zero) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -5429,10 +5345,7 @@ module la_lapack_solve_lu_comp
            else if (ldab < kl + kv + 1) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            ! determine the block size for this environment
@@ -5687,10 +5600,7 @@ module la_lapack_solve_lu_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            kd = ku + kl + 1
@@ -5819,10 +5729,7 @@ module la_lapack_solve_lu_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GECON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -6004,10 +5911,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (m == 1) then
@@ -6119,7 +6023,6 @@ module la_lapack_solve_lu_comp
               info = -6
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETRI',-info)
               return
            else if (lquery) then
               return
@@ -6231,10 +6134,7 @@ module la_lapack_solve_lu_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (notran) then
@@ -6305,10 +6205,7 @@ module la_lapack_solve_lu_comp
            else if (ldb < max(n,1)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! decode trans
@@ -6530,10 +6427,7 @@ module la_lapack_solve_lu_comp
            else if (ldx < max(1,n)) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6741,10 +6635,7 @@ module la_lapack_solve_lu_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GERFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6921,10 +6812,7 @@ module la_lapack_solve_lu_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GETRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            ! determine the block size for this environment.
@@ -7015,10 +6903,7 @@ module la_lapack_solve_lu_comp
            else if (anorm < zero) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -7124,10 +7009,7 @@ module la_lapack_solve_lu_comp
            else if (ldx < max(1,n)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs

@@ -113,7 +113,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGGLM',-info)
               return
            else if (lquery) then
               return
@@ -252,7 +251,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGLSE',-info)
               return
            else if (lquery) then
               return
@@ -399,7 +397,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGGLM',-info)
               return
            else if (lquery) then
               return
@@ -538,7 +535,6 @@ module la_lapack_lsq_constrained
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGLSE',-info)
               return
            else if (lquery) then
               return

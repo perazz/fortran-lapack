@@ -145,7 +145,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=${rk}$)
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GELS ',-info)
               return
            else if (lquery) then
               return
@@ -385,7 +384,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GELSY',-info)
               return
            else if (lquery) then
               return
@@ -625,10 +623,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=${rk}$)
            end if
-           if (info /= 0) then
-             call la_xerbla('${ri.upper()}$GETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=${rk}$)
              return
@@ -985,7 +980,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GELSD',-info)
               return
            else if (lquery) then
 #:if rk == "sp"
@@ -1355,7 +1349,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GELSS',-info)
               return
            else if (lquery) then
               return
@@ -1725,7 +1718,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=${rk}$)
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GELS ',-info)
               return
            else if (lquery) then
               return
@@ -2018,7 +2010,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GELSD',-info)
               return
            else if (lquery) then
               return
@@ -2378,7 +2369,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GELSS',-info)
               return
            else if (lquery) then
               return
@@ -2772,7 +2762,6 @@ module la_lapack_lsq
               info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GELSY',-info)
               return
            else if (lquery) then
               return
@@ -3013,10 +3002,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=${rk}$)
            end if
-           if (info /= 0) then
-             call la_xerbla('${ri.upper()}$GETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=${rk}$)
              return

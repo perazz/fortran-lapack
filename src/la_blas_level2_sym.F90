@@ -62,10 +62,7 @@ module la_blas_level2_sym
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('SSYMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -214,10 +211,7 @@ module la_blas_level2_sym
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('DSYMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -367,10 +361,7 @@ module la_blas_level2_sym
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('XSYMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -521,10 +512,7 @@ module la_blas_level2_sym
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('QSYMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -673,10 +661,7 @@ module la_blas_level2_sym
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('SSYR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
@@ -776,10 +761,7 @@ module la_blas_level2_sym
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('DSYR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
@@ -880,10 +862,7 @@ module la_blas_level2_sym
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('XSYR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
@@ -985,10 +964,7 @@ module la_blas_level2_sym
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('QSYR  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set the start point in x if the increment is not unity.
@@ -1092,10 +1068,7 @@ module la_blas_level2_sym
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('SSYR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
@@ -1215,10 +1188,7 @@ module la_blas_level2_sym
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('DSYR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
@@ -1339,10 +1309,7 @@ module la_blas_level2_sym
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('XSYR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both
@@ -1464,10 +1431,7 @@ module la_blas_level2_sym
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('QSYR2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == zero)) return
            ! set up the start points in x and y if the increments are not both

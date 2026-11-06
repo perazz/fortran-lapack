@@ -1332,10 +1332,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SSTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -1648,10 +1645,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DSTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -1965,10 +1959,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XSTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -2283,10 +2274,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QSTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -5021,10 +5009,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -5244,10 +5229,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -5468,10 +5450,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -5693,10 +5672,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -5910,10 +5886,7 @@ module la_lapack_eigv_tridiag
            else if (lds < max(1,k)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAED9',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -6015,10 +5988,7 @@ module la_lapack_eigv_tridiag
            else if (lds < max(1,k)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAED9',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -6121,10 +6091,7 @@ module la_lapack_eigv_tridiag
            else if (lds < max(1,k)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAED9',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -6228,10 +6195,7 @@ module la_lapack_eigv_tridiag
            else if (lds < max(1,k)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAED9',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -6341,10 +6305,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAED3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -6476,10 +6437,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAED3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -6612,10 +6570,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAED3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -6749,10 +6704,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAED3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -6905,10 +6857,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n) > cutpnt .or. n < cutpnt) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -7039,10 +6988,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n) > cutpnt .or. n < cutpnt) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -7174,10 +7120,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n) > cutpnt .or. n < cutpnt) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -7310,10 +7253,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n) > cutpnt .or. n < cutpnt) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -7425,10 +7365,7 @@ module la_lapack_eigv_tridiag
            else if (min(1, (n/2)) > n1 .or. (n/2) < n1) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAED2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            n2 = n - n1
@@ -7682,10 +7619,7 @@ module la_lapack_eigv_tridiag
            else if (min(1, (n/2)) > n1 .or. (n/2) < n1) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAED2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            n2 = n - n1
@@ -7940,10 +7874,7 @@ module la_lapack_eigv_tridiag
            else if (min(1, (n/2)) > n1 .or. (n/2) < n1) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAED2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            n2 = n - n1
@@ -8199,10 +8130,7 @@ module la_lapack_eigv_tridiag
            else if (min(1, (n/2)) > n1 .or. (n/2) < n1) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAED2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            n2 = n - n1
@@ -8471,10 +8399,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n/2) > cutpnt .or. (n/2) < cutpnt) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAED1',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are integer pointers which indicate
@@ -8573,10 +8498,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n/2) > cutpnt .or. (n/2) < cutpnt) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAED1',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are integer pointers which indicate
@@ -8676,10 +8598,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n/2) > cutpnt .or. (n/2) < cutpnt) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAED1',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are integer pointers which indicate
@@ -8780,10 +8699,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n/2) > cutpnt .or. (n/2) < cutpnt) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAED1',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are integer pointers which indicate
@@ -8867,10 +8783,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'SLAED0',' ',0,0,0,0)
@@ -9071,10 +8984,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'DLAED0',' ',0,0,0,0)
@@ -9276,10 +9186,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'XLAED0',' ',0,0,0,0)
@@ -9482,10 +9389,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'QLAED0',' ',0,0,0,0)
@@ -9696,10 +9600,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -9899,10 +9800,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -10103,10 +10001,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -10308,10 +10203,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -10515,10 +10407,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CSTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -10833,10 +10722,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -11152,10 +11038,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YSTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -11472,10 +11355,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WSTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -11806,10 +11686,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -11932,10 +11809,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -12059,10 +11933,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -12187,10 +12058,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -12298,10 +12166,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'CLAED0',' ',0,0,0,0)
@@ -12476,10 +12341,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'ZLAED0',' ',0,0,0,0)
@@ -12655,10 +12517,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'YLAED0',' ',0,0,0,0)
@@ -12835,10 +12694,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'WLAED0',' ',0,0,0,0)

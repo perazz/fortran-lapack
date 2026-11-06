@@ -517,10 +517,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('SSFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_ssyrk for example) and left in the general case.
@@ -773,10 +770,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('DSFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_dsyrk for example) and left in the general case.
@@ -1030,10 +1024,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('XSFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_xsyrk for example) and left in the general case.
@@ -1288,10 +1279,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('QSFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_qsyrk for example) and left in the general case.
@@ -1548,10 +1536,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('STFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_sp)
@@ -2050,10 +2035,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('DTFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_dp)
@@ -2553,10 +2535,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('XTFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_xdp)
@@ -3057,10 +3036,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('QTFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_qp)
@@ -3560,10 +3536,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CHFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_cherk for example) and left in the general case.
@@ -3819,10 +3792,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_zherk for example) and left in the general case.
@@ -4079,10 +4049,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YHFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_yherk for example) and left in the general case.
@@ -4340,10 +4307,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WHFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_wherk for example) and left in the general case.
@@ -5593,10 +5557,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CTFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_sp,0e+0_sp)
@@ -6095,10 +6056,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_dp,0e+0_dp)
@@ -6598,10 +6556,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YTFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_xdp,0e+0_xdp)
@@ -7102,10 +7057,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WTFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_qp,0e+0_qp)

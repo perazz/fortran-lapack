@@ -471,10 +471,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then
@@ -1036,10 +1033,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then

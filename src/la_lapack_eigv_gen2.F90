@@ -1580,10 +1580,7 @@ module la_lapack_eigv_gen2
                  info = -11
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('STREVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set the constants to control overflow.
@@ -2193,10 +2190,7 @@ module la_lapack_eigv_gen2
                  info = -11
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DTREVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set the constants to control overflow.
@@ -2807,10 +2801,7 @@ module la_lapack_eigv_gen2
                  info = -11
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XTREVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set the constants to control overflow.
@@ -3422,10 +3413,7 @@ module la_lapack_eigv_gen2
                  info = -11
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QTREVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set the constants to control overflow.
@@ -4050,7 +4038,6 @@ module la_lapack_eigv_gen2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('STREVC3',-info)
               return
            else if (lquery) then
               return
@@ -4871,7 +4858,6 @@ module la_lapack_eigv_gen2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DTREVC3',-info)
               return
            else if (lquery) then
               return
@@ -5693,7 +5679,6 @@ module la_lapack_eigv_gen2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XTREVC3',-info)
               return
            else if (lquery) then
               return
@@ -6516,7 +6501,6 @@ module la_lapack_eigv_gen2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QTREVC3',-info)
               return
            else if (lquery) then
               return
@@ -7291,10 +7275,7 @@ module la_lapack_eigv_gen2
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('STRSYL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            scale = one
            if (m == 0 .or. n == 0) return
@@ -7954,10 +7935,7 @@ module la_lapack_eigv_gen2
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRSYL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            scale = one
            if (m == 0 .or. n == 0) return
@@ -8618,10 +8596,7 @@ module la_lapack_eigv_gen2
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRSYL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            scale = one
            if (m == 0 .or. n == 0) return
@@ -9283,10 +9258,7 @@ module la_lapack_eigv_gen2
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRSYL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            scale = one
            if (m == 0 .or. n == 0) return
@@ -9962,10 +9934,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('SHSEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set machine-dependent constants.
@@ -10177,10 +10146,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('DHSEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set machine-dependent constants.
@@ -10393,10 +10359,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('XHSEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set machine-dependent constants.
@@ -10610,10 +10573,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('QHSEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set machine-dependent constants.
@@ -10852,7 +10812,6 @@ module la_lapack_eigv_gen2
               iwork(1) = liwmin
            end if
            if (info /= 0) then
-              call la_xerbla('STRSEN',-info)
               return
            else if (lquery) then
               return
@@ -11047,7 +11006,6 @@ module la_lapack_eigv_gen2
               iwork(1) = liwmin
            end if
            if (info /= 0) then
-              call la_xerbla('DTRSEN',-info)
               return
            else if (lquery) then
               return
@@ -11243,7 +11201,6 @@ module la_lapack_eigv_gen2
               iwork(1) = liwmin
            end if
            if (info /= 0) then
-              call la_xerbla('XTRSEN',-info)
               return
            else if (lquery) then
               return
@@ -11440,7 +11397,6 @@ module la_lapack_eigv_gen2
               iwork(1) = liwmin
            end if
            if (info /= 0) then
-              call la_xerbla('QTRSEN',-info)
               return
            else if (lquery) then
               return
@@ -11622,10 +11578,7 @@ module la_lapack_eigv_gen2
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('STRSNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -11867,10 +11820,7 @@ module la_lapack_eigv_gen2
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRSNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -12113,10 +12063,7 @@ module la_lapack_eigv_gen2
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRSNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -12360,10 +12307,7 @@ module la_lapack_eigv_gen2
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRSNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -12592,7 +12536,6 @@ module la_lapack_eigv_gen2
            end if
            if (info /= 0) then
               ! ==== quick return in case of invalid argument. ====
-              call la_xerbla('SHSEQR',-info)
               return
            else if (n == 0) then
               ! ==== quick return in case n = 0; nothing to do. ====
@@ -12738,7 +12681,6 @@ module la_lapack_eigv_gen2
            end if
            if (info /= 0) then
               ! ==== quick return in case of invalid argument. ====
-              call la_xerbla('DHSEQR',-info)
               return
            else if (n == 0) then
               ! ==== quick return in case n = 0; nothing to do. ====
@@ -12885,7 +12827,6 @@ module la_lapack_eigv_gen2
            end if
            if (info /= 0) then
               ! ==== quick return in case of invalid argument. ====
-              call la_xerbla('XHSEQR',-info)
               return
            else if (n == 0) then
               ! ==== quick return in case n = 0; nothing to do. ====
@@ -13033,7 +12974,6 @@ module la_lapack_eigv_gen2
            end if
            if (info /= 0) then
               ! ==== quick return in case of invalid argument. ====
-              call la_xerbla('QHSEQR',-info)
               return
            else if (n == 0) then
               ! ==== quick return in case n = 0; nothing to do. ====
@@ -13191,10 +13131,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CTREVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set the constants to control overflow.
@@ -13390,10 +13327,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTREVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set the constants to control overflow.
@@ -13590,10 +13524,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YTREVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set the constants to control overflow.
@@ -13791,10 +13722,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WTREVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set the constants to control overflow.
@@ -14003,7 +13931,6 @@ module la_lapack_eigv_gen2
               info = -16
            end if
            if (info /= 0) then
-              call la_xerbla('CTREVC3',-info)
               return
            else if (lquery) then
               return
@@ -14298,7 +14225,6 @@ module la_lapack_eigv_gen2
               info = -16
            end if
            if (info /= 0) then
-              call la_xerbla('ZTREVC3',-info)
               return
            else if (lquery) then
               return
@@ -14594,7 +14520,6 @@ module la_lapack_eigv_gen2
               info = -16
            end if
            if (info /= 0) then
-              call la_xerbla('YTREVC3',-info)
               return
            else if (lquery) then
               return
@@ -14891,7 +14816,6 @@ module la_lapack_eigv_gen2
               info = -16
            end if
            if (info /= 0) then
-              call la_xerbla('WTREVC3',-info)
               return
            else if (lquery) then
               return
@@ -15166,10 +15090,7 @@ module la_lapack_eigv_gen2
            else if (ldwork < 1 .or. (wantsp .and. ldwork < n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRSNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -15315,10 +15236,7 @@ module la_lapack_eigv_gen2
            else if (ldwork < 1 .or. (wantsp .and. ldwork < n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRSNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -15465,10 +15383,7 @@ module la_lapack_eigv_gen2
            else if (ldwork < 1 .or. (wantsp .and. ldwork < n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRSNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -15616,10 +15531,7 @@ module la_lapack_eigv_gen2
            else if (ldwork < 1 .or. (wantsp .and. ldwork < n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRSNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -16330,10 +16242,7 @@ module la_lapack_eigv_gen2
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRSYL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            scale = one
            if (m == 0 .or. n == 0) return
@@ -16558,10 +16467,7 @@ module la_lapack_eigv_gen2
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRSYL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            scale = one
            if (m == 0 .or. n == 0) return
@@ -16787,10 +16693,7 @@ module la_lapack_eigv_gen2
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRSYL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            scale = one
            if (m == 0 .or. n == 0) return
@@ -17017,10 +16920,7 @@ module la_lapack_eigv_gen2
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRSYL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            scale = one
            if (m == 0 .or. n == 0) return
@@ -17261,10 +17161,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('CHSEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set machine-dependent constants.
@@ -17434,10 +17331,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHSEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set machine-dependent constants.
@@ -17608,10 +17502,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('YHSEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set machine-dependent constants.
@@ -17783,10 +17674,7 @@ module la_lapack_eigv_gen2
            else if (mm < m) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('WHSEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            ! set machine-dependent constants.
@@ -17962,7 +17850,6 @@ module la_lapack_eigv_gen2
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('CTRSEN',-info)
               return
            else if (lquery) then
               return
@@ -18099,7 +17986,6 @@ module la_lapack_eigv_gen2
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('ZTRSEN',-info)
               return
            else if (lquery) then
               return
@@ -18237,7 +18123,6 @@ module la_lapack_eigv_gen2
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('YTRSEN',-info)
               return
            else if (lquery) then
               return
@@ -18376,7 +18261,6 @@ module la_lapack_eigv_gen2
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('WTRSEN',-info)
               return
            else if (lquery) then
               return
@@ -18513,7 +18397,6 @@ module la_lapack_eigv_gen2
            end if
            if (info /= 0) then
               ! ==== quick return in case of invalid argument. ====
-              call la_xerbla('CHSEQR',-info)
               return
            else if (n == 0) then
               ! ==== quick return in case n = 0; nothing to do. ====
@@ -18656,7 +18539,6 @@ module la_lapack_eigv_gen2
            end if
            if (info /= 0) then
               ! ==== quick return in case of invalid argument. ====
-              call la_xerbla('ZHSEQR',-info)
               return
            else if (n == 0) then
               ! ==== quick return in case n = 0; nothing to do. ====
@@ -18800,7 +18682,6 @@ module la_lapack_eigv_gen2
            end if
            if (info /= 0) then
               ! ==== quick return in case of invalid argument. ====
-              call la_xerbla('YHSEQR',-info)
               return
            else if (n == 0) then
               ! ==== quick return in case n = 0; nothing to do. ====
@@ -18945,7 +18826,6 @@ module la_lapack_eigv_gen2
            end if
            if (info /= 0) then
               ! ==== quick return in case of invalid argument. ====
-              call la_xerbla('WHSEQR',-info)
               return
            else if (n == 0) then
               ! ==== quick return in case n = 0; nothing to do. ====

@@ -189,7 +189,6 @@ module la_lapack_eigv_gen
               if (lwork < minwrk .and. .not. lquery) info = -19
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGES ',-info)
               return
            else if (lquery) then
               return
@@ -562,7 +561,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGESX',-info)
               return
            else if (lquery) then
               return
@@ -895,7 +893,6 @@ module la_lapack_eigv_gen
               if (lwork < minwrk .and. .not. lquery) info = -16
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGEV ',-info)
               return
            else if (lquery) then
               return
@@ -1255,7 +1252,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGEVX',-info)
               return
            else if (lquery) then
               return
@@ -1609,7 +1605,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEES ',-info)
               return
            else if (lquery) then
               return
@@ -1894,7 +1889,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEESX',-info)
               return
            else if (lquery) then
               return
@@ -2195,7 +2189,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEEV ',-info)
               return
            else if (lquery) then
               return
@@ -2498,7 +2491,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEEVX',-info)
               return
            else if (lquery) then
               return
@@ -2800,7 +2792,6 @@ module la_lapack_eigv_gen
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGES3 ',-info)
               return
            else if (lquery) then
               return
@@ -3134,7 +3125,6 @@ module la_lapack_eigv_gen
 #:endif
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGEV3 ',-info)
               return
            else if (lquery) then
               return
@@ -3446,7 +3436,6 @@ module la_lapack_eigv_gen
               if (lwork < lwkmin .and. .not. lquery) info = -18
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGES ',-info)
               return
            else if (lquery) then
               return
@@ -3745,7 +3734,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGESX',-info)
               return
            else if (lquery) then
               return
@@ -4023,7 +4011,6 @@ module la_lapack_eigv_gen
               if (lwork < lwkmin .and. .not. lquery) info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGEV ',-info)
               return
            else if (lquery) then
               return
@@ -4340,7 +4327,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGEVX',-info)
               return
            else if (lquery) then
               return
@@ -4642,7 +4628,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEES ',-info)
               return
            else if (lquery) then
               return
@@ -4841,7 +4826,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEESX',-info)
               return
            else if (lquery) then
               return
@@ -5051,7 +5035,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEEV ',-info)
               return
            else if (lquery) then
               return
@@ -5349,7 +5332,6 @@ module la_lapack_eigv_gen
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEEVX',-info)
               return
            else if (lquery) then
               return
@@ -5634,7 +5616,6 @@ module la_lapack_eigv_gen
               work(1) = cmplx(lwkopt,KIND=${rk}$)
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGES3 ',-info)
               return
            else if (lquery) then
               return
@@ -5904,7 +5885,6 @@ module la_lapack_eigv_gen
               work(1) = cmplx(lwkopt,KIND=${rk}$)
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GGEV3 ',-info)
               return
            else if (lquery) then
               return

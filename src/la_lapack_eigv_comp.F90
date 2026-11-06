@@ -119,10 +119,7 @@ module la_lapack_eigv_comp
            else if (ldv < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('SGGBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -231,10 +228,7 @@ module la_lapack_eigv_comp
            else if (ldv < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DGGBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -344,10 +338,7 @@ module la_lapack_eigv_comp
            else if (ldv < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XGGBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -458,10 +449,7 @@ module la_lapack_eigv_comp
            else if (ldv < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QGGBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -571,10 +559,7 @@ module la_lapack_eigv_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SGGBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               ilo = 1
@@ -864,10 +849,7 @@ module la_lapack_eigv_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DGGBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               ilo = 1
@@ -1158,10 +1140,7 @@ module la_lapack_eigv_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XGGBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               ilo = 1
@@ -1453,10 +1432,7 @@ module la_lapack_eigv_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QGGBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               ilo = 1
@@ -1793,10 +1769,7 @@ module la_lapack_eigv_comp
            else if ((ilz .and. ldz < n) .or. ldz < 1) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('SGGHRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z if desired.
            if (icompq == 3) call la_slaset('FULL',n,n,zero,one,q,ldq)
            if (icompz == 3) call la_slaset('FULL',n,n,zero,one,z,ldz)
@@ -1923,10 +1896,7 @@ module la_lapack_eigv_comp
            else if ((ilz .and. ldz < n) .or. ldz < 1) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('DGGHRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z if desired.
            if (icompq == 3) call la_dlaset('FULL',n,n,zero,one,q,ldq)
            if (icompz == 3) call la_dlaset('FULL',n,n,zero,one,z,ldz)
@@ -2054,10 +2024,7 @@ module la_lapack_eigv_comp
            else if ((ilz .and. ldz < n) .or. ldz < 1) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('XGGHRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z if desired.
            if (icompq == 3) call la_xlaset('FULL',n,n,zero,one,q,ldq)
            if (icompz == 3) call la_xlaset('FULL',n,n,zero,one,z,ldz)
@@ -2186,10 +2153,7 @@ module la_lapack_eigv_comp
            else if ((ilz .and. ldz < n) .or. ldz < 1) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('QGGHRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z if desired.
            if (icompq == 3) call la_qlaset('FULL',n,n,zero,one,q,ldq)
            if (icompz == 3) call la_qlaset('FULL',n,n,zero,one,z,ldz)
@@ -2308,7 +2272,6 @@ module la_lapack_eigv_comp
               info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('SGGHD3',-info)
               return
            else if (lquery) then
               return
@@ -2835,7 +2798,6 @@ module la_lapack_eigv_comp
               info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('DGGHD3',-info)
               return
            else if (lquery) then
               return
@@ -3363,7 +3325,6 @@ module la_lapack_eigv_comp
               info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('XGGHD3',-info)
               return
            else if (lquery) then
               return
@@ -3892,7 +3853,6 @@ module la_lapack_eigv_comp
               info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('QGGHD3',-info)
               return
            else if (lquery) then
               return
@@ -4478,7 +4438,6 @@ module la_lapack_eigv_comp
               info = -19
            end if
            if (info /= 0) then
-              call la_xerbla('SHGEQZ',-info)
               return
            else if (lquery) then
               return
@@ -5353,7 +5312,6 @@ module la_lapack_eigv_comp
               info = -19
            end if
            if (info /= 0) then
-              call la_xerbla('DHGEQZ',-info)
               return
            else if (lquery) then
               return
@@ -6229,7 +6187,6 @@ module la_lapack_eigv_comp
               info = -19
            end if
            if (info /= 0) then
-              call la_xerbla('XHGEQZ',-info)
               return
            else if (lquery) then
               return
@@ -7106,7 +7063,6 @@ module la_lapack_eigv_comp
               info = -19
            end if
            if (info /= 0) then
-              call la_xerbla('QHGEQZ',-info)
               return
            else if (lquery) then
               return
@@ -7892,10 +7848,7 @@ module la_lapack_eigv_comp
            else if (ldv < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('CGGBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -8004,10 +7957,7 @@ module la_lapack_eigv_comp
            else if (ldv < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGGBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -8117,10 +8067,7 @@ module la_lapack_eigv_comp
            else if (ldv < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('YGGBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -8231,10 +8178,7 @@ module la_lapack_eigv_comp
            else if (ldv < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('WGGBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -8349,10 +8293,7 @@ module la_lapack_eigv_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CGGBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               ilo = 1
@@ -8651,10 +8592,7 @@ module la_lapack_eigv_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGGBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               ilo = 1
@@ -8954,10 +8892,7 @@ module la_lapack_eigv_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YGGBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               ilo = 1
@@ -9258,10 +9193,7 @@ module la_lapack_eigv_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WGGBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               ilo = 1
@@ -9603,10 +9535,7 @@ module la_lapack_eigv_comp
            else if ((ilz .and. ldz < n) .or. ldz < 1) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('CGGHRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z if desired.
            if (icompq == 3) call la_claset('FULL',n,n,czero,cone,q,ldq)
            if (icompz == 3) call la_claset('FULL',n,n,czero,cone,z,ldz)
@@ -9735,10 +9664,7 @@ module la_lapack_eigv_comp
            else if ((ilz .and. ldz < n) .or. ldz < 1) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGGHRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z if desired.
            if (icompq == 3) call la_zlaset('FULL',n,n,czero,cone,q,ldq)
            if (icompz == 3) call la_zlaset('FULL',n,n,czero,cone,z,ldz)
@@ -9868,10 +9794,7 @@ module la_lapack_eigv_comp
            else if ((ilz .and. ldz < n) .or. ldz < 1) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('YGGHRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z if desired.
            if (icompq == 3) call la_ylaset('FULL',n,n,czero,cone,q,ldq)
            if (icompz == 3) call la_ylaset('FULL',n,n,czero,cone,z,ldz)
@@ -10002,10 +9925,7 @@ module la_lapack_eigv_comp
            else if ((ilz .and. ldz < n) .or. ldz < 1) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('WGGHRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z if desired.
            if (icompq == 3) call la_wlaset('FULL',n,n,czero,cone,q,ldq)
            if (icompz == 3) call la_wlaset('FULL',n,n,czero,cone,z,ldz)
@@ -10126,7 +10046,6 @@ module la_lapack_eigv_comp
               info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('CGGHD3',-info)
               return
            else if (lquery) then
               return
@@ -10656,7 +10575,6 @@ module la_lapack_eigv_comp
               info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('ZGGHD3',-info)
               return
            else if (lquery) then
               return
@@ -11187,7 +11105,6 @@ module la_lapack_eigv_comp
               info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('YGGHD3',-info)
               return
            else if (lquery) then
               return
@@ -11719,7 +11636,6 @@ module la_lapack_eigv_comp
               info = -15
            end if
            if (info /= 0) then
-              call la_xerbla('WGGHD3',-info)
               return
            else if (lquery) then
               return
@@ -12298,7 +12214,6 @@ module la_lapack_eigv_comp
               info = -18
            end if
            if (info /= 0) then
-              call la_xerbla('CHGEQZ',-info)
               return
            else if (lquery) then
               return
@@ -12796,7 +12711,6 @@ module la_lapack_eigv_comp
               info = -18
            end if
            if (info /= 0) then
-              call la_xerbla('ZHGEQZ',-info)
               return
            else if (lquery) then
               return
@@ -13295,7 +13209,6 @@ module la_lapack_eigv_comp
               info = -18
            end if
            if (info /= 0) then
-              call la_xerbla('YHGEQZ',-info)
               return
            else if (lquery) then
               return
@@ -13795,7 +13708,6 @@ module la_lapack_eigv_comp
               info = -18
            end if
            if (info /= 0) then
-              call la_xerbla('WHGEQZ',-info)
               return
            else if (lquery) then
               return

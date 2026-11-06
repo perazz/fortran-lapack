@@ -136,10 +136,7 @@ module la_lapack_eigv_tridiag3
            else if (irange == 3 .and. (iu < min(n,il) .or. iu > n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEBZ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize error flags
            info = 0
            ncnvrg = .false.
@@ -528,10 +525,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -706,7 +700,6 @@ module la_lapack_eigv_tridiag3
            ! quick return if possible
            if (n < 0) then
               info = -1
-              call la_xerbla('${ri.upper()}$STERF',-info)
               return
            end if
            if (n <= 1) return
@@ -960,10 +953,7 @@ module la_lapack_eigv_tridiag3
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -1076,10 +1066,7 @@ module la_lapack_eigv_tridiag3
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -1318,7 +1305,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEDC',-info)
               return
            else if (lquery) then
               return
@@ -1528,7 +1514,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEVD',-info)
               return
            else if (lquery) then
               return
@@ -1637,10 +1622,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -1898,7 +1880,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -2282,7 +2263,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEVR',-info)
               return
            else if (lquery) then
               return
@@ -2517,10 +2497,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -2724,10 +2701,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -2949,7 +2923,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -3319,7 +3292,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEDC',-info)
               return
            else if (lquery) then
               return

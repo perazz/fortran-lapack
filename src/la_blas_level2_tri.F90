@@ -107,10 +107,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('STBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -290,10 +287,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('DTBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -474,10 +468,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('XTBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -659,10 +650,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('QTBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -847,10 +835,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('STBSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -1033,10 +1018,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('DTBSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -1220,10 +1202,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('XTBSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -1408,10 +1387,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('QTBSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -1587,10 +1563,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('STPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -1769,10 +1742,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('DTPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -1952,10 +1922,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('XTPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -2136,10 +2103,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('QTPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -2322,10 +2286,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('STPSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -2506,10 +2467,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('DTPSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -2691,10 +2649,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('XTPSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -2877,10 +2832,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('QTPSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -3065,10 +3017,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('STRMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -3231,10 +3180,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('DTRMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -3398,10 +3344,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('XTRMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -3566,10 +3509,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('QTRMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -3736,10 +3676,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('STRSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -3904,10 +3841,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('DTRSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -4073,10 +4007,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('XTRSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -4243,10 +4174,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('QTRSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            nounit = la_lsame(diag,'N')
@@ -4413,10 +4341,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('CTBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -4627,10 +4552,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('ZTBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -4842,10 +4764,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('YTBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -5058,10 +4977,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('WTBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -5277,10 +5193,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('CTBSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -5494,10 +5407,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('ZTBSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -5712,10 +5622,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('YTBSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -5931,10 +5838,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('WTBSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -6143,10 +6047,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('CTPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -6360,10 +6261,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('ZTPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -6578,10 +6476,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('YTPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -6797,10 +6692,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('WTPMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -7018,10 +6910,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('CTPSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -7237,10 +7126,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('ZTPSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -7457,10 +7343,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('YTPSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -7678,10 +7561,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('WTPSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -7899,10 +7779,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('CTRMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -8096,10 +7973,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('ZTRMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -8294,10 +8168,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('YTRMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -8493,10 +8364,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('WTRMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -8694,10 +8562,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('CTRSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -8893,10 +8758,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('ZTRSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -9093,10 +8955,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('YTRSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')
@@ -9294,10 +9153,7 @@ module la_blas_level2_tri
            else if (incx == 0) then
                info = 8
            end if
-           if (info /= 0) then
-               call la_xerbla('WTRSV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) return
            noconj = la_lsame(trans,'T')

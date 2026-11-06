@@ -148,10 +148,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_ssptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -198,10 +195,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_dsptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -249,10 +243,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_xsptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -301,10 +292,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_qsptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -364,10 +352,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_scopy(n*(n + 1)/2,ap,1,afp,1)
@@ -442,10 +427,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_dcopy(n*(n + 1)/2,ap,1,afp,1)
@@ -521,10 +503,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_xcopy(n*(n + 1)/2,ap,1,afp,1)
@@ -601,10 +580,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_qcopy(n*(n + 1)/2,ap,1,afp,1)
@@ -693,7 +669,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -769,7 +744,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -846,7 +820,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -924,7 +897,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -1004,7 +976,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -1082,7 +1053,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -1161,7 +1131,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -1241,7 +1210,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -1315,7 +1283,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYSV ',-info)
               return
            else if (lquery) then
               return
@@ -1392,7 +1359,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYSV ',-info)
               return
            else if (lquery) then
               return
@@ -1470,7 +1436,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYSV ',-info)
               return
            else if (lquery) then
               return
@@ -1549,7 +1514,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYSV ',-info)
               return
            else if (lquery) then
               return
@@ -1637,7 +1601,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYSVX',-info)
               return
            else if (lquery) then
               return
@@ -1734,7 +1697,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYSVX',-info)
               return
            else if (lquery) then
               return
@@ -1832,7 +1794,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYSVX',-info)
               return
            else if (lquery) then
               return
@@ -1931,7 +1892,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYSVX',-info)
               return
            else if (lquery) then
               return
@@ -2020,7 +1980,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYSV_AA',-info)
               return
            else if (lquery) then
               return
@@ -2091,7 +2050,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYSV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -2163,7 +2121,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYSV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -2236,7 +2193,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYSV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -2291,10 +2247,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CSPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_csptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -2341,10 +2294,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_zsptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -2392,10 +2342,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YSPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_ysptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -2444,10 +2391,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WSPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**t or a = l*d*l**t.
            call la_wsptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -2507,10 +2451,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CSPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_ccopy(n*(n + 1)/2,ap,1,afp,1)
@@ -2585,10 +2526,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_zcopy(n*(n + 1)/2,ap,1,afp,1)
@@ -2664,10 +2602,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YSPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_ycopy(n*(n + 1)/2,ap,1,afp,1)
@@ -2744,10 +2679,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WSPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**t or a = l*d*l**t.
               call la_wcopy(n*(n + 1)/2,ap,1,afp,1)
@@ -2832,7 +2764,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CSYSV ',-info)
               return
            else if (lquery) then
               return
@@ -2909,7 +2840,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYSV ',-info)
               return
            else if (lquery) then
               return
@@ -2987,7 +2917,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YSYSV ',-info)
               return
            else if (lquery) then
               return
@@ -3066,7 +2995,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WSYSV ',-info)
               return
            else if (lquery) then
               return
@@ -3149,7 +3077,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CSYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -3224,7 +3151,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -3301,7 +3227,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YSYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -3379,7 +3304,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WSYSV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -3459,7 +3383,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CSYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -3537,7 +3460,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -3616,7 +3538,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YSYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -3696,7 +3617,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WSYSV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -3779,7 +3699,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CSYSVX',-info)
               return
            else if (lquery) then
               return
@@ -3876,7 +3795,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYSVX',-info)
               return
            else if (lquery) then
               return
@@ -3974,7 +3892,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YSYSVX',-info)
               return
            else if (lquery) then
               return
@@ -4073,7 +3990,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WSYSVX',-info)
               return
            else if (lquery) then
               return
@@ -4163,7 +4079,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CHESV ',-info)
               return
            else if (lquery) then
               return
@@ -4240,7 +4155,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZHESV ',-info)
               return
            else if (lquery) then
               return
@@ -4318,7 +4232,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YHESV ',-info)
               return
            else if (lquery) then
               return
@@ -4397,7 +4310,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WHESV ',-info)
               return
            else if (lquery) then
               return
@@ -4480,7 +4392,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CHESV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -4555,7 +4466,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZHESV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -4632,7 +4542,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YHESV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -4710,7 +4619,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WHESV_RK ',-info)
               return
            else if (lquery) then
               return
@@ -4790,7 +4698,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CHESV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -4868,7 +4775,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZHESV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -4947,7 +4853,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YHESV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -5027,7 +4932,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WHESV_ROOK ',-info)
               return
            else if (lquery) then
               return
@@ -5110,7 +5014,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CHESVX',-info)
               return
            else if (lquery) then
               return
@@ -5207,7 +5110,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZHESVX',-info)
               return
            else if (lquery) then
               return
@@ -5305,7 +5207,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YHESVX',-info)
               return
            else if (lquery) then
               return
@@ -5404,7 +5305,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WHESVX',-info)
               return
            else if (lquery) then
               return
@@ -5475,10 +5375,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CHPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**h or a = l*d*l**h.
            call la_chptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -5525,10 +5422,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**h or a = l*d*l**h.
            call la_zhptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -5576,10 +5470,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YHPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**h or a = l*d*l**h.
            call la_yhptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -5628,10 +5519,7 @@ module la_lapack_solve_ldl
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WHPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the factorization a = u*d*u**h or a = l*d*l**h.
            call la_whptrf(uplo,n,ap,ipiv,info)
            if (info == 0) then
@@ -5691,10 +5579,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CHPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**h or a = l*d*l**h.
               call la_ccopy(n*(n + 1)/2,ap,1,afp,1)
@@ -5769,10 +5654,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**h or a = l*d*l**h.
               call la_zcopy(n*(n + 1)/2,ap,1,afp,1)
@@ -5848,10 +5730,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YHPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**h or a = l*d*l**h.
               call la_ycopy(n*(n + 1)/2,ap,1,afp,1)
@@ -5928,10 +5807,7 @@ module la_lapack_solve_ldl
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WHPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the factorization a = u*d*u**h or a = l*d*l**h.
               call la_wcopy(n*(n + 1)/2,ap,1,afp,1)
@@ -6015,7 +5891,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CHESV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -6086,7 +5961,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZHESV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -6158,7 +6032,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YHESV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -6231,7 +6104,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WHESV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -6304,7 +6176,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CSYSV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -6375,7 +6246,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYSV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -6447,7 +6317,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YSYSV_AA ',-info)
               return
            else if (lquery) then
               return
@@ -6520,7 +6389,6 @@ module la_lapack_solve_ldl
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WSYSV_AA ',-info)
               return
            else if (lquery) then
               return

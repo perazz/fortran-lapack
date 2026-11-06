@@ -204,10 +204,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_${ri}$syrk for example) and left in the general case.
@@ -471,10 +468,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_${rk}$)
@@ -981,10 +975,7 @@ module la_lapack_blas_like_l3
            else if (lda < max(1,nrowa)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HFRK ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            ! the quick return case: ((alpha==0).and.(beta/=zero)) is not
            ! done (it is in la_${ri}$herk for example) and left in the general case.
@@ -1537,10 +1528,7 @@ module la_lapack_blas_like_l3
            else if (ldb < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TFSM ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return when ( (n==0).or.(m==0) )
            if ((m == 0) .or. (n == 0)) return
            ! quick return when alpha==(0e+0_${rk}$,0e+0_${rk}$)

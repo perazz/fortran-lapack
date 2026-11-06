@@ -3008,10 +3008,7 @@ module la_lapack_svd_bidiag_qr
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('SBDSQR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (n == 1) go to 160
            ! rotate is true if any singular vectors desired, false otherwise
@@ -3467,10 +3464,7 @@ module la_lapack_svd_bidiag_qr
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('DBDSQR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (n == 1) go to 160
            ! rotate is true if any singular vectors desired, false otherwise
@@ -3927,10 +3921,7 @@ module la_lapack_svd_bidiag_qr
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('XBDSQR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (n == 1) go to 160
            ! rotate is true if any singular vectors desired, false otherwise
@@ -4388,10 +4379,7 @@ module la_lapack_svd_bidiag_qr
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('QBDSQR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (n == 1) go to 160
            ! rotate is true if any singular vectors desired, false otherwise
@@ -4807,7 +4795,6 @@ module la_lapack_svd_bidiag_qr
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('SLASQ1',-info)
               return
            else if (n == 0) then
               return
@@ -4899,7 +4886,6 @@ module la_lapack_svd_bidiag_qr
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('DLASQ1',-info)
               return
            else if (n == 0) then
               return
@@ -4992,7 +4978,6 @@ module la_lapack_svd_bidiag_qr
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('XLASQ1',-info)
               return
            else if (n == 0) then
               return
@@ -5086,7 +5071,6 @@ module la_lapack_svd_bidiag_qr
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('QLASQ1',-info)
               return
            else if (n == 0) then
               return
@@ -5195,7 +5179,6 @@ module la_lapack_svd_bidiag_qr
            tol2 = tol**2
            if (n < 0) then
               info = -1
-              call la_xerbla('SLASQ2',1)
               return
            else if (n == 0) then
               return
@@ -5203,22 +5186,18 @@ module la_lapack_svd_bidiag_qr
               ! 1-by-1 case.
               if (z(1) < zero) then
                  info = -201
-                 call la_xerbla('SLASQ2',2)
               end if
               return
            else if (n == 2) then
               ! 2-by-2 case.
               if (z(1) < zero) then
                  info = -201
-                 call la_xerbla('SLASQ2',2)
                  return
               else if (z(2) < zero) then
                  info = -202
-                 call la_xerbla('SLASQ2',2)
                  return
               else if (z(3) < zero) then
                 info = -203
-                call la_xerbla('SLASQ2',2)
                 return
               else if (z(3) > z(1)) then
                  d = z(3)
@@ -5252,11 +5231,9 @@ module la_lapack_svd_bidiag_qr
            do k = 1,2*(n - 1),2
               if (z(k) < zero) then
                  info = -(200 + k)
-                 call la_xerbla('SLASQ2',2)
                  return
               else if (z(k + 1) < zero) then
                  info = -(200 + k + 1)
-                 call la_xerbla('SLASQ2',2)
                  return
               end if
               d = d + z(k)
@@ -5267,7 +5244,6 @@ module la_lapack_svd_bidiag_qr
            end do
            if (z(2*n - 1) < zero) then
               info = -(200 + 2*n - 1)
-              call la_xerbla('SLASQ2',2)
               return
            end if
            d = d + z(2*n - 1)
@@ -5587,7 +5563,6 @@ module la_lapack_svd_bidiag_qr
            tol2 = tol**2
            if (n < 0) then
               info = -1
-              call la_xerbla('DLASQ2',1)
               return
            else if (n == 0) then
               return
@@ -5595,22 +5570,18 @@ module la_lapack_svd_bidiag_qr
               ! 1-by-1 case.
               if (z(1) < zero) then
                  info = -201
-                 call la_xerbla('DLASQ2',2)
               end if
               return
            else if (n == 2) then
               ! 2-by-2 case.
               if (z(1) < zero) then
                  info = -201
-                 call la_xerbla('DLASQ2',2)
                  return
               else if (z(2) < zero) then
                  info = -202
-                 call la_xerbla('DLASQ2',2)
                  return
               else if (z(3) < zero) then
                 info = -203
-                call la_xerbla('DLASQ2',2)
                 return
               else if (z(3) > z(1)) then
                  d = z(3)
@@ -5644,11 +5615,9 @@ module la_lapack_svd_bidiag_qr
            do k = 1,2*(n - 1),2
               if (z(k) < zero) then
                  info = -(200 + k)
-                 call la_xerbla('DLASQ2',2)
                  return
               else if (z(k + 1) < zero) then
                  info = -(200 + k + 1)
-                 call la_xerbla('DLASQ2',2)
                  return
               end if
               d = d + z(k)
@@ -5659,7 +5628,6 @@ module la_lapack_svd_bidiag_qr
            end do
            if (z(2*n - 1) < zero) then
               info = -(200 + 2*n - 1)
-              call la_xerbla('DLASQ2',2)
               return
            end if
            d = d + z(2*n - 1)
@@ -5975,7 +5943,6 @@ module la_lapack_svd_bidiag_qr
            tol2 = tol**2
            if (n < 0) then
               info = -1
-              call la_xerbla('XLASQ2',1)
               return
            else if (n == 0) then
               return
@@ -5983,22 +5950,18 @@ module la_lapack_svd_bidiag_qr
               ! 1-by-1 case.
               if (z(1) < zero) then
                  info = -201
-                 call la_xerbla('XLASQ2',2)
               end if
               return
            else if (n == 2) then
               ! 2-by-2 case.
               if (z(1) < zero) then
                  info = -201
-                 call la_xerbla('XLASQ2',2)
                  return
               else if (z(2) < zero) then
                  info = -202
-                 call la_xerbla('XLASQ2',2)
                  return
               else if (z(3) < zero) then
                 info = -203
-                call la_xerbla('XLASQ2',2)
                 return
               else if (z(3) > z(1)) then
                  d = z(3)
@@ -6032,11 +5995,9 @@ module la_lapack_svd_bidiag_qr
            do k = 1,2*(n - 1),2
               if (z(k) < zero) then
                  info = -(200 + k)
-                 call la_xerbla('XLASQ2',2)
                  return
               else if (z(k + 1) < zero) then
                  info = -(200 + k + 1)
-                 call la_xerbla('XLASQ2',2)
                  return
               end if
               d = d + z(k)
@@ -6047,7 +6008,6 @@ module la_lapack_svd_bidiag_qr
            end do
            if (z(2*n - 1) < zero) then
               info = -(200 + 2*n - 1)
-              call la_xerbla('XLASQ2',2)
               return
            end if
            d = d + z(2*n - 1)
@@ -6364,7 +6324,6 @@ module la_lapack_svd_bidiag_qr
            tol2 = tol**2
            if (n < 0) then
               info = -1
-              call la_xerbla('QLASQ2',1)
               return
            else if (n == 0) then
               return
@@ -6372,22 +6331,18 @@ module la_lapack_svd_bidiag_qr
               ! 1-by-1 case.
               if (z(1) < zero) then
                  info = -201
-                 call la_xerbla('QLASQ2',2)
               end if
               return
            else if (n == 2) then
               ! 2-by-2 case.
               if (z(1) < zero) then
                  info = -201
-                 call la_xerbla('QLASQ2',2)
                  return
               else if (z(2) < zero) then
                  info = -202
-                 call la_xerbla('QLASQ2',2)
                  return
               else if (z(3) < zero) then
                 info = -203
-                call la_xerbla('QLASQ2',2)
                 return
               else if (z(3) > z(1)) then
                  d = z(3)
@@ -6421,11 +6376,9 @@ module la_lapack_svd_bidiag_qr
            do k = 1,2*(n - 1),2
               if (z(k) < zero) then
                  info = -(200 + k)
-                 call la_xerbla('QLASQ2',2)
                  return
               else if (z(k + 1) < zero) then
                  info = -(200 + k + 1)
-                 call la_xerbla('QLASQ2',2)
                  return
               end if
               d = d + z(k)
@@ -6436,7 +6389,6 @@ module la_lapack_svd_bidiag_qr
            end do
            if (z(2*n - 1) < zero) then
               info = -(200 + 2*n - 1)
-              call la_xerbla('QLASQ2',2)
               return
            end if
            d = d + z(2*n - 1)
@@ -6781,10 +6733,7 @@ module la_lapack_svd_bidiag_qr
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('CBDSQR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (n == 1) go to 160
            ! rotate is true if any singular vectors desired, false otherwise
@@ -7237,10 +7186,7 @@ module la_lapack_svd_bidiag_qr
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('ZBDSQR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (n == 1) go to 160
            ! rotate is true if any singular vectors desired, false otherwise
@@ -7694,10 +7640,7 @@ module la_lapack_svd_bidiag_qr
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('YBDSQR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (n == 1) go to 160
            ! rotate is true if any singular vectors desired, false otherwise
@@ -8152,10 +8095,7 @@ module la_lapack_svd_bidiag_qr
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('WBDSQR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            if (n == 1) go to 160
            ! rotate is true if any singular vectors desired, false otherwise

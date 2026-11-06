@@ -158,7 +158,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=sp)
            end if
            if (info /= 0) then
-              call la_xerbla('SGELS ',-info)
               return
            else if (lquery) then
               return
@@ -375,7 +374,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=dp)
            end if
            if (info /= 0) then
-              call la_xerbla('DGELS ',-info)
               return
            else if (lquery) then
               return
@@ -593,7 +591,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=xdp)
            end if
            if (info /= 0) then
-              call la_xerbla('XGELS ',-info)
               return
            else if (lquery) then
               return
@@ -812,7 +809,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=qp)
            end if
            if (info /= 0) then
-              call la_xerbla('QGELS ',-info)
               return
            else if (lquery) then
               return
@@ -1045,7 +1041,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SGELSY',-info)
               return
            else if (lquery) then
               return
@@ -1277,7 +1272,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DGELSY',-info)
               return
            else if (lquery) then
               return
@@ -1510,7 +1504,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XGELSY',-info)
               return
            else if (lquery) then
               return
@@ -1744,7 +1737,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QGELSY',-info)
               return
            else if (lquery) then
               return
@@ -1977,10 +1969,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=sp)
            end if
-           if (info /= 0) then
-             call la_xerbla('SGETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=sp)
              return
@@ -2213,10 +2202,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=dp)
            end if
-           if (info /= 0) then
-             call la_xerbla('DGETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=dp)
              return
@@ -2450,10 +2436,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=xdp)
            end if
-           if (info /= 0) then
-             call la_xerbla('XGETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=xdp)
              return
@@ -2688,10 +2671,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=qp)
            end if
-           if (info /= 0) then
-             call la_xerbla('QGETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=qp)
              return
@@ -2977,7 +2957,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SGELSD',-info)
               return
            else if (lquery) then
               return
@@ -3300,7 +3279,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DGELSD',-info)
               return
            else if (lquery) then
               go to 10
@@ -3624,7 +3602,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XGELSD',-info)
               return
            else if (lquery) then
               go to 10
@@ -3949,7 +3926,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QGELSD',-info)
               return
            else if (lquery) then
               go to 10
@@ -4295,7 +4271,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('SGELSS',-info)
               return
            else if (lquery) then
               return
@@ -4737,7 +4712,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('DGELSS',-info)
               return
            else if (lquery) then
               return
@@ -5180,7 +5154,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('XGELSS',-info)
               return
            else if (lquery) then
               return
@@ -5624,7 +5597,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('QGELSS',-info)
               return
            else if (lquery) then
               return
@@ -5983,7 +5955,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=sp)
            end if
            if (info /= 0) then
-              call la_xerbla('CGELS ',-info)
               return
            else if (lquery) then
               return
@@ -6200,7 +6171,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=dp)
            end if
            if (info /= 0) then
-              call la_xerbla('ZGELS ',-info)
               return
            else if (lquery) then
               return
@@ -6418,7 +6388,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=xdp)
            end if
            if (info /= 0) then
-              call la_xerbla('YGELS ',-info)
               return
            else if (lquery) then
               return
@@ -6637,7 +6606,6 @@ module la_lapack_lsq
               work(1) = real(wsize,KIND=qp)
            end if
            if (info /= 0) then
-              call la_xerbla('WGELS ',-info)
               return
            else if (lquery) then
               return
@@ -6923,7 +6891,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CGELSD',-info)
               return
            else if (lquery) then
               return
@@ -7260,7 +7227,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZGELSD',-info)
               return
            else if (lquery) then
               return
@@ -7598,7 +7564,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YGELSD',-info)
               return
            else if (lquery) then
               return
@@ -7937,7 +7902,6 @@ module la_lapack_lsq
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WGELSD',-info)
               return
            else if (lquery) then
               return
@@ -8290,7 +8254,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('CGELSS',-info)
               return
            else if (lquery) then
               return
@@ -8747,7 +8710,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('ZGELSS',-info)
               return
            else if (lquery) then
               return
@@ -9205,7 +9167,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('YGELSS',-info)
               return
            else if (lquery) then
               return
@@ -9664,7 +9625,6 @@ module la_lapack_lsq
               if (lwork < minwrk .and. .not. lquery) info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('WGELSS',-info)
               return
            else if (lquery) then
               return
@@ -10047,7 +10007,6 @@ module la_lapack_lsq
               info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('CGELSY',-info)
               return
            else if (lquery) then
               return
@@ -10270,7 +10229,6 @@ module la_lapack_lsq
               info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('ZGELSY',-info)
               return
            else if (lquery) then
               return
@@ -10494,7 +10452,6 @@ module la_lapack_lsq
               info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('YGELSY',-info)
               return
            else if (lquery) then
               return
@@ -10719,7 +10676,6 @@ module la_lapack_lsq
               info = -12
            end if
            if (info /= 0) then
-              call la_xerbla('WGELSY',-info)
               return
            else if (lquery) then
               return
@@ -10953,10 +10909,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=sp)
            end if
-           if (info /= 0) then
-             call la_xerbla('CGETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=sp)
              return
@@ -11189,10 +11142,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=dp)
            end if
-           if (info /= 0) then
-             call la_xerbla('ZGETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=dp)
              return
@@ -11426,10 +11376,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=xdp)
            end if
-           if (info /= 0) then
-             call la_xerbla('YGETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=xdp)
              return
@@ -11664,10 +11611,7 @@ module la_lapack_lsq
             end if
             work(1) = real(wsizeo,KIND=qp)
            end if
-           if (info /= 0) then
-             call la_xerbla('WGETSLS',-info)
-             return
-           end if
+           if (info /= 0) return
            if (lquery) then
              if (lwork == -2) work(1) = real(wsizem,KIND=qp)
              return

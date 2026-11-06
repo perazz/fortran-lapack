@@ -233,10 +233,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -327,10 +324,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -420,10 +414,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -494,10 +485,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -583,10 +571,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -673,10 +658,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -746,10 +728,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -844,10 +823,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -937,10 +913,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -1009,10 +982,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -1081,7 +1051,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('${ri.upper()}$PTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -1261,10 +1230,7 @@ module la_lapack_solve_chol_comp
            if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_PORCOND',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) then
               res = one
               return
@@ -1442,10 +1408,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -1554,10 +1517,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -1738,10 +1698,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -1808,10 +1765,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -1918,10 +1872,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -2099,10 +2050,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -2204,10 +2152,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -2295,10 +2240,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -2361,10 +2303,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -2467,10 +2406,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -2647,10 +2583,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -2731,10 +2664,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -2919,10 +2849,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -3128,10 +3055,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -3201,10 +3125,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -3404,10 +3325,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -3574,10 +3492,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -3679,10 +3594,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -3974,10 +3886,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -4599,10 +4508,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -4705,10 +4611,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -4803,10 +4706,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -4908,10 +4808,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -5000,10 +4897,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -5099,10 +4993,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -5192,10 +5083,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -5287,10 +5175,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -5407,10 +5292,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -5513,10 +5395,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -5600,10 +5479,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -5702,10 +5578,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -5800,10 +5673,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -5902,10 +5772,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -5988,10 +5855,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -6198,10 +6062,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -6425,10 +6286,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -6502,7 +6360,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('${ri.upper()}$PTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -6809,10 +6666,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6996,10 +6850,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -7199,10 +7050,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -7284,10 +7132,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -7463,10 +7308,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -7556,10 +7398,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -7634,10 +7473,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -7815,10 +7651,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -7898,10 +7731,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -7973,10 +7803,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -8153,10 +7980,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -8341,10 +8165,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs

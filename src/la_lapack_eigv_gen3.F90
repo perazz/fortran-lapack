@@ -1074,10 +1074,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAQZ4',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            if (nshifts < 2) then
               return
@@ -1331,10 +1328,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAQZ4',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            if (nshifts < 2) then
               return
@@ -1589,10 +1583,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAQZ4',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            if (nshifts < 2) then
               return
@@ -1848,10 +1839,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAQZ4',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            if (nshifts < 2) then
               return
@@ -12305,10 +12293,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=sp)
@@ -12353,10 +12338,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_slaset('FULL',n,n,zero,one,q,ldq)
            if (iwantz == 3) call la_slaset('FULL',n,n,zero,one,z,ldz)
@@ -12697,10 +12679,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=dp)
@@ -12745,10 +12724,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_dlaset('FULL',n,n,zero,one,q,ldq)
            if (iwantz == 3) call la_dlaset('FULL',n,n,zero,one,z,ldz)
@@ -13090,10 +13066,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=xdp)
@@ -13138,10 +13111,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_xlaset('FULL',n,n,zero,one,q,ldq)
            if (iwantz == 3) call la_xlaset('FULL',n,n,zero,one,z,ldz)
@@ -13484,10 +13454,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=qp)
@@ -13532,10 +13499,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_qlaset('FULL',n,n,zero,one,q,ldq)
            if (iwantz == 3) call la_qlaset('FULL',n,n,zero,one,z,ldz)
@@ -13801,10 +13765,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_slamch('SAFE MINIMUM')
            safmax = one/safmin
@@ -14073,10 +14034,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_dlamch('SAFE MINIMUM')
            safmax = one/safmin
@@ -14346,10 +14304,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_xlamch('SAFE MINIMUM')
            safmax = one/safmin
@@ -14620,10 +14575,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_qlamch('SAFE MINIMUM')
            safmax = one/safmin
@@ -18077,10 +18029,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            ! get machine constants
            safmin = la_slamch('SAFE MINIMUM')
@@ -18316,10 +18265,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            ! get machine constants
            safmin = la_dlamch('SAFE MINIMUM')
@@ -18556,10 +18502,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            ! get machine constants
            safmin = la_xlamch('SAFE MINIMUM')
@@ -18797,10 +18740,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            ! get machine constants
            safmin = la_qlamch('SAFE MINIMUM')
@@ -23646,10 +23586,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=sp)
@@ -23694,10 +23631,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_claset('FULL',n,n,czero,cone,q,ldq)
            if (iwantz == 3) call la_claset('FULL',n,n,czero,cone,z,ldz)
@@ -23998,10 +23932,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=dp)
@@ -24046,10 +23977,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_zlaset('FULL',n,n,czero,cone,q,ldq)
            if (iwantz == 3) call la_zlaset('FULL',n,n,czero,cone,z,ldz)
@@ -24351,10 +24279,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=xdp)
@@ -24399,10 +24324,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_ylaset('FULL',n,n,czero,cone,q,ldq)
            if (iwantz == 3) call la_ylaset('FULL',n,n,czero,cone,z,ldz)
@@ -24705,10 +24627,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=qp)
@@ -24753,10 +24672,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_wlaset('FULL',n,n,czero,cone,q,ldq)
            if (iwantz == 3) call la_wlaset('FULL',n,n,czero,cone,z,ldz)
@@ -24986,10 +24902,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAQZ2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_slamch('SAFE MINIMUM')
            safmax = one/safmin
@@ -25174,10 +25087,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAQZ2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_dlamch('SAFE MINIMUM')
            safmax = one/safmin
@@ -25363,10 +25273,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAQZ2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_xlamch('SAFE MINIMUM')
            safmax = one/safmin
@@ -25553,10 +25460,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAQZ2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_qlamch('SAFE MINIMUM')
            safmax = one/safmin

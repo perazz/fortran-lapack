@@ -1210,10 +1210,7 @@ module la_lapack_eigv_tridiag2
            if (n < 0) then
               info = -1
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAEDA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine location of first number in second half.
@@ -1315,10 +1312,7 @@ module la_lapack_eigv_tridiag2
            if (n < 0) then
               info = -1
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAEDA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine location of first number in second half.
@@ -1421,10 +1415,7 @@ module la_lapack_eigv_tridiag2
            if (n < 0) then
               info = -1
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAEDA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine location of first number in second half.
@@ -1528,10 +1519,7 @@ module la_lapack_eigv_tridiag2
            if (n < 0) then
               info = -1
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAEDA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine location of first number in second half.

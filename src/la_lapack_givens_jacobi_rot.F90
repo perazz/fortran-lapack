@@ -1340,10 +1340,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then
@@ -1599,10 +1596,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then
@@ -1859,10 +1853,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then
@@ -2120,10 +2111,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then
@@ -3410,10 +3398,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('CLASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then
@@ -3670,10 +3655,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then
@@ -3931,10 +3913,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('YLASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then
@@ -4193,10 +4172,7 @@ module la_lapack_givens_jacobi_rot
            else if (lda < max(1,m)) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('WLASR ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if ((m == 0) .or. (n == 0)) return
            if (la_lsame(side,'L')) then

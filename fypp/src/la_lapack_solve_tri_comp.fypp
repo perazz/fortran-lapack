@@ -135,10 +135,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -592,10 +589,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -1057,10 +1051,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -1483,10 +1474,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -1563,10 +1551,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -1675,10 +1660,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -1911,10 +1893,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -1999,10 +1978,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -2230,10 +2206,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -2341,10 +2314,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -2435,10 +2405,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -2659,10 +2626,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -2741,10 +2705,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -2844,10 +2805,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -2926,10 +2884,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -3024,10 +2979,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -3230,10 +3182,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -3344,10 +3293,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -3477,10 +3423,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -4095,10 +4038,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -4712,10 +4652,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -5279,10 +5216,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -5365,10 +5299,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -5486,10 +5417,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -5722,10 +5650,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -5819,10 +5744,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6051,10 +5973,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -6162,10 +6081,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -6265,10 +6181,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6490,10 +6403,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -6572,10 +6482,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -6675,10 +6582,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -6762,10 +6666,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -6860,10 +6761,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -7071,10 +6969,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -7190,10 +7085,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one

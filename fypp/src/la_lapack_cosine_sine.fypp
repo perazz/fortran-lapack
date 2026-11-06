@@ -288,10 +288,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -474,7 +471,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$BBCSD',-info)
               return
            else if (lquery) then
               return
@@ -1075,7 +1071,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -1379,10 +1374,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_${ri}$orbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -1626,7 +1618,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORCSD',-info)
               return
            else if (lquery) then
               return
@@ -1818,7 +1809,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORBDB1',-info)
               return
            else if (lquery) then
               return
@@ -1930,7 +1920,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORBDB2',-info)
               return
            else if (lquery) then
               return
@@ -2052,7 +2041,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORBDB3',-info)
               return
            else if (lquery) then
               return
@@ -2174,7 +2162,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORBDB4',-info)
               return
            else if (lquery) then
               return
@@ -2486,7 +2473,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORCSD2BY1',-info)
               return
            else if (lquery) then
               return
@@ -2969,7 +2955,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -3262,10 +3247,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -3449,7 +3431,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$BBCSD',-info)
               return
            else if (lquery) then
               return
@@ -4014,10 +3995,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_${ri}$unbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -4248,7 +4226,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNCSD',-info)
               return
            else if (lquery .or. lrquery) then
               return
@@ -4437,7 +4414,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNBDB1',-info)
               return
            else if (lquery) then
               return
@@ -4551,7 +4527,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNBDB2',-info)
               return
            else if (lquery) then
               return
@@ -4675,7 +4650,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNBDB3',-info)
               return
            else if (lquery) then
               return
@@ -4799,7 +4773,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNBDB4',-info)
               return
            else if (lquery) then
               return
@@ -5132,7 +5105,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNCSD2BY1',-info)
               return
            else if (lquery) then
               return

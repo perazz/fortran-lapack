@@ -236,10 +236,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('SLA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -422,10 +419,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('DLA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -609,10 +603,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('XLA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -797,10 +788,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('QLA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -980,10 +968,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('SLA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -1159,10 +1144,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('DLA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -1339,10 +1321,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('XLA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -1520,10 +1499,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('QLA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -1720,10 +1696,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -1890,10 +1863,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -2061,10 +2031,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -2233,10 +2200,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -2396,10 +2360,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('CLA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -2591,10 +2552,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -2787,10 +2745,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('YLA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -2984,10 +2939,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('WLA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -3177,10 +3129,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('CLA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -3366,10 +3315,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -3556,10 +3502,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('YLA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -3747,10 +3690,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('WLA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -3933,10 +3873,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('CHEMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -4127,10 +4064,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHEMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -4322,10 +4256,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('YHEMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -4518,10 +4449,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('WHEMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -4841,10 +4769,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('CLASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -5011,10 +4936,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -5182,10 +5104,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('YLASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -5354,10 +5273,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('WLASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -5491,10 +5407,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('CSPMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -5648,10 +5561,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSPMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -5806,10 +5716,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('YSPMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -5965,10 +5872,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('WSPMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -6122,10 +6026,7 @@ module la_lapack_blas_like_l2
            else if (incx == 0) then
               info = 5
            end if
-           if (info /= 0) then
-              call la_xerbla('CSPR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
@@ -6242,10 +6143,7 @@ module la_lapack_blas_like_l2
            else if (incx == 0) then
               info = 5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSPR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
@@ -6363,10 +6261,7 @@ module la_lapack_blas_like_l2
            else if (incx == 0) then
               info = 5
            end if
-           if (info /= 0) then
-              call la_xerbla('YSPR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
@@ -6485,10 +6380,7 @@ module la_lapack_blas_like_l2
            else if (incx == 0) then
               info = 5
            end if
-           if (info /= 0) then
-              call la_xerbla('WSPR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
@@ -6613,10 +6505,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -6766,10 +6655,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -6920,10 +6806,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -7075,10 +6958,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -7228,10 +7108,7 @@ module la_lapack_blas_like_l2
            else if (lda < max(1,n)) then
               info = 7
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
@@ -7332,10 +7209,7 @@ module la_lapack_blas_like_l2
            else if (lda < max(1,n)) then
               info = 7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
@@ -7437,10 +7311,7 @@ module la_lapack_blas_like_l2
            else if (lda < max(1,n)) then
               info = 7
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
@@ -7543,10 +7414,7 @@ module la_lapack_blas_like_l2
            else if (lda < max(1,n)) then
               info = 7
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.

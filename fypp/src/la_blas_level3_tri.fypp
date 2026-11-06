@@ -89,10 +89,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$TRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -305,10 +302,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$TRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.zero.
@@ -545,10 +539,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$TRMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.
@@ -796,10 +787,7 @@ module la_blas_level3_tri
            else if (ldb < max(1,m)) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$TRSM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (m == 0 .or. n == 0) return
            ! and when  alpha.eq.czero.

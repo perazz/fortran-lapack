@@ -621,10 +621,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -708,10 +705,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -796,10 +790,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -885,10 +876,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -972,10 +960,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -1059,10 +1044,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -1147,10 +1129,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -1236,10 +1215,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -1322,10 +1298,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -1389,10 +1362,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -1457,10 +1427,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -1526,10 +1493,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -1593,10 +1557,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -1667,10 +1628,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -1742,10 +1700,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -1818,10 +1773,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -1900,10 +1852,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -1982,10 +1931,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -2065,10 +2011,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -2149,10 +2092,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -2228,10 +2168,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -2290,10 +2227,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -2353,10 +2287,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -2417,10 +2348,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -2483,10 +2411,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SPPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -2576,10 +2501,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DPPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -2670,10 +2592,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XPPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -2765,10 +2684,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QPPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -2856,10 +2772,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SPPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -2941,10 +2854,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DPPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -3027,10 +2937,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XPPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -3114,10 +3021,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QPPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -3200,10 +3104,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SPPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -3261,10 +3162,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DPPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -3323,10 +3221,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XPPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -3386,10 +3281,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QPPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -3451,10 +3343,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SPTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -3524,10 +3413,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DPTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -3598,10 +3484,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XPTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -3673,10 +3556,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QPTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -3738,7 +3618,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('SPTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -3821,7 +3700,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('DPTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -3905,7 +3783,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('XPTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -3990,7 +3867,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('QPTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -4275,10 +4151,7 @@ module la_lapack_solve_chol_comp
            if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SLA_PORCOND',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) then
               res = one
               return
@@ -4456,10 +4329,7 @@ module la_lapack_solve_chol_comp
            if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DLA_PORCOND',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) then
               res = one
               return
@@ -4638,10 +4508,7 @@ module la_lapack_solve_chol_comp
            if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XLA_PORCOND',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) then
               res = one
               return
@@ -4821,10 +4688,7 @@ module la_lapack_solve_chol_comp
            if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QLA_PORCOND',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) then
               res = one
               return
@@ -4991,10 +4855,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -5089,10 +4950,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -5188,10 +5046,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -5288,10 +5143,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -5393,10 +5245,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -5583,10 +5432,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -5774,10 +5620,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -5966,10 +5809,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6143,10 +5983,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SPFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -6197,10 +6034,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DPFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -6252,10 +6086,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XPFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -6308,10 +6139,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QPFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -6371,10 +6199,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -6466,10 +6291,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -6562,10 +6384,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -6659,10 +6478,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -6762,10 +6578,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('SPORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6947,10 +6760,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('DPORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -7133,10 +6943,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('XPORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -7320,10 +7127,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('QPORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -7494,10 +7298,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -7581,10 +7382,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -7669,10 +7467,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -7758,10 +7553,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -7852,10 +7644,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -7950,10 +7739,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -8049,10 +7835,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -8149,10 +7932,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -8233,10 +8013,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -8273,10 +8050,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -8314,10 +8088,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -8356,10 +8127,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -8415,10 +8183,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SPPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -8509,10 +8274,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DPPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -8604,10 +8366,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XPPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -8700,10 +8459,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QPPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -8799,10 +8555,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SPPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -8987,10 +8740,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DPPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -9176,10 +8926,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XPPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -9366,10 +9113,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QPPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -9539,10 +9283,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SPPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -9601,10 +9342,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DPPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -9664,10 +9402,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XPPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -9728,10 +9463,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QPPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -9805,10 +9537,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SPSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -9984,10 +9713,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DPSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -10164,10 +9890,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XPSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -10345,10 +10068,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QPSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -10526,10 +10246,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SPSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -10737,10 +10454,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DPSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -10949,10 +10663,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XPSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -11162,10 +10873,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QPSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -11364,10 +11072,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SPTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -11418,10 +11123,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DPTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -11473,10 +11175,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XPTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -11529,10 +11228,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QPTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -11595,10 +11291,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -11793,10 +11486,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -11992,10 +11682,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -12192,10 +11879,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -12384,10 +12068,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('SPFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -12542,10 +12223,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DPFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -12701,10 +12379,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XPFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -12861,10 +12536,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QPFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -13024,10 +12696,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -13118,10 +12787,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -13213,10 +12879,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -13309,10 +12972,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -13407,10 +13067,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('SPTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -13575,10 +13232,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DPTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -13744,10 +13398,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XPTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -13914,10 +13565,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QPTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -14496,10 +14144,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('SPFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -14671,10 +14316,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DPFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -14847,10 +14489,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XPFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -15024,10 +14663,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QPFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -16678,10 +16314,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -16782,10 +16415,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -16887,10 +16517,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -16993,10 +16620,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -17088,10 +16712,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -17175,10 +16796,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -17263,10 +16881,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -17352,10 +16967,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -17439,10 +17051,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -17534,10 +17143,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -17630,10 +17236,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -17727,10 +17330,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -17821,10 +17421,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -17888,10 +17485,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -17956,10 +17550,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -18025,10 +17616,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -18106,10 +17694,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -18206,10 +17791,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -18307,10 +17889,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -18409,10 +17988,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -18497,10 +18073,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -18571,10 +18144,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -18646,10 +18216,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -18722,10 +18289,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -18804,10 +18368,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -18886,10 +18447,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -18969,10 +18527,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -19053,10 +18608,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOEQUB',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if (n == 0) then
               scond = one
@@ -19133,10 +18685,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -19226,10 +18775,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -19320,10 +18866,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -19415,10 +18958,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -19516,10 +19056,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -19616,10 +19153,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -19717,10 +19251,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -19819,10 +19350,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOTRF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! n=1 case
@@ -19914,10 +19442,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -19976,10 +19501,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -20039,10 +19561,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -20103,10 +19622,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -20179,10 +19695,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CPPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -20278,10 +19791,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -20378,10 +19888,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YPPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -20479,10 +19986,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WPPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -20570,10 +20074,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('CPPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -20663,10 +20164,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -20757,10 +20255,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('YPPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -20852,10 +20347,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('WPPEQU',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               scond = one
@@ -20943,10 +20435,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('CPPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -21029,10 +20518,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -21116,10 +20602,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('YPPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -21204,10 +20687,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('WPPTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -21291,10 +20771,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CPPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -21354,10 +20831,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -21418,10 +20892,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YPPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -21483,10 +20954,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WPPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -21558,10 +21026,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CPSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -21751,10 +21216,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -21945,10 +21407,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YPSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -22140,10 +21599,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WPSTF2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize piv
@@ -22335,10 +21791,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CPSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -22560,10 +22013,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -22786,10 +22236,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YPSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -23013,10 +22460,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WPSTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! get block size
@@ -23233,10 +22677,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CPTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -23307,10 +22748,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -23382,10 +22820,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YPTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -23458,10 +22893,7 @@ module la_lapack_solve_chol_comp
            else if (anorm < zero) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WPTCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -23524,7 +22956,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('CPTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -23623,7 +23054,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('ZPTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -23723,7 +23153,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('YPTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -23824,7 +23253,6 @@ module la_lapack_solve_chol_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('WPTTRF',-info)
               return
            end if
            ! quick return if possible
@@ -24357,10 +23785,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -24551,10 +23976,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -24746,10 +24168,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -24942,10 +24361,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -25122,10 +24538,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -25320,10 +24733,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -25519,10 +24929,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -25719,10 +25126,7 @@ module la_lapack_solve_chol_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment
@@ -25915,10 +25319,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CPFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -25969,10 +25370,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -26024,10 +25422,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YPFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -26080,10 +25475,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WPFTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! start execution: there are two triangular solves
@@ -26154,10 +25546,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CPORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -26343,10 +25732,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -26533,10 +25919,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YPORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -26724,10 +26107,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WPORFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -26896,10 +26276,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -26990,10 +26367,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -27085,10 +26459,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -27181,10 +26552,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -27267,10 +26635,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -27307,10 +26672,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -27348,10 +26710,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -27390,10 +26749,7 @@ module la_lapack_solve_chol_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -27457,10 +26813,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CPPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -27649,10 +27002,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -27842,10 +27192,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YPPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -28036,10 +27383,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WPPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -28210,10 +27554,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('CPPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -28274,10 +27615,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -28339,10 +27677,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('YPPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -28405,10 +27740,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('WPPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -28477,10 +27809,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CPTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -28543,10 +27872,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -28610,10 +27936,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YPTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -28678,10 +28001,7 @@ module la_lapack_solve_chol_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WPTTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            ! determine the number of right-hand sides to solve at a time.
@@ -28746,10 +28066,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('CPFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -28921,10 +28238,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -29097,10 +28411,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('YPFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -29274,10 +28585,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('WPFTRF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -29447,10 +28755,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('CPFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -29605,10 +28910,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -29764,10 +29066,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('YPFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -29924,10 +29223,7 @@ module la_lapack_solve_chol_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('WPFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! invert the triangular cholesky factor u or l.
@@ -30101,10 +29397,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CPTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -30315,10 +29608,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -30530,10 +29820,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YPTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -30746,10 +30033,7 @@ module la_lapack_solve_chol_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WPTRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs

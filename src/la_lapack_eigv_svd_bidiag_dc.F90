@@ -3635,10 +3635,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -24
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASD7',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            if (icompq == 1) then
@@ -3874,10 +3871,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -24
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASD7',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            if (icompq == 1) then
@@ -4114,10 +4108,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -24
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASD7',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            if (icompq == 1) then
@@ -4355,10 +4346,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -24
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASD7',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            if (icompq == 1) then
@@ -4582,10 +4570,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (lddifr < k) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASD8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -4718,10 +4703,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (lddifr < k) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASD8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -4855,10 +4837,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (lddifr < k) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASD8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -4993,10 +4972,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (lddifr < k) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASD8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -5154,10 +5130,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASD3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -5356,10 +5329,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASD3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -5559,10 +5529,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASD3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -5763,10 +5730,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASD3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -5986,10 +5950,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASD6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! the following values are for bookkeeping purposes only.  they are
            ! integer pointers which indicate the portion of the workspace
            ! used by a particular array in la_slasd7 and la_slasd8.
@@ -6114,10 +6075,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASD6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! the following values are for bookkeeping purposes only.  they are
            ! integer pointers which indicate the portion of the workspace
            ! used by a particular array in la_dlasd7 and la_dlasd8.
@@ -6243,10 +6201,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASD6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! the following values are for bookkeeping purposes only.  they are
            ! integer pointers which indicate the portion of the workspace
            ! used by a particular array in la_xlasd7 and la_xlasd8.
@@ -6373,10 +6328,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASD6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! the following values are for bookkeeping purposes only.  they are
            ! integer pointers which indicate the portion of the workspace
            ! used by a particular array in la_qlasd7 and la_qlasd8.
@@ -6477,10 +6429,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASD2',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            ! generate the first part of the vector z; and move the singular
@@ -6762,10 +6711,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASD2',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            ! generate the first part of the vector z; and move the singular
@@ -7048,10 +6994,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASD2',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            ! generate the first part of the vector z; and move the singular
@@ -7335,10 +7278,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASD2',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            ! generate the first part of the vector z; and move the singular
@@ -7632,10 +7572,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((sqre < 0) .or. (sqre > 1)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASD1',-info)
-              return
-           end if
+           if (info /= 0) return
            n = nl + nr + 1
            m = n + sqre
            ! the following values are for bookkeeping purposes only.  they are
@@ -7747,10 +7684,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((sqre < 0) .or. (sqre > 1)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASD1',-info)
-              return
-           end if
+           if (info /= 0) return
            n = nl + nr + 1
            m = n + sqre
            ! the following values are for bookkeeping purposes only.  they are
@@ -7863,10 +7797,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((sqre < 0) .or. (sqre > 1)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASD1',-info)
-              return
-           end if
+           if (info /= 0) return
            n = nl + nr + 1
            m = n + sqre
            ! the following values are for bookkeeping purposes only.  they are
@@ -7980,10 +7911,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((sqre < 0) .or. (sqre > 1)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASD1',-info)
-              return
-           end if
+           if (info /= 0) return
            n = nl + nr + 1
            m = n + sqre
            ! the following values are for bookkeeping purposes only.  they are
@@ -8103,10 +8031,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ldvt < 1) .or. ((icompq == 2) .and. (ldvt < n))) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SBDSDC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'SBDSDC',' ',0,0,0,0)
@@ -8361,10 +8286,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ldvt < 1) .or. ((icompq == 2) .and. (ldvt < n))) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DBDSDC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'DBDSDC',' ',0,0,0,0)
@@ -8620,10 +8542,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ldvt < 1) .or. ((icompq == 2) .and. (ldvt < n))) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XBDSDC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'XBDSDC',' ',0,0,0,0)
@@ -8880,10 +8799,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ldvt < 1) .or. ((icompq == 2) .and. (ldvt < n))) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QBDSDC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'QBDSDC',' ',0,0,0,0)
@@ -9112,10 +9028,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (smlsiz < 3) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASD0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! if the input matrix is too small, call la_slasdq to find the svd.
            if (n <= smlsiz) then
               call la_slasdq('U',sqre,n,m,n,0,d,e,vt,ldvt,u,ldu,u,ldu,work, &
@@ -9250,10 +9163,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (smlsiz < 3) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASD0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! if the input matrix is too small, call la_dlasdq to find the svd.
            if (n <= smlsiz) then
               call la_dlasdq('U',sqre,n,m,n,0,d,e,vt,ldvt,u,ldu,u,ldu,work, &
@@ -9389,10 +9299,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (smlsiz < 3) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASD0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! if the input matrix is too small, call la_xlasdq to find the svd.
            if (n <= smlsiz) then
               call la_xlasdq('U',sqre,n,m,n,0,d,e,vt,ldvt,u,ldu,u,ldu,work, &
@@ -9529,10 +9436,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (smlsiz < 3) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASD0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! if the input matrix is too small, call la_qlasdq to find the svd.
            if (n <= smlsiz) then
               call la_qlasdq('U',sqre,n,m,n,0,d,e,vt,ldvt,u,ldu,u,ldu,work, &
@@ -9675,10 +9579,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgcol < n) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASDA',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            ! if the input matrix is too small, call la_slasdq to find the svd.
            if (n <= smlsiz) then
@@ -9877,10 +9778,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgcol < n) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASDA',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            ! if the input matrix is too small, call la_dlasdq to find the svd.
            if (n <= smlsiz) then
@@ -10080,10 +9978,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgcol < n) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASDA',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            ! if the input matrix is too small, call la_xlasdq to find the svd.
            if (n <= smlsiz) then
@@ -10284,10 +10179,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgcol < n) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASDA',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            ! if the input matrix is too small, call la_qlasdq to find the svd.
            if (n <= smlsiz) then
@@ -10500,10 +10392,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASDQ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            ! rotate is true if any singular vectors desired, false otherwise
            rotate = (ncvt > 0) .or. (nru > 0) .or. (ncc > 0)
@@ -10665,10 +10554,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASDQ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            ! rotate is true if any singular vectors desired, false otherwise
            rotate = (ncvt > 0) .or. (nru > 0) .or. (ncc > 0)
@@ -10831,10 +10717,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASDQ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            ! rotate is true if any singular vectors desired, false otherwise
            rotate = (ncvt > 0) .or. (nru > 0) .or. (ncc > 0)
@@ -10998,10 +10881,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASDQ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            ! rotate is true if any singular vectors desired, false otherwise
            rotate = (ncvt > 0) .or. (nru > 0) .or. (ncc > 0)

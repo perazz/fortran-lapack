@@ -1002,10 +1002,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -24
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASD7',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            if (icompq == 1) then
@@ -1236,10 +1233,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (lddifr < k) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASD8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -1404,10 +1398,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASD3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 1) then
               d(1) = abs(z(1))
@@ -1634,10 +1625,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgnum < n) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASD6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! the following values are for bookkeeping purposes only.  they are
            ! integer pointers which indicate the portion of the workspace
            ! used by a particular array in la_${ri}$lasd7 and la_${ri}$lasd8.
@@ -1745,10 +1733,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldvt2 < m) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASD2',-info)
-              return
-           end if
+           if (info /= 0) return
            nlp1 = nl + 1
            nlp2 = nl + 2
            ! generate the first part of the vector z; and move the singular
@@ -2049,10 +2034,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((sqre < 0) .or. (sqre > 1)) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASD1',-info)
-              return
-           end if
+           if (info /= 0) return
            n = nl + nr + 1
            m = n + sqre
            ! the following values are for bookkeeping purposes only.  they are
@@ -2187,10 +2169,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ldvt < 1) .or. ((icompq == 2) .and. (ldvt < n))) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$BDSDC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'${ri.upper()}$BDSDC',' ',0,0,0,0)
@@ -2430,10 +2409,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (smlsiz < 3) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASD0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! if the input matrix is too small, call la_${ri}$lasdq to find the svd.
            if (n <= smlsiz) then
               call la_${ri}$lasdq('U',sqre,n,m,n,0,d,e,vt,ldvt,u,ldu,u,ldu,work, &
@@ -2583,10 +2559,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if (ldgcol < n) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASDA',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            ! if the input matrix is too small, call la_${ri}$lasdq to find the svd.
            if (n <= smlsiz) then
@@ -2806,10 +2779,7 @@ module la_lapack_eigv_svd_bidiag_dc
            else if ((ncc == 0 .and. ldc < 1) .or. (ncc > 0 .and. ldc < max(1,n))) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASDQ',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            ! rotate is true if any singular vectors desired, false otherwise
            rotate = (ncvt > 0) .or. (nru > 0) .or. (ncc > 0)

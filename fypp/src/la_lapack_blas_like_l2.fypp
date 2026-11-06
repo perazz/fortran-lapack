@@ -136,10 +136,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -326,10 +323,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -533,10 +527,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -703,10 +694,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_GBAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -951,10 +939,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_GEAMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -1192,10 +1177,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$HEMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -1448,10 +1430,7 @@ module la_lapack_blas_like_l2
                  info = -9
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LASCL',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            ! get machine parameters
@@ -1592,10 +1571,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SPMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -1756,10 +1732,7 @@ module la_lapack_blas_like_l2
            else if (incx == 0) then
               info = 5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SPR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
@@ -1891,10 +1864,7 @@ module la_lapack_blas_like_l2
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYMV ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2051,10 +2021,7 @@ module la_lapack_blas_like_l2
            else if (lda < max(1,n)) then
               info = 7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$SYR  ',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set the start point in x if the increment is not unity.
