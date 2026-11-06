@@ -167,7 +167,7 @@ Arguments</h3>
 <ul>
 <li><code>a</code>: A <code>real</code> or <code>complex</code> matrix of size \( [n,n] \), representing the real symmetric or complex Hermitian matrix to be decomposed.</li>
 <li><code>upper_a</code> (optional): A logical flag indicating whether to use the upper half (<code>.true.</code>) or the lower half (<code>.false.</code>) of \( A \) for the computation. The default is lower.</li>
-<li><code>err</code> (optional): A <code><a class="el" href="structla__state__type_1_1la__state.html" title="Defines a state return type for a linear algebra routine.">la_state</a></code> variable to handle errors. If not provided, execution will stop on errors.</li>
+<li><code>err</code> (optional): A <code><a class="el" href="structla__state__type_1_1la__state.html" title="Defines a state return type for a linear algebra routine.">la_state</a></code> variable to handle errors. Without it the function is <code>pure</code>, and execution will stop on errors.</li>
 </ul>
 <h3><a class="anchor" id="autotoc_md24"></a>
 Return value</h3>
@@ -217,7 +217,7 @@ Notes</h3>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix A[m,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">upper_a</td><td>[optional] Should the upper/lower half of A be used? Default: lower </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>State return flag </td></tr>
   </table>
   </dd>
 </dl>
@@ -254,7 +254,7 @@ Notes</h3>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix A[m,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">upper_a</td><td>[optional] Should the upper/lower half of A be used? Default: lower </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>State return flag </td></tr>
   </table>
   </dd>
 </dl>
@@ -415,7 +415,7 @@ Notes</h3>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix A[m,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">upper_a</td><td>[optional] Should the upper/lower half of A be used? Default: lower </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>State return flag </td></tr>
   </table>
   </dd>
 </dl>
@@ -452,7 +452,7 @@ Notes</h3>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">a</td><td>Input matrix A[m,n] </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">upper_a</td><td>[optional] Should the upper/lower half of A be used? Default: lower </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>[optional] state return flag. On error if not requested, the code will stop </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">err</td><td>State return flag </td></tr>
   </table>
   </dd>
 </dl>

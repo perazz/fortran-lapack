@@ -1,19 +1,16 @@
 <map id="la_lapack_solve_lu_comp::la_sla_gercond" name="la_lapack_solve_lu_comp::la_sla_gercond">
-<area shape="rect" id="Node000001" title="SLA_GERCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,65,175,110"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,64,44,55,52,46,67,40,90,38,115,41,132,49,126,50,114,46,90,44,68,45,55,50,49,56,51,65"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a87d49c66aad04522657e3e1aec694a21" title="Pure subroutine form of SLA_GERCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="223,65,422,110"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="174,85,210,87,204,88,175,90"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a59c487031b12eddb5e075d2dff45e9da" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="470,65,614,110"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="422,85,457,87,452,88,422,90"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="855,80,1020,108"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="571,62,612,36,662,15,702,6,735,3,767,6,807,15,862,39,909,71,904,70,860,43,806,20,766,11,735,8,703,11,663,20,615,41,573,67"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a4ceaa0f6cc0ebbcd5c297274b99267f2" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="662,30,807,75"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="614,72,645,69,650,68,615,77"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="667,100,802,144"/>
-<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="615,98,654,107,649,107,615,103"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="855,136,1020,164"/>
-<area shape="poly" id="edge10_Node000003_Node000007" title=" " alt="" coords="573,107,615,134,663,154,707,163,752,166,837,166,842,166,752,172,706,168,662,159,612,138,572,113"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="902,78,897,71,901,62,915,56,937,53,961,56,976,65,970,64,960,61,937,59,916,61,905,65,902,71,907,81"/>
-<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="802,110,837,108,842,107,803,115"/>
-<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="803,129,842,137,837,136,802,134"/>
+<area shape="rect" id="Node000001" title="SLA_GERCOND: estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,29,175,74"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,29,44,19,52,10,67,5,90,3,115,5,132,13,126,15,114,10,90,8,68,10,55,15,49,21,51,29"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a87d49c66aad04522657e3e1aec694a21" title="Pure subroutine form of SLA_GERCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="223,29,422,74"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="174,49,210,51,204,52,175,54"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a59c487031b12eddb5e075d2dff45e9da" title="SGETRS: solves a system of linear equations A * X = B or A**T * X = B with a general N&#45;by&#45;N matrix A ..." alt="" coords="470,29,614,74"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="422,49,457,51,452,52,422,54"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="855,43,1020,71"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="609,26,662,14,735,7,807,14,848,23,888,38,883,37,847,28,806,20,735,13,663,20,611,31"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a4ceaa0f6cc0ebbcd5c297274b99267f2" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="662,29,807,74"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="614,49,650,51,644,52,615,54"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="667,99,802,143"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="607,72,659,93,654,93,606,77"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="902,41,897,34,901,25,915,19,937,17,961,19,976,28,970,27,960,24,937,22,916,24,905,29,902,34,907,44"/>
+<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="802,97,874,76,880,75,803,102"/>
 </map>

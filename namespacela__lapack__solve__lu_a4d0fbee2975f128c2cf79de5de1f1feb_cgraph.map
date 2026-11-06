@@ -1,16 +1,14 @@
 <map id="la_lapack_solve_lu::la_zgesv" name="la_lapack_solve_lu::la_zgesv">
-<area shape="rect" id="Node000001" title="ZGESV: computes the solution to a complex system of linear equations A * X = B, where A is an N&#45;by&#45;N ..." alt="" coords="5,89,150,134"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="198,38,363,66"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,88,219,69,214,72,151,93"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#ae649e0d822cd77316e6e7224241c6b07" title="ZGETRF: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row int..." alt="" coords="208,89,352,134"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="150,109,195,111,190,113,150,114"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__lu__comp.html#a96d446ee8ae73f0809a8074014149368" title="ZGETRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general N..." alt="" coords="411,149,555,194"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="149,132,198,144,300,158,398,168,393,169,300,163,197,149,149,137"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a1982fb1d7b5cc10b35bb1c252e6fbe19" title="ZGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="411,29,555,74"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="352,88,394,78,399,77,354,93"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a6236fb66782a51d9277d7b924927ac8a" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="603,89,748,134"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="353,109,590,111,585,112,353,114"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="446,27,445,19,451,10,464,5,483,3,504,5,518,14,512,14,502,10,483,8,465,10,455,15,450,21,451,30"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="556,72,591,85,586,85,555,77"/>
-<area shape="poly" id="edge8_Node000006_Node000005" title=" " alt="" coords="555,147,586,139,591,138,556,152"/>
+<area shape="rect" id="Node000001" title="ZGESV: computes the solution to a complex system of linear equations A * X = B, where A is an N&#45;by&#45;N ..." alt="" coords="5,120,150,165"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#ae649e0d822cd77316e6e7224241c6b07" title="ZGETRF: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row int..." alt="" coords="198,89,342,134"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,128,185,125,180,126,151,133"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a96d446ee8ae73f0809a8074014149368" title="ZGETRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general N..." alt="" coords="390,149,534,194"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="150,145,376,163,374,168,150,150"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a1982fb1d7b5cc10b35bb1c252e6fbe19" title="ZGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="390,29,534,74"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="342,87,373,79,378,78,343,92"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a6236fb66782a51d9277d7b924927ac8a" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="582,89,727,134"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="342,109,569,111,564,112,343,114"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="425,27,424,19,430,10,443,5,462,3,483,5,497,14,491,14,481,10,462,8,444,10,434,15,429,21,430,30"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="535,72,570,85,565,85,534,77"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="534,147,565,139,570,138,535,152"/>
 </map>

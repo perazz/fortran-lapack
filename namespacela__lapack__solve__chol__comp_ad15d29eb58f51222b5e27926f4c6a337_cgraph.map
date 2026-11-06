@@ -1,18 +1,15 @@
 <map id="la_lapack_solve_chol_comp::la_dpbtrf" name="la_lapack_solve_chol_comp::la_dpbtrf">
-<area shape="rect" id="Node000001" title="DPBTRF: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="5,131,165,175"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__chol__comp.html#afb7aa4c97ea399b345e59767c1a1d335" title="DPBTF2: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="213,96,372,141"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,137,200,133,195,135,166,142"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#afa770c871b72f50b706c3e11afe9e492" title="DPOTF2: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="213,165,372,210"/>
-<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="165,164,200,172,195,172,165,169"/>
+<area shape="rect" id="Node000001" title="DPBTRF: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="5,109,165,154"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__chol__comp.html#afb7aa4c97ea399b345e59767c1a1d335" title="DPBTF2: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="213,75,372,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,116,200,112,195,114,166,121"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__chol__comp.html#afa770c871b72f50b706c3e11afe9e492" title="DPOTF2: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="213,144,372,189"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="165,142,200,150,195,151,165,148"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="428,5,562,50"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="343,93,427,58,432,56,345,98"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level2__sym.html#ad606abf751175e1ce1d9991d59dd354f" title="DSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="420,125,569,170"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="373,127,407,134,402,135,373,133"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="617,106,783,134"/>
-<area shape="poly" id="edge7_Node000002_Node000005" title=" " alt="" coords="372,112,420,110,569,110,604,114,599,114,569,116,420,116,373,117"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="617,162,783,190"/>
-<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="348,139,373,151,397,167,421,180,466,189,513,193,600,192,605,192,513,198,465,194,419,185,394,172,371,155,348,144"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="569,135,599,133,604,133,570,140"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="570,155,604,162,599,162,570,161"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="664,104,659,97,663,87,677,81,700,79,724,82,739,91,733,90,723,87,700,84,679,86,667,91,664,97,669,106"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,72,411,56,416,55,360,77"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__sym.html#ad606abf751175e1ce1d9991d59dd354f" title="DSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="420,75,569,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="372,94,407,97,402,97,373,100"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="617,114,783,142"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="364,117,420,129,513,135,605,136,599,136,513,141,420,134,364,122"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="570,105,604,113,599,113,570,111"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="664,112,659,105,663,95,677,89,700,87,724,90,739,99,733,98,723,95,700,92,679,94,667,99,664,105,669,114"/>
 </map>

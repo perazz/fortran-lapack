@@ -1,23 +1,21 @@
 <map id="la_lapack_eigv_tridiag3::la_sstebz" name="la_lapack_eigv_tridiag3::la_sstebz">
-<area shape="rect" id="Node000001" title="SSTEBZ: computes the eigenvalues of a symmetric tridiagonal matrix T. The user may ask for all eigenv..." alt="" coords="5,169,181,214"/>
+<area shape="rect" id="Node000001" title="SSTEBZ: computes the eigenvalues of a symmetric tridiagonal matrix T. The user may ask for all eigenv..." alt="" coords="5,140,181,184"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="229,67,410,94"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,166,174,138,228,110,261,98,257,102,230,115,177,143,131,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,137,228,110,266,99,261,101,230,115,158,141"/>
 <area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="469,207,634,234"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="168,166,228,154,320,144,360,145,411,154,467,172,517,199,511,199,465,177,409,159,359,151,320,149,229,159,170,171"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="181,147,291,142,351,145,411,154,467,172,517,199,511,198,465,177,409,159,351,150,291,147,182,152"/>
 <area shape="rect" id="Node000006" href="$namespacela__lapack__eigv__tridiag2.html#a395c829f5b2f6ecf8bfbf30627df0f91" title="SLAEBZ: contains the iteration loops which compute and use the function N(w), which is the count of e..." alt="" coords="232,169,407,214"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="180,189,218,190,213,192,182,194"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="180,171,219,177,214,179,181,176"/>
 <area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="246,262,393,307"/>
-<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="149,211,252,255,247,257,149,217"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="237,331,402,358"/>
-<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="113,212,163,265,195,293,230,317,242,325,236,324,227,321,192,297,159,269,111,217"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="137,182,265,253,261,256,135,187"/>
 <area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="280,66,274,58,279,48,295,42,319,40,346,43,362,51,357,52,345,48,319,45,296,47,283,52,280,57,286,66"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="460,29,644,57"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="409,64,449,59,444,61,410,69"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="458,105,645,133"/>
-<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="406,92,452,102,447,103,407,98"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="406,92,452,102,447,103,406,98"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="512,28,505,20,511,11,526,5,552,3,579,5,595,14,590,14,578,10,552,8,527,10,514,15,511,20,517,29"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="512,104,505,96,511,87,526,81,552,79,579,81,595,90,590,90,578,86,552,84,527,86,514,91,511,96,517,105"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="512,205,505,198,511,188,526,182,552,180,579,183,595,191,590,191,578,188,552,185,527,187,514,192,511,197,517,207"/>
-<area shape="poly" id="edge11_Node000007_Node000005" title=" " alt="" coords="393,262,481,240,486,238,394,267"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="512,104,505,96,511,87,526,81,552,79,579,81,595,90,590,90,578,86,552,84,527,86,514,91,511,96,517,106"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="512,205,505,198,511,188,526,182,552,180,579,183,595,192,590,191,578,188,552,185,527,187,514,192,511,197,517,207"/>
+<area shape="poly" id="edge11_Node000007_Node000005" title=" " alt="" coords="393,262,481,239,486,239,394,267"/>
 <area shape="poly" id="edge12_Node000007_Node000007" title=" " alt="" coords="276,260,275,252,282,243,297,238,319,236,344,238,360,247,355,247,343,243,319,241,298,243,285,247,280,253,281,263"/>
 </map>

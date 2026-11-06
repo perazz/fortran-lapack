@@ -1,19 +1,15 @@
 <map id="la_lapack_cosine_sine::la_dorbdb5" name="la_lapack_cosine_sine::la_dorbdb5">
-<area shape="rect" id="Node000001" title="DORBDB5: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="5,112,172,156"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a85be6de988bf594f26206471abfc614b" title="!" alt="" coords="236,42,370,87"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,108,223,90,219,92,161,113"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__cosine__sine.html#ab6678f32a90311b5dfd9f8cd22ff479d" title="DORBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="220,112,386,156"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="172,131,207,133,202,135,173,136"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="629,89,795,117"/>
-<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="146,154,232,182,342,206,401,213,462,215,522,209,580,195,611,182,639,164,684,129,689,127,642,169,613,187,582,200,523,214,462,220,401,218,341,212,231,187,145,159"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="264,41,262,32,269,23,283,18,303,16,325,18,339,26,334,27,323,23,303,21,284,23,272,27,267,33,268,43"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="435,21,580,66"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="358,108,385,97,442,73,447,71,387,102,360,113"/>
-<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="386,125,616,110,611,111,387,130"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__l1.html#abf013f2b616443a31a71c32530058ca0" title="!" alt="" coords="434,141,581,186"/>
-<area shape="poly" id="edge8_Node000003_Node000007" title=" " alt="" coords="386,143,422,150,416,151,386,148"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="629,29,795,57"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="580,41,616,43,611,44,581,46"/>
-<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="581,62,650,84,645,84,580,67"/>
-<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="677,28,671,20,676,11,690,5,712,3,736,5,751,14,745,14,735,10,712,8,691,10,679,15,676,20,682,30"/>
+<area shape="rect" id="Node000001" title="DORBDB5: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="5,64,172,109"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a85be6de988bf594f26206471abfc614b" title="!" alt="" coords="236,29,370,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,70,223,64,218,66,173,75"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__cosine__sine.html#ab6678f32a90311b5dfd9f8cd22ff479d" title="DORBDB6: orthogonalizes the column vector X = [ X1 ] [ X2 ] with respect to the columns of Q = [ Q1 ]..." alt="" coords="220,99,386,143"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="172,97,207,105,202,106,172,102"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="264,28,262,19,269,10,283,5,303,3,325,5,339,14,334,14,323,10,303,8,284,10,272,15,267,21,268,30"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="435,64,580,109"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="386,104,422,101,417,102,387,110"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__l1.html#abf013f2b616443a31a71c32530058ca0" title="!" alt="" coords="434,133,581,178"/>
+<area shape="poly" id="edge7_Node000003_Node000006" title=" " alt="" coords="387,132,422,141,416,141,386,138"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="629,72,795,100"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="580,84,616,86,611,87,581,89"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="677,71,671,64,676,54,690,48,712,46,736,48,751,58,745,57,735,53,712,51,691,53,679,58,676,63,682,73"/>
 </map>

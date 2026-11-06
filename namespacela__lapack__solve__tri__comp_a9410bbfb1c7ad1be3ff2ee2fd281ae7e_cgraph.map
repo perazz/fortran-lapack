@@ -1,17 +1,14 @@
 <map id="la_lapack_solve_tri_comp::la_slauu2" name="la_lapack_solve_tri_comp::la_slauu2">
-<area shape="rect" id="Node000001" title="SLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,111,152,155"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="417,91,582,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,109,137,62,166,39,199,21,245,7,284,3,322,9,370,21,399,32,426,47,473,81,468,81,424,51,397,37,368,26,321,14,283,8,246,12,201,26,169,43,141,65,98,112"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="200,59,369,87"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="151,109,222,90,218,93,153,114"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="212,111,357,155"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="151,131,198,132,194,134,153,136"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="417,147,582,175"/>
-<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="147,153,200,165,304,172,404,171,399,172,304,177,199,170,147,159"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="217,231,352,275"/>
-<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="113,153,201,209,224,224,219,223,198,214,112,158"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="462,90,457,82,461,73,476,67,500,65,525,67,540,76,535,76,524,72,500,70,477,72,465,77,462,82,468,91"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="249,58,243,50,248,41,262,35,284,33,309,35,323,44,318,44,307,40,284,38,263,40,251,45,248,50,254,59"/>
-<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="357,121,404,117,399,119,358,126"/>
-<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="357,140,404,148,399,149,358,145"/>
+<area shape="rect" id="Node000001" title="SLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,76,152,121"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="417,47,582,75"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,74,145,42,171,27,199,16,246,5,284,3,369,16,412,26,453,41,448,42,410,31,369,21,283,9,246,10,200,21,174,32,148,46,106,78"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="200,54,369,82"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="151,85,187,82,182,84,153,90"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="212,106,357,150"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="152,106,198,114,193,116,152,112"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="217,175,352,220"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="121,119,201,160,214,168,209,168,198,165,120,124"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="462,46,457,39,461,29,476,23,500,21,525,23,540,32,535,32,524,28,500,26,477,28,465,33,462,38,468,48"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="249,53,243,45,248,36,262,30,284,27,309,30,323,39,318,39,307,35,284,33,263,35,251,39,248,45,254,54"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="357,103,440,79,435,81,358,108"/>
 </map>

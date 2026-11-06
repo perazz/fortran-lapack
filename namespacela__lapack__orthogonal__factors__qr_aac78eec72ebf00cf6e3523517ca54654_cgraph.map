@@ -1,23 +1,19 @@
 <map id="la_lapack_orthogonal_factors_qr::la_dorgtsqr_row" name="la_lapack_orthogonal_factors_qr::la_dorgtsqr_row">
-<area shape="rect" id="Node000001" title="DORGTSQR_ROW: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns from the output of DLATS..." alt="" coords="5,129,211,174"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__qr.html#aa86159f814a8634ef13fb2c572933fb8" title="DLARFB_GETT: applies a real Householder block reflector H from the left to a real (K+M)&#45;by&#45;N &quot;triangu..." alt="" coords="259,129,450,174"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,149,245,151,240,152,212,154"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="691,34,857,61"/>
-<area shape="poly" id="edge13_Node000001_Node000006" title=" " alt="" coords="155,127,221,97,305,64,400,33,498,10,571,3,644,10,719,29,713,29,643,16,571,8,498,16,401,38,307,69,223,102,158,131"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__base.html#a9d8bc9b29dbe646f52c4b0a259bd4ed8" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="281,219,428,263"/>
-<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="172,172,279,212,274,214,171,177"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="504,95,638,139"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="450,134,491,129,486,131,451,139"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="498,25,643,70"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="401,126,497,80,506,78,511,76,499,85,404,131"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="691,202,857,229"/>
-<area shape="poly" id="edge10_Node000002_Node000005" title=" " alt="" coords="391,172,441,198,499,218,543,226,589,229,679,229,673,229,589,234,543,231,497,224,439,203,390,177"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#a710d6b899efadca7fff77218f39cf845" title="DTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="503,164,638,209"/>
-<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="451,164,490,173,485,173,451,170"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="625,68,645,80,707,135,755,190,750,189,703,139,642,84,624,73"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="643,45,678,47,673,48,644,50"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="739,200,733,193,738,183,752,177,774,175,798,178,812,187,807,186,797,183,774,180,753,182,741,187,739,193,744,202"/>
-<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="639,193,678,201,673,201,639,199"/>
-<area shape="poly" id="edge9_Node000007_Node000006" title=" " alt="" coords="622,161,642,149,698,109,744,73,748,71,701,113,645,154,624,166"/>
-<area shape="poly" id="edge12_Node000008_Node000005" title=" " alt="" coords="428,255,531,268,587,268,643,262,688,250,728,237,733,236,690,255,644,268,588,274,530,273,428,260"/>
+<area shape="rect" id="Node000001" title="DORGTSQR_ROW: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns from the output of DLATS..." alt="" coords="5,195,211,239"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__qr.html#aa86159f814a8634ef13fb2c572933fb8" title="DLARFB_GETT: applies a real Householder block reflector H from the left to a real (K+M)&#45;by&#45;N &quot;triangu..." alt="" coords="259,135,450,179"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,192,248,183,243,184,203,197"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__base.html#a9d8bc9b29dbe646f52c4b0a259bd4ed8" title="DLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="281,229,428,274"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="211,229,268,239,262,239,211,234"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="504,5,638,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="386,132,497,60,504,59,509,56,499,65,388,137"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="498,75,643,119"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="436,132,486,120,481,122,438,137"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="691,174,857,202"/>
+<area shape="poly" id="edge8_Node000002_Node000005" title=" " alt="" coords="450,161,678,180,673,181,450,167"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a710d6b899efadca7fff77218f39cf845" title="DTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="503,195,638,239"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="437,177,491,194,485,194,437,183"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="623,117,730,167,724,167,622,123"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="739,172,733,165,738,155,752,149,774,147,798,150,812,159,807,158,797,155,774,152,753,154,741,159,739,165,744,174"/>
+<area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="638,205,673,202,678,202,639,210"/>
+<area shape="poly" id="edge10_Node000007_Node000005" title=" " alt="" coords="428,258,531,262,587,258,643,249,693,231,736,211,741,209,695,236,644,254,588,264,531,267,428,263"/>
 </map>

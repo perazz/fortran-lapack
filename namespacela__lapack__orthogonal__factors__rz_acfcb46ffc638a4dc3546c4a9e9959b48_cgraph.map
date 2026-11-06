@@ -1,16 +1,12 @@
 <map id="la_lapack_orthogonal_factors_rz::la_slarzt" name="la_lapack_orthogonal_factors_rz::la_slarzt">
-<area shape="rect" id="Node000001" title="SLARZT: forms the triangular factor T of a real block reflector H of order &gt; n, which is defined as a..." alt="" coords="5,61,166,106"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="407,35,572,62"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,58,161,32,213,11,271,3,331,6,386,15,436,29,431,30,385,20,330,11,272,9,214,17,163,37,119,63"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="214,26,359,71"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="166,67,201,63,196,65,167,72"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="407,104,572,132"/>
-<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="118,103,163,130,214,150,272,158,330,155,385,146,431,137,436,137,386,152,331,161,271,163,213,155,161,135,117,109"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__tri.html#a2fc318d24946d64d028a065543860cff" title="STRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="219,96,354,140"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="166,94,206,103,201,104,166,100"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="454,33,449,26,453,16,467,10,490,8,514,11,528,20,523,19,512,16,490,13,469,15,457,20,454,26,459,35"/>
-<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="359,46,394,48,389,49,360,51"/>
-<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="354,69,435,98,430,99,354,74"/>
-<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="353,92,430,69,435,67,355,98"/>
-<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="354,115,394,118,389,118,355,121"/>
+<area shape="rect" id="Node000001" title="SLARZT: forms the triangular factor T of a real block reflector H of order &gt; n, which is defined as a..." alt="" coords="5,24,166,69"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="407,33,572,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,21,213,9,286,3,359,9,434,27,429,28,359,14,286,8,214,14,158,26"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="214,24,359,69"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="166,44,201,46,195,47,167,49"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__tri.html#a2fc318d24946d64d028a065543860cff" title="STRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, where x is an n element..." alt="" coords="219,93,354,138"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="153,67,207,87,202,88,152,72"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="454,31,449,24,453,14,467,8,490,6,514,8,528,18,523,17,512,14,490,11,469,13,457,18,454,23,459,33"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="359,44,394,46,389,47,360,49"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="353,90,430,66,435,65,355,95"/>
 </map>

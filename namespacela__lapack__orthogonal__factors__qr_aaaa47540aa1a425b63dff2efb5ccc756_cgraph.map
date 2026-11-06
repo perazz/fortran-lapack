@@ -1,34 +1,28 @@
 <map id="la_lapack_orthogonal_factors_qr::la_dlamtsqr" name="la_lapack_orthogonal_factors_qr::la_dlamtsqr">
-<area shape="rect" id="Node000001" title="DLAMTSQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="5,187,184,231"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__qr.html#aa10eebef1c1c6040f9499ba378c31a6f" title="DGEMQRT: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q ..." alt="" coords="232,221,407,266"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,220,219,227,214,229,185,225"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="867,100,1032,128"/>
-<area shape="poly" id="edge21_Node000001_Node000006" title=" " alt="" coords="122,184,180,142,259,91,353,42,404,21,455,5,643,4,819,8,852,23,882,44,929,89,923,88,878,48,849,28,818,13,643,10,455,10,405,26,356,46,262,96,183,146,126,188"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="867,410,1032,437"/>
-<area shape="poly" id="edge22_Node000001_Node000007" title=" " alt="" coords="115,229,169,287,247,360,294,397,345,432,400,463,456,486,638,488,818,485,869,467,911,447,916,445,871,472,819,490,638,493,454,492,397,468,343,437,291,402,244,364,165,290,114,234"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__orthogonal__factors__qr.html#a73fa5d2fbb3e12203d285d50852cbbf3" title="DTPMQRT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="233,152,406,197"/>
-<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="183,193,220,188,216,192,186,197"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#aca90af56199d3e1535915e758fc85de6" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="455,221,625,266"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="407,241,442,243,437,244,408,246"/>
-<area shape="poly" id="edge12_Node000002_Node000006" title=" " alt="" coords="387,219,405,207,420,190,428,172,436,154,453,137,505,112,559,95,616,84,672,79,781,82,873,97,868,98,780,88,673,85,616,90,560,100,507,117,457,142,440,157,432,174,425,192,409,211,390,223"/>
-<area shape="poly" id="edge13_Node000002_Node000007" title=" " alt="" coords="329,264,347,306,373,355,409,403,431,424,456,440,512,463,571,476,631,481,691,479,750,473,804,463,890,443,896,442,805,468,750,478,692,485,631,486,570,481,510,468,454,445,428,428,405,407,368,358,342,308,327,269"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="679,341,813,386"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="580,264,675,320,695,334,689,333,672,325,579,269"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="673,152,819,197"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="608,218,666,201,661,203,610,223"/>
-<area shape="poly" id="edge11_Node000003_Node000006" title=" " alt="" coords="593,264,643,280,701,291,761,292,790,286,817,276,857,249,890,212,916,174,934,144,938,140,920,177,894,216,861,253,820,281,791,291,761,297,700,296,642,285,593,269"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level3__tri.html#a710d6b899efadca7fff77218f39cf845" title="DTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="678,221,814,266"/>
-<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="625,241,666,243,660,244,626,246"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="818,150,888,132,883,134,820,155"/>
-<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="803,195,820,207,862,253,896,304,922,354,940,396,935,394,917,356,891,307,857,256,817,211,802,200"/>
-<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="914,99,909,92,913,82,927,76,949,74,973,76,988,85,982,85,972,81,949,79,928,81,917,86,914,91,919,101"/>
-<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="796,218,817,207,871,171,917,139,921,137,874,175,820,211,799,223"/>
-<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="774,264,924,400,918,399,772,269"/>
-<area shape="poly" id="edge19_Node000009_Node000006" title=" " alt="" coords="334,150,354,123,382,93,415,64,454,43,506,23,552,11,594,5,634,5,717,17,819,42,872,63,919,91,913,91,870,68,818,48,716,22,634,10,595,11,554,17,508,29,456,47,418,69,385,97,358,127,338,153"/>
-<area shape="poly" id="edge20_Node000009_Node000007" title=" " alt="" coords="389,194,409,207,425,225,434,242,442,259,457,276,511,322,557,352,607,374,674,396,718,407,764,415,854,424,849,424,763,420,717,412,673,401,605,379,554,356,507,326,453,280,438,262,429,244,421,228,405,211,389,200"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__orthogonal__factors__qr.html#a43722a3885a30b81da0336e9483102f8" title="DTPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its transpose H**T to a real matr..." alt="" coords="460,152,620,197"/>
-<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="405,172,447,173,442,175,406,177"/>
-<area shape="poly" id="edge16_Node000010_Node000005" title=" " alt="" coords="620,172,660,174,655,175,621,177"/>
-<area shape="poly" id="edge18_Node000010_Node000006" title=" " alt="" coords="619,149,673,137,764,124,854,119,849,120,765,130,674,142,621,154"/>
-<area shape="poly" id="edge17_Node000010_Node000008" title=" " alt="" coords="609,195,666,216,661,216,609,200"/>
+<area shape="rect" id="Node000001" title="DLAMTSQR: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q * C C..." alt="" coords="5,55,184,99"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__qr.html#aa10eebef1c1c6040f9499ba378c31a6f" title="DGEMQRT: overwrites the general real M&#45;by&#45;N matrix C with SIDE = &#39;L&#39; SIDE = &#39;R&#39; TRANS = &#39;N&#39;: Q C C Q ..." alt="" coords="232,216,407,261"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,97,277,205,272,208,127,102"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="867,126,1032,153"/>
+<area shape="poly" id="edge17_Node000001_Node000006" title=" " alt="" coords="170,52,231,40,397,16,466,8,529,3,592,4,659,12,734,28,820,53,848,65,876,81,923,116,918,115,873,85,846,70,818,58,732,33,658,17,592,9,529,9,466,13,398,22,232,45,173,56"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__orthogonal__factors__qr.html#a73fa5d2fbb3e12203d285d50852cbbf3" title="DTPMQRT: applies a real orthogonal matrix Q obtained from a &quot;triangular&#45;pentagonal&quot; real block reflec..." alt="" coords="233,55,406,99"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="183,75,220,75,215,78,185,79"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#aca90af56199d3e1535915e758fc85de6" title="DLARFB: applies a real block reflector H or its transpose H**T to a real m by n matrix C,..." alt="" coords="455,216,625,261"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="407,236,442,238,436,239,408,241"/>
+<area shape="poly" id="edge10_Node000002_Node000006" title=" " alt="" coords="353,259,438,312,495,340,557,366,623,384,690,392,723,390,756,385,787,376,817,361,843,343,865,321,900,268,924,213,939,170,943,167,929,215,905,270,869,324,846,347,820,366,789,381,757,390,724,396,690,397,622,389,556,371,493,345,436,317,351,264"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="679,307,813,351"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="593,259,682,300,677,300,592,264"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="673,117,819,162"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="588,213,681,170,686,168,590,218"/>
+<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="626,252,671,257,720,258,770,253,818,241,849,226,878,206,924,166,928,164,882,210,852,231,820,246,771,258,720,263,671,262,626,258"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#a710d6b899efadca7fff77218f39cf845" title="DTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="678,187,814,231"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="625,223,666,220,661,221,626,229"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="819,137,854,139,848,140,820,142"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="914,124,909,117,913,107,927,101,949,99,973,102,988,111,982,110,972,107,949,104,928,106,917,111,914,117,919,126"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="813,183,889,160,894,158,814,189"/>
+<area shape="poly" id="edge16_Node000008_Node000006" title=" " alt="" coords="405,65,493,60,597,58,709,64,819,81,868,96,912,118,907,118,866,101,818,86,708,70,597,64,493,65,407,70"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__orthogonal__factors__qr.html#a43722a3885a30b81da0336e9483102f8" title="DTPRFB: applies a real &quot;triangular&#45;pentagonal&quot; block reflector H or its transpose H**T to a real matr..." alt="" coords="460,92,620,137"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="405,89,447,97,442,99,406,94"/>
+<area shape="poly" id="edge13_Node000009_Node000005" title=" " alt="" coords="620,121,660,128,655,129,621,127"/>
+<area shape="poly" id="edge15_Node000009_Node000006" title=" " alt="" coords="620,102,716,97,768,98,819,102,894,121,889,121,818,108,767,103,716,102,621,107"/>
+<area shape="poly" id="edge14_Node000009_Node000007" title=" " alt="" coords="591,135,685,180,679,180,590,140"/>
 </map>

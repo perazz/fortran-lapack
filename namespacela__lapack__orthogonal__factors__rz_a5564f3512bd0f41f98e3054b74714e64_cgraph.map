@@ -1,20 +1,16 @@
 <map id="la_lapack_orthogonal_factors_rz::la_clarzb" name="la_lapack_orthogonal_factors_rz::la_clarzb">
-<area shape="rect" id="Node000001" title="CLARZB: applies a complex block reflector H or its transpose H**H to a complex distributed M&#45;by&#45;N C f..." alt="" coords="5,160,166,205"/>
+<area shape="rect" id="Node000001" title="CLARZB: applies a complex block reflector H or its transpose H**H to a complex distributed M&#45;by&#45;N C f..." alt="" coords="5,135,166,179"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="220,5,354,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,158,154,114,212,67,232,56,228,60,215,71,158,118,111,161"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="215,125,360,170"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,166,201,161,197,164,167,171"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="409,134,574,162"/>
-<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="116,158,161,131,213,110,272,102,332,105,388,114,438,128,433,129,387,119,331,110,272,108,214,116,163,136,120,162"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="409,203,574,231"/>
-<area shape="poly" id="edge11_Node000001_Node000005" title=" " alt="" coords="118,202,163,229,214,249,272,257,331,255,387,245,438,235,433,237,388,251,332,260,272,262,213,254,161,234,118,208"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__l1.html#a65e16ab6e529b6346d3ce052868e5744" title="CLACGV: conjugates a complex vector of length N." alt="" coords="214,315,361,359"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="110,203,158,247,215,294,232,307,227,306,212,298,154,251,109,208"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#a1560ca1a3fd2d9263c855059c783885f" title="CTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ) whe..." alt="" coords="220,195,355,239"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="166,194,207,202,202,204,167,199"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="360,145,396,147,391,148,361,150"/>
-<area shape="poly" id="edge5_Node000003_Node000005" title=" " alt="" coords="355,168,437,197,432,198,355,173"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="456,133,451,125,455,115,469,109,492,107,516,110,530,119,525,119,514,115,492,112,471,114,459,119,456,125,461,134"/>
-<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="354,192,437,166,432,168,356,197"/>
-<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="355,214,396,216,391,218,356,220"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="112,132,158,97,212,60,224,56,220,59,215,65,161,101,116,136"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="215,75,360,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,132,202,121,198,124,164,136"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="409,143,574,171"/>
+<area shape="poly" id="edge8_Node000001_Node000004" title=" " alt="" coords="166,154,395,155,392,159,166,160"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__l1.html#a65e16ab6e529b6346d3ce052868e5744" title="CLACGV: conjugates a complex vector of length N." alt="" coords="214,195,361,239"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="163,177,202,190,196,192,163,183"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a1560ca1a3fd2d9263c855059c783885f" title="CTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ) whe..." alt="" coords="220,264,355,309"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="114,177,161,213,215,249,224,257,219,256,212,254,158,217,113,182"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="360,116,430,138,425,139,360,121"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="456,142,451,134,455,125,469,119,492,117,516,119,530,128,525,128,514,124,492,122,471,124,459,129,456,134,461,143"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="339,261,360,249,414,213,459,182,464,180,417,218,362,254,340,266"/>
 </map>

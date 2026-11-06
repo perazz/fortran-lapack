@@ -1,19 +1,15 @@
 <map id="la_lapack_orthogonal_factors_ql::la_cunm22" name="la_lapack_orthogonal_factors_ql::la_cunm22">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,125,177,170"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="226,195,371,239"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,168,217,188,212,190,160,173"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,96,177,141"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="226,5,371,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,93,233,55,230,59,145,98"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="420,104,585,132"/>
-<area shape="poly" id="edge10_Node000001_Node000003" title=" " alt="" coords="165,122,224,110,317,105,407,109,402,110,317,110,225,116,167,127"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="420,203,585,231"/>
-<area shape="poly" id="edge11_Node000001_Node000004" title=" " alt="" coords="113,168,162,212,192,233,226,249,254,257,284,260,345,258,402,248,449,237,454,236,404,253,346,264,284,266,253,262,224,254,190,238,158,217,111,173"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="225,5,372,50"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="129,123,223,67,246,56,242,60,226,71,132,127"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a1560ca1a3fd2d9263c855059c783885f" title="CTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ) whe..." alt="" coords="231,125,366,170"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="176,145,218,147,213,149,177,150"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="347,192,371,180,457,140,462,139,373,185,348,197"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="371,214,407,217,402,217,371,220"/>
+<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="176,112,225,110,372,110,407,113,402,114,372,116,225,116,178,117"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="225,125,372,170"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="176,128,212,134,207,136,177,133"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__tri.html#a1560ca1a3fd2d9263c855059c783885f" title="CTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ) whe..." alt="" coords="231,195,366,239"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="140,139,226,180,238,188,233,187,224,185,139,144"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="351,48,458,97,453,98,350,53"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="467,103,462,96,466,86,480,80,503,78,527,80,541,89,536,89,525,85,503,83,482,85,470,90,467,95,472,105"/>
-<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="351,48,458,97,453,98,350,53"/>
-<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="366,135,407,132,402,133,367,141"/>
-<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="367,168,448,198,443,198,366,173"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="372,134,407,132,402,133,373,140"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="347,192,371,180,456,140,462,139,373,185,348,197"/>
 </map>

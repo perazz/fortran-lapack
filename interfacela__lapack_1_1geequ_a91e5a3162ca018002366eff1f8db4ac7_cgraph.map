@@ -1,13 +1,11 @@
 <map id="la_lapack::geequ::dgeequ" name="la_lapack::geequ::dgeequ">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,68,193,96"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a53f07b2c8e2667bd5734ac108d0dcfab" title="DGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="241,60,385,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,80,228,82,223,83,193,85"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="442,29,589,74"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,69,424,65,429,65,386,74"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="433,98,598,126"/>
-<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="385,90,420,98,415,97,385,95"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="477,27,475,19,482,10,496,5,516,3,537,5,552,14,547,13,536,10,516,8,497,10,485,15,481,21,481,30"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="646,38,812,66"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="589,49,634,51,628,52,590,54"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="692,36,686,29,691,19,706,13,729,11,754,14,769,23,764,22,753,19,729,16,707,18,695,23,692,29,697,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,38,193,66"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a53f07b2c8e2667bd5734ac108d0dcfab" title="DGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="241,29,385,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,49,228,51,223,52,193,54"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="433,29,580,74"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="385,49,420,52,415,52,385,54"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="470,27,468,19,474,10,487,5,507,3,527,5,541,14,536,13,526,10,507,8,489,10,478,15,473,21,474,30"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="628,38,794,66"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="581,49,615,52,610,52,581,54"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="676,36,670,29,675,19,689,13,711,11,735,14,750,23,744,22,734,19,711,16,690,18,678,23,675,29,680,38"/>
 </map>

@@ -1,7 +1,7 @@
 var interfacela__determinant_1_1operator_07_8det_8_08 =
 [
-    [ "la_cpure_determinant", "interfacela__determinant_1_1operator_07_8det_8_08.html#a5aaad4ab30cea309fbf71856777bd0c0", null ],
-    [ "la_dpure_determinant", "interfacela__determinant_1_1operator_07_8det_8_08.html#aa1f73c0d85ca741fd75f5cc601e22cfe", null ],
-    [ "la_spure_determinant", "interfacela__determinant_1_1operator_07_8det_8_08.html#a0fb6af66925ff51f0242485d3781fe1e", null ],
-    [ "la_zpure_determinant", "interfacela__determinant_1_1operator_07_8det_8_08.html#a4085e6c4ac04f45f7412a24c4041dfc5", null ]
+    [ "la_cdeterminant", "interfacela__determinant_1_1operator_07_8det_8_08.html#a3cce001a9cb015c034dba0e94009a842", null ],
+    [ "la_ddeterminant", "interfacela__determinant_1_1operator_07_8det_8_08.html#adb4a9d8479228510ffe40fefe23c7a5c", null ],
+    [ "la_sdeterminant", "interfacela__determinant_1_1operator_07_8det_8_08.html#ab9c31281145d0351877709bec569a6a9", null ],
+    [ "la_zdeterminant", "interfacela__determinant_1_1operator_07_8det_8_08.html#a5ed70471fc1e790aa5a21944614e8512", null ]
 ];

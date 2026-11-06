@@ -1,33 +1,31 @@
 <map id="la_lapack_solve_chol::la_zposvx" name="la_lapack_solve_chol::la_zposvx">
-<area shape="rect" id="Node000001" title="ZPOSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to compute the solution to a complex..." alt="" coords="5,339,165,383"/>
+<area shape="rect" id="Node000001" title="ZPOSVX: uses the Cholesky factorization A = U**H*U or A = L*L**H to compute the solution to a complex..." alt="" coords="5,323,165,367"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="227,29,374,74"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,338,103,288,127,223,163,154,185,121,211,91,226,81,223,85,215,95,189,124,167,156,132,225,108,290,94,339"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,321,105,275,129,214,164,149,186,119,211,91,227,80,224,85,215,95,190,122,169,152,134,216,110,276,95,323"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="436,98,601,126"/>
-<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="89,338,103,293,127,237,162,180,185,155,211,135,261,111,315,98,370,94,423,96,418,99,370,99,316,104,263,116,214,139,189,159,166,184,131,239,108,295,94,339"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="218,148,383,176"/>
-<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="94,337,112,303,138,262,171,221,211,186,221,181,218,186,214,190,175,225,142,265,117,306,99,339"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__base.html#a53b017329bb7498e3f2ded7611b12057" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="227,200,374,245"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="107,337,154,296,211,255,224,250,220,254,214,259,157,300,112,340"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__mnorm.html#ac9472aaa85c94d4ee100b9a190b6e4bb" title="Pure subroutine form of ZLANHE: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="213,269,388,314"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="155,336,216,317,212,321,158,340"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#ae9c41119845e47ed064a049463e5e824" title="ZLAQHE: equilibrates a Hermitian matrix A using the scaling factors in the vector S." alt="" coords="221,339,380,383"/>
-<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="164,359,207,359,203,363,166,363"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#af6ab8d866c94f06bcfd8bba7dd75e822" title="ZPOCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a complex Hermitian posit..." alt="" coords="221,408,380,453"/>
-<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="156,381,216,401,212,404,157,386"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#a3264aff22e5a87afad1a02e595f3558e" title="ZPOEQU: computes row and column scalings intended to equilibrate a Hermitian positive definite matrix..." alt="" coords="221,477,380,522"/>
-<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="109,381,157,422,214,463,225,470,219,471,211,467,154,426,110,386"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#a780ec14ce9f920a75db8ed6aead13880" title="ZPORFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="221,547,380,591"/>
-<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="98,381,144,455,176,496,214,532,221,538,215,538,211,536,172,500,140,458,97,386"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#a015c5a0918aeb5d7023aabf0733d12c4" title="ZPOTRS: solves a system of linear equations A*X = B with a Hermitian positive definite matrix A using..." alt="" coords="439,560,598,605"/>
-<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="90,381,105,432,127,493,143,524,163,554,186,580,214,601,241,614,270,623,330,627,390,621,442,610,447,609,391,626,330,633,269,628,239,619,211,606,183,584,159,557,139,527,122,495,99,433,90,386"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__chol__comp.html#ad6b901ea0b009d13b90a546c82fb1afa" title="ZPOTRF: computes the Cholesky factorization of a complex Hermitian positive definite matrix A...." alt="" coords="221,667,380,711"/>
-<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="91,381,106,435,130,505,165,579,188,614,215,646,227,658,221,657,211,650,184,617,161,582,125,507,101,437,90,386"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,29,258,19,265,10,279,5,300,3,324,5,339,13,334,15,322,10,300,8,280,10,268,15,263,21,264,29"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="90,321,105,280,129,228,164,176,186,154,211,135,261,112,315,99,370,95,423,97,418,99,370,100,316,104,263,117,214,139,190,158,168,180,134,231,110,282,95,323"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#a53b017329bb7498e3f2ded7611b12057" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="227,149,374,194"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="100,321,146,264,177,232,211,204,222,200,218,204,214,208,180,236,150,267,104,324"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__mnorm.html#ac9472aaa85c94d4ee100b9a190b6e4bb" title="Pure subroutine form of ZLANHE: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="213,219,388,263"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="123,320,211,273,227,268,223,272,214,278,127,324"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__chol__comp.html#ae9c41119845e47ed064a049463e5e824" title="ZLAQHE: equilibrates a Hermitian matrix A using the scaling factors in the vector S." alt="" coords="221,288,380,333"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="164,330,207,324,203,327,166,334"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#af6ab8d866c94f06bcfd8bba7dd75e822" title="ZPOCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a complex Hermitian posit..." alt="" coords="221,357,380,402"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="164,355,207,363,203,366,166,360"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#a3264aff22e5a87afad1a02e595f3558e" title="ZPOEQU: computes row and column scalings intended to equilibrate a Hermitian positive definite matrix..." alt="" coords="221,427,380,471"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="125,365,214,412,228,419,223,421,211,417,125,370"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#a780ec14ce9f920a75db8ed6aead13880" title="ZPORFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="221,496,380,541"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="102,365,150,423,180,454,214,482,223,488,217,489,211,486,177,458,146,426,102,370"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#a015c5a0918aeb5d7023aabf0733d12c4" title="ZPOTRS: solves a system of linear equations A*X = B with a Hermitian positive definite matrix A using..." alt="" coords="439,509,598,554"/>
+<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="92,365,109,409,133,461,167,512,189,533,214,551,241,563,269,571,329,575,388,569,439,560,444,558,389,574,329,580,268,576,239,568,211,555,186,537,163,515,128,464,104,411,92,371"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#ad6b901ea0b009d13b90a546c82fb1afa" title="ZPOTRF: computes the Cholesky factorization of a complex Hermitian positive definite matrix A...." alt="" coords="221,616,380,661"/>
+<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="93,365,110,414,134,474,169,538,190,568,215,595,228,608,223,607,211,599,186,571,164,541,129,476,105,415,92,371"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="259,28,258,19,265,10,279,5,300,3,324,5,339,13,334,15,322,10,300,8,280,10,268,15,263,21,264,29"/>
 <area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="373,69,453,92,448,94,375,74"/>
 <area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="481,97,475,89,480,79,495,73,519,71,544,74,560,82,554,83,543,79,519,76,496,78,484,83,480,89,486,97"/>
-<area shape="poly" id="edge8_Node000005_Node000003" title=" " alt="" coords="360,197,387,185,485,132,481,136,389,190,364,202"/>
-<area shape="poly" id="edge14_Node000010_Node000011" title=" " alt="" coords="380,571,426,576,421,577,380,577"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__solve__chol__comp.html#a4e260ba65528e2fb9786ae4b242912a9" title="ZPOTRF2: computes the Cholesky factorization of a Hermitian positive definite matrix A using the recu..." alt="" coords="439,667,598,711"/>
-<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="380,686,426,689,421,689,380,692"/>
-<area shape="poly" id="edge17_Node000013_Node000013" title=" " alt="" coords="477,665,476,657,483,648,497,642,519,640,542,643,558,652,553,651,541,648,519,645,498,647,486,652,481,658,482,668"/>
+<area shape="poly" id="edge7_Node000004_Node000003" title=" " alt="" coords="373,149,453,129,448,132,375,154"/>
+<area shape="poly" id="edge13_Node000009_Node000010" title=" " alt="" coords="380,521,426,525,421,526,380,526"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__chol__comp.html#a4e260ba65528e2fb9786ae4b242912a9" title="ZPOTRF2: computes the Cholesky factorization of a Hermitian positive definite matrix A using the recu..." alt="" coords="439,616,598,661"/>
+<area shape="poly" id="edge15_Node000011_Node000012" title=" " alt="" coords="380,636,426,638,421,638,380,641"/>
+<area shape="poly" id="edge16_Node000012_Node000012" title=" " alt="" coords="477,614,476,606,483,597,497,591,519,589,542,592,558,601,553,600,541,597,519,595,498,597,486,601,481,607,482,617"/>
 </map>

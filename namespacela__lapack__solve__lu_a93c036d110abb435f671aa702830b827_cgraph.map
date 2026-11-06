@@ -1,43 +1,39 @@
 <map id="la_lapack_solve_lu::la_dgtsvx" name="la_lapack_solve_lu::la_dgtsvx">
-<area shape="rect" id="Node000001" title="DGTSVX: uses the LU factorization to compute the solution to a real system of linear equations A * X ..." alt="" coords="5,280,150,325"/>
+<area shape="rect" id="Node000001" title="DGTSVX: uses the LU factorization to compute the solution to a real system of linear equations A * X ..." alt="" coords="5,264,150,309"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="204,5,338,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,279,96,234,119,176,152,115,173,86,196,60,202,57,199,62,200,64,177,90,157,118,124,179,101,236,87,280"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,263,98,221,122,167,154,111,196,60,202,57,199,62,200,64,158,114,126,170,103,223,88,264"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a6c383e489e9a74f24b8be9420a804687" title="DGTCON: estimates the reciprocal of the condition number of a real tridiagonal matrix A using the LU ..." alt="" coords="199,75,344,119"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="89,279,131,211,162,172,196,136,212,126,209,130,199,140,166,175,136,214,93,281"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a7c4186d514f1f690ee5b15aac72c87c7" title="DGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="404,164,548,209"/>
-<area shape="poly" id="edge16_Node000001_Node000004" title=" " alt="" coords="90,279,133,226,162,200,197,180,244,166,294,160,343,161,391,167,386,169,343,166,294,165,245,171,199,185,166,204,137,229,95,281"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="614,263,780,291"/>
-<area shape="poly" id="edge26_Node000001_Node000009" title=" " alt="" coords="150,297,600,279,598,283,151,302"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__lu__comp.html#ac4e9e3e5b1b1604ce90200a32a74e0f8" title="DGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="199,195,344,239"/>
-<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="128,277,206,244,203,248,132,281"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__lu__comp.html#a349ed797e1d8ea2949fca50d61d46b1d" title="DGTTRF: computes an LU factorization of a real tridiagonal matrix A using elimination with partial pi..." alt="" coords="404,315,548,359"/>
-<area shape="poly" id="edge14_Node000001_Node000011" title=" " alt="" coords="150,306,390,327,386,331,150,311"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="198,365,345,410"/>
-<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="130,323,207,357,202,360,131,328"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="393,434,558,462"/>
-<area shape="poly" id="edge25_Node000001_Node000013" title=" " alt="" coords="94,323,138,374,166,400,199,420,242,436,288,446,380,454,375,456,287,451,241,441,196,425,163,404,134,378,94,328"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="198,509,345,554"/>
-<area shape="poly" id="edge20_Node000001_Node000014" title=" " alt="" coords="93,323,140,389,200,465,233,499,228,499,196,468,135,392,93,328"/>
-<area shape="rect" id="Node000015" href="$namespacela__lapack__blas__like__mnorm.html#aaf8d0a2fd8a4a193e958a35b44cbf881" title="DLANGT: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="198,603,345,647"/>
-<area shape="poly" id="edge23_Node000001_Node000015" title=" " alt="" coords="85,322,103,371,126,433,159,501,200,565,226,593,221,592,196,568,154,504,122,435,98,373,85,328"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="324,117,411,156,406,158,325,122"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a8de3ff8396101888a4c19652ce66fcb7" title="DGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="625,100,769,145"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="547,163,612,146,607,149,549,168"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="606,192,788,220"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="547,190,593,196,588,198,549,195"/>
-<area shape="poly" id="edge11_Node000004_Node000009" title=" " alt="" coords="532,207,650,256,645,258,532,212"/>
-<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="659,192,653,184,658,174,673,168,697,166,723,168,739,177,733,177,722,173,697,171,674,173,661,178,658,183,664,192"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="837,155,1022,183"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="786,189,827,185,822,187,788,194"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="836,231,1023,259"/>
-<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="783,218,830,228,825,229,784,223"/>
-<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="889,154,883,146,888,137,904,131,929,129,957,131,973,140,968,140,955,136,929,134,905,136,892,141,888,146,895,155"/>
-<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="889,230,883,222,888,213,904,207,929,205,957,207,973,216,968,216,955,212,929,210,905,212,892,217,888,222,894,231"/>
-<area shape="poly" id="edge13_Node000010_Node000004" title=" " alt="" coords="343,204,390,198,386,201,345,209"/>
-<area shape="poly" id="edge15_Node000011_Node000009" title=" " alt="" coords="547,315,631,294,626,297,549,320"/>
-<area shape="poly" id="edge18_Node000012_Node000013" title=" " alt="" coords="345,407,415,429,409,430,346,412"/>
-<area shape="poly" id="edge19_Node000013_Node000013" title=" " alt="" coords="440,433,435,425,439,415,453,409,476,407,500,410,514,419,509,419,498,415,476,412,455,414,443,419,440,425,445,434"/>
-<area shape="poly" id="edge22_Node000014_Node000013" title=" " alt="" coords="327,506,428,467,423,469,329,511"/>
-<area shape="poly" id="edge21_Node000014_Node000014" title=" " alt="" coords="234,508,233,499,239,490,252,485,271,483,292,485,306,494,301,494,291,490,271,488,253,490,242,495,238,501,239,510"/>
-<area shape="poly" id="edge24_Node000015_Node000015" title=" " alt="" coords="234,601,233,593,239,584,252,578,271,576,292,578,306,587,301,587,291,584,271,581,253,583,242,588,238,594,239,604"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="91,262,134,202,164,168,196,136,213,126,210,130,199,140,167,171,138,205,95,265"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a7c4186d514f1f690ee5b15aac72c87c7" title="DGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="404,135,548,179"/>
+<area shape="poly" id="edge14_Node000001_Node000004" title=" " alt="" coords="95,262,138,218,166,197,197,180,244,164,294,154,390,150,386,153,295,160,246,169,199,185,169,201,141,222,99,265"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__lu__comp.html#ac4e9e3e5b1b1604ce90200a32a74e0f8" title="DGTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="199,195,344,239"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="140,261,195,243,191,247,144,266"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__lu__comp.html#a349ed797e1d8ea2949fca50d61d46b1d" title="DGTTRF: computes an LU factorization of a real tridiagonal matrix A using elimination with partial pi..." alt="" coords="199,264,344,309"/>
+<area shape="poly" id="edge13_Node000001_Node000010" title=" " alt="" coords="149,284,186,285,181,288,151,289"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="198,333,345,378"/>
+<area shape="poly" id="edge15_Node000001_Node000011" title=" " alt="" coords="141,307,195,326,191,329,143,312"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="393,402,558,430"/>
+<area shape="poly" id="edge23_Node000001_Node000012" title=" " alt="" coords="97,307,141,350,169,371,199,388,242,403,288,412,380,420,375,422,288,417,241,408,197,393,166,376,138,354,97,312"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="198,477,345,522"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="96,307,142,366,200,433,234,467,229,467,196,436,138,369,95,312"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__blas__like__mnorm.html#aaf8d0a2fd8a4a193e958a35b44cbf881" title="DLANGT: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="198,571,345,615"/>
+<area shape="poly" id="edge21_Node000001_Node000014" title=" " alt="" coords="87,307,128,410,160,473,200,533,226,561,221,560,196,536,156,476,123,413,85,312"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="343,116,391,130,386,132,344,121"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a8de3ff8396101888a4c19652ce66fcb7" title="DGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="625,93,769,138"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="547,141,612,131,607,133,549,146"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="606,186,788,214"/>
+<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="547,168,609,182,604,183,548,173"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="659,185,653,177,658,167,673,161,697,159,723,162,739,170,733,171,722,167,697,164,674,166,661,171,658,177,664,186"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="837,147,1022,175"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="783,183,830,177,825,179,785,188"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="836,223,1023,251"/>
+<area shape="poly" id="edge9_Node000006_Node000008" title=" " alt="" coords="787,211,827,220,821,221,787,217"/>
+<area shape="poly" id="edge7_Node000007_Node000007" title=" " alt="" coords="889,146,883,138,888,129,904,123,929,121,957,123,973,132,968,132,955,128,929,126,905,128,892,133,888,138,894,147"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="889,222,883,214,888,205,904,199,929,197,957,199,973,208,968,208,955,204,929,202,905,204,892,209,888,214,894,223"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="342,194,390,181,386,184,345,198"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="345,375,415,397,409,398,346,380"/>
+<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="440,401,435,393,439,383,453,377,476,375,500,378,514,387,509,387,498,383,476,380,455,382,443,387,440,393,445,402"/>
+<area shape="poly" id="edge20_Node000013_Node000012" title=" " alt="" coords="327,474,428,435,423,437,329,479"/>
+<area shape="poly" id="edge19_Node000013_Node000013" title=" " alt="" coords="234,476,233,467,239,458,252,453,271,451,292,453,306,462,301,462,291,458,271,456,253,458,242,463,238,469,239,478"/>
+<area shape="poly" id="edge22_Node000014_Node000014" title=" " alt="" coords="234,569,233,561,239,552,252,546,271,544,292,546,306,555,301,555,291,552,271,549,253,551,242,556,238,562,239,572"/>
 </map>

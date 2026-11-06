@@ -12,12 +12,9 @@
 <area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="394,167,434,176,429,177,395,173"/>
 <area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="457,232,602,276"/>
 <area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="355,175,443,217,458,225,453,225,441,222,355,181"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="457,301,602,346"/>
-<area shape="poly" id="edge12_Node000003_Node000008" title=" " alt="" coords="328,175,378,230,409,260,444,286,452,294,447,293,440,291,406,264,374,234,327,180"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="457,301,602,346"/>
+<area shape="poly" id="edge11_Node000003_Node000007" title=" " alt="" coords="328,175,378,230,409,260,444,286,452,294,447,293,440,291,406,264,374,234,327,180"/>
 <area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="492,103,486,95,491,85,506,79,530,77,555,80,571,89,565,89,554,85,530,83,507,85,495,89,491,95,497,104"/>
 <area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="492,179,486,171,491,161,506,155,530,153,555,156,571,165,565,165,554,161,530,159,507,161,495,165,491,171,497,180"/>
 <area shape="poly" id="edge10_Node000006_Node000002" title=" " alt="" coords="598,228,616,217,653,182,685,142,730,73,735,70,689,146,657,186,619,221,600,233"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="665,275,831,302"/>
-<area shape="poly" id="edge11_Node000006_Node000007" title=" " alt="" coords="603,263,652,273,647,273,603,268"/>
-<area shape="poly" id="edge13_Node000008_Node000007" title=" " alt="" coords="603,309,647,304,652,304,603,314"/>
 </map>

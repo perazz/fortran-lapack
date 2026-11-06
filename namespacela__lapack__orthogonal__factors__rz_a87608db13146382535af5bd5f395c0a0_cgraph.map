@@ -30,12 +30,9 @@
 <area shape="poly" id="edge18_Node000010_Node000011" title=" " alt="" coords="567,364,649,401,643,401,566,369"/>
 <area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="647,477,781,522"/>
 <area shape="poly" id="edge19_Node000010_Node000012" title=" " alt="" coords="534,364,582,413,642,463,649,470,644,469,639,467,578,417,532,369"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="641,269,787,314"/>
-<area shape="poly" id="edge20_Node000010_Node000013" title=" " alt="" coords="592,320,628,314,623,315,594,326"/>
-<area shape="rect" id="Node000015" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="641,339,787,383"/>
-<area shape="poly" id="edge23_Node000010_Node000015" title=" " alt="" coords="593,348,628,353,623,354,593,353"/>
-<area shape="poly" id="edge21_Node000013_Node000004" title=" " alt="" coords="786,268,857,250,852,251,788,273"/>
-<area shape="rect" id="Node000014" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="836,312,1001,340"/>
-<area shape="poly" id="edge22_Node000013_Node000014" title=" " alt="" coords="787,301,823,310,817,310,787,307"/>
-<area shape="poly" id="edge24_Node000015_Node000014" title=" " alt="" coords="786,346,823,342,818,344,788,351"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="641,339,787,383"/>
+<area shape="poly" id="edge20_Node000010_Node000013" title=" " alt="" coords="593,348,628,353,623,354,593,353"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="641,269,787,314"/>
+<area shape="poly" id="edge22_Node000010_Node000014" title=" " alt="" coords="592,320,628,314,623,315,594,326"/>
+<area shape="poly" id="edge21_Node000013_Node000004" title=" " alt="" coords="765,336,786,324,840,288,886,256,890,254,843,292,789,329,767,341"/>
 </map>

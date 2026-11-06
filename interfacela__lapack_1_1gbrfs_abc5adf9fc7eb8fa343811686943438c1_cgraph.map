@@ -1,48 +1,41 @@
 <map id="la_lapack::gbrfs::dgbrfs" name="la_lapack::gbrfs::dgbrfs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,263,179,291"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#aca34cd28eb07a6eebeeeec9acff77eae" title="DGBRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="227,255,371,299"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,275,213,275,209,279,181,279"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ade1fdf3fe5383466db0f45c14f4a2999" title="DAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="430,11,564,55"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="306,253,347,168,378,118,417,72,433,62,430,66,421,76,383,121,351,171,311,255"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="643,5,778,50"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="309,253,350,186,381,148,418,116,631,50,627,54,420,121,385,152,355,189,313,256"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__ban.html#a223df00e7d689429011b03a43e7fab86" title="DGBMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="638,395,783,439"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="354,297,420,322,625,390,621,393,418,328,355,302"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="846,374,1011,402"/>
-<area shape="poly" id="edge29_Node000002_Node000006" title=" " alt="" coords="371,282,565,307,682,325,798,348,871,368,865,369,797,353,681,330,564,312,372,287"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="846,606,1011,634"/>
-<area shape="poly" id="edge30_Node000002_Node000007" title=" " alt="" coords="306,297,321,354,345,428,378,510,421,589,466,655,506,705,528,725,554,743,624,777,672,794,711,800,750,795,796,777,836,751,868,716,894,679,912,649,917,646,898,682,873,719,839,755,799,782,752,800,711,805,671,799,622,782,551,748,525,729,502,708,462,658,417,592,373,513,339,430,316,355,304,303"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="425,533,569,578"/>
-<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="317,297,474,520,469,521,315,302"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__solve__aux.html#a5d29d58a4745f1b5b1e32789b3cbaec1" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="419,131,575,175"/>
-<area shape="poly" id="edge20_Node000002_Node000013" title=" " alt="" coords="325,252,368,219,418,185,429,181,425,185,420,190,371,223,329,256"/>
-<area shape="rect" id="Node000016" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="424,224,571,269"/>
-<area shape="poly" id="edge26_Node000002_Node000016" title=" " alt="" coords="370,264,410,259,406,262,373,268"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="783,405,833,400,828,402,784,410"/>
-<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="779,437,799,450,836,483,869,522,915,593,910,592,864,525,833,487,796,454,779,443"/>
-<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="891,373,885,365,890,355,904,349,928,347,954,350,969,358,964,359,953,355,928,352,906,354,893,359,890,365,896,374"/>
-<area shape="poly" id="edge18_Node000008_Node000006" title=" " alt="" coords="505,531,521,496,545,453,579,412,599,394,622,380,652,368,683,360,747,354,809,358,865,369,860,370,808,363,747,359,684,365,653,373,625,385,603,399,583,416,550,456,525,498,509,535"/>
-<area shape="poly" id="edge19_Node000008_Node000007" title=" " alt="" coords="518,576,563,620,592,641,624,657,657,666,691,670,761,667,825,654,877,640,882,639,827,659,761,672,691,676,656,671,622,662,590,646,560,625,516,581"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="638,533,783,578"/>
-<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="569,553,625,555,620,556,570,558"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="638,723,783,767"/>
-<area shape="poly" id="edge12_Node000008_Node000010" title=" " alt="" coords="514,576,560,637,591,671,625,702,642,715,637,714,622,706,587,675,556,641,512,581"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="643,603,778,647"/>
-<area shape="poly" id="edge14_Node000008_Node000011" title=" " alt="" coords="568,576,631,598,626,599,568,581"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="643,464,778,509"/>
-<area shape="poly" id="edge15_Node000008_Node000012" title=" " alt="" coords="567,530,630,512,626,514,569,535"/>
-<area shape="poly" id="edge10_Node000009_Node000006" title=" " alt="" coords="776,530,796,519,829,494,859,465,905,415,909,412,862,469,832,498,799,523,778,535"/>
-<area shape="poly" id="edge11_Node000009_Node000007" title=" " alt="" coords="784,574,867,601,862,601,783,580"/>
-<area shape="poly" id="edge13_Node000010_Node000007" title=" " alt="" coords="761,719,796,701,892,643,897,642,799,706,763,725"/>
-<area shape="poly" id="edge16_Node000012_Node000006" title=" " alt="" coords="769,461,797,449,884,410,888,408,799,454,771,466"/>
-<area shape="poly" id="edge17_Node000012_Node000007" title=" " alt="" coords="774,507,799,519,855,556,902,596,897,595,852,560,796,523,774,512"/>
-<area shape="poly" id="edge23_Node000013_Node000004" title=" " alt="" coords="545,128,574,110,597,85,607,73,622,60,633,56,629,59,625,64,610,77,601,88,577,114,548,132"/>
-<area shape="rect" id="Node000014" href="$namespacela__blas__level1.html#a397c9ff0df57d565a12afe0809db14b7" title="DASUM: takes the sum of the absolute values." alt="" coords="643,99,778,143"/>
-<area shape="poly" id="edge21_Node000013_Node000014" title=" " alt="" coords="575,139,630,132,626,135,577,144"/>
-<area shape="rect" id="Node000015" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="623,191,798,219"/>
-<area shape="poly" id="edge24_Node000013_Node000015" title=" " alt="" coords="575,169,639,186,634,188,576,175"/>
-<area shape="poly" id="edge22_Node000014_Node000014" title=" " alt="" coords="670,97,668,89,675,80,689,74,711,72,734,75,749,83,744,84,732,80,710,77,691,79,678,84,673,90,675,99"/>
-<area shape="poly" id="edge25_Node000015_Node000015" title=" " alt="" coords="673,190,668,182,673,173,687,167,711,165,736,167,751,175,745,176,734,172,710,170,688,172,676,177,673,182,679,191"/>
-<area shape="poly" id="edge28_Node000016_Node000006" title=" " alt="" coords="571,243,681,253,741,266,799,285,830,301,858,321,906,363,900,362,855,325,827,306,797,290,740,271,680,259,572,249"/>
-<area shape="poly" id="edge27_Node000016_Node000016" title=" " alt="" coords="459,223,458,214,464,205,477,199,497,197,518,200,533,208,527,209,517,205,497,203,479,205,468,209,463,215,464,224"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,452,179,480"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#aca34cd28eb07a6eebeeeec9acff77eae" title="DGBRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="227,444,371,489"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,464,213,465,209,468,180,469"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#ade1fdf3fe5383466db0f45c14f4a2999" title="DAXPY: constant times a vector plus a vector. uses unrolled loops for increments equal to one." alt="" coords="430,5,564,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="299,442,305,373,323,275,338,221,358,167,384,115,417,67,430,58,427,62,421,71,389,117,363,169,343,222,328,276,310,374,304,444"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="643,504,778,549"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="370,487,419,498,528,513,630,523,625,524,527,519,419,504,370,492"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__ban.html#a223df00e7d689429011b03a43e7fab86" title="DGBMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="424,695,570,739"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="316,487,362,553,421,631,466,684,461,683,417,635,358,556,314,492"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="846,224,1011,252"/>
+<area shape="poly" id="edge24_Node000002_Node000006" title=" " alt="" coords="308,442,350,361,381,312,417,266,466,211,508,170,555,138,622,110,671,96,711,90,751,95,799,111,834,130,865,156,912,212,907,211,862,160,831,135,797,115,750,100,711,96,672,101,624,116,558,143,511,174,470,215,421,269,385,315,355,363,312,445"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__lu__comp.html#a910f3f941850dd035cd75f9f21627a85" title="DGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="425,280,569,325"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="326,442,459,333,455,337,329,446"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__aux.html#a5d29d58a4745f1b5b1e32789b3cbaec1" title="DLACN2: estimates the 1&#45;norm of a square, real matrix A. Reverse communication is used for evaluating..." alt="" coords="419,576,575,621"/>
+<area shape="poly" id="edge15_Node000002_Node000012" title=" " alt="" coords="335,487,452,567,447,568,334,492"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="424,444,571,489"/>
+<area shape="poly" id="edge21_Node000002_Node000015" title=" " alt="" coords="371,464,410,465,405,467,372,469"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="558,737,614,752,677,759,709,759,740,753,769,743,796,727,809,714,822,695,845,645,865,582,882,512,907,372,922,270,926,265,913,373,887,513,870,584,850,647,827,698,813,717,799,731,772,748,741,758,709,764,677,765,613,757,558,743"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="891,223,885,216,890,206,904,200,928,198,954,200,969,209,964,209,953,205,928,203,906,205,893,210,890,215,896,225"/>
+<area shape="poly" id="edge14_Node000007_Node000006" title=" " alt="" coords="527,277,571,251,623,230,675,221,729,217,833,223,828,224,729,222,676,226,624,236,573,256,531,282"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="638,245,783,290"/>
+<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="569,288,625,281,620,283,571,293"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level2__gen.html#ab5786638251654dbe30bee93c5ba21a1" title="DGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="638,315,783,359"/>
+<area shape="poly" id="edge10_Node000007_Node000009" title=" " alt="" coords="569,311,625,322,620,323,570,317"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="643,384,778,429"/>
+<area shape="poly" id="edge11_Node000007_Node000010" title=" " alt="" coords="537,322,625,369,639,377,633,378,622,374,537,328"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level2__tri.html#a636d94d3b73153396b3e16db4de5ce86" title="DTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="643,125,778,170"/>
+<area shape="poly" id="edge12_Node000007_Node000011" title=" " alt="" coords="518,277,564,233,622,187,644,176,640,179,625,191,567,237,522,281"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="783,255,833,251,828,252,784,260"/>
+<area shape="poly" id="edge13_Node000011_Node000006" title=" " alt="" coords="766,168,881,218,876,219,766,173"/>
+<area shape="poly" id="edge18_Node000012_Node000004" title=" " alt="" coords="565,573,626,555,631,553,567,578"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#a397c9ff0df57d565a12afe0809db14b7" title="DASUM: takes the sum of the absolute values." alt="" coords="643,672,778,717"/>
+<area shape="poly" id="edge16_Node000012_Node000013" title=" " alt="" coords="549,619,648,665,642,665,548,624"/>
+<area shape="rect" id="Node000014" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="623,596,798,624"/>
+<area shape="poly" id="edge19_Node000012_Node000014" title=" " alt="" coords="576,600,610,604,605,605,576,605"/>
+<area shape="poly" id="edge17_Node000013_Node000013" title=" " alt="" coords="670,670,668,662,675,653,689,647,711,645,734,648,749,657,744,656,732,653,710,651,691,653,678,657,673,663,674,673"/>
+<area shape="poly" id="edge20_Node000014_Node000014" title=" " alt="" coords="674,595,668,588,673,578,687,572,711,570,736,572,751,581,745,581,734,577,710,575,688,577,676,582,673,587,679,597"/>
+<area shape="poly" id="edge23_Node000015_Node000006" title=" " alt="" coords="571,475,624,477,682,474,742,462,770,452,796,439,820,422,840,401,875,354,900,306,916,268,920,265,904,308,879,357,844,405,823,426,799,443,772,457,743,468,683,480,624,483,571,480"/>
+<area shape="poly" id="edge22_Node000015_Node000015" title=" " alt="" coords="459,442,458,434,464,425,477,419,497,417,518,420,533,428,527,429,517,425,497,423,479,425,468,429,463,435,464,444"/>
 </map>

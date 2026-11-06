@@ -6,7 +6,5 @@ var la__blas__aux_8_f90 =
     [ "la_blas_aux::la_isamax", "namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df", null ],
     [ "la_blas_aux::la_izamax", "namespacela__blas__aux.html#a20e052647a3005c80f1c0d0d972aa196", null ],
     [ "la_blas_aux::la_lsame", "namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e", null ],
-    [ "la_blas_aux::la_scabs1", "namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38", null ],
-    [ "la_blas_aux::la_xerbla", "namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81", null ],
-    [ "la_blas_aux::la_xerbla_array", "namespacela__blas__aux.html#ae31fe6a67dfc6540aaeb0549d1689ce4", null ]
+    [ "la_blas_aux::la_scabs1", "namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38", null ]
 ];

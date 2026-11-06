@@ -1,10 +1,8 @@
 <map id="la_blas::syr2k::dsyr2k" name="la_blas::syr2k::dsyr2k">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,169,84"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level3__sym.html#a1658499b1e50950306d28916c20e8cd9" title="DSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="217,48,366,92"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,67,204,69,198,70,169,72"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,169,57"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level3__sym.html#a1658499b1e50950306d28916c20e8cd9" title="DSYR2K: performs one of the symmetric rank 2k operations C := alpha*A*B**T + alpha*B*A**T + beta*C,..." alt="" coords="217,21,366,66"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,41,204,43,198,43,169,46"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="414,29,579,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,57,401,56,396,56,367,63"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="414,81,579,109"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="367,76,401,83,396,83,366,82"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="366,41,401,43,396,43,366,46"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="461,28,456,20,460,11,474,5,497,3,521,5,535,14,530,14,519,10,497,8,475,10,464,15,461,20,466,30"/>
 </map>

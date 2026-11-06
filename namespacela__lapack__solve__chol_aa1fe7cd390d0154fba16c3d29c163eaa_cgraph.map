@@ -1,38 +1,34 @@
 <map id="la_lapack_solve_chol::la_dptsvx" name="la_lapack_solve_chol::la_dptsvx">
-<area shape="rect" id="Node000001" title="DPTSVX: uses the factorization A = L*D*L**T to compute the solution to a real system of linear equati..." alt="" coords="5,347,165,391"/>
+<area shape="rect" id="Node000001" title="DPTSVX: uses the factorization A = L*D*L**T to compute the solution to a real system of linear equati..." alt="" coords="5,312,165,357"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="225,5,360,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,346,99,290,122,214,158,133,182,95,211,61,217,57,214,62,215,64,186,98,163,136,127,216,104,291,92,347"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,311,102,260,126,194,162,123,184,90,211,60,217,57,214,62,215,64,189,94,166,126,131,196,107,262,94,312"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="219,75,366,119"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="91,345,108,303,133,248,167,189,211,136,226,126,223,130,215,140,172,192,138,250,112,305,96,347"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="94,311,138,228,171,180,211,136,227,126,224,130,214,140,175,183,142,231,99,313"/>
 <area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="424,143,590,171"/>
-<area shape="poly" id="edge21_Node000001_Node000004" title=" " alt="" coords="92,345,108,308,133,262,167,216,188,197,211,180,259,159,310,147,361,142,412,144,407,146,361,148,311,152,261,164,214,185,191,201,171,220,137,265,113,310,97,347"/>
+<area shape="poly" id="edge19_Node000001_Node000004" title=" " alt="" coords="95,310,113,279,139,243,172,208,211,180,259,161,310,150,361,145,411,146,406,148,362,150,311,155,261,166,214,185,176,212,143,246,118,282,100,313"/>
 <area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="219,219,366,263"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="112,344,157,309,211,273,223,269,220,273,214,278,161,313,116,348"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="133,309,212,273,227,268,223,272,214,278,137,314"/>
 <area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__mnorm.html#a63bd0452604da20b07443a4abc2e937c" title="DLANST: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="219,312,366,357"/>
-<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="163,353,205,348,201,351,166,358"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="164,332,205,333,201,336,166,337"/>
 <area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#a55150bdc8dad1731bc442cdc45788e1c" title="DPTCON: computes the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric positive ..." alt="" coords="213,381,372,426"/>
-<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="164,380,200,387,195,389,166,385"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="424,450,590,478"/>
-<area shape="poly" id="edge22_Node000001_Node000009" title=" " alt="" coords="119,389,163,415,214,436,262,448,313,456,411,464,406,466,312,461,261,453,212,441,161,420,119,395"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#af41b7ad8c6566b1066e9786affd68d96" title="DPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="213,571,372,615"/>
-<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="97,389,142,470,175,516,214,556,220,562,215,562,211,560,171,519,138,473,96,394"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#acdde2217d06947c025afaf59d128672c" title="DPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="428,600,587,645"/>
-<area shape="poly" id="edge20_Node000001_Node000011" title=" " alt="" coords="90,389,103,443,125,509,141,542,161,574,185,602,214,625,237,637,261,646,313,654,365,653,412,649,417,648,366,658,313,659,260,651,235,642,211,630,181,606,156,577,136,545,120,511,98,444,89,395"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__solve__chol__comp.html#a26ae9f6a12bc89cf512f27f5279d6b80" title="DPTTRF: computes the L*D*L**T factorization of a real symmetric positive definite tridiagonal matrix ..." alt="" coords="213,501,372,546"/>
-<area shape="poly" id="edge18_Node000001_Node000014" title=" " alt="" coords="108,389,156,434,214,480,233,493,227,494,211,485,153,438,108,394"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="365,115,443,137,438,140,367,120"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="153,355,211,375,206,377,154,360"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#af41b7ad8c6566b1066e9786affd68d96" title="DPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="213,451,372,495"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="110,355,158,395,214,436,224,443,218,443,211,441,154,399,110,360"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#acdde2217d06947c025afaf59d128672c" title="DPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="428,480,587,525"/>
+<area shape="poly" id="edge18_Node000001_Node000010" title=" " alt="" coords="95,355,114,392,138,434,172,474,192,492,214,505,262,522,313,529,364,529,415,525,410,526,365,534,313,535,261,528,212,510,189,496,168,478,134,437,109,394,95,360"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__solve__chol__comp.html#a26ae9f6a12bc89cf512f27f5279d6b80" title="DPTTRF: computes the L*D*L**T factorization of a real symmetric positive definite tridiagonal matrix ..." alt="" coords="213,571,372,615"/>
+<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="95,354,114,396,139,447,173,501,215,550,228,562,222,561,211,554,169,504,135,450,109,398,94,359"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="365,115,443,138,438,140,367,120"/>
 <area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="470,142,464,134,469,125,484,119,507,117,532,119,548,127,542,128,531,124,507,122,485,124,473,129,470,134,475,143"/>
 <area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="350,216,457,175,453,179,353,220"/>
 <area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="252,218,251,209,258,200,272,194,292,192,315,195,330,203,325,204,313,200,292,197,273,199,261,204,256,210,258,219"/>
 <area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="252,311,251,302,258,293,272,287,292,285,315,288,330,296,325,297,313,293,292,291,273,293,261,297,256,303,258,312"/>
 <area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="420,390,594,418"/>
-<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="371,401,407,403,402,405,373,406"/>
-<area shape="poly" id="edge13_Node000007_Node000009" title=" " alt="" coords="372,423,443,445,438,446,372,429"/>
+<area shape="poly" id="edge11_Node000007_Node000008" title=" " alt="" coords="371,401,407,403,402,404,373,406"/>
 <area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="470,389,464,381,469,371,484,365,507,363,532,366,548,374,542,375,531,371,507,368,485,370,473,375,470,381,475,390"/>
-<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="372,601,415,609,409,609,372,607"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__chol__comp.html#a8280eb9cd97c65d0b5c66923a9359453" title="DPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="642,600,802,645"/>
-<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="587,620,630,622,624,622,587,625"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="850,600,984,645"/>
-<area shape="poly" id="edge17_Node000012_Node000013" title=" " alt="" coords="802,620,837,622,831,622,802,625"/>
-<area shape="poly" id="edge19_Node000014_Node000009" title=" " alt="" coords="371,499,443,481,438,483,373,504"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="372,481,415,489,409,490,372,487"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#a8280eb9cd97c65d0b5c66923a9359453" title="DPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="642,480,802,525"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="587,500,630,502,624,503,587,505"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="850,480,984,525"/>
+<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="802,500,837,502,831,503,802,505"/>
 </map>

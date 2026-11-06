@@ -1,33 +1,31 @@
 <map id="la_lapack_solve_chol::la_zptsvx" name="la_lapack_solve_chol::la_zptsvx">
-<area shape="rect" id="Node000001" title="ZPTSVX: uses the factorization A = L*D*L**H to compute the solution to a complex system of linear equ..." alt="" coords="5,339,165,383"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="228,5,362,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,338,99,283,122,209,158,131,182,94,211,60,217,57,214,62,215,64,187,97,163,133,127,211,105,284,93,339"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="222,99,369,143"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="93,338,137,254,171,205,211,160,228,150,224,154,214,164,175,208,142,256,98,340"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="426,167,591,195"/>
-<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="95,337,113,306,139,269,172,233,211,204,260,185,311,173,362,168,413,169,408,172,363,174,312,179,261,190,214,209,175,237,143,272,117,308,100,339"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="213,218,378,246"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="106,337,153,295,211,255,226,250,222,254,214,259,156,299,111,340"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#ad0fc51f1e7fde2134b2c9176cca75580" title="ZCOPY: copies a vector, x, to a vector, y." alt="" coords="228,269,362,314"/>
-<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="153,336,215,317,211,321,157,340"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__base.html#a53b017329bb7498e3f2ded7611b12057" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="222,339,369,383"/>
-<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="164,359,208,359,204,363,166,363"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__mnorm.html#a0395d010eada40888dbe30fa3cf07ef6" title="ZLANHT: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="222,432,369,477"/>
-<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="137,381,232,424,227,427,138,386"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#a811e3ca499286cb73d6e8deaf91c0ad8" title="ZPTCON: computes the reciprocal of the condition number (in the 1&#45;norm) of a complex Hermitian positi..." alt="" coords="216,501,375,546"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="104,381,152,434,182,462,214,487,223,493,217,494,211,491,178,466,148,437,104,386"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#a5f26a102884b0dc72cdbeeb04a78ce39" title="ZPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="216,571,375,615"/>
-<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="95,381,115,420,141,466,174,514,214,556,220,562,214,562,211,560,170,517,136,469,110,422,95,386"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#aab75c4da47a92ce5bda7efdf9c9c883f" title="ZPTTRS: solves a tridiagonal system of the form A * X = B using the factorization A = U**H D U or A =..." alt="" coords="429,600,588,645"/>
-<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="89,381,102,436,123,504,139,539,160,572,184,602,214,625,237,638,262,646,314,654,367,653,419,648,414,649,367,658,314,660,261,651,235,642,211,630,181,605,155,575,135,542,118,506,97,437,89,386"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__solve__chol__comp.html#adb53bfbbcc2b9c1515f31df0e63465a5" title="ZPTTRF: computes the L*D*L**H factorization of a complex Hermitian positive definite tridiagonal matr..." alt="" coords="216,691,375,735"/>
-<area shape="poly" id="edge17_Node000001_Node000013" title=" " alt="" coords="90,381,105,439,127,515,163,596,187,635,215,670,226,682,221,681,211,673,183,638,159,599,122,517,99,441,90,386"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="255,98,254,89,261,80,275,74,295,72,318,75,333,83,328,84,317,80,295,77,276,79,264,84,259,90,260,98"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="368,139,444,161,440,163,370,144"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="472,167,467,158,471,149,486,143,509,141,533,143,548,151,543,152,532,148,509,146,487,148,475,153,472,158,477,167"/>
-<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="357,336,376,324,410,296,441,264,488,209,491,205,445,268,414,300,380,329,360,340"/>
-<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="255,431,254,422,261,413,275,407,295,405,318,408,333,416,328,417,317,413,295,411,276,413,264,417,259,423,260,432"/>
-<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="375,601,416,609,411,610,375,607"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__chol__comp.html#a2ffa8bf392389313ae9ab15cde090ef2" title="ZPTTS2: solves a tridiagonal system of the form A * X = B using the factorization A = U**H *D*U or A ..." alt="" coords="639,600,799,645"/>
-<area shape="poly" id="edge16_Node000011_Node000012" title=" " alt="" coords="588,620,626,622,621,623,589,625"/>
+<area shape="rect" id="Node000001" title="ZPTSVX: uses the factorization A = L*D*L**H to compute the solution to a complex system of linear equ..." alt="" coords="5,335,165,379"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="225,5,360,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,334,100,280,123,207,159,130,183,93,211,61,217,57,214,62,215,64,187,96,164,132,128,209,105,281,93,335"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="219,99,366,143"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="94,333,138,252,171,204,211,160,227,150,224,154,214,164,175,207,142,254,99,336"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="420,167,585,195"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="95,333,114,302,139,266,172,232,211,204,258,185,308,174,358,169,407,170,402,173,358,175,309,180,260,190,214,209,176,236,144,270,118,305,100,335"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ad0fc51f1e7fde2134b2c9176cca75580" title="ZCOPY: copies a vector, x, to a vector, y." alt="" coords="225,219,360,263"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="117,332,211,273,224,269,221,273,214,278,121,336"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__base.html#a53b017329bb7498e3f2ded7611b12057" title="ZLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="219,288,366,333"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="163,337,205,329,201,332,166,341"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__mnorm.html#a0395d010eada40888dbe30fa3cf07ef6" title="ZLANHT: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="219,381,366,426"/>
+<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="164,372,206,382,201,385,166,377"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#a811e3ca499286cb73d6e8deaf91c0ad8" title="ZPTCON: computes the reciprocal of the condition number (in the 1&#45;norm) of a complex Hermitian positi..." alt="" coords="213,451,372,495"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="119,377,214,436,225,443,220,444,211,441,119,383"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#a5f26a102884b0dc72cdbeeb04a78ce39" title="ZPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="213,520,372,565"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="101,377,148,440,179,475,214,506,221,511,216,512,211,510,176,479,144,444,100,382"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#aab75c4da47a92ce5bda7efdf9c9c883f" title="ZPTTRS: solves a tridiagonal system of the form A * X = B using the factorization A = U**H D U or A =..." alt="" coords="423,549,582,594"/>
+<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="92,377,107,423,131,478,166,533,188,556,214,575,260,593,310,601,360,600,411,596,406,597,361,606,310,606,259,598,211,579,185,560,162,536,126,481,102,425,91,382"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__chol__comp.html#adb53bfbbcc2b9c1515f31df0e63465a5" title="ZPTTRF: computes the L*D*L**H factorization of a complex Hermitian positive definite tridiagonal matr..." alt="" coords="213,640,372,685"/>
+<area shape="poly" id="edge16_Node000001_Node000012" title=" " alt="" coords="92,377,109,427,134,491,168,558,190,590,215,619,226,631,221,630,211,623,186,593,164,561,129,493,104,429,92,383"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="252,98,251,89,258,80,272,74,292,72,315,75,330,83,325,84,313,80,292,77,273,79,261,84,256,90,258,98"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="366,139,439,161,435,163,367,145"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="466,166,461,158,465,149,480,143,503,141,527,143,542,151,537,152,526,148,503,146,481,148,469,153,466,158,471,167"/>
+<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="348,285,371,273,425,238,474,203,471,207,428,242,373,278,351,289"/>
+<area shape="poly" id="edge11_Node000007_Node000007" title=" " alt="" coords="252,380,251,371,258,362,272,357,292,355,315,357,330,366,325,367,313,362,292,360,273,362,261,367,256,373,258,381"/>
+<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="372,551,410,558,405,559,372,556"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#a2ffa8bf392389313ae9ab15cde090ef2" title="ZPTTS2: solves a tridiagonal system of the form A * X = B using the factorization A = U**H *D*U or A ..." alt="" coords="633,549,793,594"/>
+<area shape="poly" id="edge15_Node000010_Node000011" title=" " alt="" coords="582,569,620,571,615,572,583,574"/>
 </map>

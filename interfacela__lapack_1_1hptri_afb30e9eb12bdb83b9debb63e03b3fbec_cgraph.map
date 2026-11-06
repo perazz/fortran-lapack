@@ -1,21 +1,18 @@
 <map id="la_lapack::hptri::zhptri" name="la_lapack::hptri::zhptri">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,175,172,202"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#aa8c58183c17f70a1b994aa49c0e8cb1b" title="ZHPTRI: computes the inverse of a complex Hermitian indefinite matrix A in packed storage using the f..." alt="" coords="220,166,368,211"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,186,206,187,202,190,173,191"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="608,29,774,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="303,164,320,133,344,97,376,62,415,35,467,19,522,13,575,16,625,25,620,26,575,21,522,18,468,24,417,40,379,66,348,100,324,136,307,167"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="608,167,774,194"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="320,209,364,241,389,256,417,267,456,278,488,281,520,278,559,267,589,255,617,239,662,206,667,204,620,243,591,260,561,272,521,283,488,287,455,283,415,272,387,261,361,246,319,214"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ad0fc51f1e7fde2134b2c9176cca75580" title="ZCOPY: copies a vector, x, to a vector, y." alt="" coords="421,120,555,164"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="367,168,409,160,404,162,369,173"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a729038ec667c6fa1ecf55f5e04243d61" title="ZDOTC: forms the dot product of two complex vectors ZDOTC = X^H * Y." alt="" coords="421,213,555,258"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="368,204,409,215,404,216,368,209"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level2__pac.html#ae5118afa2e25e6d7da49a2f09f6cde95" title="ZHPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="416,50,560,95"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="325,163,415,105,427,101,422,104,417,109,328,168"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="421,333,555,378"/>
-<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="315,209,360,259,418,312,433,325,428,324,414,316,356,263,313,214"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="656,28,650,20,655,11,669,5,691,3,715,5,729,14,724,14,713,10,691,8,670,10,659,15,656,20,661,29"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="451,211,449,203,456,194,469,188,488,186,509,189,523,197,518,197,507,194,488,191,470,193,459,198,455,204,456,214"/>
-<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="560,60,595,56,590,58,561,65"/>
-<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="537,93,562,105,655,158,650,159,559,110,537,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,136,172,164"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#aa8c58183c17f70a1b994aa49c0e8cb1b" title="ZHPTRI: computes the inverse of a complex Hermitian indefinite matrix A in packed storage using the f..." alt="" coords="220,128,368,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,148,206,149,202,151,173,153"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="608,95,774,123"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="306,125,324,99,349,70,379,41,415,20,454,6,487,3,521,8,561,20,591,32,619,48,666,85,661,84,616,52,589,37,559,25,520,13,487,8,455,12,417,25,383,46,353,73,328,103,310,129"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#ad0fc51f1e7fde2134b2c9176cca75580" title="ZCOPY: copies a vector, x, to a vector, y." alt="" coords="421,35,555,79"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="341,125,428,85,424,88,343,130"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a729038ec667c6fa1ecf55f5e04243d61" title="ZDOTC: forms the dot product of two complex vectors ZDOTC = X^H * Y." alt="" coords="421,128,555,173"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="368,148,408,150,403,151,369,153"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__pac.html#ae5118afa2e25e6d7da49a2f09f6cde95" title="ZHPMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="416,197,560,242"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="359,171,412,191,407,192,358,176"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="421,267,555,311"/>
+<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="319,170,363,211,418,252,426,259,421,258,414,256,360,215,317,175"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="656,94,650,86,655,77,669,71,691,68,715,71,729,80,724,80,713,76,691,74,670,76,659,80,656,86,661,95"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="451,126,449,118,456,109,469,103,488,101,509,104,523,112,518,112,507,109,488,107,470,108,459,113,455,119,456,129"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="536,194,559,183,651,132,656,130,562,187,538,199"/>
 </map>

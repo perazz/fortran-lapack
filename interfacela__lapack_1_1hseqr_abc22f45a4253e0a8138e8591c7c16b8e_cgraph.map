@@ -1,19 +1,17 @@
 <map id="la_lapack::hseqr::chseqr" name="la_lapack::hseqr::chseqr">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,174,184,202"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__gen2.html#a15095c95c20934d31aa88787cb440f85" title="CHSEQR: computes the eigenvalues of a Hessenberg matrix H and, optionally, the matrices T and Z from ..." alt="" coords="232,165,389,210"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,185,219,187,214,189,185,190"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,143,184,171"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__gen2.html#a15095c95c20934d31aa88787cb440f85" title="CHSEQR: computes the eigenvalues of a Hessenberg matrix H and, optionally, the matrices T and Z from ..." alt="" coords="232,135,389,179"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,154,219,156,214,158,185,160"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="460,5,595,50"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="328,163,373,112,403,85,436,60,449,55,444,58,438,65,406,89,377,116,331,167"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="336,132,381,96,436,60,450,56,445,58,438,65,384,100,339,136"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="454,75,601,119"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="365,162,461,124,456,127,367,167"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="388,133,442,120,437,122,390,138"/>
 <area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="677,143,843,171"/>
-<area shape="poly" id="edge14_Node000002_Node000005" title=" " alt="" coords="389,180,664,162,660,165,390,185"/>
+<area shape="poly" id="edge14_Node000002_Node000005" title=" " alt="" coords="389,154,664,156,659,158,390,160"/>
 <area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__base.html#a2515780aa0e463d42a6afc8406bee3ae" title="CLASET: initializes a 2&#45;D array A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="454,195,601,239"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="389,196,441,205,436,205,389,201"/>
+<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="389,176,442,192,437,193,389,181"/>
 <area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="437,287,618,315"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="356,208,489,279,483,280,355,213"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="445,339,610,367"/>
-<area shape="poly" id="edge15_Node000002_Node000010" title=" " alt="" coords="327,208,373,267,404,298,438,324,451,333,446,332,436,329,400,302,369,270,325,213"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="340,177,438,249,487,280,482,279,436,254,338,182"/>
 <area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="602,113,691,138,686,139,602,119"/>
 <area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="720,142,714,134,719,125,735,119,760,117,787,119,804,128,798,128,786,124,760,122,736,124,722,129,719,134,725,143"/>
 <area shape="poly" id="edge7_Node000006_Node000005" title=" " alt="" coords="601,195,691,175,686,176,602,201"/>
@@ -22,6 +20,6 @@
 <area shape="poly" id="edge9_Node000007_Node000008" title=" " alt="" coords="618,285,650,283,655,282,619,290"/>
 <area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="666,328,854,356"/>
 <area shape="poly" id="edge12_Node000007_Node000009" title=" " alt="" coords="610,313,666,325,661,325,609,318"/>
-<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="720,251,714,244,719,234,735,228,760,226,787,228,804,237,798,237,786,234,760,231,736,233,722,238,719,243,725,253"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="720,251,714,244,719,234,735,228,760,226,787,228,804,238,798,237,786,234,760,231,736,233,722,238,719,243,725,253"/>
 <area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="720,327,714,320,719,310,735,304,760,302,787,304,804,314,798,313,786,310,760,307,736,309,722,314,719,319,725,329"/>
 </map>

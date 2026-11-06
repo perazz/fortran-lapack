@@ -1,15 +1,13 @@
 <map id="la_lapack_eigv_tridiag3::la_dstebz" name="la_lapack_eigv_tridiag3::la_dstebz">
-<area shape="rect" id="Node000001" title="DSTEBZ: computes the eigenvalues of a symmetric tridiagonal matrix T. The user may ask for all eigenv..." alt="" coords="5,159,181,203"/>
+<area shape="rect" id="Node000001" title="DSTEBZ: computes the eigenvalues of a symmetric tridiagonal matrix T. The user may ask for all eigenv..." alt="" coords="5,129,181,174"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__tridiag2.html#aeb427bb4534f7a066863180461464d12" title="DLAEBZ: contains the iteration loops which compute and use the function N(w), which is the count of e..." alt="" coords="232,5,407,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,156,163,109,227,60,240,56,236,59,230,65,166,113,117,160"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,127,171,93,227,60,242,55,238,59,230,65,174,98,126,131"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="246,99,393,143"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,156,233,143,228,146,181,161"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,137,233,132,228,134,182,142"/>
 <area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="469,122,634,150"/>
-<area shape="poly" id="edge12_Node000001_Node000004" title=" " alt="" coords="181,173,410,153,456,150,451,151,410,158,182,178"/>
+<area shape="poly" id="edge12_Node000001_Node000004" title=" " alt="" coords="180,152,229,153,319,156,410,153,456,151,451,152,410,158,319,161,229,158,182,157"/>
 <area shape="rect" id="Node000005" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="229,242,410,270"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="163,201,263,235,258,238,162,206"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="237,294,402,322"/>
-<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="120,201,170,241,230,279,248,288,242,288,227,283,166,245,119,206"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="144,172,276,234,271,236,143,177"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="276,97,275,89,282,80,297,74,319,72,344,75,360,83,355,84,343,80,319,77,298,79,285,84,280,90,281,99"/>
 <area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="393,123,456,129,451,130,394,128"/>
 <area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="512,121,505,113,511,103,526,97,552,95,579,98,595,107,590,107,578,103,552,100,527,102,514,107,511,113,517,122"/>

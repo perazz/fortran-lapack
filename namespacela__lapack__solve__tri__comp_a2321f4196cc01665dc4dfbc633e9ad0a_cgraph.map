@@ -1,35 +1,29 @@
 <map id="la_lapack_solve_tri_comp::la_ztrtri" name="la_lapack_solve_tri_comp::la_ztrtri">
-<area shape="rect" id="Node000001" title="ZTRTRI: computes the inverse of a complex upper or lower triangular matrix A. This is the Level 3 BLA..." alt="" coords="5,253,152,297"/>
+<area shape="rect" id="Node000001" title="ZTRTRI: computes the inverse of a complex upper or lower triangular matrix A. This is the Level 3 BLA..." alt="" coords="5,208,152,252"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="200,105,381,133"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,251,138,200,167,173,198,149,224,137,220,141,201,153,170,177,142,204,99,254"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="664,276,830,304"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="130,250,223,216,281,199,345,185,412,175,482,172,550,177,617,193,648,206,677,224,724,265,719,265,674,229,646,211,615,198,550,182,482,177,413,181,346,190,283,204,224,221,133,254"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="664,405,830,433"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="90,295,133,372,164,414,201,452,258,493,307,517,360,532,430,546,482,557,525,564,566,562,615,546,650,526,681,500,726,447,731,445,685,503,653,530,617,551,567,567,524,569,481,562,428,551,359,537,305,522,255,497,198,456,160,418,129,375,89,301"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#af037dec072bcab133595c13fc210f780" title="ZTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ) whe..." alt="" coords="455,208,590,252"/>
-<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="152,265,441,236,439,241,153,270"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level3__tri.html#a3d0ae97367b08a00e462d49997f6cbb6" title="ZTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="455,327,590,372"/>
-<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="152,285,441,334,438,338,152,290"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__tri__comp.html#a06834b51741854982b355129e8f19cf3" title="ZTRTI2: computes the inverse of a complex upper or lower triangular matrix. This is the Level 2 BLAS ..." alt="" coords="217,397,364,442"/>
-<area shape="poly" id="edge16_Node000001_Node000009" title=" " alt="" coords="113,295,246,387,241,389,112,301"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,205,150,176,198,149,230,137,226,141,201,154,153,181,112,209"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="664,261,830,289"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="146,205,199,193,317,181,410,186,501,203,617,231,694,256,689,256,616,236,500,208,409,191,317,187,200,198,148,209"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#af037dec072bcab133595c13fc210f780" title="ZTRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ) whe..." alt="" coords="223,208,358,252"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="151,227,209,228,205,231,153,232"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#a3d0ae97367b08a00e462d49997f6cbb6" title="ZTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="223,277,358,322"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="149,250,210,271,205,273,149,255"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__tri__comp.html#a06834b51741854982b355129e8f19cf3" title="ZTRTI2: computes the inverse of a complex upper or lower triangular matrix. This is the Level 2 BLAS ..." alt="" coords="217,353,364,398"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="102,250,147,291,201,332,223,345,217,346,198,336,144,295,102,255"/>
 <area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="254,105,248,96,253,87,267,81,290,79,315,81,330,89,325,91,314,86,290,84,268,86,256,91,253,96,259,105"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="430,29,615,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="328,102,428,67,457,60,453,63,430,72,331,107"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="329,102,428,67,457,60,453,63,430,72,331,107"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="429,105,616,133"/>
 <area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="380,117,416,118,411,120,382,122"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="484,29,478,20,483,11,498,5,523,3,549,5,565,13,560,15,548,10,523,8,499,10,486,15,483,20,489,29"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="484,105,478,96,483,87,498,81,523,79,549,81,565,90,560,90,548,86,523,84,499,86,486,91,483,96,489,105"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="708,275,702,267,707,257,722,251,747,249,773,252,789,261,784,261,772,257,747,255,724,257,711,261,708,267,713,276"/>
-<area shape="poly" id="edge11_Node000007_Node000005" title=" " alt="" coords="590,245,680,271,675,272,591,250"/>
-<area shape="poly" id="edge12_Node000007_Node000006" title=" " alt="" coords="552,250,720,395,715,395,550,255"/>
-<area shape="poly" id="edge14_Node000008_Node000005" title=" " alt="" coords="590,329,680,307,675,309,591,334"/>
-<area shape="poly" id="edge15_Node000008_Node000006" title=" " alt="" coords="591,368,688,400,683,400,590,373"/>
-<area shape="poly" id="edge17_Node000009_Node000005" title=" " alt="" coords="312,394,362,351,394,329,428,313,483,296,541,286,597,282,651,283,646,284,597,287,541,292,485,301,430,318,396,334,365,355,315,398"/>
-<area shape="poly" id="edge18_Node000009_Node000006" title=" " alt="" coords="313,439,364,484,395,505,430,521,481,536,523,541,564,536,615,521,647,506,676,486,721,446,726,444,679,490,650,510,617,526,566,541,523,546,480,541,428,526,393,510,360,488,311,444"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a90995a95970607c78563eb6ad5a006d9" title="ZSCAL: scales a vector by a constant." alt="" coords="456,466,590,511"/>
-<area shape="poly" id="edge19_Node000009_Node000010" title=" " alt="" coords="364,438,443,464,438,464,364,444"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__level2__tri.html#a96379930075f42e1df232b4eb5ad59b8" title="ZTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="455,397,590,442"/>
-<area shape="poly" id="edge20_Node000009_Node000011" title=" " alt="" coords="363,417,442,419,437,420,364,422"/>
-<area shape="poly" id="edge21_Node000011_Node000005" title=" " alt="" coords="590,394,615,382,670,347,715,315,720,313,673,352,618,387,592,399"/>
-<area shape="poly" id="edge22_Node000011_Node000006" title=" " alt="" coords="590,417,652,419,646,420,591,422"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="484,29,478,20,483,11,498,5,523,3,549,5,565,14,560,14,548,10,523,8,499,10,486,15,483,20,489,29"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="484,104,478,96,483,87,498,81,523,79,549,81,565,90,559,90,548,86,523,84,499,86,486,91,483,96,489,105"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="708,260,702,252,707,243,722,237,747,235,773,237,789,246,784,246,772,242,747,240,724,242,711,247,708,252,713,262"/>
+<area shape="poly" id="edge10_Node000006_Node000005" title=" " alt="" coords="359,234,651,264,647,267,359,239"/>
+<area shape="poly" id="edge12_Node000007_Node000005" title=" " alt="" coords="358,293,651,279,646,282,359,298"/>
+<area shape="poly" id="edge14_Node000008_Node000005" title=" " alt="" coords="363,357,668,292,663,294,365,362"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a90995a95970607c78563eb6ad5a006d9" title="ZSCAL: scales a vector by a constant." alt="" coords="456,364,590,408"/>
+<area shape="poly" id="edge15_Node000008_Node000009" title=" " alt="" coords="364,376,443,382,437,382,364,381"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level2__tri.html#a96379930075f42e1df232b4eb5ad59b8" title="ZTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="455,433,590,478"/>
+<area shape="poly" id="edge16_Node000008_Node000010" title=" " alt="" coords="358,395,444,427,438,427,357,401"/>
+<area shape="poly" id="edge17_Node000010_Node000005" title=" " alt="" coords="590,432,615,418,649,391,680,359,726,303,730,301,684,363,652,395,618,423,591,437"/>
 </map>

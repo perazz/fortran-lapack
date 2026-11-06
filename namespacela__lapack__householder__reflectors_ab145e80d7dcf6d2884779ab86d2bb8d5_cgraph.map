@@ -6,17 +6,14 @@
 <area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="175,154,216,149,211,152,177,159"/>
 <area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a06e02b33fc3a3268643a1ca7d2d2195a" title="CHEMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="224,184,369,228"/>
 <area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="176,183,211,190,206,192,177,188"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#adf85b8bbd62b954783a6d9827314bee9" title="CHER2: performs the hermitian rank 2 operation A := alpha*x*y**H + conjg( alpha )*y*x**H + A,..." alt="" coords="224,253,369,298"/>
-<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="135,191,225,238,237,246,231,245,222,243,134,197"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#adf85b8bbd62b954783a6d9827314bee9" title="CHER2: performs the hermitian rank 2 operation A := alpha*x*y**H + conjg( alpha )*y*x**H + A,..." alt="" coords="224,253,369,298"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="135,191,225,238,237,246,231,245,222,243,134,197"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38" title="SCABS1: computes |Re(.)| + |Im(.)| of a complex number." alt="" coords="417,29,587,57"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="363,41,404,42,399,44,364,46"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="466,28,461,20,466,11,480,5,502,3,526,5,541,14,536,14,525,10,502,8,481,10,469,15,466,20,472,29"/>
 <area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="257,113,256,104,262,95,276,90,296,88,318,90,333,98,328,99,317,95,296,93,277,95,265,99,261,105,262,115"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="420,264,585,292"/>
-<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="363,226,449,258,443,258,362,231"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="420,188,585,216"/>
-<area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="369,202,407,203,401,204,370,207"/>
-<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="467,262,461,255,466,245,480,239,502,237,526,240,541,249,536,248,525,245,502,243,481,245,469,249,466,255,471,265"/>
-<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="369,273,407,276,401,277,369,279"/>
-<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="353,250,416,226,437,222,442,220,418,231,355,255"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="420,227,585,254"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="369,215,407,224,402,224,369,221"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="467,225,461,218,466,208,480,202,502,200,526,203,541,212,536,211,525,208,502,205,481,207,469,212,466,217,471,227"/>
+<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="369,260,402,257,407,257,370,266"/>
 </map>

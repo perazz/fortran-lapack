@@ -1,15 +1,12 @@
 <map id="la_lapack_solve_lu_comp::la_sgbtf2" name="la_lapack_solve_lu_comp::la_sgbtf2">
-<area shape="rect" id="Node000001" title="SGBTF2: computes an LU factorization of a real m&#45;by&#45;n band matrix A using partial pivoting with row i..." alt="" coords="5,141,150,186"/>
+<area shape="rect" id="Node000001" title="SGBTF2: computes an LU factorization of a real m&#45;by&#45;n band matrix A using partial pivoting with row i..." alt="" coords="5,116,150,160"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="198,29,371,57"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,138,143,101,196,66,212,61,207,65,199,71,146,106,104,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,113,152,89,197,66,215,61,211,64,199,71,154,93,115,117"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="212,81,357,126"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="149,140,199,127,195,130,152,145"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="419,120,584,148"/>
-<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="149,156,405,138,402,143,150,161"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="217,201,352,246"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="150,181,205,199,200,200,150,187"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="217,270,352,315"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="104,183,147,220,199,256,209,263,204,263,196,260,144,224,103,189"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="248,29,243,20,248,11,262,5,284,3,309,5,323,14,318,15,307,10,284,8,263,10,251,15,248,20,254,29"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="357,111,406,119,401,121,357,116"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="149,123,198,117,194,119,151,128"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="217,150,352,195"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="150,147,204,158,200,160,151,153"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="217,220,352,264"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="116,158,199,205,212,213,207,213,196,210,114,163"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="248,29,243,20,248,11,262,5,284,3,309,5,323,14,318,14,307,10,284,8,263,10,251,15,248,20,254,29"/>
 </map>

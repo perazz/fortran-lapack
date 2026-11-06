@@ -1,42 +1,37 @@
 <map id="la_lapack_solve_chol::la_sposvx" name="la_lapack_solve_chol::la_sposvx">
-<area shape="rect" id="Node000001" title="SPOSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to compute the solution to a real sy..." alt="" coords="5,298,165,343"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="850,217,1015,245"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,295,212,283,383,259,554,244,709,234,836,232,831,234,709,240,554,249,383,265,213,288,162,300"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="648,24,796,68"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="87,297,99,247,121,182,137,148,157,116,182,87,211,64,262,37,316,19,373,8,430,3,486,3,540,7,635,23,631,25,539,13,486,9,430,9,373,13,317,24,264,42,214,68,186,91,162,119,142,151,126,184,104,248,92,298"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="441,109,588,154"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="89,297,102,252,125,195,161,138,184,114,211,94,240,81,271,73,303,71,335,72,397,83,453,102,448,104,396,88,335,77,303,76,272,79,242,86,214,99,188,118,165,142,130,197,107,253,94,298"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__mnorm.html#a800995342daab9ba84bec3bea32f380c" title="Pure subroutine form of SLANSY: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="213,178,387,223"/>
-<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="119,296,211,240,237,228,233,232,214,244,122,300"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__ldl__comp4.html#acf681017ad1c0e9b1a7434f45618c78f" title="SLAQSY: equilibrates a symmetric matrix A using the scaling factors in the vector S." alt="" coords="226,109,374,154"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="97,297,143,232,175,196,211,164,221,159,217,164,214,168,178,199,147,235,102,299"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#a452f4366135e9053c909c6291acff2a4" title="SPOCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric positive..." alt="" coords="220,298,380,343"/>
-<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="164,318,207,319,203,322,166,323"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#aa943cd00314820af51c6af7977c927d4" title="SPOEQU: computes row and column scalings intended to equilibrate a symmetric positive definite matrix..." alt="" coords="642,469,802,514"/>
-<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="97,340,117,373,142,410,175,446,214,473,265,494,319,508,374,517,430,521,536,519,630,510,625,511,536,524,430,526,374,522,318,513,263,499,211,478,171,450,138,414,112,376,97,346"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="850,447,1015,474"/>
-<area shape="poly" id="edge26_Node000001_Node000009" title=" " alt="" coords="93,341,109,384,133,435,168,485,189,506,214,524,266,543,335,555,416,560,502,559,672,546,801,523,852,504,895,484,900,482,854,509,802,528,672,551,502,565,415,565,334,560,265,548,211,528,186,510,164,488,129,438,104,386,92,346"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#a407ee7d2393e438cd578efccb7774746" title="SPORFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="220,418,380,463"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="121,341,214,397,238,410,232,412,211,402,121,346"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#a18514b3bbf896074058e7fcca6485bb2" title="SPOTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="435,358,594,403"/>
-<area shape="poly" id="edge25_Node000001_Node000011" title=" " alt="" coords="160,341,213,353,320,367,422,376,417,378,319,372,212,358,162,346"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__solve__chol__comp.html#af8f4300944d45ff56140e7a0bf1eb7d1" title="SPOTRF: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="220,601,380,646"/>
-<area shape="poly" id="edge22_Node000001_Node000013" title=" " alt="" coords="93,341,112,388,137,447,171,510,215,568,241,592,236,592,211,572,167,513,132,449,107,390,93,346"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="896,216,890,208,895,199,909,193,932,191,957,193,972,202,967,202,956,198,932,196,911,198,899,203,896,208,901,218"/>
-<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="749,66,906,206,901,207,748,71"/>
-<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="588,138,691,154,802,179,887,211,882,211,801,184,690,159,589,143"/>
-<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="475,108,474,99,480,90,494,84,515,82,537,85,552,93,547,94,536,90,515,88,495,89,484,94,479,100,480,109"/>
-<area shape="poly" id="edge10_Node000006_Node000002" title=" " alt="" coords="374,149,436,163,649,197,837,221,832,223,648,203,434,168,375,154"/>
-<area shape="poly" id="edge11_Node000006_Node000004" title=" " alt="" coords="373,129,428,130,423,133,375,134"/>
-<area shape="poly" id="edge14_Node000008_Node000009" title=" " alt="" coords="801,477,837,474,831,475,802,482"/>
-<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="379,416,422,406,418,408,381,421"/>
-<area shape="poly" id="edge17_Node000011_Node000002" title=" " alt="" coords="580,355,801,277,881,250,876,252,803,282,582,360"/>
-<area shape="poly" id="edge21_Node000011_Node000009" title=" " alt="" coords="595,394,643,403,842,443,836,444,642,408,595,399"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="654,349,790,394"/>
-<area shape="poly" id="edge18_Node000011_Node000012" title=" " alt="" coords="594,374,642,374,636,376,595,380"/>
-<area shape="poly" id="edge19_Node000012_Node000002" title=" " alt="" coords="768,346,800,328,854,290,900,257,905,254,858,294,803,332,771,351"/>
-<area shape="poly" id="edge20_Node000012_Node000009" title=" " alt="" coords="777,391,886,440,881,440,776,397"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__solve__chol__comp.html#acd1357c35885551460eea45d12cf8d45" title="SPOTRF2: computes the Cholesky factorization of a real symmetric positive definite matrix A using the..." alt="" coords="435,613,594,658"/>
-<area shape="poly" id="edge23_Node000013_Node000014" title=" " alt="" coords="380,625,422,630,417,630,380,630"/>
-<area shape="poly" id="edge24_Node000014_Node000014" title=" " alt="" coords="475,611,474,603,480,594,494,588,515,586,537,589,552,598,547,597,536,594,515,592,495,593,484,598,479,604,480,614"/>
+<area shape="rect" id="Node000001" title="SPOSVX: uses the Cholesky factorization A = U**T*U or A = L*L**T to compute the solution to a real sy..." alt="" coords="5,235,165,279"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="838,181,1003,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,233,105,192,130,141,165,89,186,67,211,48,241,32,268,23,294,19,318,19,370,24,435,26,537,16,618,4,657,3,698,8,741,20,791,41,829,67,862,100,888,135,907,167,902,166,883,138,858,104,826,71,788,46,740,25,697,13,657,8,619,10,537,21,435,32,370,30,318,24,294,24,270,28,243,37,214,53,190,71,169,93,134,143,110,194,95,235"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="642,56,790,101"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="93,233,110,199,136,159,170,120,211,89,263,68,318,53,374,44,430,40,537,44,629,58,624,60,536,49,430,46,374,50,319,58,265,73,214,94,173,124,140,162,115,202,98,235"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="441,140,588,185"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="96,233,115,204,141,171,173,140,212,116,242,106,273,100,337,102,398,114,453,133,448,135,397,119,337,107,274,106,243,111,214,121,176,144,145,175,119,207,101,236"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__mnorm.html#a800995342daab9ba84bec3bea32f380c" title="Pure subroutine form of SLANSY: the same arguments, followed by RES, which returns the value of the f..." alt="" coords="213,131,387,175"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="123,232,211,185,227,180,223,184,214,190,127,236"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__ldl__comp4.html#acf681017ad1c0e9b1a7434f45618c78f" title="SLAQSY: equilibrates a symmetric matrix A using the scaling factors in the vector S." alt="" coords="226,200,374,245"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="163,242,212,235,208,238,166,247"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#a452f4366135e9053c909c6291acff2a4" title="SPOCON: estimates the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric positive..." alt="" coords="220,269,380,314"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="164,267,207,275,202,278,166,272"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#aa943cd00314820af51c6af7977c927d4" title="SPOEQU: computes row and column scalings intended to equilibrate a symmetric positive definite matrix..." alt="" coords="220,339,380,383"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="125,277,214,324,228,332,223,333,211,329,125,282"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#a407ee7d2393e438cd578efccb7774746" title="SPORFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="220,408,380,453"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="102,277,150,335,180,366,214,394,222,400,217,400,211,398,177,370,146,338,102,282"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#a18514b3bbf896074058e7fcca6485bb2" title="SPOTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="435,396,594,441"/>
+<area shape="poly" id="edge22_Node000001_Node000010" title=" " alt="" coords="92,277,109,321,133,373,167,424,189,445,214,463,243,475,274,482,307,483,339,480,401,466,454,448,459,447,403,471,340,486,307,488,274,487,242,480,211,467,186,449,163,427,128,376,104,323,92,283"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__chol__comp.html#af8f4300944d45ff56140e7a0bf1eb7d1" title="SPOTRF: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="220,528,380,573"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="93,277,110,326,134,386,169,450,190,480,215,507,228,520,222,519,211,511,186,483,164,453,129,388,105,327,92,283"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="885,179,879,172,884,162,898,156,920,154,944,156,959,165,954,165,943,162,920,159,899,161,888,166,885,171,890,181"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="757,99,883,172,878,173,757,104"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="589,166,825,186,820,188,589,171"/>
+<area shape="poly" id="edge7_Node000004_Node000004" title=" " alt="" coords="476,139,475,130,481,121,495,115,515,113,536,116,551,124,545,125,535,121,515,119,496,121,485,125,480,131,481,140"/>
+<area shape="poly" id="edge10_Node000006_Node000002" title=" " alt="" coords="374,216,824,197,821,201,375,222"/>
+<area shape="poly" id="edge11_Node000006_Node000004" title=" " alt="" coords="373,199,428,186,424,188,375,204"/>
+<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="379,423,422,423,417,424,380,429"/>
+<area shape="poly" id="edge16_Node000010_Node000002" title=" " alt="" coords="556,393,877,217,882,216,558,398"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="648,383,784,427"/>
+<area shape="poly" id="edge17_Node000010_Node000011" title=" " alt="" coords="594,410,636,410,630,411,595,416"/>
+<area shape="poly" id="edge18_Node000011_Node000002" title=" " alt="" coords="738,380,893,221,897,218,741,384"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__solve__chol__comp.html#acd1357c35885551460eea45d12cf8d45" title="SPOTRF2: computes the Cholesky factorization of a real symmetric positive definite matrix A using the..." alt="" coords="435,528,594,573"/>
+<area shape="poly" id="edge20_Node000012_Node000013" title=" " alt="" coords="380,548,422,550,417,550,380,553"/>
+<area shape="poly" id="edge21_Node000013_Node000013" title=" " alt="" coords="476,526,475,518,481,509,495,503,515,501,536,504,551,513,545,512,535,509,515,507,496,509,485,513,480,519,481,529"/>
 </map>

@@ -1,15 +1,13 @@
 <map id="la_lapack::gbsv::zgbsv" name="la_lapack::gbsv::zgbsv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,65,173,93"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu.html#a2000cd4fa0ee2c6347efa967e28e84bb" title="ZGBSV: computes the solution to a complex system of linear equations A * X = B, where A is a band mat..." alt="" coords="221,57,365,102"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,77,208,78,202,80,174,82"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="413,5,578,33"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="365,55,434,37,429,39,366,60"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a0056097fbe08e24c1ba40539bfeed369" title="ZGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="424,57,568,102"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="365,77,411,79,405,80,366,82"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__lu__comp.html#abd09ee848e119d7b82ef2af8c91cd0b2" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="424,126,568,171"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="361,99,417,121,411,121,360,105"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a8019f96e151affc960e830c906145278" title="ZGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="626,22,771,67"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="568,64,614,59,609,60,569,69"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__lu__comp.html#a6236fb66782a51d9277d7b924927ac8a" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="626,92,771,136"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="568,89,614,99,608,99,568,94"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,83,173,111"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu.html#a2000cd4fa0ee2c6347efa967e28e84bb" title="ZGBSV: computes the solution to a complex system of linear equations A * X = B, where A is a band mat..." alt="" coords="221,75,365,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,94,208,96,202,98,174,100"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a0056097fbe08e24c1ba40539bfeed369" title="ZGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="413,40,557,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="365,81,401,78,395,78,366,87"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__lu__comp.html#abd09ee848e119d7b82ef2af8c91cd0b2" title="ZGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="413,109,557,154"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="365,107,401,116,395,116,365,113"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a8019f96e151affc960e830c906145278" title="ZGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="605,5,750,50"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="557,47,593,43,588,44,558,52"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a6236fb66782a51d9277d7b924927ac8a" title="ZLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="605,75,750,119"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="558,73,593,81,588,81,558,78"/>
 </map>

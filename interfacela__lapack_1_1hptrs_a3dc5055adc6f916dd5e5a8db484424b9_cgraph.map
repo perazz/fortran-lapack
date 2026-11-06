@@ -1,23 +1,19 @@
 <map id="la_lapack::hptrs::zhptrs" name="la_lapack::hptrs::zhptrs">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,188,178,216"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#ac5d43c3a022e976200a7b9ad7c895933" title="ZHPTRS: solves a system of linear equations A*X = B with a complex Hermitian matrix A stored in packe..." alt="" coords="226,180,374,224"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,199,212,201,208,203,179,204"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="617,29,783,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="308,177,323,144,348,104,380,65,399,49,421,35,474,17,530,12,585,15,636,25,631,26,585,20,531,17,475,23,423,40,402,53,384,69,352,107,328,147,312,181"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="617,188,783,216"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="374,199,604,201,599,203,375,204"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="428,120,563,164"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="373,177,416,166,411,168,375,182"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#a95408b0c6d01c367be0bd531feb85f56" title="ZGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="423,50,568,95"/>
-<area shape="poly" id="edge6_Node000002_Node000006" title=" " alt="" coords="325,177,369,141,421,105,432,101,427,104,423,109,372,146,328,181"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#a90282619c9b55681ee42754c47a8a87d" title="ZGERU: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="423,240,568,284"/>
-<area shape="poly" id="edge9_Node000002_Node000007" title=" " alt="" coords="374,222,411,235,405,235,374,227"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__l1.html#afc182b2e1ce1c7778564faaaff6faadc" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="422,309,569,354"/>
-<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="327,222,372,258,423,294,432,301,427,301,421,299,369,262,326,227"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="428,378,563,423"/>
-<area shape="poly" id="edge12_Node000002_Node000009" title=" " alt="" coords="314,222,358,291,389,330,424,364,429,370,424,369,420,368,385,333,354,294,312,227"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="664,28,659,20,664,11,678,5,700,3,724,5,739,14,733,14,723,10,700,8,679,10,667,15,664,20,670,29"/>
-<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="568,60,604,56,599,58,570,65"/>
-<area shape="poly" id="edge8_Node000006_Node000004" title=" " alt="" coords="548,93,571,105,625,141,672,178,667,178,622,145,568,109,548,98"/>
-<area shape="poly" id="edge10_Node000007_Node000004" title=" " alt="" coords="568,238,638,220,633,221,569,243"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,147,178,174"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#ac5d43c3a022e976200a7b9ad7c895933" title="ZHPTRS: solves a system of linear equations A*X = B with a complex Hermitian matrix A stored in packe..." alt="" coords="226,138,374,183"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,158,213,159,208,162,179,163"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="617,48,783,76"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="311,136,328,108,352,75,384,44,421,20,451,9,483,4,547,7,607,21,658,41,653,42,605,26,546,12,483,10,452,14,423,24,387,48,356,78,332,111,315,140"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="428,34,563,79"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="338,135,421,89,434,85,429,88,423,94,341,140"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a95408b0c6d01c367be0bd531feb85f56" title="ZGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="423,104,568,148"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="373,145,410,141,405,143,375,150"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#a90282619c9b55681ee42754c47a8a87d" title="ZGERU: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="423,173,568,218"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="374,171,410,179,405,180,374,176"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__l1.html#afc182b2e1ce1c7778564faaaff6faadc" title="ZLACGV: conjugates a complex vector of length N." alt="" coords="422,242,569,287"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="340,181,423,228,434,235,429,235,421,232,339,186"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="428,312,563,356"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="317,181,362,238,392,269,424,297,430,304,425,303,420,301,388,273,358,242,315,186"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="665,47,659,39,664,30,678,24,700,21,724,24,739,33,733,33,723,29,700,27,679,29,667,33,664,39,670,48"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="568,101,641,80,636,82,570,106"/>
 </map>

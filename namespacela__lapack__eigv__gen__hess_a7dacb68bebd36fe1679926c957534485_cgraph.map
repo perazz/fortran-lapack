@@ -1,28 +1,26 @@
 <map id="la_lapack_eigv_gen_hess::la_sgebal" name="la_lapack_eigv_gen_hess::la_sgebal">
-<area shape="rect" id="Node000001" title="SGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="5,296,155,340"/>
+<area shape="rect" id="Node000001" title="SGEBAL: balances a general real matrix A. This involves, first, permuting A by a similarity transform..." alt="" coords="5,249,155,294"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="203,29,376,57"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,294,98,248,121,189,155,128,176,99,201,73,220,62,216,66,204,77,180,102,159,130,126,192,103,250,89,296"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,247,103,210,128,163,160,115,201,73,221,62,218,66,204,77,165,119,132,166,108,212,92,249"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="424,123,589,150"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="85,294,99,253,122,204,156,155,177,134,201,117,232,103,265,95,299,91,334,92,399,101,456,116,451,118,398,106,333,97,300,97,266,100,234,108,204,121,180,138,160,158,126,206,104,255,90,296"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="89,247,106,216,130,179,162,144,201,117,233,105,265,98,332,95,396,103,452,117,447,119,395,108,332,100,266,103,234,110,204,122,166,148,135,182,110,218,94,249"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="216,249,363,294"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="153,299,202,289,198,293,156,304"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="154,269,202,270,198,273,156,274"/>
 <area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="216,156,363,200"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="101,294,145,252,201,210,213,206,210,209,204,215,149,256,105,297"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="125,246,202,210,218,205,214,208,204,215,129,250"/>
 <area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#afb67704426cd471890e50a68b075c580" title="!" alt="" coords="222,342,356,387"/>
-<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="154,332,209,345,205,347,155,337"/>
+<area shape="poly" id="edge12_Node000001_Node000007" title=" " alt="" coords="132,291,226,334,221,337,132,297"/>
 <area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="222,412,356,456"/>
-<area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="111,338,155,368,204,397,216,404,211,405,201,402,153,372,112,343"/>
+<area shape="poly" id="edge14_Node000001_Node000008" title=" " alt="" coords="98,291,144,344,173,372,204,397,213,404,207,404,201,401,169,376,140,348,98,297"/>
 <area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="222,481,356,526"/>
-<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="95,338,140,402,170,436,204,466,212,473,206,473,201,471,166,440,136,405,94,343"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="207,549,372,577"/>
-<area shape="poly" id="edge16_Node000001_Node000010" title=" " alt="" coords="88,338,104,382,128,435,161,489,181,514,204,536,210,542,205,541,201,540,177,518,156,492,123,437,99,384,87,343"/>
+<area shape="poly" id="edge15_Node000001_Node000009" title=" " alt="" coords="90,291,108,330,133,376,165,424,204,467,211,474,206,473,201,470,161,428,128,379,104,332,89,297"/>
 <area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="253,29,247,20,252,11,266,5,289,3,314,5,329,13,324,15,313,10,289,8,268,10,256,15,253,20,258,29"/>
 <area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="469,122,463,114,468,104,483,98,507,96,532,99,548,107,542,108,531,104,507,101,484,103,472,108,469,113,474,122"/>
 <area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="249,248,248,239,255,230,269,224,289,222,312,225,327,233,322,234,311,230,289,227,270,229,258,234,253,240,254,249"/>
 <area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="432,249,581,294"/>
 <area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="363,269,420,270,415,272,364,274"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="465,247,464,239,471,230,485,224,507,222,530,225,546,233,541,234,529,230,507,227,486,229,474,234,469,240,470,249"/>
-<area shape="poly" id="edge10_Node000006_Node000003" title=" " alt="" coords="362,161,417,152,413,155,365,166"/>
-<area shape="poly" id="edge11_Node000006_Node000006" title=" " alt="" coords="249,154,248,145,255,136,269,131,289,129,312,131,327,140,322,141,311,136,289,134,270,136,258,141,253,147,254,155"/>
-<area shape="poly" id="edge13_Node000007_Node000007" title=" " alt="" coords="249,341,248,332,255,323,269,318,289,316,312,318,327,327,322,327,311,323,289,321,270,323,258,327,253,333,254,342"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="465,247,464,239,471,230,485,224,507,222,530,225,546,234,540,234,529,230,507,227,486,229,474,234,469,240,470,249"/>
+<area shape="poly" id="edge10_Node000006_Node000003" title=" " alt="" coords="362,161,417,153,413,155,364,166"/>
+<area shape="poly" id="edge11_Node000006_Node000006" title=" " alt="" coords="249,154,248,145,255,136,269,131,289,129,312,131,327,140,322,141,311,136,289,134,270,136,258,141,253,147,254,156"/>
+<area shape="poly" id="edge13_Node000007_Node000007" title=" " alt="" coords="249,341,248,332,255,323,269,318,289,316,312,318,327,327,322,327,311,323,289,321,270,323,258,327,253,333,254,343"/>
 </map>

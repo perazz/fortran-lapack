@@ -1,55 +1,52 @@
 <map id="la_lapack_solve_tri_comp::la_zlatbs" name="la_lapack_solve_tri_comp::la_zlatbs">
-<area shape="rect" id="Node000001" title="ZLATBS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="5,436,152,481"/>
+<area shape="rect" id="Node000001" title="ZLATBS: solves one of the triangular systems A * x = s*b, A**T * x = s*b, or A**H * x = s*b,..." alt="" coords="5,429,152,474"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a8293083751ff173fbdcd2959fcaf5ec5" title="DLABAD: takes as input the values computed by DLAMCH for underflow and overflow, and returns the squa..." alt="" coords="213,5,360,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,435,85,366,103,269,118,216,138,163,165,113,198,67,211,57,208,62,202,71,169,116,143,166,123,218,108,271,90,367,83,436"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="641,873,789,918"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="83,479,100,568,124,686,141,745,159,799,179,841,201,868,232,884,276,895,329,903,388,906,514,906,628,903,623,904,514,912,388,912,328,908,274,901,230,889,198,872,175,844,154,801,135,747,119,687,95,569,83,484"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="837,134,1002,162"/>
-<area shape="poly" id="edge16_Node000001_Node000004" title=" " alt="" coords="77,435,81,369,97,278,112,231,133,185,161,145,198,111,220,99,248,90,316,79,398,77,489,81,675,102,833,129,829,132,675,107,489,86,398,82,317,84,249,95,222,104,201,115,166,148,138,188,117,233,102,280,86,369,82,436"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="220,195,354,239"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="86,435,102,397,126,350,158,301,198,256,215,246,212,250,201,260,163,304,131,353,107,399,91,436"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a1d14729ea635706ad4cf9183404c3582" title="DZASUM: takes the sum of the (|Re(.)| + |Im(.)|)&#39;s of a complex vector and returns a double precision..." alt="" coords="220,483,354,527"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="151,472,206,485,202,488,153,477"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="200,338,374,366"/>
-<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="106,434,148,403,198,375,215,369,212,373,201,379,151,408,110,437"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#a20e052647a3005c80f1c0d0d972aa196" title="IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="200,575,374,603"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="111,478,201,537,248,566,243,568,198,542,112,484"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="425,224,590,252"/>
-<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="88,435,105,403,130,367,161,330,198,300,235,284,288,270,411,249,408,253,290,275,237,289,201,305,165,334,134,370,110,406,93,437"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#ae4b0fee1eb7c70fee0287ee1f9cf1428" title="ZAXPY: constant times a vector plus a vector." alt="" coords="220,389,354,434"/>
-<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="150,440,206,428,202,432,153,444"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#a729038ec667c6fa1ecf55f5e04243d61" title="ZDOTC: forms the dot product of two complex vectors ZDOTC = X^H * Y." alt="" coords="220,651,354,695"/>
-<area shape="poly" id="edge20_Node000001_Node000012" title=" " alt="" coords="94,479,140,543,169,579,201,612,236,641,231,642,198,616,165,582,136,546,94,484"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#abb1fd95bf993dfeee16cb6cf72a6c7c4" title="ZDOTU: forms the dot product of two complex vectors ZDOTU = X^T * Y." alt="" coords="220,744,354,789"/>
-<area shape="poly" id="edge22_Node000001_Node000013" title=" " alt="" coords="86,479,104,525,128,584,160,647,202,706,233,734,228,735,198,709,156,650,123,586,99,527,86,484"/>
-<area shape="rect" id="Node000014" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="220,813,354,858"/>
-<area shape="poly" id="edge24_Node000001_Node000014" title=" " alt="" coords="82,479,92,543,112,628,127,673,146,719,171,761,202,799,210,808,204,808,198,803,167,764,142,721,122,675,106,629,87,544,81,484"/>
-<area shape="rect" id="Node000015" href="$namespacela__lapack__blas__like__scalar.html#a20bbc4a670054f40a583778311ff9875" title="ZLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="213,957,360,1002"/>
-<area shape="poly" id="edge25_Node000001_Node000015" title=" " alt="" coords="81,479,90,558,108,670,123,732,143,795,169,856,202,913,217,931,235,948,230,948,213,934,197,916,165,858,138,797,118,733,103,671,85,559,80,484"/>
-<area shape="rect" id="Node000019" href="$namespacela__blas__level2__tri.html#ae046d0e046cf4f6c2c5743fda29b64de" title="ZTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="219,125,354,170"/>
-<area shape="poly" id="edge32_Node000001_Node000019" title=" " alt="" coords="81,435,93,383,115,316,149,244,171,210,198,180,208,174,205,179,202,184,176,214,154,247,120,318,98,385,86,436"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="676,871,674,863,681,854,695,849,715,847,737,849,751,858,746,857,735,854,715,852,696,854,684,859,680,865,680,874"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="720,872,908,177,913,176,725,874"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="884,133,878,125,883,115,897,109,919,107,943,110,958,118,953,119,942,115,919,112,898,114,887,119,884,125,889,134"/>
-<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="247,482,246,473,252,464,266,458,287,456,310,459,324,467,319,468,308,464,287,461,268,463,256,468,251,474,252,482"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc3c4ed9b8c6c0e19beb39f657485056" title="DCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="422,491,593,519"/>
-<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="353,503,409,504,404,506,355,507"/>
-<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="472,490,466,482,471,473,485,467,508,465,532,467,547,475,542,476,531,472,508,470,486,472,474,477,471,482,477,491"/>
-<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="251,338,245,329,250,319,264,313,287,311,311,314,326,322,321,323,310,319,287,316,265,318,253,323,250,329,256,337"/>
-<area shape="poly" id="edge14_Node000009_Node000007" title=" " alt="" coords="324,572,457,523,453,527,327,577"/>
-<area shape="poly" id="edge15_Node000009_Node000009" title=" " alt="" coords="251,575,245,566,250,557,264,551,287,549,311,551,326,559,321,561,310,556,287,554,265,556,253,561,250,566,256,575"/>
-<area shape="poly" id="edge19_Node000011_Node000007" title=" " alt="" coords="345,432,375,444,464,484,459,485,373,449,346,437"/>
-<area shape="poly" id="edge21_Node000012_Node000012" title=" " alt="" coords="247,650,246,641,252,632,266,626,287,624,310,627,324,635,319,636,308,632,287,629,268,631,256,636,251,642,252,651"/>
-<area shape="poly" id="edge23_Node000013_Node000013" title=" " alt="" coords="247,743,246,734,252,725,266,719,287,717,310,720,324,728,319,729,308,725,287,723,268,725,256,729,251,735,252,744"/>
-<area shape="poly" id="edge31_Node000015_Node000015" title=" " alt="" coords="247,955,246,947,252,938,266,933,287,931,310,933,324,942,319,942,308,938,287,936,268,938,256,943,251,949,252,958"/>
-<area shape="rect" id="Node000016" href="$namespacela__lapack__blas__like__scalar.html#a0827b32c3e8f552a5d1e1a0e87739e4c" title="DLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="434,949,581,994"/>
-<area shape="poly" id="edge26_Node000015_Node000016" title=" " alt="" coords="361,974,421,975,416,975,361,980"/>
-<area shape="poly" id="edge30_Node000016_Node000003" title=" " alt="" coords="570,946,635,924,640,923,571,951"/>
-<area shape="rect" id="Node000017" href="$namespacela__lapack__auxiliary.html#a1bf9fec8cb3f0a42fd05beb1ffd1b13e" title=" " alt="" coords="641,949,789,994"/>
-<area shape="poly" id="edge27_Node000016_Node000017" title=" " alt="" coords="582,969,628,972,623,972,582,974"/>
-<area shape="rect" id="Node000018" href="$namespacela__lapack__auxiliary.html#ab34a41a5a2d8aa8270e1b467aae0ae9b" title=" " alt="" coords="846,949,993,994"/>
-<area shape="poly" id="edge28_Node000017_Node000018" title=" " alt="" coords="789,969,833,972,827,972,789,974"/>
-<area shape="poly" id="edge29_Node000018_Node000018" title=" " alt="" coords="881,947,879,939,885,930,899,925,919,923,941,925,956,934,951,933,940,930,919,928,900,930,889,935,884,941,885,950"/>
-<area shape="poly" id="edge33_Node000019_Node000004" title=" " alt="" coords="354,145,823,146,819,150,356,150"/>
-<area shape="poly" id="edge34_Node000019_Node000010" title=" " alt="" coords="345,168,375,180,461,217,456,219,373,185,346,173"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,429,85,361,103,265,119,213,139,162,165,112,198,67,211,57,208,62,202,71,170,115,144,164,124,215,109,267,90,361,83,429"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="641,805,789,850"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="80,472,86,541,102,632,117,679,138,725,166,766,201,800,232,816,276,827,329,834,389,837,514,838,628,834,623,835,514,843,389,843,329,839,275,832,230,821,198,805,162,769,133,727,112,681,97,633,81,542,79,477"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="837,124,1002,152"/>
+<area shape="poly" id="edge16_Node000001_Node000004" title=" " alt="" coords="79,429,87,372,106,298,121,259,141,222,167,189,198,161,233,150,292,142,460,133,654,131,824,135,819,137,654,137,460,138,292,147,234,155,201,166,171,193,146,225,126,262,111,300,92,373,84,429"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="220,176,354,221"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="84,428,99,387,123,334,155,279,198,231,208,225,205,230,202,235,160,283,127,337,104,389,89,430"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a1d14729ea635706ad4cf9183404c3582" title="DZASUM: takes the sum of the (|Re(.)| + |Im(.)|)&#39;s of a complex vector and returns a double precision..." alt="" coords="220,269,354,314"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="94,428,138,376,167,349,198,324,209,320,205,324,201,329,170,353,142,380,99,430"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="200,362,374,390"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="131,427,199,400,224,393,220,397,201,405,134,431"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#a20e052647a3005c80f1c0d0d972aa196" title="IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="200,438,374,466"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="150,449,187,450,183,453,153,454"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#ae4b0fee1eb7c70fee0287ee1f9cf1428" title="ZAXPY: constant times a vector plus a vector." alt="" coords="220,489,354,534"/>
+<area shape="poly" id="edge17_Node000001_Node000010" title=" " alt="" coords="151,470,207,487,202,489,153,475"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a729038ec667c6fa1ecf55f5e04243d61" title="ZDOTC: forms the dot product of two complex vectors ZDOTC = X^H * Y." alt="" coords="220,583,354,627"/>
+<area shape="poly" id="edge19_Node000001_Node000011" title=" " alt="" coords="107,472,201,544,241,573,236,575,198,548,108,477"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#abb1fd95bf993dfeee16cb6cf72a6c7c4" title="ZDOTU: forms the dot product of two complex vectors ZDOTU = X^T * Y." alt="" coords="220,676,354,721"/>
+<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="91,472,136,550,166,596,202,638,235,667,230,668,198,642,162,599,131,553,91,477"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="220,745,354,790"/>
+<area shape="poly" id="edge23_Node000001_Node000013" title=" " alt="" coords="84,472,97,526,119,594,153,667,175,701,202,731,209,739,204,739,198,735,171,704,148,670,114,596,92,527,83,477"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__blas__like__scalar.html#a20bbc4a670054f40a583778311ff9875" title="ZLADIV = X / Y, where X and Y are complex. The computation of X / Y will not overflow on an intermedi..." alt="" coords="213,889,360,934"/>
+<area shape="poly" id="edge24_Node000001_Node000014" title=" " alt="" coords="82,472,94,542,114,638,129,691,149,744,173,796,202,845,217,863,236,880,231,880,213,866,198,848,168,799,144,746,124,692,109,639,88,543,82,477"/>
+<area shape="rect" id="Node000018" href="$namespacela__blas__level2__tri.html#ae046d0e046cf4f6c2c5743fda29b64de" title="ZTBSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="440,56,575,101"/>
+<area shape="poly" id="edge31_Node000001_Node000018" title=" " alt="" coords="78,429,84,366,102,281,117,236,137,192,164,152,198,118,223,100,251,87,310,71,369,64,426,66,422,69,370,70,311,76,253,92,226,105,201,122,168,155,142,194,122,238,107,282,89,367,83,429"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="676,803,674,795,681,786,695,781,715,779,737,781,751,790,746,789,735,786,715,784,696,786,684,791,680,797,680,806"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="721,804,907,168,912,166,725,806"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="884,124,878,116,883,106,897,100,919,98,943,100,958,109,953,110,942,105,919,103,898,105,887,110,884,115,889,124"/>
+<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="247,269,246,259,252,250,266,245,287,243,310,245,324,253,319,255,308,250,287,248,268,250,256,255,251,261,252,269"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#abc3c4ed9b8c6c0e19beb39f657485056" title="DCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="422,438,593,466"/>
+<area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="352,312,375,324,408,348,438,374,487,426,482,426,435,378,405,352,373,329,353,317"/>
+<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="472,437,466,429,471,419,485,413,508,411,532,414,547,422,542,423,531,419,508,416,486,418,474,423,471,429,477,438"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="251,362,245,353,250,343,264,337,287,335,311,338,326,346,321,347,310,343,287,340,265,342,253,347,250,353,256,361"/>
+<area shape="poly" id="edge14_Node000009_Node000007" title=" " alt="" coords="373,449,409,450,404,453,375,454"/>
+<area shape="poly" id="edge15_Node000009_Node000009" title=" " alt="" coords="251,437,245,429,250,419,264,413,287,411,311,414,326,422,321,423,310,419,287,416,265,418,253,423,250,429,256,437"/>
+<area shape="poly" id="edge18_Node000010_Node000007" title=" " alt="" coords="353,491,441,469,437,472,356,496"/>
+<area shape="poly" id="edge20_Node000011_Node000011" title=" " alt="" coords="247,582,246,573,252,564,266,558,287,556,310,559,324,567,319,568,308,564,287,561,268,563,256,568,251,574,252,583"/>
+<area shape="poly" id="edge22_Node000012_Node000012" title=" " alt="" coords="247,675,246,666,252,657,266,651,287,649,310,652,324,660,319,661,308,657,287,655,268,657,256,661,251,667,252,676"/>
+<area shape="poly" id="edge30_Node000014_Node000014" title=" " alt="" coords="247,887,246,879,252,870,266,865,287,863,310,865,324,874,319,874,308,870,287,868,268,870,256,875,251,881,252,890"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__blas__like__scalar.html#a0827b32c3e8f552a5d1e1a0e87739e4c" title="DLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="434,881,581,926"/>
+<area shape="poly" id="edge25_Node000014_Node000015" title=" " alt="" coords="361,906,421,907,416,907,361,912"/>
+<area shape="poly" id="edge29_Node000015_Node000003" title=" " alt="" coords="570,878,635,856,640,855,571,883"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__auxiliary.html#a1bf9fec8cb3f0a42fd05beb1ffd1b13e" title=" " alt="" coords="641,881,789,926"/>
+<area shape="poly" id="edge26_Node000015_Node000016" title=" " alt="" coords="582,901,628,904,623,904,582,906"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__auxiliary.html#ab34a41a5a2d8aa8270e1b467aae0ae9b" title=" " alt="" coords="846,881,993,926"/>
+<area shape="poly" id="edge27_Node000016_Node000017" title=" " alt="" coords="789,901,833,904,827,904,789,906"/>
+<area shape="poly" id="edge28_Node000017_Node000017" title=" " alt="" coords="881,879,879,871,885,862,899,857,919,855,941,857,956,866,951,865,940,862,919,860,900,862,889,867,884,873,885,882"/>
+<area shape="poly" id="edge32_Node000018_Node000004" title=" " alt="" coords="575,86,824,123,819,126,576,91"/>
 </map>

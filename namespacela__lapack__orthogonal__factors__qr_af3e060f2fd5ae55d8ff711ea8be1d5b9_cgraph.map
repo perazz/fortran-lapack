@@ -1,43 +1,37 @@
 <map id="la_lapack_orthogonal_factors_qr::la_cunhr_col" name="la_lapack_orthogonal_factors_qr::la_cunhr_col">
-<area shape="rect" id="Node000001" title="CUNHR_COL: takes an M&#45;by&#45;N complex matrix Q_in with orthonormal columns as input, stored in A,..." alt="" coords="5,306,188,351"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="253,104,387,148"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,304,161,237,196,199,234,165,253,154,250,158,237,169,199,203,165,241,115,307"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__orthogonal__factors__qr.html#a6acc82317bef1cbb25eac850ddcc880a" title="CLAUNHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a complex general M&#45;b..." alt="" coords="236,298,404,359"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,326,222,327,218,330,189,331"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="917,379,1082,406"/>
-<area shape="poly" id="edge28_Node000001_Node000006" title=" " alt="" coords="131,348,181,379,237,409,355,460,452,490,552,506,682,517,735,523,777,530,818,531,868,517,902,497,933,471,978,420,983,418,937,475,905,502,870,522,819,536,777,536,734,529,681,522,551,511,451,495,354,465,235,414,179,384,131,354"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="708,440,842,484"/>
-<area shape="poly" id="edge26_Node000001_Node000008" title=" " alt="" coords="165,349,236,369,360,395,485,418,695,451,690,452,484,423,359,400,235,374,166,354"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="707,157,843,202"/>
-<area shape="poly" id="edge27_Node000001_Node000009" title=" " alt="" coords="156,303,291,257,371,234,451,214,577,193,694,183,689,185,578,199,453,219,372,239,292,263,159,308"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="702,370,848,415"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="404,356,453,369,575,384,690,392,684,393,574,390,451,374,405,362"/>
-<area shape="poly" id="edge25_Node000003_Node000006" title=" " alt="" coords="370,357,431,393,507,432,593,468,682,494,734,505,776,511,817,508,868,494,899,479,928,459,974,419,979,417,932,463,902,484,870,499,818,513,776,516,733,510,681,499,591,473,505,437,428,397,369,362"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__orthogonal__factors__qr.html#a2d8b45541db6ffa92b03c745f99c2c6a" title="CLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="458,298,627,359"/>
-<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="404,326,446,328,440,329,405,331"/>
-<area shape="poly" id="edge18_Node000003_Node000009" title=" " alt="" coords="375,295,451,259,576,220,695,194,690,196,578,225,453,264,377,300"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="452,105,633,133"/>
-<area shape="poly" id="edge19_Node000003_Node000011" title=" " alt="" coords="352,295,513,145,518,142,356,299"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="917,259,1082,286"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="818,367,956,295,961,293,820,372"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="848,390,903,392,898,393,849,395"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="961,257,955,250,960,240,975,234,999,232,1026,235,1041,244,1036,243,1024,240,999,237,976,239,963,244,960,249,966,259"/>
-<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="627,349,690,368,685,369,627,354"/>
-<area shape="poly" id="edge17_Node000007_Node000006" title=" " alt="" coords="627,329,742,338,869,355,940,374,935,374,868,360,742,344,627,335"/>
-<area shape="poly" id="edge9_Node000007_Node000007" title=" " alt="" coords="499,296,500,287,508,279,522,273,543,271,566,274,582,283,577,283,565,279,543,276,524,278,511,283,505,289,503,299"/>
-<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="582,357,630,392,683,425,696,434,691,433,680,429,627,396,581,362"/>
-<area shape="poly" id="edge11_Node000007_Node000009" title=" " alt="" coords="581,295,632,253,655,231,680,212,691,209,695,206,683,216,658,235,635,257,584,300"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="701,250,849,295"/>
-<area shape="poly" id="edge14_Node000007_Node000010" title=" " alt="" coords="626,306,689,293,684,295,628,311"/>
-<area shape="poly" id="edge12_Node000009_Node000005" title=" " alt="" coords="839,199,870,211,957,252,951,252,868,216,839,205"/>
-<area shape="poly" id="edge13_Node000009_Node000006" title=" " alt="" coords="843,195,870,212,889,232,898,252,906,273,919,296,977,368,972,367,914,299,901,275,893,254,884,235,867,216,843,200"/>
-<area shape="poly" id="edge15_Node000010_Node000005" title=" " alt="" coords="849,270,904,272,898,273,849,275"/>
-<area shape="poly" id="edge16_Node000010_Node000010" title=" " alt="" coords="732,248,731,240,738,231,753,226,775,224,799,226,815,235,810,235,798,231,775,229,754,231,741,235,736,241,737,251"/>
-<area shape="poly" id="edge22_Node000011_Node000011" title=" " alt="" coords="504,104,498,96,503,87,518,81,543,79,569,81,585,90,579,90,567,86,543,84,519,86,507,91,504,96,509,105"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="683,105,867,133"/>
-<area shape="poly" id="edge20_Node000011_Node000012" title=" " alt="" coords="633,117,670,118,664,120,634,122"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="681,29,869,57"/>
-<area shape="poly" id="edge23_Node000011_Node000013" title=" " alt="" coords="581,102,680,67,710,61,705,63,682,72,583,107"/>
+<area shape="rect" id="Node000001" title="CUNHR_COL: takes an M&#45;by&#45;N complex matrix Q_in with orthonormal columns as input, stored in A,..." alt="" coords="5,172,188,216"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="253,77,387,122"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,169,253,126,250,130,153,173"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__orthogonal__factors__qr.html#a6acc82317bef1cbb25eac850ddcc880a" title="CLAUNHR_COL_GETRFNP: computes the modified LU factorization without pivoting of a complex general M&#45;b..." alt="" coords="236,196,404,258"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="187,205,223,211,218,213,189,210"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="708,400,842,444"/>
+<area shape="poly" id="edge22_Node000001_Node000007" title=" " alt="" coords="128,214,186,255,264,305,356,354,404,375,453,393,514,407,577,416,695,425,689,425,577,422,513,413,451,398,402,380,353,359,261,309,183,260,127,219"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="707,168,843,212"/>
+<area shape="poly" id="edge23_Node000001_Node000008" title=" " alt="" coords="187,184,236,182,485,180,695,186,690,188,485,185,236,187,189,189"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="702,237,848,282"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="404,230,689,252,684,254,404,236"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__orthogonal__factors__qr.html#a2d8b45541db6ffa92b03c745f99c2c6a" title="CLAUNHR_COL_GETRFNP2: computes the modified LU factorization without pivoting of a complex general M&#45;..." alt="" coords="458,322,627,383"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="377,256,476,313,471,314,376,261"/>
+<area shape="poly" id="edge15_Node000003_Node000008" title=" " alt="" coords="404,218,694,195,690,198,405,223"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="452,95,633,122"/>
+<area shape="poly" id="edge16_Node000003_Node000010" title=" " alt="" coords="378,193,504,129,499,131,381,198"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="917,245,1082,273"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="848,257,903,259,898,259,849,262"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="961,244,955,236,960,227,975,221,999,219,1026,221,1041,230,1036,230,1024,226,999,224,976,226,963,231,960,236,966,246"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="615,319,680,291,695,288,700,287,682,296,617,324"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="499,320,500,311,508,303,522,297,543,295,566,298,582,308,577,307,565,303,543,300,524,302,511,307,505,313,503,323"/>
+<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="627,375,696,398,690,397,627,380"/>
+<area shape="poly" id="edge10_Node000006_Node000008" title=" " alt="" coords="569,319,618,270,680,222,691,219,696,217,683,227,621,274,572,324"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="701,330,849,375"/>
+<area shape="poly" id="edge12_Node000006_Node000009" title=" " alt="" coords="627,350,688,352,683,353,627,355"/>
+<area shape="poly" id="edge11_Node000008_Node000005" title=" " alt="" coords="843,208,940,240,935,240,843,213"/>
+<area shape="poly" id="edge13_Node000009_Node000005" title=" " alt="" coords="830,327,947,280,952,279,831,332"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="733,328,731,320,738,311,753,306,775,304,799,306,815,315,810,315,798,311,775,309,754,311,741,315,736,321,737,331"/>
+<area shape="poly" id="edge19_Node000010_Node000010" title=" " alt="" coords="504,94,498,86,503,76,518,70,543,68,569,71,585,79,579,80,567,76,543,73,519,75,507,80,504,85,509,95"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="683,29,867,57"/>
+<area shape="poly" id="edge17_Node000010_Node000011" title=" " alt="" coords="594,92,711,61,706,63,596,96"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="681,105,869,133"/>
+<area shape="poly" id="edge20_Node000010_Node000012" title=" " alt="" coords="633,110,668,114,663,115,634,115"/>
+<area shape="poly" id="edge18_Node000011_Node000011" title=" " alt="" coords="736,28,730,20,735,11,750,5,775,3,801,5,817,14,812,14,800,10,775,8,752,10,739,15,736,20,741,29"/>
 <area shape="poly" id="edge21_Node000012_Node000012" title=" " alt="" coords="736,104,730,96,735,87,750,81,775,79,801,81,817,90,812,90,800,86,775,84,752,86,739,91,736,96,741,105"/>
-<area shape="poly" id="edge24_Node000013_Node000013" title=" " alt="" coords="736,28,730,20,735,11,750,5,775,3,801,5,817,14,812,14,800,10,775,8,752,10,739,15,736,20,741,29"/>
 </map>

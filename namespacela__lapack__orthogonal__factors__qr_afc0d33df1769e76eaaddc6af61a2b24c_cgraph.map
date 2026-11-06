@@ -1,25 +1,21 @@
 <map id="la_lapack_orthogonal_factors_qr::la_sorgr2" name="la_lapack_orthogonal_factors_qr::la_sorgr2">
-<area shape="rect" id="Node000001" title="SORGR2: generates an m by n real matrix Q with orthonormal rows, which is defined as the last m rows ..." alt="" coords="5,337,167,382"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#a2ee79213a7a583b5aed9d93210a83a30" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="215,178,385,223"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,334,255,230,257,235,119,339"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="656,285,822,313"/>
-<area shape="poly" id="edge14_Node000001_Node000007" title=" " alt="" coords="167,358,368,354,488,346,608,331,676,318,681,317,609,336,489,351,368,359,168,363"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="233,397,367,442"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="167,379,221,396,215,397,167,385"/>
+<area shape="rect" id="Node000001" title="SORGR2: generates an m by n real matrix Q with orthonormal rows, which is defined as the last m rows ..." alt="" coords="5,182,167,227"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__householder__reflectors.html#a2ee79213a7a583b5aed9d93210a83a30" title="SLARF: applies a real elementary reflector H to a real m by n matrix C, from either the left or the r..." alt="" coords="215,148,385,192"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,189,202,185,197,187,168,194"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="233,217,367,262"/>
+<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="167,215,220,225,215,227,167,220"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#ab982c17ecc1d9fcfd510bef30fe083be" title="ILASLC: scans A for its last non&#45;zero column." alt="" coords="433,29,608,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,176,364,122,396,93,432,68,447,62,443,65,434,72,400,97,368,126,320,180"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="324,145,372,106,432,67,451,62,446,64,434,72,375,110,327,149"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#a1abc101c5f65760eafb8b98e3f41e083" title="ILASLR: scans A for its last non&#45;zero row." alt="" coords="434,105,607,133"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="361,175,432,149,469,138,464,140,434,154,363,180"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="385,148,445,136,440,138,386,153"/>
 <area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="656,187,822,214"/>
-<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="385,194,433,193,608,193,643,196,638,197,608,198,433,198,386,199"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="385,173,643,193,639,195,385,178"/>
 <area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="448,208,593,252"/>
-<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="385,209,435,218,430,219,386,214"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="448,277,593,322"/>
-<area shape="poly" id="edge11_Node000002_Node000008" title=" " alt="" coords="346,221,434,262,449,270,444,270,432,267,346,226"/>
+<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="384,190,436,206,430,206,384,195"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="448,277,593,322"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="367,190,387,202,402,218,411,233,420,248,435,262,442,269,437,268,431,267,416,251,407,236,398,221,383,207,366,195"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="483,28,477,20,482,11,497,5,521,3,546,5,562,14,556,14,545,10,521,8,498,10,486,15,482,20,488,29"/>
 <area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="483,104,477,96,482,87,497,81,521,79,546,81,562,90,556,90,545,86,521,84,498,86,486,91,482,96,488,105"/>
-<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="701,185,695,178,700,168,715,162,739,160,765,163,780,171,775,171,763,168,739,165,716,167,704,172,701,177,706,187"/>
+<area shape="poly" id="edge7_Node000005_Node000005" title=" " alt="" coords="701,185,695,178,700,168,715,162,739,160,765,163,780,172,775,171,763,168,739,165,716,167,704,172,701,177,706,187"/>
 <area shape="poly" id="edge9_Node000006_Node000005" title=" " alt="" coords="593,217,643,213,638,214,594,223"/>
-<area shape="poly" id="edge10_Node000006_Node000007" title=" " alt="" coords="593,250,681,280,676,280,593,255"/>
-<area shape="poly" id="edge12_Node000008_Node000007" title=" " alt="" coords="594,297,643,299,638,300,594,302"/>
 </map>

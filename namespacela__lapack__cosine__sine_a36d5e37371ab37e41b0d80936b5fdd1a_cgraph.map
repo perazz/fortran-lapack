@@ -1,29 +1,26 @@
 <map id="la_lapack_cosine_sine::la_dbbcsd" name="la_lapack_cosine_sine::la_dbbcsd">
-<area shape="rect" id="Node000001" title="DBBCSD: computes the CS decomposition of an orthogonal matrix in bidiagonal&#45;block form,..." alt="" coords="5,210,172,255"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="674,90,822,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,207,219,195,333,178,423,170,512,163,626,145,662,138,657,140,627,150,513,168,423,176,334,183,220,200,170,212"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="870,99,1035,126"/>
-<area shape="poly" id="edge16_Node000001_Node000003" title=" " alt="" coords="94,209,109,167,134,115,170,64,193,42,218,25,257,13,315,5,388,3,471,5,653,20,741,34,822,51,871,68,916,91,911,91,869,73,821,56,740,39,652,26,471,10,388,8,315,11,258,18,221,30,196,47,174,68,138,118,114,169,99,211"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#a73a21f720ddf71a6eda6fe48103c650b" title="DLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="447,90,626,135"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="118,208,164,177,219,151,272,136,327,125,434,114,429,117,328,130,273,141,221,156,166,182,121,211"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__svd__comp2.html#a99a4c9727ff020fa6df9e78034b33f90" title="DLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="227,39,392,84"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="106,208,154,156,185,127,218,101,240,90,236,94,221,105,189,131,158,159,111,211"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__svd__comp2.html#a1f95979cab52f64500f99bcec8ffb6c5" title="DLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="227,210,392,255"/>
-<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="171,230,214,231,209,234,173,235"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__givens__jacobi__rot.html#ab2e677166b3f92b402f77e7b1f968132" title="DLASR: applies a sequence of plane rotations to a real matrix A, from either the left or the right...." alt="" coords="220,279,399,324"/>
-<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="161,253,224,273,219,276,162,258"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="454,317,619,345"/>
-<area shape="poly" id="edge17_Node000001_Node000008" title=" " alt="" coords="109,253,158,297,188,318,221,334,279,348,340,353,399,351,455,347,450,349,399,357,340,358,278,353,219,339,185,323,154,301,109,258"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="242,399,376,444"/>
-<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="105,253,154,314,186,348,221,378,239,392,234,392,218,383,183,352,150,318,105,258"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="242,469,376,513"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="98,253,116,296,142,350,177,406,221,455,232,464,226,463,218,458,173,409,137,352,111,299,97,258"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="709,88,707,80,714,71,728,65,748,63,770,66,784,74,779,75,768,71,748,69,729,71,717,75,713,81,714,91"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="822,110,857,112,851,113,823,115"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="917,97,911,90,916,80,930,74,952,72,976,75,991,83,986,83,975,80,952,77,931,79,920,84,917,89,922,99"/>
-<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="626,110,661,112,656,113,627,115"/>
-<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="391,58,504,62,627,75,665,85,660,86,626,80,503,67,392,63"/>
-<area shape="poly" id="edge9_Node000005_Node000004" title=" " alt="" coords="391,78,434,88,429,90,392,83"/>
-<area shape="poly" id="edge12_Node000007_Node000003" title=" " alt="" coords="387,276,888,129,887,134,389,282"/>
-<area shape="poly" id="edge13_Node000007_Node000008" title=" " alt="" coords="399,311,441,318,436,319,400,316"/>
+<area shape="rect" id="Node000001" title="DBBCSD: computes the CS decomposition of an orthogonal matrix in bidiagonal&#45;block form,..." alt="" coords="5,211,172,255"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="659,129,807,174"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,220,645,160,644,165,172,225"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="855,138,1020,165"/>
+<area shape="poly" id="edge15_Node000001_Node000003" title=" " alt="" coords="98,209,117,177,143,138,177,101,218,72,300,35,373,12,441,4,507,6,573,18,643,37,808,90,855,108,899,130,893,130,853,113,806,95,642,43,572,23,506,11,441,9,374,18,302,40,221,77,181,105,147,142,121,179,103,211"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__givens__jacobi__rot.html#a73a21f720ddf71a6eda6fe48103c650b" title="DLARTGP: generates a plane rotation so that [ CS SN ] . [ F ] = [ R ] where CS**2 + SN**2 = 1...." alt="" coords="432,69,611,114"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="103,209,150,154,182,127,219,105,267,89,318,80,369,76,419,78,414,81,369,82,319,85,269,94,221,110,185,131,153,158,107,212"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__svd__comp2.html#a99a4c9727ff020fa6df9e78034b33f90" title="DLARTGS: generates a plane rotation designed to introduce a bulge in Golub&#45;Reinsch&#45;style implicit QR ..." alt="" coords="220,120,384,165"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="141,208,235,169,232,173,145,212"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__svd__comp2.html#a1f95979cab52f64500f99bcec8ffb6c5" title="DLAS2: computes the singular values of the 2&#45;by&#45;2 matrix [ F G ] [ 0 H ]. On return,..." alt="" coords="220,240,384,285"/>
+<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="171,242,206,248,202,250,173,247"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__givens__jacobi__rot.html#ab2e677166b3f92b402f77e7b1f968132" title="DLASR: applies a sequence of plane rotations to a real matrix A, from either the left or the right...." alt="" coords="432,269,611,314"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="125,253,170,277,220,294,270,303,320,306,419,305,414,307,320,312,269,308,219,300,168,281,125,258"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="235,360,369,405"/>
+<area shape="poly" id="edge13_Node000001_Node000008" title=" " alt="" coords="114,253,163,295,221,339,241,352,236,352,218,343,160,299,114,258"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="235,429,369,474"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="102,253,148,332,182,376,221,415,228,421,222,420,218,419,178,379,144,335,100,258"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="694,127,692,119,699,110,713,105,733,103,755,105,769,114,764,114,753,110,733,108,714,110,702,114,698,121,699,130"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="807,149,842,151,836,152,808,154"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="902,136,896,129,901,119,915,113,937,111,961,114,976,123,971,122,960,119,937,116,916,118,905,123,902,129,907,138"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="602,112,647,126,642,127,603,117"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="384,141,646,148,641,151,385,147"/>
+<area shape="poly" id="edge9_Node000005_Node000004" title=" " alt="" coords="383,121,419,114,414,117,386,126"/>
+<area shape="poly" id="edge12_Node000007_Node000003" title=" " alt="" coords="590,266,882,170,877,172,592,271"/>
 </map>

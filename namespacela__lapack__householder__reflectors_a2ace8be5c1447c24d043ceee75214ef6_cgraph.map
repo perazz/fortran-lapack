@@ -1,19 +1,15 @@
 <map id="la_lapack_householder_reflectors::la_zlarft" name="la_lapack_householder_reflectors::la_zlarft">
-<area shape="rect" id="Node000001" title="ZLARFT: forms the triangular factor T of a complex block reflector H of order n, which is defined as ..." alt="" coords="5,62,176,107"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="417,46,582,73"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,60,169,33,223,13,264,5,296,3,369,13,412,23,454,39,449,40,411,28,369,18,296,8,264,10,224,18,171,38,126,64"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#ac8c7cb2e0cee2b098cda8af180eeb300" title="ZGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="224,28,369,72"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="175,68,211,64,206,66,177,73"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a95408b0c6d01c367be0bd531feb85f56" title="ZGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="224,97,369,142"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="176,96,211,104,206,105,177,102"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level2__tri.html#a96379930075f42e1df232b4eb5ad59b8" title="ZTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="229,166,364,211"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="135,105,225,152,237,159,231,159,222,156,134,110"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="464,44,459,37,463,27,477,21,500,19,524,21,538,30,533,30,522,27,500,24,479,26,467,31,464,36,469,46"/>
-<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="369,51,404,54,399,55,370,56"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="417,106,582,133"/>
-<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="364,70,445,100,440,100,364,76"/>
-<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="369,95,439,77,433,79,370,100"/>
-<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="369,117,404,119,399,120,370,122"/>
-<area shape="poly" id="edge10_Node000006_Node000002" title=" " alt="" coords="350,163,367,152,382,137,391,122,400,108,415,92,437,81,442,79,419,96,404,111,395,125,386,140,371,156,352,168"/>
-<area shape="poly" id="edge11_Node000006_Node000004" title=" " alt="" coords="363,163,440,139,445,138,365,168"/>
+<area shape="rect" id="Node000001" title="ZLARFT: forms the triangular factor T of a complex block reflector H of order n, which is defined as ..." alt="" coords="5,64,176,109"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="417,73,582,100"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,62,169,35,223,14,264,6,296,3,329,6,370,15,423,35,469,63,464,63,420,40,368,20,328,11,296,8,264,11,224,20,171,40,126,66"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#ac8c7cb2e0cee2b098cda8af180eeb300" title="ZGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="224,29,369,74"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="175,70,211,65,206,68,177,74"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#a95408b0c6d01c367be0bd531feb85f56" title="ZGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="224,99,369,143"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="176,98,211,106,206,107,177,103"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__tri.html#a96379930075f42e1df232b4eb5ad59b8" title="ZTRMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="229,168,364,213"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="135,107,225,153,237,161,231,161,222,158,134,112"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="464,71,459,64,463,54,477,48,500,46,524,48,538,57,533,57,522,54,500,51,479,53,467,58,464,63,469,73"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="369,61,404,69,399,70,370,67"/>
+<area shape="poly" id="edge6_Node000004_Node000002" title=" " alt="" coords="369,106,404,103,399,104,370,111"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="345,165,368,153,456,109,462,107,370,158,346,170"/>
 </map>

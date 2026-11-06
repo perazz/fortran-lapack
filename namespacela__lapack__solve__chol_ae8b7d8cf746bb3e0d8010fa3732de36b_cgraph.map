@@ -1,30 +1,24 @@
 <map id="la_lapack_solve_chol::la_spbsv" name="la_lapack_solve_chol::la_spbsv">
-<area shape="rect" id="Node000001" title="SPBSV: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N sym..." alt="" coords="5,149,165,194"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="825,137,990,164"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,147,212,113,325,71,415,44,507,27,627,16,704,4,737,4,778,16,814,37,846,65,872,95,892,124,887,122,868,98,842,69,811,41,776,21,736,10,704,10,628,21,508,32,416,49,326,76,214,118,137,151"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__chol__comp.html#a4e7e6bc9d8a34cc3c17a9e5d17ee1d4f" title="SPBTRF: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="213,128,372,173"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="164,161,199,159,195,162,166,166"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="825,307,990,335"/>
-<area shape="poly" id="edge18_Node000001_Node000007" title=" " alt="" coords="118,192,163,220,214,247,326,295,415,327,507,349,628,368,702,376,776,368,822,355,861,342,867,341,823,360,777,373,702,381,627,373,506,354,414,332,324,300,212,251,161,225,118,197"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#a2673f4782907517cdd5203f369d4a416" title="SPBTRS: solves a system of linear equations A*X = B with a symmetric positive definite band matrix A ..." alt="" coords="420,256,579,301"/>
-<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="165,189,407,252,403,256,165,195"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="872,135,866,128,871,118,885,112,907,110,932,112,946,121,941,121,930,118,907,115,886,117,874,122,872,127,877,137"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__chol__comp.html#a6ca44f922e3f7dffa834db734762bd58" title="SPBTF2: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="420,128,579,173"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="372,148,407,150,402,151,373,153"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#a21daec6fe8c2381d33fc8e70e868745e" title="SPOTF2: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="420,59,579,103"/>
-<area shape="poly" id="edge11_Node000003_Node000008" title=" " alt="" coords="360,125,418,108,414,110,362,130"/>
-<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="561,125,578,114,592,96,599,78,608,60,626,44,666,28,701,24,736,30,778,44,810,59,840,80,887,125,881,124,836,84,807,64,776,49,735,35,700,29,667,33,629,49,612,63,604,80,597,99,581,118,563,130"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="635,59,769,103"/>
-<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="566,125,623,108,618,110,568,130"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level2__sym.html#a105f77a9f612eb787ca64df90ab0752e" title="SSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="627,128,777,173"/>
-<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="579,148,614,150,609,151,580,153"/>
-<area shape="poly" id="edge10_Node000004_Node000007" title=" " alt="" coords="556,171,861,300,855,301,555,176"/>
-<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="777,148,812,150,806,151,777,153"/>
-<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="731,171,880,297,875,297,729,176"/>
-<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="573,253,844,170,849,169,574,258"/>
-<area shape="poly" id="edge17_Node000009_Node000007" title=" " alt="" coords="529,298,574,329,600,343,628,353,687,362,747,360,804,350,850,340,855,340,805,355,748,365,687,367,627,358,598,348,571,334,527,304"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="634,299,770,343"/>
-<area shape="poly" id="edge14_Node000009_Node000010" title=" " alt="" coords="580,293,622,304,616,304,580,298"/>
-<area shape="poly" id="edge15_Node000010_Node000002" title=" " alt="" coords="729,296,875,175,880,174,732,301"/>
-<area shape="poly" id="edge16_Node000010_Node000007" title=" " alt="" coords="770,318,812,321,806,321,770,324"/>
+<area shape="rect" id="Node000001" title="SPBSV: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N sym..." alt="" coords="5,111,165,155"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="825,158,990,185"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,108,252,62,329,39,415,19,505,7,598,4,690,14,734,25,778,40,814,60,845,88,891,145,886,144,841,91,811,65,776,45,733,30,689,19,598,9,506,12,416,25,331,44,254,67,137,112"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__chol__comp.html#a4e7e6bc9d8a34cc3c17a9e5d17ee1d4f" title="SPBTRF: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="213,111,372,155"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="164,130,200,132,195,134,166,135"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__chol__comp.html#a2673f4782907517cdd5203f369d4a416" title="SPBTRS: solves a system of linear equations A*X = B with a symmetric positive definite band matrix A ..." alt="" coords="420,215,579,259"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="165,152,213,165,407,213,402,216,212,170,165,158"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="872,156,866,149,871,139,885,133,907,131,932,134,946,143,941,142,930,139,907,136,886,138,874,143,872,149,877,158"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__chol__comp.html#a6ca44f922e3f7dffa834db734762bd58" title="SPBTF2: computes the Cholesky factorization of a real symmetric positive definite band matrix A...." alt="" coords="420,76,579,121"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="371,117,407,113,402,115,373,122"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#a21daec6fe8c2381d33fc8e70e868745e" title="SPOTF2: computes the Cholesky factorization of a real symmetric positive definite matrix A...." alt="" coords="420,145,579,190"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="372,144,408,151,402,152,372,149"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="565,73,613,61,666,53,723,54,778,65,810,80,840,101,887,147,882,145,836,105,807,85,776,70,722,59,667,59,614,66,567,78"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="635,80,769,125"/>
+<area shape="poly" id="edge6_Node000004_Node000005" title=" " alt="" coords="580,97,622,100,617,101,580,103"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__sym.html#a105f77a9f612eb787ca64df90ab0752e" title="SSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="627,149,777,194"/>
+<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="563,118,627,143,621,144,563,124"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="777,169,812,171,806,172,777,174"/>
+<area shape="poly" id="edge11_Node000008_Node000002" title=" " alt="" coords="580,229,674,219,776,204,842,191,847,190,777,209,675,224,580,234"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="634,269,770,314"/>
+<area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="580,256,622,270,617,269,580,261"/>
+<area shape="poly" id="edge13_Node000009_Node000002" title=" " alt="" coords="744,266,775,248,867,195,872,193,778,253,745,271"/>
 </map>

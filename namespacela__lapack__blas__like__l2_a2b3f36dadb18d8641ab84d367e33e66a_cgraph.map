@@ -1,18 +1,16 @@
 <map id="la_lapack_blas_like_l2::la_slascl" name="la_lapack_blas_like_l2::la_slascl">
-<area shape="rect" id="Node000001" title="SLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,109,153,154"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="414,29,579,57"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,106,139,62,168,40,200,23,260,9,322,7,382,12,435,25,430,26,381,18,322,12,261,14,202,28,171,44,143,66,100,110"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="210,156,357,200"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="153,145,197,157,192,158,153,151"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="210,62,357,107"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="152,112,197,103,192,106,154,117"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,224,366,252"/>
-<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="110,152,153,182,202,210,216,218,211,218,199,215,150,186,108,157"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="460,28,454,20,459,11,473,5,497,3,522,5,537,14,532,14,520,10,497,8,475,10,462,15,459,20,465,29"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="244,154,243,145,249,137,263,131,283,129,305,131,320,140,314,140,304,136,283,134,264,136,253,141,248,147,249,156"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="422,156,571,200"/>
-<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="357,175,410,178,404,178,357,180"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="456,153,454,145,461,136,476,131,497,129,520,131,535,141,530,140,518,136,497,134,477,136,465,141,460,147,461,156"/>
-<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="356,68,409,60,404,61,358,73"/>
-<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="244,61,243,52,249,43,263,38,283,36,305,38,320,46,315,47,304,43,283,41,264,43,253,47,248,53,249,63"/>
+<area shape="rect" id="Node000001" title="SLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,62,153,107"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="396,29,561,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,60,155,39,200,23,251,16,303,14,400,25,395,27,303,20,251,21,201,28,157,44,118,64"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a4d6735a3a0bfd81ec48d9c107c0d7893" title="SISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="201,156,348,200"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="128,105,215,147,210,149,127,110"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="201,62,348,107"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="153,82,187,83,182,86,154,87"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="443,28,438,20,442,11,456,5,479,3,503,5,517,14,512,14,501,10,479,8,458,10,446,15,443,20,448,30"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="237,153,235,145,242,137,255,131,274,129,295,131,309,140,304,140,294,136,274,134,256,136,245,141,241,147,241,156"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#af7a547cc3906149e087d6003dc2ab082" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in SISNAN...." alt="" coords="404,156,553,200"/>
+<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="348,175,392,178,386,178,349,180"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="440,153,438,145,445,137,458,131,479,129,500,131,515,140,510,139,499,136,479,134,460,136,448,141,443,147,444,157"/>
+<area shape="poly" id="edge8_Node000005_Node000002" title=" " alt="" coords="348,67,394,60,389,61,349,72"/>
+<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="237,61,235,52,242,43,255,38,274,36,295,38,309,46,304,47,294,43,274,41,256,43,245,47,241,53,242,63"/>
 </map>

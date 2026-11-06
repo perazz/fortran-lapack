@@ -1,17 +1,14 @@
 <map id="la_lapack_solve_tri_comp::la_dlauu2" name="la_lapack_solve_tri_comp::la_dlauu2">
-<area shape="rect" id="Node000001" title="DLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,132,152,176"/>
+<area shape="rect" id="Node000001" title="DLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,112,152,156"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#abcba997c09f1f982cf017db38022e3c8" title="DDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="200,29,370,57"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,129,151,101,198,73,229,61,224,65,201,78,154,105,113,133"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="212,132,358,176"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="151,151,199,153,194,155,153,156"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="418,112,583,140"/>
-<area shape="poly" id="edge8_Node000001_Node000004" title=" " alt="" coords="146,128,199,117,304,110,405,115,400,117,304,115,200,122,148,133"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="418,168,583,196"/>
-<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="147,174,200,186,304,193,405,191,400,193,304,198,199,191,147,179"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="218,252,352,296"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="113,174,201,230,224,244,219,244,198,235,112,179"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="249,29,244,20,248,11,262,5,285,3,309,5,324,14,319,14,308,10,285,8,263,10,252,15,249,20,254,29"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="357,142,405,138,400,139,358,147"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="358,161,405,169,400,170,358,166"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="463,111,458,103,462,93,477,87,501,85,526,88,541,97,536,97,525,93,501,91,478,93,466,97,463,103,468,112"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,109,199,66,218,61,213,64,201,71,119,113"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="212,81,358,126"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="151,120,199,115,195,117,153,125"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="418,120,583,148"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="152,134,200,135,370,135,405,137,400,138,370,140,200,140,153,139"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="218,201,352,246"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="132,154,220,193,215,195,131,159"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="249,29,244,20,248,11,262,5,285,3,309,5,324,14,318,14,308,10,285,8,263,10,252,15,249,20,254,29"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="358,111,405,120,400,120,358,116"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="463,119,458,111,462,101,477,95,501,93,526,96,541,105,536,104,525,101,501,99,478,101,466,105,463,111,468,120"/>
 </map>

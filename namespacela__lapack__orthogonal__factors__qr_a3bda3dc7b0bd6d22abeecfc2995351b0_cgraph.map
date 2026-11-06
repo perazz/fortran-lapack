@@ -1,26 +1,22 @@
 <map id="la_lapack_orthogonal_factors_qr::la_cunmr2" name="la_lapack_orthogonal_factors_qr::la_cunmr2">
-<area shape="rect" id="Node000001" title="CUNMR2: overwrites the general complex m&#45;by&#45;n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,141,175,186"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l1.html#a65e16ab6e529b6346d3ce052868e5744" title="CLACGV: conjugates a complex vector of length N." alt="" coords="234,5,382,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,139,166,103,221,67,245,56,241,59,224,71,169,108,122,143"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#a17fa4453bfe36f615b4787e6f44878d6" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="223,241,393,286"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="141,184,246,233,241,236,141,189"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="664,275,830,303"/>
-<area shape="poly" id="edge14_Node000001_Node000005" title=" " alt="" coords="143,139,237,106,295,91,358,80,424,74,491,76,556,87,618,111,640,124,660,142,694,182,720,224,737,262,732,260,715,226,690,185,656,145,637,129,615,115,554,92,490,81,424,79,359,85,296,96,239,111,146,143"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="664,404,830,432"/>
-<area shape="poly" id="edge15_Node000001_Node000006" title=" " alt="" coords="108,184,159,244,235,321,281,360,331,397,385,427,442,450,474,458,508,462,575,460,639,449,690,438,695,437,640,454,576,465,508,467,473,464,440,456,383,432,329,401,278,365,232,325,155,248,108,189"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#ac20eb127776577a093cdcdfcf3976edf" title="CGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="456,327,601,371"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="368,284,457,320,452,321,367,289"/>
-<area shape="poly" id="edge13_Node000003_Node000005" title=" " alt="" coords="393,266,651,282,647,285,393,271"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#a22ec663923c356759875dfacc7d74b4a" title="CGERC: performs the rank 1 operation A := alpha*x*y**H + A, where alpha is a scalar,..." alt="" coords="456,396,601,441"/>
-<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="330,284,380,333,442,381,452,389,447,388,440,386,376,337,329,289"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#ab49220412a0c71ba72f6a064547c57b9" title="ILACLC: scans A for its last non&#45;zero column." alt="" coords="441,148,616,176"/>
-<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="343,239,388,212,440,187,462,180,458,183,442,191,391,217,346,243"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__aux.html#ab070383b8f791c7b77f51acc5928d45d" title="ILACLR: scans A for its last non&#45;zero row." alt="" coords="442,224,615,252"/>
-<area shape="poly" id="edge11_Node000003_Node000009" title=" " alt="" coords="393,251,429,249,424,251,394,256"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="601,326,676,308,681,307,602,332"/>
-<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="602,369,689,399,684,399,601,375"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="709,274,703,266,708,257,723,251,747,249,773,251,788,260,783,260,771,256,747,254,724,256,712,261,709,266,714,276"/>
-<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="602,416,651,418,646,418,602,421"/>
-<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="491,147,485,140,490,130,505,124,529,122,554,124,570,133,564,133,553,129,529,127,506,129,494,134,490,139,496,148"/>
-<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="491,223,485,216,490,206,505,200,529,198,554,200,570,209,564,209,553,205,529,203,506,205,494,210,490,215,496,225"/>
+<area shape="rect" id="Node000001" title="CUNMR2: overwrites the general complex m&#45;by&#45;n matrix C with Q * C if SIDE = &#39;L&#39; and TRANS = &#39;N&#39;,..." alt="" coords="5,168,175,213"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l1.html#a65e16ab6e529b6346d3ce052868e5744" title="CLACGV: conjugates a complex vector of length N." alt="" coords="234,99,382,143"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,165,223,147,219,150,164,170"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__householder__reflectors.html#a17fa4453bfe36f615b4787e6f44878d6" title="CLARF: applies a complex elementary reflector H to a complex M&#45;by&#45;N matrix C, from either the left or..." alt="" coords="223,168,393,213"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,188,210,189,205,192,176,193"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="664,74,830,102"/>
+<area shape="poly" id="edge12_Node000001_Node000005" title=" " alt="" coords="121,211,211,270,271,303,337,332,408,354,479,363,515,362,549,357,583,347,615,331,642,310,666,285,685,256,701,226,725,166,738,118,742,115,730,167,706,228,690,259,670,288,646,314,618,335,585,352,551,362,515,368,479,369,407,359,336,337,269,308,208,275,120,216"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#ac20eb127776577a093cdcdfcf3976edf" title="CGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="456,5,601,50"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="375,165,391,154,408,133,415,112,422,90,439,67,452,60,456,57,443,71,427,92,420,114,412,135,395,158,378,170"/>
+<area shape="poly" id="edge11_Node000003_Node000005" title=" " alt="" coords="370,165,392,153,405,142,414,131,424,120,440,111,492,93,546,83,599,78,651,80,646,81,600,84,547,88,493,99,442,115,428,124,418,135,409,146,394,158,373,170"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#a22ec663923c356759875dfacc7d74b4a" title="CGERC: performs the rank 1 operation A := alpha*x*y**H + A, where alpha is a scalar,..." alt="" coords="456,125,601,170"/>
+<area shape="poly" id="edge6_Node000003_Node000006" title=" " alt="" coords="393,171,443,164,438,165,394,176"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__aux.html#ab49220412a0c71ba72f6a064547c57b9" title="ILACLC: scans A for its last non&#45;zero column." alt="" coords="441,218,616,246"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="393,204,439,214,433,215,394,209"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__aux.html#ab070383b8f791c7b77f51acc5928d45d" title="ILACLR: scans A for its last non&#45;zero row." alt="" coords="442,294,615,322"/>
+<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="352,211,490,286,485,287,351,216"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="602,45,681,69,676,69,602,50"/>
+<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="709,73,703,65,708,55,723,49,747,47,773,50,788,59,783,58,771,55,747,52,724,54,712,59,709,65,714,74"/>
+<area shape="poly" id="edge8_Node000007_Node000007" title=" " alt="" coords="491,216,485,209,490,199,505,193,529,191,554,194,570,203,564,202,553,199,529,196,506,198,494,203,490,209,496,218"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="491,292,485,285,490,275,505,269,529,267,554,270,570,279,564,278,553,275,529,272,506,274,494,279,490,285,496,294"/>
 </map>

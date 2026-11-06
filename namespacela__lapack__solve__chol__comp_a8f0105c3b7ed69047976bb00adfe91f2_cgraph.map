@@ -1,17 +1,14 @@
 <map id="la_lapack_solve_chol_comp::la_sla_porcond" name="la_lapack_solve_chol_comp::la_sla_porcond">
-<area shape="rect" id="Node000001" title="SLA_PORCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,49,175,94"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,48,44,39,52,30,67,24,90,22,115,25,132,33,126,34,114,30,90,27,68,29,55,34,49,40,51,49"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__chol__comp.html#ac1371c076c7258b154d631bf3e578aaa" title="Pure subroutine form of SLA_PORCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="223,49,422,94"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="175,69,210,71,204,72,175,74"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__chol__comp.html#a18514b3bbf896074058e7fcca6485bb2" title="SPOTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="470,49,629,94"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="422,69,457,71,452,71,422,74"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="861,29,1026,57"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="621,46,677,34,763,28,848,33,843,34,763,34,678,39,622,51"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="677,49,813,94"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="630,69,664,71,659,71,630,74"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="861,85,1026,113"/>
-<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="621,91,678,103,763,109,843,109,848,109,763,114,677,108,621,97"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="909,28,904,20,908,11,921,5,943,3,967,5,981,14,976,14,965,10,943,8,923,10,912,15,909,20,914,30"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="813,59,843,57,848,57,813,64"/>
-<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="813,78,848,85,843,85,813,83"/>
+<area shape="rect" id="Node000001" title="SLA_PORCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,29,175,74"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,28,44,19,52,10,67,5,90,3,115,5,132,14,126,15,114,10,90,8,68,10,55,15,49,21,51,29"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__chol__comp.html#ac1371c076c7258b154d631bf3e578aaa" title="Pure subroutine form of SLA_PORCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="223,29,422,74"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="175,49,210,51,204,52,175,54"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__chol__comp.html#a18514b3bbf896074058e7fcca6485bb2" title="SPOTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="470,29,629,74"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="422,49,457,51,452,52,422,54"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="861,38,1026,66"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="630,45,677,44,813,44,848,47,842,47,813,49,677,49,630,50"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="677,59,813,103"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="630,61,665,69,659,68,630,66"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="909,36,904,29,908,19,921,13,943,11,967,14,981,23,976,22,965,19,943,16,923,18,912,23,909,29,914,39"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="813,68,843,66,848,66,813,74"/>
 </map>

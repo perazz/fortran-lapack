@@ -1,22 +1,18 @@
 <map id="la_lapack::hetrs2::chetrs2" name="la_lapack::hetrs2::chetrs2">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,165,146,210"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#ada1b694caea52a18e1d5c7e63922c36c" title="CHETRS2: solves a system of linear equations A*X = B with a complex Hermitian matrix A using the fact..." alt="" coords="194,165,342,210"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,185,181,186,176,189,147,190"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,144,146,189"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp3.html#ada1b694caea52a18e1d5c7e63922c36c" title="CHETRS2: solves a system of linear equations A*X = B with a complex Hermitian matrix A using the fact..." alt="" coords="194,144,342,189"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,164,181,165,176,168,147,169"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a818df9a899b338869177ee3f7657bece" title="CSSCAL: scales a complex vector by a real constant." alt="" coords="397,5,531,50"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="285,163,329,113,388,60,398,57,394,60,392,64,333,117,289,167"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="290,142,334,102,388,60,400,56,395,59,392,65,337,106,293,146"/>
 <area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="397,75,531,119"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="317,162,403,125,398,127,319,167"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__ldl__comp.html#a8500c9877228f21c2e054bd6de6a7791" title="CSYCONV: convert A given by TRF into L and D and vice&#45;versa. Get Non&#45;diag elements of D (returned in ..." alt="" coords="390,195,538,239"/>
-<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="342,196,377,203,372,204,343,201"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="586,203,752,231"/>
-<area shape="poly" id="edge11_Node000002_Node000006" title=" " alt="" coords="342,178,436,174,539,180,614,198,608,199,538,185,436,179,343,183"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="586,272,752,300"/>
-<area shape="poly" id="edge12_Node000002_Node000007" title=" " alt="" coords="283,208,301,236,326,267,356,297,391,319,420,328,450,333,513,332,571,320,619,307,624,306,573,325,513,337,450,339,419,334,389,323,352,301,322,271,297,239,281,213"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="396,264,532,309"/>
-<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="312,208,391,249,403,257,398,257,389,254,311,213"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="538,214,573,217,568,217,539,220"/>
-<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="533,237,614,267,609,267,532,243"/>
-<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="634,202,628,194,633,185,646,179,669,177,693,179,708,188,702,188,692,184,669,182,648,184,636,189,633,194,638,204"/>
-<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="532,261,609,237,614,236,533,266"/>
-<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="532,284,573,286,568,286,532,289"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="332,141,387,124,382,126,334,146"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__ldl__comp.html#a8500c9877228f21c2e054bd6de6a7791" title="CSYCONV: convert A given by TRF into L and D and vice&#45;versa. Get Non&#45;diag elements of D (returned in ..." alt="" coords="390,144,538,189"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="342,164,377,166,372,167,343,169"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="586,212,752,240"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="341,187,390,198,483,212,573,222,568,222,482,217,390,204,341,192"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#a146013b52e9ab1d998f8329b16b02f96" title="CTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="396,264,532,309"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="304,187,391,243,411,256,405,255,389,247,302,192"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="539,185,608,208,603,208,538,191"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="634,211,628,204,633,194,646,188,669,186,693,188,708,198,702,197,692,193,669,191,648,193,636,198,633,203,638,213"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="532,264,602,246,607,245,533,269"/>
 </map>

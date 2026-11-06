@@ -1,23 +1,21 @@
 <map id="la_lapack::gebal::zgebal" name="la_lapack::gebal::zgebal">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,318,184,346"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__gen__hess.html#a6663bfc06ef3f69f9e53f1758f66e2e9" title="ZGEBAL: balances a general complex matrix A. This involves, first, permuting A by a similarity transf..." alt="" coords="232,309,381,354"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,329,219,330,214,333,185,334"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,275,184,303"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__gen__hess.html#a6663bfc06ef3f69f9e53f1758f66e2e9" title="ZGEBAL: balances a general complex matrix A. This involves, first, permuting A by a similarity transf..." alt="" coords="232,267,381,311"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,287,219,288,214,290,185,291"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="442,29,589,74"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="311,307,324,262,348,202,381,140,403,111,427,84,435,81,431,85,431,88,407,114,386,143,352,205,329,264,315,310"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="313,265,329,227,354,179,386,129,427,84,436,81,432,84,431,88,390,132,358,181,334,229,318,268"/>
 <area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="442,123,589,167"/>
-<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="320,307,364,248,394,214,427,184,447,174,443,177,431,188,398,218,368,251,324,311"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="329,264,373,225,428,184,450,173,446,177,430,189,377,229,333,268"/>
 <area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="653,162,819,190"/>
-<area shape="poly" id="edge16_Node000002_Node000006" title=" " alt="" coords="326,307,370,266,398,245,428,228,480,208,534,193,640,179,635,181,535,199,481,213,430,233,401,249,373,270,330,311"/>
+<area shape="poly" id="edge16_Node000002_Node000006" title=" " alt="" coords="347,264,386,245,428,228,535,200,640,185,635,187,537,206,430,233,388,249,349,268"/>
 <area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a03a30d69d958ad4ba3739964de64b841" title="!" alt="" coords="448,267,583,311"/>
-<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="380,314,436,305,431,307,382,319"/>
+<area shape="poly" id="edge10_Node000002_Node000007" title=" " alt="" coords="381,286,435,288,430,290,382,292"/>
 <area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#a20e052647a3005c80f1c0d0d972aa196" title="IZAMAX: finds the index of the first element having maximum |Re(.)| + |Im(.)|." alt="" coords="429,359,602,387"/>
-<area shape="poly" id="edge12_Node000002_Node000008" title=" " alt="" coords="381,344,430,355,425,356,381,349"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="433,411,598,439"/>
-<area shape="poly" id="edge17_Node000002_Node000010" title=" " alt="" coords="345,352,430,396,451,406,445,406,428,401,344,357"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="448,463,583,507"/>
-<area shape="poly" id="edge18_Node000002_Node000011" title=" " alt="" coords="327,352,372,400,400,426,430,448,439,455,434,455,428,453,397,430,368,404,325,357"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="448,532,583,577"/>
-<area shape="poly" id="edge19_Node000002_Node000012" title=" " alt="" coords="318,352,336,389,360,433,392,478,431,518,438,525,433,524,427,522,388,481,356,436,331,391,316,357"/>
+<area shape="poly" id="edge12_Node000002_Node000008" title=" " alt="" coords="364,309,467,352,462,353,364,315"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#ae5f23cb1df4bb3a79c79b9d489d452b9" title="ZDSCAL: scales a vector by a constant." alt="" coords="448,411,583,455"/>
+<area shape="poly" id="edge17_Node000002_Node000010" title=" " alt="" coords="329,309,374,353,430,396,440,403,435,403,428,401,371,357,328,314"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#ad757f0e2b47ff2b8a75222a5ccddcd44" title="ZSWAP: interchanges two vectors." alt="" coords="448,480,583,525"/>
+<area shape="poly" id="edge18_Node000002_Node000011" title=" " alt="" coords="319,310,362,386,393,428,431,466,438,473,433,472,427,470,389,432,357,389,317,314"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="475,28,474,19,481,10,495,5,516,3,538,5,553,14,548,15,537,10,516,8,496,10,484,15,479,21,481,30"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="661,29,811,74"/>
 <area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="589,49,649,51,644,53,590,54"/>
@@ -26,8 +24,8 @@
 <area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="589,153,641,161,635,163,590,158"/>
 <area shape="poly" id="edge9_Node000006_Node000006" title=" " alt="" coords="698,161,692,153,697,143,712,137,736,135,762,138,777,146,772,147,761,143,736,140,713,142,700,147,697,153,703,162"/>
 <area shape="poly" id="edge11_Node000007_Node000007" title=" " alt="" coords="476,265,474,257,481,248,495,242,516,240,538,243,553,251,548,252,537,248,516,245,496,247,484,252,479,258,480,267"/>
-<area shape="poly" id="edge15_Node000008_Node000008" title=" " alt="" coords="479,358,474,350,478,341,493,335,516,333,540,335,555,344,550,344,539,340,516,338,494,340,482,345,479,350,485,359"/>
+<area shape="poly" id="edge15_Node000008_Node000008" title=" " alt="" coords="479,358,474,350,478,341,493,335,516,333,540,335,555,344,550,344,539,340,516,338,494,340,482,345,479,350,484,359"/>
 <area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#abc3c4ed9b8c6c0e19beb39f657485056" title="DCABS1: computes |Re(.)| + |Im(.)| of a double complex number." alt="" coords="650,359,822,387"/>
 <area shape="poly" id="edge13_Node000008_Node000009" title=" " alt="" coords="602,370,637,373,632,373,603,376"/>
-<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="698,358,692,350,697,341,712,335,736,333,762,335,777,344,772,344,761,340,736,338,713,340,700,345,697,350,703,359"/>
+<area shape="poly" id="edge14_Node000009_Node000009" title=" " alt="" coords="698,358,692,350,697,341,712,335,736,333,762,335,777,344,772,344,761,340,736,338,713,340,700,345,697,350,703,360"/>
 </map>

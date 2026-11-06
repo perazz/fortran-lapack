@@ -1,9 +1,7 @@
 <map id="la_lapack_eigv_comp2::la_ctgexc" name="la_lapack_eigv_comp2::la_ctgexc">
-<area shape="rect" id="Node000001" title="CTGEXC: reorders the generalized Schur decomposition of a complex matrix pair (A,B),..." alt="" coords="5,175,175,219"/>
+<area shape="rect" id="Node000001" title="CTGEXC: reorders the generalized Schur decomposition of a complex matrix pair (A,B),..." alt="" coords="5,144,175,189"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__eigv__comp2.html#a393236c641447f5877bcd652ef128ef6" title="CTGEX2: swaps adjacent diagonal 1 by 1 blocks (A11,B11) and (A22,B22) in an upper triangular matrix p..." alt="" coords="223,144,392,189"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,183,209,179,205,182,176,188"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="225,212,390,240"/>
-<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="174,206,212,212,207,214,175,211"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,164,210,165,205,168,176,169"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#ad1f5de8315adfd17ea4cf824d5cee4ab" title="CLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="456,5,603,50"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="331,142,379,101,439,60,452,56,448,58,441,65,382,105,334,146"/>
 <area shape="rect" id="Node000005" href="$namespacela__lapack__givens__jacobi__rot.html#a1425fe877046e0f6263dacc802467bbf" title="!" alt="" coords="440,75,619,119"/>
@@ -13,7 +11,7 @@
 <area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a277a1d747eac876341fedc2f79826ef5" title="CROT: applies a plane rotation, where the cos (C) is real and the sin (S) is complex,..." alt="" coords="456,213,603,258"/>
 <area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="381,187,444,208,439,208,381,192"/>
 <area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="456,307,603,351"/>
-<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="374,186,394,199,410,217,419,233,428,250,442,268,477,298,472,297,438,272,423,253,415,236,406,220,390,203,374,192"/>
+<area shape="poly" id="edge8_Node000002_Node000008" title=" " alt="" coords="337,186,442,268,483,298,477,297,438,272,335,191"/>
 <area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="667,164,833,192"/>
 <area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="597,48,621,60,681,106,728,153,723,153,677,110,618,65,597,53"/>
 <area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="712,163,706,156,711,146,726,140,750,138,776,140,791,149,786,149,775,145,750,143,727,145,714,150,711,155,717,165"/>

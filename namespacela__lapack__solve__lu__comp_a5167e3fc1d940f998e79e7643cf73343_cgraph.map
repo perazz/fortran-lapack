@@ -1,26 +1,21 @@
 <map id="la_lapack_solve_lu_comp::la_sla_gbrcond" name="la_lapack_solve_lu_comp::la_sla_gbrcond">
-<area shape="rect" id="Node000001" title="SLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,135,175,179"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,134,44,124,52,116,67,110,90,108,115,110,131,118,127,120,114,116,90,113,68,115,55,120,49,126,51,134"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a87a5b58b09e7e353429280fe2c8a18be" title="Pure subroutine form of SLA_GBRCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="223,135,422,179"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="174,154,209,156,205,158,176,159"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a114355c1262a34b861fa85622374756d" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="470,135,614,179"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="422,154,457,156,452,158,423,160"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="856,43,1021,71"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="554,132,570,105,595,73,625,43,661,20,691,10,722,5,784,6,843,18,894,37,889,37,842,23,783,11,722,10,692,15,663,25,628,47,599,76,575,108,557,136"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="662,35,808,79"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="583,132,661,89,670,88,674,86,664,94,585,136"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="856,142,1021,169"/>
-<area shape="poly" id="edge15_Node000003_Node000006" title=" " alt="" coords="614,157,662,158,808,158,843,160,837,160,808,164,662,164,615,162"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="662,224,808,269"/>
-<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="592,177,674,217,669,217,592,182"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="668,293,802,338"/>
-<area shape="poly" id="edge11_Node000003_Node000008" title=" " alt="" coords="562,177,607,227,664,279,670,285,665,284,661,283,603,231,560,182"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="667,104,803,149"/>
-<area shape="poly" id="edge12_Node000003_Node000009" title=" " alt="" coords="614,143,655,139,649,140,615,148"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="903,42,898,34,902,25,916,19,938,16,962,19,977,28,971,28,961,24,938,22,917,24,906,28,903,34,908,43"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="808,54,843,56,837,57,809,60"/>
-<area shape="poly" id="edge8_Node000005_Node000006" title=" " alt="" coords="784,77,809,89,897,135,892,134,806,94,783,82"/>
-<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="786,221,889,177,894,176,788,226"/>
-<area shape="poly" id="edge13_Node000009_Node000004" title=" " alt="" coords="802,101,878,77,883,76,803,106"/>
-<area shape="poly" id="edge14_Node000009_Node000006" title=" " alt="" coords="803,133,843,141,837,142,803,139"/>
+<area shape="rect" id="Node000001" title="SLA_GBRCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,101,175,146"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,100,44,91,52,82,67,76,90,74,115,77,131,85,127,87,114,82,90,80,68,81,55,86,49,92,51,100"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu__comp.html#a87a5b58b09e7e353429280fe2c8a18be" title="Pure subroutine form of SLA_GBRCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="223,101,422,146"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="174,121,209,122,205,124,176,126"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a114355c1262a34b861fa85622374756d" title="SGBTRS: solves a system of linear equations A * X = B or A**T * X = B with a general band matrix A us..." alt="" coords="470,101,614,146"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="422,121,457,123,452,124,423,126"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="856,40,1021,68"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="559,98,601,54,630,33,661,17,691,8,722,4,783,6,841,17,891,34,886,34,840,22,783,11,722,9,692,13,663,22,633,37,605,58,562,103"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="662,32,808,76"/>
+<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="605,98,654,83,659,81,607,103"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__gen.html#ae16b7630b03f75d1b6cd6ade153ccec8" title="SGER: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="662,101,808,146"/>
+<area shape="poly" id="edge8_Node000003_Node000006" title=" " alt="" coords="615,121,650,123,644,124,615,126"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="668,170,802,215"/>
+<area shape="poly" id="edge9_Node000003_Node000007" title=" " alt="" coords="607,143,659,164,654,164,606,149"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level2__tri.html#a09e656e7e22e57a9b771916b6e78cf20" title="STBSV: solves one of the systems of equations A*x = b, or A**T*x = b, where b and x are n element vec..." alt="" coords="667,240,803,284"/>
+<area shape="poly" id="edge10_Node000003_Node000008" title=" " alt="" coords="567,143,611,184,664,225,672,232,667,231,661,229,607,188,565,148"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="903,39,898,31,902,21,916,15,938,13,962,16,977,25,971,24,961,21,938,19,917,21,906,25,903,31,908,40"/>
+<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="808,51,843,53,837,54,809,56"/>
+<area shape="poly" id="edge11_Node000008_Node000004" title=" " alt="" coords="790,236,806,225,842,190,874,151,920,83,924,80,878,154,846,194,809,229,792,241"/>
 </map>

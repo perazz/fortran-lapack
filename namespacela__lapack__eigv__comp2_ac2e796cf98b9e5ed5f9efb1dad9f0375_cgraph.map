@@ -1,34 +1,31 @@
 <map id="la_lapack_eigv_comp2::la_stgevc" name="la_lapack_eigv_comp2::la_stgevc">
-<area shape="rect" id="Node000001" title="STGEVC: computes some or all of the right and/or left eigenvectors of a pair of real matrices (S,..." alt="" coords="5,272,175,317"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="833,250,998,278"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,270,222,260,303,249,385,241,548,237,697,242,820,253,815,254,697,247,548,242,385,247,303,254,223,265,176,274"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="227,301,372,346"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="174,304,214,310,209,313,176,309"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="424,254,589,282"/>
-<area shape="poly" id="edge20_Node000001_Node000004" title=" " alt="" coords="174,286,410,272,407,276,176,292"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a07a0b8e445fa8e2b62507c416c668bac" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="226,421,373,466"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="116,314,166,356,224,400,243,413,237,413,221,405,162,360,116,320"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="433,360,580,405"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="129,315,174,337,223,356,273,367,323,374,420,382,415,384,323,379,272,372,222,361,172,342,129,320"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__eigv__sym__comp.html#a40c92831ddc8dc619a4a8ccb3ebb2660" title="SLAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue problem A &#45; w B,..." alt="" coords="223,491,376,535"/>
-<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="103,315,151,393,185,437,224,476,230,482,225,481,221,480,181,440,147,396,102,320"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__eigv__gen__aux.html#a03d81f62242deca71a47a8e896d440b8" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="225,80,374,125"/>
-<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="105,270,153,209,186,174,221,142,239,131,236,135,224,146,189,177,157,212,109,273"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="637,127,785,171"/>
-<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="111,270,159,228,189,208,222,192,273,175,326,161,434,145,536,139,624,142,619,144,536,145,434,151,327,167,274,180,224,197,192,213,162,232,115,273"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="880,248,874,241,879,231,893,225,915,223,939,226,954,235,949,234,938,231,915,228,894,230,883,235,880,241,885,250"/>
-<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="372,314,819,271,816,275,373,319"/>
-<area shape="poly" id="edge5_Node000003_Node000004" title=" " alt="" coords="371,302,441,285,436,287,373,307"/>
-<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="580,375,679,363,732,351,784,336,836,312,880,288,885,286,838,316,786,341,733,356,680,368,581,381"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="433,29,580,74"/>
-<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="373,82,420,72,416,75,376,86"/>
-<area shape="poly" id="edge18_Node000008_Node000012" title=" " alt="" coords="374,108,624,138,620,141,375,113"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="637,29,785,74"/>
-<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="580,49,624,51,619,53,582,54"/>
-<area shape="poly" id="edge15_Node000009_Node000012" title=" " alt="" coords="555,72,651,119,646,120,555,77"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="842,29,989,74"/>
-<area shape="poly" id="edge13_Node000010_Node000011" title=" " alt="" coords="784,49,829,51,824,52,786,54"/>
-<area shape="poly" id="edge14_Node000011_Node000011" title=" " alt="" coords="876,28,875,19,881,10,895,5,915,3,937,5,952,14,946,14,936,10,915,8,896,10,885,15,880,21,881,30"/>
-<area shape="poly" id="edge16_Node000012_Node000002" title=" " alt="" coords="753,169,879,242,873,242,752,175"/>
-<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="672,125,670,117,677,108,691,102,711,100,733,102,747,111,742,111,731,108,711,105,692,107,680,112,676,118,677,127"/>
+<area shape="rect" id="Node000001" title="STGEVC: computes some or all of the right and/or left eigenvectors of a pair of real matrices (S,..." alt="" coords="5,155,175,200"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="815,71,980,99"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,153,165,118,221,84,319,37,364,23,424,11,482,4,541,3,600,8,658,16,763,39,846,66,840,66,761,44,657,21,600,13,541,9,482,9,424,16,366,28,321,42,224,89,168,123,122,156"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="425,26,570,70"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="148,152,222,125,411,69,408,73,224,130,151,157"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a07a0b8e445fa8e2b62507c416c668bac" title="SLABAD: takes as input the values computed by SLAMCH for underflow and overflow, and returns the squa..." alt="" coords="226,284,373,329"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="120,197,168,233,224,270,234,277,228,277,221,274,165,238,119,203"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="424,95,571,140"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="174,162,410,128,407,132,176,167"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__eigv__sym__comp.html#a40c92831ddc8dc619a4a8ccb3ebb2660" title="SLAG2: computes the eigenvalues of a 2 x 2 generalized eigenvalue problem A &#45; w B,..." alt="" coords="223,354,376,398"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="106,198,154,267,187,305,224,339,231,346,225,345,221,343,183,309,150,270,104,203"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__eigv__gen__aux.html#a03d81f62242deca71a47a8e896d440b8" title="SLALN2: solves a system of the form (ca A &#45; w D ) X = s B or (ca A**T &#45; w D) X = s B with possible sc..." alt="" coords="225,215,374,260"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="170,197,212,211,207,213,171,203"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="619,183,767,228"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="175,178,605,199,603,204,175,184"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="862,70,856,62,861,53,875,47,897,45,921,47,936,56,931,56,920,52,897,50,876,52,865,57,862,62,867,72"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="571,52,801,75,796,77,571,57"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="571,109,801,92,797,94,572,114"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__scalar.html#a7904fc341f85d41c6d9847eee62c3212" title="SLADIV: performs complex division in real arithmetic a + i*b p + i*q = &#45;&#45;&#45;&#45;&#45;&#45;— c + i*d The algorithm ..." alt="" coords="424,266,571,310"/>
+<area shape="poly" id="edge10_Node000007_Node000008" title=" " alt="" coords="375,254,411,265,406,265,375,259"/>
+<area shape="poly" id="edge17_Node000007_Node000011" title=" " alt="" coords="374,229,606,211,601,214,375,234"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__auxiliary.html#a8d748d5192da42c522f28e566338f2ed" title=" " alt="" coords="619,266,767,310"/>
+<area shape="poly" id="edge11_Node000008_Node000009" title=" " alt="" coords="572,285,606,288,601,288,572,291"/>
+<area shape="poly" id="edge14_Node000008_Node000011" title=" " alt="" coords="551,263,622,235,627,233,553,268"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__auxiliary.html#a060d1eb779ff4b79b8e210d748d3e239" title=" " alt="" coords="824,266,971,310"/>
+<area shape="poly" id="edge12_Node000009_Node000010" title=" " alt="" coords="767,285,811,288,805,288,767,291"/>
+<area shape="poly" id="edge13_Node000010_Node000010" title=" " alt="" coords="858,263,857,255,863,247,877,241,897,239,919,241,934,250,929,250,918,246,897,244,878,246,867,251,862,257,863,267"/>
+<area shape="poly" id="edge15_Node000011_Node000002" title=" " alt="" coords="732,180,856,108,861,106,734,185"/>
+<area shape="poly" id="edge16_Node000011_Node000011" title=" " alt="" coords="656,181,654,173,661,164,674,158,693,156,714,159,728,167,723,167,712,164,693,162,675,163,664,168,659,174,660,184"/>
 </map>

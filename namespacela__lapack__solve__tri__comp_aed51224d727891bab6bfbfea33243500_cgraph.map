@@ -1,42 +1,35 @@
 <map id="la_lapack_solve_tri_comp::la_slauum" name="la_lapack_solve_tri_comp::la_slauum">
-<area shape="rect" id="Node000001" title="SLAUUM: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,327,152,372"/>
+<area shape="rect" id="Node000001" title="SLAUUM: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="5,266,152,311"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="200,105,381,133"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,327,101,288,125,241,157,192,198,149,218,138,215,142,201,153,161,195,129,244,106,291,90,328"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="664,307,830,334"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="109,325,151,297,198,270,260,241,310,220,361,205,429,193,524,176,567,177,617,193,653,212,684,239,731,294,725,294,680,242,650,217,615,198,566,183,525,181,429,198,363,211,312,225,263,246,201,275,153,301,113,329"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="450,207,595,252"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="151,328,436,251,434,256,153,333"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="664,544,830,572"/>
-<area shape="poly" id="edge27_Node000001_Node000007" title=" " alt="" coords="84,370,99,422,121,488,154,557,176,590,202,619,255,663,304,688,359,702,430,715,483,727,525,735,566,733,615,715,654,689,687,654,713,617,731,587,735,584,717,620,691,657,658,693,618,720,567,738,525,740,482,732,428,720,358,707,302,693,252,668,198,622,172,593,150,560,116,490,94,424,84,375"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__solve__tri__comp.html#a9410bbfb1c7ad1be3ff2ee2fd281ae7e" title="SLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="217,442,364,487"/>
-<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="122,370,236,433,232,436,122,375"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__level3__sym.html#a844ac8c8ba5332df18d566e700f7746f" title="SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="448,327,597,372"/>
-<area shape="poly" id="edge21_Node000001_Node000012" title=" " alt="" coords="152,347,434,348,431,352,153,352"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="455,661,590,706"/>
-<area shape="poly" id="edge24_Node000001_Node000013" title=" " alt="" coords="94,370,140,432,169,466,201,497,265,545,332,588,457,654,452,654,330,592,262,550,198,501,165,470,136,435,94,375"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,265,135,207,165,176,198,149,223,137,219,141,201,153,168,180,139,211,96,267"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="664,325,830,353"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="106,264,149,237,199,215,316,189,364,183,410,183,456,189,504,200,617,239,648,254,677,273,724,315,719,314,674,278,645,259,615,244,503,205,455,194,410,189,365,189,316,194,200,220,151,241,110,267"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="218,230,363,275"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="150,274,205,266,201,269,153,278"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__tri__comp.html#a9410bbfb1c7ad1be3ff2ee2fd281ae7e" title="SLAUU2: computes the product U * U**T or L**T * L, where the triangular factor U or L is stored in th..." alt="" coords="217,324,364,368"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="151,306,204,321,200,323,152,311"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level3__sym.html#a844ac8c8ba5332df18d566e700f7746f" title="SSYRK: performs one of the symmetric rank k operations C := alpha*A*A**T + beta*C,..." alt="" coords="216,418,365,463"/>
+<area shape="poly" id="edge18_Node000001_Node000011" title=" " alt="" coords="109,309,201,378,244,409,239,410,198,383,108,314"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="223,538,358,583"/>
+<area shape="poly" id="edge20_Node000001_Node000012" title=" " alt="" coords="92,308,139,385,202,473,254,528,248,528,198,477,134,387,91,314"/>
 <area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="254,105,248,96,253,87,267,81,290,79,315,81,330,89,325,91,314,86,290,84,268,86,256,91,253,96,259,105"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="430,29,615,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="328,103,428,67,457,60,453,63,430,72,332,107"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="328,102,428,67,457,60,453,63,430,72,331,107"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="429,105,616,133"/>
-<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="380,117,416,118,411,121,382,122"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="380,117,416,118,411,120,382,122"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="484,29,478,20,483,11,498,5,523,3,549,5,565,13,560,15,548,10,523,8,499,10,486,15,483,20,489,29"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="484,105,478,96,483,87,498,81,523,79,549,81,565,89,560,91,548,86,523,84,499,86,486,91,483,96,489,105"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="708,306,702,298,707,288,722,282,747,280,773,283,789,291,784,292,772,288,747,285,724,287,711,292,708,297,713,307"/>
-<area shape="poly" id="edge10_Node000006_Node000005" title=" " alt="" coords="580,250,699,300,694,301,580,255"/>
-<area shape="poly" id="edge11_Node000006_Node000007" title=" " alt="" coords="554,250,587,279,618,314,657,370,691,430,737,531,732,529,686,432,653,373,614,317,583,283,553,255"/>
-<area shape="poly" id="edge13_Node000008_Node000005" title=" " alt="" coords="302,440,322,409,350,373,386,339,428,313,459,302,491,294,556,289,620,292,677,302,672,304,619,297,557,294,492,300,460,307,430,318,389,343,354,377,326,413,306,444"/>
-<area shape="poly" id="edge20_Node000008_Node000007" title=" " alt="" coords="307,485,329,513,357,544,391,573,430,595,464,606,500,611,537,611,573,608,642,594,696,579,701,577,643,599,574,613,537,617,500,616,463,611,428,600,388,578,354,548,325,517,306,490"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="438,420,607,448"/>
-<area shape="poly" id="edge14_Node000008_Node000009" title=" " alt="" coords="363,452,425,446,420,448,365,457"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="450,471,595,516"/>
-<area shape="poly" id="edge16_Node000008_Node000010" title=" " alt="" coords="363,471,437,482,432,484,364,476"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="456,541,590,585"/>
-<area shape="poly" id="edge19_Node000008_Node000011" title=" " alt="" coords="338,485,430,526,447,535,442,535,428,531,338,490"/>
-<area shape="poly" id="edge15_Node000009_Node000009" title=" " alt="" coords="484,419,478,411,483,401,498,395,523,393,549,396,565,404,559,405,548,401,523,399,499,401,486,405,483,411,489,420"/>
-<area shape="poly" id="edge17_Node000010_Node000005" title=" " alt="" coords="594,469,615,457,648,431,678,401,725,349,729,345,682,405,652,435,618,461,596,473"/>
-<area shape="poly" id="edge18_Node000010_Node000007" title=" " alt="" coords="596,512,684,539,678,539,596,517"/>
-<area shape="poly" id="edge22_Node000012_Node000005" title=" " alt="" coords="597,338,651,332,646,334,599,343"/>
-<area shape="poly" id="edge23_Node000012_Node000007" title=" " alt="" coords="597,370,618,382,656,417,688,457,734,531,729,530,684,460,652,421,615,387,597,375"/>
-<area shape="poly" id="edge25_Node000013_Node000005" title=" " alt="" coords="553,658,584,630,614,596,655,531,690,462,734,351,738,348,695,464,660,533,618,599,588,634,556,663"/>
-<area shape="poly" id="edge26_Node000013_Node000007" title=" " alt="" coords="578,658,615,640,711,582,716,580,618,644,580,663"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="484,105,478,96,483,87,498,81,523,79,549,81,565,90,560,90,548,86,523,84,499,86,486,91,483,96,489,105"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="708,324,702,316,707,307,722,301,747,299,773,301,789,310,784,310,772,306,747,304,724,306,711,311,708,316,713,326"/>
+<area shape="poly" id="edge10_Node000006_Node000005" title=" " alt="" coords="363,246,483,248,551,256,617,270,669,290,715,317,709,317,667,295,616,275,550,261,483,254,364,251"/>
+<area shape="poly" id="edge12_Node000007_Node000005" title=" " alt="" coords="341,321,383,305,428,294,481,286,523,284,564,286,617,294,659,304,700,319,695,319,658,309,616,299,564,292,523,289,482,291,430,299,385,310,343,325"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="438,332,607,360"/>
+<area shape="poly" id="edge13_Node000007_Node000008" title=" " alt="" coords="363,343,425,345,420,347,364,348"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level2__gen.html#aabf3c89a12ae7a8d106099c21fe31389" title="SGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="450,384,595,428"/>
+<area shape="poly" id="edge15_Node000007_Node000009" title=" " alt="" coords="364,362,438,383,433,384,364,367"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="456,453,590,498"/>
+<area shape="poly" id="edge17_Node000007_Node000010" title=" " alt="" coords="327,366,383,404,406,422,430,438,444,447,439,447,428,443,403,426,379,408,326,371"/>
+<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="484,331,478,323,483,313,498,307,523,305,549,308,565,317,559,317,548,313,523,311,499,313,486,317,483,323,489,332"/>
+<area shape="poly" id="edge16_Node000009_Node000005" title=" " alt="" coords="595,382,686,357,680,359,597,387"/>
+<area shape="poly" id="edge19_Node000011_Node000005" title=" " alt="" coords="326,461,374,487,430,507,483,521,525,528,566,526,615,507,656,479,689,441,714,401,732,369,736,365,719,403,693,444,659,483,618,512,568,531,525,534,481,526,428,512,372,492,325,466"/>
+<area shape="poly" id="edge21_Node000012_Node000005" title=" " alt="" coords="358,569,417,574,483,572,552,560,584,549,615,534,638,518,658,498,693,453,718,406,734,369,739,366,722,408,697,456,662,502,641,522,618,539,586,554,553,565,484,577,417,579,358,575"/>
 </map>

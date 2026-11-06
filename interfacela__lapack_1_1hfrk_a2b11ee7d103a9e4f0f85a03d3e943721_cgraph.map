@@ -1,18 +1,14 @@
 <map id="la_lapack::hfrk::zhfrk" name="la_lapack::hfrk::zhfrk">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,70,164,98"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l3.html#a138a600e1a78c53eb5144a9158043970" title="Level 3 BLAS like routine for C in RFP Format. ZHFRK: performs one of the Hermitian rank–k operations..." alt="" coords="212,61,359,106"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,81,199,83,194,85,165,86"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="600,35,766,63"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="315,59,356,33,406,12,465,3,525,6,580,15,630,30,625,30,579,20,524,11,465,9,408,17,359,37,317,63"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="600,105,766,132"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="317,104,359,130,408,151,465,159,524,156,579,147,625,138,630,137,580,152,525,162,465,164,406,156,356,135,315,109"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#ac8c7cb2e0cee2b098cda8af180eeb300" title="ZGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="407,27,552,71"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="359,68,394,64,389,65,360,73"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level3__gen.html#a6647e30e0943453699ee86a18e0638f6" title="ZHERK: performs one of the hermitian rank k operations C := alpha*A*A**H + beta*C,..." alt="" coords="407,96,552,141"/>
-<area shape="poly" id="edge8_Node000002_Node000006" title=" " alt="" coords="359,94,394,103,389,103,359,100"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="648,34,642,26,647,17,661,11,683,9,707,11,721,20,716,20,706,16,683,14,662,16,650,21,648,26,653,36"/>
-<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="553,46,587,49,582,49,553,52"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="548,69,628,99,623,99,547,75"/>
-<area shape="poly" id="edge9_Node000006_Node000003" title=" " alt="" coords="547,93,623,69,628,68,548,98"/>
-<area shape="poly" id="edge10_Node000006_Node000004" title=" " alt="" coords="553,116,587,118,582,119,553,121"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,33,164,60"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__l3.html#a138a600e1a78c53eb5144a9158043970" title="Level 3 BLAS like routine for C in RFP Format. ZHFRK: performs one of the Hermitian rank–k operations..." alt="" coords="212,24,359,69"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,44,199,46,194,47,165,49"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="600,33,766,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="353,21,407,9,480,3,553,9,628,28,622,28,552,15,480,8,407,15,354,26"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#ac8c7cb2e0cee2b098cda8af180eeb300" title="ZGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="407,24,552,69"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="359,44,394,46,389,47,359,49"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#a6647e30e0943453699ee86a18e0638f6" title="ZHERK: performs one of the hermitian rank k operations C := alpha*A*A**H + beta*C,..." alt="" coords="407,94,552,138"/>
+<area shape="poly" id="edge6_Node000002_Node000005" title=" " alt="" coords="350,67,404,88,398,88,350,72"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="648,31,642,24,647,14,661,8,683,6,707,9,721,18,716,17,706,14,683,11,662,13,650,18,648,24,653,33"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="553,44,587,46,582,47,553,49"/>
+<area shape="poly" id="edge7_Node000005_Node000003" title=" " alt="" coords="547,90,623,67,628,66,548,96"/>
 </map>

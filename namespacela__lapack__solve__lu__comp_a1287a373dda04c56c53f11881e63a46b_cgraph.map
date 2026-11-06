@@ -1,27 +1,23 @@
 <map id="la_lapack_solve_lu_comp::la_sgetrf2" name="la_lapack_solve_lu_comp::la_sgetrf2">
-<area shape="rect" id="Node000001" title="SGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="5,244,150,288"/>
-<area shape="poly" id="edge7_Node000001_Node000001" title=" " alt="" coords="38,243,37,233,43,224,57,219,78,217,100,219,115,227,110,229,99,224,77,222,58,224,46,229,42,235,43,243"/>
+<area shape="rect" id="Node000001" title="SGETRF2: computes an LU factorization of a general M&#45;by&#45;N matrix A using partial pivoting with row in..." alt="" coords="5,209,150,254"/>
+<area shape="poly" id="edge6_Node000001_Node000001" title=" " alt="" coords="38,208,37,199,43,190,57,184,78,182,100,185,115,193,110,195,99,190,77,187,58,189,46,194,42,200,43,208"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="198,29,371,57"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,242,99,204,122,157,155,108,196,66,205,63,201,67,199,71,159,111,127,159,104,206,89,244"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="212,244,357,288"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="149,263,198,264,194,267,151,268"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="419,252,584,280"/>
-<area shape="poly" id="edge16_Node000001_Node000005" title=" " alt="" coords="145,286,198,298,284,306,371,298,446,284,441,285,371,303,284,311,197,303,146,291"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="211,105,358,150"/>
-<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="98,241,142,201,196,160,208,155,205,159,199,164,145,205,102,245"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__lu__comp.html#a4ceaa0f6cc0ebbcd5c297274b99267f2" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="212,364,356,408"/>
-<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="111,286,199,342,222,356,217,357,196,347,110,291"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="217,433,352,478"/>
-<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="92,286,135,351,165,387,199,418,207,425,201,425,196,423,161,391,131,354,90,291"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="217,174,352,219"/>
-<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="145,241,203,222,200,226,148,245"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,207,128,138,159,99,196,66,206,62,202,66,199,71,163,103,132,141,92,210"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="212,81,357,126"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="102,206,145,171,196,136,209,131,205,134,199,140,148,175,106,210"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="211,174,358,219"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="149,217,198,210,193,213,151,221"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__lu__comp.html#a4ceaa0f6cc0ebbcd5c297274b99267f2" title="SLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="212,244,356,288"/>
+<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="150,241,199,250,195,252,151,246"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="217,313,352,358"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="115,251,199,298,212,306,207,306,196,303,115,257"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__level3__tri.html#a043a8c4eda9186ebeb182dbb43086858" title="STRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="217,382,352,427"/>
+<area shape="poly" id="edge12_Node000001_Node000008" title=" " alt="" coords="94,251,138,309,167,340,199,368,207,375,202,374,196,372,163,344,134,313,92,256"/>
 <area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="248,29,243,20,248,11,262,5,284,3,309,5,323,13,318,15,307,10,284,8,263,10,251,15,248,20,254,29"/>
 <area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="419,183,584,210"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="355,240,444,214,439,217,358,245"/>
-<area shape="poly" id="edge6_Node000003_Node000005" title=" " alt="" coords="357,263,406,265,401,267,358,268"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="464,182,458,174,463,164,478,158,502,156,527,159,543,167,537,168,526,164,502,161,479,163,467,168,464,173,469,183"/>
-<area shape="poly" id="edge9_Node000006_Node000004" title=" " alt="" coords="356,147,444,177,439,178,357,153"/>
-<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="245,104,243,95,250,86,264,80,284,78,307,81,322,89,316,90,305,86,284,83,265,85,253,90,248,96,250,105"/>
-<area shape="poly" id="edge14_Node000009_Node000004" title=" " alt="" coords="352,194,406,196,401,197,353,199"/>
-<area shape="poly" id="edge15_Node000009_Node000005" title=" " alt="" coords="352,215,444,246,439,248,352,221"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="343,124,372,135,458,175,453,176,370,140,343,129"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="464,182,458,174,463,164,478,158,502,156,527,159,543,167,537,167,526,164,502,161,479,163,467,168,464,173,469,183"/>
+<area shape="poly" id="edge8_Node000005_Node000004" title=" " alt="" coords="358,194,406,196,401,197,359,199"/>
+<area shape="poly" id="edge9_Node000005_Node000005" title=" " alt="" coords="245,173,243,164,250,155,264,150,284,148,307,150,322,159,316,159,305,155,284,153,265,155,253,159,248,165,250,174"/>
+<area shape="poly" id="edge13_Node000008_Node000004" title=" " alt="" coords="351,379,369,368,406,333,438,294,484,225,488,222,443,297,410,337,373,372,353,384"/>
 </map>

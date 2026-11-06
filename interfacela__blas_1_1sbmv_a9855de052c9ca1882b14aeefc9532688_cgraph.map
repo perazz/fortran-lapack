@@ -1,10 +1,8 @@
 <map id="la_blas::sbmv::dsbmv" name="la_blas::sbmv::dsbmv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,56,168,84"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level2__pac.html#aca0d20ad412289dfdb05d06c76ba766d" title="DSBMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="216,48,360,92"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,67,203,69,198,70,168,72"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,168,57"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level2__pac.html#aca0d20ad412289dfdb05d06c76ba766d" title="DSBMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="216,21,360,66"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,41,203,43,198,43,168,46"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="408,29,573,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="360,58,395,56,390,56,361,63"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="408,81,573,109"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="360,76,395,83,390,83,360,82"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="360,41,395,43,390,43,360,46"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="456,28,450,20,455,11,468,5,491,3,515,5,529,14,524,14,513,10,491,8,470,10,458,15,455,20,460,30"/>
 </map>

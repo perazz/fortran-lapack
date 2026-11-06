@@ -1,20 +1,16 @@
 <map id="la_lapack_solve_ldl_comp2::la_dsytrs_aa" name="la_lapack_solve_ldl_comp2::la_dsytrs_aa">
-<area shape="rect" id="Node000001" title="DSYTRS_AA: solves a system of linear equations A*X = B with a real symmetric matrix A using the facto..." alt="" coords="5,156,168,201"/>
+<area shape="rect" id="Node000001" title="DSYTRS_AA: solves a system of linear equations A*X = B with a real symmetric matrix A using the facto..." alt="" coords="5,135,168,179"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu.html#a967f23b82b5faa77b744ce469b035e82" title="DGTSV: solves the equation A*X = B, where A is an n by n tridiagonal matrix, by Gaussian elimination ..." alt="" coords="217,5,362,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,154,157,112,214,67,234,57,230,60,217,71,160,116,114,157"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="411,74,576,102"/>
-<area shape="poly" id="edge11_Node000001_Node000003" title=" " alt="" coords="122,154,165,130,215,110,307,92,398,86,393,89,308,97,216,116,167,135,125,158"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="216,315,363,359"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="108,199,156,249,217,300,225,307,219,306,214,304,152,253,107,204"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="411,194,576,222"/>
-<area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="168,182,397,199,394,203,168,187"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="222,245,356,290"/>
-<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="139,198,225,237,220,240,139,204"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="222,125,357,170"/>
-<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="167,164,208,159,204,162,169,168"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="361,46,432,68,427,70,362,51"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="341,312,362,300,416,264,461,232,466,230,419,268,364,305,342,317"/>
-<area shape="poly" id="edge5_Node000005_Node000005" title=" " alt="" coords="458,192,453,185,457,175,471,169,494,167,518,170,532,179,527,178,516,175,494,172,473,174,461,179,458,185,463,194"/>
-<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="356,125,432,105,427,108,358,130"/>
-<area shape="poly" id="edge8_Node000007_Node000005" title=" " alt="" coords="357,165,432,188,427,189,357,170"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,132,160,97,214,60,226,56,222,59,217,65,163,101,117,136"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__base.html#a0ceeb0ea602555c3d55fb10fa6c97c24" title="DLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="216,75,363,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,132,203,122,198,125,165,136"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="411,143,576,171"/>
+<area shape="poly" id="edge8_Node000001_Node000004" title=" " alt="" coords="168,154,396,155,394,159,169,160"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="222,195,356,239"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="164,177,210,192,205,194,164,183"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="222,264,357,309"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="116,177,163,213,217,249,227,257,221,256,214,254,160,217,115,182"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="363,116,433,138,427,139,363,121"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="458,142,453,134,457,125,471,119,494,117,518,119,532,128,527,128,516,124,494,122,473,124,461,129,458,134,463,143"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="341,261,362,249,416,213,461,182,466,180,419,218,364,254,342,266"/>
 </map>

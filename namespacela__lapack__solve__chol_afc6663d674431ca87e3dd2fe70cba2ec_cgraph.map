@@ -1,38 +1,34 @@
 <map id="la_lapack_solve_chol::la_sptsvx" name="la_lapack_solve_chol::la_sptsvx">
-<area shape="rect" id="Node000001" title="SPTSVX: uses the factorization A = L*D*L**T to compute the solution to a real system of linear equati..." alt="" coords="5,333,165,378"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="424,120,589,148"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,332,91,269,110,184,126,140,147,97,176,59,211,28,252,7,289,4,328,12,373,28,406,43,437,63,486,108,480,109,434,68,404,48,371,33,326,17,289,9,254,12,214,32,180,63,152,100,131,142,115,185,96,270,90,333"/>
+<area shape="rect" id="Node000001" title="SPTSVX: uses the factorization A = L*D*L**T to compute the solution to a real system of linear equati..." alt="" coords="5,298,165,343"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="424,120,589,147"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,297,94,240,115,164,131,125,152,88,179,55,211,27,252,7,290,4,328,12,373,27,406,42,437,63,486,108,480,108,434,67,404,47,371,32,326,17,289,9,254,12,214,32,182,58,156,91,136,128,120,166,99,241,91,298"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="225,42,360,87"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="89,332,104,284,128,222,163,156,186,125,211,97,217,94,214,99,215,101,190,129,168,159,133,224,109,286,94,333"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="219,112,366,156"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="94,332,138,253,171,207,211,167,219,163,216,167,214,171,175,211,142,255,99,334"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="219,205,366,250"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="112,331,157,295,211,260,223,255,220,259,214,264,161,300,116,334"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="91,296,108,255,133,202,167,146,211,97,218,93,215,98,215,101,172,149,138,204,113,257,96,298"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__blas__like__base.html#a78fc6b1ac043e5e6a0c79c414cc6c71e" title="SLACPY: copies all or part of a two&#45;dimensional matrix A to another matrix B." alt="" coords="219,111,366,156"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="98,296,144,233,176,198,211,166,220,162,216,166,214,170,179,201,148,236,103,299"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="219,205,366,249"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="133,295,212,259,227,254,223,258,214,264,137,299"/>
 <area shape="rect" id="Node000006" href="$namespacela__lapack__blas__like__mnorm.html#af1fa7f1af773591490801f5ff1f216f7" title="SLANST: returns the value of the one norm, or the Frobenius norm, or the infinity norm,..." alt="" coords="219,298,366,343"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="163,340,205,334,201,337,166,344"/>
-<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#a174bf1fbadf0d8d0e6a11ccabfcb39c4" title="SPTCON: computes the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric positive ..." alt="" coords="213,368,372,412"/>
-<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="164,366,200,373,195,375,166,371"/>
-<area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="424,436,589,464"/>
-<area shape="poly" id="edge22_Node000001_Node000009" title=" " alt="" coords="119,376,163,401,214,422,262,434,313,442,411,451,406,453,312,447,261,439,212,427,161,406,119,381"/>
-<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#aff29f4577e1503d155cabbc7893f7d43" title="SPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="213,557,372,602"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="97,376,142,457,175,502,214,543,220,549,215,548,211,547,171,506,138,460,96,381"/>
-<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#a8fb94a993a1f0192fe41eb20322c2401" title="SPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="427,586,586,631"/>
-<area shape="poly" id="edge21_Node000001_Node000011" title=" " alt="" coords="90,376,103,429,125,495,141,529,161,561,185,589,214,612,261,632,313,640,365,639,412,635,417,635,365,644,313,645,260,637,211,616,181,593,156,564,136,531,120,497,98,431,89,381"/>
-<area shape="rect" id="Node000014" href="$namespacela__lapack__solve__chol__comp.html#a05e081d5d54396175e9478ed7b97438e" title="SPTTRF: computes the L*D*L**T factorization of a real symmetric positive definite tridiagonal matrix ..." alt="" coords="213,488,372,532"/>
-<area shape="poly" id="edge19_Node000001_Node000014" title=" " alt="" coords="108,375,156,420,214,467,233,479,227,480,211,471,153,424,108,381"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="469,120,464,111,469,102,483,96,507,94,532,96,547,104,542,105,530,101,507,99,484,101,472,106,469,111,475,120"/>
-<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="365,132,411,133,406,135,368,136"/>
-<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="344,202,460,153,457,156,347,207"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="252,204,251,195,258,186,272,180,292,178,315,181,330,189,325,191,313,186,292,184,273,186,261,190,256,196,258,205"/>
-<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="252,297,251,288,258,279,272,274,292,272,315,274,330,283,325,284,313,279,292,277,273,279,261,284,256,290,258,298"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="420,376,593,404"/>
-<area shape="poly" id="edge12_Node000007_Node000008" title=" " alt="" coords="372,387,407,389,402,391,373,393"/>
-<area shape="poly" id="edge14_Node000007_Node000009" title=" " alt="" coords="372,410,443,431,438,432,373,415"/>
-<area shape="poly" id="edge13_Node000008_Node000008" title=" " alt="" coords="470,375,464,367,469,358,483,352,507,350,532,352,547,361,542,361,530,357,507,355,484,357,472,362,469,367,475,376"/>
-<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="373,588,414,596,409,596,372,593"/>
-<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__chol__comp.html#afabbc5becbdad3bb091cb30d6183bec6" title="SPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="641,586,801,631"/>
-<area shape="poly" id="edge17_Node000011_Node000012" title=" " alt="" coords="587,606,628,609,623,609,587,611"/>
-<area shape="rect" id="Node000013" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="849,586,983,631"/>
-<area shape="poly" id="edge18_Node000012_Node000013" title=" " alt="" coords="801,606,836,609,830,609,801,611"/>
-<area shape="poly" id="edge20_Node000014_Node000009" title=" " alt="" coords="372,485,443,468,438,469,373,490"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="164,318,205,319,201,322,166,323"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__solve__chol__comp.html#a174bf1fbadf0d8d0e6a11ccabfcb39c4" title="SPTCON: computes the reciprocal of the condition number (in the 1&#45;norm) of a real symmetric positive ..." alt="" coords="213,367,372,412"/>
+<area shape="poly" id="edge11_Node000001_Node000007" title=" " alt="" coords="153,340,211,360,206,363,154,346"/>
+<area shape="rect" id="Node000009" href="$namespacela__lapack__solve__chol__comp.html#aff29f4577e1503d155cabbc7893f7d43" title="SPTRFS: improves the computed solution to a system of linear equations when the coefficient matrix is..." alt="" coords="213,437,372,481"/>
+<area shape="poly" id="edge14_Node000001_Node000009" title=" " alt="" coords="110,340,158,381,214,422,224,429,218,429,211,426,154,385,110,346"/>
+<area shape="rect" id="Node000010" href="$namespacela__lapack__solve__chol__comp.html#a8fb94a993a1f0192fe41eb20322c2401" title="SPTTRS: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="427,466,586,511"/>
+<area shape="poly" id="edge19_Node000001_Node000010" title=" " alt="" coords="95,340,114,377,138,420,172,460,192,477,214,491,262,508,313,515,364,515,415,511,409,512,364,520,313,521,261,513,212,496,189,482,168,464,134,423,109,380,95,346"/>
+<area shape="rect" id="Node000013" href="$namespacela__lapack__solve__chol__comp.html#a05e081d5d54396175e9478ed7b97438e" title="SPTTRF: computes the L*D*L**T factorization of a real symmetric positive definite tridiagonal matrix ..." alt="" coords="213,557,372,601"/>
+<area shape="poly" id="edge18_Node000001_Node000013" title=" " alt="" coords="95,340,114,382,139,433,173,487,215,536,228,548,222,547,211,539,169,490,135,435,109,384,94,345"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="469,119,464,111,469,101,483,95,507,93,532,96,547,104,542,105,530,101,507,98,484,100,472,105,469,110,475,119"/>
+<area shape="poly" id="edge5_Node000004_Node000002" title=" " alt="" coords="365,131,411,132,406,135,368,136"/>
+<area shape="poly" id="edge7_Node000005_Node000002" title=" " alt="" coords="344,202,461,152,456,156,347,206"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="252,203,251,194,258,186,272,180,292,178,315,180,330,189,325,190,313,186,292,183,273,185,261,190,256,196,258,204"/>
+<area shape="poly" id="edge10_Node000006_Node000006" title=" " alt="" coords="252,297,251,288,258,279,272,273,292,271,315,274,330,282,325,283,313,279,292,277,273,278,261,283,256,289,258,298"/>
+<area shape="rect" id="Node000008" href="$namespacela__blas__aux.html#a843a382709914f66727d3bc6cc2770df" title="ISAMAX: finds the index of the first element having maximum absolute value." alt="" coords="420,376,593,403"/>
+<area shape="poly" id="edge12_Node000007_Node000008" title=" " alt="" coords="372,387,407,389,402,390,373,392"/>
+<area shape="poly" id="edge13_Node000008_Node000008" title=" " alt="" coords="470,374,464,367,469,357,483,351,507,349,532,352,547,360,542,360,530,357,507,354,484,356,472,361,469,366,475,376"/>
+<area shape="poly" id="edge15_Node000009_Node000010" title=" " alt="" coords="372,467,414,475,409,476,373,472"/>
+<area shape="rect" id="Node000011" href="$namespacela__lapack__solve__chol__comp.html#afabbc5becbdad3bb091cb30d6183bec6" title="SPTTS2: solves a tridiagonal system of the form A * X = B using the L*D*L**T factorization of A compu..." alt="" coords="641,466,801,511"/>
+<area shape="poly" id="edge16_Node000010_Node000011" title=" " alt="" coords="587,486,628,488,623,488,587,491"/>
+<area shape="rect" id="Node000012" href="$namespacela__blas__level1.html#ab7e08b64fdc3707adeba9f3c65715ba9" title="SSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="849,466,983,511"/>
+<area shape="poly" id="edge17_Node000011_Node000012" title=" " alt="" coords="801,486,836,488,830,488,801,491"/>
 </map>

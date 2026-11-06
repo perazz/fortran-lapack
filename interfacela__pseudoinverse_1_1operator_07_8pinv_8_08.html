@@ -142,7 +142,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The pseudo-inverse matrix \( A^+ \) of size \( [n, m] \).</dd></dl>
-<dl class="section note"><dt>Note</dt><dd>This operator is a shorthand for calling <code>pinv(A)</code>, allowing expressions such as: \( X = .pinv.A \) </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This operator is the <code>pure</code> form of <code>pinv(A)</code>, allowing expressions such as: \( X = .pinv.A \). Execution stops if the SVD fails. </dd></dl>
 <dl class="section warning"><dt>Warning</dt><dd>The accuracy of the pseudo-inverse depends on the condition number of \( A \). </dd></dl>
 </div><h2 class="groupheader">Member Function/Subroutine Documentation</h2>
 <a id="aa07feaa4ac6bac43830693c9031c2484" name="aa07feaa4ac6bac43830693c9031c2484"></a>

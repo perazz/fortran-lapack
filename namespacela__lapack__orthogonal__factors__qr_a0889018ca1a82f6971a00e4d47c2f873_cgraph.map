@@ -1,23 +1,19 @@
 <map id="la_lapack_orthogonal_factors_qr::la_sorgtsqr_row" name="la_lapack_orthogonal_factors_qr::la_sorgtsqr_row">
-<area shape="rect" id="Node000001" title="SORGTSQR_ROW: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns from the output of SLATS..." alt="" coords="5,129,210,174"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__qr.html#a8eab2fb71b94fb8c2c0e792bb8d88c89" title="SLARFB_GETT: applies a real Householder block reflector H from the left to a real (K+M)&#45;by&#45;N &quot;triangu..." alt="" coords="258,129,448,174"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,149,245,151,240,153,211,154"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="689,235,855,263"/>
-<area shape="poly" id="edge13_Node000001_Node000006" title=" " alt="" coords="159,172,308,231,401,260,496,281,569,288,641,281,711,268,717,267,642,286,569,293,496,286,400,265,307,236,158,177"/>
-<area shape="rect" id="Node000008" href="$namespacela__lapack__blas__like__base.html#a1820d5cc47f17a2df32a206d9865b05b" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="279,5,426,50"/>
-<area shape="poly" id="edge11_Node000001_Node000008" title=" " alt="" coords="152,127,295,55,292,60,155,131"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="689,102,855,130"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="384,127,435,97,464,83,495,73,536,65,568,63,642,73,683,82,723,96,718,96,681,87,641,78,568,69,536,70,497,78,466,88,437,102,387,131"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="502,88,636,133"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="448,131,489,125,484,127,449,136"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="496,227,641,271"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="405,172,506,220,501,220,404,177"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="501,157,636,202"/>
-<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="448,161,488,169,483,169,448,167"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="737,100,731,93,736,83,750,77,772,75,796,78,810,87,805,86,795,83,772,80,751,82,739,87,737,93,742,102"/>
-<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="619,224,640,212,695,174,740,141,745,139,698,179,643,217,621,229"/>
-<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="642,246,676,249,671,249,642,252"/>
-<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="636,156,709,135,714,134,638,161"/>
-<area shape="poly" id="edge10_Node000007_Node000006" title=" " alt="" coords="637,200,717,230,712,229,636,205"/>
-<area shape="poly" id="edge12_Node000008_Node000003" title=" " alt="" coords="426,24,530,29,587,37,642,49,693,68,738,94,733,94,690,73,641,54,586,42,529,34,427,29"/>
+<area shape="rect" id="Node000001" title="SORGTSQR_ROW: generates an M&#45;by&#45;N real matrix Q_out with orthonormal columns from the output of SLATS..." alt="" coords="5,169,210,213"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__orthogonal__factors__qr.html#a8eab2fb71b94fb8c2c0e792bb8d88c89" title="SLARFB_GETT: applies a real Householder block reflector H from the left to a real (K+M)&#45;by&#45;N &quot;triangu..." alt="" coords="258,105,448,149"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,165,253,153,248,155,197,171"/>
+<area shape="rect" id="Node000007" href="$namespacela__lapack__blas__like__base.html#a1820d5cc47f17a2df32a206d9865b05b" title="SLASET: initializes an m&#45;by&#45;n matrix A to BETA on the diagonal and ALPHA on the offdiagonals." alt="" coords="279,203,426,248"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="210,203,266,213,261,213,210,208"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="689,148,855,175"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="374,102,426,58,459,36,495,20,536,8,569,3,603,7,642,20,680,43,712,73,738,105,758,136,753,134,734,108,708,77,677,47,640,25,602,12,570,8,537,13,497,25,462,41,429,62,377,106"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="502,35,636,80"/>
+<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="424,101,489,83,484,85,425,107"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#aa64658f1a260d8d48fc960ed25c24678" title="SGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="496,105,641,149"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="448,124,483,126,478,127,449,130"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level3__tri.html#ad8755549c75331273849e73b47fb4e09" title="STRMM: performs one of the matrix&#45;matrix operations B := alpha*op( A )*B, or B := alpha*B*op( A ),..." alt="" coords="501,174,636,219"/>
+<area shape="poly" id="edge7_Node000002_Node000006" title=" " alt="" coords="425,147,489,170,483,170,424,152"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="737,146,731,139,736,129,750,123,772,121,796,124,810,133,805,132,795,129,772,126,751,128,739,133,737,139,742,148"/>
+<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="642,137,676,145,671,145,642,142"/>
+<area shape="poly" id="edge8_Node000006_Node000003" title=" " alt="" coords="636,182,671,179,676,178,637,187"/>
+<area shape="poly" id="edge10_Node000007_Node000003" title=" " alt="" coords="427,235,529,241,586,238,641,228,693,208,736,185,741,184,695,213,642,233,586,243,529,246,427,240"/>
 </map>

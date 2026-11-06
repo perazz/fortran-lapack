@@ -1,21 +1,18 @@
 <map id="la_lapack::hetri_rook::chetri_rook" name="la_lapack::hetri_rook::chetri_rook">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,189,163,234"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp4.html#a009fec1577d234707829d524f9641c87" title="CHETRI_ROOK: computes the inverse of a complex Hermitian indefinite matrix A using the factorization ..." alt="" coords="211,189,383,234"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,209,197,210,193,213,164,214"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,168,163,213"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp4.html#a009fec1577d234707829d524f9641c87" title="CHETRI_ROOK: computes the inverse of a complex Hermitian indefinite matrix A using the factorization ..." alt="" coords="211,168,383,213"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,188,197,189,193,191,164,193"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="436,5,571,50"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="312,187,361,126,393,91,429,60,439,57,434,60,433,64,397,95,365,129,316,191"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,166,365,115,429,60,435,60,440,57,433,64,368,118,319,170"/>
 <area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#ae5ef74871273629cd7c5e95ec3e7b58c" title="CDOTC: forms the dot product of two complex vectors CDOTC = X^H * Y." alt="" coords="436,99,571,143"/>
-<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="349,186,439,149,435,151,351,191"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a06e02b33fc3a3268643a1ca7d2d2195a" title="CHEMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="431,219,576,263"/>
-<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="383,221,419,228,413,229,384,227"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="624,199,790,227"/>
-<area shape="poly" id="edge10_Node000002_Node000006" title=" " alt="" coords="383,205,431,204,576,204,611,207,606,208,576,209,431,209,384,210"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="624,255,790,283"/>
-<area shape="poly" id="edge11_Node000002_Node000007" title=" " alt="" coords="335,232,380,255,432,273,476,280,522,283,612,283,606,283,522,289,476,286,430,278,378,260,334,237"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="436,339,571,383"/>
-<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="324,232,374,273,433,317,450,331,445,330,429,322,371,278,323,237"/>
-<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="465,97,463,89,470,80,484,74,504,72,525,74,540,83,535,83,524,80,504,77,485,79,473,84,468,90,470,99"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="576,228,611,226,606,227,577,234"/>
-<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="577,248,611,255,606,256,577,254"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="672,198,666,190,671,181,685,175,707,173,731,175,745,184,740,184,730,180,707,178,686,180,674,185,672,190,677,200"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="365,165,424,147,420,149,367,170"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a06e02b33fc3a3268643a1ca7d2d2195a" title="CHEMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="431,168,576,213"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="383,188,418,190,413,191,384,193"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="624,207,790,235"/>
+<area shape="poly" id="edge9_Node000002_Node000006" title=" " alt="" coords="372,211,431,222,522,228,612,229,606,229,522,234,431,228,372,216"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="436,288,571,333"/>
+<area shape="poly" id="edge8_Node000002_Node000007" title=" " alt="" coords="337,211,432,267,452,280,447,280,430,271,336,216"/>
+<area shape="poly" id="edge4_Node000004_Node000004" title=" " alt="" coords="465,97,463,89,470,80,484,74,504,72,525,74,540,83,535,83,524,80,504,77,485,79,473,84,468,90,469,99"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="577,199,611,206,606,206,577,204"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="672,206,666,198,671,189,685,183,707,181,731,183,745,192,740,192,730,188,707,186,686,188,674,193,672,198,677,208"/>
 </map>

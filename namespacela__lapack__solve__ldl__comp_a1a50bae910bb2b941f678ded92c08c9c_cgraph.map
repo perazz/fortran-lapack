@@ -1,19 +1,16 @@
 <map id="la_lapack_solve_ldl_comp::la_ssytri" name="la_lapack_solve_ldl_comp::la_ssytri">
-<area shape="rect" id="Node000001" title="SSYTRI: computes the inverse of a real symmetric indefinite matrix A using the factorization A = U*D*..." alt="" coords="5,159,154,203"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="419,238,584,266"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,157,105,126,130,90,162,56,200,29,247,10,287,3,327,9,372,30,398,48,421,70,456,123,481,177,496,224,491,222,476,179,452,126,417,74,395,52,370,34,326,14,287,8,248,15,203,34,165,60,134,94,110,129,93,160"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="219,44,354,89"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="110,156,152,128,200,99,215,94,210,97,203,103,155,132,113,160"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="202,137,371,164"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="153,168,189,164,184,167,155,173"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="219,188,354,233"/>
-<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="154,189,206,198,202,200,154,194"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level2__sym.html#a5466f07826e2ab62c0d2e3b48923e11f" title="SSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="212,257,361,302"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="122,201,203,243,216,251,211,251,201,248,121,207"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="419,294,584,322"/>
-<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="94,201,113,230,137,261,167,290,203,312,260,329,321,334,379,331,429,326,434,325,380,336,321,339,259,334,201,317,164,294,133,264,109,233,93,207"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="464,236,459,229,463,219,478,213,502,211,527,214,542,223,537,222,526,219,502,217,479,219,467,223,464,229,469,238"/>
-<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="250,136,245,128,250,118,264,112,286,110,311,113,325,121,320,122,309,118,286,115,265,117,253,122,250,127,256,136"/>
-<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="361,267,406,264,401,265,362,273"/>
-<area shape="poly" id="edge9_Node000006_Node000007" title=" " alt="" coords="362,287,406,295,401,295,361,292"/>
+<area shape="rect" id="Node000001" title="SSYTRI: computes the inverse of a real symmetric indefinite matrix A using the factorization A = U*D*..." alt="" coords="5,122,154,167"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="419,124,584,152"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,120,136,69,166,43,201,24,247,8,286,3,325,8,372,24,406,41,436,63,483,112,478,112,432,67,403,45,370,28,324,14,286,8,248,13,203,28,169,47,140,72,98,123"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#a62fb48eb347a3888135df44b367cf888" title="SCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="219,38,354,83"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="135,119,217,87,214,91,138,124"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a9e8204d671c92f661cbb8dfbc09407e9" title="SDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="202,131,371,159"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="153,142,188,143,184,146,155,147"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a9d8c97bb48e4f60de6110212e61ae31c" title="SSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="219,182,354,227"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="154,164,207,180,202,182,154,169"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level2__sym.html#a5466f07826e2ab62c0d2e3b48923e11f" title="SSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="212,252,361,296"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="106,165,151,201,203,237,213,245,208,244,200,242,148,205,105,170"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="464,123,459,115,463,106,478,100,502,98,527,100,542,109,537,109,526,105,502,103,479,105,467,110,464,115,470,124"/>
+<area shape="poly" id="edge5_Node000004_Node000004" title=" " alt="" coords="250,130,245,122,250,112,264,106,286,104,311,107,325,115,320,116,309,112,286,110,265,111,253,116,250,122,256,131"/>
+<area shape="poly" id="edge8_Node000006_Node000002" title=" " alt="" coords="347,249,370,237,426,199,471,164,476,161,429,203,372,242,349,254"/>
 </map>

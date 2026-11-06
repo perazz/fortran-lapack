@@ -1,19 +1,15 @@
 <map id="la_lapack_solve_ldl_comp2::la_csytrs_rook" name="la_lapack_solve_ldl_comp2::la_csytrs_rook">
-<area shape="rect" id="Node000001" title="CSYTRS_ROOK: solves a system of linear equations A*X = B with a complex symmetric matrix A using the ..." alt="" coords="5,141,180,186"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level2__gen.html#ac20eb127776577a093cdcdfcf3976edf" title="CGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="228,50,373,95"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,138,235,100,232,104,147,143"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="421,29,586,57"/>
-<area shape="poly" id="edge9_Node000001_Node000003" title=" " alt="" coords="107,139,155,84,189,56,227,35,277,22,329,17,380,18,428,25,423,27,379,23,329,22,278,27,229,40,192,61,159,88,111,142"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="421,119,586,146"/>
-<area shape="poly" id="edge10_Node000001_Node000004" title=" " alt="" coords="179,154,407,138,404,142,181,159"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__gen.html#a499c6dc14c90fe9a853d44ff46c1e290" title="CGERU: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="228,170,373,215"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="180,173,215,179,210,181,181,178"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="233,240,368,284"/>
-<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="142,183,240,231,235,234,141,189"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="233,309,368,354"/>
-<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="113,183,164,238,195,267,229,294,237,301,231,300,226,299,192,271,160,241,112,188"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="373,60,408,56,403,58,375,64"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="373,91,443,113,437,114,374,97"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="468,28,463,20,467,11,481,5,504,3,528,5,542,14,537,14,526,10,504,8,483,10,471,15,468,20,474,29"/>
-<area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="373,169,443,150,438,152,374,174"/>
+<area shape="rect" id="Node000001" title="CSYTRS_ROOK: solves a system of linear equations A*X = B with a complex symmetric matrix A using the ..." alt="" coords="5,125,180,170"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level2__gen.html#ac20eb127776577a093cdcdfcf3976edf" title="CGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="228,5,373,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,123,226,67,249,56,244,60,229,71,134,127"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="421,44,586,72"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="178,122,227,110,410,74,406,77,228,116,180,127"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level2__gen.html#a499c6dc14c90fe9a853d44ff46c1e290" title="CGERU: performs the rank 1 operation A := alpha*x*y**T + A, where alpha is a scalar,..." alt="" coords="228,125,373,170"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="179,145,215,147,210,149,181,150"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level1.html#a9573e8a3d84bf41603295ae8e93d7bb6" title="CSCAL: scales a vector by a constant." alt="" coords="233,195,368,239"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="162,168,221,189,216,191,162,173"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__level1.html#a4fb9af59b508cde93dace0cd181faeeb" title="CSWAP: interchanges two vectors." alt="" coords="233,264,368,309"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="120,168,170,208,229,249,238,257,233,256,226,254,167,212,119,173"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="373,36,408,43,403,44,374,41"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="468,43,463,36,467,26,481,20,504,18,528,20,542,29,537,29,526,25,504,23,483,25,471,30,468,35,473,45"/>
 </map>

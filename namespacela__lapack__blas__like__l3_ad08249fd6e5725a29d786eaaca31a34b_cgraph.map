@@ -1,16 +1,12 @@
 <map id="la_lapack_blas_like_l3::la_chfrk" name="la_lapack_blas_like_l3::la_chfrk">
-<area shape="rect" id="Node000001" title="Level 3 BLAS like routine for C in RFP Format. CHFRK: performs one of the Hermitian rank–k operations..." alt="" coords="5,61,153,106"/>
-<area shape="rect" id="Node000002" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="201,27,346,71"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,68,187,64,183,66,154,73"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="394,35,559,63"/>
-<area shape="poly" id="edge8_Node000001_Node000003" title=" " alt="" coords="108,59,150,33,200,12,259,3,318,6,374,15,424,30,418,30,373,20,318,11,259,9,201,17,152,37,111,63"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="394,105,559,132"/>
-<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="110,104,152,130,201,151,259,159,318,156,373,147,418,138,424,137,374,152,318,162,259,164,200,156,150,135,109,109"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#aff116ac8b6424fb49d45089519446fc2" title="CHERK: performs one of the hermitian rank k operations C := alpha*A*A**H + beta*C,..." alt="" coords="201,96,346,141"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="153,94,188,102,182,103,153,100"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="346,46,381,49,376,50,347,52"/>
-<area shape="poly" id="edge4_Node000002_Node000004" title=" " alt="" coords="341,69,422,99,417,99,341,75"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="441,34,436,26,440,17,454,11,477,9,501,11,515,20,510,20,499,16,477,14,456,16,444,21,441,26,446,36"/>
-<area shape="poly" id="edge6_Node000005_Node000003" title=" " alt="" coords="340,93,417,69,422,68,342,98"/>
-<area shape="poly" id="edge7_Node000005_Node000004" title=" " alt="" coords="346,116,381,118,376,119,347,121"/>
+<area shape="rect" id="Node000001" title="Level 3 BLAS like routine for C in RFP Format. CHFRK: performs one of the Hermitian rank–k operations..." alt="" coords="5,65,153,110"/>
+<area shape="rect" id="Node000002" href="$namespacela__blas__level3__gen.html#a2b82856af968b830d01f3bb53f089e7b" title="CGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="201,5,346,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,63,188,53,183,56,154,67"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="394,74,559,102"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="153,85,380,85,378,90,153,90"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level3__gen.html#aff116ac8b6424fb49d45089519446fc2" title="CHERK: performs one of the hermitian rank k operations C := alpha*A*A**H + beta*C,..." alt="" coords="201,125,346,170"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="153,108,188,120,183,121,153,113"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="347,46,416,69,410,69,346,52"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="441,72,436,65,440,55,454,49,477,47,501,50,515,59,510,58,499,55,477,52,456,54,444,59,441,65,446,74"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="346,124,410,107,416,106,347,129"/>
 </map>

@@ -1,17 +1,14 @@
 <map id="la_lapack_solve_chol_comp::la_dla_porcond" name="la_lapack_solve_chol_comp::la_dla_porcond">
-<area shape="rect" id="Node000001" title="DLA_PORCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,49,176,94"/>
-<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,48,45,39,52,30,68,24,91,22,116,25,132,33,127,34,114,30,90,27,69,29,55,34,50,40,51,49"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__chol__comp.html#ab7471258b9defa3fa268b6883f54933d" title="Pure subroutine form of DLA_PORCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="224,49,424,94"/>
-<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="176,69,211,71,205,72,176,74"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__chol__comp.html#a7dec7bb34c3c0a4a49971cb7ed7500ae" title="DPOTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="472,49,631,94"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="424,69,459,71,454,71,425,74"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="679,49,815,94"/>
-<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="632,69,666,71,661,71,632,74"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="863,29,1028,57"/>
-<area shape="poly" id="edge8_Node000003_Node000005" title=" " alt="" coords="623,46,679,34,765,28,850,33,845,34,765,34,680,39,624,51"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="863,85,1028,113"/>
-<area shape="poly" id="edge9_Node000003_Node000006" title=" " alt="" coords="623,91,680,103,765,109,845,109,850,109,765,114,679,108,623,97"/>
-<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="815,59,845,57,850,57,815,64"/>
-<area shape="poly" id="edge7_Node000004_Node000006" title=" " alt="" coords="815,78,850,85,845,85,815,83"/>
-<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="911,28,906,20,910,11,923,5,945,3,969,5,983,14,978,14,967,10,945,8,925,10,914,15,911,20,916,30"/>
+<area shape="rect" id="Node000001" title="DLA_PORCOND: Estimates the Skeel condition number of op(A) * op2(C) where op2 is determined by CMODE ..." alt="" coords="5,36,176,81"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,35,45,26,52,17,68,11,91,9,116,12,132,20,127,21,114,17,90,15,69,17,55,21,50,27,51,36"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__chol__comp.html#ab7471258b9defa3fa268b6883f54933d" title="Pure subroutine form of DLA_PORCOND: the same arguments, followed by RES, which returns the value of ..." alt="" coords="224,36,424,81"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="176,56,211,58,205,59,176,61"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__chol__comp.html#a7dec7bb34c3c0a4a49971cb7ed7500ae" title="DPOTRS: solves a system of linear equations A*X = B with a symmetric positive definite matrix A using..." alt="" coords="472,36,631,81"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="425,56,459,58,454,58,425,61"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="679,5,815,50"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="632,43,661,41,667,40,632,48"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="863,44,1028,72"/>
+<area shape="poly" id="edge7_Node000003_Node000005" title=" " alt="" coords="632,59,679,60,815,60,850,62,844,62,815,65,679,65,632,64"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="815,35,850,43,845,43,815,41"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="911,43,906,36,910,26,923,20,945,18,969,20,983,30,978,29,967,25,945,23,925,25,914,30,911,35,916,45"/>
 </map>

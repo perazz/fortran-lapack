@@ -1,19 +1,16 @@
 <map id="la_lapack_solve_ldl_comp2::la_dsytri_rook" name="la_lapack_solve_ldl_comp2::la_dsytri_rook">
-<area shape="rect" id="Node000001" title="DSYTRI_ROOK: computes the inverse of a real symmetric matrix A using the factorization A = U*D*U**T o..." alt="" coords="5,180,178,225"/>
+<area shape="rect" id="Node000001" title="DSYTRI_ROOK: computes the inverse of a real symmetric matrix A using the factorization A = U*D*U**T o..." alt="" coords="5,149,178,194"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="244,5,378,50"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,178,156,120,188,88,224,60,235,56,231,59,227,65,192,92,160,124,112,181"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,147,163,104,224,60,237,56,232,59,227,65,166,108,118,151"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__level1.html#abcba997c09f1f982cf017db38022e3c8" title="DDOT: forms the dot product of two vectors. uses unrolled loops for increments equal to one." alt="" coords="226,98,396,126"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="133,177,225,135,245,129,240,132,227,139,136,182"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,146,245,129,241,132,176,151"/>
 <area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="244,149,378,194"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="177,188,231,182,226,184,179,193"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level2__sym.html#a9d3f8d4b89f006d61f2282f32bdf378b" title="DSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="236,269,386,314"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="148,222,242,262,237,264,148,228"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="444,250,609,278"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="178,212,430,248,427,252,178,217"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="444,306,609,334"/>
-<area shape="poly" id="edge10_Node000001_Node000007" title=" " alt="" coords="110,223,158,277,190,304,227,324,283,339,342,344,400,341,449,337,454,337,400,346,342,349,282,344,225,329,187,308,154,281,107,228"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="177,169,230,171,225,173,178,174"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level2__sym.html#a9d3f8d4b89f006d61f2282f32bdf378b" title="DSYMV: performs the matrix&#45;vector operation y := alpha*A*x + beta*y, where alpha and beta are scalars..." alt="" coords="236,219,386,263"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="164,192,226,213,221,214,164,197"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="444,258,609,286"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="114,192,162,236,193,257,227,273,279,286,334,291,388,290,435,288,440,288,388,296,334,296,278,291,225,278,190,262,159,241,112,197"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="273,97,268,89,273,79,287,73,311,71,336,74,351,82,346,83,335,79,311,76,288,78,276,83,273,89,279,98"/>
-<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="386,279,431,276,426,277,387,285"/>
-<area shape="poly" id="edge8_Node000005_Node000007" title=" " alt="" coords="386,299,431,307,426,307,386,304"/>
-<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="489,248,484,241,488,231,503,225,527,223,552,226,567,235,562,234,551,231,527,228,504,230,492,235,489,241,494,250"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="386,249,431,258,426,258,386,254"/>
+<area shape="poly" id="edge7_Node000006_Node000006" title=" " alt="" coords="489,256,484,249,488,239,503,233,527,231,552,234,567,243,562,242,551,239,527,236,504,238,492,243,489,249,494,258"/>
 </map>

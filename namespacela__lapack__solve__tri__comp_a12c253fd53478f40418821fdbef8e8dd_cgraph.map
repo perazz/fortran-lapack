@@ -1,37 +1,33 @@
 <map id="la_lapack_solve_tri_comp::la_ctprfs" name="la_lapack_solve_tri_comp::la_ctprfs">
-<area shape="rect" id="Node000001" title="CTPRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,368,152,412"/>
+<area shape="rect" id="Node000001" title="CTPRFS: provides error bounds and backward error estimates for the solution to a system of linear equ..." alt="" coords="5,342,152,387"/>
 <area shape="rect" id="Node000002" href="$namespacela__blas__level1.html#a4a3595b7258c7afacaed7fd4e193c31d" title="CAXPY: constant times a vector plus a vector." alt="" coords="211,49,345,94"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,366,126,263,158,199,198,138,235,101,232,106,202,141,163,201,130,265,90,368"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,341,129,248,160,192,198,137,235,102,233,106,202,141,165,194,133,251,91,343"/>
 <area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#a46c9d035c419338d1b9614094e1bddda" title="CCOPY: copies a vector x to a vector y." alt="" coords="432,81,566,126"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="91,366,134,302,164,266,198,234,251,198,307,168,364,143,419,125,415,128,366,148,310,172,253,203,201,239,168,270,138,305,95,368"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="95,340,139,289,167,260,198,234,252,200,308,170,419,127,415,130,311,175,254,204,201,239,171,264,143,292,99,343"/>
 <area shape="rect" id="Node000005" href="$namespacela__lapack__solve__aux.html#a72d09b7b5ab24cfc02ec638c2e66c3d9" title="CLACN2: estimates the 1&#45;norm of a square, complex matrix A. Reverse communication is used for evaluat..." alt="" coords="200,249,356,294"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="116,365,227,299,225,304,119,369"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="126,340,216,298,213,303,130,344"/>
 <area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a27cc40b0d8dcb78f2348c02f75cec811" title="SLAMCH: determines single precision machine parameters." alt="" coords="425,342,572,387"/>
-<area shape="poly" id="edge22_Node000001_Node000008" title=" " alt="" coords="151,383,411,368,408,372,153,388"/>
+<area shape="poly" id="edge20_Node000001_Node000008" title=" " alt="" coords="152,362,411,362,408,367,152,367"/>
 <area shape="rect" id="Node000009" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="641,436,807,464"/>
-<area shape="poly" id="edge21_Node000001_Node000009" title=" " alt="" coords="152,394,627,438,625,443,152,399"/>
+<area shape="poly" id="edge19_Node000001_Node000009" title=" " alt="" coords="152,371,627,435,625,439,152,377"/>
 <area shape="rect" id="Node000010" href="$namespacela__blas__level2__tri.html#a7dae0dc5ef7651b4d53d9d7f32f36305" title="CTPMV: performs one of the matrix&#45;vector operations x := A*x, or x := A**T*x, or x := A**H*x,..." alt="" coords="210,453,346,498"/>
-<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="132,410,212,445,207,447,133,415"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="416,521,581,549"/>
-<area shape="poly" id="edge23_Node000001_Node000011" title=" " alt="" coords="95,410,139,462,168,487,201,507,250,525,301,535,353,540,403,543,398,544,353,545,301,541,248,530,199,512,165,492,136,466,94,415"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__level2__tri.html#a044be051aaa87fd89e803cb3c2f8141b" title="CTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="210,573,346,618"/>
-<area shape="poly" id="edge18_Node000001_Node000012" title=" " alt="" coords="93,410,137,479,167,517,201,552,216,565,211,564,198,556,163,521,133,482,91,415"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="119,385,201,432,223,445,217,445,198,436,118,390"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__level2__tri.html#a044be051aaa87fd89e803cb3c2f8141b" title="CTPSV: solves one of the systems of equations A*x = b, or A**T*x = b, or A**H*x = b,..." alt="" coords="210,522,346,567"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="95,385,139,445,168,478,201,508,208,514,203,513,198,512,165,482,135,449,93,390"/>
 <area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#a5cdaa4eb6de0902d42a840357101ae38" title="SCABS1: computes |Re(.)| + |Im(.)| of a complex number." alt="" coords="414,29,584,57"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,60,400,54,396,57,347,65"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="344,60,400,54,396,57,346,65"/>
 <area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="460,29,455,20,460,11,474,5,499,3,525,5,540,13,535,15,523,10,499,8,476,10,463,15,460,20,466,29"/>
 <area shape="poly" id="edge6_Node000005_Node000004" title=" " alt="" coords="293,247,339,192,369,162,402,136,420,128,416,132,406,140,372,166,342,195,297,250"/>
 <area shape="rect" id="Node000006" href="$namespacela__lapack__aux.html#a74c52a3ff157abfbb019f4e9f6892b87" title="ICMAX1: finds the index of the first vector element of maximum absolute value. Based on ICAMAX from L..." alt="" coords="404,173,593,201"/>
-<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="321,246,403,210,426,204,421,207,405,215,324,251"/>
+<area shape="poly" id="edge7_Node000005_Node000006" title=" " alt="" coords="321,246,403,210,426,205,421,207,405,215,324,251"/>
 <area shape="rect" id="Node000007" href="$namespacela__lapack__auxiliary.html#a7fde879591948a8c447452883e417e87" title="SCSUM1: takes the sum of the absolute values of a complex vector and returns a single precision resul..." alt="" coords="425,249,572,294"/>
 <area shape="poly" id="edge9_Node000005_Node000007" title=" " alt="" coords="355,269,412,270,407,272,357,274"/>
-<area shape="poly" id="edge11_Node000005_Node000008" title=" " alt="" coords="332,291,432,335,427,336,333,297"/>
-<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="460,173,455,164,460,155,474,149,499,147,525,149,540,158,535,158,523,154,499,152,476,154,463,159,460,164,466,173"/>
-<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="456,247,455,239,462,230,477,224,499,222,523,225,538,233,533,234,521,230,499,227,478,229,465,234,460,240,461,249"/>
-<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="457,341,455,332,462,323,477,318,499,316,523,318,538,327,533,327,521,323,499,321,478,323,465,327,460,333,461,343"/>
+<area shape="poly" id="edge11_Node000005_Node000008" title=" " alt="" coords="333,291,432,335,427,336,332,297"/>
+<area shape="poly" id="edge8_Node000006_Node000006" title=" " alt="" coords="460,172,455,164,460,155,474,149,499,147,525,149,540,158,535,158,523,154,499,152,476,154,463,159,460,164,466,173"/>
+<area shape="poly" id="edge10_Node000007_Node000007" title=" " alt="" coords="457,247,455,239,462,230,477,224,499,222,523,225,538,233,533,234,521,230,499,227,478,229,465,234,460,240,461,249"/>
+<area shape="poly" id="edge14_Node000008_Node000008" title=" " alt="" coords="457,340,455,332,462,323,477,318,499,316,523,318,538,327,533,327,521,323,499,321,478,323,465,327,460,333,461,343"/>
 <area shape="poly" id="edge12_Node000008_Node000009" title=" " alt="" coords="560,385,674,430,669,430,559,390"/>
-<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="685,435,679,427,684,417,699,411,724,409,750,412,766,421,761,420,749,417,724,415,701,417,688,421,684,427,690,436"/>
+<area shape="poly" id="edge13_Node000009_Node000009" title=" " alt="" coords="685,434,679,427,684,417,699,411,724,409,750,412,766,421,761,420,749,417,724,415,701,417,688,421,684,427,690,436"/>
 <area shape="poly" id="edge16_Node000010_Node000009" title=" " alt="" coords="346,469,628,454,624,457,346,474"/>
-<area shape="poly" id="edge17_Node000010_Node000011" title=" " alt="" coords="346,491,433,516,428,517,346,496"/>
-<area shape="poly" id="edge19_Node000012_Node000009" title=" " alt="" coords="346,596,401,596,464,591,529,579,592,558,624,541,653,519,699,476,704,474,657,523,627,545,594,563,531,584,465,596,401,601,346,602"/>
-<area shape="poly" id="edge20_Node000012_Node000011" title=" " alt="" coords="345,574,428,554,433,553,346,579"/>
+<area shape="poly" id="edge18_Node000011_Node000009" title=" " alt="" coords="346,528,637,467,643,468,347,533"/>
 </map>

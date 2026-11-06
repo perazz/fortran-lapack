@@ -1,18 +1,16 @@
 <map id="la_lapack_blas_like_l2::la_dlascl" name="la_lapack_blas_like_l2::la_dlascl">
-<area shape="rect" id="Node000001" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,153,153,198"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="210,29,357,74"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,151,148,117,199,84,212,80,208,83,202,89,152,122,109,155"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="210,123,357,167"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="152,162,197,157,192,159,154,167"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="414,160,579,188"/>
-<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="152,176,201,177,366,177,401,178,396,179,366,182,201,182,153,181"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="201,242,366,270"/>
-<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="138,196,202,221,234,236,228,236,200,226,137,201"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="244,28,243,19,249,10,263,5,283,3,305,5,320,13,315,14,304,10,283,8,264,10,253,15,248,21,249,30"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="422,29,571,74"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="357,49,409,51,404,52,358,54"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="456,28,454,19,461,10,476,5,497,3,520,5,535,14,530,14,518,10,497,8,477,10,465,15,460,21,461,30"/>
-<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="244,121,243,113,249,104,263,98,283,96,305,98,320,107,315,107,304,104,283,101,264,103,253,108,248,114,249,123"/>
-<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="357,152,401,161,396,161,357,158"/>
-<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="460,159,454,152,459,142,473,136,497,134,522,136,537,145,532,145,520,141,497,139,475,141,462,146,459,151,465,161"/>
+<area shape="rect" id="Node000001" title="DLASCL: multiplies the M by N real matrix A by the real scalar CTO/CFROM. This is done without over/u..." alt="" coords="5,123,153,167"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__blas__like__scalar.html#a942dd2e31c0d9058962f8060e510005e" title="DISNAN: returns .TRUE. if its argument is NaN, and .FALSE. otherwise. To be replaced by the Fortran 2..." alt="" coords="201,29,348,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,120,200,84,214,80,209,82,202,89,128,124"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="201,123,348,167"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="153,142,187,145,182,145,153,148"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="396,160,561,188"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="147,165,201,177,293,183,378,184,383,184,293,189,200,182,147,170"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="237,28,235,19,242,10,255,5,274,3,295,5,309,14,304,14,294,10,274,8,256,10,245,15,241,21,242,30"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__blas__like__scalar.html#ab7bb61dcad235be9d6066eda62ea3b31" title="This routine is not for general use. It exists solely to avoid over&#45;optimization in DISNAN...." alt="" coords="404,29,553,74"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="348,49,391,51,386,52,349,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="440,27,438,19,445,10,458,5,479,3,500,5,515,14,510,14,499,10,479,8,460,10,448,15,443,21,444,30"/>
+<area shape="poly" id="edge6_Node000004_Node000004" title=" " alt="" coords="237,121,235,113,242,104,255,98,274,96,295,98,309,107,304,107,294,104,274,101,256,103,245,108,241,114,241,124"/>
+<area shape="poly" id="edge7_Node000004_Node000005" title=" " alt="" coords="349,153,383,160,378,160,348,158"/>
+<area shape="poly" id="edge8_Node000005_Node000005" title=" " alt="" coords="443,159,438,152,442,142,456,136,479,134,503,136,517,146,512,145,501,141,479,139,458,141,446,146,443,151,448,161"/>
 </map>

@@ -1,12 +1,10 @@
 <map id="la_lapack_solve_lu_comp::la_sgttrs" name="la_lapack_solve_lu_comp::la_sgttrs">
-<area shape="rect" id="Node000001" title="SGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="5,118,150,163"/>
+<area shape="rect" id="Node000001" title="SGTTRS: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="5,89,150,134"/>
 <area shape="rect" id="Node000002" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="198,67,379,94"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,117,197,103,224,98,219,100,198,108,151,122"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,98,185,95,180,97,151,103"/>
 <area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#a923fbaef34ca6044d2d7f940ffd0db95" title="SGTTS2: solves one of the systems of equations A*X = B or A**T*X = B, with a tridiagonal matrix A usi..." alt="" coords="216,118,360,163"/>
-<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="150,138,203,140,198,141,150,143"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="206,187,371,214"/>
-<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="150,159,198,173,224,182,219,182,197,178,150,164"/>
-<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="252,66,246,58,251,48,265,42,288,40,313,43,328,51,323,51,312,48,288,45,266,47,254,52,252,57,257,67"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="150,119,203,128,198,129,150,124"/>
+<area shape="poly" id="edge4_Node000002_Node000002" title=" " alt="" coords="252,65,246,58,251,48,265,42,288,40,313,43,328,51,323,51,312,48,288,45,266,47,254,52,252,57,257,67"/>
 <area shape="rect" id="Node000003" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="428,29,613,57"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="378,63,418,59,413,61,379,69"/>
 <area shape="rect" id="Node000004" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="427,105,614,133"/>

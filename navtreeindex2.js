@@ -1,6 +1,5 @@
 var NAVTREEINDEX2 =
 {
-"interfacela__blas_1_1hbmv.html":[9,0,0,11],
 "interfacela__blas_1_1hbmv.html#a23b8dce6012493d6fd297d420fbbe269":[8,0,0,11,0],
 "interfacela__blas_1_1hbmv.html#a23b8dce6012493d6fd297d420fbbe269":[9,0,0,11,0],
 "interfacela__blas_1_1hbmv.html#a7b5172bbc9bfdc0ac720801bb2ed70d4":[8,0,0,11,1],
@@ -249,5 +248,6 @@ var NAVTREEINDEX2 =
 "interfacela__blas_1_1swap.html#a0127b512b5497900d87b017be915da55":[9,0,0,34,10],
 "interfacela__blas_1_1swap.html#a0942345ddb398d122b90386a01cf16ec":[8,0,0,34,7],
 "interfacela__blas_1_1swap.html#a0942345ddb398d122b90386a01cf16ec":[9,0,0,34,7],
-"interfacela__blas_1_1swap.html#a2bc533138594b71af8e8a4ca2df6d096":[8,0,0,34,0]
+"interfacela__blas_1_1swap.html#a2bc533138594b71af8e8a4ca2df6d096":[8,0,0,34,0],
+"interfacela__blas_1_1swap.html#a2bc533138594b71af8e8a4ca2df6d096":[9,0,0,34,0]
 };

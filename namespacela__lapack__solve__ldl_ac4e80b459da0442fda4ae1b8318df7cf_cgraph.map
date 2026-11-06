@@ -1,68 +1,59 @@
 <map id="la_lapack_solve_ldl::la_dsysv_rk" name="la_lapack_solve_ldl::la_dsysv_rk">
-<area shape="rect" id="Node000001" title="DSYSV_RK: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N ..." alt="" coords="5,770,154,815"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp2.html#a10df499623e08b32c078de35f9742502" title="DSYTRF_RK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman (r..." alt="" coords="202,722,359,767"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,773,188,765,184,769,156,777"/>
-<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="872,527,1037,555"/>
-<area shape="poly" id="edge46_Node000001_Node000006" title=" " alt="" coords="82,769,110,653,135,568,168,474,211,376,265,278,329,186,366,144,405,105,434,82,461,65,511,47,567,38,636,29,690,16,736,5,757,3,779,5,801,14,825,29,840,44,853,64,877,117,898,183,915,257,940,403,953,513,948,511,934,404,910,258,893,185,872,119,849,67,836,47,822,33,799,19,778,10,757,8,737,10,692,21,637,34,567,43,513,52,463,70,437,87,409,109,369,147,333,189,269,280,216,378,173,476,140,570,115,654,88,770"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="872,915,1037,943"/>
-<area shape="poly" id="edge47_Node000001_Node000007" title=" " alt="" coords="96,813,144,875,215,957,257,999,304,1041,355,1078,408,1109,521,1163,570,1181,618,1192,665,1196,713,1190,765,1173,822,1145,847,1127,869,1106,904,1054,929,1001,944,959,948,956,934,1003,909,1057,873,1109,851,1131,825,1150,767,1178,714,1195,665,1201,617,1198,569,1186,518,1168,406,1114,352,1082,301,1045,254,1003,211,960,140,879,96,818"/>
-<area shape="rect" id="Node000018" href="$namespacela__lapack__solve__ldl__comp.html#aa115a750ec29ded33cf71be97dfe066f" title="DSYTRS_3: solves a system of linear equations A * X = B with a real symmetric matrix A using the fact..." alt="" coords="424,942,572,987"/>
-<area shape="poly" id="edge38_Node000001_Node000018" title=" " alt="" coords="136,813,429,934,425,938,136,818"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__ldl__comp2.html#a20abeb8afac3f26acca31e9a39580d8d" title="DLASYF_RK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Kauf..." alt="" coords="418,518,577,563"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="303,720,463,572,460,576,307,724"/>
-<area shape="poly" id="edge36_Node000002_Node000006" title=" " alt="" coords="286,721,321,622,351,555,389,481,437,407,493,337,559,277,596,251,635,230,687,209,732,200,754,200,777,206,825,230,858,259,885,293,907,331,924,371,945,449,953,512,948,510,939,450,919,373,902,333,881,296,855,262,822,235,775,211,753,206,733,205,688,214,637,235,599,256,563,281,497,341,441,410,394,484,356,557,326,624,291,723"/>
-<area shape="poly" id="edge37_Node000002_Node000007" title=" " alt="" coords="288,765,305,813,329,874,364,939,385,970,409,997,463,1047,511,1078,565,1098,637,1117,690,1131,733,1139,774,1136,822,1117,845,1102,866,1084,900,1040,925,995,942,959,946,955,930,997,904,1043,870,1087,848,1106,825,1122,775,1141,733,1144,689,1136,636,1122,564,1103,509,1082,459,1051,405,1001,381,973,359,942,325,877,300,815,287,770"/>
-<area shape="rect" id="Node000011" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="663,912,797,956"/>
-<area shape="poly" id="edge19_Node000002_Node000011" title=" " alt="" coords="332,765,470,826,637,897,655,906,650,906,635,902,468,831,332,770"/>
-<area shape="rect" id="Node000013" href="$namespacela__lapack__solve__ldl__comp2.html#a824fb93879f888204157c6133696aceb" title="DSYTF2_RK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman (r..." alt="" coords="418,722,578,767"/>
-<area shape="poly" id="edge20_Node000002_Node000013" title=" " alt="" coords="358,742,404,743,399,746,360,747"/>
-<area shape="rect" id="Node000015" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="407,143,588,171"/>
-<area shape="poly" id="edge30_Node000002_Node000015" title=" " alt="" coords="281,722,294,611,319,451,336,368,356,293,379,230,405,187,420,176,417,181,409,190,384,233,361,294,341,370,324,452,300,611,286,723"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="663,245,797,290"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="505,517,522,473,550,418,588,359,635,307,652,296,649,300,638,311,592,362,555,420,527,476,509,519"/>
-<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="657,434,803,479"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="560,515,654,483,650,486,563,520"/>
-<area shape="poly" id="edge18_Node000003_Node000006" title=" " alt="" coords="505,517,523,478,550,431,587,386,610,366,635,350,686,329,730,321,774,328,825,350,848,365,869,384,904,427,929,472,946,513,941,511,924,475,899,430,865,388,845,370,822,355,773,334,730,327,687,334,638,355,613,370,591,389,555,434,527,481,510,519"/>
-<area shape="rect" id="Node000008" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="657,365,803,410"/>
-<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="518,516,569,468,635,420,648,415,644,418,638,424,573,472,522,520"/>
-<area shape="rect" id="Node000009" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="656,602,804,647"/>
-<area shape="poly" id="edge11_Node000003_Node000009" title=" " alt="" coords="561,561,654,596,649,597,562,566"/>
-<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="663,842,797,887"/>
-<area shape="poly" id="edge14_Node000003_Node000010" title=" " alt="" coords="512,561,575,675,610,736,638,778,691,832,686,832,634,781,606,738,570,678,510,566"/>
-<area shape="poly" id="edge15_Node000003_Node000011" title=" " alt="" coords="514,561,553,627,591,709,600,738,603,764,605,811,611,853,621,875,638,898,652,911,647,911,634,901,617,877,606,855,600,811,598,765,594,739,586,711,548,629,513,566"/>
-<area shape="rect" id="Node000012" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="643,527,817,555"/>
-<area shape="poly" id="edge16_Node000003_Node000012" title=" " alt="" coords="576,538,630,540,625,542,578,543"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="792,477,825,489,904,520,899,522,823,494,793,482"/>
-<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="803,473,826,490,847,522,867,568,904,685,932,807,950,901,945,898,927,808,899,686,862,570,842,524,822,493,803,478"/>
-<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="916,526,910,518,915,508,930,502,954,500,981,503,996,511,991,512,979,508,954,506,931,507,918,512,915,518,921,527"/>
-<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="801,408,825,420,886,466,933,515,928,515,882,470,822,424,802,413"/>
-<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="803,403,826,420,849,489,885,628,949,901,944,899,880,630,844,491,821,424,803,409"/>
-<area shape="poly" id="edge13_Node000009_Node000006" title=" " alt="" coords="791,599,903,559,898,562,793,604"/>
-<area shape="poly" id="edge12_Node000009_Node000009" title=" " alt="" coords="687,601,686,592,693,583,708,578,730,576,754,578,770,587,765,588,753,583,730,581,709,583,696,588,691,594,692,603"/>
-<area shape="poly" id="edge17_Node000012_Node000012" title=" " alt="" coords="691,526,685,518,690,508,705,502,730,500,756,503,772,511,767,512,755,508,730,506,707,507,694,512,691,518,697,527"/>
-<area shape="poly" id="edge28_Node000013_Node000006" title=" " alt="" coords="577,722,823,657,854,636,883,612,929,568,934,565,887,616,857,641,825,662,579,727"/>
-<area shape="poly" id="edge29_Node000013_Node000007" title=" " alt="" coords="578,762,825,828,883,864,930,904,925,904,879,868,823,832,578,767"/>
-<area shape="poly" id="edge21_Node000013_Node000009" title=" " alt="" coords="535,720,635,664,664,652,659,655,638,668,538,724"/>
-<area shape="poly" id="edge22_Node000013_Node000010" title=" " alt="" coords="536,765,638,821,664,835,659,836,635,826,536,770"/>
-<area shape="poly" id="edge23_Node000013_Node000011" title=" " alt="" coords="530,765,561,790,590,820,605,842,613,861,622,879,638,897,651,908,646,908,635,901,617,882,608,864,600,845,586,824,557,794,529,770"/>
-<area shape="poly" id="edge27_Node000013_Node000012" title=" " alt="" coords="508,721,527,686,556,644,592,600,635,564,646,560,642,563,638,568,596,604,560,647,532,689,512,724"/>
-<area shape="rect" id="Node000014" href="$namespacela__blas__level2__sym.html#ad606abf751175e1ce1d9991d59dd354f" title="DSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="655,722,805,767"/>
-<area shape="poly" id="edge24_Node000013_Node000014" title=" " alt="" coords="577,742,642,744,637,746,579,747"/>
-<area shape="poly" id="edge25_Node000014_Node000006" title=" " alt="" coords="792,720,822,701,857,669,889,633,935,569,939,566,893,636,861,673,825,705,795,724"/>
-<area shape="poly" id="edge26_Node000014_Node000007" title=" " alt="" coords="792,765,825,784,859,812,889,843,937,902,932,901,885,846,855,816,822,788,792,770"/>
-<area shape="poly" id="edge33_Node000015_Node000015" title=" " alt="" coords="460,143,454,134,459,124,474,118,498,116,523,119,538,127,533,128,522,124,498,122,475,123,463,128,460,134,465,142"/>
-<area shape="rect" id="Node000016" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="638,67,822,95"/>
-<area shape="poly" id="edge31_Node000015_Node000016" title=" " alt="" coords="536,140,635,105,664,98,660,101,637,110,539,144"/>
-<area shape="rect" id="Node000017" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="636,143,824,171"/>
-<area shape="poly" id="edge34_Node000015_Node000017" title=" " alt="" coords="587,154,623,155,618,158,590,159"/>
-<area shape="poly" id="edge32_Node000016_Node000016" title=" " alt="" coords="691,66,685,58,690,48,705,42,730,40,756,43,772,51,767,52,755,48,730,46,707,47,694,52,691,58,697,66"/>
-<area shape="poly" id="edge35_Node000017_Node000017" title=" " alt="" coords="691,142,685,134,690,124,705,118,730,116,756,119,772,127,767,128,755,124,730,122,707,123,694,128,691,134,697,142"/>
-<area shape="poly" id="edge44_Node000018_Node000006" title=" " alt="" coords="567,985,627,998,695,1003,729,1001,762,995,793,984,822,967,845,940,867,897,886,843,903,783,930,662,947,572,950,567,935,663,909,784,891,845,872,899,850,943,825,971,796,988,763,1000,729,1006,694,1009,627,1003,567,990"/>
-<area shape="poly" id="edge45_Node000018_Node000007" title=" " alt="" coords="516,985,567,1040,600,1066,637,1086,688,1104,731,1111,773,1105,822,1086,862,1060,894,1025,920,988,938,958,943,955,924,991,899,1028,865,1064,825,1091,774,1111,731,1116,687,1109,635,1091,597,1071,563,1044,515,990"/>
-<area shape="poly" id="edge39_Node000018_Node000010" title=" " alt="" coords="543,939,635,897,654,892,649,894,637,902,545,944"/>
-<area shape="poly" id="edge40_Node000018_Node000011" title=" " alt="" coords="572,952,650,944,645,946,573,957"/>
-<area shape="rect" id="Node000019" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="662,1032,798,1076"/>
-<area shape="poly" id="edge41_Node000018_Node000019" title=" " alt="" coords="558,985,658,1025,653,1026,557,990"/>
-<area shape="poly" id="edge42_Node000019_Node000006" title=" " alt="" coords="797,1030,822,1011,834,987,850,942,886,814,945,572,949,568,891,815,855,943,839,989,826,1014,799,1035"/>
-<area shape="poly" id="edge43_Node000019_Node000007" title=" " alt="" coords="785,1029,822,1010,918,953,923,951,825,1015,787,1034"/>
+<area shape="rect" id="Node000001" title="DSYSV_RK: computes the solution to a real system of linear equations A * X = B, where A is an N&#45;by&#45;N ..." alt="" coords="5,524,154,569"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__ldl__comp2.html#a10df499623e08b32c078de35f9742502" title="DSYTRF_RK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman (r..." alt="" coords="202,524,359,569"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,544,188,545,184,548,155,549"/>
+<area shape="rect" id="Node000006" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="872,322,1037,350"/>
+<area shape="poly" id="edge39_Node000001_Node000006" title=" " alt="" coords="91,523,159,419,213,348,278,272,354,196,440,127,486,96,534,69,584,47,636,29,689,13,734,4,755,3,777,7,800,15,825,30,858,57,885,91,906,129,923,168,944,245,953,307,948,306,939,246,918,170,902,131,881,94,854,61,822,34,798,20,776,12,755,8,734,9,690,19,637,34,586,52,536,74,489,101,443,131,358,200,282,276,217,352,164,422,96,525"/>
+<area shape="rect" id="Node000017" href="$namespacela__lapack__solve__ldl__comp.html#aa115a750ec29ded33cf71be97dfe066f" title="DSYTRS_3: solves a system of linear equations A * X = B with a real symmetric matrix A using the fact..." alt="" coords="424,694,572,738"/>
+<area shape="poly" id="edge33_Node000001_Node000017" title=" " alt="" coords="137,567,428,686,424,689,137,572"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__ldl__comp2.html#a20abeb8afac3f26acca31e9a39580d8d" title="DLASYF_RK: computes a partial factorization of a real symmetric matrix A using the bounded Bunch&#45;Kauf..." alt="" coords="418,360,577,405"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="310,522,456,412,453,417,313,526"/>
+<area shape="poly" id="edge32_Node000002_Node000006" title=" " alt="" coords="287,523,325,430,356,367,395,299,443,230,498,164,562,107,598,83,635,63,687,41,732,32,754,34,776,39,825,63,855,87,880,116,901,149,918,184,940,252,952,308,947,306,935,253,913,186,896,152,876,119,852,91,822,67,774,44,753,39,732,38,688,46,637,68,601,88,566,112,502,168,447,233,400,302,361,370,330,432,292,525"/>
+<area shape="rect" id="Node000010" href="$namespacela__blas__level1.html#a994a029162ceccb497f081b70e6d4b10" title="DSWAP: interchanges two vectors. uses unrolled loops for increments equal to 1." alt="" coords="663,694,797,738"/>
+<area shape="poly" id="edge17_Node000002_Node000010" title=" " alt="" coords="342,567,637,679,656,687,651,688,635,684,342,572"/>
+<area shape="rect" id="Node000012" href="$namespacela__lapack__solve__ldl__comp2.html#a824fb93879f888204157c6133696aceb" title="DSYTF2_RK: computes the factorization of a real symmetric matrix A using the bounded Bunch&#45;Kaufman (r..." alt="" coords="418,524,578,569"/>
+<area shape="poly" id="edge18_Node000002_Node000012" title=" " alt="" coords="358,544,404,545,399,548,360,549"/>
+<area shape="rect" id="Node000014" href="$namespacela__lapack__aux.html#aa361c7114aef95e10b685247a1b75114" title="ILAENV: is called from the LAPACK routines to choose problem&#45;dependent parameters for the local envir..." alt="" coords="407,906,588,934"/>
+<area shape="poly" id="edge26_Node000002_Node000014" title=" " alt="" coords="296,567,483,892,478,893,293,571"/>
+<area shape="rect" id="Node000004" href="$namespacela__blas__level1.html#aae8bb4d5e6d345d21c204686597a16c7" title="DCOPY: copies a vector, x, to a vector, y. uses unrolled loops for increments equal to 1." alt="" coords="663,78,797,122"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="504,359,521,314,549,256,587,194,609,165,635,139,652,128,649,132,638,143,613,169,591,197,554,258,526,316,509,361"/>
+<area shape="rect" id="Node000005" href="$namespacela__blas__level3__gen.html#a5709dfcfa0ca3c6a3635c30a7029e225" title="DGEMM: performs one of the matrix&#45;matrix operations C := alpha*op( A )*op( B ) + beta*C,..." alt="" coords="657,198,803,242"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="516,358,567,306,600,277,635,252,647,248,643,251,638,257,603,282,571,310,520,362"/>
+<area shape="poly" id="edge16_Node000003_Node000006" title=" " alt="" coords="504,358,521,318,549,269,586,220,609,200,635,183,685,161,729,155,774,163,825,183,864,208,897,241,923,276,942,309,936,308,918,279,893,244,860,212,822,188,772,168,729,160,687,167,638,188,612,204,590,224,553,272,526,321,509,361"/>
+<area shape="rect" id="Node000007" href="$namespacela__blas__level2__gen.html#a9c2a31bb0d2d592ea44f94e08a22d9bb" title="DGEMV: performs one of the matrix&#45;vector operations y := alpha*A*x + beta*y, or y := alpha*A**T*x + b..." alt="" coords="657,267,803,312"/>
+<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="549,358,635,321,654,316,650,319,637,326,552,362"/>
+<area shape="rect" id="Node000008" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="656,360,804,405"/>
+<area shape="poly" id="edge9_Node000003_Node000008" title=" " alt="" coords="576,380,643,381,639,384,578,385"/>
+<area shape="rect" id="Node000009" href="$namespacela__blas__level1.html#a74ba718e1843e245ad196e1a72a1f9ab" title="DSCAL: scales a vector by a constant. uses unrolled loops for increment equal to 1." alt="" coords="663,624,797,669"/>
+<area shape="poly" id="edge12_Node000003_Node000009" title=" " alt="" coords="517,403,553,452,591,511,604,540,611,565,619,587,638,610,652,622,646,621,634,614,615,590,605,566,599,542,586,513,549,455,516,408"/>
+<area shape="poly" id="edge13_Node000003_Node000010" title=" " alt="" coords="519,403,556,451,591,511,600,536,605,560,608,601,614,640,623,659,638,679,652,693,647,692,634,683,618,662,609,641,602,602,600,560,595,538,586,513,551,454,518,408"/>
+<area shape="rect" id="Node000011" href="$namespacela__blas__aux.html#af6800bacfc44f820f5ab674a67a9e93c" title="IDAMAX: finds the index of the first element having maximum absolute value." alt="" coords="643,453,817,480"/>
+<area shape="poly" id="edge14_Node000003_Node000011" title=" " alt="" coords="561,403,677,446,672,448,562,408"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="797,240,825,252,877,281,923,313,918,313,874,286,822,257,798,245"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="916,321,910,313,915,303,930,297,954,295,981,298,996,306,991,307,979,303,954,301,931,303,918,307,915,313,921,322"/>
+<area shape="poly" id="edge8_Node000007_Node000006" title=" " alt="" coords="803,302,872,318,867,319,804,307"/>
+<area shape="poly" id="edge11_Node000008_Node000006" title=" " alt="" coords="803,365,872,352,867,355,805,370"/>
+<area shape="poly" id="edge10_Node000008_Node000008" title=" " alt="" coords="687,359,686,350,693,341,708,336,730,334,754,336,770,345,765,345,753,341,730,339,709,341,696,346,691,352,692,361"/>
+<area shape="poly" id="edge15_Node000011_Node000011" title=" " alt="" coords="691,452,685,444,690,434,705,428,730,426,756,429,772,437,767,438,755,434,730,431,707,433,694,438,691,444,696,453"/>
+<area shape="poly" id="edge25_Node000012_Node000006" title=" " alt="" coords="577,537,716,519,779,505,822,490,860,462,892,428,917,393,937,365,941,361,922,396,896,431,863,466,825,494,780,511,717,524,579,542"/>
+<area shape="poly" id="edge19_Node000012_Node000008" title=" " alt="" coords="516,522,566,469,599,440,635,415,647,411,643,414,638,419,603,445,570,473,520,526"/>
+<area shape="poly" id="edge20_Node000012_Node000009" title=" " alt="" coords="544,567,637,609,654,618,648,618,635,614,544,572"/>
+<area shape="poly" id="edge21_Node000012_Node000010" title=" " alt="" coords="536,567,590,610,605,629,613,647,622,663,638,679,652,690,646,690,635,683,618,666,609,649,600,632,586,614,536,572"/>
+<area shape="poly" id="edge24_Node000012_Node000011" title=" " alt="" coords="563,521,635,496,675,485,670,487,637,501,566,526"/>
+<area shape="rect" id="Node000013" href="$namespacela__blas__level2__sym.html#ad606abf751175e1ce1d9991d59dd354f" title="DSYR: performs the symmetric rank 1 operation A := alpha*x*x**T + A, where alpha is a real scalar,..." alt="" coords="655,555,805,600"/>
+<area shape="poly" id="edge22_Node000012_Node000013" title=" " alt="" coords="577,554,643,565,638,566,579,560"/>
+<area shape="poly" id="edge23_Node000013_Node000006" title=" " alt="" coords="794,552,822,534,862,492,895,446,921,400,940,366,943,362,925,403,899,449,866,496,825,538,797,557"/>
+<area shape="poly" id="edge29_Node000014_Node000014" title=" " alt="" coords="460,905,454,897,459,887,474,881,498,879,523,882,539,891,533,890,522,887,498,885,475,887,463,891,460,897,465,906"/>
+<area shape="rect" id="Node000015" href="$namespacela__lapack__aux.html#a72541275ada30b0ca556fbc0d3959719" title="IEEECK: is called from the ILAENV to verify that Infinity and possibly NaN arithmetic is safe (i...." alt="" coords="638,906,822,934"/>
+<area shape="poly" id="edge27_Node000014_Node000015" title=" " alt="" coords="588,917,625,920,619,920,589,923"/>
+<area shape="rect" id="Node000016" href="$namespacela__lapack__aux.html#ace38ae70bb7022cae6ecabe992145fda" title="This program sets problem and machine dependent parameters useful for xHSEQR and related subroutines ..." alt="" coords="636,982,824,1010"/>
+<area shape="poly" id="edge30_Node000014_Node000016" title=" " alt="" coords="543,932,674,977,668,977,542,937"/>
+<area shape="poly" id="edge28_Node000015_Node000015" title=" " alt="" coords="691,904,685,897,690,887,705,881,730,879,756,882,772,891,767,890,755,887,730,885,707,887,694,891,691,897,696,907"/>
+<area shape="poly" id="edge31_Node000016_Node000016" title=" " alt="" coords="691,980,685,973,690,963,705,957,730,955,756,958,772,967,767,966,755,963,730,961,707,963,694,967,691,973,696,983"/>
+<area shape="poly" id="edge38_Node000017_Node000006" title=" " alt="" coords="545,736,606,759,679,776,717,779,754,776,790,766,822,748,845,722,866,681,885,630,902,572,929,454,947,367,950,363,935,456,907,573,890,631,871,684,849,725,825,753,792,771,755,781,717,784,678,781,605,764,545,741"/>
+<area shape="poly" id="edge34_Node000017_Node000009" title=" " alt="" coords="571,691,650,670,645,672,573,696"/>
+<area shape="poly" id="edge35_Node000017_Node000010" title=" " alt="" coords="572,713,650,715,644,717,573,718"/>
+<area shape="rect" id="Node000018" href="$namespacela__blas__level3__tri.html#a6989662f34efa7a1d24849adb3ff4d3f" title="DTRSM: solves one of the matrix equations op( A )*X = alpha*B, or X*op( A ) = alpha*B,..." alt="" coords="662,814,798,858"/>
+<area shape="poly" id="edge36_Node000017_Node000018" title=" " alt="" coords="537,736,638,792,664,807,659,807,635,797,536,741"/>
+<area shape="poly" id="edge37_Node000018_Node000006" title=" " alt="" coords="797,812,822,793,859,741,888,683,911,622,927,560,945,447,951,368,954,363,950,448,932,561,916,623,893,685,864,743,826,796,799,817"/>
 </map>

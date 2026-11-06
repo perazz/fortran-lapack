@@ -1,15 +1,13 @@
 <map id="la_lapack::gbsv::cgbsv" name="la_lapack::gbsv::cgbsv">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,118,173,146"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu.html#a5525201008798222d62b9f7c2dbe2351" title="CGBSV: computes the solution to a complex system of linear equations A * X = B, where A is a band mat..." alt="" coords="221,109,365,154"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,129,208,131,202,132,174,134"/>
-<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a193e9a232e9a8137abe0da3f2a06f3d1" title="CGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="424,40,568,85"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="359,106,411,91,416,89,361,111"/>
-<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__lu__comp.html#ae8166a794138f058c7b7a18d796d72ec" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="424,109,568,154"/>
-<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="365,129,411,131,405,132,366,134"/>
-<area shape="rect" id="Node000007" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="413,178,578,206"/>
-<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="366,150,435,173,429,173,365,156"/>
-<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a47a4f70e0761addbb0d58a44165cb83a" title="CGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="626,5,771,50"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="568,47,614,42,609,43,569,53"/>
-<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#ac3650f6731f2baa7a31495052f0aa121" title="CLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="626,75,771,119"/>
-<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="568,72,614,82,608,82,568,77"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,83,173,111"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__solve__lu.html#a5525201008798222d62b9f7c2dbe2351" title="CGBSV: computes the solution to a complex system of linear equations A * X = B, where A is a band mat..." alt="" coords="221,75,365,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,94,208,96,202,98,174,100"/>
+<area shape="rect" id="Node000003" href="$namespacela__lapack__solve__lu__comp.html#a193e9a232e9a8137abe0da3f2a06f3d1" title="CGBTRF: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="413,40,557,85"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="365,81,401,78,395,78,366,87"/>
+<area shape="rect" id="Node000006" href="$namespacela__lapack__solve__lu__comp.html#ae8166a794138f058c7b7a18d796d72ec" title="CGBTRS: solves a system of linear equations A * X = B, A**T * X = B, or A**H * X = B with a general b..." alt="" coords="413,109,557,154"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="365,107,401,116,395,116,365,113"/>
+<area shape="rect" id="Node000004" href="$namespacela__lapack__solve__lu__comp.html#a47a4f70e0761addbb0d58a44165cb83a" title="CGBTF2: computes an LU factorization of a complex m&#45;by&#45;n band matrix A using partial pivoting with ro..." alt="" coords="605,5,750,50"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="557,47,593,43,588,44,558,52"/>
+<area shape="rect" id="Node000005" href="$namespacela__lapack__solve__lu__comp.html#ac3650f6731f2baa7a31495052f0aa121" title="CLASWP: performs a series of row interchanges on the matrix A. One row interchange is initiated for e..." alt="" coords="605,75,750,119"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="558,73,593,81,588,81,558,78"/>
 </map>

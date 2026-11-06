@@ -1,11 +1,9 @@
 <map id="la_lapack_solve_lu_comp::la_dgeequ" name="la_lapack_solve_lu_comp::la_dgeequ">
-<area shape="rect" id="Node000001" title="DGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="5,60,150,105"/>
-<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="207,29,354,74"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,69,194,64,189,66,151,74"/>
-<area shape="rect" id="Node000004" href="$namespacela__blas__aux.html#af84f752bdc5bda6e3a0df72531e7dc81" title="XERBLA: is an error handler for the LAPACK routines. It is called by an LAPACK routine if an input pa..." alt="" coords="198,98,363,126"/>
-<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="150,90,185,97,179,98,150,95"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="242,28,240,19,247,10,260,5,280,3,302,5,317,14,311,14,301,10,280,8,262,10,250,15,245,21,246,30"/>
-<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="411,38,576,66"/>
-<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="354,49,398,51,393,52,354,54"/>
-<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="457,36,451,29,456,19,470,13,494,11,519,14,534,23,529,22,517,19,494,16,472,18,459,23,456,29,462,38"/>
+<area shape="rect" id="Node000001" title="DGEEQU: computes row and column scalings intended to equilibrate an M&#45;by&#45;N matrix A and reduce its co..." alt="" coords="5,29,150,74"/>
+<area shape="rect" id="Node000002" href="$namespacela__lapack__auxiliary.html#a1af887c0d867c49872aaec978c6f22f6" title="DLAMCH: determines double precision machine parameters." alt="" coords="198,29,345,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,49,185,51,180,52,150,54"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="234,27,233,19,239,10,252,5,271,3,292,5,306,14,301,13,291,10,271,8,253,10,242,15,238,21,239,30"/>
+<area shape="rect" id="Node000003" href="$namespacela__blas__aux.html#abc9e375cfab75dede9c28a768c464e0e" title="LSAME: returns .TRUE. if CA is the same letter as CB regardless of case." alt="" coords="393,38,558,66"/>
+<area shape="poly" id="edge3_Node000002_Node000003" title=" " alt="" coords="345,49,380,52,375,52,346,54"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="440,36,435,29,439,19,453,13,476,11,500,14,514,23,509,22,498,19,476,16,455,18,443,23,440,29,445,38"/>
 </map>
