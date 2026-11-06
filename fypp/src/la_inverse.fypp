@@ -16,8 +16,8 @@ module la_inverse
      !! The inverse is computed using an LU decomposition with partial pivoting.
      !!
      !! @param[in] A The input square matrix of size \f$ [n, n] \f$.
-     !! @param[out] err (Optional) A state return flag. If an error occurs and `err` is not provided,
-     !!                 the function will stop execution.
+     !! @param[out] err (Optional) A state return flag. Without it the function is `pure`, and an
+     !!                 error stops execution.
      !!
      !! @return The inverse matrix \f$ A^{-1} \f$ of size \f$ [n, n] \f$.
      !!
@@ -58,10 +58,10 @@ module la_inverse
      !!
      !! @return The inverse matrix \f$ A^{-1} \f$ of size \f$ [n, n] \f$.
      !!
-     !! @note This operator is a shorthand for calling `inv(A)`, allowing expressions such as:
+     !! @note This operator is the `pure` form of `inv(A)`, allowing expressions such as:
      !!       \f$ X = .inv.A \f$
      !! @warning The matrix \f$ A \f$ must be non-singular. If it is singular or nearly singular,
-     !!          the computation will fail.
+     !!          execution stops.
      !!
      public :: operator(.inv.)
 
@@ -72,6 +72,7 @@ module la_inverse
 #ifdef ${LA_GUARD[rk]}$
         #:endif
         module procedure la_inverse_${ri}$
+        module procedure la_inverse_err_${ri}$
         #:if LA_GUARD[rk]
 #endif
         #:endif
@@ -98,7 +99,7 @@ module la_inverse
         #:if LA_GUARD[rk]
 #ifdef ${LA_GUARD[rk]}$
         #:endif
-        module procedure la_inverse_${ri}$_operator
+        module procedure la_inverse_${ri}$
         #:if LA_GUARD[rk]
 #endif
         #:endif
@@ -211,14 +212,29 @@ module la_inverse
 
      end subroutine la_invert_split_${ri}$
 
-     ! Invert matrix in place
-     function la_inverse_${ri}$(a,err) result(inva)
+     ! Matrix inverse, function form and operator: `pure`, stops on error
+     pure function la_inverse_${ri}$(a) result(inva)
          !> Input matrix a[n,n]
          ${rt}$, intent(in) :: a(:,:)
          !> Output matrix inverse
          ${rt}$, allocatable :: inva(:,:)
-         !> [optional] state return flag. On error if not requested, the code will stop
-         type(la_state), optional, intent(out) :: err
+
+         !> Allocate with copy
+         allocate(inva,source=a)
+
+         !> Compute matrix inverse
+         call la_invert_${ri}$(inva)
+
+     end function la_inverse_${ri}$
+
+     ! Matrix inverse, function form with a state return flag
+     function la_inverse_err_${ri}$(a,err) result(inva)
+         !> Input matrix a[n,n]
+         ${rt}$, intent(in) :: a(:,:)
+         !> State return flag
+         type(la_state), intent(out) :: err
+         !> Output matrix inverse
+         ${rt}$, allocatable :: inva(:,:)
 
          !> Allocate with copy
          allocate(inva,source=a)
@@ -226,27 +242,7 @@ module la_inverse
          !> Compute matrix inverse
          call la_invert_${ri}$(inva,err=err)
 
-     end function la_inverse_${ri}$
-
-     ! Inverse matrix operator
-     pure function la_inverse_${ri}$_operator(a) result(inva)
-         !> Input matrix a[n,n]
-         ${rt}$, intent(in) :: a(:,:)
-         !> Result matrix
-         ${rt}$, allocatable :: inva(:,:)
-
-         type(la_state) :: err
-
-         allocate(inva,source=a)
-         call la_invert_${ri}$(inva,err=err)
-
-         ! On error, return an empty matrix
-         if (err%error()) then
-            deallocate(inva)
-            allocate(inva(0,0))
-         endif
-
-     end function la_inverse_${ri}$_operator
+     end function la_inverse_err_${ri}$
      #:if LA_GUARD[rk]
 #endif
      #:endif
