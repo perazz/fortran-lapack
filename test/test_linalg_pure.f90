@@ -1,13 +1,16 @@
 ! The high-level procedures that are pure, called from a pure procedure: a change that makes
-! one of them impure fails to compile this test
+! one of them impure fails to compile this test. The function forms with err return the error
+! state on a failing input instead of stopping.
 module test_linalg_pure
     use testdrive,only:error_type,check,new_unittest,unittest_type
     use la_constants
     use linear_algebra,only:eigvals,eigvalsh,eig,svd,invert,schur,solve_lstsq, &
                               generalized_lstsq,solve_generalized_lstsq,qr, &
                               matrix_rank,cond,slogdet,matrix_power, &
-                              operator(.inv.),operator(.pinv.)
-    use la_state_type,only:la_state
+                              solve,inv,det,chol,lstsq,weighted_lstsq,constrained_lstsq, &
+                              pinv,svdvals,mnorm, &
+                              operator(.inv.),operator(.pinv.),operator(.det.)
+    use la_state_type,only:la_state,LINALG_ERROR,LINALG_VALUE_ERROR
 
     implicit none(type,external)
     private
@@ -24,20 +27,36 @@ module test_linalg_pure
         allocate (tests(0))
 
         call add_test(tests,new_unittest("pure_calls_s",test_pure_calls_s))
+        call add_test(tests,new_unittest("pure_functions_s",test_pure_functions_s))
+        call add_test(tests,new_unittest("err_functions_s",test_err_functions_s))
         call add_test(tests,new_unittest("pure_calls_d",test_pure_calls_d))
+        call add_test(tests,new_unittest("pure_functions_d",test_pure_functions_d))
+        call add_test(tests,new_unittest("err_functions_d",test_err_functions_d))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("pure_calls_x",test_pure_calls_x))
+        call add_test(tests,new_unittest("pure_functions_x",test_pure_functions_x))
+        call add_test(tests,new_unittest("err_functions_x",test_err_functions_x))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("pure_calls_q",test_pure_calls_q))
+        call add_test(tests,new_unittest("pure_functions_q",test_pure_functions_q))
+        call add_test(tests,new_unittest("err_functions_q",test_err_functions_q))
 #endif
         call add_test(tests,new_unittest("pure_calls_c",test_pure_calls_c))
+        call add_test(tests,new_unittest("pure_functions_c",test_pure_functions_c))
+        call add_test(tests,new_unittest("err_functions_c",test_err_functions_c))
         call add_test(tests,new_unittest("pure_calls_z",test_pure_calls_z))
+        call add_test(tests,new_unittest("pure_functions_z",test_pure_functions_z))
+        call add_test(tests,new_unittest("err_functions_z",test_err_functions_z))
 #ifdef LA_WITH_XDP
         call add_test(tests,new_unittest("pure_calls_y",test_pure_calls_y))
+        call add_test(tests,new_unittest("pure_functions_y",test_pure_functions_y))
+        call add_test(tests,new_unittest("err_functions_y",test_err_functions_y))
 #endif
 #ifdef LA_WITH_QP
         call add_test(tests,new_unittest("pure_calls_w",test_pure_calls_w))
+        call add_test(tests,new_unittest("pure_functions_w",test_pure_functions_w))
+        call add_test(tests,new_unittest("err_functions_w",test_err_functions_w))
 #endif
 
     end subroutine test_pure_procedures
@@ -188,6 +207,159 @@ module test_linalg_pure
 
     end subroutine pure_scalars_s
 
+    !> Run every pure function form on A = diag(1,2,4), whose results are known
+    subroutine test_pure_functions_s(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(sp),parameter :: tol = 1000*epsilon(1.0_sp)
+        real(sp),parameter :: d(n) = [1.0_sp,2.0_sp,4.0_sp]
+        real(sp) :: a(n,n),ainv(n,n),lref(n,n),x(n),inva(n,n),dets(2),l(n,n),xl(n),xw(n), &
+                  xc(n),pinva(n,n)
+        real(sp) :: s(n),nrm(4)
+        integer :: i
+
+        a = 0
+        ainv = 0
+        lref = 0
+        do i = 1,n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+            lref(i,i) = sqrt(d(i))
+        end do
+
+        call pure_functions_s(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+
+        call check(error,all(abs(x - 1) < tol),'solve')
+        if (allocated(error)) return
+
+        call check(error,all(abs(inva - ainv) < tol),'inv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(dets - product(d)) < tol),'det, .det.')
+        if (allocated(error)) return
+
+        call check(error,all(abs(l - lref) < tol),'chol')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xl - 1) < tol),'lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xw - 1) < tol),'weighted_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xc - 1) < tol),'constrained_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(pinva - ainv) < tol),'pinv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(s - d(n:1:-1)) < tol),'svdvals')
+        if (allocated(error)) return
+
+        ! 1-norm: 4; Frobenius norm: sqrt(21), of the matrix and of both slices of a rank-3 array
+        call check(error,all(abs(nrm - [4.0_sp,sqrt(21.0_sp),sqrt(21.0_sp),sqrt(21.0_sp)]) < tol), &
+                   'mnorm')
+        if (allocated(error)) return
+
+    end subroutine test_pure_functions_s
+
+    pure subroutine pure_functions_s(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+        real(sp),intent(in) :: a(:,:)
+        real(sp),intent(out) :: x(:),inva(:,:),dets(2),l(:,:),xl(:),xw(:),xc(:),pinva(:,:)
+        real(sp),intent(out) :: s(:),nrm(4)
+
+        real(sp) :: b(size(a,1)),c(1,size(a,2)),a3(size(a,1),size(a,2),2)
+        real(sp) :: w(size(a,1))
+        integer :: i
+
+        b = [(a(i,i),i=1,size(a,1))]
+        w = 1
+        c = 0
+        c(1,1) = 1
+        a3(:,:,1) = a
+        a3(:,:,2) = a
+
+        x = solve(a,b)
+        inva = inv(a)
+        dets = [det(a),.det.a]
+        l = chol(a)
+        xl = lstsq(a,b)
+        xw = weighted_lstsq(w,a,b)
+        ! The constraint x(1) = 1 holds at the unconstrained solution x = 1
+        xc = constrained_lstsq(a,b,c, [b(1)])
+        pinva = pinv(a)
+        s = svdvals(a)
+        nrm(1:2) = [mnorm(a,'1'),mnorm(a,'fro')]
+        nrm(3:4) = mnorm(a3,'fro')
+
+    end subroutine pure_functions_s
+
+    !> The function forms with err return the error state, and do not stop, on a failing input
+    subroutine test_err_functions_s(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(sp) :: z(n,n),rect(n,n - 1),b(n),c(1,n),d(1),empty(0,0),a3(n,n,2),dt
+        real(sp),allocatable :: x(:),xm(:,:)
+        real(sp) :: w(n),nrm
+        real(sp),allocatable :: s(:),nrm3(:)
+        type(la_state) :: err
+
+        z = 0
+        rect = 1
+        b = 1
+        c = 1
+        d = 1
+        w = -1
+        a3 = 1
+
+        x = solve(z,b,err=err)
+        call check(error,err%state == LINALG_ERROR .and. size(x) == 0,'solve: singular matrix')
+        if (allocated(error)) return
+
+        xm = inv(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        if (allocated(error)) return
+
+        dt = det(rect,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'det: non-square matrix')
+        if (allocated(error)) return
+
+        xm = chol(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'chol: not positive definite')
+        if (allocated(error)) return
+
+        x = lstsq(rect,b(1:n - 1),err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(x) == 0,'lstsq: b has too few rows')
+        if (allocated(error)) return
+
+        x = weighted_lstsq(w,rect,b,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'weighted_lstsq: negative weights')
+        if (allocated(error)) return
+
+        x = constrained_lstsq(rect,b,c,d,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'constrained_lstsq: a and c columns differ')
+        if (allocated(error)) return
+
+        xm = pinv(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'pinv: empty matrix')
+        if (allocated(error)) return
+
+        s = svdvals(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'svdvals: empty matrix')
+        if (allocated(error)) return
+
+        nrm = mnorm(rect,3_ilp,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'mnorm: order 3 is not a matrix norm')
+        if (allocated(error)) return
+
+        nrm3 = mnorm(a3,'fro',dim=[1_ilp,1_ilp],err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(nrm3) == 0,'mnorm: repeated dim')
+        if (allocated(error)) return
+
+    end subroutine test_err_functions_s
+
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_d(error)
         type(error_type),allocatable,intent(out) :: error
@@ -333,6 +505,159 @@ module test_linalg_pure
         call slogdet(work,sgn,lad)
 
     end subroutine pure_scalars_d
+
+    !> Run every pure function form on A = diag(1,2,4), whose results are known
+    subroutine test_pure_functions_d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(dp),parameter :: tol = 1000*epsilon(1.0_dp)
+        real(dp),parameter :: d(n) = [1.0_dp,2.0_dp,4.0_dp]
+        real(dp) :: a(n,n),ainv(n,n),lref(n,n),x(n),inva(n,n),dets(2),l(n,n),xl(n),xw(n), &
+                  xc(n),pinva(n,n)
+        real(dp) :: s(n),nrm(4)
+        integer :: i
+
+        a = 0
+        ainv = 0
+        lref = 0
+        do i = 1,n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+            lref(i,i) = sqrt(d(i))
+        end do
+
+        call pure_functions_d(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+
+        call check(error,all(abs(x - 1) < tol),'solve')
+        if (allocated(error)) return
+
+        call check(error,all(abs(inva - ainv) < tol),'inv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(dets - product(d)) < tol),'det, .det.')
+        if (allocated(error)) return
+
+        call check(error,all(abs(l - lref) < tol),'chol')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xl - 1) < tol),'lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xw - 1) < tol),'weighted_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xc - 1) < tol),'constrained_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(pinva - ainv) < tol),'pinv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(s - d(n:1:-1)) < tol),'svdvals')
+        if (allocated(error)) return
+
+        ! 1-norm: 4; Frobenius norm: sqrt(21), of the matrix and of both slices of a rank-3 array
+        call check(error,all(abs(nrm - [4.0_dp,sqrt(21.0_dp),sqrt(21.0_dp),sqrt(21.0_dp)]) < tol), &
+                   'mnorm')
+        if (allocated(error)) return
+
+    end subroutine test_pure_functions_d
+
+    pure subroutine pure_functions_d(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+        real(dp),intent(in) :: a(:,:)
+        real(dp),intent(out) :: x(:),inva(:,:),dets(2),l(:,:),xl(:),xw(:),xc(:),pinva(:,:)
+        real(dp),intent(out) :: s(:),nrm(4)
+
+        real(dp) :: b(size(a,1)),c(1,size(a,2)),a3(size(a,1),size(a,2),2)
+        real(dp) :: w(size(a,1))
+        integer :: i
+
+        b = [(a(i,i),i=1,size(a,1))]
+        w = 1
+        c = 0
+        c(1,1) = 1
+        a3(:,:,1) = a
+        a3(:,:,2) = a
+
+        x = solve(a,b)
+        inva = inv(a)
+        dets = [det(a),.det.a]
+        l = chol(a)
+        xl = lstsq(a,b)
+        xw = weighted_lstsq(w,a,b)
+        ! The constraint x(1) = 1 holds at the unconstrained solution x = 1
+        xc = constrained_lstsq(a,b,c, [b(1)])
+        pinva = pinv(a)
+        s = svdvals(a)
+        nrm(1:2) = [mnorm(a,'1'),mnorm(a,'fro')]
+        nrm(3:4) = mnorm(a3,'fro')
+
+    end subroutine pure_functions_d
+
+    !> The function forms with err return the error state, and do not stop, on a failing input
+    subroutine test_err_functions_d(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(dp) :: z(n,n),rect(n,n - 1),b(n),c(1,n),d(1),empty(0,0),a3(n,n,2),dt
+        real(dp),allocatable :: x(:),xm(:,:)
+        real(dp) :: w(n),nrm
+        real(dp),allocatable :: s(:),nrm3(:)
+        type(la_state) :: err
+
+        z = 0
+        rect = 1
+        b = 1
+        c = 1
+        d = 1
+        w = -1
+        a3 = 1
+
+        x = solve(z,b,err=err)
+        call check(error,err%state == LINALG_ERROR .and. size(x) == 0,'solve: singular matrix')
+        if (allocated(error)) return
+
+        xm = inv(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        if (allocated(error)) return
+
+        dt = det(rect,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'det: non-square matrix')
+        if (allocated(error)) return
+
+        xm = chol(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'chol: not positive definite')
+        if (allocated(error)) return
+
+        x = lstsq(rect,b(1:n - 1),err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(x) == 0,'lstsq: b has too few rows')
+        if (allocated(error)) return
+
+        x = weighted_lstsq(w,rect,b,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'weighted_lstsq: negative weights')
+        if (allocated(error)) return
+
+        x = constrained_lstsq(rect,b,c,d,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'constrained_lstsq: a and c columns differ')
+        if (allocated(error)) return
+
+        xm = pinv(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'pinv: empty matrix')
+        if (allocated(error)) return
+
+        s = svdvals(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'svdvals: empty matrix')
+        if (allocated(error)) return
+
+        nrm = mnorm(rect,3_ilp,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'mnorm: order 3 is not a matrix norm')
+        if (allocated(error)) return
+
+        nrm3 = mnorm(a3,'fro',dim=[1_ilp,1_ilp],err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(nrm3) == 0,'mnorm: repeated dim')
+        if (allocated(error)) return
+
+    end subroutine test_err_functions_d
 
 #ifdef LA_WITH_XDP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
@@ -480,6 +805,159 @@ module test_linalg_pure
         call slogdet(work,sgn,lad)
 
     end subroutine pure_scalars_x
+
+    !> Run every pure function form on A = diag(1,2,4), whose results are known
+    subroutine test_pure_functions_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(xdp),parameter :: tol = 1000*epsilon(1.0_xdp)
+        real(xdp),parameter :: d(n) = [1.0_xdp,2.0_xdp,4.0_xdp]
+        real(xdp) :: a(n,n),ainv(n,n),lref(n,n),x(n),inva(n,n),dets(2),l(n,n),xl(n),xw(n), &
+                  xc(n),pinva(n,n)
+        real(xdp) :: s(n),nrm(4)
+        integer :: i
+
+        a = 0
+        ainv = 0
+        lref = 0
+        do i = 1,n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+            lref(i,i) = sqrt(d(i))
+        end do
+
+        call pure_functions_x(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+
+        call check(error,all(abs(x - 1) < tol),'solve')
+        if (allocated(error)) return
+
+        call check(error,all(abs(inva - ainv) < tol),'inv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(dets - product(d)) < tol),'det, .det.')
+        if (allocated(error)) return
+
+        call check(error,all(abs(l - lref) < tol),'chol')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xl - 1) < tol),'lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xw - 1) < tol),'weighted_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xc - 1) < tol),'constrained_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(pinva - ainv) < tol),'pinv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(s - d(n:1:-1)) < tol),'svdvals')
+        if (allocated(error)) return
+
+        ! 1-norm: 4; Frobenius norm: sqrt(21), of the matrix and of both slices of a rank-3 array
+        call check(error,all(abs(nrm - [4.0_xdp,sqrt(21.0_xdp),sqrt(21.0_xdp),sqrt(21.0_xdp)]) < tol), &
+                   'mnorm')
+        if (allocated(error)) return
+
+    end subroutine test_pure_functions_x
+
+    pure subroutine pure_functions_x(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+        real(xdp),intent(in) :: a(:,:)
+        real(xdp),intent(out) :: x(:),inva(:,:),dets(2),l(:,:),xl(:),xw(:),xc(:),pinva(:,:)
+        real(xdp),intent(out) :: s(:),nrm(4)
+
+        real(xdp) :: b(size(a,1)),c(1,size(a,2)),a3(size(a,1),size(a,2),2)
+        real(xdp) :: w(size(a,1))
+        integer :: i
+
+        b = [(a(i,i),i=1,size(a,1))]
+        w = 1
+        c = 0
+        c(1,1) = 1
+        a3(:,:,1) = a
+        a3(:,:,2) = a
+
+        x = solve(a,b)
+        inva = inv(a)
+        dets = [det(a),.det.a]
+        l = chol(a)
+        xl = lstsq(a,b)
+        xw = weighted_lstsq(w,a,b)
+        ! The constraint x(1) = 1 holds at the unconstrained solution x = 1
+        xc = constrained_lstsq(a,b,c, [b(1)])
+        pinva = pinv(a)
+        s = svdvals(a)
+        nrm(1:2) = [mnorm(a,'1'),mnorm(a,'fro')]
+        nrm(3:4) = mnorm(a3,'fro')
+
+    end subroutine pure_functions_x
+
+    !> The function forms with err return the error state, and do not stop, on a failing input
+    subroutine test_err_functions_x(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(xdp) :: z(n,n),rect(n,n - 1),b(n),c(1,n),d(1),empty(0,0),a3(n,n,2),dt
+        real(xdp),allocatable :: x(:),xm(:,:)
+        real(xdp) :: w(n),nrm
+        real(xdp),allocatable :: s(:),nrm3(:)
+        type(la_state) :: err
+
+        z = 0
+        rect = 1
+        b = 1
+        c = 1
+        d = 1
+        w = -1
+        a3 = 1
+
+        x = solve(z,b,err=err)
+        call check(error,err%state == LINALG_ERROR .and. size(x) == 0,'solve: singular matrix')
+        if (allocated(error)) return
+
+        xm = inv(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        if (allocated(error)) return
+
+        dt = det(rect,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'det: non-square matrix')
+        if (allocated(error)) return
+
+        xm = chol(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'chol: not positive definite')
+        if (allocated(error)) return
+
+        x = lstsq(rect,b(1:n - 1),err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(x) == 0,'lstsq: b has too few rows')
+        if (allocated(error)) return
+
+        x = weighted_lstsq(w,rect,b,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'weighted_lstsq: negative weights')
+        if (allocated(error)) return
+
+        x = constrained_lstsq(rect,b,c,d,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'constrained_lstsq: a and c columns differ')
+        if (allocated(error)) return
+
+        xm = pinv(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'pinv: empty matrix')
+        if (allocated(error)) return
+
+        s = svdvals(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'svdvals: empty matrix')
+        if (allocated(error)) return
+
+        nrm = mnorm(rect,3_ilp,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'mnorm: order 3 is not a matrix norm')
+        if (allocated(error)) return
+
+        nrm3 = mnorm(a3,'fro',dim=[1_ilp,1_ilp],err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(nrm3) == 0,'mnorm: repeated dim')
+        if (allocated(error)) return
+
+    end subroutine test_err_functions_x
 
 #endif
 #ifdef LA_WITH_QP
@@ -629,6 +1107,159 @@ module test_linalg_pure
 
     end subroutine pure_scalars_q
 
+    !> Run every pure function form on A = diag(1,2,4), whose results are known
+    subroutine test_pure_functions_q(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(qp),parameter :: tol = 1000*epsilon(1.0_qp)
+        real(qp),parameter :: d(n) = [1.0_qp,2.0_qp,4.0_qp]
+        real(qp) :: a(n,n),ainv(n,n),lref(n,n),x(n),inva(n,n),dets(2),l(n,n),xl(n),xw(n), &
+                  xc(n),pinva(n,n)
+        real(qp) :: s(n),nrm(4)
+        integer :: i
+
+        a = 0
+        ainv = 0
+        lref = 0
+        do i = 1,n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+            lref(i,i) = sqrt(d(i))
+        end do
+
+        call pure_functions_q(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+
+        call check(error,all(abs(x - 1) < tol),'solve')
+        if (allocated(error)) return
+
+        call check(error,all(abs(inva - ainv) < tol),'inv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(dets - product(d)) < tol),'det, .det.')
+        if (allocated(error)) return
+
+        call check(error,all(abs(l - lref) < tol),'chol')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xl - 1) < tol),'lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xw - 1) < tol),'weighted_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xc - 1) < tol),'constrained_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(pinva - ainv) < tol),'pinv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(s - d(n:1:-1)) < tol),'svdvals')
+        if (allocated(error)) return
+
+        ! 1-norm: 4; Frobenius norm: sqrt(21), of the matrix and of both slices of a rank-3 array
+        call check(error,all(abs(nrm - [4.0_qp,sqrt(21.0_qp),sqrt(21.0_qp),sqrt(21.0_qp)]) < tol), &
+                   'mnorm')
+        if (allocated(error)) return
+
+    end subroutine test_pure_functions_q
+
+    pure subroutine pure_functions_q(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+        real(qp),intent(in) :: a(:,:)
+        real(qp),intent(out) :: x(:),inva(:,:),dets(2),l(:,:),xl(:),xw(:),xc(:),pinva(:,:)
+        real(qp),intent(out) :: s(:),nrm(4)
+
+        real(qp) :: b(size(a,1)),c(1,size(a,2)),a3(size(a,1),size(a,2),2)
+        real(qp) :: w(size(a,1))
+        integer :: i
+
+        b = [(a(i,i),i=1,size(a,1))]
+        w = 1
+        c = 0
+        c(1,1) = 1
+        a3(:,:,1) = a
+        a3(:,:,2) = a
+
+        x = solve(a,b)
+        inva = inv(a)
+        dets = [det(a),.det.a]
+        l = chol(a)
+        xl = lstsq(a,b)
+        xw = weighted_lstsq(w,a,b)
+        ! The constraint x(1) = 1 holds at the unconstrained solution x = 1
+        xc = constrained_lstsq(a,b,c, [b(1)])
+        pinva = pinv(a)
+        s = svdvals(a)
+        nrm(1:2) = [mnorm(a,'1'),mnorm(a,'fro')]
+        nrm(3:4) = mnorm(a3,'fro')
+
+    end subroutine pure_functions_q
+
+    !> The function forms with err return the error state, and do not stop, on a failing input
+    subroutine test_err_functions_q(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(qp) :: z(n,n),rect(n,n - 1),b(n),c(1,n),d(1),empty(0,0),a3(n,n,2),dt
+        real(qp),allocatable :: x(:),xm(:,:)
+        real(qp) :: w(n),nrm
+        real(qp),allocatable :: s(:),nrm3(:)
+        type(la_state) :: err
+
+        z = 0
+        rect = 1
+        b = 1
+        c = 1
+        d = 1
+        w = -1
+        a3 = 1
+
+        x = solve(z,b,err=err)
+        call check(error,err%state == LINALG_ERROR .and. size(x) == 0,'solve: singular matrix')
+        if (allocated(error)) return
+
+        xm = inv(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        if (allocated(error)) return
+
+        dt = det(rect,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'det: non-square matrix')
+        if (allocated(error)) return
+
+        xm = chol(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'chol: not positive definite')
+        if (allocated(error)) return
+
+        x = lstsq(rect,b(1:n - 1),err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(x) == 0,'lstsq: b has too few rows')
+        if (allocated(error)) return
+
+        x = weighted_lstsq(w,rect,b,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'weighted_lstsq: negative weights')
+        if (allocated(error)) return
+
+        x = constrained_lstsq(rect,b,c,d,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'constrained_lstsq: a and c columns differ')
+        if (allocated(error)) return
+
+        xm = pinv(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'pinv: empty matrix')
+        if (allocated(error)) return
+
+        s = svdvals(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'svdvals: empty matrix')
+        if (allocated(error)) return
+
+        nrm = mnorm(rect,3_ilp,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'mnorm: order 3 is not a matrix norm')
+        if (allocated(error)) return
+
+        nrm3 = mnorm(a3,'fro',dim=[1_ilp,1_ilp],err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(nrm3) == 0,'mnorm: repeated dim')
+        if (allocated(error)) return
+
+    end subroutine test_err_functions_q
+
 #endif
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_c(error)
@@ -776,6 +1407,159 @@ module test_linalg_pure
 
     end subroutine pure_scalars_c
 
+    !> Run every pure function form on A = diag(1,2,4), whose results are known
+    subroutine test_pure_functions_c(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(sp),parameter :: tol = 1000*epsilon(1.0_sp)
+        real(sp),parameter :: d(n) = [1.0_sp,2.0_sp,4.0_sp]
+        complex(sp) :: a(n,n),ainv(n,n),lref(n,n),x(n),inva(n,n),dets(2),l(n,n),xl(n),xw(n), &
+                  xc(n),pinva(n,n)
+        real(sp) :: s(n),nrm(4)
+        integer :: i
+
+        a = 0
+        ainv = 0
+        lref = 0
+        do i = 1,n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+            lref(i,i) = sqrt(d(i))
+        end do
+
+        call pure_functions_c(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+
+        call check(error,all(abs(x - 1) < tol),'solve')
+        if (allocated(error)) return
+
+        call check(error,all(abs(inva - ainv) < tol),'inv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(dets - product(d)) < tol),'det, .det.')
+        if (allocated(error)) return
+
+        call check(error,all(abs(l - lref) < tol),'chol')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xl - 1) < tol),'lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xw - 1) < tol),'weighted_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xc - 1) < tol),'constrained_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(pinva - ainv) < tol),'pinv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(s - d(n:1:-1)) < tol),'svdvals')
+        if (allocated(error)) return
+
+        ! 1-norm: 4; Frobenius norm: sqrt(21), of the matrix and of both slices of a rank-3 array
+        call check(error,all(abs(nrm - [4.0_sp,sqrt(21.0_sp),sqrt(21.0_sp),sqrt(21.0_sp)]) < tol), &
+                   'mnorm')
+        if (allocated(error)) return
+
+    end subroutine test_pure_functions_c
+
+    pure subroutine pure_functions_c(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+        complex(sp),intent(in) :: a(:,:)
+        complex(sp),intent(out) :: x(:),inva(:,:),dets(2),l(:,:),xl(:),xw(:),xc(:),pinva(:,:)
+        real(sp),intent(out) :: s(:),nrm(4)
+
+        complex(sp) :: b(size(a,1)),c(1,size(a,2)),a3(size(a,1),size(a,2),2)
+        real(sp) :: w(size(a,1))
+        integer :: i
+
+        b = [(a(i,i),i=1,size(a,1))]
+        w = 1
+        c = 0
+        c(1,1) = 1
+        a3(:,:,1) = a
+        a3(:,:,2) = a
+
+        x = solve(a,b)
+        inva = inv(a)
+        dets = [det(a),.det.a]
+        l = chol(a)
+        xl = lstsq(a,b)
+        xw = weighted_lstsq(w,a,b)
+        ! The constraint x(1) = 1 holds at the unconstrained solution x = 1
+        xc = constrained_lstsq(a,b,c, [b(1)])
+        pinva = pinv(a)
+        s = svdvals(a)
+        nrm(1:2) = [mnorm(a,'1'),mnorm(a,'fro')]
+        nrm(3:4) = mnorm(a3,'fro')
+
+    end subroutine pure_functions_c
+
+    !> The function forms with err return the error state, and do not stop, on a failing input
+    subroutine test_err_functions_c(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        complex(sp) :: z(n,n),rect(n,n - 1),b(n),c(1,n),d(1),empty(0,0),a3(n,n,2),dt
+        complex(sp),allocatable :: x(:),xm(:,:)
+        real(sp) :: w(n),nrm
+        real(sp),allocatable :: s(:),nrm3(:)
+        type(la_state) :: err
+
+        z = 0
+        rect = 1
+        b = 1
+        c = 1
+        d = 1
+        w = -1
+        a3 = 1
+
+        x = solve(z,b,err=err)
+        call check(error,err%state == LINALG_ERROR .and. size(x) == 0,'solve: singular matrix')
+        if (allocated(error)) return
+
+        xm = inv(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        if (allocated(error)) return
+
+        dt = det(rect,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'det: non-square matrix')
+        if (allocated(error)) return
+
+        xm = chol(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'chol: not positive definite')
+        if (allocated(error)) return
+
+        x = lstsq(rect,b(1:n - 1),err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(x) == 0,'lstsq: b has too few rows')
+        if (allocated(error)) return
+
+        x = weighted_lstsq(w,rect,b,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'weighted_lstsq: negative weights')
+        if (allocated(error)) return
+
+        x = constrained_lstsq(rect,b,c,d,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'constrained_lstsq: a and c columns differ')
+        if (allocated(error)) return
+
+        xm = pinv(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'pinv: empty matrix')
+        if (allocated(error)) return
+
+        s = svdvals(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'svdvals: empty matrix')
+        if (allocated(error)) return
+
+        nrm = mnorm(rect,3_ilp,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'mnorm: order 3 is not a matrix norm')
+        if (allocated(error)) return
+
+        nrm3 = mnorm(a3,'fro',dim=[1_ilp,1_ilp],err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(nrm3) == 0,'mnorm: repeated dim')
+        if (allocated(error)) return
+
+    end subroutine test_err_functions_c
+
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
     subroutine test_pure_calls_z(error)
         type(error_type),allocatable,intent(out) :: error
@@ -921,6 +1705,159 @@ module test_linalg_pure
         call slogdet(work,sgn,lad)
 
     end subroutine pure_scalars_z
+
+    !> Run every pure function form on A = diag(1,2,4), whose results are known
+    subroutine test_pure_functions_z(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(dp),parameter :: tol = 1000*epsilon(1.0_dp)
+        real(dp),parameter :: d(n) = [1.0_dp,2.0_dp,4.0_dp]
+        complex(dp) :: a(n,n),ainv(n,n),lref(n,n),x(n),inva(n,n),dets(2),l(n,n),xl(n),xw(n), &
+                  xc(n),pinva(n,n)
+        real(dp) :: s(n),nrm(4)
+        integer :: i
+
+        a = 0
+        ainv = 0
+        lref = 0
+        do i = 1,n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+            lref(i,i) = sqrt(d(i))
+        end do
+
+        call pure_functions_z(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+
+        call check(error,all(abs(x - 1) < tol),'solve')
+        if (allocated(error)) return
+
+        call check(error,all(abs(inva - ainv) < tol),'inv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(dets - product(d)) < tol),'det, .det.')
+        if (allocated(error)) return
+
+        call check(error,all(abs(l - lref) < tol),'chol')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xl - 1) < tol),'lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xw - 1) < tol),'weighted_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xc - 1) < tol),'constrained_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(pinva - ainv) < tol),'pinv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(s - d(n:1:-1)) < tol),'svdvals')
+        if (allocated(error)) return
+
+        ! 1-norm: 4; Frobenius norm: sqrt(21), of the matrix and of both slices of a rank-3 array
+        call check(error,all(abs(nrm - [4.0_dp,sqrt(21.0_dp),sqrt(21.0_dp),sqrt(21.0_dp)]) < tol), &
+                   'mnorm')
+        if (allocated(error)) return
+
+    end subroutine test_pure_functions_z
+
+    pure subroutine pure_functions_z(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+        complex(dp),intent(in) :: a(:,:)
+        complex(dp),intent(out) :: x(:),inva(:,:),dets(2),l(:,:),xl(:),xw(:),xc(:),pinva(:,:)
+        real(dp),intent(out) :: s(:),nrm(4)
+
+        complex(dp) :: b(size(a,1)),c(1,size(a,2)),a3(size(a,1),size(a,2),2)
+        real(dp) :: w(size(a,1))
+        integer :: i
+
+        b = [(a(i,i),i=1,size(a,1))]
+        w = 1
+        c = 0
+        c(1,1) = 1
+        a3(:,:,1) = a
+        a3(:,:,2) = a
+
+        x = solve(a,b)
+        inva = inv(a)
+        dets = [det(a),.det.a]
+        l = chol(a)
+        xl = lstsq(a,b)
+        xw = weighted_lstsq(w,a,b)
+        ! The constraint x(1) = 1 holds at the unconstrained solution x = 1
+        xc = constrained_lstsq(a,b,c, [b(1)])
+        pinva = pinv(a)
+        s = svdvals(a)
+        nrm(1:2) = [mnorm(a,'1'),mnorm(a,'fro')]
+        nrm(3:4) = mnorm(a3,'fro')
+
+    end subroutine pure_functions_z
+
+    !> The function forms with err return the error state, and do not stop, on a failing input
+    subroutine test_err_functions_z(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        complex(dp) :: z(n,n),rect(n,n - 1),b(n),c(1,n),d(1),empty(0,0),a3(n,n,2),dt
+        complex(dp),allocatable :: x(:),xm(:,:)
+        real(dp) :: w(n),nrm
+        real(dp),allocatable :: s(:),nrm3(:)
+        type(la_state) :: err
+
+        z = 0
+        rect = 1
+        b = 1
+        c = 1
+        d = 1
+        w = -1
+        a3 = 1
+
+        x = solve(z,b,err=err)
+        call check(error,err%state == LINALG_ERROR .and. size(x) == 0,'solve: singular matrix')
+        if (allocated(error)) return
+
+        xm = inv(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        if (allocated(error)) return
+
+        dt = det(rect,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'det: non-square matrix')
+        if (allocated(error)) return
+
+        xm = chol(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'chol: not positive definite')
+        if (allocated(error)) return
+
+        x = lstsq(rect,b(1:n - 1),err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(x) == 0,'lstsq: b has too few rows')
+        if (allocated(error)) return
+
+        x = weighted_lstsq(w,rect,b,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'weighted_lstsq: negative weights')
+        if (allocated(error)) return
+
+        x = constrained_lstsq(rect,b,c,d,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'constrained_lstsq: a and c columns differ')
+        if (allocated(error)) return
+
+        xm = pinv(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'pinv: empty matrix')
+        if (allocated(error)) return
+
+        s = svdvals(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'svdvals: empty matrix')
+        if (allocated(error)) return
+
+        nrm = mnorm(rect,3_ilp,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'mnorm: order 3 is not a matrix norm')
+        if (allocated(error)) return
+
+        nrm3 = mnorm(a3,'fro',dim=[1_ilp,1_ilp],err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(nrm3) == 0,'mnorm: repeated dim')
+        if (allocated(error)) return
+
+    end subroutine test_err_functions_z
 
 #ifdef LA_WITH_XDP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
@@ -1069,6 +2006,159 @@ module test_linalg_pure
 
     end subroutine pure_scalars_y
 
+    !> Run every pure function form on A = diag(1,2,4), whose results are known
+    subroutine test_pure_functions_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(xdp),parameter :: tol = 1000*epsilon(1.0_xdp)
+        real(xdp),parameter :: d(n) = [1.0_xdp,2.0_xdp,4.0_xdp]
+        complex(xdp) :: a(n,n),ainv(n,n),lref(n,n),x(n),inva(n,n),dets(2),l(n,n),xl(n),xw(n), &
+                  xc(n),pinva(n,n)
+        real(xdp) :: s(n),nrm(4)
+        integer :: i
+
+        a = 0
+        ainv = 0
+        lref = 0
+        do i = 1,n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+            lref(i,i) = sqrt(d(i))
+        end do
+
+        call pure_functions_y(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+
+        call check(error,all(abs(x - 1) < tol),'solve')
+        if (allocated(error)) return
+
+        call check(error,all(abs(inva - ainv) < tol),'inv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(dets - product(d)) < tol),'det, .det.')
+        if (allocated(error)) return
+
+        call check(error,all(abs(l - lref) < tol),'chol')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xl - 1) < tol),'lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xw - 1) < tol),'weighted_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xc - 1) < tol),'constrained_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(pinva - ainv) < tol),'pinv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(s - d(n:1:-1)) < tol),'svdvals')
+        if (allocated(error)) return
+
+        ! 1-norm: 4; Frobenius norm: sqrt(21), of the matrix and of both slices of a rank-3 array
+        call check(error,all(abs(nrm - [4.0_xdp,sqrt(21.0_xdp),sqrt(21.0_xdp),sqrt(21.0_xdp)]) < tol), &
+                   'mnorm')
+        if (allocated(error)) return
+
+    end subroutine test_pure_functions_y
+
+    pure subroutine pure_functions_y(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+        complex(xdp),intent(in) :: a(:,:)
+        complex(xdp),intent(out) :: x(:),inva(:,:),dets(2),l(:,:),xl(:),xw(:),xc(:),pinva(:,:)
+        real(xdp),intent(out) :: s(:),nrm(4)
+
+        complex(xdp) :: b(size(a,1)),c(1,size(a,2)),a3(size(a,1),size(a,2),2)
+        real(xdp) :: w(size(a,1))
+        integer :: i
+
+        b = [(a(i,i),i=1,size(a,1))]
+        w = 1
+        c = 0
+        c(1,1) = 1
+        a3(:,:,1) = a
+        a3(:,:,2) = a
+
+        x = solve(a,b)
+        inva = inv(a)
+        dets = [det(a),.det.a]
+        l = chol(a)
+        xl = lstsq(a,b)
+        xw = weighted_lstsq(w,a,b)
+        ! The constraint x(1) = 1 holds at the unconstrained solution x = 1
+        xc = constrained_lstsq(a,b,c, [b(1)])
+        pinva = pinv(a)
+        s = svdvals(a)
+        nrm(1:2) = [mnorm(a,'1'),mnorm(a,'fro')]
+        nrm(3:4) = mnorm(a3,'fro')
+
+    end subroutine pure_functions_y
+
+    !> The function forms with err return the error state, and do not stop, on a failing input
+    subroutine test_err_functions_y(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        complex(xdp) :: z(n,n),rect(n,n - 1),b(n),c(1,n),d(1),empty(0,0),a3(n,n,2),dt
+        complex(xdp),allocatable :: x(:),xm(:,:)
+        real(xdp) :: w(n),nrm
+        real(xdp),allocatable :: s(:),nrm3(:)
+        type(la_state) :: err
+
+        z = 0
+        rect = 1
+        b = 1
+        c = 1
+        d = 1
+        w = -1
+        a3 = 1
+
+        x = solve(z,b,err=err)
+        call check(error,err%state == LINALG_ERROR .and. size(x) == 0,'solve: singular matrix')
+        if (allocated(error)) return
+
+        xm = inv(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        if (allocated(error)) return
+
+        dt = det(rect,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'det: non-square matrix')
+        if (allocated(error)) return
+
+        xm = chol(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'chol: not positive definite')
+        if (allocated(error)) return
+
+        x = lstsq(rect,b(1:n - 1),err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(x) == 0,'lstsq: b has too few rows')
+        if (allocated(error)) return
+
+        x = weighted_lstsq(w,rect,b,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'weighted_lstsq: negative weights')
+        if (allocated(error)) return
+
+        x = constrained_lstsq(rect,b,c,d,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'constrained_lstsq: a and c columns differ')
+        if (allocated(error)) return
+
+        xm = pinv(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'pinv: empty matrix')
+        if (allocated(error)) return
+
+        s = svdvals(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'svdvals: empty matrix')
+        if (allocated(error)) return
+
+        nrm = mnorm(rect,3_ilp,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'mnorm: order 3 is not a matrix norm')
+        if (allocated(error)) return
+
+        nrm3 = mnorm(a3,'fro',dim=[1_ilp,1_ilp],err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(nrm3) == 0,'mnorm: repeated dim')
+        if (allocated(error)) return
+
+    end subroutine test_err_functions_y
+
 #endif
 #ifdef LA_WITH_QP
     !> Run every pure procedure on A = diag(1,2,4), whose results are known
@@ -1216,6 +2306,159 @@ module test_linalg_pure
         call slogdet(work,sgn,lad)
 
     end subroutine pure_scalars_w
+
+    !> Run every pure function form on A = diag(1,2,4), whose results are known
+    subroutine test_pure_functions_w(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        real(qp),parameter :: tol = 1000*epsilon(1.0_qp)
+        real(qp),parameter :: d(n) = [1.0_qp,2.0_qp,4.0_qp]
+        complex(qp) :: a(n,n),ainv(n,n),lref(n,n),x(n),inva(n,n),dets(2),l(n,n),xl(n),xw(n), &
+                  xc(n),pinva(n,n)
+        real(qp) :: s(n),nrm(4)
+        integer :: i
+
+        a = 0
+        ainv = 0
+        lref = 0
+        do i = 1,n
+            a(i,i) = d(i)
+            ainv(i,i) = 1/d(i)
+            lref(i,i) = sqrt(d(i))
+        end do
+
+        call pure_functions_w(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+
+        call check(error,all(abs(x - 1) < tol),'solve')
+        if (allocated(error)) return
+
+        call check(error,all(abs(inva - ainv) < tol),'inv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(dets - product(d)) < tol),'det, .det.')
+        if (allocated(error)) return
+
+        call check(error,all(abs(l - lref) < tol),'chol')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xl - 1) < tol),'lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xw - 1) < tol),'weighted_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(xc - 1) < tol),'constrained_lstsq')
+        if (allocated(error)) return
+
+        call check(error,all(abs(pinva - ainv) < tol),'pinv')
+        if (allocated(error)) return
+
+        call check(error,all(abs(s - d(n:1:-1)) < tol),'svdvals')
+        if (allocated(error)) return
+
+        ! 1-norm: 4; Frobenius norm: sqrt(21), of the matrix and of both slices of a rank-3 array
+        call check(error,all(abs(nrm - [4.0_qp,sqrt(21.0_qp),sqrt(21.0_qp),sqrt(21.0_qp)]) < tol), &
+                   'mnorm')
+        if (allocated(error)) return
+
+    end subroutine test_pure_functions_w
+
+    pure subroutine pure_functions_w(a,x,inva,dets,l,xl,xw,xc,pinva,s,nrm)
+        complex(qp),intent(in) :: a(:,:)
+        complex(qp),intent(out) :: x(:),inva(:,:),dets(2),l(:,:),xl(:),xw(:),xc(:),pinva(:,:)
+        real(qp),intent(out) :: s(:),nrm(4)
+
+        complex(qp) :: b(size(a,1)),c(1,size(a,2)),a3(size(a,1),size(a,2),2)
+        real(qp) :: w(size(a,1))
+        integer :: i
+
+        b = [(a(i,i),i=1,size(a,1))]
+        w = 1
+        c = 0
+        c(1,1) = 1
+        a3(:,:,1) = a
+        a3(:,:,2) = a
+
+        x = solve(a,b)
+        inva = inv(a)
+        dets = [det(a),.det.a]
+        l = chol(a)
+        xl = lstsq(a,b)
+        xw = weighted_lstsq(w,a,b)
+        ! The constraint x(1) = 1 holds at the unconstrained solution x = 1
+        xc = constrained_lstsq(a,b,c, [b(1)])
+        pinva = pinv(a)
+        s = svdvals(a)
+        nrm(1:2) = [mnorm(a,'1'),mnorm(a,'fro')]
+        nrm(3:4) = mnorm(a3,'fro')
+
+    end subroutine pure_functions_w
+
+    !> The function forms with err return the error state, and do not stop, on a failing input
+    subroutine test_err_functions_w(error)
+        type(error_type),allocatable,intent(out) :: error
+
+        integer,parameter :: n = 3
+        complex(qp) :: z(n,n),rect(n,n - 1),b(n),c(1,n),d(1),empty(0,0),a3(n,n,2),dt
+        complex(qp),allocatable :: x(:),xm(:,:)
+        real(qp) :: w(n),nrm
+        real(qp),allocatable :: s(:),nrm3(:)
+        type(la_state) :: err
+
+        z = 0
+        rect = 1
+        b = 1
+        c = 1
+        d = 1
+        w = -1
+        a3 = 1
+
+        x = solve(z,b,err=err)
+        call check(error,err%state == LINALG_ERROR .and. size(x) == 0,'solve: singular matrix')
+        if (allocated(error)) return
+
+        xm = inv(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'inv: singular matrix')
+        if (allocated(error)) return
+
+        dt = det(rect,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'det: non-square matrix')
+        if (allocated(error)) return
+
+        xm = chol(z,err=err)
+        call check(error,err%state == LINALG_ERROR,'chol: not positive definite')
+        if (allocated(error)) return
+
+        x = lstsq(rect,b(1:n - 1),err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(x) == 0,'lstsq: b has too few rows')
+        if (allocated(error)) return
+
+        x = weighted_lstsq(w,rect,b,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'weighted_lstsq: negative weights')
+        if (allocated(error)) return
+
+        x = constrained_lstsq(rect,b,c,d,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'constrained_lstsq: a and c columns differ')
+        if (allocated(error)) return
+
+        xm = pinv(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'pinv: empty matrix')
+        if (allocated(error)) return
+
+        s = svdvals(empty,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'svdvals: empty matrix')
+        if (allocated(error)) return
+
+        nrm = mnorm(rect,3_ilp,err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR,'mnorm: order 3 is not a matrix norm')
+        if (allocated(error)) return
+
+        nrm3 = mnorm(a3,'fro',dim=[1_ilp,1_ilp],err=err)
+        call check(error,err%state == LINALG_VALUE_ERROR .and. size(nrm3) == 0,'mnorm: repeated dim')
+        if (allocated(error)) return
+
+    end subroutine test_err_functions_w
 
 #endif
 
