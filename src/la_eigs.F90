@@ -145,7 +145,7 @@ module la_eig
      !!### Arguments
      !! - `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the input matrix to be decomposed.
      !! - `b` (optional): A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the second matrix in the generalized eigenvalue problem.
-     !! - `err` (optional): A `la_state` variable to handle errors. If not provided, execution will stop on errors.
+     !! - `err` (optional): A `la_state` variable to handle errors. Without it the function is `pure`, and execution will stop on errors.
      !!
      !!### Return value
      !! - `lambda`: A `complex` array of eigenvalues, computed from the input matrix \f$A\f$ (and \f$B\f$ if in the generalized case).
@@ -299,7 +299,7 @@ module la_eig
      !!### Arguments
      !! - `a`: A `real` or `complex` matrix of size \f$ [n,n] \f$, representing the real symmetric or complex Hermitian matrix to be decomposed.
      !! - `upper_a` (optional): A logical flag indicating whether to use the upper half (`.true.`) or the lower half (`.false.`) of \f$ A \f$ for the computation. The default is lower.
-     !! - `err` (optional): A `la_state` variable to handle errors. If not provided, execution will stop on errors.
+     !! - `err` (optional): A `la_state` variable to handle errors. Without it the function is `pure`, and execution will stop on errors.
      !!
      !!### Return value
      !! - `lambda`: A `real` array with the same kind as `a`, containing the computed eigenvalues of the matrix \f$ A \f$.
@@ -383,7 +383,7 @@ module la_eig
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          real(sp),intent(in),dimension(:,:) :: a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(sp),allocatable :: lambda(:)
@@ -585,7 +585,7 @@ module la_eig
          real(sp),intent(in),dimension(:,:) :: a
          !> Generalized problem matrix B[n,n]
          real(sp),intent(in),dimension(:,:) :: b
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(sp),allocatable :: lambda(:)
@@ -825,7 +825,7 @@ module la_eig
          real(sp),intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of singular values
          real(sp),allocatable :: lambda(:)
@@ -993,7 +993,7 @@ module la_eig
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          real(dp),intent(in),dimension(:,:) :: a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(dp),allocatable :: lambda(:)
@@ -1195,7 +1195,7 @@ module la_eig
          real(dp),intent(in),dimension(:,:) :: a
          !> Generalized problem matrix B[n,n]
          real(dp),intent(in),dimension(:,:) :: b
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(dp),allocatable :: lambda(:)
@@ -1435,7 +1435,7 @@ module la_eig
          real(dp),intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of singular values
          real(dp),allocatable :: lambda(:)
@@ -1605,7 +1605,7 @@ module la_eig
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          real(xdp),intent(in),dimension(:,:) :: a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(xdp),allocatable :: lambda(:)
@@ -1807,7 +1807,7 @@ module la_eig
          real(xdp),intent(in),dimension(:,:) :: a
          !> Generalized problem matrix B[n,n]
          real(xdp),intent(in),dimension(:,:) :: b
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(xdp),allocatable :: lambda(:)
@@ -2047,7 +2047,7 @@ module la_eig
          real(xdp),intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of singular values
          real(xdp),allocatable :: lambda(:)
@@ -2218,7 +2218,7 @@ module la_eig
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          real(qp),intent(in),dimension(:,:) :: a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(qp),allocatable :: lambda(:)
@@ -2420,7 +2420,7 @@ module la_eig
          real(qp),intent(in),dimension(:,:) :: a
          !> Generalized problem matrix B[n,n]
          real(qp),intent(in),dimension(:,:) :: b
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(qp),allocatable :: lambda(:)
@@ -2660,7 +2660,7 @@ module la_eig
          real(qp),intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of singular values
          real(qp),allocatable :: lambda(:)
@@ -2829,7 +2829,7 @@ module la_eig
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          complex(sp),intent(in),dimension(:,:) :: a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(sp),allocatable :: lambda(:)
@@ -3020,7 +3020,7 @@ module la_eig
          complex(sp),intent(in),dimension(:,:) :: a
          !> Generalized problem matrix B[n,n]
          complex(sp),intent(in),dimension(:,:) :: b
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(sp),allocatable :: lambda(:)
@@ -3249,7 +3249,7 @@ module la_eig
          complex(sp),intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of singular values
          real(sp),allocatable :: lambda(:)
@@ -3418,7 +3418,7 @@ module la_eig
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          complex(dp),intent(in),dimension(:,:) :: a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(dp),allocatable :: lambda(:)
@@ -3609,7 +3609,7 @@ module la_eig
          complex(dp),intent(in),dimension(:,:) :: a
          !> Generalized problem matrix B[n,n]
          complex(dp),intent(in),dimension(:,:) :: b
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(dp),allocatable :: lambda(:)
@@ -3838,7 +3838,7 @@ module la_eig
          complex(dp),intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of singular values
          real(dp),allocatable :: lambda(:)
@@ -4009,7 +4009,7 @@ module la_eig
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          complex(xdp),intent(in),dimension(:,:) :: a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(xdp),allocatable :: lambda(:)
@@ -4200,7 +4200,7 @@ module la_eig
          complex(xdp),intent(in),dimension(:,:) :: a
          !> Generalized problem matrix B[n,n]
          complex(xdp),intent(in),dimension(:,:) :: b
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(xdp),allocatable :: lambda(:)
@@ -4429,7 +4429,7 @@ module la_eig
          complex(xdp),intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of singular values
          real(xdp),allocatable :: lambda(:)
@@ -4601,7 +4601,7 @@ module la_eig
      !! Return an array of eigenvalues of matrix A.
          !> Input matrix A[m,n]
          complex(qp),intent(in),dimension(:,:) :: a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(qp),allocatable :: lambda(:)
@@ -4792,7 +4792,7 @@ module la_eig
          complex(qp),intent(in),dimension(:,:) :: a
          !> Generalized problem matrix B[n,n]
          complex(qp),intent(in),dimension(:,:) :: b
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of eigenvalues
          complex(qp),allocatable :: lambda(:)
@@ -5021,7 +5021,7 @@ module la_eig
          complex(qp),intent(in) :: a(:,:)
          !> [optional] Should the upper/lower half of A be used? Default: lower
          logical(lk),optional,intent(in) :: upper_a
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Array of singular values
          real(qp),allocatable :: lambda(:)

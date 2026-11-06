@@ -1414,7 +1414,7 @@ module la_eye
          integer(ilp),optional,intent(in) :: n
          !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(sp),intent(in) :: mold
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(sp),allocatable :: eye(:,:)
@@ -1465,7 +1465,7 @@ module la_eye
          integer(ilp),optional,intent(in) :: n
          !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(dp),optional,intent(in) :: mold
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(dp),allocatable :: eye(:,:)
@@ -1517,7 +1517,7 @@ module la_eye
          integer(ilp),optional,intent(in) :: n
          !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(xdp),intent(in) :: mold
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(xdp),allocatable :: eye(:,:)
@@ -1570,7 +1570,7 @@ module la_eye
          integer(ilp),optional,intent(in) :: n
          !> Data type, used to define the return type. Defaults to `real(real64)`.
          real(qp),intent(in) :: mold
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(qp),allocatable :: eye(:,:)
@@ -1622,7 +1622,7 @@ module la_eye
          integer(ilp),optional,intent(in) :: n
          !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(sp),intent(in) :: mold
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(sp),allocatable :: eye(:,:)
@@ -1673,7 +1673,7 @@ module la_eye
          integer(ilp),optional,intent(in) :: n
          !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(dp),intent(in) :: mold
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(dp),allocatable :: eye(:,:)
@@ -1725,7 +1725,7 @@ module la_eye
          integer(ilp),optional,intent(in) :: n
          !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(xdp),intent(in) :: mold
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(xdp),allocatable :: eye(:,:)
@@ -1778,7 +1778,7 @@ module la_eye
          integer(ilp),optional,intent(in) :: n
          !> Data type, used to define the return type. Defaults to `real(real64)`.
          complex(qp),intent(in) :: mold
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(qp),allocatable :: eye(:,:)
@@ -1826,7 +1826,7 @@ module la_eye
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
          real(sp),intent(in) :: source
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(sp),allocatable :: diag(:,:)
@@ -1868,7 +1868,7 @@ module la_eye
      function la_diag_s_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(sp),intent(in) :: source(:)
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(sp),allocatable :: diag(:,:)
@@ -1914,7 +1914,7 @@ module la_eye
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
          real(dp),intent(in) :: source
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(dp),allocatable :: diag(:,:)
@@ -1956,7 +1956,7 @@ module la_eye
      function la_diag_d_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(dp),intent(in) :: source(:)
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(dp),allocatable :: diag(:,:)
@@ -2003,7 +2003,7 @@ module la_eye
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
          real(xdp),intent(in) :: source
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(xdp),allocatable :: diag(:,:)
@@ -2045,7 +2045,7 @@ module la_eye
      function la_diag_x_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(xdp),intent(in) :: source(:)
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(xdp),allocatable :: diag(:,:)
@@ -2093,7 +2093,7 @@ module la_eye
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
          real(qp),intent(in) :: source
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(qp),allocatable :: diag(:,:)
@@ -2135,7 +2135,7 @@ module la_eye
      function la_diag_q_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          real(qp),intent(in) :: source(:)
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          real(qp),allocatable :: diag(:,:)
@@ -2182,7 +2182,7 @@ module la_eye
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
          complex(sp),intent(in) :: source
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(sp),allocatable :: diag(:,:)
@@ -2224,7 +2224,7 @@ module la_eye
      function la_diag_c_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(sp),intent(in) :: source(:)
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(sp),allocatable :: diag(:,:)
@@ -2270,7 +2270,7 @@ module la_eye
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
          complex(dp),intent(in) :: source
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(dp),allocatable :: diag(:,:)
@@ -2312,7 +2312,7 @@ module la_eye
      function la_diag_z_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(dp),intent(in) :: source(:)
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(dp),allocatable :: diag(:,:)
@@ -2359,7 +2359,7 @@ module la_eye
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
          complex(xdp),intent(in) :: source
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(xdp),allocatable :: diag(:,:)
@@ -2401,7 +2401,7 @@ module la_eye
      function la_diag_y_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(xdp),intent(in) :: source(:)
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(xdp),allocatable :: diag(:,:)
@@ -2449,7 +2449,7 @@ module la_eye
          integer(ilp),intent(in) :: n
          !> Scalar diagonal value. Used to define the return type.
          complex(qp),intent(in) :: source
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(qp),allocatable :: diag(:,:)
@@ -2491,7 +2491,7 @@ module la_eye
      function la_diag_w_errhandle_from_array(source,err) result(diag)
          !> Array of diagonal values. Used to define the return type and the matrix size.
          complex(qp),intent(in) :: source(:)
-         !> [optional] state return flag. On error if not requested, the code will stop
+         !> State return flag
          type(la_state),intent(out) :: err
          !> Return matrix
          complex(qp),allocatable :: diag(:,:)
