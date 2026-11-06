@@ -875,6 +875,7 @@ The function returns a `real` scalar value representing the determinant of the i
 
 ### Notes
 
+- A singular matrix is not an error: its determinant is 0.
 - The determinant of the matrix is computed using the LAPACK [getrf](@ref la_lapack::getrf) backend.
 - If `overwrite_a` is enabled, the input matrix `a` will be destroyed during the computation process.
 
@@ -902,7 +903,7 @@ A scalar of the same type and kind as `A`, holding its determinant.
 
 ### Errors
 
-- Unlike [det](@ref la_determinant::det), this operator **does not provide explicit error handling**: it has no `err` argument, so a non-square or singular matrix triggers an `error stop`.
+- Unlike [det](@ref la_determinant::det), this operator **does not provide explicit error handling**: it has no `err` argument, so a non-square matrix triggers an `error stop`. A singular matrix is not an error: it returns 0.
 
 ### Notes
 

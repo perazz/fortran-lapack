@@ -35,6 +35,7 @@ module test_linalg_pure
         call add_test(tests,new_unittest("pure_calls_${ri}$",test_pure_calls_${ri}$))
         call add_test(tests,new_unittest("pure_functions_${ri}$",test_pure_functions_${ri}$))
         call add_test(tests,new_unittest("err_functions_${ri}$",test_err_functions_${ri}$))
+        call add_test(tests,new_unittest("pure_singular_det_${ri}$",test_pure_singular_det_${ri}$))
         #:if LA_GUARD[rk]
 #endif
         #:endif
@@ -344,6 +345,30 @@ module test_linalg_pure
         if (allocated(error)) return
 
     end subroutine test_err_functions_${ri}$
+
+    !> .det. of an exactly singular matrix, called from a pure procedure, returns 0
+    subroutine test_pure_singular_det_${ri}$(error)
+        type(error_type), allocatable, intent(out) :: error
+
+        ${rt}$ :: a(3,3), dt
+
+        ! Two equal rows: the LU factorization zeroes one of them exactly
+        a = reshape([1,2,3,1,2,3,4,5,7],[3,3],order=[2,1])
+
+        call pure_singular_det_${ri}$(a,dt)
+
+        call check(error, dt==0, '.det. of a singular matrix')
+        if (allocated(error)) return
+
+    end subroutine test_pure_singular_det_${ri}$
+
+    pure subroutine pure_singular_det_${ri}$(a,dt)
+        ${rt}$, intent(in) :: a(:,:)
+        ${rt}$, intent(out) :: dt
+
+        dt = .det. a
+
+    end subroutine pure_singular_det_${ri}$
 
     #:if LA_GUARD[rk]
 #endif
