@@ -153,16 +153,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `err`; the subroutines `solve_lu`, `solve_lstsq`, `solve_weighted_lstsq`
     and `solve_constrained_lstsq` keep these arguments. In exchange, `solve`,
     `det` and `lstsq` without `err` accept a constant or an expression for `a`.
-  - `.inv.` stops on a singular matrix instead of returning a 0x0 matrix, as
-    `.det.` and `.pinv.` already did. `.inv.` and `.det.` are the forms of
-    `inv` and `det` without `err`.
+  - `.inv.` stops on a singular matrix instead of returning a 0x0 matrix.
+    `.inv.` and `.det.` are the forms of `inv` and `det` without `err`.
   - `solve` and `inv` with `err` return an empty array on any error, as
     `lstsq` does. For a singular matrix, `solve` returned an array of the
     shape of `b`, and `inv` the `n x n` matrix that `invert` overwrote, both
     with undefined values.
-- **Breaking:** `det` and `.det.` return 0 for an exactly singular matrix
-  instead of a `LINALG_ERROR`, and no longer stop on one, as `slogdet`
-  already returns `sign = 0`.
+- **Breaking:** `det` and `.det.` return 0 for an exactly singular matrix,
+  with no error: the form with `err` no longer returns a `LINALG_ERROR`,
+  and the form without `err` and `.det.` no longer stop. `slogdet` already
+  returned `sign = 0` for one.
 - Fortran 2018 is the minimum language standard: a `pure` procedure stops on
   an error with `error stop`, which `la_state` already relied on.
   

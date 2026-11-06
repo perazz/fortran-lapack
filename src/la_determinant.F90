@@ -35,7 +35,7 @@ module la_determinant
      !!
      !! @note This function relies on a matrix factorization approach (e.g., LU decomposition) to compute
      !!       the determinant efficiently from the [getrf](@ref la_lapack::getrf) backend.
-     !! @note A singular matrix is not an error: its determinant is 0, and `err` is not set.
+     !! @note A singular matrix is not an error: its determinant is 0.
      !! @warning If `overwrite_a` is enabled, the original contents of A will be lost.
      !!
      interface det
