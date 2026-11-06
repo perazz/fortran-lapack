@@ -84,6 +84,56 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The generalized `eigvals(a, b)` takes `b` as `intent(in)`. It was declared
   `intent(inout)` but never modified, so a constant or an expression can now
   be passed.
+- A new module `la_info` decodes the `info` exit code of the LAPACK routines
+  the high-level procedures call: one `elemental` handler per routine,
+  `handle_<routine>_info`, that takes the caller's name first and reports it
+  as `where_at`. It replaces the private copies and the inline decodes of the
+  topic modules, and `linear_algebra` does not re-export it. Every routine now
+  follows one classification: an invalid dimension of the user's data is
+  `LINALG_VALUE_ERROR`, an invalid argument the library chose (a job
+  character, a triangle, a workspace size) is `LINALG_INTERNAL_ERROR`, a
+  failure that `info > 0` reports is `LINALG_ERROR`, and a code LAPACK does
+  not document is `LINALG_INTERNAL_ERROR`. The flags that change:
+  - `solve`, `solve_lu`: an invalid `ldb` from `gesv` (`info = -7`),
+    `LINALG_ERROR` to `LINALG_VALUE_ERROR`.
+  - `det`, `.det.`: an invalid size from `getrf`, `LINALG_ERROR` to
+    `LINALG_VALUE_ERROR`; an undocumented negative code, `LINALG_ERROR` to
+    `LINALG_INTERNAL_ERROR`.
+  - `invert`, `inv`, `.inv.`, and `matrix_power` of a negative power: an
+    invalid size from `getrf` or `getri`, `LINALG_ERROR` to
+    `LINALG_VALUE_ERROR`; an invalid `lwork` from `getri` (`info = -6`) and an
+    undocumented negative code, `LINALG_ERROR` to `LINALG_INTERNAL_ERROR`.
+  - `slogdet`: an invalid size from `getrf`, `LINALG_INTERNAL_ERROR` to
+    `LINALG_VALUE_ERROR`.
+  - `cond`: an invalid size from `getrf`, `getri` or `gecon`,
+    `LINALG_INTERNAL_ERROR` to `LINALG_VALUE_ERROR`; `getri` with
+    `info > 0`, and `gecon` with `info = 1` (a reference LAPACK that reports a
+    NaN or infinite estimate), `LINALG_INTERNAL_ERROR` to `LINALG_ERROR`.
+  - `expm`, `matrix_exp`: an invalid `nrhs`, `lda` or `ldb` from `gesv`
+    (`info = -2, -4, -7`), `LINALG_INTERNAL_ERROR` to `LINALG_VALUE_ERROR`.
+  - `solve_lower_chol`, `solve_upper_chol`: `potrs` with `info > 0`, which
+    LAPACK does not document, `LINALG_ERROR` to `LINALG_INTERNAL_ERROR`.
+  - `qr`, `qr_space`: an invalid `lwork` from `geqrf`, `geqp3` or
+    `orgqr`/`ungqr`, `LINALG_ERROR` to `LINALG_INTERNAL_ERROR`; an invalid `k`
+    from `orgqr`/`ungqr` (`info = -3`), `LINALG_INTERNAL_ERROR` to
+    `LINALG_VALUE_ERROR`; `orgqr`/`ungqr` with `info = -4`, which LAPACK does
+    not return, `LINALG_VALUE_ERROR` to `LINALG_INTERNAL_ERROR`.
+  - `schur`, `schur_space`: an invalid `ldvs` from the complex `gees`
+    (`info = -10`), `LINALG_INTERNAL_ERROR` to `LINALG_VALUE_ERROR`;
+    `info > n+2`, `LINALG_ERROR` to `LINALG_INTERNAL_ERROR`.
+  - `eig`, `eigvals`: an invalid `ldvl` or `ldvr` from the complex `geev`
+    (`info = -8, -10`) or the complex `ggev` (`info = -11, -13`),
+    `LINALG_INTERNAL_ERROR` to `LINALG_VALUE_ERROR`; `ggev` with
+    `info > n+2`, `LINALG_ERROR` to `LINALG_INTERNAL_ERROR`.
+  - `lstsq`, `solve_lstsq`, `weighted_lstsq`, `solve_weighted_lstsq`: an
+    invalid `lwork` from `gelsd` (`info = -12`) and an undocumented negative
+    code, `LINALG_VALUE_ERROR` to `LINALG_INTERNAL_ERROR`.
+  - `constrained_lstsq`, `solve_constrained_lstsq`, `constrained_lstsq_space`:
+    an invalid `lda` or `ldb` from `gglse` (`info = -5, -7`),
+    `LINALG_INTERNAL_ERROR` to `LINALG_VALUE_ERROR`.
+  - `solve_generalized_lstsq`, `generalized_lstsq`: an invalid `n` or `lda`
+    from `potrf` (`info = -2, -4`), `LINALG_INTERNAL_ERROR` to
+    `LINALG_VALUE_ERROR`.
   
 ### Added
 

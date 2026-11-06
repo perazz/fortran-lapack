@@ -4,6 +4,7 @@ module la_determinant
      use la_blas
      use la_lapack
      use la_state_type
+     use la_info,only:handle_getrf_info
      use iso_fortran_env,only:real32,real64,real128,int8,int16,int32,int64,stderr => error_unit
      use,intrinsic :: ieee_arithmetic,only:ieee_value,ieee_negative_inf
      implicit none(type,external)
@@ -205,12 +206,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -280,12 +277,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 deallocate (amat)
@@ -363,7 +356,7 @@ module la_determinant
                case (1:)
                    ! Singular matrix: a zero pivot in U
                case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   call handle_getrf_info(this,info,m,n,m,err0)
             end select
 
             if (copy_a) deallocate (amat)
@@ -451,12 +444,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -526,12 +515,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 deallocate (amat)
@@ -609,7 +594,7 @@ module la_determinant
                case (1:)
                    ! Singular matrix: a zero pivot in U
                case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   call handle_getrf_info(this,info,m,n,m,err0)
             end select
 
             if (copy_a) deallocate (amat)
@@ -698,12 +683,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -773,12 +754,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 deallocate (amat)
@@ -856,7 +833,7 @@ module la_determinant
                case (1:)
                    ! Singular matrix: a zero pivot in U
                case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   call handle_getrf_info(this,info,m,n,m,err0)
             end select
 
             if (copy_a) deallocate (amat)
@@ -946,12 +923,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -1021,12 +994,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 deallocate (amat)
@@ -1104,7 +1073,7 @@ module la_determinant
                case (1:)
                    ! Singular matrix: a zero pivot in U
                case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   call handle_getrf_info(this,info,m,n,m,err0)
             end select
 
             if (copy_a) deallocate (amat)
@@ -1193,12 +1162,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -1268,12 +1233,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 deallocate (amat)
@@ -1353,7 +1314,7 @@ module la_determinant
                case (1:)
                    ! Singular matrix: a zero pivot in U
                case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   call handle_getrf_info(this,info,m,n,m,err0)
             end select
 
             if (copy_a) deallocate (amat)
@@ -1441,12 +1402,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -1516,12 +1473,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 deallocate (amat)
@@ -1601,7 +1554,7 @@ module la_determinant
                case (1:)
                    ! Singular matrix: a zero pivot in U
                case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   call handle_getrf_info(this,info,m,n,m,err0)
             end select
 
             if (copy_a) deallocate (amat)
@@ -1690,12 +1643,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -1765,12 +1714,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 deallocate (amat)
@@ -1850,7 +1795,7 @@ module la_determinant
                case (1:)
                    ! Singular matrix: a zero pivot in U
                case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   call handle_getrf_info(this,info,m,n,m,err0)
             end select
 
             if (copy_a) deallocate (amat)
@@ -1940,12 +1885,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 if (copy_a) deallocate (amat)
@@ -2015,12 +1956,8 @@ module la_determinant
                        end do
                        if (mod(perm,2) /= 0) det = -det
 
-                   case (:-1)
-                       err0 = la_state(this,LINALG_ERROR,'invalid matrix size a=[',m,',',n,']')
-                   case (1:)
-                       err0 = la_state(this,LINALG_ERROR,'singular matrix')
                    case default
-                       err0 = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
+                       call handle_getrf_info(this,info,m,n,m,err0)
                 end select
 
                 deallocate (amat)
@@ -2100,7 +2037,7 @@ module la_determinant
                case (1:)
                    ! Singular matrix: a zero pivot in U
                case default
-                   err0 = la_state(this,LINALG_INTERNAL_ERROR,'invalid matrix size a=[',m,',',n,']')
+                   call handle_getrf_info(this,info,m,n,m,err0)
             end select
 
             if (copy_a) deallocate (amat)

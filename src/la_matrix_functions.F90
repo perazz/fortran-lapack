@@ -5,6 +5,7 @@ module la_matrix_functions
      use la_lapack,only:gesv
      use la_inverse,only:invert
      use la_state_type
+     use la_info,only:handle_gesv_info
      implicit none(type,external)
      private
 
@@ -180,24 +181,6 @@ module la_matrix_functions
 
      contains
 
-     elemental subroutine handle_gesv_info(info,n,err)
-         integer(ilp),intent(in) :: info,n
-         type(la_state),intent(out) :: err
-
-         ! Process output
-         select case (info)
-            case (0)
-                ! Success
-            case (-1)
-                err = la_state(this,LINALG_VALUE_ERROR,'invalid problem size n=',n)
-            case (1:)
-                err = la_state(this,LINALG_ERROR,'singular Pade denominator')
-            case default
-                err = la_state(this,LINALG_INTERNAL_ERROR,'catastrophic error')
-         end select
-
-     end subroutine handle_gesv_info
-
      !> Work array sizes for a matrix of size n: four n*n matrices and n pivots
      pure subroutine expm_workspace(n,lwork,liwork)
          integer(ilp),intent(in) :: n
@@ -338,7 +321,7 @@ module la_matrix_functions
             end if
 
             call la_s_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(info,n,err0)
+            call handle_gesv_info(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -647,7 +630,7 @@ module la_matrix_functions
             end if
 
             call la_d_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(info,n,err0)
+            call handle_gesv_info(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -957,7 +940,7 @@ module la_matrix_functions
             end if
 
             call la_x_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(info,n,err0)
+            call handle_gesv_info(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1268,7 +1251,7 @@ module la_matrix_functions
             end if
 
             call la_q_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(info,n,err0)
+            call handle_gesv_info(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1578,7 +1561,7 @@ module la_matrix_functions
             end if
 
             call la_c_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(info,n,err0)
+            call handle_gesv_info(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -1887,7 +1870,7 @@ module la_matrix_functions
             end if
 
             call la_z_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(info,n,err0)
+            call handle_gesv_info(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -2197,7 +2180,7 @@ module la_matrix_functions
             end if
 
             call la_y_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(info,n,err0)
+            call handle_gesv_info(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
@@ -2508,7 +2491,7 @@ module la_matrix_functions
             end if
 
             call la_w_expm_kernel(n,order_,a,wk(:,:,1),wk(:,:,2),wk(:,:,3),wk(:,:,4),ipiv,info)
-            call handle_gesv_info(info,n,err0)
+            call handle_gesv_info(this,info,n,n,n,n,err0)
 
             if (.not. present(work)) deallocate (wk)
             if (.not. present(iwork)) deallocate (ipiv)
