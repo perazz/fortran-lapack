@@ -1,4 +1,22 @@
 var searchData=
 [
-  ['handle_0',['handle',['../structla__state__type_1_1la__state.html#a17369068e74ad52bdd3be236ef1c6530',1,'la_state_type::la_state']]]
+  ['handle_0',['handle',['../structla__state__type_1_1la__state.html#a17369068e74ad52bdd3be236ef1c6530',1,'la_state_type::la_state']]],
+  ['handle_5fgecon_1',['handle_gecon',['../namespacela__info.html#a42474c98b77664894b286076abb225c5',1,'la_info']]],
+  ['handle_5fgees_2',['handle_gees',['../namespacela__info.html#a230ad1e002698c9eaf361b2f37ff33bf',1,'la_info']]],
+  ['handle_5fgeev_3',['handle_geev',['../namespacela__info.html#a4b8fa2cf0330e43ffb2f4725a0d32a7a',1,'la_info']]],
+  ['handle_5fgelsd_4',['handle_gelsd',['../namespacela__info.html#ad6a5e3fa04e6f83e1c4448c2aa9a69ce',1,'la_info']]],
+  ['handle_5fgeqp3_5',['handle_geqp3',['../namespacela__info.html#a843f146c2b72493ac242713641e94970',1,'la_info']]],
+  ['handle_5fgeqrf_6',['handle_geqrf',['../namespacela__info.html#a6a57875391cc702f969af0602d83c31e',1,'la_info']]],
+  ['handle_5fgesdd_7',['handle_gesdd',['../namespacela__info.html#a5e7ae0e837577598d90b2be3ee147a03',1,'la_info']]],
+  ['handle_5fgesv_8',['handle_gesv',['../namespacela__info.html#ad73a182e59c348e5049fbbb42ed0153b',1,'la_info']]],
+  ['handle_5fgetrf_9',['handle_getrf',['../namespacela__info.html#a2d920d4b9f4526aa41c7f0498f406a26',1,'la_info']]],
+  ['handle_5fgetri_10',['handle_getri',['../namespacela__info.html#a6ad0b6753179af0e2aeafead422db5aa',1,'la_info']]],
+  ['handle_5fggev_11',['handle_ggev',['../namespacela__info.html#a800e2d5fce2e437be6eed23a0fc51f3a',1,'la_info']]],
+  ['handle_5fggglm_12',['handle_ggglm',['../namespacela__info.html#aef567f4060314e0c23155b2d382ab0bf',1,'la_info']]],
+  ['handle_5fgglse_13',['handle_gglse',['../namespacela__info.html#a643e9a0bef56e9de6b409c32c53b7d7c',1,'la_info']]],
+  ['handle_5fheev_14',['handle_heev',['../namespacela__info.html#a7ecac1bf035faa60b3c6da55de178f08',1,'la_info']]],
+  ['handle_5forgqr_15',['handle_orgqr',['../namespacela__info.html#af0357739ba3086ac245fe3cea0ae65cb',1,'la_info']]],
+  ['handle_5fposv_16',['handle_posv',['../namespacela__info.html#a07e145688f114c63c679f217d0df08aa',1,'la_info']]],
+  ['handle_5fpotrf_17',['handle_potrf',['../namespacela__info.html#a3d9194fb6daa73443a4dc1bcae437b80',1,'la_info']]],
+  ['handle_5fpotrs_18',['handle_potrs',['../namespacela__info.html#a18d504f978b22b3a504223d79f9a754f',1,'la_info']]]
 ];

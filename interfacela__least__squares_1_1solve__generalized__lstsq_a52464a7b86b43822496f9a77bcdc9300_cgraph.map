@@ -1,0 +1,7 @@
+<map id="la_least_squares::solve_generalized_lstsq::la_ssolve_generalized_lstsq" name="la_least_squares::solve_generalized_lstsq::la_ssolve_generalized_lstsq">
+<area shape="rect" id="Node000001" title="Solve the real(sp) generalized least&#45;squares problem into x: minimize (b&#45;Ax)^H W^{&#45;1}..." alt="" coords="5,15,197,77"/>
+<area shape="rect" id="Node000002" href="$namespacela__info.html#aef567f4060314e0c23155b2d382ab0bf" title="Process the exit code of ggglm(n,m,p,a,lda,b,ldb,d,x,y,work,lwork,info), that minimizes ||y|| subject..." alt="" coords="245,5,410,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,32,231,30,226,31,198,37"/>
+<area shape="rect" id="Node000003" href="$namespacela__info.html#a3d9194fb6daa73443a4dc1bcae437b80" title="Process the exit code of potrf(uplo,n,a,lda,info)" alt="" coords="250,57,405,85"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,54,237,61,231,61,197,59"/>
+</map>

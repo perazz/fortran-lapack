@@ -17,6 +17,7 @@ var dir_68267d1309a1af8e8297ef4c3efbcdba =
     [ "la_determinant.F90", "la__determinant_8_f90.html", "la__determinant_8_f90" ],
     [ "la_eigs.F90", "la__eigs_8_f90.html", "la__eigs_8_f90" ],
     [ "la_eye.F90", "la__eye_8_f90.html", "la__eye_8_f90" ],
+    [ "la_info.f90", "la__info_8f90.html", "la__info_8f90" ],
     [ "la_inverse.F90", "la__inverse_8_f90.html", "la__inverse_8_f90" ],
     [ "la_lapack.F90", "la__lapack_8_f90.html", "la__lapack_8_f90" ],
     [ "la_lapack_aux.F90", "la__lapack__aux_8_f90.html", "la__lapack__aux_8_f90" ],

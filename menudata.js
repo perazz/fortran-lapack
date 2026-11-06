@@ -47,7 +47,8 @@ var menudata={children:[
 {text:"x",url:"namespacemembers_x.html#index_x"},
 {text:"z",url:"namespacemembers_z.html#index_z"}]},
 {text:"Functions/Subroutines",url:"namespacemembers_func.html",children:[
-{text:"l",url:"namespacemembers_func.html#index_l"}]},
+{text:"h",url:"namespacemembers_func.html#index_h"},
+{text:"l",url:"namespacemembers_func_l.html#index_l"}]},
 {text:"Variables",url:"namespacemembers_vars.html",children:[
 {text:"b",url:"namespacemembers_vars.html#index_b"},
 {text:"c",url:"namespacemembers_vars.html#index_c"},

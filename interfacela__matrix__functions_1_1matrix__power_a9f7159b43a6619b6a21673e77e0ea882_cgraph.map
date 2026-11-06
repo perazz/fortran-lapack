@@ -1,0 +1,5 @@
+<map id="la_matrix_functions::matrix_power::la_z_matrix_power_err" name="la_matrix_functions::matrix_power::la_z_matrix_power_err">
+<area shape="rect" id="Node000001" title="Integer power of a square matrix, function form with a state return flag." alt="" coords="5,5,159,67"/>
+<area shape="rect" id="Node000002" href="$namespacela__info.html#ad73a182e59c348e5049fbbb42ed0153b" title="Process the exit code of gesv(n,nrhs,a,lda,ipiv,b,ldb,info)" alt="" coords="207,22,362,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,34,194,36,188,36,159,39"/>
+</map>

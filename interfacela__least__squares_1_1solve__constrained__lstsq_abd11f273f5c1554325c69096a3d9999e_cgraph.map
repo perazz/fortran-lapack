@@ -1,0 +1,5 @@
+<map id="la_least_squares::solve_constrained_lstsq::la_qsolve_constrained_lstsq" name="la_least_squares::solve_constrained_lstsq::la_qsolve_constrained_lstsq">
+<area shape="rect" id="Node000001" title="Solve the real(qp) equality&#45;constrained least&#45;squares problem into x." alt="" coords="5,5,198,67"/>
+<area shape="rect" id="Node000002" href="$namespacela__info.html#a643e9a0bef56e9de6b409c32c53b7d7c" title="Process the exit code of gglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info), that minimizes ||c &#45; a*x|| s..." alt="" coords="246,22,405,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,34,233,36,227,36,198,39"/>
+</map>

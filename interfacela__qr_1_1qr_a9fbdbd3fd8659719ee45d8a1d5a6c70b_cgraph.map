@@ -1,0 +1,7 @@
+<map id="la_qr::qr::la_z_pivoting_qr" name="la_qr::qr::la_z_pivoting_qr">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,32,194,60"/>
+<area shape="rect" id="Node000002" href="$namespacela__info.html#a843f146c2b72493ac242713641e94970" title="Process the exit code of geqp3(m,n,a,lda,jpvt,tau,work,lwork,[rwork,]info)" alt="" coords="242,5,406,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,32,229,30,224,31,195,37"/>
+<area shape="rect" id="Node000003" href="$namespacela__info.html#af0357739ba3086ac245fe3cea0ae65cb" title="Process the exit code of orgqr/ungqr(m,n,k,a,lda,tau,work,lwork,info)" alt="" coords="245,57,403,85"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="194,54,232,60,227,61,194,59"/>
+</map>

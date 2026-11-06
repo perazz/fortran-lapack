@@ -1,0 +1,7 @@
+<map id="la_qr::qr::la_d_qr" name="la_qr::qr::la_d_qr">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,32,135,60"/>
+<area shape="rect" id="Node000002" href="$namespacela__info.html#a6a57875391cc702f969af0602d83c31e" title="Process the exit code of geqrf(m,n,a,lda,tau,work,lwork,info)" alt="" coords="183,5,341,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,34,170,32,165,33,135,39"/>
+<area shape="rect" id="Node000003" href="$namespacela__info.html#af0357739ba3086ac245fe3cea0ae65cb" title="Process the exit code of orgqr/ungqr(m,n,k,a,lda,tau,work,lwork,info)" alt="" coords="183,57,341,85"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="135,52,170,58,165,59,135,57"/>
+</map>

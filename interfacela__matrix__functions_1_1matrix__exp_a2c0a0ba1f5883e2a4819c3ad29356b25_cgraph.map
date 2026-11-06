@@ -1,0 +1,5 @@
+<map id="la_matrix_functions::matrix_exp::la_d_expm_inplace" name="la_matrix_functions::matrix_exp::la_d_expm_inplace">
+<area shape="rect" id="Node000001" title="Matrix exponential in place: a is overwritten with exp(a)" alt="" coords="5,5,188,67"/>
+<area shape="rect" id="Node000002" href="$namespacela__info.html#ad73a182e59c348e5049fbbb42ed0153b" title="Process the exit code of gesv(n,nrhs,a,lda,ipiv,b,ldb,info)" alt="" coords="236,22,391,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,34,223,36,217,36,188,39"/>
+</map>

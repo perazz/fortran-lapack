@@ -1,4 +1,5 @@
 var namespacemembers_func =
 [
-    [ "l", "namespacemembers_func.html", null ]
+    [ "h", "namespacemembers_func.html", null ],
+    [ "l", "namespacemembers_func_l.html", null ]
 ];

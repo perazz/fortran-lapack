@@ -1,0 +1,5 @@
+<map id="la_least_squares::constrained_lstsq_space::la_dconstrained_lstsq_space" name="la_least_squares::constrained_lstsq_space::la_dconstrained_lstsq_space">
+<area shape="rect" id="Node000001" title="Working space needed by the real(dp) equality&#45;constrained least&#45;squares solver." alt="" coords="5,5,221,67"/>
+<area shape="rect" id="Node000002" href="$namespacela__info.html#a643e9a0bef56e9de6b409c32c53b7d7c" title="Process the exit code of gglse(m,n,p,a,lda,b,ldb,c,d,x,work,lwork,info), that minimizes ||c &#45; a*x|| s..." alt="" coords="269,22,428,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,34,256,36,250,36,221,39"/>
+</map>
