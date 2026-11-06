@@ -134,10 +134,7 @@ module la_lapack_eigv_svd_drivers2
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('SGESVJ',-info)
-              return
-           end if
+           if (info /= 0) return
        ! #:) quick return for void matrix
            if ((m == 0) .or. (n == 0)) return
            ! set numerical parameters
@@ -171,7 +168,6 @@ module la_lapack_eigv_svd_drivers2
            roottol = sqrt(tol)
            if (real(m,KIND=sp)*epsln >= one) then
               info = -4
-              call la_xerbla('SGESVJ',-info)
               return
            end if
            ! initialize the right singular vector matrix.
@@ -201,7 +197,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_slassq(m - p + 1,a(p,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('SGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -226,7 +221,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_slassq(p,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('SGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -251,7 +245,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_slassq(m,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('SGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -1112,10 +1105,7 @@ module la_lapack_eigv_svd_drivers2
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('DGESVJ',-info)
-              return
-           end if
+           if (info /= 0) return
        ! #:) quick return for void matrix
            if ((m == 0) .or. (n == 0)) return
            ! set numerical parameters
@@ -1149,7 +1139,6 @@ module la_lapack_eigv_svd_drivers2
            roottol = sqrt(tol)
            if (real(m,KIND=dp)*epsln >= one) then
               info = -4
-              call la_xerbla('DGESVJ',-info)
               return
            end if
            ! initialize the right singular vector matrix.
@@ -1179,7 +1168,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_dlassq(m - p + 1,a(p,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('DGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -1204,7 +1192,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_dlassq(p,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('DGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -1229,7 +1216,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_dlassq(m,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('DGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -2091,10 +2077,7 @@ module la_lapack_eigv_svd_drivers2
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('XGESVJ',-info)
-              return
-           end if
+           if (info /= 0) return
        ! #:) quick return for void matrix
            if ((m == 0) .or. (n == 0)) return
            ! set numerical parameters
@@ -2128,7 +2111,6 @@ module la_lapack_eigv_svd_drivers2
            roottol = sqrt(tol)
            if (real(m,KIND=xdp)*epsln >= one) then
               info = -4
-              call la_xerbla('XGESVJ',-info)
               return
            end if
            ! initialize the right singular vector matrix.
@@ -2158,7 +2140,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_xlassq(m - p + 1,a(p,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('XGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -2183,7 +2164,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_xlassq(p,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('XGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -2208,7 +2188,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_xlassq(m,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('XGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -3071,10 +3050,7 @@ module la_lapack_eigv_svd_drivers2
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('QGESVJ',-info)
-              return
-           end if
+           if (info /= 0) return
        ! #:) quick return for void matrix
            if ((m == 0) .or. (n == 0)) return
            ! set numerical parameters
@@ -3108,7 +3084,6 @@ module la_lapack_eigv_svd_drivers2
            roottol = sqrt(tol)
            if (real(m,KIND=qp)*epsln >= one) then
               info = -4
-              call la_xerbla('QGESVJ',-info)
               return
            end if
            ! initialize the right singular vector matrix.
@@ -3138,7 +3113,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_qlassq(m - p + 1,a(p,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('QGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -3163,7 +3137,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_qlassq(p,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('QGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -3188,7 +3161,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_qlassq(m,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('QGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -4063,7 +4035,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            if (info /= 0) then
              ! #:(
-              call la_xerbla('SGEJSV',-info)
               return
            end if
            ! quick return for void matrix (y3k safe)
@@ -4098,7 +4069,6 @@ module la_lapack_eigv_svd_drivers2
               call la_slassq(m,a(1,p),1,aapp,aaqq)
               if (aapp > big) then
                  info = -9
-                 call la_xerbla('SGEJSV',-info)
                  return
               end if
               aaqq = sqrt(aaqq)
@@ -5153,7 +5123,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            if (info /= 0) then
              ! #:(
-              call la_xerbla('DGEJSV',-info)
               return
            end if
            ! quick return for void matrix (y3k safe)
@@ -5188,7 +5157,6 @@ module la_lapack_eigv_svd_drivers2
               call la_dlassq(m,a(1,p),1,aapp,aaqq)
               if (aapp > big) then
                  info = -9
-                 call la_xerbla('DGEJSV',-info)
                  return
               end if
               aaqq = sqrt(aaqq)
@@ -6244,7 +6212,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            if (info /= 0) then
              ! #:(
-              call la_xerbla('XGEJSV',-info)
               return
            end if
            ! quick return for void matrix (y3k safe)
@@ -6279,7 +6246,6 @@ module la_lapack_eigv_svd_drivers2
               call la_xlassq(m,a(1,p),1,aapp,aaqq)
               if (aapp > big) then
                  info = -9
-                 call la_xerbla('XGEJSV',-info)
                  return
               end if
               aaqq = sqrt(aaqq)
@@ -7336,7 +7302,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            if (info /= 0) then
              ! #:(
-              call la_xerbla('QGEJSV',-info)
               return
            end if
            ! quick return for void matrix (y3k safe)
@@ -7371,7 +7336,6 @@ module la_lapack_eigv_svd_drivers2
               call la_qlassq(m,a(1,p),1,aapp,aaqq)
               if (aapp > big) then
                  info = -9
-                 call la_xerbla('QGEJSV',-info)
                  return
               end if
               aaqq = sqrt(aaqq)
@@ -8640,7 +8604,6 @@ module la_lapack_eigv_svd_drivers2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SGESDD',-info)
               return
            else if (lquery) then
               return
@@ -9611,7 +9574,6 @@ module la_lapack_eigv_svd_drivers2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DGESDD',-info)
               return
            else if (lquery) then
               return
@@ -10583,7 +10545,6 @@ module la_lapack_eigv_svd_drivers2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XGESDD',-info)
               return
            else if (lquery) then
               return
@@ -11556,7 +11517,6 @@ module la_lapack_eigv_svd_drivers2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QGESDD',-info)
               return
            else if (lquery) then
               return
@@ -12551,7 +12511,6 @@ module la_lapack_eigv_svd_drivers2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CGESDD',-info)
               return
            else if (lquery) then
               return
@@ -14045,7 +14004,6 @@ module la_lapack_eigv_svd_drivers2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZGESDD',-info)
               return
            else if (lquery) then
               return
@@ -15540,7 +15498,6 @@ module la_lapack_eigv_svd_drivers2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YGESDD',-info)
               return
            else if (lquery) then
               return
@@ -17036,7 +16993,6 @@ module la_lapack_eigv_svd_drivers2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WGESDD',-info)
               return
            else if (lquery) then
               return
@@ -18538,7 +18494,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            if (info /= 0) then
              ! #:(
-              call la_xerbla('CGEJSV',-info)
               return
            else if (lquery) then
                cwork(1) = optwrk
@@ -18579,7 +18534,6 @@ module la_lapack_eigv_svd_drivers2
               call la_classq(m,a(1,p),1,aapp,aaqq)
               if (aapp > big) then
                  info = -9
-                 call la_xerbla('CGEJSV',-info)
                  return
               end if
               aaqq = sqrt(aaqq)
@@ -19944,7 +19898,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            if (info /= 0) then
              ! #:(
-              call la_xerbla('ZGEJSV',-info)
               return
            else if (lquery) then
                cwork(1) = optwrk
@@ -19985,7 +19938,6 @@ module la_lapack_eigv_svd_drivers2
               call la_zlassq(m,a(1,p),1,aapp,aaqq)
               if (aapp > big) then
                  info = -9
-                 call la_xerbla('ZGEJSV',-info)
                  return
               end if
               aaqq = sqrt(aaqq)
@@ -21349,7 +21301,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            if (info /= 0) then
              ! #:(
-              call la_xerbla('YGEJSV',-info)
               return
            else if (lquery) then
                cwork(1) = optwrk
@@ -21390,7 +21341,6 @@ module la_lapack_eigv_svd_drivers2
               call la_ylassq(m,a(1,p),1,aapp,aaqq)
               if (aapp > big) then
                  info = -9
-                 call la_xerbla('YGEJSV',-info)
                  return
               end if
               aaqq = sqrt(aaqq)
@@ -22755,7 +22705,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            if (info /= 0) then
              ! #:(
-              call la_xerbla('WGEJSV',-info)
               return
            else if (lquery) then
                cwork(1) = optwrk
@@ -22796,7 +22745,6 @@ module la_lapack_eigv_svd_drivers2
               call la_wlassq(m,a(1,p),1,aapp,aaqq)
               if (aapp > big) then
                  info = -9
-                 call la_xerbla('WGEJSV',-info)
                  return
               end if
               aaqq = sqrt(aaqq)
@@ -23911,7 +23859,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            ! #:(
            if (info /= 0) then
-              call la_xerbla('CGESVJ',-info)
               return
            else if (lquery) then
               cwork(1) = m + n
@@ -23951,7 +23898,6 @@ module la_lapack_eigv_svd_drivers2
            roottol = sqrt(tol)
            if (real(m,KIND=sp)*epsln >= one) then
               info = -4
-              call la_xerbla('CGESVJ',-info)
               return
            end if
            ! initialize the right singular vector matrix.
@@ -23981,7 +23927,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_classq(m - p + 1,a(p,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('CGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -24006,7 +23951,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_classq(p,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('CGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -24031,7 +23975,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_classq(m,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('CGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -24761,7 +24704,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            ! #:(
            if (info /= 0) then
-              call la_xerbla('ZGESVJ',-info)
               return
            else if (lquery) then
               cwork(1) = m + n
@@ -24801,7 +24743,6 @@ module la_lapack_eigv_svd_drivers2
            roottol = sqrt(tol)
            if (real(m,KIND=dp)*epsln >= one) then
               info = -4
-              call la_xerbla('ZGESVJ',-info)
               return
            end if
            ! initialize the right singular vector matrix.
@@ -24831,7 +24772,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_zlassq(m - p + 1,a(p,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('ZGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -24856,7 +24796,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_zlassq(p,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('ZGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -24881,7 +24820,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_zlassq(m,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('ZGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -25612,7 +25550,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            ! #:(
            if (info /= 0) then
-              call la_xerbla('YGESVJ',-info)
               return
            else if (lquery) then
               cwork(1) = m + n
@@ -25652,7 +25589,6 @@ module la_lapack_eigv_svd_drivers2
            roottol = sqrt(tol)
            if (real(m,KIND=xdp)*epsln >= one) then
               info = -4
-              call la_xerbla('YGESVJ',-info)
               return
            end if
            ! initialize the right singular vector matrix.
@@ -25682,7 +25618,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_ylassq(m - p + 1,a(p,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('YGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -25707,7 +25642,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_ylassq(p,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('YGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -25732,7 +25666,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_ylassq(m,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('YGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -26464,7 +26397,6 @@ module la_lapack_eigv_svd_drivers2
            end if
            ! #:(
            if (info /= 0) then
-              call la_xerbla('WGESVJ',-info)
               return
            else if (lquery) then
               cwork(1) = m + n
@@ -26504,7 +26436,6 @@ module la_lapack_eigv_svd_drivers2
            roottol = sqrt(tol)
            if (real(m,KIND=qp)*epsln >= one) then
               info = -4
-              call la_xerbla('WGESVJ',-info)
               return
            end if
            ! initialize the right singular vector matrix.
@@ -26534,7 +26465,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_wlassq(m - p + 1,a(p,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('WGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -26559,7 +26489,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_wlassq(p,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('WGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)
@@ -26584,7 +26513,6 @@ module la_lapack_eigv_svd_drivers2
                  call la_wlassq(m,a(1,p),1,aapp,aaqq)
                  if (aapp > big) then
                     info = -6
-                    call la_xerbla('WGESVJ',-info)
                     return
                  end if
                  aaqq = sqrt(aaqq)

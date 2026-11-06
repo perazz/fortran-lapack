@@ -723,10 +723,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('SORBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -850,10 +847,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('DORBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -978,10 +972,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('XORBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -1107,10 +1098,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('QORBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -1286,7 +1274,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SBBCSD',-info)
               return
            else if (lquery) then
               return
@@ -1891,7 +1878,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DBBCSD',-info)
               return
            else if (lquery) then
               return
@@ -2497,7 +2483,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XBBCSD',-info)
               return
            else if (lquery) then
               return
@@ -3104,7 +3089,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QBBCSD',-info)
               return
            else if (lquery) then
               return
@@ -3698,7 +3682,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -4026,7 +4009,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -4354,7 +4336,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -4683,7 +4664,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -4972,10 +4952,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('SORBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_sorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -5071,10 +5048,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('DORBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_dorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -5171,10 +5145,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('XORBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_xorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -5272,10 +5243,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('QORBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_qorbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -5492,7 +5460,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('SORCSD',-info)
               return
            else if (lquery) then
               return
@@ -5763,7 +5730,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('DORCSD',-info)
               return
            else if (lquery) then
               return
@@ -6039,7 +6005,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('XORCSD',-info)
               return
            else if (lquery) then
               return
@@ -6316,7 +6281,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('QORCSD',-info)
               return
            else if (lquery) then
               return
@@ -6494,7 +6458,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SORBDB1',-info)
               return
            else if (lquery) then
               return
@@ -6597,7 +6560,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DORBDB1',-info)
               return
            else if (lquery) then
               return
@@ -6701,7 +6663,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB1',-info)
               return
            else if (lquery) then
               return
@@ -6806,7 +6767,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QORBDB1',-info)
               return
            else if (lquery) then
               return
@@ -6911,7 +6871,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SORBDB2',-info)
               return
            else if (lquery) then
               return
@@ -7024,7 +6983,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DORBDB2',-info)
               return
            else if (lquery) then
               return
@@ -7138,7 +7096,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB2',-info)
               return
            else if (lquery) then
               return
@@ -7253,7 +7210,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QORBDB2',-info)
               return
            else if (lquery) then
               return
@@ -7368,7 +7324,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SORBDB3',-info)
               return
            else if (lquery) then
               return
@@ -7480,7 +7435,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DORBDB3',-info)
               return
            else if (lquery) then
               return
@@ -7593,7 +7547,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB3',-info)
               return
            else if (lquery) then
               return
@@ -7707,7 +7660,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QORBDB3',-info)
               return
            else if (lquery) then
               return
@@ -7822,7 +7774,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SORBDB4',-info)
               return
            else if (lquery) then
               return
@@ -7964,7 +7915,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DORBDB4',-info)
               return
            else if (lquery) then
               return
@@ -8107,7 +8057,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB4',-info)
               return
            else if (lquery) then
               return
@@ -8251,7 +8200,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QORBDB4',-info)
               return
            else if (lquery) then
               return
@@ -8542,7 +8490,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SORCSD2BY1',-info)
               return
            else if (lquery) then
               return
@@ -8957,7 +8904,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DORCSD2BY1',-info)
               return
            else if (lquery) then
               return
@@ -9373,7 +9319,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORCSD2BY1',-info)
               return
            else if (lquery) then
               return
@@ -9790,7 +9735,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QORCSD2BY1',-info)
               return
            else if (lquery) then
               return
@@ -10630,7 +10574,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -10952,7 +10895,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -11275,7 +11217,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -11599,7 +11540,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORBDB',-info)
               return
            else if (lquery) then
               return
@@ -11885,10 +11825,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('CUNBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -12012,10 +11949,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUNBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -12140,10 +12074,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('YUNBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -12269,10 +12200,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('WUNBDB6',-info)
-              return
-           end if
+           if (info /= 0) return
            ! first, project x onto the orthogonal complement of q's column
            ! space
            scl1 = realzero
@@ -12449,7 +12377,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CBBCSD',-info)
               return
            else if (lquery) then
               return
@@ -13059,7 +12986,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZBBCSD',-info)
               return
            else if (lquery) then
               return
@@ -13670,7 +13596,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YBBCSD',-info)
               return
            else if (lquery) then
               return
@@ -14282,7 +14207,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WBBCSD',-info)
               return
            else if (lquery) then
               return
@@ -14840,10 +14764,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('CUNBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_cunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -14939,10 +14860,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUNBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_zunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -15039,10 +14957,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('YUNBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_yunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -15140,10 +15055,7 @@ module la_lapack_cosine_sine
            else if (lwork < n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('WUNBDB5',-info)
-              return
-           end if
+           if (info /= 0) return
            ! project x onto the orthogonal complement of q
            call la_wunbdb6(m1,m2,n,x1,incx1,x2,incx2,q1,ldq1,q2,ldq2,work,lwork, &
                      childinfo)
@@ -15367,7 +15279,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('CUNCSD',-info)
               return
            else if (lquery .or. lrquery) then
               return
@@ -15657,7 +15568,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('ZUNCSD',-info)
               return
            else if (lquery .or. lrquery) then
               return
@@ -15948,7 +15858,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('YUNCSD',-info)
               return
            else if (lquery .or. lrquery) then
               return
@@ -16240,7 +16149,6 @@ module la_lapack_cosine_sine
            end if
            ! abort if any illegal arguments
            if (info /= 0) then
-              call la_xerbla('WUNCSD',-info)
               return
            else if (lquery .or. lrquery) then
               return
@@ -16422,7 +16330,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CUNBDB1',-info)
               return
            else if (lquery) then
               return
@@ -16527,7 +16434,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNBDB1',-info)
               return
            else if (lquery) then
               return
@@ -16633,7 +16539,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YUNBDB1',-info)
               return
            else if (lquery) then
               return
@@ -16740,7 +16645,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WUNBDB1',-info)
               return
            else if (lquery) then
               return
@@ -16847,7 +16751,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CUNBDB2',-info)
               return
            else if (lquery) then
               return
@@ -16962,7 +16865,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNBDB2',-info)
               return
            else if (lquery) then
               return
@@ -17078,7 +16980,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YUNBDB2',-info)
               return
            else if (lquery) then
               return
@@ -17195,7 +17096,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WUNBDB2',-info)
               return
            else if (lquery) then
               return
@@ -17312,7 +17212,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CUNBDB3',-info)
               return
            else if (lquery) then
               return
@@ -17426,7 +17325,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNBDB3',-info)
               return
            else if (lquery) then
               return
@@ -17541,7 +17439,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YUNBDB3',-info)
               return
            else if (lquery) then
               return
@@ -17657,7 +17554,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WUNBDB3',-info)
               return
            else if (lquery) then
               return
@@ -17774,7 +17670,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CUNBDB4',-info)
               return
            else if (lquery) then
               return
@@ -17923,7 +17818,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNBDB4',-info)
               return
            else if (lquery) then
               return
@@ -18073,7 +17967,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YUNBDB4',-info)
               return
            else if (lquery) then
               return
@@ -18224,7 +18117,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WUNBDB4',-info)
               return
            else if (lquery) then
               return
@@ -18544,7 +18436,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CUNCSD2BY1',-info)
               return
            else if (lquery) then
               return
@@ -18981,7 +18872,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNCSD2BY1',-info)
               return
            else if (lquery) then
               return
@@ -19419,7 +19309,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YUNCSD2BY1',-info)
               return
            else if (lquery) then
               return
@@ -19858,7 +19747,6 @@ module la_lapack_cosine_sine
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WUNCSD2BY1',-info)
               return
            else if (lquery) then
               return

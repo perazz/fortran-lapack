@@ -131,10 +131,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SPPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_spptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -179,10 +176,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DPPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_dpptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -228,10 +222,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XPPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_xpptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -278,10 +269,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QPPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_qpptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -373,10 +361,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('SPPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_sppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -512,10 +497,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DPPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_dppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -652,10 +634,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XPPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_xppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -793,10 +772,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QPPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_qppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -881,10 +857,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SPTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**t (or u**t*d*u) factorization of a.
            call la_spttrf(n,d,e,info)
            if (info == 0) then
@@ -921,10 +894,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DPTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**t (or u**t*d*u) factorization of a.
            call la_dpttrf(n,d,e,info)
            if (info == 0) then
@@ -962,10 +932,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XPTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**t (or u**t*d*u) factorization of a.
            call la_xpttrf(n,d,e,info)
            if (info == 0) then
@@ -1004,10 +971,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QPTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**t (or u**t*d*u) factorization of a.
            call la_qpttrf(n,d,e,info)
            if (info == 0) then
@@ -1062,10 +1026,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('SPTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**t (or u**t*d*u) factorization of a.
               call la_scopy(n,d,1,df,1)
@@ -1136,10 +1097,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('DPTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**t (or u**t*d*u) factorization of a.
               call la_dcopy(n,d,1,df,1)
@@ -1211,10 +1169,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('XPTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**t (or u**t*d*u) factorization of a.
               call la_xcopy(n,d,1,df,1)
@@ -1287,10 +1242,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('QPTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**t (or u**t*d*u) factorization of a.
               call la_qcopy(n,d,1,df,1)
@@ -1391,10 +1343,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPOSV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip single precision iterative refinement if a priori slower
@@ -1568,10 +1517,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XDPOSV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip double precision iterative refinement if a priori slower
@@ -1746,10 +1692,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QDPOSV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip double precision iterative refinement if a priori slower
@@ -1893,10 +1836,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_spbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -1946,10 +1886,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_dpbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -2000,10 +1937,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_xpbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -2055,10 +1989,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_qpbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -2156,10 +2087,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_spbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -2312,10 +2240,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_dpbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -2469,10 +2394,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_xpbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -2627,10 +2549,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_qpbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -2736,10 +2655,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_spotrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -2786,10 +2702,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_dpotrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -2837,10 +2750,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_xpotrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -2889,10 +2799,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_qpotrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -2988,10 +2895,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('SPOSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_spoequ(n,a,lda,s,scond,amax,infequ)
@@ -3131,10 +3035,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DPOSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_dpoequ(n,a,lda,s,scond,amax,infequ)
@@ -3275,10 +3176,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XPOSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_xpoequ(n,a,lda,s,scond,amax,infequ)
@@ -3420,10 +3318,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QPOSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_qpoequ(n,a,lda,s,scond,amax,infequ)
@@ -3516,10 +3411,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CPPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_cpptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -3564,10 +3456,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_zpptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -3613,10 +3502,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YPPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_ypptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -3663,10 +3549,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WPPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_wpptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -3759,10 +3642,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('CPPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_cppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -3899,10 +3779,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_zppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -4040,10 +3917,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('YPPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_yppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -4182,10 +4056,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('WPPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_wppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -4320,10 +4191,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZCPOSV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip single precision iterative refinement if a priori slower
@@ -4505,10 +4373,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YZPOSV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip double precision iterative refinement if a priori slower
@@ -4691,10 +4556,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WZPOSV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip double precision iterative refinement if a priori slower
@@ -4840,10 +4702,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h*u or a = l*l**h.
            call la_cpbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -4893,10 +4752,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_zpbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -4947,10 +4803,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_ypbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -5002,10 +4855,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_wpbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -5104,10 +4954,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_cpbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -5261,10 +5108,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_zpbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -5419,10 +5263,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_ypbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -5578,10 +5419,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_wpbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -5687,10 +5525,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h*u or a = l*l**h.
            call la_cpotrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -5737,10 +5572,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_zpotrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -5788,10 +5620,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_ypotrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -5840,10 +5669,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_wpotrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -5940,10 +5766,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('CPOSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_cpoequ(n,a,lda,s,scond,amax,infequ)
@@ -6084,10 +5907,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPOSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_zpoequ(n,a,lda,s,scond,amax,infequ)
@@ -6229,10 +6049,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('YPOSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_ypoequ(n,a,lda,s,scond,amax,infequ)
@@ -6375,10 +6192,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('WPOSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_wpoequ(n,a,lda,s,scond,amax,infequ)
@@ -6464,10 +6278,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CPTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**h (or u**h*d*u) factorization of a.
            call la_cpttrf(n,d,e,info)
            if (info == 0) then
@@ -6505,10 +6316,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**h (or u**h*d*u) factorization of a.
            call la_zpttrf(n,d,e,info)
            if (info == 0) then
@@ -6547,10 +6355,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YPTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**h (or u**h*d*u) factorization of a.
            call la_ypttrf(n,d,e,info)
            if (info == 0) then
@@ -6590,10 +6395,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WPTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**h (or u**h*d*u) factorization of a.
            call la_wpttrf(n,d,e,info)
            if (info == 0) then
@@ -6651,10 +6453,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CPTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**h (or u**h*d*u) factorization of a.
               call la_scopy(n,d,1,df,1)
@@ -6728,10 +6527,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**h (or u**h*d*u) factorization of a.
               call la_dcopy(n,d,1,df,1)
@@ -6806,10 +6602,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YPTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**h (or u**h*d*u) factorization of a.
               call la_xcopy(n,d,1,df,1)
@@ -6885,10 +6678,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WPTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**h (or u**h*d*u) factorization of a.
               call la_qcopy(n,d,1,df,1)

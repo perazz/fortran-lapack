@@ -3809,10 +3809,7 @@ module la_lapack_solve_ldl_comp2
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -4020,10 +4017,7 @@ module la_lapack_solve_ldl_comp2
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -4232,10 +4226,7 @@ module la_lapack_solve_ldl_comp2
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -4445,10 +4436,7 @@ module la_lapack_solve_ldl_comp2
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -4661,10 +4649,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -4881,10 +4866,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -5102,10 +5084,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -5324,10 +5303,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -5555,10 +5531,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYCONVF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -5810,10 +5783,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYCONVF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -6066,10 +6036,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYCONVF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -6323,10 +6290,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYCONVF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -6578,10 +6542,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYCONVF_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -6831,10 +6792,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYCONVF_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -7085,10 +7043,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYCONVF_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -7340,10 +7295,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYCONVF_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -7596,10 +7548,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYTF2_RK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -8047,10 +7996,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYTF2_RK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -8499,10 +8445,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYTF2_RK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -8952,10 +8895,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYTF2_RK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -9402,10 +9342,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYTF2_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -9812,10 +9749,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYTF2_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -10223,10 +10157,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYTF2_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -10635,10 +10566,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYTF2_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -11054,7 +10982,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYTRF_RK',-info)
               return
            else if (lquery) then
               return
@@ -11219,7 +11146,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYTRF_RK',-info)
               return
            else if (lquery) then
               return
@@ -11385,7 +11311,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYTRF_RK',-info)
               return
            else if (lquery) then
               return
@@ -11552,7 +11477,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYTRF_RK',-info)
               return
            else if (lquery) then
               return
@@ -11718,7 +11642,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYTRF_ROOK',-info)
               return
            else if (lquery) then
               return
@@ -11845,7 +11768,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYTRF_ROOK',-info)
               return
            else if (lquery) then
               return
@@ -11973,7 +11895,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYTRF_ROOK',-info)
               return
            else if (lquery) then
               return
@@ -12102,7 +12023,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYTRF_ROOK',-info)
               return
            else if (lquery) then
               return
@@ -12219,10 +12139,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYTRI_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -12447,10 +12364,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYTRI_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -12676,10 +12590,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYTRI_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -12906,10 +12817,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYTRI_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -13143,7 +13051,6 @@ module la_lapack_solve_ldl_comp2
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('SSYTRS_AA',-info)
               return
            else if (lquery) then
               lwkopt = (3*n - 2)
@@ -13270,7 +13177,6 @@ module la_lapack_solve_ldl_comp2
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('DSYTRS_AA',-info)
               return
            else if (lquery) then
               lwkopt = (3*n - 2)
@@ -13390,7 +13296,6 @@ module la_lapack_solve_ldl_comp2
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('XSYTRS_AA',-info)
               return
            else if (lquery) then
               lwkopt = (3*n - 2)
@@ -13511,7 +13416,6 @@ module la_lapack_solve_ldl_comp2
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('QSYTRS_AA',-info)
               return
            else if (lquery) then
               lwkopt = (3*n - 2)
@@ -13628,10 +13532,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYTRS_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -13850,10 +13751,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYTRS_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -14073,10 +13971,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYTRS_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -14297,10 +14192,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYTRS_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -14530,10 +14422,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -14719,10 +14608,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -14909,10 +14795,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -15100,10 +14983,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -15289,10 +15169,7 @@ module la_lapack_solve_ldl_comp2
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYCON_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -15372,10 +15249,7 @@ module la_lapack_solve_ldl_comp2
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYCON_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -15456,10 +15330,7 @@ module la_lapack_solve_ldl_comp2
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYCON_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -15541,10 +15412,7 @@ module la_lapack_solve_ldl_comp2
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYCON_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -16571,7 +16439,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYTRF_AA',-info)
               return
            else if (lquery) then
               return
@@ -16795,7 +16662,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYTRF_AA',-info)
               return
            else if (lquery) then
               return
@@ -17020,7 +16886,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYTRF_AA',-info)
               return
            else if (lquery) then
               return
@@ -17246,7 +17111,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYTRF_AA',-info)
               return
            else if (lquery) then
               return
@@ -21098,10 +20962,7 @@ module la_lapack_solve_ldl_comp2
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('CSPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -21309,10 +21170,7 @@ module la_lapack_solve_ldl_comp2
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -21521,10 +21379,7 @@ module la_lapack_solve_ldl_comp2
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('YSPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -21734,10 +21589,7 @@ module la_lapack_solve_ldl_comp2
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('WSPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -21950,10 +21802,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CSPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -22170,10 +22019,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -22391,10 +22237,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YSPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -22613,10 +22456,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WSPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -22846,10 +22686,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYCONVF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -23103,10 +22940,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYCONVF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -23361,10 +23195,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYCONVF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -23620,10 +23451,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYCONVF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -23877,10 +23705,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYCONVF_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -24132,10 +23957,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYCONVF_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -24388,10 +24210,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYCONVF_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -24645,10 +24464,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYCONVF_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -24905,10 +24721,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYTF2_RK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -25360,10 +25173,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYTF2_RK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -25816,10 +25626,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYTF2_RK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -26273,10 +26080,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYTF2_RK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -26727,10 +26531,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYTF2_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -27141,10 +26942,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYTF2_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -27556,10 +27354,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYTF2_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -27972,10 +27767,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYTF2_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize alpha for use in choosing pivot block size.
            alpha = (one + sqrt(sevten))/eight
            ! compute machine safe minimum
@@ -28391,7 +28183,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CSYTRF_RK',-info)
               return
            else if (lquery) then
               return
@@ -28556,7 +28347,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYTRF_RK',-info)
               return
            else if (lquery) then
               return
@@ -28722,7 +28512,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YSYTRF_RK',-info)
               return
            else if (lquery) then
               return
@@ -28889,7 +28678,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WSYTRF_RK',-info)
               return
            else if (lquery) then
               return
@@ -29055,7 +28843,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CSYTRF_ROOK',-info)
               return
            else if (lquery) then
               return
@@ -29182,7 +28969,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYTRF_ROOK',-info)
               return
            else if (lquery) then
               return
@@ -29310,7 +29096,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YSYTRF_ROOK',-info)
               return
            else if (lquery) then
               return
@@ -29439,7 +29224,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WSYTRF_ROOK',-info)
               return
            else if (lquery) then
               return
@@ -29556,10 +29340,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYTRI_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -29784,10 +29565,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYTRI_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -30013,10 +29791,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYTRI_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -30243,10 +30018,7 @@ module la_lapack_solve_ldl_comp2
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYTRI_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check that the diagonal matrix d is nonsingular.
@@ -30480,7 +30252,6 @@ module la_lapack_solve_ldl_comp2
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('CSYTRS_AA',-info)
               return
            else if (lquery) then
               lwkopt = (3*n - 2)
@@ -30599,7 +30370,6 @@ module la_lapack_solve_ldl_comp2
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYTRS_AA',-info)
               return
            else if (lquery) then
               lwkopt = (3*n - 2)
@@ -30719,7 +30489,6 @@ module la_lapack_solve_ldl_comp2
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('YSYTRS_AA',-info)
               return
            else if (lquery) then
               lwkopt = (3*n - 2)
@@ -30840,7 +30609,6 @@ module la_lapack_solve_ldl_comp2
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('WSYTRS_AA',-info)
               return
            else if (lquery) then
               lwkopt = (3*n - 2)
@@ -30957,10 +30725,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYTRS_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -31179,10 +30944,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYTRS_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -31402,10 +31164,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYTRS_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -31626,10 +31385,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYTRS_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) return
            if (upper) then
@@ -31864,10 +31620,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('CSPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -32057,10 +31810,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -32251,10 +32001,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('YSPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -32446,10 +32193,7 @@ module la_lapack_solve_ldl_comp2
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('WSPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -32632,10 +32376,7 @@ module la_lapack_solve_ldl_comp2
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CSYCON_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -32713,10 +32454,7 @@ module la_lapack_solve_ldl_comp2
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSYCON_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -32795,10 +32533,7 @@ module la_lapack_solve_ldl_comp2
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YSYCON_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -32878,10 +32613,7 @@ module la_lapack_solve_ldl_comp2
            else if (anorm < zero) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WSYCON_ROOK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            rcond = zero
            if (n == 0) then
@@ -33916,7 +33648,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CSYTRF_AA',-info)
               return
            else if (lquery) then
               return
@@ -34141,7 +33872,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZSYTRF_AA',-info)
               return
            else if (lquery) then
               return
@@ -34367,7 +34097,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YSYTRF_AA',-info)
               return
            else if (lquery) then
               return
@@ -34594,7 +34323,6 @@ module la_lapack_solve_ldl_comp2
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WSYTRF_AA',-info)
               return
            else if (lquery) then
               return

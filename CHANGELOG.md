@@ -279,6 +279,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `sp` and `dp` alone.
 - `qr_space` takes `a` as `intent(in)`: only its shape is read.
 
+### Removed
+
+- `la_xerbla` and `la_xerbla_array`, public in `la_blas_aux` and re-exported
+  by `la_blas`. They did nothing: a `pure` error handler can neither print nor
+  stop. The BLAS and LAPACK routines no longer call them, and every routine
+  still returns the same `info` for an invalid argument.
+
 ### Fixed
 
 - `eig` and `eigvals` no longer leak memory on a real matrix: the real and

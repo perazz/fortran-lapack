@@ -106,10 +106,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -213,7 +210,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORGHR',-info)
               return
            else if (lquery) then
               return
@@ -338,7 +334,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$ORMHR',-info)
               return
            else if (lquery) then
               return
@@ -415,10 +410,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -498,7 +490,6 @@ module la_lapack_eigv_gen_hess
                  if (la_${ri}$isnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('${ri.upper()}$GEBAL',-info)
                  return
               end if
 #:endif
@@ -517,7 +508,6 @@ module la_lapack_eigv_gen_hess
                  if (la_${ri}$isnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('${ri.upper()}$GEBAL',-info)
                  return
               end if
 #:endif
@@ -591,10 +581,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               call la_${ri}$larfg(ihi - i,a(i + 1,i),a(min(i + 2,n),i),1,tau(i))
@@ -764,7 +751,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEHRD',-info)
               return
            else if (lquery) then
               return
@@ -898,10 +884,7 @@ module la_lapack_eigv_gen_hess
            else if (ldv < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEBAK',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (m == 0) return
@@ -1005,10 +988,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEBAL',-info)
-              return
-           end if
+           if (info /= 0) return
            k = 1
            l = n
            if (n == 0) go to 210
@@ -1089,7 +1069,6 @@ module la_lapack_eigv_gen_hess
                  if (la_${ci}$isnan(c + f + ca + r + g + ra)) then
                  ! exit if nan to avoid infinite loop
                  info = -3
-                 call la_xerbla('${ri.upper()}$GEBAL',-info)
                  return
               end if
               f = f*sclfac
@@ -1173,10 +1152,7 @@ module la_lapack_eigv_gen_hess
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEHD2',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = ilo,ihi - 1
               ! compute elementary reflector h(i) to annihilate a(i+2:ihi,i)
               alpha = a(i + 1,i)
@@ -1350,7 +1326,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNGHR',-info)
               return
            else if (lquery) then
               return
@@ -1475,7 +1450,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$UNMHR',-info)
               return
            else if (lquery) then
               return
@@ -1558,7 +1532,6 @@ module la_lapack_eigv_gen_hess
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$GEHRD',-info)
               return
            else if (lquery) then
               return

@@ -337,10 +337,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SLARZB',-info)
-              return
-           end if
+           if (info /= 0) return
            if (la_lsame(trans,'N')) then
               transt = 'T'
            else
@@ -426,10 +423,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DLARZB',-info)
-              return
-           end if
+           if (info /= 0) return
            if (la_lsame(trans,'N')) then
               transt = 'T'
            else
@@ -516,10 +510,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XLARZB',-info)
-              return
-           end if
+           if (info /= 0) return
            if (la_lsame(trans,'N')) then
               transt = 'T'
            else
@@ -607,10 +598,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QLARZB',-info)
-              return
-           end if
+           if (info /= 0) return
            if (la_lsame(trans,'N')) then
               transt = 'T'
            else
@@ -704,10 +692,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SLARZT',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = k,1,-1
               if (tau(i) == zero) then
                  ! h(i)  =  i
@@ -766,10 +751,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DLARZT',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = k,1,-1
               if (tau(i) == zero) then
                  ! h(i)  =  i
@@ -829,10 +811,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XLARZT',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = k,1,-1
               if (tau(i) == zero) then
                  ! h(i)  =  i
@@ -893,10 +872,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QLARZT',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = k,1,-1
               if (tau(i) == zero) then
                  ! h(i)  =  i
@@ -978,10 +954,7 @@ module la_lapack_orthogonal_factors_rz
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('SORMR3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. .not. notran .or. .not. left .and. notran)) then
@@ -1076,10 +1049,7 @@ module la_lapack_orthogonal_factors_rz
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('DORMR3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. .not. notran .or. .not. left .and. notran)) then
@@ -1175,10 +1145,7 @@ module la_lapack_orthogonal_factors_rz
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('XORMR3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. .not. notran .or. .not. left .and. notran)) then
@@ -1275,10 +1242,7 @@ module la_lapack_orthogonal_factors_rz
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('QORMR3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. .not. notran .or. .not. left .and. notran)) then
@@ -1398,7 +1362,6 @@ module la_lapack_orthogonal_factors_rz
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SORMRZ',-info)
               return
            else if (lquery) then
               return
@@ -1549,7 +1512,6 @@ module la_lapack_orthogonal_factors_rz
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DORMRZ',-info)
               return
            else if (lquery) then
               return
@@ -1702,7 +1664,6 @@ module la_lapack_orthogonal_factors_rz
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XORMRZ',-info)
               return
            else if (lquery) then
               return
@@ -1856,7 +1817,6 @@ module la_lapack_orthogonal_factors_rz
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QORMRZ',-info)
               return
            else if (lquery) then
               return
@@ -2147,7 +2107,6 @@ module la_lapack_orthogonal_factors_rz
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('STZRZF',-info)
               return
            else if (lquery) then
               return
@@ -2263,7 +2222,6 @@ module la_lapack_orthogonal_factors_rz
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DTZRZF',-info)
               return
            else if (lquery) then
               return
@@ -2380,7 +2338,6 @@ module la_lapack_orthogonal_factors_rz
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XTZRZF',-info)
               return
            else if (lquery) then
               return
@@ -2498,7 +2455,6 @@ module la_lapack_orthogonal_factors_rz
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QTZRZF',-info)
               return
            else if (lquery) then
               return
@@ -2835,10 +2791,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CLARZB',-info)
-              return
-           end if
+           if (info /= 0) return
            if (la_lsame(trans,'N')) then
               transt = 'C'
            else
@@ -2937,10 +2890,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLARZB',-info)
-              return
-           end if
+           if (info /= 0) return
            if (la_lsame(trans,'N')) then
               transt = 'C'
            else
@@ -3040,10 +2990,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YLARZB',-info)
-              return
-           end if
+           if (info /= 0) return
            if (la_lsame(trans,'N')) then
               transt = 'C'
            else
@@ -3144,10 +3091,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WLARZB',-info)
-              return
-           end if
+           if (info /= 0) return
            if (la_lsame(trans,'N')) then
               transt = 'C'
            else
@@ -3254,10 +3198,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('CLARZT',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = k,1,-1
               if (tau(i) == czero) then
                  ! h(i)  =  i
@@ -3318,10 +3259,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLARZT',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = k,1,-1
               if (tau(i) == czero) then
                  ! h(i)  =  i
@@ -3383,10 +3321,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('YLARZT',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = k,1,-1
               if (tau(i) == czero) then
                  ! h(i)  =  i
@@ -3449,10 +3384,7 @@ module la_lapack_orthogonal_factors_rz
            else if (.not. la_lsame(storev,'R')) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('WLARZT',-info)
-              return
-           end if
+           if (info /= 0) return
            do i = k,1,-1
               if (tau(i) == czero) then
                  ! h(i)  =  i
@@ -3720,7 +3652,6 @@ module la_lapack_orthogonal_factors_rz
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CTZRZF',-info)
               return
            else if (lquery) then
               return
@@ -3836,7 +3767,6 @@ module la_lapack_orthogonal_factors_rz
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZTZRZF',-info)
               return
            else if (lquery) then
               return
@@ -3953,7 +3883,6 @@ module la_lapack_orthogonal_factors_rz
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YTZRZF',-info)
               return
            else if (lquery) then
               return
@@ -4071,7 +4000,6 @@ module la_lapack_orthogonal_factors_rz
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WTZRZF',-info)
               return
            else if (lquery) then
               return
@@ -4195,10 +4123,7 @@ module la_lapack_orthogonal_factors_rz
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CUNMR3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. .not. notran .or. .not. left .and. notran)) then
@@ -4299,10 +4224,7 @@ module la_lapack_orthogonal_factors_rz
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUNMR3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. .not. notran .or. .not. left .and. notran)) then
@@ -4404,10 +4326,7 @@ module la_lapack_orthogonal_factors_rz
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YUNMR3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. .not. notran .or. .not. left .and. notran)) then
@@ -4510,10 +4429,7 @@ module la_lapack_orthogonal_factors_rz
            else if (ldc < max(1,m)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WUNMR3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. .not. notran .or. .not. left .and. notran)) then
@@ -4638,7 +4554,6 @@ module la_lapack_orthogonal_factors_rz
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CUNMRZ',-info)
               return
            else if (lquery) then
               return
@@ -4791,7 +4706,6 @@ module la_lapack_orthogonal_factors_rz
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNMRZ',-info)
               return
            else if (lquery) then
               return
@@ -4946,7 +4860,6 @@ module la_lapack_orthogonal_factors_rz
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YUNMRZ',-info)
               return
            else if (lquery) then
               return
@@ -5102,7 +5015,6 @@ module la_lapack_orthogonal_factors_rz
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WUNMRZ',-info)
               return
            else if (lquery) then
               return

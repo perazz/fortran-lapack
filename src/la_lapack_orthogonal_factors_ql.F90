@@ -243,10 +243,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SORG2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            ! initialise columns 1:n-k to columns of the unit matrix
@@ -307,10 +304,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DORG2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            ! initialise columns 1:n-k to columns of the unit matrix
@@ -372,10 +366,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XORG2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            ! initialise columns 1:n-k to columns of the unit matrix
@@ -438,10 +429,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QORG2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            ! initialise columns 1:n-k to columns of the unit matrix
@@ -504,10 +492,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SORGL2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m <= 0) return
            if (k < m) then
@@ -573,10 +558,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DORGL2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m <= 0) return
            if (k < m) then
@@ -643,10 +625,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XORGL2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m <= 0) return
            if (k < m) then
@@ -714,10 +693,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QORGL2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m <= 0) return
            if (k < m) then
@@ -793,7 +769,6 @@ module la_lapack_orthogonal_factors_ql
               info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('SORGLQ',-info)
               return
            else if (lquery) then
               return
@@ -909,7 +884,6 @@ module la_lapack_orthogonal_factors_ql
               info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('DORGLQ',-info)
               return
            else if (lquery) then
               return
@@ -1026,7 +1000,6 @@ module la_lapack_orthogonal_factors_ql
               info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('XORGLQ',-info)
               return
            else if (lquery) then
               return
@@ -1144,7 +1117,6 @@ module la_lapack_orthogonal_factors_ql
               info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('QORGLQ',-info)
               return
            else if (lquery) then
               return
@@ -1269,7 +1241,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SORGQL',-info)
               return
            else if (lquery) then
               return
@@ -1390,7 +1361,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DORGQL',-info)
               return
            else if (lquery) then
               return
@@ -1512,7 +1482,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XORGQL',-info)
               return
            else if (lquery) then
               return
@@ -1635,7 +1604,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QORGQL',-info)
               return
            else if (lquery) then
               return
@@ -1765,10 +1733,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('SORM2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran) .or. (.not. left .and. .not. notran)) then
@@ -1859,10 +1824,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DORM2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran) .or. (.not. left .and. .not. notran)) then
@@ -1954,10 +1916,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XORM2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran) .or. (.not. left .and. .not. notran)) then
@@ -2050,10 +2009,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QORM2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran) .or. (.not. left .and. .not. notran)) then
@@ -2146,10 +2102,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('SORML2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran) .or. (.not. left .and. .not. notran)) then
@@ -2245,10 +2198,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DORML2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran) .or. (.not. left .and. .not. notran)) then
@@ -2345,10 +2295,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XORML2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran) .or. (.not. left .and. .not. notran)) then
@@ -2446,10 +2393,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QORML2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran) .or. (.not. left .and. .not. notran)) then
@@ -2563,7 +2507,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SORMLQ',-info)
               return
            else if (lquery) then
               return
@@ -2705,7 +2648,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DORMLQ',-info)
               return
            else if (lquery) then
               return
@@ -2848,7 +2790,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XORMLQ',-info)
               return
            else if (lquery) then
               return
@@ -2992,7 +2933,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QORMLQ',-info)
               return
            else if (lquery) then
               return
@@ -3140,7 +3080,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SORMQL',-info)
               return
            else if (lquery) then
               return
@@ -3276,7 +3215,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DORMQL',-info)
               return
            else if (lquery) then
               return
@@ -3413,7 +3351,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XORMQL',-info)
               return
            else if (lquery) then
               return
@@ -3551,7 +3488,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QORMQL',-info)
               return
            else if (lquery) then
               return
@@ -3673,10 +3609,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('SGEMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -3770,10 +3703,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('DGEMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -3868,10 +3798,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('XGEMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -3967,10 +3894,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('QGEMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -4042,10 +3966,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('STPLQT2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            do i = 1,m
@@ -4139,10 +4060,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPLQT2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            do i = 1,m
@@ -4237,10 +4155,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPLQT2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            do i = 1,m
@@ -4336,10 +4251,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPLQT2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            do i = 1,m
@@ -4455,10 +4367,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldb < max(1,m)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('STPMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -4572,10 +4481,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldb < max(1,m)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -4690,10 +4596,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldb < max(1,m)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -4809,10 +4712,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldb < max(1,m)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -4905,10 +4805,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SGELQ2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = 1,k
               ! generate elementary reflector h(i) to annihilate a(i,i+1:n)
@@ -4959,10 +4856,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DGELQ2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = 1,k
               ! generate elementary reflector h(i) to annihilate a(i,i+1:n)
@@ -5014,10 +4908,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XGELQ2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = 1,k
               ! generate elementary reflector h(i) to annihilate a(i,i+1:n)
@@ -5070,10 +4961,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QGELQ2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = 1,k
               ! generate elementary reflector h(i) to annihilate a(i,i+1:n)
@@ -5131,7 +5019,6 @@ module la_lapack_orthogonal_factors_ql
               info = -7
            end if
            if (info /= 0) then
-              call la_xerbla('SGELQF',-info)
               return
            else if (lquery) then
               return
@@ -5227,7 +5114,6 @@ module la_lapack_orthogonal_factors_ql
               info = -7
            end if
            if (info /= 0) then
-              call la_xerbla('DGELQF',-info)
               return
            else if (lquery) then
               return
@@ -5324,7 +5210,6 @@ module la_lapack_orthogonal_factors_ql
               info = -7
            end if
            if (info /= 0) then
-              call la_xerbla('XGELQF',-info)
               return
            else if (lquery) then
               return
@@ -5422,7 +5307,6 @@ module la_lapack_orthogonal_factors_ql
               info = -7
            end if
            if (info /= 0) then
-              call la_xerbla('QGELQF',-info)
               return
            else if (lquery) then
               return
@@ -5511,10 +5395,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SGELQT3',-info)
-              return
-           end if
+           if (info /= 0) return
            if (m == 1) then
               ! compute householder transform when m=1
               call la_slarfg(n,a(1,1),a(1,min(2,n)),lda,t(1,1))
@@ -5598,10 +5479,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DGELQT3',-info)
-              return
-           end if
+           if (info /= 0) return
            if (m == 1) then
               ! compute householder transform when m=1
               call la_dlarfg(n,a(1,1),a(1,min(2,n)),lda,t(1,1))
@@ -5686,10 +5564,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XGELQT3',-info)
-              return
-           end if
+           if (info /= 0) return
            if (m == 1) then
               ! compute householder transform when m=1
               call la_xlarfg(n,a(1,1),a(1,min(2,n)),lda,t(1,1))
@@ -5775,10 +5650,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QGELQT3',-info)
-              return
-           end if
+           if (info /= 0) return
            if (m == 1) then
               ! compute householder transform when m=1
               call la_qlarfg(n,a(1,1),a(1,min(2,n)),lda,t(1,1))
@@ -5864,10 +5736,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SGEQL2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = k,1,-1
               ! generate elementary reflector h(i) to annihilate
@@ -5913,10 +5782,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DGEQL2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = k,1,-1
               ! generate elementary reflector h(i) to annihilate
@@ -5963,10 +5829,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XGEQL2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = k,1,-1
               ! generate elementary reflector h(i) to annihilate
@@ -6014,10 +5877,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QGEQL2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = k,1,-1
               ! generate elementary reflector h(i) to annihilate
@@ -6079,7 +5939,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SGEQLF',-info)
               return
            else if (lquery) then
               return
@@ -6184,7 +6043,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DGEQLF',-info)
               return
            else if (lquery) then
               return
@@ -6290,7 +6148,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XGEQLF',-info)
               return
            else if (lquery) then
               return
@@ -6397,7 +6254,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QGEQLF',-info)
               return
            else if (lquery) then
               return
@@ -6520,7 +6376,6 @@ module la_lapack_orthogonal_factors_ql
              info = -15
            end if
            if (info /= 0) then
-             call la_xerbla('SLAMSWLQ',-info)
              work(1) = lw
              return
            else if (lquery) then
@@ -6677,7 +6532,6 @@ module la_lapack_orthogonal_factors_ql
              info = -15
            end if
            if (info /= 0) then
-             call la_xerbla('DLAMSWLQ',-info)
              work(1) = lw
              return
            else if (lquery) then
@@ -6835,7 +6689,6 @@ module la_lapack_orthogonal_factors_ql
              info = -15
            end if
            if (info /= 0) then
-             call la_xerbla('XLAMSWLQ',-info)
              work(1) = lw
              return
            else if (lquery) then
@@ -6994,7 +6847,6 @@ module la_lapack_orthogonal_factors_ql
              info = -15
            end if
            if (info /= 0) then
-             call la_xerbla('QLAMSWLQ',-info)
              work(1) = lw
              return
            else if (lquery) then
@@ -7128,10 +6980,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('STPLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            do i = 1,m,mb
@@ -7189,10 +7038,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            do i = 1,m,mb
@@ -7251,10 +7097,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            do i = 1,m,mb
@@ -7314,10 +7157,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            do i = 1,m,mb
@@ -7371,10 +7211,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SGELQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            k = min(m,n)
            if (k == 0) return
@@ -7421,10 +7258,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DGELQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            k = min(m,n)
            if (k == 0) return
@@ -7472,10 +7306,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XGELQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            k = min(m,n)
            if (k == 0) return
@@ -7524,10 +7355,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QGELQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            k = min(m,n)
            if (k == 0) return
@@ -7622,7 +7450,6 @@ module la_lapack_orthogonal_factors_ql
              work(1) = real(lw,KIND=sp)
            end if
            if (info /= 0) then
-             call la_xerbla('SGEMLQ',-info)
              return
            else if (lquery) then
              return
@@ -7718,7 +7545,6 @@ module la_lapack_orthogonal_factors_ql
              work(1) = lw
            end if
            if (info /= 0) then
-             call la_xerbla('DGEMLQ',-info)
              return
            else if (lquery) then
              return
@@ -7815,7 +7641,6 @@ module la_lapack_orthogonal_factors_ql
              work(1) = lw
            end if
            if (info /= 0) then
-             call la_xerbla('XGEMLQ',-info)
              return
            else if (lquery) then
              return
@@ -7913,7 +7738,6 @@ module la_lapack_orthogonal_factors_ql
              work(1) = lw
            end if
            if (info /= 0) then
-             call la_xerbla('QGEMLQ',-info)
              return
            else if (lquery) then
              return
@@ -7985,7 +7809,6 @@ module la_lapack_orthogonal_factors_ql
            work(1) = mb*m
            end if
            if (info /= 0) then
-             call la_xerbla('SLASWLQ',-info)
              return
            else if (lquery) then
             return
@@ -8068,7 +7891,6 @@ module la_lapack_orthogonal_factors_ql
            work(1) = mb*m
            end if
            if (info /= 0) then
-             call la_xerbla('DLASWLQ',-info)
              return
            else if (lquery) then
             return
@@ -8152,7 +7974,6 @@ module la_lapack_orthogonal_factors_ql
            work(1) = mb*m
            end if
            if (info /= 0) then
-             call la_xerbla('XLASWLQ',-info)
              return
            else if (lquery) then
             return
@@ -8237,7 +8058,6 @@ module la_lapack_orthogonal_factors_ql
            work(1) = mb*m
            end if
            if (info /= 0) then
-             call la_xerbla('QLASWLQ',-info)
              return
            else if (lquery) then
             return
@@ -8378,7 +8198,6 @@ module la_lapack_orthogonal_factors_ql
              end if
            end if
            if (info /= 0) then
-             call la_xerbla('SGELQ',-info)
              return
            else if (lquery) then
              return
@@ -8502,7 +8321,6 @@ module la_lapack_orthogonal_factors_ql
              end if
            end if
            if (info /= 0) then
-             call la_xerbla('DGELQ',-info)
              return
            else if (lquery) then
              return
@@ -8627,7 +8445,6 @@ module la_lapack_orthogonal_factors_ql
              end if
            end if
            if (info /= 0) then
-             call la_xerbla('XGELQ',-info)
              return
            else if (lquery) then
              return
@@ -8753,7 +8570,6 @@ module la_lapack_orthogonal_factors_ql
              end if
            end if
            if (info /= 0) then
-             call la_xerbla('QGELQ',-info)
              return
            else if (lquery) then
              return
@@ -8811,10 +8627,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPLQT2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            do i = 1,m
@@ -8927,10 +8740,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPLQT2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            do i = 1,m
@@ -9044,10 +8854,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPLQT2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            do i = 1,m
@@ -9162,10 +8969,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPLQT2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) return
            do i = 1,m
@@ -9278,10 +9082,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CUNG2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            ! initialise columns 1:n-k to columns of the unit matrix
@@ -9342,10 +9143,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUNG2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            ! initialise columns 1:n-k to columns of the unit matrix
@@ -9407,10 +9205,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YUNG2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            ! initialise columns 1:n-k to columns of the unit matrix
@@ -9473,10 +9268,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WUNG2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            ! initialise columns 1:n-k to columns of the unit matrix
@@ -9539,10 +9331,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CUNGL2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m <= 0) return
            if (k < m) then
@@ -9610,10 +9399,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUNGL2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m <= 0) return
            if (k < m) then
@@ -9682,10 +9468,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YUNGL2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m <= 0) return
            if (k < m) then
@@ -9755,10 +9538,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WUNGL2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m <= 0) return
            if (k < m) then
@@ -9836,7 +9616,6 @@ module la_lapack_orthogonal_factors_ql
               info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('CUNGLQ',-info)
               return
            else if (lquery) then
               return
@@ -9952,7 +9731,6 @@ module la_lapack_orthogonal_factors_ql
               info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNGLQ',-info)
               return
            else if (lquery) then
               return
@@ -10069,7 +9847,6 @@ module la_lapack_orthogonal_factors_ql
               info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('YUNGLQ',-info)
               return
            else if (lquery) then
               return
@@ -10187,7 +9964,6 @@ module la_lapack_orthogonal_factors_ql
               info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('WUNGLQ',-info)
               return
            else if (lquery) then
               return
@@ -10312,7 +10088,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CUNGQL',-info)
               return
            else if (lquery) then
               return
@@ -10433,7 +10208,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNGQL',-info)
               return
            else if (lquery) then
               return
@@ -10555,7 +10329,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YUNGQL',-info)
               return
            else if (lquery) then
               return
@@ -10678,7 +10451,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WUNGQL',-info)
               return
            else if (lquery) then
               return
@@ -10811,7 +10583,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = cmplx(lwkopt,KIND=sp)
            end if
            if (info /= 0) then
-              call la_xerbla('CUNM22',-info)
               return
            else if (lquery) then
               return
@@ -10992,7 +10763,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = cmplx(lwkopt,KIND=dp)
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNM22',-info)
               return
            else if (lquery) then
               return
@@ -11174,7 +10944,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = cmplx(lwkopt,KIND=xdp)
            end if
            if (info /= 0) then
-              call la_xerbla('YUNM22',-info)
               return
            else if (lquery) then
               return
@@ -11357,7 +11126,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = cmplx(lwkopt,KIND=qp)
            end if
            if (info /= 0) then
-              call la_xerbla('WUNM22',-info)
               return
            else if (lquery) then
               return
@@ -11537,10 +11305,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('CUNM2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran .or. .not. left .and. .not. notran)) then
@@ -11636,10 +11401,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUNM2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran .or. .not. left .and. .not. notran)) then
@@ -11736,10 +11498,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('YUNM2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran .or. .not. left .and. .not. notran)) then
@@ -11837,10 +11596,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('WUNM2L',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran .or. .not. left .and. .not. notran)) then
@@ -11938,10 +11694,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('CUNML2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran .or. .not. left .and. .not. notran)) then
@@ -12044,10 +11797,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUNML2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran .or. .not. left .and. .not. notran)) then
@@ -12151,10 +11901,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('YUNML2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran .or. .not. left .and. .not. notran)) then
@@ -12259,10 +12006,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('WUNML2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if ((left .and. notran .or. .not. left .and. .not. notran)) then
@@ -12388,7 +12132,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CUNMLQ',-info)
               return
            else if (lquery) then
               return
@@ -12530,7 +12273,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNMLQ',-info)
               return
            else if (lquery) then
               return
@@ -12673,7 +12415,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YUNMLQ',-info)
               return
            else if (lquery) then
               return
@@ -12817,7 +12558,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WUNMLQ',-info)
               return
            else if (lquery) then
               return
@@ -12965,7 +12705,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CUNMQL',-info)
               return
            else if (lquery) then
               return
@@ -13102,7 +12841,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNMQL',-info)
               return
            else if (lquery) then
               return
@@ -13239,7 +12977,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YUNMQL',-info)
               return
            else if (lquery) then
               return
@@ -13377,7 +13114,6 @@ module la_lapack_orthogonal_factors_ql
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WUNMQL',-info)
               return
            else if (lquery) then
               return
@@ -13472,10 +13208,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CGELQ2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = 1,k
               ! generate elementary reflector h(i) to annihilate a(i,i+1:n)
@@ -13528,10 +13261,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGELQ2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = 1,k
               ! generate elementary reflector h(i) to annihilate a(i,i+1:n)
@@ -13585,10 +13315,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YGELQ2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = 1,k
               ! generate elementary reflector h(i) to annihilate a(i,i+1:n)
@@ -13643,10 +13370,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WGELQ2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = 1,k
               ! generate elementary reflector h(i) to annihilate a(i,i+1:n)
@@ -13706,7 +13430,6 @@ module la_lapack_orthogonal_factors_ql
               info = -7
            end if
            if (info /= 0) then
-              call la_xerbla('CGELQF',-info)
               return
            else if (lquery) then
               return
@@ -13802,7 +13525,6 @@ module la_lapack_orthogonal_factors_ql
               info = -7
            end if
            if (info /= 0) then
-              call la_xerbla('ZGELQF',-info)
               return
            else if (lquery) then
               return
@@ -13899,7 +13621,6 @@ module la_lapack_orthogonal_factors_ql
               info = -7
            end if
            if (info /= 0) then
-              call la_xerbla('YGELQF',-info)
               return
            else if (lquery) then
               return
@@ -13997,7 +13718,6 @@ module la_lapack_orthogonal_factors_ql
               info = -7
            end if
            if (info /= 0) then
-              call la_xerbla('WGELQF',-info)
               return
            else if (lquery) then
               return
@@ -14086,10 +13806,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CGELQT3',-info)
-              return
-           end if
+           if (info /= 0) return
            if (m == 1) then
               ! compute householder transform when m=1
               call la_clarfg(n,a(1,1),a(1,min(2,n)),lda,t(1,1))
@@ -14176,10 +13893,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGELQT3',-info)
-              return
-           end if
+           if (info /= 0) return
            if (m == 1) then
               ! compute householder transform when m=1
               call la_zlarfg(n,a(1,1),a(1,min(2,n)),lda,t(1,1))
@@ -14267,10 +13981,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YGELQT3',-info)
-              return
-           end if
+           if (info /= 0) return
            if (m == 1) then
               ! compute householder transform when m=1
               call la_ylarfg(n,a(1,1),a(1,min(2,n)),lda,t(1,1))
@@ -14359,10 +14070,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < max(1,m)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WGELQT3',-info)
-              return
-           end if
+           if (info /= 0) return
            if (m == 1) then
               ! compute householder transform when m=1
               call la_wlarfg(n,a(1,1),a(1,min(2,n)),lda,t(1,1))
@@ -14482,10 +14190,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('CGEMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -14579,10 +14284,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGEMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -14677,10 +14379,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('YGEMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -14776,10 +14475,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldc < max(1,m)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('WGEMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -14844,10 +14540,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CGEQL2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = k,1,-1
               ! generate elementary reflector h(i) to annihilate
@@ -14893,10 +14586,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGEQL2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = k,1,-1
               ! generate elementary reflector h(i) to annihilate
@@ -14943,10 +14633,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YGEQL2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = k,1,-1
               ! generate elementary reflector h(i) to annihilate
@@ -14994,10 +14681,7 @@ module la_lapack_orthogonal_factors_ql
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WGEQL2',-info)
-              return
-           end if
+           if (info /= 0) return
            k = min(m,n)
            do i = k,1,-1
               ! generate elementary reflector h(i) to annihilate
@@ -15059,7 +14743,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CGEQLF',-info)
               return
            else if (lquery) then
               return
@@ -15164,7 +14847,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZGEQLF',-info)
               return
            else if (lquery) then
               return
@@ -15270,7 +14952,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YGEQLF',-info)
               return
            else if (lquery) then
               return
@@ -15377,7 +15058,6 @@ module la_lapack_orthogonal_factors_ql
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WGEQLF',-info)
               return
            else if (lquery) then
               return
@@ -15475,10 +15155,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            do i = 1,m,mb
@@ -15536,10 +15213,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            do i = 1,m,mb
@@ -15598,10 +15272,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            do i = 1,m,mb
@@ -15661,10 +15332,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            do i = 1,m,mb
@@ -15746,10 +15414,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldb < max(1,m)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -15863,10 +15528,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldb < max(1,m)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -15981,10 +15643,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldb < max(1,m)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -16100,10 +15759,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldb < max(1,m)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPMLQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! Quick Return If Possible
            if (m == 0 .or. n == 0 .or. k == 0) return
            if (left .and. notran) then
@@ -16191,10 +15847,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CGELQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            k = min(m,n)
            if (k == 0) return
@@ -16241,10 +15894,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGELQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            k = min(m,n)
            if (k == 0) return
@@ -16292,10 +15942,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YGELQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            k = min(m,n)
            if (k == 0) return
@@ -16344,10 +15991,7 @@ module la_lapack_orthogonal_factors_ql
            else if (ldt < mb) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WGELQT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            k = min(m,n)
            if (k == 0) return
@@ -16427,7 +16071,6 @@ module la_lapack_orthogonal_factors_ql
              info = -15
            end if
            if (info /= 0) then
-             call la_xerbla('CLAMSWLQ',-info)
              work(1) = lw
              return
            else if (lquery) then
@@ -16584,7 +16227,6 @@ module la_lapack_orthogonal_factors_ql
              info = -15
            end if
            if (info /= 0) then
-             call la_xerbla('ZLAMSWLQ',-info)
              work(1) = lw
              return
            else if (lquery) then
@@ -16742,7 +16384,6 @@ module la_lapack_orthogonal_factors_ql
              info = -15
            end if
            if (info /= 0) then
-             call la_xerbla('YLAMSWLQ',-info)
              work(1) = lw
              return
            else if (lquery) then
@@ -16901,7 +16542,6 @@ module la_lapack_orthogonal_factors_ql
              info = -15
            end if
            if (info /= 0) then
-             call la_xerbla('WLAMSWLQ',-info)
              work(1) = lw
              return
            else if (lquery) then
@@ -17049,7 +16689,6 @@ module la_lapack_orthogonal_factors_ql
            work(1) = mb*m
            end if
            if (info /= 0) then
-             call la_xerbla('CLASWLQ',-info)
              return
            else if (lquery) then
             return
@@ -17132,7 +16771,6 @@ module la_lapack_orthogonal_factors_ql
            work(1) = mb*m
            end if
            if (info /= 0) then
-             call la_xerbla('ZLASWLQ',-info)
              return
            else if (lquery) then
             return
@@ -17216,7 +16854,6 @@ module la_lapack_orthogonal_factors_ql
            work(1) = mb*m
            end if
            if (info /= 0) then
-             call la_xerbla('YLASWLQ',-info)
              return
            else if (lquery) then
             return
@@ -17301,7 +16938,6 @@ module la_lapack_orthogonal_factors_ql
            work(1) = mb*m
            end if
            if (info /= 0) then
-             call la_xerbla('WLASWLQ',-info)
              return
            else if (lquery) then
             return
@@ -17442,7 +17078,6 @@ module la_lapack_orthogonal_factors_ql
              end if
            end if
            if (info /= 0) then
-             call la_xerbla('CGELQ',-info)
              return
            else if (lquery) then
              return
@@ -17566,7 +17201,6 @@ module la_lapack_orthogonal_factors_ql
              end if
            end if
            if (info /= 0) then
-             call la_xerbla('ZGELQ',-info)
              return
            else if (lquery) then
              return
@@ -17691,7 +17325,6 @@ module la_lapack_orthogonal_factors_ql
              end if
            end if
            if (info /= 0) then
-             call la_xerbla('YGELQ',-info)
              return
            else if (lquery) then
              return
@@ -17817,7 +17450,6 @@ module la_lapack_orthogonal_factors_ql
              end if
            end if
            if (info /= 0) then
-             call la_xerbla('WGELQ',-info)
              return
            else if (lquery) then
              return
@@ -17913,7 +17545,6 @@ module la_lapack_orthogonal_factors_ql
              work(1) = real(lw,KIND=sp)
            end if
            if (info /= 0) then
-             call la_xerbla('CGEMLQ',-info)
              return
            else if (lquery) then
              return
@@ -18009,7 +17640,6 @@ module la_lapack_orthogonal_factors_ql
              work(1) = lw
            end if
            if (info /= 0) then
-             call la_xerbla('ZGEMLQ',-info)
              return
            else if (lquery) then
              return
@@ -18106,7 +17736,6 @@ module la_lapack_orthogonal_factors_ql
              work(1) = lw
            end if
            if (info /= 0) then
-             call la_xerbla('YGEMLQ',-info)
              return
            else if (lquery) then
              return
@@ -18204,7 +17833,6 @@ module la_lapack_orthogonal_factors_ql
              work(1) = lw
            end if
            if (info /= 0) then
-             call la_xerbla('WGEMLQ',-info)
              return
            else if (lquery) then
              return

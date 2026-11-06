@@ -420,10 +420,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -1365,10 +1362,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -1589,10 +1583,7 @@ module la_lapack_eigv_tridiag
            else if (lds < max(1,k)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED9',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -1709,10 +1700,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! modify values dlamda(i) to make sure all dlamda(i)-dlamda(j) can
@@ -1872,10 +1860,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n) > cutpnt .or. n < cutpnt) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -1994,10 +1979,7 @@ module la_lapack_eigv_tridiag
            else if (min(1, (n/2)) > n1 .or. (n/2) < n1) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            n2 = n - n1
@@ -2278,10 +2260,7 @@ module la_lapack_eigv_tridiag
            else if (min(1,n/2) > cutpnt .or. (n/2) < cutpnt) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED1',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are integer pointers which indicate
@@ -2376,10 +2355,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'${ri.upper()}$LAED0',' ',0,0,0,0)
@@ -2601,10 +2577,7 @@ module la_lapack_eigv_tridiag
            else if (ldq2 < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED8',-info)
-              return
-           end if
+           if (info /= 0) return
            ! need to initialize givptr to o here in case of quick exit
            ! to prevent an unspecified code behavior (usually sigfault)
            ! when iwork array on entry to *stedc is not zeroed
@@ -2815,10 +2788,7 @@ module la_lapack_eigv_tridiag
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$STEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3168,10 +3138,7 @@ module la_lapack_eigv_tridiag
            else if (ldq < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED7',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! the following values are for bookkeeping purposes only.  they are
@@ -3294,10 +3261,7 @@ module la_lapack_eigv_tridiag
            else if (ldqs < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAED0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            smlsiz = la_ilaenv(9,'${ri.upper()}$LAED0',' ',0,0,0,0)

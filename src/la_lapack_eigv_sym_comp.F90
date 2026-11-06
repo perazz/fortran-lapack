@@ -1581,7 +1581,6 @@ module la_lapack_eigv_sym_comp
               work(1) = real(lwkopt,KIND=sp)
            end if
            if (info /= 0) then
-              call la_xerbla('SORM22',-info)
               return
            else if (lquery) then
               return
@@ -1762,7 +1761,6 @@ module la_lapack_eigv_sym_comp
               work(1) = real(lwkopt,KIND=dp)
            end if
            if (info /= 0) then
-              call la_xerbla('DORM22',-info)
               return
            else if (lquery) then
               return
@@ -1944,7 +1942,6 @@ module la_lapack_eigv_sym_comp
               work(1) = real(lwkopt,KIND=xdp)
            end if
            if (info /= 0) then
-              call la_xerbla('XORM22',-info)
               return
            else if (lquery) then
               return
@@ -2127,7 +2124,6 @@ module la_lapack_eigv_sym_comp
               work(1) = real(lwkopt,KIND=qp)
            end if
            if (info /= 0) then
-              call la_xerbla('QORM22',-info)
               return
            else if (lquery) then
               return
@@ -2291,10 +2287,7 @@ module la_lapack_eigv_sym_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SPBSTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -2409,10 +2402,7 @@ module la_lapack_eigv_sym_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DPBSTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -2528,10 +2518,7 @@ module la_lapack_eigv_sym_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XPBSTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -2648,10 +2635,7 @@ module la_lapack_eigv_sym_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QPBSTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -2781,10 +2765,7 @@ module la_lapack_eigv_sym_comp
            else if (ldx < 1 .or. wantx .and. ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('SSBGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            inca = ldab*ka1
@@ -3694,10 +3675,7 @@ module la_lapack_eigv_sym_comp
            else if (ldx < 1 .or. wantx .and. ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('DSBGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            inca = ldab*ka1
@@ -4608,10 +4586,7 @@ module la_lapack_eigv_sym_comp
            else if (ldx < 1 .or. wantx .and. ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('XSBGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            inca = ldab*ka1
@@ -5523,10 +5498,7 @@ module la_lapack_eigv_sym_comp
            else if (ldx < 1 .or. wantx .and. ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('QSBGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            inca = ldab*ka1
@@ -6431,10 +6403,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n) .and. wantq) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('SSBTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize q to the unit matrix, if needed
@@ -6762,10 +6731,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n) .and. wantq) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DSBTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize q to the unit matrix, if needed
@@ -7094,10 +7060,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n) .and. wantq) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XSBTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize q to the unit matrix, if needed
@@ -7427,10 +7390,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n) .and. wantq) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QSBTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize q to the unit matrix, if needed
@@ -7749,10 +7709,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPGST',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**t)*a*inv(u)
@@ -7871,10 +7828,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPGST',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**t)*a*inv(u)
@@ -7994,10 +7948,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPGST',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**t)*a*inv(u)
@@ -8118,10 +8069,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPGST',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**t)*a*inv(u)
@@ -8248,10 +8196,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYGS2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**t)*a*inv(u)
@@ -8371,10 +8316,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYGS2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**t)*a*inv(u)
@@ -8495,10 +8437,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYGS2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**t)*a*inv(u)
@@ -8620,10 +8559,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYGS2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**t)*a*inv(u)
@@ -8744,10 +8680,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -8883,10 +8816,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -9023,10 +8953,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -9164,10 +9091,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -9328,10 +9252,7 @@ module la_lapack_eigv_sym_comp
               end if
               if (.not. (incr .or. decr)) info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SDISNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! compute reciprocal condition numbers
@@ -9433,10 +9354,7 @@ module la_lapack_eigv_sym_comp
               end if
               if (.not. (incr .or. decr)) info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DDISNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! compute reciprocal condition numbers
@@ -9539,10 +9457,7 @@ module la_lapack_eigv_sym_comp
               end if
               if (.not. (incr .or. decr)) info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XDISNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! compute reciprocal condition numbers
@@ -9646,10 +9561,7 @@ module la_lapack_eigv_sym_comp
               end if
               if (.not. (incr .or. decr)) info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QDISNA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (k == 0) return
            ! compute reciprocal condition numbers
@@ -9725,7 +9637,6 @@ module la_lapack_eigv_sym_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('SLAGTF',-info)
               return
            end if
            if (n == 0) return
@@ -9816,7 +9727,6 @@ module la_lapack_eigv_sym_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('DLAGTF',-info)
               return
            end if
            if (n == 0) return
@@ -9908,7 +9818,6 @@ module la_lapack_eigv_sym_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('XLAGTF',-info)
               return
            end if
            if (n == 0) return
@@ -10001,7 +9910,6 @@ module la_lapack_eigv_sym_comp
            info = 0
            if (n < 0) then
               info = -1
-              call la_xerbla('QLAGTF',-info)
               return
            end if
            if (n == 0) return
@@ -10094,10 +10002,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAGTS',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            eps = la_slamch('EPSILON')
            sfmin = la_slamch('SAFE MINIMUM')
@@ -10291,10 +10196,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAGTS',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            eps = la_dlamch('EPSILON')
            sfmin = la_dlamch('SAFE MINIMUM')
@@ -10489,10 +10391,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAGTS',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            eps = la_xlamch('EPSILON')
            sfmin = la_xlamch('SAFE MINIMUM')
@@ -10688,10 +10587,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAGTS',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) return
            eps = la_qlamch('EPSILON')
            sfmin = la_qlamch('SAFE MINIMUM')
@@ -11294,10 +11190,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -11391,10 +11284,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -11489,10 +11379,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -11588,10 +11475,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -11692,10 +11576,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SOPGTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -11779,10 +11660,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DOPGTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -11867,10 +11745,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XOPGTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -11956,10 +11831,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QOPGTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -12066,10 +11938,7 @@ module la_lapack_eigv_sym_comp
            else if (ldc < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SOPMTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (upper) then
@@ -12213,10 +12082,7 @@ module la_lapack_eigv_sym_comp
            else if (ldc < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DOPMTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (upper) then
@@ -12361,10 +12227,7 @@ module la_lapack_eigv_sym_comp
            else if (ldc < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XOPMTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (upper) then
@@ -12510,10 +12373,7 @@ module la_lapack_eigv_sym_comp
            else if (ldc < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QOPMTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (upper) then
@@ -12642,10 +12502,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('CHPGST',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**h)*a*inv(u)
@@ -12770,10 +12627,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHPGST',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**h)*a*inv(u)
@@ -12899,10 +12753,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('YHPGST',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**h)*a*inv(u)
@@ -13029,10 +12880,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('WHPGST',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**h)*a*inv(u)
@@ -14128,10 +13976,7 @@ module la_lapack_eigv_sym_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CPBSTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -14262,10 +14107,7 @@ module la_lapack_eigv_sym_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPBSTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -14397,10 +14239,7 @@ module la_lapack_eigv_sym_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YPBSTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -14533,10 +14372,7 @@ module la_lapack_eigv_sym_comp
            else if (ldab < kd + 1) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WPBSTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            kld = max(1,ldab - 1)
@@ -14670,10 +14506,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CHEGS2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**h)*a*inv(u)
@@ -14802,10 +14635,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHEGS2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**h)*a*inv(u)
@@ -14935,10 +14765,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YHEGS2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**h)*a*inv(u)
@@ -15069,10 +14896,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WHEGS2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (itype == 1) then
               if (upper) then
                  ! compute inv(u**h)*a*inv(u)
@@ -15201,10 +15025,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CHEGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -15339,10 +15160,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHEGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -15478,10 +15296,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YHEGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -15618,10 +15433,7 @@ module la_lapack_eigv_sym_comp
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WHEGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -15751,10 +15563,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('CHPTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -15855,10 +15664,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHPTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -15960,10 +15766,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('YHPTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -16066,10 +15869,7 @@ module la_lapack_eigv_sym_comp
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('WHPTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -16174,10 +15974,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CUPGTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -16261,10 +16058,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUPGTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -16349,10 +16143,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YUPGTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -16438,10 +16229,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WUPGTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -16548,10 +16336,7 @@ module la_lapack_eigv_sym_comp
            else if (ldc < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CUPMTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (upper) then
@@ -16705,10 +16490,7 @@ module la_lapack_eigv_sym_comp
            else if (ldc < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZUPMTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (upper) then
@@ -16863,10 +16645,7 @@ module la_lapack_eigv_sym_comp
            else if (ldc < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YUPMTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (upper) then
@@ -17022,10 +16801,7 @@ module la_lapack_eigv_sym_comp
            else if (ldc < max(1,m)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WUPMTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (m == 0 .or. n == 0) return
            if (upper) then
@@ -17181,10 +16957,7 @@ module la_lapack_eigv_sym_comp
            else if (ldx < 1 .or. wantx .and. ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CHBGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            inca = ldab*ka1
@@ -18112,10 +17885,7 @@ module la_lapack_eigv_sym_comp
            else if (ldx < 1 .or. wantx .and. ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHBGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            inca = ldab*ka1
@@ -19044,10 +18814,7 @@ module la_lapack_eigv_sym_comp
            else if (ldx < 1 .or. wantx .and. ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YHBGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            inca = ldab*ka1
@@ -19977,10 +19744,7 @@ module la_lapack_eigv_sym_comp
            else if (ldx < 1 .or. wantx .and. ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WHBGST',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            inca = ldab*ka1
@@ -20903,10 +20667,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n) .and. wantq) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('CHBTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize q to the unit matrix, if needed
@@ -21266,10 +21027,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n) .and. wantq) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHBTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize q to the unit matrix, if needed
@@ -21630,10 +21388,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n) .and. wantq) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('YHBTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize q to the unit matrix, if needed
@@ -21995,10 +21750,7 @@ module la_lapack_eigv_sym_comp
            else if (ldq < max(1,n) .and. wantq) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('WHBTRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! initialize q to the unit matrix, if needed

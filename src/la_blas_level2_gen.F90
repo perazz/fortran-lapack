@@ -89,10 +89,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('SGEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -233,10 +230,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('DGEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -378,10 +372,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('XGEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -524,10 +515,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('QGEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -666,10 +654,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('SGER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
            ! start the operations. in this version the elements of a are
@@ -745,10 +730,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('DGER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
            ! start the operations. in this version the elements of a are
@@ -825,10 +807,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('XGER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
            ! start the operations. in this version the elements of a are
@@ -906,10 +885,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('QGER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
            ! start the operations. in this version the elements of a are
@@ -993,10 +969,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('CGEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -1153,10 +1126,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('ZGEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -1314,10 +1284,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('YGEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -1476,10 +1443,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('WGEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -1632,10 +1596,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('CGERC ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -1711,10 +1672,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('ZGERC ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -1791,10 +1749,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('YGERC ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -1872,10 +1827,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('WGERC ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -1953,10 +1905,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('CGERU ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -2032,10 +1981,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('ZGERU ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -2112,10 +2058,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('YGERU ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -2193,10 +2136,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('WGERU ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -2275,10 +2215,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('CHEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2427,10 +2364,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2580,10 +2514,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('YHEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2734,10 +2665,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('WHEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -2886,10 +2814,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('CHER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=sp))) return
            ! set the start point in x if the increment is not unity.
@@ -3001,10 +2926,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=dp))) return
            ! set the start point in x if the increment is not unity.
@@ -3117,10 +3039,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('YHER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=xdp))) return
            ! set the start point in x if the increment is not unity.
@@ -3234,10 +3153,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('WHER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=qp))) return
            ! set the start point in x if the increment is not unity.
@@ -3353,10 +3269,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('CHER2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both
@@ -3492,10 +3405,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHER2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both
@@ -3632,10 +3542,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('YHER2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both
@@ -3773,10 +3680,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('WHER2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both

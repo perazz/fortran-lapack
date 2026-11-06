@@ -230,10 +230,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('SLATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -650,10 +647,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('DLATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -1071,10 +1065,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('XLATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -1493,10 +1484,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('QLATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -1911,10 +1899,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('SLATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -2329,10 +2314,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DLATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -2748,10 +2730,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XLATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -3168,10 +3147,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QLATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -3590,10 +3566,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SLATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -3991,10 +3964,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DLATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -4393,10 +4363,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XLATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -4796,10 +4763,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QLATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -5183,10 +5147,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -5255,10 +5216,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -5328,10 +5286,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -5402,10 +5357,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -5475,10 +5427,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SLAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -5558,10 +5507,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DLAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -5642,10 +5588,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XLAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -5727,10 +5670,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QLAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -5832,10 +5772,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('STBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6069,10 +6006,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('DTBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6307,10 +6241,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('XTBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6546,10 +6477,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('QTBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -6775,10 +6703,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('STBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -6848,10 +6773,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DTBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -6922,10 +6844,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XTBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -6997,10 +6916,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QTBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -7078,10 +6994,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('STPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -7322,10 +7235,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -7567,10 +7477,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -7813,10 +7720,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -8037,10 +7941,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('STPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -8127,10 +8028,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -8218,10 +8116,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -8310,10 +8205,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -8414,10 +8306,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('STPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -8487,10 +8376,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -8561,10 +8447,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -8636,10 +8519,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -8723,10 +8603,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('STRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -8957,10 +8834,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -9192,10 +9066,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -9428,10 +9299,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -9645,10 +9513,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('STRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -9719,10 +9584,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -9794,10 +9656,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -9870,10 +9729,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -9945,10 +9801,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('STRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -10032,10 +9885,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -10120,10 +9970,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -10209,10 +10056,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -10305,10 +10149,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('STRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -10365,10 +10206,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -10426,10 +10264,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -10488,10 +10323,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -10559,10 +10391,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('STBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -10663,10 +10492,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DTBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -10768,10 +10594,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XTBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -10874,10 +10697,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QTBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -10965,10 +10785,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('STFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -11148,10 +10965,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DTFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -11332,10 +11146,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XTFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -11517,10 +11328,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QTFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -11712,10 +11520,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('STPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -11811,10 +11616,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DTPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -11911,10 +11713,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XTPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -12012,10 +11811,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QTPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -12115,10 +11911,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('STRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -12216,10 +12009,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DTRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -12318,10 +12108,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XTRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -12421,10 +12208,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QTRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -12538,10 +12322,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CLATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -13094,10 +12875,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -13651,10 +13429,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YLATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -14209,10 +13984,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WLATBS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -14763,10 +14535,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CLATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -15314,10 +15083,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -15866,10 +15632,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YLATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -16419,10 +16182,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WLATPS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -16972,10 +16732,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CLATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -17501,10 +17258,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -18031,10 +17785,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YLATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -18562,10 +18313,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WLATRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine machine dependent parameters to control overflow.
@@ -19070,10 +18818,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -19148,10 +18893,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -19227,10 +18969,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -19307,10 +19046,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAUU2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (upper) then
@@ -19386,10 +19122,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CLAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -19469,10 +19202,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -19553,10 +19283,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YLAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -19638,10 +19365,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WLAUUM',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! determine the block size for this environment.
@@ -19748,10 +19472,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('CTBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -19990,10 +19711,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -20233,10 +19951,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('YTBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -20477,10 +20192,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('WTBRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -20706,10 +20418,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('CTBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -20779,10 +20488,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -20853,10 +20559,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('YTBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -20928,10 +20631,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('WTBTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -21014,10 +20714,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -21264,10 +20961,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -21515,10 +21209,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -21767,10 +21458,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -10
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -21992,10 +21680,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -22082,10 +21767,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -22173,10 +21855,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -22265,10 +21944,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! check for singularity if non-unit.
            if (nounit) then
               if (upper) then
@@ -22369,10 +22045,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -22442,10 +22115,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -22516,10 +22186,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -22591,10 +22258,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -22683,10 +22347,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -22923,10 +22584,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -23164,10 +22822,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -23406,10 +23061,7 @@ module la_lapack_solve_tri_comp
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRRFS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. nrhs == 0) then
               do j = 1,nrhs
@@ -23624,10 +23276,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -23698,10 +23347,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -23773,10 +23419,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -23849,10 +23492,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRTI2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (upper) then
               ! compute inverse of upper triangular matrix.
               do j = 1,n
@@ -23924,10 +23564,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -24011,10 +23648,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -24099,10 +23733,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -24188,10 +23819,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity if non-unit.
@@ -24284,10 +23912,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -24344,10 +23969,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -24405,10 +24027,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -24467,10 +24086,7 @@ module la_lapack_solve_tri_comp
            else if (ldb < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRTRS',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! check for singularity.
@@ -24543,10 +24159,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CTBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -24652,10 +24265,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -24762,10 +24372,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YTBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -24873,10 +24480,7 @@ module la_lapack_solve_tri_comp
            else if (ldab < kd + 1) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WTBCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -24964,10 +24568,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CTFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -25147,10 +24748,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -25331,10 +24929,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YTFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -25516,10 +25111,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WTFTRI',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! if n is odd, set nisodd = .true.
@@ -25716,10 +25308,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CTPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -25820,10 +25409,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -25925,10 +25511,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YTPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -26031,10 +25614,7 @@ module la_lapack_solve_tri_comp
            else if (n < 0) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WTPCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -26139,10 +25719,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CTRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -26245,10 +25822,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -26352,10 +25926,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YTRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one
@@ -26460,10 +26031,7 @@ module la_lapack_solve_tri_comp
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WTRCON',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) then
               rcond = one

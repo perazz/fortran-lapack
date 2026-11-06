@@ -3811,10 +3811,7 @@ module la_lapack_eigv_gen_aux
            else if ((ilst < 1 .or. ilst > n) .and. (n > 0)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('STREXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            ! determine the first row of specified block
@@ -4015,10 +4012,7 @@ module la_lapack_eigv_gen_aux
            else if ((ilst < 1 .or. ilst > n) .and. (n > 0)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('DTREXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            ! determine the first row of specified block
@@ -4220,10 +4214,7 @@ module la_lapack_eigv_gen_aux
            else if ((ilst < 1 .or. ilst > n) .and. (n > 0)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('XTREXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            ! determine the first row of specified block
@@ -4426,10 +4417,7 @@ module la_lapack_eigv_gen_aux
            else if ((ilst < 1 .or. ilst > n) .and. (n > 0)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('QTREXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            ! determine the first row of specified block
@@ -4626,10 +4614,7 @@ module la_lapack_eigv_gen_aux
            else if ((ilst < 1 .or. ilst > n) .and. (n > 0)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CTREXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1 .or. ifst == ilst) return
            if (ifst < ilst) then
@@ -4704,10 +4689,7 @@ module la_lapack_eigv_gen_aux
            else if ((ilst < 1 .or. ilst > n) .and. (n > 0)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTREXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1 .or. ifst == ilst) return
            if (ifst < ilst) then
@@ -4783,10 +4765,7 @@ module la_lapack_eigv_gen_aux
            else if ((ilst < 1 .or. ilst > n) .and. (n > 0)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YTREXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1 .or. ifst == ilst) return
            if (ifst < ilst) then
@@ -4863,10 +4842,7 @@ module la_lapack_eigv_gen_aux
            else if ((ilst < 1 .or. ilst > n) .and. (n > 0)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WTREXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1 .or. ifst == ilst) return
            if (ifst < ilst) then

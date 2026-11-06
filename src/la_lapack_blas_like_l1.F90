@@ -81,10 +81,7 @@ module la_lapack_blas_like_l1
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('SLASRT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            stkpnt = 1
@@ -254,10 +251,7 @@ module la_lapack_blas_like_l1
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('DLASRT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            stkpnt = 1
@@ -428,10 +422,7 @@ module la_lapack_blas_like_l1
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('XLASRT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            stkpnt = 1
@@ -603,10 +594,7 @@ module la_lapack_blas_like_l1
            else if (n < 0) then
               info = -2
            end if
-           if (info /= 0) then
-              call la_xerbla('QLASRT',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            stkpnt = 1

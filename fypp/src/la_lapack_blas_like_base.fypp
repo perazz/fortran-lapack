@@ -547,10 +547,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -813,10 +810,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -1050,10 +1044,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -1295,10 +1286,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -1361,10 +1349,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -1593,10 +1578,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -2169,10 +2151,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TFTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -2436,10 +2415,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TFTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -2693,10 +2669,7 @@ module la_lapack_blas_like_base
            else if (n < 0) then
               info = -3
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -2954,10 +2927,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TPTTR',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n
@@ -3021,10 +2991,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -5
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTTF',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) then
               if (n == 1) then
@@ -3273,10 +3240,7 @@ module la_lapack_blas_like_base
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TRTTP',-info)
-              return
-           end if
+           if (info /= 0) return
            if (lower) then
               k = 0
               do j = 1,n

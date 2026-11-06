@@ -100,10 +100,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('SGEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) &
                      return
@@ -263,10 +260,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('DGEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) &
                      return
@@ -427,10 +421,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('XGEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) &
                      return
@@ -592,10 +583,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('QGEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) &
                      return
@@ -759,10 +747,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('CGEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) &
                      return
@@ -1007,10 +992,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('ZGEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) &
                      return
@@ -1256,10 +1238,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('YGEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) &
                      return
@@ -1506,10 +1485,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('WGEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) &
                      return
@@ -1742,10 +1718,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('CHEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -1891,10 +1864,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -2041,10 +2011,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('YHEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -2192,10 +2159,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('WHEMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -2345,10 +2309,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('CHER2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.czero.
@@ -2553,10 +2514,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHER2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.czero.
@@ -2762,10 +2720,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('YHER2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.czero.
@@ -2972,10 +2927,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('WHER2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.czero.
@@ -3180,10 +3132,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('CHERK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -3376,10 +3325,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHERK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -3573,10 +3519,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('YHERK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -3771,10 +3714,7 @@ module la_blas_level3_gen
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('WHERK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.

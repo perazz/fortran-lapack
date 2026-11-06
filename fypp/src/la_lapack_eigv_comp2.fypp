@@ -152,10 +152,7 @@ module la_lapack_eigv_comp2
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSY2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! determine block structure of a
            pq = 0
            p = 0
@@ -815,7 +812,6 @@ module la_lapack_eigv_comp2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSYL',-info)
               return
            else if (lquery) then
               return
@@ -1322,10 +1318,7 @@ module la_lapack_eigv_comp2
            else if (ldp < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGEVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! count the number of eigenvectors to be computed
            if (.not. ilall) then
               im = 0
@@ -1370,10 +1363,7 @@ module la_lapack_eigv_comp2
            else if (mm < im) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGEVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = im
            if (n == 0) return
@@ -2410,7 +2400,6 @@ module la_lapack_eigv_comp2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGEXC',-info)
               return
            else if (lquery) then
               return
@@ -2669,10 +2658,7 @@ module la_lapack_eigv_comp2
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSEN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            eps = la_${ri}$lamch('P')
            smlnum = la_${ri}$lamch('S')/eps
@@ -2721,7 +2707,6 @@ module la_lapack_eigv_comp2
               info = -24
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSEN',-info)
               return
            else if (lquery) then
               return
@@ -3044,7 +3029,6 @@ module la_lapack_eigv_comp2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSNA',-info)
               return
            else if (lquery) then
               return
@@ -3298,10 +3282,7 @@ module la_lapack_eigv_comp2
            else if (ldp < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGEVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! count the number of eigenvectors
            if (.not. ilall) then
               im = 0
@@ -3325,10 +3306,7 @@ module la_lapack_eigv_comp2
            else if (mm < im) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGEVC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = im
            if (n == 0) return
@@ -3828,10 +3806,7 @@ module la_lapack_eigv_comp2
            else if (ilst < 1 .or. ilst > n) then
               info = -13
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGEXC',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 1) return
            if (ifst == ilst) return
@@ -3968,10 +3943,7 @@ module la_lapack_eigv_comp2
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSY2',-info)
-              return
-           end if
+           if (info /= 0) return
            if (notran) then
               ! solve (i, j) - system
                  ! a(i, i) * r(i, j) - l(i, j) * b(j, j) = c(i, j)
@@ -4190,7 +4162,6 @@ module la_lapack_eigv_comp2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSYL',-info)
               return
            else if (lquery) then
               return
@@ -4512,10 +4483,7 @@ module la_lapack_eigv_comp2
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -15
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSEN',-info)
-              return
-           end if
+           if (info /= 0) return
            ierr = 0
            wantp = ijob == 1 .or. ijob >= 4
            wantd1 = ijob == 2 .or. ijob == 4
@@ -4553,7 +4521,6 @@ module la_lapack_eigv_comp2
               info = -23
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSEN',-info)
               return
            else if (lquery) then
               return
@@ -4815,7 +4782,6 @@ module la_lapack_eigv_comp2
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('${ri.upper()}$TGSNA',-info)
               return
            else if (lquery) then
               return

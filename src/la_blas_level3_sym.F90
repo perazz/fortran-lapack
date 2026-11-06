@@ -92,10 +92,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('SSYMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -239,10 +236,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('DSYMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -387,10 +381,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('XSYMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -536,10 +527,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('QSYMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -686,10 +674,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('SSYR2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -861,10 +846,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('DSYR2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -1037,10 +1019,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('XSYR2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -1214,10 +1193,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('QSYR2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -1389,10 +1365,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('SSYRK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -1556,10 +1529,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('DSYRK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -1724,10 +1694,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('XSYRK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -1893,10 +1860,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('QSYRK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == zero) .or. (k == 0)) .and. (beta == one))) return
            ! and when  alpha.eq.zero.
@@ -2063,10 +2027,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('CSYMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -2210,10 +2171,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('ZSYMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -2358,10 +2316,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('YSYMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -2507,10 +2462,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,m)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('WSYMM ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -2657,10 +2609,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('CSYR2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -2832,10 +2781,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('ZSYR2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -3008,10 +2954,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('YSYR2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -3185,10 +3128,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 12
            end if
-           if (info /= 0) then
-               call la_xerbla('WSYR2K',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -3360,10 +3300,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('CSYRK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -3527,10 +3464,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('ZSYRK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -3695,10 +3629,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('YSYRK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.
@@ -3864,10 +3795,7 @@ module la_blas_level3_sym
            else if (ldc < max(1,n)) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('WSYRK ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (((alpha == czero) .or. (k == 0)) .and. (beta == cone))) return
            ! and when  alpha.eq.czero.

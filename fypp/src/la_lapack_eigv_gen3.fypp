@@ -349,10 +349,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAQZ4',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            if (nshifts < 2) then
               return
@@ -3318,10 +3315,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=${rk}$)
@@ -3366,10 +3360,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_${ri}$laset('FULL',n,n,zero,one,q,ldq)
            if (iwantz == 3) call la_${ri}$laset('FULL',n,n,zero,one,z,ldz)
@@ -3646,10 +3637,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_${ri}$lamch('SAFE MINIMUM')
            safmax = one/safmin
@@ -4762,10 +4750,7 @@ module la_lapack_eigv_gen3
            else if (lwork < n*nblock_desired) then
               info = -25
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAQZ3',-info)
-              return
-           end if
+           if (info /= 0) return
            ! executable statements
            ! get machine constants
            safmin = la_${ci}$lamch('SAFE MINIMUM')
@@ -6287,10 +6272,7 @@ module la_lapack_eigv_gen3
            else if (ldz < 1 .or. (ilz .and. ldz < n)) then
               info = -17
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAQZ0',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) then
               work(1) = real(1,KIND=${rk}$)
@@ -6335,10 +6317,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAQZ0',info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and z
            if (iwantq == 3) call la_${ri}$laset('FULL',n,n,czero,cone,q,ldq)
            if (iwantz == 3) call la_${ri}$laset('FULL',n,n,czero,cone,z,ldz)
@@ -6579,10 +6558,7 @@ module la_lapack_eigv_gen3
            else if (lwork < lworkreq) then
               info = -26
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LAQZ2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! get machine constants
            safmin = la_${ci}$lamch('SAFE MINIMUM')
            safmax = one/safmin

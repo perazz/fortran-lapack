@@ -149,10 +149,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('SGBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**t to the unit matrix, if needed
            if (wantq) call la_slaset('FULL',m,m,zero,one,q,ldq)
            if (wantpt) call la_slaset('FULL',n,n,zero,one,pt,ldpt)
@@ -406,10 +403,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('DGBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**t to the unit matrix, if needed
            if (wantq) call la_dlaset('FULL',m,m,zero,one,q,ldq)
            if (wantpt) call la_dlaset('FULL',n,n,zero,one,pt,ldpt)
@@ -664,10 +658,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('XGBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**t to the unit matrix, if needed
            if (wantq) call la_xlaset('FULL',m,m,zero,one,q,ldq)
            if (wantpt) call la_xlaset('FULL',n,n,zero,one,pt,ldpt)
@@ -923,10 +914,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('QGBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**t to the unit matrix, if needed
            if (wantq) call la_qlaset('FULL',m,m,zero,one,q,ldq)
            if (wantpt) call la_qlaset('FULL',n,n,zero,one,pt,ldpt)
@@ -1157,10 +1145,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('SGEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -1249,10 +1234,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('DGEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -1342,10 +1324,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('XGEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -1436,10 +1415,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('QGEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -1556,10 +1532,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('SGSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -2204,10 +2177,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('DGSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -2853,10 +2823,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('XGSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -3503,10 +3470,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('QGSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -4176,10 +4140,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('SGSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -4607,10 +4568,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('DGSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -5039,10 +4997,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('XGSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -5472,10 +5427,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('QGSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -5945,10 +5897,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('STGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_slaset('FULL',m,m,zero,one,u,ldu)
            if (initv) call la_slaset('FULL',p,p,zero,one,v,ldv)
@@ -6185,10 +6134,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('DTGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_dlaset('FULL',m,m,zero,one,u,ldu)
            if (initv) call la_dlaset('FULL',p,p,zero,one,v,ldv)
@@ -6426,10 +6372,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('XTGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_xlaset('FULL',m,m,zero,one,u,ldu)
            if (initv) call la_xlaset('FULL',p,p,zero,one,v,ldv)
@@ -6668,10 +6611,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('QTGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_qlaset('FULL',m,m,zero,one,u,ldu)
            if (initv) call la_qlaset('FULL',p,p,zero,one,v,ldv)
@@ -6829,7 +6769,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('SGEBRD',-info)
               return
            else if (lquery) then
               return
@@ -6934,7 +6873,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('DGEBRD',-info)
               return
            else if (lquery) then
               return
@@ -7040,7 +6978,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('XGEBRD',-info)
               return
            else if (lquery) then
               return
@@ -7147,7 +7084,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('QGEBRD',-info)
               return
            else if (lquery) then
               return
@@ -7295,7 +7231,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('SORGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -7444,7 +7379,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('DORGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -7594,7 +7528,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('XORGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -7745,7 +7678,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('QORGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -7912,7 +7844,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SORMBR',-info)
               return
            else if (lquery) then
               return
@@ -8069,7 +8000,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DORMBR',-info)
               return
            else if (lquery) then
               return
@@ -8227,7 +8157,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XORMBR',-info)
               return
            else if (lquery) then
               return
@@ -8386,7 +8315,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QORMBR',-info)
               return
            else if (lquery) then
               return
@@ -8482,10 +8410,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('CGEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -8580,10 +8505,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('ZGEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -8679,10 +8601,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('YGEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -8779,10 +8698,7 @@ module la_lapack_svd_comp
            else if (lda < max(1,m)) then
               info = -4
            end if
-           if (info < 0) then
-              call la_xerbla('WGEBD2',-info)
-              return
-           end if
+           if (info < 0) return
            if (m >= n) then
               ! reduce to upper bidiagonal form
               do i = 1,n
@@ -8968,10 +8884,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('CTGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_claset('FULL',m,m,czero,cone,u,ldu)
            if (initv) call la_claset('FULL',p,p,czero,cone,v,ldv)
@@ -9215,10 +9128,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('ZTGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_zlaset('FULL',m,m,czero,cone,u,ldu)
            if (initv) call la_zlaset('FULL',p,p,czero,cone,v,ldv)
@@ -9463,10 +9373,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('YTGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_ylaset('FULL',m,m,czero,cone,u,ldu)
            if (initv) call la_ylaset('FULL',p,p,czero,cone,v,ldv)
@@ -9712,10 +9619,7 @@ module la_lapack_svd_comp
            else if (ldq < 1 .or. (wantq .and. ldq < n)) then
               info = -22
            end if
-           if (info /= 0) then
-              call la_xerbla('WTGSJA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize u, v and q, if necessary
            if (initu) call la_wlaset('FULL',m,m,czero,cone,u,ldu)
            if (initv) call la_wlaset('FULL',p,p,czero,cone,v,ldv)
@@ -9897,10 +9801,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('CGBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**h to the unit matrix, if needed
            if (wantq) call la_claset('FULL',m,m,czero,cone,q,ldq)
            if (wantpt) call la_claset('FULL',n,n,czero,cone,pt,ldpt)
@@ -10173,10 +10074,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('ZGBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**h to the unit matrix, if needed
            if (wantq) call la_zlaset('FULL',m,m,czero,cone,q,ldq)
            if (wantpt) call la_zlaset('FULL',n,n,czero,cone,pt,ldpt)
@@ -10450,10 +10348,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('YGBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**h to the unit matrix, if needed
            if (wantq) call la_ylaset('FULL',m,m,czero,cone,q,ldq)
            if (wantpt) call la_ylaset('FULL',n,n,czero,cone,pt,ldpt)
@@ -10728,10 +10623,7 @@ module la_lapack_svd_comp
            else if (ldc < 1 .or. wantc .and. ldc < max(1,m)) then
               info = -16
            end if
-           if (info /= 0) then
-              call la_xerbla('WGBBRD',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize q and p**h to the unit matrix, if needed
            if (wantq) call la_wlaset('FULL',m,m,czero,cone,q,ldq)
            if (wantpt) call la_wlaset('FULL',n,n,czero,cone,pt,ldpt)
@@ -10988,7 +10880,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('CGEBRD',-info)
               return
            else if (lquery) then
               return
@@ -11095,7 +10986,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('ZGEBRD',-info)
               return
            else if (lquery) then
               return
@@ -11203,7 +11093,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('YGEBRD',-info)
               return
            else if (lquery) then
               return
@@ -11312,7 +11201,6 @@ module la_lapack_svd_comp
               info = -10
            end if
            if (info < 0) then
-              call la_xerbla('WGEBRD',-info)
               return
            else if (lquery) then
               return
@@ -11461,7 +11349,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('CUNGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -11610,7 +11497,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -11760,7 +11646,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('YUNGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -11911,7 +11796,6 @@ module la_lapack_svd_comp
               lwkopt = max(lwkopt,mn)
            end if
            if (info /= 0) then
-              call la_xerbla('WUNGBR',-info)
               return
            else if (lquery) then
               work(1) = lwkopt
@@ -12082,7 +11966,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CUNMBR',-info)
               return
            else if (lquery) then
               return
@@ -12242,7 +12125,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNMBR',-info)
               return
            else if (lquery) then
               return
@@ -12403,7 +12285,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YUNMBR',-info)
               return
            else if (lquery) then
               return
@@ -12565,7 +12446,6 @@ module la_lapack_svd_comp
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WUNMBR',-info)
               return
            else if (lquery) then
               return
@@ -12685,10 +12565,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('CGSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -13225,10 +13102,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('ZGSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -13766,10 +13640,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('YGSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -14308,10 +14179,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('WGSVJ0',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -14872,10 +14740,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('CGSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -15245,10 +15110,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('ZGSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -15619,10 +15481,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('YGSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then
@@ -15994,10 +15853,7 @@ module la_lapack_svd_comp
               info = 0
            end if
            ! #:(
-           if (info /= 0) then
-              call la_xerbla('WGSVJ1',-info)
-              return
-           end if
+           if (info /= 0) return
            if (rsvec) then
               mvl = n
            else if (applv) then

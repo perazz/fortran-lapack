@@ -96,10 +96,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_${ri}$pptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -198,10 +195,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$ppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -293,10 +287,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**t (or u**t*d*u) factorization of a.
            call la_${ri}$pttrf(n,d,e,info)
            if (info == 0) then
@@ -358,10 +349,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**t (or u**t*d*u) factorization of a.
               call la_${ri}$copy(n,d,1,df,1)
@@ -470,10 +458,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$${ril.upper()}$POSV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip ${LA_PRECISION[rkl]}$ precision iterative refinement if a priori slower
@@ -625,10 +610,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_${ri}$pbtrf(uplo,n,kd,ab,ldab,info)
            if (info == 0) then
@@ -733,10 +715,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$pbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -849,10 +828,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**t*u or a = l*l**t.
            call la_${ri}$potrf(uplo,n,a,lda,info)
            if (info == 0) then
@@ -955,10 +931,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$poequ(n,a,lda,s,scond,amax,infequ)
@@ -1058,10 +1031,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the cholesky factorization a = u**h *u or a = l*l**h.
            call la_${ri}$pptrf(uplo,n,ap,info)
            if (info == 0) then
@@ -1165,10 +1135,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PPSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$ppequ(uplo,n,ap,s,scond,amax,infequ)
@@ -1311,10 +1278,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$${ril.upper()}$POSV',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if (n==0).
            if (n == 0) return
            ! skip ${LA_PRECISION[rkl]}$ precision iterative refinement if a priori slower
@@ -1468,10 +1432,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBSV ',-info)
-              return
-           end if
+           if (info /= 0) return
 #:if rk == "sp"
            ! compute the cholesky factorization a = u**h*u or a = l*l**h.
 #:else
@@ -1581,10 +1542,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PBSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$pbequ(uplo,n,kd,ab,ldab,s,scond,amax,infequ)
@@ -1697,10 +1655,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POSV ',-info)
-              return
-           end if
+           if (info /= 0) return
 #:if rk == "sp"
            ! compute the cholesky factorization a = u**h*u or a = l*l**h.
 #:else
@@ -1808,10 +1763,7 @@ module la_lapack_solve_chol
                  end if
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$POSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (equil) then
               ! compute row and column scalings to equilibrate the matrix a.
               call la_${ri}$poequ(n,a,lda,s,scond,amax,infequ)
@@ -1904,10 +1856,7 @@ module la_lapack_solve_chol
            else if (ldb < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTSV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute the l*d*l**h (or u**h*d*u) factorization of a.
            call la_${ri}$pttrf(n,d,e,info)
            if (info == 0) then
@@ -1972,10 +1921,7 @@ module la_lapack_solve_chol
            else if (ldx < max(1,n)) then
               info = -11
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$PTSVX',-info)
-              return
-           end if
+           if (info /= 0) return
            if (nofact) then
               ! compute the l*d*l**h (or u**h*d*u) factorization of a.
               call la_${ci}$copy(n,d,1,df,1)

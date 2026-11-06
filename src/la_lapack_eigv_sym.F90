@@ -863,10 +863,7 @@ module la_lapack_eigv_sym
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('SSYTD2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -957,10 +954,7 @@ module la_lapack_eigv_sym
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('DSYTD2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -1052,10 +1046,7 @@ module la_lapack_eigv_sym
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('XSYTD2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -1148,10 +1139,7 @@ module la_lapack_eigv_sym
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('QSYTD2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -1254,7 +1242,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SSYTRD',-info)
               return
            else if (lquery) then
               return
@@ -1380,7 +1367,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DSYTRD',-info)
               return
            else if (lquery) then
               return
@@ -1507,7 +1493,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XSYTRD',-info)
               return
            else if (lquery) then
               return
@@ -1635,7 +1620,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QSYTRD',-info)
               return
            else if (lquery) then
               return
@@ -1786,7 +1770,6 @@ module la_lapack_eigv_sym
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('SSYTRD_SB2ST',-info)
               return
            else if (lquery) then
               return
@@ -2043,7 +2026,6 @@ module la_lapack_eigv_sym
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('DSYTRD_SB2ST',-info)
               return
            else if (lquery) then
               return
@@ -2301,7 +2283,6 @@ module la_lapack_eigv_sym
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('XSYTRD_SB2ST',-info)
               return
            else if (lquery) then
               return
@@ -2560,7 +2541,6 @@ module la_lapack_eigv_sym
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('QSYTRD_SB2ST',-info)
               return
            else if (lquery) then
               return
@@ -2802,7 +2782,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SORGTR',-info)
               return
            else if (lquery) then
               return
@@ -2903,7 +2882,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DORGTR',-info)
               return
            else if (lquery) then
               return
@@ -3005,7 +2983,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XORGTR',-info)
               return
            else if (lquery) then
               return
@@ -3108,7 +3085,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QORGTR',-info)
               return
            else if (lquery) then
               return
@@ -3240,7 +3216,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('SORMTR',-info)
               return
            else if (lquery) then
               return
@@ -3355,7 +3330,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('DORMTR',-info)
               return
            else if (lquery) then
               return
@@ -3471,7 +3445,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('XORMTR',-info)
               return
            else if (lquery) then
               return
@@ -3588,7 +3561,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('QORMTR',-info)
               return
            else if (lquery) then
               return
@@ -3667,10 +3639,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SSBEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3769,10 +3738,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DSBEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3872,10 +3838,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XSBEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3976,10 +3939,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QSBEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -4106,10 +4066,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
            end if
-           if (info /= 0) then
-              call la_xerbla('SSBEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -4332,10 +4289,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
            end if
-           if (info /= 0) then
-              call la_xerbla('DSBEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -4559,10 +4513,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
            end if
-           if (info /= 0) then
-              call la_xerbla('XSBEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -4787,10 +4738,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
            end if
-           if (info /= 0) then
-              call la_xerbla('QSBEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -4992,10 +4940,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('SSBGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a split cholesky factorization of b.
@@ -5069,10 +5014,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('DSBGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a split cholesky factorization of b.
@@ -5147,10 +5089,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('XSBGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a split cholesky factorization of b.
@@ -5226,10 +5165,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('QSBGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a split cholesky factorization of b.
@@ -5335,10 +5271,7 @@ module la_lapack_eigv_sym
                  info = -21
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('SSBGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -5520,10 +5453,7 @@ module la_lapack_eigv_sym
                  info = -21
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DSBGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -5706,10 +5636,7 @@ module la_lapack_eigv_sym
                  info = -21
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XSBGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -5893,10 +5820,7 @@ module la_lapack_eigv_sym
                  info = -21
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QSBGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -6043,10 +5967,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -6136,10 +6057,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -6230,10 +6148,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -6325,10 +6240,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -6444,10 +6356,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -6657,10 +6566,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -6871,10 +6777,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -7086,10 +6989,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -7278,10 +7178,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -7361,10 +7258,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -7445,10 +7339,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -7530,10 +7421,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -7642,10 +7530,7 @@ module la_lapack_eigv_sym
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('SSPGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -7753,10 +7638,7 @@ module la_lapack_eigv_sym
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('DSPGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -7865,10 +7747,7 @@ module la_lapack_eigv_sym
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('XSPGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -7978,10 +7857,7 @@ module la_lapack_eigv_sym
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('QSPGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -8071,7 +7947,6 @@ module la_lapack_eigv_sym
               if (lwork < max(1,3*n - 1) .and. .not. lquery) info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('SSYEV ',-info)
               return
            else if (lquery) then
               return
@@ -8178,7 +8053,6 @@ module la_lapack_eigv_sym
               if (lwork < max(1,3*n - 1) .and. .not. lquery) info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('DSYEV ',-info)
               return
            else if (lquery) then
               return
@@ -8286,7 +8160,6 @@ module la_lapack_eigv_sym
               if (lwork < max(1,3*n - 1) .and. .not. lquery) info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('XSYEV ',-info)
               return
            else if (lquery) then
               return
@@ -8395,7 +8268,6 @@ module la_lapack_eigv_sym
               if (lwork < max(1,3*n - 1) .and. .not. lquery) info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('QSYEV ',-info)
               return
            else if (lquery) then
               return
@@ -8540,7 +8412,6 @@ module la_lapack_eigv_sym
               if (lwork < lwkmin .and. .not. lquery) info = -17
            end if
            if (info /= 0) then
-              call la_xerbla('SSYEVX',-info)
               return
            else if (lquery) then
               return
@@ -8787,7 +8658,6 @@ module la_lapack_eigv_sym
               if (lwork < lwkmin .and. .not. lquery) info = -17
            end if
            if (info /= 0) then
-              call la_xerbla('DSYEVX',-info)
               return
            else if (lquery) then
               return
@@ -9035,7 +8905,6 @@ module la_lapack_eigv_sym
               if (lwork < lwkmin .and. .not. lquery) info = -17
            end if
            if (info /= 0) then
-              call la_xerbla('XSYEVX',-info)
               return
            else if (lquery) then
               return
@@ -9284,7 +9153,6 @@ module la_lapack_eigv_sym
               if (lwork < lwkmin .and. .not. lquery) info = -17
            end if
            if (info /= 0) then
-              call la_xerbla('QSYEVX',-info)
               return
            else if (lquery) then
               return
@@ -9507,7 +9375,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSYGV ',-info)
               return
            else if (lquery) then
               return
@@ -9607,7 +9474,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSYGV ',-info)
               return
            else if (lquery) then
               return
@@ -9708,7 +9574,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSYGV ',-info)
               return
            else if (lquery) then
               return
@@ -9810,7 +9675,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSYGV ',-info)
               return
            else if (lquery) then
               return
@@ -9936,7 +9800,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSYGVX',-info)
               return
            else if (lquery) then
               return
@@ -10064,7 +9927,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSYGVX',-info)
               return
            else if (lquery) then
               return
@@ -10193,7 +10055,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSYGVX',-info)
               return
            else if (lquery) then
               return
@@ -10323,7 +10184,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSYGVX',-info)
               return
            else if (lquery) then
               return
@@ -10422,7 +10282,6 @@ module la_lapack_eigv_sym
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('SSYTRD_SY2SB',-info)
               return
            else if (lquery) then
               work(1) = lwmin
@@ -10597,7 +10456,6 @@ module la_lapack_eigv_sym
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('DSYTRD_SY2SB',-info)
               return
            else if (lquery) then
               work(1) = lwmin
@@ -10773,7 +10631,6 @@ module la_lapack_eigv_sym
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('XSYTRD_SY2SB',-info)
               return
            else if (lquery) then
               work(1) = lwmin
@@ -10950,7 +10807,6 @@ module la_lapack_eigv_sym
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('QSYTRD_SY2SB',-info)
               return
            else if (lquery) then
               work(1) = lwmin
@@ -11155,7 +11011,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSYEVD',-info)
               return
            else if (lquery) then
               return
@@ -11289,7 +11144,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSYEVD',-info)
               return
            else if (lquery) then
               return
@@ -11424,7 +11278,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSYEVD',-info)
               return
            else if (lquery) then
               return
@@ -11560,7 +11413,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSYEVD',-info)
               return
            else if (lquery) then
               return
@@ -11695,7 +11547,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSYGVD',-info)
               return
            else if (lquery) then
               return
@@ -11816,7 +11667,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSYGVD',-info)
               return
            else if (lquery) then
               return
@@ -11938,7 +11788,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSYGVD',-info)
               return
            else if (lquery) then
               return
@@ -12061,7 +11910,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSYGVD',-info)
               return
            else if (lquery) then
               return
@@ -12182,7 +12030,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSBEVD',-info)
               return
            else if (lquery) then
               return
@@ -12314,7 +12161,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSBEVD',-info)
               return
            else if (lquery) then
               return
@@ -12447,7 +12293,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSBEVD',-info)
               return
            else if (lquery) then
               return
@@ -12581,7 +12426,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSBEVD',-info)
               return
            else if (lquery) then
               return
@@ -12717,7 +12561,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSBGVD',-info)
               return
            else if (lquery) then
               return
@@ -12834,7 +12677,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSBGVD',-info)
               return
            else if (lquery) then
               return
@@ -12952,7 +12794,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSBGVD',-info)
               return
            else if (lquery) then
               return
@@ -13071,7 +12912,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSBGVD',-info)
               return
            else if (lquery) then
               return
@@ -13184,7 +13024,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSPEVD',-info)
               return
            else if (lquery) then
               return
@@ -13309,7 +13148,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSPEVD',-info)
               return
            else if (lquery) then
               return
@@ -13435,7 +13273,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSPEVD',-info)
               return
            else if (lquery) then
               return
@@ -13562,7 +13399,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSPEVD',-info)
               return
            else if (lquery) then
               return
@@ -13692,7 +13528,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSPGVD',-info)
               return
            else if (lquery) then
               return
@@ -13815,7 +13650,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSPGVD',-info)
               return
            else if (lquery) then
               return
@@ -13939,7 +13773,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSPGVD',-info)
               return
            else if (lquery) then
               return
@@ -14064,7 +13897,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSPGVD',-info)
               return
            else if (lquery) then
               return
@@ -14246,7 +14078,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSYEVR',-info)
               return
            else if (lquery) then
               return
@@ -14574,7 +14405,6 @@ module la_lapack_eigv_sym
               iwork(1) = liwmin
            end if
            if (info /= 0) then
-              call la_xerbla('DSYEVR',-info)
               return
            else if (lquery) then
               return
@@ -14897,7 +14727,6 @@ module la_lapack_eigv_sym
               iwork(1) = liwmin
            end if
            if (info /= 0) then
-              call la_xerbla('XSYEVR',-info)
               return
            else if (lquery) then
               return
@@ -15221,7 +15050,6 @@ module la_lapack_eigv_sym
               iwork(1) = liwmin
            end if
            if (info /= 0) then
-              call la_xerbla('QSYEVR',-info)
               return
            else if (lquery) then
               return
@@ -16038,10 +15866,7 @@ module la_lapack_eigv_sym
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('CHETD2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -16142,10 +15967,7 @@ module la_lapack_eigv_sym
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHETD2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -16247,10 +16069,7 @@ module la_lapack_eigv_sym
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('YHETD2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -16353,10 +16172,7 @@ module la_lapack_eigv_sym
            else if (lda < max(1,n)) then
               info = -4
            end if
-           if (info /= 0) then
-              call la_xerbla('WHETD2',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n <= 0) return
            if (upper) then
@@ -16468,7 +16284,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CHETRD',-info)
               return
            else if (lquery) then
               return
@@ -16595,7 +16410,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZHETRD',-info)
               return
            else if (lquery) then
               return
@@ -16723,7 +16537,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YHETRD',-info)
               return
            else if (lquery) then
               return
@@ -16852,7 +16665,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WHETRD',-info)
               return
            else if (lquery) then
               return
@@ -17005,7 +16817,6 @@ module la_lapack_eigv_sym
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('CHETRD_HB2ST',-info)
               return
            else if (lquery) then
               return
@@ -17289,7 +17100,6 @@ module la_lapack_eigv_sym
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('ZHETRD_HB2ST',-info)
               return
            else if (lquery) then
               return
@@ -17574,7 +17384,6 @@ module la_lapack_eigv_sym
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('YHETRD_HB2ST',-info)
               return
            else if (lquery) then
               return
@@ -17860,7 +17669,6 @@ module la_lapack_eigv_sym
               work(1) = lwmin
            end if
            if (info /= 0) then
-              call la_xerbla('WHETRD_HB2ST',-info)
               return
            else if (lquery) then
               return
@@ -18125,7 +17933,6 @@ module la_lapack_eigv_sym
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('CHETRD_HE2HB',-info)
               return
            else if (lquery) then
               work(1) = lwmin
@@ -18300,7 +18107,6 @@ module la_lapack_eigv_sym
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('ZHETRD_HE2HB',-info)
               return
            else if (lquery) then
               work(1) = lwmin
@@ -18476,7 +18282,6 @@ module la_lapack_eigv_sym
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('YHETRD_HE2HB',-info)
               return
            else if (lquery) then
               work(1) = lwmin
@@ -18653,7 +18458,6 @@ module la_lapack_eigv_sym
               info = -10
            end if
            if (info /= 0) then
-              call la_xerbla('WHETRD_HE2HB',-info)
               return
            else if (lquery) then
               work(1) = lwmin
@@ -18832,7 +18636,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CUNGTR',-info)
               return
            else if (lquery) then
               return
@@ -18933,7 +18736,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNGTR',-info)
               return
            else if (lquery) then
               return
@@ -19035,7 +18837,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YUNGTR',-info)
               return
            else if (lquery) then
               return
@@ -19138,7 +18939,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WUNGTR',-info)
               return
            else if (lquery) then
               return
@@ -19270,7 +19070,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('CUNMTR',-info)
               return
            else if (lquery) then
               return
@@ -19385,7 +19184,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('ZUNMTR',-info)
               return
            else if (lquery) then
               return
@@ -19501,7 +19299,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('YUNMTR',-info)
               return
            else if (lquery) then
               return
@@ -19618,7 +19415,6 @@ module la_lapack_eigv_sym
               work(1) = lwkopt
            end if
            if (info /= 0) then
-              call la_xerbla('WUNMTR',-info)
               return
            else if (lquery) then
               return
@@ -19702,7 +19498,6 @@ module la_lapack_eigv_sym
               if (lwork < max(1,2*n - 1) .and. .not. lquery) info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('CHEEV ',-info)
               return
            else if (lquery) then
               return
@@ -19812,7 +19607,6 @@ module la_lapack_eigv_sym
               if (lwork < max(1,2*n - 1) .and. .not. lquery) info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('ZHEEV ',-info)
               return
            else if (lquery) then
               return
@@ -19923,7 +19717,6 @@ module la_lapack_eigv_sym
               if (lwork < max(1,2*n - 1) .and. .not. lquery) info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('YHEEV ',-info)
               return
            else if (lquery) then
               return
@@ -20035,7 +19828,6 @@ module la_lapack_eigv_sym
               if (lwork < max(1,2*n - 1) .and. .not. lquery) info = -8
            end if
            if (info /= 0) then
-              call la_xerbla('WHEEV ',-info)
               return
            else if (lquery) then
               return
@@ -20235,7 +20027,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHEEVR',-info)
               return
            else if (lquery) then
               return
@@ -20574,7 +20365,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHEEVR',-info)
               return
            else if (lquery) then
               return
@@ -20914,7 +20704,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHEEVR',-info)
               return
            else if (lquery) then
               return
@@ -21255,7 +21044,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHEEVR',-info)
               return
            else if (lquery) then
               return
@@ -21543,7 +21331,6 @@ module la_lapack_eigv_sym
               if (lwork < lwkmin .and. .not. lquery) info = -17
            end if
            if (info /= 0) then
-              call la_xerbla('CHEEVX',-info)
               return
            else if (lquery) then
               return
@@ -21789,7 +21576,6 @@ module la_lapack_eigv_sym
               if (lwork < lwkmin .and. .not. lquery) info = -17
            end if
            if (info /= 0) then
-              call la_xerbla('ZHEEVX',-info)
               return
            else if (lquery) then
               return
@@ -22036,7 +21822,6 @@ module la_lapack_eigv_sym
               if (lwork < lwkmin .and. .not. lquery) info = -17
            end if
            if (info /= 0) then
-              call la_xerbla('YHEEVX',-info)
               return
            else if (lquery) then
               return
@@ -22284,7 +22069,6 @@ module la_lapack_eigv_sym
               if (lwork < lwkmin .and. .not. lquery) info = -17
            end if
            if (info /= 0) then
-              call la_xerbla('WHEEVX',-info)
               return
            else if (lquery) then
               return
@@ -22507,7 +22291,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHEGV ',-info)
               return
            else if (lquery) then
               return
@@ -22608,7 +22391,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHEGV ',-info)
               return
            else if (lquery) then
               return
@@ -22710,7 +22492,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHEGV ',-info)
               return
            else if (lquery) then
               return
@@ -22813,7 +22594,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHEGV ',-info)
               return
            else if (lquery) then
               return
@@ -22939,7 +22719,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHEGVX',-info)
               return
            else if (lquery) then
               return
@@ -23067,7 +22846,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHEGVX',-info)
               return
            else if (lquery) then
               return
@@ -23196,7 +22974,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHEGVX',-info)
               return
            else if (lquery) then
               return
@@ -23326,7 +23103,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHEGVX',-info)
               return
            else if (lquery) then
               return
@@ -23415,10 +23191,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('CHPEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -23512,10 +23285,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHPEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -23610,10 +23380,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('YHPEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -23709,10 +23476,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('WHPEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -23832,10 +23596,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('CHPEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -24048,10 +23809,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHPEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -24265,10 +24023,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('YHPEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -24483,10 +24238,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('WHPEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -24678,10 +24430,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CHPGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -24762,10 +24511,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHPGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -24847,10 +24593,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YHPGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -24933,10 +24676,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WHPGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -25046,10 +24786,7 @@ module la_lapack_eigv_sym
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('CHPGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -25157,10 +24894,7 @@ module la_lapack_eigv_sym
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHPGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -25269,10 +25003,7 @@ module la_lapack_eigv_sym
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('YHPGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -25382,10 +25113,7 @@ module la_lapack_eigv_sym
                  info = -16
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('WHPGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a cholesky factorization of b.
@@ -25471,10 +25199,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('CHBEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -25575,10 +25300,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHBEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -25680,10 +25402,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('YHBEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -25786,10 +25505,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -9
            end if
-           if (info /= 0) then
-              call la_xerbla('WHBEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -25931,7 +25647,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHBEVD',-info)
               return
            else if (lquery) then
               return
@@ -26080,7 +25795,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHBEVD',-info)
               return
            else if (lquery) then
               return
@@ -26230,7 +25944,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHBEVD',-info)
               return
            else if (lquery) then
               return
@@ -26381,7 +26094,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHBEVD',-info)
               return
            else if (lquery) then
               return
@@ -26520,10 +26232,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
            end if
-           if (info /= 0) then
-              call la_xerbla('CHBEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -26750,10 +26459,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHBEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -26981,10 +26687,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
            end if
-           if (info /= 0) then
-              call la_xerbla('YHBEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -27213,10 +26916,7 @@ module la_lapack_eigv_sym
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -18
            end if
-           if (info /= 0) then
-              call la_xerbla('WHBEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -27421,10 +27121,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('CHBGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a split cholesky factorization of b.
@@ -27500,10 +27197,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHBGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a split cholesky factorization of b.
@@ -27580,10 +27274,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('YHBGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a split cholesky factorization of b.
@@ -27661,10 +27352,7 @@ module la_lapack_eigv_sym
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -12
            end if
-           if (info /= 0) then
-              call la_xerbla('WHBGV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            ! form a split cholesky factorization of b.
@@ -27780,7 +27468,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHBGVD',-info)
               return
            else if (lquery) then
               return
@@ -27907,7 +27594,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHBGVD',-info)
               return
            else if (lquery) then
               return
@@ -28035,7 +27721,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHBGVD',-info)
               return
            else if (lquery) then
               return
@@ -28164,7 +27849,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHBGVD',-info)
               return
            else if (lquery) then
               return
@@ -28285,10 +27969,7 @@ module la_lapack_eigv_sym
                  info = -21
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('CHBGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -28473,10 +28154,7 @@ module la_lapack_eigv_sym
                  info = -21
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('ZHBGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -28662,10 +28340,7 @@ module la_lapack_eigv_sym
                  info = -21
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('YHBGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -28852,10 +28527,7 @@ module la_lapack_eigv_sym
                  info = -21
               end if
            end if
-           if (info /= 0) then
-              call la_xerbla('WHBGVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -29050,7 +28722,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHEEVD',-info)
               return
            else if (lquery) then
               return
@@ -29202,7 +28873,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHEEVD',-info)
               return
            else if (lquery) then
               return
@@ -29355,7 +29025,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHEEVD',-info)
               return
            else if (lquery) then
               return
@@ -29509,7 +29178,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHEEVD',-info)
               return
            else if (lquery) then
               return
@@ -29663,7 +29331,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHEGVD',-info)
               return
            else if (lquery) then
               return
@@ -29795,7 +29462,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHEGVD',-info)
               return
            else if (lquery) then
               return
@@ -29928,7 +29594,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHEGVD',-info)
               return
            else if (lquery) then
               return
@@ -30062,7 +29727,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHEGVD',-info)
               return
            else if (lquery) then
               return
@@ -30190,7 +29854,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHPEVD',-info)
               return
            else if (lquery) then
               return
@@ -30331,7 +29994,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHPEVD',-info)
               return
            else if (lquery) then
               return
@@ -30473,7 +30135,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHPEVD',-info)
               return
            else if (lquery) then
               return
@@ -30616,7 +30277,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHPEVD',-info)
               return
            else if (lquery) then
               return
@@ -30761,7 +30421,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CHPGVD',-info)
               return
            else if (lquery) then
               return
@@ -30893,7 +30552,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZHPGVD',-info)
               return
            else if (lquery) then
               return
@@ -31026,7 +30684,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YHPGVD',-info)
               return
            else if (lquery) then
               return
@@ -31160,7 +30817,6 @@ module la_lapack_eigv_sym
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WHPGVD',-info)
               return
            else if (lquery) then
               return

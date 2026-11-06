@@ -404,7 +404,6 @@ module la_lapack_eigv_svd_drivers
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SGESVD',-info)
               return
            else if (lquery) then
               return
@@ -2663,7 +2662,6 @@ module la_lapack_eigv_svd_drivers
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DGESVD',-info)
               return
            else if (lquery) then
               return
@@ -4923,7 +4921,6 @@ module la_lapack_eigv_svd_drivers
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XGESVD',-info)
               return
            else if (lquery) then
               return
@@ -7184,7 +7181,6 @@ module la_lapack_eigv_svd_drivers
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QGESVD',-info)
               return
            else if (lquery) then
               return
@@ -9375,7 +9371,6 @@ module la_lapack_eigv_svd_drivers
               info = -21
            end if
            if (info /= 0) then
-              call la_xerbla('SGESVDQ',-info)
               return
            else if (lquery) then
            ! return optimal workspace
@@ -9405,7 +9400,6 @@ module la_lapack_eigv_svd_drivers
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
-                         call la_xerbla('SGESVDQ',-info)
                          return
                      end if
                  end do
@@ -9458,7 +9452,6 @@ module la_lapack_eigv_svd_drivers
                call la_slange_sub('M',m,n,a,lda,rdummy,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
-                    call la_xerbla('SGESVDQ',-info)
                     return
                end if
                if (rtmp > big/sqrt(real(m,KIND=sp))) then
@@ -10240,7 +10233,6 @@ module la_lapack_eigv_svd_drivers
               info = -21
            end if
            if (info /= 0) then
-              call la_xerbla('DGESVDQ',-info)
               return
            else if (lquery) then
            ! return optimal workspace
@@ -10270,7 +10262,6 @@ module la_lapack_eigv_svd_drivers
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
-                         call la_xerbla('DGESVDQ',-info)
                          return
                      end if
                  end do
@@ -10323,7 +10314,6 @@ module la_lapack_eigv_svd_drivers
                call la_dlange_sub('M',m,n,a,lda,rdummy,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
-                    call la_xerbla('DGESVDQ',-info)
                     return
                end if
                if (rtmp > big/sqrt(real(m,KIND=dp))) then
@@ -11106,7 +11096,6 @@ module la_lapack_eigv_svd_drivers
               info = -21
            end if
            if (info /= 0) then
-              call la_xerbla('XGESVDQ',-info)
               return
            else if (lquery) then
            ! return optimal workspace
@@ -11136,7 +11125,6 @@ module la_lapack_eigv_svd_drivers
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
-                         call la_xerbla('XGESVDQ',-info)
                          return
                      end if
                  end do
@@ -11189,7 +11177,6 @@ module la_lapack_eigv_svd_drivers
                call la_xlange_sub('M',m,n,a,lda,rdummy,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
-                    call la_xerbla('XGESVDQ',-info)
                     return
                end if
                if (rtmp > big/sqrt(real(m,KIND=xdp))) then
@@ -11973,7 +11960,6 @@ module la_lapack_eigv_svd_drivers
               info = -21
            end if
            if (info /= 0) then
-              call la_xerbla('QGESVDQ',-info)
               return
            else if (lquery) then
            ! return optimal workspace
@@ -12003,7 +11989,6 @@ module la_lapack_eigv_svd_drivers
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
-                         call la_xerbla('QGESVDQ',-info)
                          return
                      end if
                  end do
@@ -12056,7 +12041,6 @@ module la_lapack_eigv_svd_drivers
                call la_qlange_sub('M',m,n,a,lda,rdummy,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
-                    call la_xerbla('QGESVDQ',-info)
                     return
                end if
                if (rtmp > big/sqrt(real(m,KIND=qp))) then
@@ -12894,7 +12878,6 @@ module la_lapack_eigv_svd_drivers
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CGESVD',-info)
               return
            else if (lquery) then
               return
@@ -15339,7 +15322,6 @@ module la_lapack_eigv_svd_drivers
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZGESVD',-info)
               return
            else if (lquery) then
               return
@@ -17785,7 +17767,6 @@ module la_lapack_eigv_svd_drivers
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YGESVD',-info)
               return
            else if (lquery) then
               return
@@ -20232,7 +20213,6 @@ module la_lapack_eigv_svd_drivers
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WGESVD',-info)
               return
            else if (lquery) then
               return
@@ -22623,7 +22603,6 @@ module la_lapack_eigv_svd_drivers
               info = -21
            end if
            if (info /= 0) then
-              call la_xerbla('CGESVDQ',-info)
               return
            else if (lquery) then
            ! return optimal workspace
@@ -22651,7 +22630,6 @@ module la_lapack_eigv_svd_drivers
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
-                         call la_xerbla('CGESVDQ',-info)
                          return
                      end if
                  end do
@@ -22704,7 +22682,6 @@ module la_lapack_eigv_svd_drivers
                call la_clange_sub('M',m,n,a,lda,rwork,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
-                    call la_xerbla('CGESVDQ',-info)
                     return
                end if
                if (rtmp > big/sqrt(real(m,KIND=sp))) then
@@ -23500,7 +23477,6 @@ module la_lapack_eigv_svd_drivers
               info = -21
            end if
            if (info /= 0) then
-              call la_xerbla('ZGESVDQ',-info)
               return
            else if (lquery) then
            ! return optimal workspace
@@ -23528,7 +23504,6 @@ module la_lapack_eigv_svd_drivers
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
-                         call la_xerbla('ZGESVDQ',-info)
                          return
                      end if
                  end do
@@ -23581,7 +23556,6 @@ module la_lapack_eigv_svd_drivers
                call la_zlange_sub('M',m,n,a,lda,rwork,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
-                    call la_xerbla('ZGESVDQ',-info)
                     return
                end if
                if (rtmp > big/sqrt(real(m,KIND=dp))) then
@@ -24378,7 +24352,6 @@ module la_lapack_eigv_svd_drivers
               info = -21
            end if
            if (info /= 0) then
-              call la_xerbla('YGESVDQ',-info)
               return
            else if (lquery) then
            ! return optimal workspace
@@ -24406,7 +24379,6 @@ module la_lapack_eigv_svd_drivers
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
-                         call la_xerbla('YGESVDQ',-info)
                          return
                      end if
                  end do
@@ -24459,7 +24431,6 @@ module la_lapack_eigv_svd_drivers
                call la_ylange_sub('M',m,n,a,lda,rwork,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
-                    call la_xerbla('YGESVDQ',-info)
                     return
                end if
                if (rtmp > big/sqrt(real(m,KIND=xdp))) then
@@ -25257,7 +25228,6 @@ module la_lapack_eigv_svd_drivers
               info = -21
            end if
            if (info /= 0) then
-              call la_xerbla('WGESVDQ',-info)
               return
            else if (lquery) then
            ! return optimal workspace
@@ -25285,7 +25255,6 @@ module la_lapack_eigv_svd_drivers
                      ! .. check for nan's and inf's
                      if ((rwork(p) /= rwork(p)) .or. ((rwork(p)*zero) /= zero)) then
                          info = -8
-                         call la_xerbla('WGESVDQ',-info)
                          return
                      end if
                  end do
@@ -25338,7 +25307,6 @@ module la_lapack_eigv_svd_drivers
                call la_wlange_sub('M',m,n,a,lda,rwork,rtmp)
                if ((rtmp /= rtmp) .or. ((rtmp*zero) /= zero)) then
                     info = -8
-                    call la_xerbla('WGESVDQ',-info)
                     return
                end if
                if (rtmp > big/sqrt(real(m,KIND=qp))) then

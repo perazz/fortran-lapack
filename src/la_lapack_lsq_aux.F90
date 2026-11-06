@@ -980,10 +980,7 @@ module la_lapack_lsq_aux
            else if (k < 1) then
               info = -20
            end if
-           if (info /= 0) then
-              call la_xerbla('SLALS0',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            nlp1 = nl + 1
            if (icompq == 0) then
@@ -1177,10 +1174,7 @@ module la_lapack_lsq_aux
            else if (k < 1) then
               info = -20
            end if
-           if (info /= 0) then
-              call la_xerbla('DLALS0',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            nlp1 = nl + 1
            if (icompq == 0) then
@@ -1375,10 +1369,7 @@ module la_lapack_lsq_aux
            else if (k < 1) then
               info = -20
            end if
-           if (info /= 0) then
-              call la_xerbla('XLALS0',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            nlp1 = nl + 1
            if (icompq == 0) then
@@ -1574,10 +1565,7 @@ module la_lapack_lsq_aux
            else if (k < 1) then
               info = -20
            end if
-           if (info /= 0) then
-              call la_xerbla('QLALS0',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            nlp1 = nl + 1
            if (icompq == 0) then
@@ -1752,10 +1740,7 @@ module la_lapack_lsq_aux
            else if (ldgcol < n) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('SLALSA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! book-keeping and  setting up the computation tree.
            inode = 1
            ndiml = inode + n
@@ -1936,10 +1921,7 @@ module la_lapack_lsq_aux
            else if (ldgcol < n) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('DLALSA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! book-keeping and  setting up the computation tree.
            inode = 1
            ndiml = inode + n
@@ -2121,10 +2103,7 @@ module la_lapack_lsq_aux
            else if (ldgcol < n) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('XLALSA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! book-keeping and  setting up the computation tree.
            inode = 1
            ndiml = inode + n
@@ -2307,10 +2286,7 @@ module la_lapack_lsq_aux
            else if (ldgcol < n) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('QLALSA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! book-keeping and  setting up the computation tree.
            inode = 1
            ndiml = inode + n
@@ -2491,10 +2467,7 @@ module la_lapack_lsq_aux
            else if ((ldb < 1) .or. (ldb < n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('SLALSD',-info)
-              return
-           end if
+           if (info /= 0) return
            eps = la_slamch('EPSILON')
            ! set up the tolerance.
            if ((rcond <= zero) .or. (rcond >= one)) then
@@ -2764,10 +2737,7 @@ module la_lapack_lsq_aux
            else if ((ldb < 1) .or. (ldb < n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('DLALSD',-info)
-              return
-           end if
+           if (info /= 0) return
            eps = la_dlamch('EPSILON')
            ! set up the tolerance.
            if ((rcond <= zero) .or. (rcond >= one)) then
@@ -3038,10 +3008,7 @@ module la_lapack_lsq_aux
            else if ((ldb < 1) .or. (ldb < n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('XLALSD',-info)
-              return
-           end if
+           if (info /= 0) return
            eps = la_xlamch('EPSILON')
            ! set up the tolerance.
            if ((rcond <= zero) .or. (rcond >= one)) then
@@ -3313,10 +3280,7 @@ module la_lapack_lsq_aux
            else if ((ldb < 1) .or. (ldb < n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('QLALSD',-info)
-              return
-           end if
+           if (info /= 0) return
            eps = la_qlamch('EPSILON')
            ! set up the tolerance.
            if ((rcond <= zero) .or. (rcond >= one)) then
@@ -4477,10 +4441,7 @@ module la_lapack_lsq_aux
            else if (k < 1) then
               info = -20
            end if
-           if (info /= 0) then
-              call la_xerbla('CLALS0',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            nlp1 = nl + 1
            if (icompq == 0) then
@@ -4722,10 +4683,7 @@ module la_lapack_lsq_aux
            else if (k < 1) then
               info = -20
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLALS0',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            nlp1 = nl + 1
            if (icompq == 0) then
@@ -4968,10 +4926,7 @@ module la_lapack_lsq_aux
            else if (k < 1) then
               info = -20
            end if
-           if (info /= 0) then
-              call la_xerbla('YLALS0',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            nlp1 = nl + 1
            if (icompq == 0) then
@@ -5215,10 +5170,7 @@ module la_lapack_lsq_aux
            else if (k < 1) then
               info = -20
            end if
-           if (info /= 0) then
-              call la_xerbla('WLALS0',-info)
-              return
-           end if
+           if (info /= 0) return
            m = n + sqre
            nlp1 = nl + 1
            if (icompq == 0) then
@@ -5443,10 +5395,7 @@ module la_lapack_lsq_aux
            else if (ldgcol < n) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('CLALSA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! book-keeping and  setting up the computation tree.
            inode = 1
            ndiml = inode + n
@@ -5746,10 +5695,7 @@ module la_lapack_lsq_aux
            else if (ldgcol < n) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLALSA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! book-keeping and  setting up the computation tree.
            inode = 1
            ndiml = inode + n
@@ -6050,10 +5996,7 @@ module la_lapack_lsq_aux
            else if (ldgcol < n) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('YLALSA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! book-keeping and  setting up the computation tree.
            inode = 1
            ndiml = inode + n
@@ -6355,10 +6298,7 @@ module la_lapack_lsq_aux
            else if (ldgcol < n) then
               info = -19
            end if
-           if (info /= 0) then
-              call la_xerbla('WLALSA',-info)
-              return
-           end if
+           if (info /= 0) return
            ! book-keeping and  setting up the computation tree.
            inode = 1
            ndiml = inode + n
@@ -6658,10 +6598,7 @@ module la_lapack_lsq_aux
            else if ((ldb < 1) .or. (ldb < n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('CLALSD',-info)
-              return
-           end if
+           if (info /= 0) return
            eps = la_slamch('EPSILON')
            ! set up the tolerance.
            if ((rcond <= zero) .or. (rcond >= one)) then
@@ -7068,10 +7005,7 @@ module la_lapack_lsq_aux
            else if ((ldb < 1) .or. (ldb < n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('ZLALSD',-info)
-              return
-           end if
+           if (info /= 0) return
            eps = la_dlamch('EPSILON')
            ! set up the tolerance.
            if ((rcond <= zero) .or. (rcond >= one)) then
@@ -7479,10 +7413,7 @@ module la_lapack_lsq_aux
            else if ((ldb < 1) .or. (ldb < n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('YLALSD',-info)
-              return
-           end if
+           if (info /= 0) return
            eps = la_xlamch('EPSILON')
            ! set up the tolerance.
            if ((rcond <= zero) .or. (rcond >= one)) then
@@ -7891,10 +7822,7 @@ module la_lapack_lsq_aux
            else if ((ldb < 1) .or. (ldb < n)) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('WLALSD',-info)
-              return
-           end if
+           if (info /= 0) return
            eps = la_qlamch('EPSILON')
            ! set up the tolerance.
            if ((rcond <= zero) .or. (rcond >= one)) then

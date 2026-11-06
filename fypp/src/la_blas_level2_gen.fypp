@@ -78,10 +78,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$GEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -227,10 +224,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$GER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == zero)) return
            ! start the operations. in this version the elements of a are
@@ -321,10 +315,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$GEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -484,10 +475,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$GERC ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -572,10 +560,7 @@ module la_blas_level2_gen
            else if (lda < max(1,m)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$GERU ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. (alpha == czero)) return
            ! start the operations. in this version the elements of a are
@@ -665,10 +650,7 @@ module la_blas_level2_gen
            else if (incy == 0) then
                info = 10
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$HEMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -828,10 +810,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 7
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$HER  ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == real(czero,KIND=${rk}$))) return
            ! set the start point in x if the increment is not unity.
@@ -958,10 +937,7 @@ module la_blas_level2_gen
            else if (lda < max(1,n)) then
                info = 9
            end if
-           if (info /= 0) then
-               call la_xerbla('${ri.upper()}$HER2 ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. (alpha == czero)) return
            ! set up the start points in x and y if the increments are not both

@@ -171,10 +171,7 @@ module la_lapack_eigv_tridiag3
            else if (irange == 3 .and. (iu < min(n,il) .or. iu > n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('SSTEBZ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize error flags
            info = 0
            ncnvrg = .false.
@@ -563,10 +560,7 @@ module la_lapack_eigv_tridiag3
            else if (irange == 3 .and. (iu < min(n,il) .or. iu > n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('DSTEBZ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize error flags
            info = 0
            ncnvrg = .false.
@@ -956,10 +950,7 @@ module la_lapack_eigv_tridiag3
            else if (irange == 3 .and. (iu < min(n,il) .or. iu > n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('XSTEBZ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize error flags
            info = 0
            ncnvrg = .false.
@@ -1350,10 +1341,7 @@ module la_lapack_eigv_tridiag3
            else if (irange == 3 .and. (iu < min(n,il) .or. iu > n)) then
               info = -7
            end if
-           if (info /= 0) then
-              call la_xerbla('QSTEBZ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! initialize error flags
            info = 0
            ncnvrg = .false.
@@ -1730,10 +1718,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('SSTEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -1927,10 +1912,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('DSTEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -2125,10 +2107,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('XSTEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -2324,10 +2303,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('QSTEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -2491,7 +2467,6 @@ module la_lapack_eigv_tridiag3
            ! quick return if possible
            if (n < 0) then
               info = -1
-              call la_xerbla('SSTERF',-info)
               return
            end if
            if (n <= 1) return
@@ -2724,7 +2699,6 @@ module la_lapack_eigv_tridiag3
            ! quick return if possible
            if (n < 0) then
               info = -1
-              call la_xerbla('DSTERF',-info)
               return
            end if
            if (n <= 1) return
@@ -2959,7 +2933,6 @@ module la_lapack_eigv_tridiag3
            ! quick return if possible
            if (n < 0) then
               info = -1
-              call la_xerbla('XSTERF',-info)
               return
            end if
            if (n <= 1) return
@@ -3195,7 +3168,6 @@ module la_lapack_eigv_tridiag3
            ! quick return if possible
            if (n < 0) then
               info = -1
-              call la_xerbla('QSTERF',-info)
               return
            end if
            if (n <= 1) return
@@ -3436,10 +3408,7 @@ module la_lapack_eigv_tridiag3
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SSTEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3519,10 +3488,7 @@ module la_lapack_eigv_tridiag3
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DSTEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3603,10 +3569,7 @@ module la_lapack_eigv_tridiag3
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XSTEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3688,10 +3651,7 @@ module la_lapack_eigv_tridiag3
            else if (ldz < 1 .or. (wantz .and. ldz < n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QSTEV ',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -3797,10 +3757,7 @@ module la_lapack_eigv_tridiag3
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('SSTEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -3991,10 +3948,7 @@ module la_lapack_eigv_tridiag3
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('DSTEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -4186,10 +4140,7 @@ module la_lapack_eigv_tridiag3
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('XSTEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -4382,10 +4333,7 @@ module la_lapack_eigv_tridiag3
            if (info == 0) then
               if (ldz < 1 .or. (wantz .and. ldz < n)) info = -14
            end if
-           if (info /= 0) then
-              call la_xerbla('QSTEVX',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            m = 0
            if (n == 0) return
@@ -4605,7 +4553,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSTEDC',-info)
               return
            else if (lquery) then
               return
@@ -4831,7 +4778,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSTEDC',-info)
               return
            else if (lquery) then
               return
@@ -5058,7 +5004,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSTEDC',-info)
               return
            else if (lquery) then
               return
@@ -5286,7 +5231,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSTEDC',-info)
               return
            else if (lquery) then
               return
@@ -5489,7 +5433,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSTEVD',-info)
               return
            else if (lquery) then
               return
@@ -5594,7 +5537,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSTEVD',-info)
               return
            else if (lquery) then
               return
@@ -5700,7 +5642,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSTEVD',-info)
               return
            else if (lquery) then
               return
@@ -5807,7 +5748,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSTEVD',-info)
               return
            else if (lquery) then
               return
@@ -5909,10 +5849,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('SPTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -6003,10 +5940,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('DPTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -6098,10 +6032,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('XPTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -6194,10 +6125,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('QPTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -6563,7 +6491,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSTEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -6983,7 +6910,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSTEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -7404,7 +7330,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSTEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -7826,7 +7751,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSTEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -8194,7 +8118,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('SSTEVR',-info)
               return
            else if (lquery) then
               return
@@ -8441,7 +8364,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('DSTEVR',-info)
               return
            else if (lquery) then
               return
@@ -8692,7 +8614,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('XSTEVR',-info)
               return
            else if (lquery) then
               return
@@ -8944,7 +8865,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('QSTEVR',-info)
               return
            else if (lquery) then
               return
@@ -9157,10 +9077,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('CSTEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -9365,10 +9282,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('ZSTEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -9574,10 +9488,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('YSTEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -9784,10 +9695,7 @@ module la_lapack_eigv_tridiag3
               end do
               30 continue
            end if
-           if (info /= 0) then
-              call la_xerbla('WSTEIN',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0 .or. m == 0) then
               return
@@ -9984,10 +9892,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('CPTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -10079,10 +9984,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('ZPTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -10175,10 +10077,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('YPTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -10272,10 +10171,7 @@ module la_lapack_eigv_tridiag3
            else if ((ldz < 1) .or. (icompz > 0 .and. ldz < max(1,n))) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('WPTEQR',-info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible
            if (n == 0) return
            if (n == 1) then
@@ -10486,7 +10382,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CSTEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -10920,7 +10815,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZSTEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -11355,7 +11249,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YSTEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -11791,7 +11684,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WSTEMR',-info)
               return
            else if (lquery .or. zquery) then
               return
@@ -12146,7 +12038,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('CSTEDC',-info)
               return
            else if (lquery) then
               return
@@ -12360,7 +12251,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('ZSTEDC',-info)
               return
            else if (lquery) then
               return
@@ -12575,7 +12465,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('YSTEDC',-info)
               return
            else if (lquery) then
               return
@@ -12791,7 +12680,6 @@ module la_lapack_eigv_tridiag3
               end if
            end if
            if (info /= 0) then
-              call la_xerbla('WSTEDC',-info)
               return
            else if (lquery) then
               return

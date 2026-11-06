@@ -73,10 +73,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('SGBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -228,10 +225,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('DGBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -384,10 +378,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('XGBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -541,10 +532,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('QGBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set  lenx  and  leny, the lengths of the vectors x and y, and set
@@ -700,10 +688,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('CGBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -871,10 +856,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('ZGBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -1043,10 +1025,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('YGBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -1216,10 +1195,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 13
            end if
-           if (info /= 0) then
-               call la_xerbla('WGBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((m == 0) .or. (n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            noconj = la_lsame(trans,'T')
@@ -1382,10 +1358,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('CHBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -1544,10 +1517,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('ZHBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -1707,10 +1677,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('YHBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.
@@ -1871,10 +1838,7 @@ module la_blas_level2_ban
            else if (incy == 0) then
                info = 11
            end if
-           if (info /= 0) then
-               call la_xerbla('WHBMV ',info)
-               return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == czero) .and. (beta == cone))) return
            ! set up the start points in  x  and  y.

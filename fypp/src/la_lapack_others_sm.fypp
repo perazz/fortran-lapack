@@ -155,10 +155,7 @@ module la_lapack_others_sm
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_SYAMV',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -371,10 +368,7 @@ module la_lapack_others_sm
            else if (ldaf < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_SYRCOND',-info)
-              return
-           end if
+           if (info /= 0) return
            if (n == 0) then
               res = one
               return
@@ -836,10 +830,7 @@ module la_lapack_others_sm
            else if (incy == 0) then
               info = 10
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_SYAMV',info)
-              return
-           end if
+           if (info /= 0) return
            ! quick return if possible.
            if ((n == 0) .or. ((alpha == zero) .and. (beta == one))) return
            ! set up the start points in  x  and  y.
@@ -1067,10 +1058,7 @@ module la_lapack_others_sm
            else if (ldafb < 2*kl + ku + 1) then
               info = -8
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_GBRCOND_C',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute norm of op(a)*op2(c).
            anorm = zero
            kd = ku + 1
@@ -1244,10 +1232,7 @@ module la_lapack_others_sm
            else if (ldaf < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_GERCOND_C',-info)
-              return
-           end if
+           if (info /= 0) return
            ! compute norm of op(a)*op2(c).
            anorm = zero
            if (notrans) then
@@ -1423,10 +1408,7 @@ module la_lapack_others_sm
            else if (ldaf < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_HERCOND_C',-info)
-              return
-           end if
+           if (info /= 0) return
            up = .false.
            if (la_lsame(uplo,'U')) up = .true.
            ! compute norm of op(a)*op2(c).
@@ -1606,10 +1588,7 @@ module la_lapack_others_sm
            else if (ldaf < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_PORCOND_C',-info)
-              return
-           end if
+           if (info /= 0) return
            up = .false.
            if (la_lsame(uplo,'U')) up = .true.
            ! compute norm of op(a)*op2(c).
@@ -1796,10 +1775,7 @@ module la_lapack_others_sm
            else if (ldaf < max(1,n)) then
               info = -6
            end if
-           if (info /= 0) then
-              call la_xerbla('${ri.upper()}$LA_SYRCOND_C',-info)
-              return
-           end if
+           if (info /= 0) return
            up = .false.
            if (la_lsame(uplo,'U')) up = .true.
            ! compute norm of op(a)*op2(c).
