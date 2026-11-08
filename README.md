@@ -35,6 +35,9 @@ From a consumer's manifest:
 # default: sp, dp, qp -- nothing to write
 fortran-lapack = { git = "https://github.com/perazz/fortran-lapack" }
 
+# pin the 2.0.0 release
+fortran-lapack = { git = "https://github.com/perazz/fortran-lapack", tag = "2.0.0" }
+
 # sp and dp only
 fortran-lapack = { git = "https://github.com/perazz/fortran-lapack", profile = "lean" }
 
