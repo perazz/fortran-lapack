@@ -1,5 +1,5 @@
 name = "fortran-lapack"
-version = "0.1.0"
+version = "2.0.0"
 license = "BSD3"
 author = "Federico Perini"
 copyright = "Copyright 2024, Federico Perini and the Reference-LAPACK contributors"

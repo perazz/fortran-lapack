@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-11-08
+
+This is a major release. The breaking changes:
+
+- Every function that can fail has two forms: a `pure` one without `err`, and one with a mandatory `err` (#100, the API style of #44).
+- `det` and `.det.` return 0 for an exactly singular matrix (#113).
+- `lstsq` returns `size(a,2)` rows (#82).
+- Fifteen public specific BLAS/LAPACK procedure names are renamed: 5 BLAS (#81), 6 LAPACK (#83) and 4 mixed-precision (#85).
+- The generated sources are `.F90`, and `qp` code compiles only with the `quad` feature, which is on by default (#92).
+- `la_xerbla` and `la_xerbla_array` are removed (#107).
+- Some LAPACK `info` codes change error flag (#102).
+- Fortran 2018 is the minimum standard (#114).
+
 ### Changed
 
 - The BLAS sources are generated from kind-templated fypp topic modules
@@ -165,6 +178,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   returned `sign = 0` for one.
 - Fortran 2018 is the minimum language standard: a `pure` procedure stops on
   an error with `error stop`, which `la_state` already relied on.
+- The `fypp` templates of the high-level modules regenerate their committed
+  sources byte for byte again.
+- `scripts/fypp_deploy.py` deploys every template under `fypp/src` and
+  `fypp/test`. The exclusion list that held the ten high-level modules back is
+  gone, so `--check` now covers the whole generated tree.
+- Every generated source under `src/` is renamed from `.f90` to `.F90`: they
+  all carry cpp directives now, so they follow the extension rule the tree
+  already used for `la_blas.F90` and `la_lapack.F90`. Build files that list the
+  sources by name need the new spelling; fpm consumers list nothing.
+- `real(qp)` and `complex(qp)` code compiles only when `LA_WITH_QP` is defined,
+  which the `quad` feature does. A build that defines neither macro carries
+  `sp` and `dp` alone.
+- `qr_space` takes `a` as `intent(in)`: only its shape is read.
   
 ### Added
 
@@ -294,22 +320,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `matrix_power(a, n [, err])` in `la_matrix_functions`: `a**n` by repeated squaring;
     `n = 0` gives the identity, and a negative `n` a power of the inverse.
 
-### Changed
-
-- The `fypp` templates of the high-level modules regenerate their committed
-  sources byte for byte again.
-- `scripts/fypp_deploy.py` deploys every template under `fypp/src` and
-  `fypp/test`. The exclusion list that held the ten high-level modules back is
-  gone, so `--check` now covers the whole generated tree.
-- Every generated source under `src/` is renamed from `.f90` to `.F90`: they
-  all carry cpp directives now, so they follow the extension rule the tree
-  already used for `la_blas.F90` and `la_lapack.F90`. Build files that list the
-  sources by name need the new spelling; fpm consumers list nothing.
-- `real(qp)` and `complex(qp)` code compiles only when `LA_WITH_QP` is defined,
-  which the `quad` feature does. A build that defines neither macro carries
-  `sp` and `dp` alone.
-- `qr_space` takes `a` as `intent(in)`: only its shape is read.
-
 ### Removed
 
 - `la_xerbla` and `la_xerbla_array`, public in `la_blas_aux` and re-exported
@@ -356,3 +366,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `qr` frees its copy of `a` when the `storage` it is given is too small.
 - `mnorm(a, order, dim)` of an array of rank 3 or more returns an empty array on an
   invalid `order`, as it does on an invalid `dim`, instead of an unallocated result.
+
+[Unreleased]: https://github.com/perazz/fortran-lapack/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/perazz/fortran-lapack/compare/1.0.0...2.0.0
